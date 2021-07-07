@@ -263,4 +263,12 @@ TH1F * h_njets_interval_topo;
 TH1F * h_njets_interval_topo_cuts;
 TH1F * h_njets_interval_topo_cuts_tpt;
 
+TH1F * h_deltaR_tj1_topo;
+TH1F * h_deltaR_tj1_topo_cuts;
+TH1F * h_deltaR_tj1_topo_cuts_tpt;
+
+TH1F * h_deltaR_tj2_topo;
+TH1F * h_deltaR_tj2_topo_cuts;
+TH1F * h_deltaR_tj2_topo_cuts_tpt;
+
 #endif

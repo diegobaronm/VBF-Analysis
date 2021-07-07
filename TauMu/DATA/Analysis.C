@@ -376,6 +376,14 @@ void CLoop::Book(double lumFactor) {
     h_njets_interval_topo = new TH1F("njets_interval_topo","N jets between rapidity interval",10,0,10);
     h_njets_interval_topo_cuts = new TH1F("njets_interval_topo_cuts","N jets between rapidity interval",10,0,10);
     h_njets_interval_topo_cuts_tpt = new TH1F("njets_interval_topo_cuts_tpt","N jets between rapidity interval",10,0,10);
+
+    h_deltaR_tj1_topo = new TH1F("deltaR_tj1_topo","Delta Rapidity tau jet1",100,0,10);
+    h_deltaR_tj1_topo_cuts = new TH1F("deltaR_tj1_topo_cuts","Delta Rapidity tau jet1",100,0,10);
+    h_deltaR_tj1_topo_cuts_tpt = new TH1F("deltaR_tj1_topo_cuts_tpt","Delta Rapidity tau jet1",100,0,10);
+
+    h_deltaR_tj2_topo = new TH1F("deltaR_tj2_topo","Delta Rapidity tau jet2",100,0,10);
+    h_deltaR_tj2_topo_cuts = new TH1F("deltaR_tj2_topo_cuts","Delta Rapidity tau jet2",100,0,10);
+    h_deltaR_tj2_topo_cuts_tpt = new TH1F("deltaR_tj2_topo_cuts_tpt","Delta Rapidity tau jet2",100,0,10);
 }
 
 void CLoop::Fill(double weight, int z_sample) {
@@ -402,7 +410,7 @@ void CLoop::Fill(double weight, int z_sample) {
       float ql=muon_0_q;
       float qtau=tau_0_q;
 
-      if (ql!=qtau && angle<3*pi/4 && trigger_decision && lepton_id && trigger_match ) {
+      if (ql!=qtau && angle<5*pi/6 && trigger_decision && lepton_id && trigger_match ) {
 
         h_delta_phi_second_stage->Fill(angle,weight);
         //topology
@@ -543,7 +551,7 @@ void CLoop::Fill(double weight, int z_sample) {
 
           // Cuts bits
           vector<int> cuts={0,0,0,0,0,0,0,0};
-          if (angle<=pi/2 && delta_y>=1 && pt_bal_nonu<=2 && n_jets_interval==0 && mjj>=200){
+          if (angle<=3*pi/4 && delta_y>=1 && pt_bal_nonu<=2 /*&& n_jets_interval==0*/ && mjj>=250){
             cuts[0]=1;
           }
           if (n_bjets_MV2c10_FixedCutBEff_85==0 && n_jets>=2){
@@ -681,6 +689,15 @@ void CLoop::Fill(double weight, int z_sample) {
           h_ptbal_nonu_topo->Fill(pt_bal_nonu,weight);
           h_mjj_topo->Fill(mjj,weight);
           h_njets_interval_topo->Fill(n_jets_interval,weight);
+
+          if(n_jets_interval==2){
+            h_deltaR_tj1_topo->Fill(ljet_2_p4->DeltaR(*tau_0_p4),weight);
+            h_deltaR_tj2_topo->Fill(ljet_3_p4->DeltaR(*tau_0_p4),weight);
+          } else{
+              if(n_jets_interval==1){
+                h_deltaR_tj1_topo->Fill(ljet_2_p4->DeltaR(*tau_0_p4),weight);
+              }
+            }
 
           if (weight!=1){
             if (tau_0_n_charged_tracks==1){
@@ -1000,6 +1017,15 @@ void CLoop::Fill(double weight, int z_sample) {
                         h_mjj_topo_cuts->Fill(mjj,weight);
                         h_njets_interval_topo_cuts->Fill(n_jets_interval,weight);
 
+                        if(n_jets_interval==2){
+                          h_deltaR_tj1_topo_cuts->Fill(ljet_2_p4->DeltaR(*tau_0_p4),weight);
+                          h_deltaR_tj2_topo_cuts->Fill(ljet_3_p4->DeltaR(*tau_0_p4),weight);
+                        } else{
+                            if(n_jets_interval==1){
+                              h_deltaR_tj1_topo_cuts->Fill(ljet_2_p4->DeltaR(*tau_0_p4),weight);
+                            }
+                          }
+
                         if (weight!=1){
                           if (tau_0_n_charged_tracks==1){
                             h_tau_matched_1p_topo_dphi_btag_iso_rnn_ptmu_omega_mreco->Fill(tau_0_truth_isHadTau,weight);
@@ -1121,6 +1147,15 @@ void CLoop::Fill(double weight, int z_sample) {
                           h_ptbal_nonu_topo_cuts_tpt->Fill(pt_bal_nonu,weight);
                           h_mjj_topo_cuts_tpt->Fill(mjj,weight);
                           h_njets_interval_topo_cuts_tpt->Fill(n_jets_interval,weight);
+
+                          if(n_jets_interval==2){
+                            h_deltaR_tj1_topo_cuts_tpt->Fill(ljet_2_p4->DeltaR(*tau_0_p4),weight);
+                            h_deltaR_tj2_topo_cuts_tpt->Fill(ljet_3_p4->DeltaR(*tau_0_p4),weight);
+                          } else{
+                              if(n_jets_interval==1){
+                                h_deltaR_tj1_topo_cuts_tpt->Fill(ljet_2_p4->DeltaR(*tau_0_p4),weight);
+                              }
+                            }
 
                           /*ofstream interesting;
                           interesting.open("Events_v24.csv", ios::out | ios::app);
@@ -1513,6 +1548,14 @@ void CLoop::Style(double lumFactor) {
     h_njets_interval_topo->Write();
     h_njets_interval_topo_cuts->Write();
     h_njets_interval_topo_cuts_tpt->Write();
+
+    h_deltaR_tj1_topo->Write();
+    h_deltaR_tj1_topo_cuts->Write();
+    h_deltaR_tj1_topo_cuts_tpt->Write();
+
+    h_deltaR_tj2_topo->Write();
+    h_deltaR_tj2_topo_cuts->Write();
+    h_deltaR_tj2_topo_cuts_tpt->Write();
 }
 
 #endif // End header guard
