@@ -1,4 +1,4 @@
-// Analysis.py
+=// Analysis.py
 // Skeleton code in python provided for you
 // In place of this comment you should write [your name] -- [the date] and update it as you go!
 // Make sure to make backups and comment as you go along :)
@@ -551,7 +551,7 @@ void CLoop::Fill(double weight, int z_sample) {
 
           // Cuts bits
           vector<int> cuts={0,0,0,0,0,0,0,0};
-          if (angle<=3*pi/4 && delta_y>=1 && pt_bal_nonu<=2 /*&& n_jets_interval==0*/ && mjj>=250){
+          if (angle<=3*pi/4 && delta_y>=2 && pt_bal_nonu<=2 && n_jets_interval==0 && mjj>=250){
             cuts[0]=1;
           }
           if (n_bjets_MV2c10_FixedCutBEff_85==0 && n_jets>=2){
@@ -566,7 +566,7 @@ void CLoop::Fill(double weight, int z_sample) {
           if (tau_0_n_charged_tracks==3 && tau_0_jet_rnn_score_trans>0.55) {
             cuts[3]=1;
           }
-          if (muon_0_p4->Pt()>=27 && ljet_0_p4->Pt()>=90 && ljet_1_p4->Pt()>=70) {
+          if (muon_0_p4->Pt()>=27 && ljet_0_p4->Pt()>=55 && ljet_1_p4->Pt()>=45) {
             cuts[4]=1;
           }
           if (omega>0 && omega <1.4) {

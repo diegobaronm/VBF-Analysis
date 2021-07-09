@@ -420,6 +420,8 @@ public :
    Double_t        weight_mc;
    vector<float>   *weight_mc_v;
 
+
+
    // List of branches
    TBranch        *b_HLT_e120_lhloose;   //!
    TBranch        *b_HLT_e140_lhloose_nod0;   //!
@@ -802,6 +804,8 @@ public :
    TBranch        *b_truth_Z_p4;   //!
    TBranch        *b_weight_mc;   //!
    TBranch        *b_weight_mc_v;   //!
+
+
 
    CLoop(TTree *tree=0);
    virtual ~CLoop();
@@ -1283,6 +1287,7 @@ void CLoop::Init(TTree *tree)
    fChain->SetBranchAddress("truth_Z_p4", &truth_Z_p4, &b_truth_Z_p4);
    fChain->SetBranchAddress("weight_mc", &weight_mc, &b_weight_mc);
    fChain->SetBranchAddress("weight_mc_v", &weight_mc_v, &b_weight_mc_v);
+
    Notify();
 }
 
