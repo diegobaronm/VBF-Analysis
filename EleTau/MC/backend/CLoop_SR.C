@@ -67,7 +67,7 @@ void CLoop::Loop(double lumFactor, bool fastMode, int z_sample, std::string key)
             }
         }*/
         // PYTHIA REWEIGHTING
-        /*if(z_sample==1){
+        if(z_sample==1){
             double zpt=truth_Z_p4->Pt()/1000;
             if(zpt>=40 & zpt<46){
                 z_w=0.995;
@@ -102,7 +102,7 @@ void CLoop::Loop(double lumFactor, bool fastMode, int z_sample, std::string key)
             }else if(zpt>=151){
                 z_w=0.8;
             }
-        }*/
+        }
         /*if (z_sample==1){
             double zpt=truth_Z_p4->Pt()/1000;
             if (zpt>40 & zpt<80){

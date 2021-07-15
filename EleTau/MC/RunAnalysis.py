@@ -38,8 +38,8 @@ def runAnalysis(key, fast):
         z_sample=1
         if "sherpa" in key:
             z_sample=2
-            if "VBF" in key:
-                z_sample=0
+        if "VBF" in key:
+            z_sample=0
     """
     Function to run the analysis for a given decay chain labelled 'key'
     """
