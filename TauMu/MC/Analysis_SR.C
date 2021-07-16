@@ -318,9 +318,9 @@ void CLoop::Book(double lumFactor) {
     h_mass_jj_basic_cuts_tpt = new TH1F("mass_jj_basic_cuts_tpt","Invariant mass di_jet system",3000,0,3000);
 
 
-    h_n_jets_interval_basic = new TH1F("n_jets_interval_basic","N jets between rapidity interval",100,0,10);
-    h_n_jets_interval_basic_cuts = new TH1F("n_jets_interval_basic_cuts","N jets between rapidity interval",100,0,10);
-    h_n_jets_interval_basic_cuts_tpt = new TH1F("n_jets_interval_basic_cuts_tpt","N jets between rapidity interval",100,0,10);
+    h_n_jets_interval_basic = new TH1F("n_jets_interval_basic","N jets between rapidity interval",10,0,10);
+    h_n_jets_interval_basic_cuts = new TH1F("n_jets_interval_basic_cuts","N jets between rapidity interval",10,0,10);
+    h_n_jets_interval_basic_cuts_tpt = new TH1F("n_jets_interval_basic_cuts_tpt","N jets between rapidity interval",10,0,10);
 
 
     h_ljet0_pt_basic = new TH1F("ljet0_pt_basic","Light jet0 pT",200,0,200);
@@ -353,7 +353,7 @@ void CLoop::Book(double lumFactor) {
     h_ljet1_pt = new TH1F("ljet1_pt","Light jet1 pT",200,0,200);
     h_pt_bal = new TH1F("pt_bal","pT Balance",100,0,1);
     h_mass_jj = new TH1F("mass_jj","Invariant mass di_jet system",3000,0,3000);
-    h_n_jets_interval = new TH1F("n_jets_interval","N jets between rapidity interval",100,0,10);
+    h_n_jets_interval = new TH1F("n_jets_interval","N jets between rapidity interval",10,0,10);
     h_Z_centrality = new TH1F("Z_centrality","Z boson centrality",500,0,5);
     h_omega = new TH1F("omega","Omega variable",60,-3.0,3.0);
     h_reco_mass_i = new TH1F("reco_mass_i","Missing Transverse momentum",240,0,240);
@@ -559,8 +559,8 @@ void CLoop::Fill(double weight, int z_sample) {
         // Cuts vector
         vector<int> cuts={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
         // CUTS
-        if (angle<=3*pi/4){cuts[0]=1;}
-        if(delta_y>=2){cuts[1]=1;}
+        if (angle<=10*pi/18){cuts[0]=1;}
+        if(delta_y>=1.8){cuts[1]=1;}
         if(n_bjets_MV2c10_FixedCutBEff_85==0){cuts[2]=1;}
         if(muon_0_iso_TightTrackOnly_FixedRad==1){cuts[3]=1;}
         if(tau_0_n_charged_tracks==1 && tau_0_jet_rnn_score_trans>=0.4){cuts[4]=1;}
@@ -568,7 +568,7 @@ void CLoop::Fill(double weight, int z_sample) {
         if(muon_0_p4->Pt()>=27){cuts[5]=1;}
         if(ljet_0_p4->Pt()>=55){cuts[6]=1;}
         if(ljet_1_p4->Pt()>=45){cuts[7]=1;}
-        if(pt_bal<=2){cuts[8]=1;}
+        if(pt_bal<=0.2){cuts[8]=1;}
         if(mjj>=250){cuts[9]=1;}
         if(n_jets_interval==0){cuts[10]=1;}
         if(z_centrality<1){cuts[11]=1;}
