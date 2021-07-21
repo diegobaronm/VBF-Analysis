@@ -355,7 +355,7 @@ void CLoop::Fill(double weight, int z_sample) {
           h_n_bjets->Fill(n_bjets_MV2c10_FixedCutBEff_85,weight);
         }
         if ((sum-cuts[3])==14) {
-          h_lepiso->Fill(muon_0_iso_TightTrackOnly_FixedRad && muon_0_iso_TightTrackOnly_FixedRad==1,weight);
+          h_lepiso->Fill(muon_0_iso_TightTrackOnly_FixedRad==1 && muon_0_iso_TightTrackOnly_FixedRad==1,weight);
         }
         if ((sum-cuts[4])==14) {
           h_lep1_pt->Fill(muon_0_p4->Pt(),weight);
@@ -387,133 +387,181 @@ void CLoop::Fill(double weight, int z_sample) {
         }
 
         //  Filling histos
-        h_RunN_topo->Fill(run_number,weight);
-        if(run_number==363738){h_EventN_RN363738_topo->Fill(event_number,weight);}
-        if(run_number==363910){h_EventN_RN363910_topo->Fill(event_number,weight);}
-        h_jet_n_topo->Fill(n_jets, weight);
-        h_b_tag_topo->Fill(n_bjets_MV2c10_FixedCutBEff_85,weight);
-        h_muon_0_isolation_topo->Fill(muon_0_iso_TightTrackOnly_FixedRad,weight);
-        h_muon_1_isolation_topo->Fill(muon_1_iso_TightTrackOnly_FixedRad,weight);
-        h_met_topo->Fill(met_reco_p4->Pt(),weight);
-        h_lep1_pt_topo->Fill(muon_0_p4->Pt(),weight);
-        h_lep2_pt_topo->Fill(muon_1_p4->Pt(),weight);
-        h_sumlep_pt_topo->Fill(muon_0_p4->Pt()+muon_1_p4->Pt(),weight);
-        h_lep1_phi_topo->Fill(muon_0_p4->Phi(),weight);
-        h_lep2_phi_topo->Fill(muon_1_p4->Phi(),weight);
-        h_delta_phi_topo->Fill(angle,weight);
-        if (Z_pt<100){
-          h_sum_pt_topo_ZpTa->Fill(muon_0_p4->Pt()+muon_1_p4->Pt(),weight);
-        } if (Z_pt>100 && Z_pt<150){
-          h_sum_pt_topo_ZpTb->Fill(muon_0_p4->Pt()+muon_1_p4->Pt(),weight);
-        } if (Z_pt>150) {
-          h_sum_pt_topo_ZpTc->Fill(muon_0_p4->Pt()+muon_1_p4->Pt(),weight);
-        }
-        h_inv_mass_topo->Fill(inv_mass,weight);
-        h_ratio_ptjet_zpt_topo->Fill(r_jpt_zpt,weight);
-        h_ratio_lpt_tpt_topo->Fill(r_lpt_tpt,weight);
-        h_ljet1_pt_topo->Fill(ljet_0_p4->Pt(),weight);
-        h_ljet2_pt_topo->Fill(ljet_1_p4->Pt(),weight);
-        h_ljet3_pt_topo->Fill(ljet_2_p4->Pt(),weight);
+        h_lep1_pt_basic->Fill(muon_0_p4->Pt(),weight);
+        h_lep2_pt_basic->Fill(muon_1_p4->Pt(),weight);
+        h_sum_pt_basic->Fill(muon_0_p4->Pt()+muon_1_p4->Pt(),weight);
+        h_met_basic->Fill(met_reco_p4->Pt(),weight);
+        h_inv_mass_basic->Fill(inv_mass,weight);
 
-        // ANGLE CUT
+        h_lep1_phi_basic->Fill(muon_0_p4->Phi(),weight);
+        h_lep2_phi_basic->Fill(muon_1_p4->Phi(),weight);
+        if(weight!=1){h_Z_pt_truth_basic->Fill(truth_z_pt,weight);}
+        h_jet_n_basic->Fill(n_jets,weight);
+        h_n_bjets_basic->Fill(n_bjets_MV2c10_FixedCutBEff_85,weight);
+        h_lep_iso_basic->Fill(muon_0_iso_TightTrackOnly_FixedRad==1 && muon_0_iso_TightTrackOnly_FixedRad==1,weight);
+        h_delta_phi_basic->Fill(angle,weight);
+        h_Z_pt_reco_basic->Fill(Z_pt,weight);
+        h_delta_y_basic->Fill(delta_y,weight);
+        h_Z_centrality_basic->Fill(z_centrality,weight);
+        h_pt_bal_basic->Fill(pt_bal,weight);
+        h_mass_jj_basic->Fill(mjj,weight);
+        h_n_jets_interval_basic->Fill(n_jets_interval,weight);
+        h_ljet0_pt_basic->Fill(ljet_0_p4->Pt(),weight);
+        h_ljet1_pt_basic->Fill(ljet_1_p4->Pt(),weight);
+        h_ljet2_pt_basic->Fill(ljet_2_p4->Pt(),weight);
+
+
+        // DELTA PHI CUT
         if (cuts[0]==1){
-          h_met_topo_dphi->Fill(met_reco_p4->Pt(),weight);
-          h_lep1_pt_topo_dphi->Fill(muon_0_p4->Pt(),weight);
-          h_lep2_pt_topo_dphi->Fill(muon_1_p4->Pt(),weight);
-          h_sumlep_pt_topo_dphi->Fill(muon_0_p4->Pt()+muon_1_p4->Pt(),weight);
-          h_inv_mass_topo_dphi->Fill(inv_mass,weight);
+          h_lep1_pt_basic_dphi->Fill(muon_0_p4->Pt(),weight);
+          h_lep2_pt_basic_dphi->Fill(muon_1_p4->Pt(),weight);
+          h_sum_pt_basic_dphi->Fill(muon_0_p4->Pt()+muon_1_p4->Pt(),weight);
+          h_met_basic_dphi->Fill(met_reco_p4->Pt(),weight);
+          h_inv_mass_basic_dphi->Fill(inv_mass,weight);
 
-          // B TAGGING CUT
-          if (cuts[1]==1 || n_jets==0) {
-            h_met_topo_dphi_btag->Fill(met_reco_p4->Pt(),weight);
-            h_lep1_pt_topo_dphi_btag->Fill(muon_0_p4->Pt(),weight);
-            h_lep2_pt_topo_dphi_btag->Fill(muon_1_p4->Pt(),weight);
-            h_sumlep_pt_topo_dphi_btag->Fill(muon_0_p4->Pt()+muon_1_p4->Pt(),weight);
-            h_inv_mass_topo_dphi_btag->Fill(inv_mass,weight);
+          // DELTA RAPIDITY CUT
+          if (cuts[1]==1) {
+            h_lep1_pt_basic_dphi_drap->Fill(muon_0_p4->Pt(),weight);
+            h_lep2_pt_basic_dphi_drap->Fill(muon_1_p4->Pt(),weight);
+            h_sum_pt_basic_dphi_drap->Fill(muon_0_p4->Pt()+muon_1_p4->Pt(),weight);
+            h_met_basic_dphi_drap->Fill(met_reco_p4->Pt(),weight);
+            h_inv_mass_basic_dphi_drap->Fill(inv_mass,weight);
 
-            // ISOLATION CUT
+            // B-TAG CUT
             if (cuts[2]==1) {
-              h_met_topo_dphi_btag_iso->Fill(met_reco_p4->Pt(),weight);
-              h_lep1_pt_topo_dphi_btag_iso->Fill(muon_0_p4->Pt(),weight);
-              h_lep2_pt_topo_dphi_btag_iso->Fill(muon_1_p4->Pt(),weight);
-              h_sumlep_pt_topo_dphi_btag_iso->Fill(muon_0_p4->Pt()+muon_1_p4->Pt(),weight);
-              h_inv_mass_topo_dphi_btag_iso->Fill(inv_mass,weight);
+              h_lep1_pt_basic_dphi_drap_btag->Fill(muon_0_p4->Pt(),weight);
+              h_lep2_pt_basic_dphi_drap_btag->Fill(muon_1_p4->Pt(),weight);
+              h_sum_pt_basic_dphi_drap_btag->Fill(muon_0_p4->Pt()+muon_1_p4->Pt(),weight);
+              h_met_basic_dphi_drap_btag->Fill(met_reco_p4->Pt(),weight);
+              h_inv_mass_basic_dphi_drap_btag->Fill(inv_mass,weight);
 
-              // pT 1 CUT
+              // ISOLATION CUT
               if (cuts[3]==1) {
-                h_met_topo_dphi_btag_iso_pt1->Fill(met_reco_p4->Pt(),weight);
-                h_lep1_pt_topo_dphi_btag_iso_pt1->Fill(muon_0_p4->Pt(),weight);
-                h_lep2_pt_topo_dphi_btag_iso_pt1->Fill(muon_1_p4->Pt(),weight);
-                h_sumlep_pt_topo_dphi_btag_iso_pt1->Fill(muon_0_p4->Pt()+muon_1_p4->Pt(),weight);
-                h_inv_mass_topo_dphi_btag_iso_pt1->Fill(inv_mass,weight);
+                h_lep1_pt_basic_dphi_drap_btag_iso->Fill(muon_0_p4->Pt(),weight);
+                h_lep2_pt_basic_dphi_drap_btag_iso->Fill(muon_1_p4->Pt(),weight);
+                h_sum_pt_basic_dphi_drap_btag_iso->Fill(muon_0_p4->Pt()+muon_1_p4->Pt(),weight);
+                h_met_basic_dphi_drap_btag_iso->Fill(met_reco_p4->Pt(),weight);
+                h_inv_mass_basic_dphi_drap_btag_iso->Fill(inv_mass,weight);
 
-                // pT 2 CUT
+                // LEPTON 1 PT CUT
                 if (cuts[4]==1) {
-                  h_met_topo_dphi_btag_iso_pt1_pt2->Fill(met_reco_p4->Pt(),weight);
-                  h_lep1_pt_topo_dphi_btag_iso_pt1_pt2->Fill(muon_0_p4->Pt(),weight);
-                  h_lep2_pt_topo_dphi_btag_iso_pt1_pt2->Fill(muon_1_p4->Pt(),weight);
-                  h_sumlep_pt_topo_dphi_btag_iso_pt1_pt2->Fill(muon_0_p4->Pt()+muon_1_p4->Pt(),weight);
-                  h_inv_mass_topo_dphi_btag_iso_pt1_pt2->Fill(inv_mass,weight);
+                  h_lep1_pt_basic_dphi_drap_btag_iso_pt1->Fill(muon_0_p4->Pt(),weight);
+                  h_lep2_pt_basic_dphi_drap_btag_iso_pt1->Fill(muon_1_p4->Pt(),weight);
+                  h_sum_pt_basic_dphi_drap_btag_iso_pt1->Fill(muon_0_p4->Pt()+muon_1_p4->Pt(),weight);
+                  h_met_basic_dphi_drap_btag_iso_pt1->Fill(met_reco_p4->Pt(),weight);
+                  h_inv_mass_basic_dphi_drap_btag_iso_pt1->Fill(inv_mass,weight);
 
-                    // INV MASS CUT
+                    // LEPTON 2 PT CUT
                   if (cuts[5]==1) {
-                    h_jet_n_topo_dphi_btag_iso_pt1_pt2_mass->Fill(n_jets, weight);
-                    h_met_topo_dphi_btag_iso_pt1_pt2_mass->Fill(met_reco_p4->Pt(),weight);
-                    h_lep1_pt_topo_dphi_btag_iso_pt1_pt2_mass->Fill(muon_0_p4->Pt(),weight);
-                    h_lep2_pt_topo_dphi_btag_iso_pt1_pt2_mass->Fill(muon_1_p4->Pt(),weight);
-                    h_sumlep_pt_topo_dphi_btag_iso_pt1_pt2_mass->Fill(muon_0_p4->Pt()+muon_1_p4->Pt(),weight);
-                    h_inv_mass_topo_dphi_btag_iso_pt1_pt2_mass->Fill(inv_mass,weight);
+                    h_lep1_pt_basic_dphi_drap_btag_iso_pt1_pt2->Fill(muon_0_p4->Pt(),weight);
+                    h_lep2_pt_basic_dphi_drap_btag_iso_pt1_pt2->Fill(muon_1_p4->Pt(),weight);
+                    h_sum_pt_basic_dphi_drap_btag_iso_pt1_pt2->Fill(muon_0_p4->Pt()+muon_1_p4->Pt(),weight);
+                    h_met_basic_dphi_drap_btag_iso_pt1_pt2->Fill(met_reco_p4->Pt(),weight);
+                    h_inv_mass_basic_dphi_drap_btag_iso_pt1_pt2->Fill(inv_mass,weight);
 
-                    h_ratio_lpt_tpt_cuts->Fill(r_lpt_tpt,weight);
-                    h_ratio_ptjet_zpt_cuts->Fill(r_jpt_zpt,weight);
-                    h_lep1_phi_cuts->Fill(muon_0_p4->Phi(),weight);
-                    h_lep2_phi_cuts->Fill(muon_1_p4->Phi(),weight);
-                    h_Z_pt_reco_cuts->Fill(Z_pt,weight);
-                    h_ljet1_pt_topo_cuts->Fill(ljet_0_p4->Pt(),weight);
-                    h_ljet2_pt_topo_cuts->Fill(ljet_1_p4->Pt(),weight);
-                    h_ljet3_pt_topo_cuts->Fill(ljet_2_p4->Pt(),weight);
-
-                    h_trigger_1_pass_cuts->Fill((trigger_match_1 | trigger_match_2),weight);
-                    h_trigger_2_pass_cuts->Fill(trigger_match_12,weight);
-
-                    if (Z_pt<100){
-                      h_sum_pt_cuts_ZpTa->Fill(muon_0_p4->Pt()+muon_1_p4->Pt(),weight);
-                    } if (Z_pt>100 && Z_pt<150){
-                      h_sum_pt_cuts_ZpTb->Fill(muon_0_p4->Pt()+muon_1_p4->Pt(),weight);
-                    } if (Z_pt>150) {
-                      h_sum_pt_cuts_ZpTc->Fill(muon_0_p4->Pt()+muon_1_p4->Pt(),weight);
-                    }
-
-                    if (weight!=1){
-                      h_Z_pt_truth_cuts->Fill(truth_z_pt,weight);
-                    }
+                    // JET 1 PT CUT
                     if(cuts[6]==1){
-                      h_RunN_topo_tpt->Fill(run_number,weight);
-                      if(run_number==363738){h_EventN_RN363738_topo_tpt->Fill(event_number,weight);}
-                      if(run_number==363910){h_EventN_RN363910_topo_tpt->Fill(event_number,weight);}
-                      h_jet_n_topo_dphi_btag_iso_pt1_pt2_mass_ptl->Fill(n_jets, weight);
-                      h_met_topo_dphi_btag_iso_pt1_pt2_mass_ptl->Fill(met_reco_p4->Pt(),weight);
-                      h_lep1_pt_topo_dphi_btag_iso_pt1_pt2_mass_ptl->Fill(muon_0_p4->Pt(),weight);
-                      h_lep2_pt_topo_dphi_btag_iso_pt1_pt2_mass_ptl->Fill(muon_1_p4->Pt(),weight);
-                      h_sumlep_pt_topo_dphi_btag_iso_pt1_pt2_mass_ptl->Fill(muon_0_p4->Pt()+muon_1_p4->Pt(),weight);
-                      h_inv_mass_topo_dphi_btag_iso_pt1_pt2_mass_ptl->Fill(inv_mass,weight);
-                      h_ljet1_pt_topo_cuts_tpt->Fill(ljet_0_p4->Pt(),weight);
-                      h_ljet2_pt_topo_cuts_tpt->Fill(ljet_1_p4->Pt(),weight);
-                      h_ljet3_pt_topo_cuts_tpt->Fill(ljet_2_p4->Pt(),weight);
-                      h_ratio_lpt_tpt_cuts_ptl->Fill(r_lpt_tpt,weight);
-                      h_ratio_ptjet_zpt_cuts_ptl->Fill(r_jpt_zpt,weight);
-                      h_Z_pt_reco_cuts_ptl->Fill(Z_pt,weight);
+                      h_lep1_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt->Fill(muon_0_p4->Pt(),weight);
+                      h_lep2_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt->Fill(muon_1_p4->Pt(),weight);
+                      h_sum_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt->Fill(muon_0_p4->Pt()+muon_1_p4->Pt(),weight);
+                      h_met_basic_dphi_drap_btag_iso_pt1_pt2_j1pt->Fill(met_reco_p4->Pt(),weight);
+                      h_inv_mass_basic_dphi_drap_btag_iso_pt1_pt2_j1pt->Fill(inv_mass,weight);
 
-                      if (Z_pt<100){
-                        h_sum_pt_cuts_ptl_ZpTa->Fill(muon_0_p4->Pt()+muon_1_p4->Pt(),weight);
-                      } if (Z_pt>100 && Z_pt<150){
-                        h_sum_pt_cuts_ptl_ZpTb->Fill(muon_0_p4->Pt()+muon_1_p4->Pt(),weight);
-                      } if (Z_pt>150) {
-                        h_sum_pt_cuts_ptl_ZpTc->Fill(muon_0_p4->Pt()+muon_1_p4->Pt(),weight);
-                      }
+                      // JET 2 PT CUT
+                      if(cuts[7]==1){
+                        h_lep1_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt->Fill(muon_0_p4->Pt(),weight);
+                        h_lep2_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt->Fill(muon_1_p4->Pt(),weight);
+                        h_sum_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt->Fill(muon_0_p4->Pt()+muon_1_p4->Pt(),weight);
+                        h_met_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt->Fill(met_reco_p4->Pt(),weight);
+                        h_inv_mass_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt->Fill(inv_mass,weight);
 
-                      if (weight!=1){
-                        h_Z_pt_truth_cuts_ptl->Fill(truth_z_pt,weight);
+                        // PT BALANCE CUT
+                        if(cuts[8]==1){
+                          h_lep1_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal->Fill(muon_0_p4->Pt(),weight);
+                          h_lep2_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal->Fill(muon_1_p4->Pt(),weight);
+                          h_sum_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal->Fill(muon_0_p4->Pt()+muon_1_p4->Pt(),weight);
+                          h_met_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal->Fill(met_reco_p4->Pt(),weight);
+                          h_inv_mass_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal->Fill(inv_mass,weight);
+
+                          // MASS DI-JET SYSTEM CUT
+                          if(cuts[9]==1){
+                            h_lep1_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj->Fill(muon_0_p4->Pt(),weight);
+                            h_lep2_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj->Fill(muon_1_p4->Pt(),weight);
+                            h_sum_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj->Fill(muon_0_p4->Pt()+muon_1_p4->Pt(),weight);
+                            h_met_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj->Fill(met_reco_p4->Pt(),weight);
+                            h_inv_mass_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj->Fill(inv_mass,weight);
+
+                            // N JETS IN THE INTERVAL CUT
+                            if(cuts[10]==1){
+                              h_lep1_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji->Fill(muon_0_p4->Pt(),weight);
+                              h_lep2_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji->Fill(muon_1_p4->Pt(),weight);
+                              h_sum_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji->Fill(muon_0_p4->Pt()+muon_1_p4->Pt(),weight);
+                              h_met_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji->Fill(met_reco_p4->Pt(),weight);
+                              h_inv_mass_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji->Fill(inv_mass,weight);
+
+                              // Z CENTRALITY CUT
+                              if(cuts[11]==1){
+                                h_lep1_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen->Fill(muon_0_p4->Pt(),weight);
+                                h_lep2_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen->Fill(muon_1_p4->Pt(),weight);
+                                h_sum_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen->Fill(muon_0_p4->Pt()+muon_1_p4->Pt(),weight);
+                                h_met_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen->Fill(met_reco_p4->Pt(),weight);
+                                h_inv_mass_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen->Fill(inv_mass,weight);
+
+                                // LEPTONS MASS CUT
+                                if(cuts[12]==1){
+                                  h_lep1_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass->Fill(muon_0_p4->Pt(),weight);
+                                  h_lep2_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass->Fill(muon_1_p4->Pt(),weight);
+                                  h_sum_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass->Fill(muon_0_p4->Pt()+muon_1_p4->Pt(),weight);
+                                  h_met_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass->Fill(met_reco_p4->Pt(),weight);
+                                  h_inv_mass_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass->Fill(inv_mass,weight);
+
+                                  h_lep1_phi_basic_cuts->Fill(muon_0_p4->Phi(),weight);
+                                  h_lep2_phi_basic_cuts->Fill(muon_1_p4->Phi(),weight);
+                                  if(weight!=1){h_Z_pt_truth_basic_cuts->Fill(truth_z_pt,weight);}
+                                  h_jet_n_basic_cuts->Fill(n_jets,weight);
+                                  h_n_bjets_basic_cuts->Fill(n_bjets_MV2c10_FixedCutBEff_85,weight);
+                                  h_lep_iso_basic_cuts->Fill(muon_0_iso_TightTrackOnly_FixedRad==1 && muon_0_iso_TightTrackOnly_FixedRad==1,weight);
+                                  h_delta_phi_basic_cuts->Fill(angle,weight);
+                                  h_Z_pt_reco_basic_cuts->Fill(Z_pt,weight);
+                                  h_delta_y_basic_cuts->Fill(delta_y,weight);
+                                  h_Z_centrality_basic_cuts->Fill(z_centrality,weight);
+                                  h_pt_bal_basic_cuts->Fill(pt_bal,weight);
+                                  h_mass_jj_basic_cuts->Fill(mjj,weight);
+                                  h_n_jets_interval_basic_cuts->Fill(n_jets_interval,weight);
+                                  h_ljet0_pt_basic_cuts->Fill(ljet_0_p4->Pt(),weight);
+                                  h_ljet1_pt_basic_cuts->Fill(ljet_1_p4->Pt(),weight);
+                                  h_ljet2_pt_basic_cuts->Fill(ljet_2_p4->Pt(),weight);
+
+                                  // LEPTON PT CUT
+                                  if(cuts[13]==1){
+                                    h_lep1_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl->Fill(muon_0_p4->Pt(),weight);
+                                    h_lep2_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl->Fill(muon_1_p4->Pt(),weight);
+                                    h_sum_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl->Fill(muon_0_p4->Pt()+muon_1_p4->Pt(),weight);
+                                    h_met_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl->Fill(met_reco_p4->Pt(),weight);
+                                    h_inv_mass_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl->Fill(inv_mass,weight);
+
+                                    h_lep1_phi_basic_cuts_ptl->Fill(muon_0_p4->Phi(),weight);
+                                    h_lep2_phi_basic_cuts_ptl->Fill(muon_1_p4->Phi(),weight);
+                                    if(weight!=1){h_Z_pt_truth_basic_cuts_ptl->Fill(truth_z_pt,weight);}
+                                    h_jet_n_basic_cuts_ptl->Fill(n_jets,weight);
+                                    h_n_bjets_basic_cuts_ptl->Fill(n_bjets_MV2c10_FixedCutBEff_85,weight);
+                                    h_lep_iso_basic_cuts_ptl->Fill(muon_0_iso_TightTrackOnly_FixedRad==1 && muon_0_iso_TightTrackOnly_FixedRad==1,weight);
+                                    h_delta_phi_basic_cuts_ptl->Fill(angle,weight);
+                                    h_Z_pt_reco_basic_cuts_ptl->Fill(Z_pt,weight);
+                                    h_delta_y_basic_cuts_ptl->Fill(delta_y,weight);
+                                    h_Z_centrality_basic_cuts_ptl->Fill(z_centrality,weight);
+                                    h_pt_bal_basic_cuts_ptl->Fill(pt_bal,weight);
+                                    h_mass_jj_basic_cuts_ptl->Fill(mjj,weight);
+                                    h_n_jets_interval_basic_cuts_ptl->Fill(n_jets_interval,weight);
+                                    h_ljet0_pt_basic_cuts_ptl->Fill(ljet_0_p4->Pt(),weight);
+                                    h_ljet1_pt_basic_cuts_ptl->Fill(ljet_1_p4->Pt(),weight);
+                                    h_ljet2_pt_basic_cuts_ptl->Fill(ljet_2_p4->Pt(),weight);
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
                       }
                     }
                   }
