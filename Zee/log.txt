@@ -1,5 +1,0 @@
-Script started on 2020-11-10 01:14:50+00:00 [TERM="xterm-256color" TTY="/dev/pts/0" COLUMNS="94" LINES="51"]
-]0;diego@diegol: ~/HEP/PhDATLAS/Zee[01;32mdiego@diegol[00m:[01;34m~/HEP/PhDATLAS/Zee[00m$ exit
-exit
-
-Script done on 2020-11-10 01:14:53+00:00 [COMMAND_EXIT_CODE="0"]

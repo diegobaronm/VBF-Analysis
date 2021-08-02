@@ -132,82 +132,82 @@ void CLoop::Book(double lumFactor) {
 
   h_lep1_phi_basic = new TH1F("lep1_phi_basic","Lep 1 phi angle",64,-3.2,3.2);
   h_lep1_phi_basic_cuts = new TH1F("lep1_phi_basic_cuts","Lep 1 phi angle",64,-3.2,3.2);
-  h_lep1_phi_basic_cuts_tpt = new TH1F("lep1_phi_basic_cuts_tpt","Lep 1 phi angle",64,-3.2,3.2);
+  h_lep1_phi_basic_cuts_ptl = new TH1F("lep1_phi_basic_cuts_ptl","Lep 1 phi angle",64,-3.2,3.2);
 
 
   h_lep2_phi_basic = new TH1F("lep2_phi_basic","Lep 2 phi angle",64,-3.2,3.2);
   h_lep2_phi_basic_cuts = new TH1F("lep2_phi_basic_cuts","Lep 2 phi angle",64,-3.2,3.2);
-  h_lep2_phi_basic_cuts_tpt = new TH1F("lep2_phi_basic_cuts_tpt","Lep 2 phi angle",64,-3.2,3.2);
+  h_lep2_phi_basic_cuts_ptl = new TH1F("lep2_phi_basic_cuts_ptl","Lep 2 phi angle",64,-3.2,3.2);
 
 
   h_jet_n_basic = new TH1F("jet_n_basic","Number of jets",10,0,10);
   h_jet_n_basic_cuts = new TH1F("jet_n_basic_cuts","Number of jets",10,0,10);
-  h_jet_n_basic_cuts_tpt = new TH1F("jet_n_basic_cuts_tpt","Number of jets",10,0,10);
+  h_jet_n_basic_cuts_ptl = new TH1F("jet_n_basic_cuts_ptl","Number of jets",10,0,10);
 
 
   h_n_bjets_basic = new TH1F("n_bjets_basic","Number of b_jets",5,0,5);
   h_n_bjets_basic_cuts = new TH1F("n_bjets_basic_cuts","Number of b_jets",5,0,5);
-  h_n_bjets_basic_cuts_tpt = new TH1F("n_bjets_basic_cuts_tpt","Number of b_jets",5,0,5);
+  h_n_bjets_basic_cuts_ptl = new TH1F("n_bjets_basic_cuts_ptl","Number of b_jets",5,0,5);
 
 
   h_lep_iso_basic = new TH1F("lep_iso_basic","Lep 1,2 isolation flag",2,0,2);
   h_lep_iso_basic_cuts = new TH1F("lep_iso_basic_cuts","Lep 1,2 isolation flag",2,0,2);
-  h_lep_iso_basic_cuts_tpt = new TH1F("lep_iso_basic_cuts_tpt","Lep 1,2 isolation flag",2,0,2);
+  h_lep_iso_basic_cuts_ptl = new TH1F("lep_iso_basic_cuts_ptl","Lep 1,2 isolation flag",2,0,2);
 
 
   h_delta_phi_basic = new TH1F("delta_phi_basic","Delta phi between leptons",32,0,3.2);
   h_delta_phi_basic_cuts = new TH1F("delta_phi_basic_cuts","Delta phi between leptons",32,0,3.2);
-  h_delta_phi_basic_cuts_tpt = new TH1F("delta_phi_basic_cuts_tpt","Delta phi between leptons",32,0,3.2);
+  h_delta_phi_basic_cuts_ptl = new TH1F("delta_phi_basic_cuts_ptl","Delta phi between leptons",32,0,3.2);
 
 
   h_Z_pt_reco_basic = new TH1F("Z_pt_reco_basic","ZpT",400,0,400);
   h_Z_pt_reco_basic_cuts = new TH1F("Z_pt_reco_basic_cuts","ZpT",400,0,400);
-  h_Z_pt_reco_basic_cuts_tpt = new TH1F("Z_pt_reco_basic_cuts_tpt","ZpT",400,0,400);
+  h_Z_pt_reco_basic_cuts_ptl = new TH1F("Z_pt_reco_basic_cuts_ptl","ZpT",400,0,400);
 
 
   h_delta_y_basic = new TH1F("delta_y_basic","Delta Rapidity",100,0,10);
   h_delta_y_basic_cuts = new TH1F("delta_y_basic_cuts","Delta Rapidity",100,0,10);
-  h_delta_y_basic_cuts_tpt = new TH1F("delta_y_basic_cuts_tpt","Delta Rapidity",100,0,10);
+  h_delta_y_basic_cuts_ptl = new TH1F("delta_y_basic_cuts_ptl","Delta Rapidity",100,0,10);
 
 
   h_Z_centrality_basic = new TH1F("Z_centrality_basic","Z boson centrality",500,0,5);
   h_Z_centrality_basic_cuts = new TH1F("Z_centrality_basic_cuts","Z boson centrality",500,0,5);
-  h_Z_centrality_basic_cuts_tpt = new TH1F("Z_centrality_basic_cuts_tpt","Z boson centrality",500,0,5);
+  h_Z_centrality_basic_cuts_ptl = new TH1F("Z_centrality_basic_cuts_ptl","Z boson centrality",500,0,5);
 
 
   h_pt_bal_basic = new TH1F("pt_bal_basic","pT Balance",100,0,1);
   h_pt_bal_basic_cuts = new TH1F("pt_bal_basic_cuts","pT Balance",100,0,1);
-  h_pt_bal_basic_cuts_tpt = new TH1F("pt_bal_basic_cuts_tpt","pT Balance",100,0,1);
+  h_pt_bal_basic_cuts_ptl = new TH1F("pt_bal_basic_cuts_ptl","pT Balance",100,0,1);
 
 
   h_mass_jj_basic = new TH1F("mass_jj_basic","Invariant mass di_jet system",3000,0,3000);
   h_mass_jj_basic_cuts = new TH1F("mass_jj_basic_cuts","Invariant mass di_jet system",3000,0,3000);
-  h_mass_jj_basic_cuts_tpt = new TH1F("mass_jj_basic_cuts_tpt","Invariant mass di_jet system",3000,0,3000);
+  h_mass_jj_basic_cuts_ptl = new TH1F("mass_jj_basic_cuts_ptl","Invariant mass di_jet system",3000,0,3000);
 
 
   h_n_jets_interval_basic = new TH1F("n_jets_interval_basic","N jets between rapidity interval",100,0,10);
   h_n_jets_interval_basic_cuts = new TH1F("n_jets_interval_basic_cuts","N jets between rapidity interval",100,0,10);
-  h_n_jets_interval_basic_cuts_tpt = new TH1F("n_jets_interval_basic_cuts_tpt","N jets between rapidity interval",100,0,10);
+  h_n_jets_interval_basic_cuts_ptl = new TH1F("n_jets_interval_basic_cuts_ptl","N jets between rapidity interval",100,0,10);
 
 
   h_ljet0_pt_basic = new TH1F("ljet0_pt_basic","Light jet0 pT",200,0,200);
   h_ljet0_pt_basic_cuts = new TH1F("ljet0_pt_basic_cuts","Light jet0 pT",200,0,200);
-  h_ljet0_pt_basic_cuts_tpt = new TH1F("ljet0_pt_basic_cuts_tpt","Light jet0 pT",200,0,200);
+  h_ljet0_pt_basic_cuts_ptl = new TH1F("ljet0_pt_basic_cuts_ptl","Light jet0 pT",200,0,200);
 
 
   h_ljet1_pt_basic = new TH1F("ljet1_pt_basic","Light jet1 pT",200,0,200);
   h_ljet1_pt_basic_cuts = new TH1F("ljet1_pt_basic_cuts","Light jet1 pT",200,0,200);
-  h_ljet1_pt_basic_cuts_tpt = new TH1F("ljet1_pt_basic_cuts_tpt","Light jet1 pT",200,0,200);
+  h_ljet1_pt_basic_cuts_ptl = new TH1F("ljet1_pt_basic_cuts_ptl","Light jet1 pT",200,0,200);
 
 
   h_ljet2_pt_basic = new TH1F("ljet2_pt_basic","Light jet2 pT",200,0,200);
   h_ljet2_pt_basic_cuts = new TH1F("ljet2_pt_basic_cuts","Light jet2 pT",200,0,200);
-  h_ljet2_pt_basic_cuts_tpt = new TH1F("ljet2_pt_basic_cuts_tpt","Light jet2 pT",200,0,200);
+  h_ljet2_pt_basic_cuts_ptl = new TH1F("ljet2_pt_basic_cuts_ptl","Light jet2 pT",200,0,200);
 
 
   h_gap_jet_pt_basic = new TH1F("gap_jet_pt_basic","Gap jet pT",200,0,200);
   h_gap_jet_pt_basic_cuts = new TH1F("gap_jet_pt_basic_cuts","Gap jet pT",200,0,200);
-  h_gap_jet_pt_basic_cuts_tpt = new TH1F("gap_jet_pt_basic_cuts_tpt","Gap jet pT",200,0,200);
+  h_gap_jet_pt_basic_cuts_ptl = new TH1F("gap_jet_pt_basic_cuts_ptl","Gap jet pT",200,0,200);
 
 
   h_delta_phi = new TH1F("delta_phi","Delta phi between leptons",32,0,3.2);
@@ -227,7 +227,7 @@ void CLoop::Book(double lumFactor) {
   if (lumFactor!=1){
     h_Z_pt_truth_basic = new TH1F("Z_pt_truth_basic","Truth ZpT",400,0,400);
     h_Z_pt_truth_basic_cuts = new TH1F("Z_pt_truth_basic_cuts","Truth ZpT",400,0,400);
-    h_Z_pt_truth_basic_cuts_tpt = new TH1F("Z_pt_truth_basic_cuts_tpt","Truth ZpT",400,0,400);
+    h_Z_pt_truth_basic_cuts_ptl = new TH1F("Z_pt_truth_basic_cuts_ptl","Truth ZpT",400,0,400);
   }
 }
 
@@ -299,16 +299,15 @@ void CLoop::Fill(double weight, int z_sample) {
         double mjj=sqrt(2*(ljet_0_p4->Dot(*ljet_1_p4)));
         //PT BALANCE
         double pt_bal{0};
-        if(inside){
-          pt_bal=(((*muon_0_p4)+(*muon_1_p4)+(*ljet_0_p4)+(*ljet_1_p4))).Pt()/(muon_0_p4->Pt()+muon_1_p4->Pt()+ljet_0_p4->Pt()+ljet_1_p4->Pt());
-        }
+        pt_bal=(((*muon_0_p4)+(*muon_1_p4)+(*ljet_0_p4)+(*ljet_1_p4))).Pt()/(muon_0_p4->Pt()+muon_1_p4->Pt()+ljet_0_p4->Pt()+ljet_1_p4->Pt());
+
         // NUMBER OF JETS INTERVAL
         int n_jets_interval{};
         if(n_jets>2){
           n_jets_interval=n_jets_interval+inside_jets(ljet_2_p4,ljet_0_p4,ljet_1_p4);
         }
         // Z BOSON CENTRALITY
-        double lepton_xi=((*muon_0_p4)+(*muon_1_p4))->Rapidity();
+        double lepton_xi=((*muon_0_p4)+(*muon_1_p4)).Rapidity();
         double dijet_xi=ljet_0_p4->Rapidity()+ljet_1_p4->Rapidity();
         double z_centrality=(lepton_xi-0.5*dijet_xi)/delta_y;
 
@@ -345,45 +344,45 @@ void CLoop::Fill(double weight, int z_sample) {
         for(auto &j : cuts){sum=sum+j;}
 
         // FILLING CUTS HISTOGRAMS
-        if ((sum-cuts[0])==14) {
+        if ((sum-cuts[0])==13) {
           h_delta_phi->Fill(angle,weight);
         }
-        if ((sum-cuts[1])==14) {
+        if ((sum-cuts[1])==13) {
           h_delta_y->Fill(delta_y,weight);
         }
-        if ((sum-cuts[2])==14) {
+        if ((sum-cuts[2])==13) {
           h_n_bjets->Fill(n_bjets_MV2c10_FixedCutBEff_85,weight);
         }
-        if ((sum-cuts[3])==14) {
+        if ((sum-cuts[3])==13) {
           h_lepiso->Fill(muon_0_iso_TightTrackOnly_FixedRad==1 && muon_0_iso_TightTrackOnly_FixedRad==1,weight);
         }
-        if ((sum-cuts[4])==14) {
+        if ((sum-cuts[4])==13) {
           h_lep1_pt->Fill(muon_0_p4->Pt(),weight);
         }
-        if ((sum-cuts[5])==14) {
+        if ((sum-cuts[5])==13) {
           h_lep2_pt->Fill(muon_1_p4->Pt(),weight);
         }
-        if ((sum-cuts[6])==14) {
+        if ((sum-cuts[6])==13) {
           h_ljet0_pt->Fill(ljet_0_p4->Pt(),weight);
         }
-        if ((sum-cuts[7])==14) {
+        if ((sum-cuts[7])==13) {
           h_ljet1_pt->Fill(ljet_1_p4->Pt(),weight);
         }
-        if ((sum-cuts[8])==14) {
+        if ((sum-cuts[8])==13) {
           h_pt_bal->Fill(pt_bal,weight);
         }
-        if ((sum-cuts[9])==14) {
+        if ((sum-cuts[9])==13) {
           h_mass_jj->Fill(mjj,weight);
         }
-        if ((sum-cuts[10])==14) {
+        if ((sum-cuts[10])==13) {
           h_n_jets_interval->Fill(n_jets_interval,weight);
-          h_gap_jet_pt_basic_cuts_tpt->Fill(pt_gap_jet,weight);
+          h_gap_jet_pt_basic_cuts_ptl->Fill(pt_gap_jet,weight);
         }
-        if ((sum-cuts[11])==14) {
+        if ((sum-cuts[11])==13) {
           h_Z_centrality->Fill(z_centrality,weight);
         }
-        if ((sum-cuts[12])==14) {
-          h_inv_mass->Fill(reco_mass,weight);
+        if ((sum-cuts[12])==13) {
+          h_inv_mass->Fill(inv_mass,weight);
         }
 
         //  Filling histos
@@ -662,82 +661,82 @@ void CLoop::Style(double lumFactor) {
 
   h_lep1_phi_basic->Write();
   h_lep1_phi_basic_cuts->Write();
-  h_lep1_phi_basic_cuts_tpt->Write();
+  h_lep1_phi_basic_cuts_ptl->Write();
 
 
   h_lep2_phi_basic->Write();
   h_lep2_phi_basic_cuts->Write();
-  h_lep2_phi_basic_cuts_tpt->Write();
+  h_lep2_phi_basic_cuts_ptl->Write();
 
 
   h_jet_n_basic->Write();
   h_jet_n_basic_cuts->Write();
-  h_jet_n_basic_cuts_tpt->Write();
+  h_jet_n_basic_cuts_ptl->Write();
 
 
   h_n_bjets_basic->Write();
   h_n_bjets_basic_cuts->Write();
-  h_n_bjets_basic_cuts_tpt->Write();
+  h_n_bjets_basic_cuts_ptl->Write();
 
 
   h_lep_iso_basic->Write();
   h_lep_iso_basic_cuts->Write();
-  h_lep_iso_basic_cuts_tpt->Write();
+  h_lep_iso_basic_cuts_ptl->Write();
 
 
   h_delta_phi_basic->Write();
   h_delta_phi_basic_cuts->Write();
-  h_delta_phi_basic_cuts_tpt->Write();
+  h_delta_phi_basic_cuts_ptl->Write();
 
 
   h_Z_pt_reco_basic->Write();
   h_Z_pt_reco_basic_cuts->Write();
-  h_Z_pt_reco_basic_cuts_tpt->Write();
+  h_Z_pt_reco_basic_cuts_ptl->Write();
 
 
   h_delta_y_basic->Write();
   h_delta_y_basic_cuts->Write();
-  h_delta_y_basic_cuts_tpt->Write();
+  h_delta_y_basic_cuts_ptl->Write();
 
 
   h_Z_centrality_basic->Write();
   h_Z_centrality_basic_cuts->Write();
-  h_Z_centrality_basic_cuts_tpt->Write();
+  h_Z_centrality_basic_cuts_ptl->Write();
 
 
   h_pt_bal_basic->Write();
   h_pt_bal_basic_cuts->Write();
-  h_pt_bal_basic_cuts_tpt->Write();
+  h_pt_bal_basic_cuts_ptl->Write();
 
 
   h_mass_jj_basic->Write();
   h_mass_jj_basic_cuts->Write();
-  h_mass_jj_basic_cuts_tpt->Write();
+  h_mass_jj_basic_cuts_ptl->Write();
 
 
   h_n_jets_interval_basic->Write();
   h_n_jets_interval_basic_cuts->Write();
-  h_n_jets_interval_basic_cuts_tpt->Write();
+  h_n_jets_interval_basic_cuts_ptl->Write();
 
 
   h_ljet0_pt_basic->Write();
   h_ljet0_pt_basic_cuts->Write();
-  h_ljet0_pt_basic_cuts_tpt->Write();
+  h_ljet0_pt_basic_cuts_ptl->Write();
 
 
   h_ljet1_pt_basic->Write();
   h_ljet1_pt_basic_cuts->Write();
-  h_ljet1_pt_basic_cuts_tpt->Write();
+  h_ljet1_pt_basic_cuts_ptl->Write();
 
 
   h_ljet2_pt_basic->Write();
   h_ljet2_pt_basic_cuts->Write();
-  h_ljet2_pt_basic_cuts_tpt->Write();
+  h_ljet2_pt_basic_cuts_ptl->Write();
 
 
   h_gap_jet_pt_basic->Write();
   h_gap_jet_pt_basic_cuts->Write();
-  h_gap_jet_pt_basic_cuts_tpt->Write();
+  h_gap_jet_pt_basic_cuts_ptl->Write();
 
 
   h_delta_phi->Write();
@@ -757,7 +756,7 @@ void CLoop::Style(double lumFactor) {
   if (lumFactor!=1){
     h_Z_pt_truth_basic->Write();
     h_Z_pt_truth_basic_cuts->Write();
-    h_Z_pt_truth_basic_cuts_tpt->Write();
+    h_Z_pt_truth_basic_cuts_ptl->Write();
   }
 }
 
