@@ -184,9 +184,9 @@ void CLoop::Book(double lumFactor) {
   h_mass_jj_basic_cuts_ptl = new TH1F("mass_jj_basic_cuts_ptl","Invariant mass di_jet system",3000,0,3000);
 
 
-  h_n_jets_interval_basic = new TH1F("n_jets_interval_basic","N jets between rapidity interval",100,0,10);
-  h_n_jets_interval_basic_cuts = new TH1F("n_jets_interval_basic_cuts","N jets between rapidity interval",100,0,10);
-  h_n_jets_interval_basic_cuts_ptl = new TH1F("n_jets_interval_basic_cuts_ptl","N jets between rapidity interval",100,0,10);
+  h_n_jets_interval_basic = new TH1F("n_jets_interval_basic","N jets between rapidity interval",10,0,10);
+  h_n_jets_interval_basic_cuts = new TH1F("n_jets_interval_basic_cuts","N jets between rapidity interval",10,0,10);
+  h_n_jets_interval_basic_cuts_ptl = new TH1F("n_jets_interval_basic_cuts_ptl","N jets between rapidity interval",10,0,10);
 
 
   h_ljet0_pt_basic = new TH1F("ljet0_pt_basic","Light jet0 pT",200,0,200);
@@ -219,7 +219,7 @@ void CLoop::Book(double lumFactor) {
   h_ljet1_pt = new TH1F("ljet1_pt","Light jet1 pT",200,0,200);
   h_pt_bal = new TH1F("pt_bal","pT Balance",100,0,1);
   h_mass_jj = new TH1F("mass_jj","Invariant mass di_jet system",3000,0,3000);
-  h_n_jets_interval = new TH1F("n_jets_interval","N jets between rapidity interval",100,0,10);
+  h_n_jets_interval = new TH1F("n_jets_interval","N jets between rapidity interval",10,0,10);
   h_Z_centrality = new TH1F("Z_centrality","Z boson centrality",500,0,5);
   h_inv_mass = new TH1F("inv_mass","Invariant mass di-lepton system",240,0,240);
 
@@ -330,8 +330,8 @@ void CLoop::Fill(double weight, int z_sample) {
         if(ljet_1_p4->Pt()>=45){cuts[7]=1;}
         if(pt_bal<=0.15){cuts[8]=1;}
         if(mjj>=250){cuts[9]=1;}
-        if(n_jets_interval==0){cuts[10]=1;}
-        if(z_centrality<1){cuts[11]=1;}
+        if(n_jets_interval==1){cuts[10]=1;}
+        if(z_centrality<=0.5){cuts[11]=1;}
         if (inv_mass<100 && inv_mass>80){cuts[12]=1;}
         if (random){
           if(elec_0_p4->Pt()>=(a+0)){cuts[13]=1;}

@@ -164,40 +164,40 @@ void CLoop::Book(double lumFactor) {
     h_met_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt = new TH1F("met_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt","Missing Transverse momentum",300,0,300);
 
 
-    h_reco_mass_i_basic = new TH1F("reco_mass_i_basic","Missing Transverse momentum",240,0,240);
-    h_reco_mass_i_basic_dphi = new TH1F("reco_mass_i_basic_dphi","Missing Transverse momentum",240,0,240);
-    h_reco_mass_i_basic_dphi_drap = new TH1F("reco_mass_i_basic_dphi_drap","Missing Transverse momentum",240,0,240);
-    h_reco_mass_i_basic_dphi_drap_btag = new TH1F("reco_mass_i_basic_dphi_drap_btag","Missing Transverse momentum",240,0,240);
-    h_reco_mass_i_basic_dphi_drap_btag_iso = new TH1F("reco_mass_i_basic_dphi_drap_btag_iso","Missing Transverse momentum",240,0,240);
-    h_reco_mass_i_basic_dphi_drap_btag_iso_rnn = new TH1F("reco_mass_i_basic_dphi_drap_btag_iso_rnn","Missing Transverse momentum",240,0,240);
-    h_reco_mass_i_basic_dphi_drap_btag_iso_rnn_ptl = new TH1F("reco_mass_i_basic_dphi_drap_btag_iso_rnn_ptl","Missing Transverse momentum",240,0,240);
-    h_reco_mass_i_basic_dphi_drap_btag_iso_rnn_ptl_j1pt = new TH1F("reco_mass_i_basic_dphi_drap_btag_iso_rnn_ptl_j1pt","Missing Transverse momentum",240,0,240);
-    h_reco_mass_i_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt = new TH1F("reco_mass_i_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt","Missing Transverse momentum",240,0,240);
-    h_reco_mass_i_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal = new TH1F("reco_mass_i_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal","Missing Transverse momentum",240,0,240);
-    h_reco_mass_i_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj = new TH1F("reco_mass_i_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj","Missing Transverse momentum",240,0,240);
-    h_reco_mass_i_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji = new TH1F("reco_mass_i_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji","Missing Transverse momentum",240,0,240);
-    h_reco_mass_i_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen = new TH1F("reco_mass_i_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen","Missing Transverse momentum",240,0,240);
-    h_reco_mass_i_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega = new TH1F("reco_mass_i_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega","Missing Transverse momentum",240,0,240);
-    h_reco_mass_i_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco = new TH1F("reco_mass_i_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco","Missing Transverse momentum",240,0,240);
-    h_reco_mass_i_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt = new TH1F("reco_mass_i_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt","Missing Transverse momentum",240,0,240);
+    h_reco_mass_i_basic = new TH1F("reco_mass_i_basic","Reconstructed mass in between events",240,0,240);
+    h_reco_mass_i_basic_dphi = new TH1F("reco_mass_i_basic_dphi","Reconstructed mass in between events",240,0,240);
+    h_reco_mass_i_basic_dphi_drap = new TH1F("reco_mass_i_basic_dphi_drap","Reconstructed mass in between events",240,0,240);
+    h_reco_mass_i_basic_dphi_drap_btag = new TH1F("reco_mass_i_basic_dphi_drap_btag","Reconstructed mass in between events",240,0,240);
+    h_reco_mass_i_basic_dphi_drap_btag_iso = new TH1F("reco_mass_i_basic_dphi_drap_btag_iso","Reconstructed mass in between events",240,0,240);
+    h_reco_mass_i_basic_dphi_drap_btag_iso_rnn = new TH1F("reco_mass_i_basic_dphi_drap_btag_iso_rnn","Reconstructed mass in between events",240,0,240);
+    h_reco_mass_i_basic_dphi_drap_btag_iso_rnn_ptl = new TH1F("reco_mass_i_basic_dphi_drap_btag_iso_rnn_ptl","Reconstructed mass in between events",240,0,240);
+    h_reco_mass_i_basic_dphi_drap_btag_iso_rnn_ptl_j1pt = new TH1F("reco_mass_i_basic_dphi_drap_btag_iso_rnn_ptl_j1pt","Reconstructed mass in between events",240,0,240);
+    h_reco_mass_i_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt = new TH1F("reco_mass_i_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt","Reconstructed mass in between events",240,0,240);
+    h_reco_mass_i_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal = new TH1F("reco_mass_i_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal","Reconstructed mass in between events",240,0,240);
+    h_reco_mass_i_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj = new TH1F("reco_mass_i_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj","Reconstructed mass in between events",240,0,240);
+    h_reco_mass_i_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji = new TH1F("reco_mass_i_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji","Reconstructed mass in between events",240,0,240);
+    h_reco_mass_i_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen = new TH1F("reco_mass_i_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen","Reconstructed mass in between events",240,0,240);
+    h_reco_mass_i_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega = new TH1F("reco_mass_i_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega","Reconstructed mass in between events",240,0,240);
+    h_reco_mass_i_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco = new TH1F("reco_mass_i_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco","Reconstructed mass in between events",240,0,240);
+    h_reco_mass_i_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt = new TH1F("reco_mass_i_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt","Reconstructed mass in between events",240,0,240);
 
 
-    h_reco_mass_o_basic = new TH1F("reco_mass_o_basic","Missing Transverse momentum",240,0,240);
-    h_reco_mass_o_basic_dphi = new TH1F("reco_mass_o_basic_dphi","Missing Transverse momentum",240,0,240);
-    h_reco_mass_o_basic_dphi_drap = new TH1F("reco_mass_o_basic_dphi_drap","Missing Transverse momentum",240,0,240);
-    h_reco_mass_o_basic_dphi_drap_btag = new TH1F("reco_mass_o_basic_dphi_drap_btag","Missing Transverse momentum",240,0,240);
-    h_reco_mass_o_basic_dphi_drap_btag_iso = new TH1F("reco_mass_o_basic_dphi_drap_btag_iso","Missing Transverse momentum",240,0,240);
-    h_reco_mass_o_basic_dphi_drap_btag_iso_rnn = new TH1F("reco_mass_o_basic_dphi_drap_btag_iso_rnn","Missing Transverse momentum",240,0,240);
-    h_reco_mass_o_basic_dphi_drap_btag_iso_rnn_ptl = new TH1F("reco_mass_o_basic_dphi_drap_btag_iso_rnn_ptl","Missing Transverse momentum",240,0,240);
-    h_reco_mass_o_basic_dphi_drap_btag_iso_rnn_ptl_j1pt = new TH1F("reco_mass_o_basic_dphi_drap_btag_iso_rnn_ptl_j1pt","Missing Transverse momentum",240,0,240);
-    h_reco_mass_o_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt = new TH1F("reco_mass_o_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt","Missing Transverse momentum",240,0,240);
-    h_reco_mass_o_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal = new TH1F("reco_mass_o_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal","Missing Transverse momentum",240,0,240);
-    h_reco_mass_o_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj = new TH1F("reco_mass_o_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj","Missing Transverse momentum",240,0,240);
-    h_reco_mass_o_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji = new TH1F("reco_mass_o_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji","Missing Transverse momentum",240,0,240);
-    h_reco_mass_o_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen = new TH1F("reco_mass_o_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen","Missing Transverse momentum",240,0,240);
-    h_reco_mass_o_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega = new TH1F("reco_mass_o_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega","Missing Transverse momentum",240,0,240);
-    h_reco_mass_o_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco = new TH1F("reco_mass_o_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco","Missing Transverse momentum",240,0,240);
-    h_reco_mass_o_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt = new TH1F("reco_mass_o_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt","Missing Transverse momentum",240,0,240);
+    h_reco_mass_o_basic = new TH1F("reco_mass_o_basic","Reconstructed mass outside events",240,0,240);
+    h_reco_mass_o_basic_dphi = new TH1F("reco_mass_o_basic_dphi","Reconstructed mass outside events",240,0,240);
+    h_reco_mass_o_basic_dphi_drap = new TH1F("reco_mass_o_basic_dphi_drap","Reconstructed mass outside events",240,0,240);
+    h_reco_mass_o_basic_dphi_drap_btag = new TH1F("reco_mass_o_basic_dphi_drap_btag","Reconstructed mass outside events",240,0,240);
+    h_reco_mass_o_basic_dphi_drap_btag_iso = new TH1F("reco_mass_o_basic_dphi_drap_btag_iso","Reconstructed mass outside events",240,0,240);
+    h_reco_mass_o_basic_dphi_drap_btag_iso_rnn = new TH1F("reco_mass_o_basic_dphi_drap_btag_iso_rnn","Reconstructed mass outside events",240,0,240);
+    h_reco_mass_o_basic_dphi_drap_btag_iso_rnn_ptl = new TH1F("reco_mass_o_basic_dphi_drap_btag_iso_rnn_ptl","Reconstructed mass outside events",240,0,240);
+    h_reco_mass_o_basic_dphi_drap_btag_iso_rnn_ptl_j1pt = new TH1F("reco_mass_o_basic_dphi_drap_btag_iso_rnn_ptl_j1pt","Reconstructed mass outside events",240,0,240);
+    h_reco_mass_o_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt = new TH1F("reco_mass_o_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt","Reconstructed mass outside events",240,0,240);
+    h_reco_mass_o_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal = new TH1F("reco_mass_o_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal","Reconstructed mass outside events",240,0,240);
+    h_reco_mass_o_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj = new TH1F("reco_mass_o_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj","Reconstructed mass outside events",240,0,240);
+    h_reco_mass_o_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji = new TH1F("reco_mass_o_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji","Reconstructed mass outside events",240,0,240);
+    h_reco_mass_o_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen = new TH1F("reco_mass_o_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen","Reconstructed mass outside events",240,0,240);
+    h_reco_mass_o_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega = new TH1F("reco_mass_o_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega","Reconstructed mass outside events",240,0,240);
+    h_reco_mass_o_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco = new TH1F("reco_mass_o_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco","Reconstructed mass outside events",240,0,240);
+    h_reco_mass_o_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt = new TH1F("reco_mass_o_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt","Reconstructed mass outside events",240,0,240);
 
 
     h_omega_basic = new TH1F("omega_basic","Omega variable",60,-3.0,3.0);
@@ -233,9 +233,9 @@ void CLoop::Book(double lumFactor) {
     h_tau_nprongs_basic_cuts_tpt = new TH1F("tau_nprongs_basic_cuts_tpt","Tau prongness",4,0,4);
 
 
-    h_trans_lep_mass_basic = new TH1F("trans_lep_mass_basic","Missing Transverse momentum",200,0,200);
-    h_trans_lep_mass_basic_cuts = new TH1F("trans_lep_mass_basic_cuts","Missing Transverse momentum",200,0,200);
-    h_trans_lep_mass_basic_cuts_tpt = new TH1F("trans_lep_mass_basic_cuts_tpt","Missing Transverse momentum",200,0,200);
+    h_trans_lep_mass_basic = new TH1F("trans_lep_mass_basic","Lepton transverse mass",200,0,200);
+    h_trans_lep_mass_basic_cuts = new TH1F("trans_lep_mass_basic_cuts","Lepton transverse mass",200,0,200);
+    h_trans_lep_mass_basic_cuts_tpt = new TH1F("trans_lep_mass_basic_cuts_tpt","Lepton transverse mass",200,0,200);
 
 
     h_rnn_score_1p_basic = new TH1F("rnn_score_1p_basic","RNN Score 1 prong taus",100,0,1);
@@ -342,6 +342,8 @@ void CLoop::Book(double lumFactor) {
     h_ljet3_pt_basic_cuts = new TH1F("ljet3_pt_basic_cuts","Light jet3 pT",200,0,200);
     h_ljet3_pt_basic_cuts_tpt = new TH1F("ljet3_pt_basic_cuts_tpt","Light jet3 pT",200,0,200);
 
+    h_gap_jet_pt_basic_cuts_tpt = new TH1F("gap_jet_pt_basic_cuts_tpt","Gap jet pT",200,0,200);
+
     h_delta_phi = new TH1F("delta_phi","Delta phi between tau and lep",32,0,3.2);
     h_delta_y = new TH1F("delta_y","Delta Rapidity",100,0,10);
     h_n_bjets = new TH1F("n_bjets","Number of b_jets",5,0,5);
@@ -356,8 +358,8 @@ void CLoop::Book(double lumFactor) {
     h_n_jets_interval = new TH1F("n_jets_interval","N jets between rapidity interval",10,0,10);
     h_Z_centrality = new TH1F("Z_centrality","Z boson centrality",500,0,5);
     h_omega = new TH1F("omega","Omega variable",60,-3.0,3.0);
-    h_reco_mass_i = new TH1F("reco_mass_i","Missing Transverse momentum",240,0,240);
-    h_reco_mass_o = new TH1F("reco_mass_o","Missing Transverse momentum",240,0,240);
+    h_reco_mass_i = new TH1F("reco_mass_i","Reconstructed mass in between events",240,0,240);
+    h_reco_mass_o = new TH1F("reco_mass_o","Reconstructed mass outside events",240,0,240);
     h_tau_pt = new TH1F("tau_pt","Tau pT",200,0,200);
 
     if (lumFactor!=1){
@@ -466,8 +468,6 @@ void CLoop::Fill(double weight, int z_sample) {
         double Z_pt_x=0;
         double Z_pt_y=0;
         double Z_pt=0;
-        double r_jpt_zpt=0;
-        double r_lpt_tpt=muon_0_p4->Pt()/tau_0_p4->Pt();
         double truth_z_pt=0.0;
 
         // truth ZpT definition
@@ -552,9 +552,16 @@ void CLoop::Fill(double weight, int z_sample) {
             }
           }
         // Z BOSON CENTRALITY
-        double lepton_xi=tau_0_p4->Rapidity()+muon_0_p4->Rapidity();
+        double lepton_xi=((*tau_0_p4)+(*muon_0_p4)).Rapidity();
         double dijet_xi=ljet_0_p4->Rapidity()+ljet_1_p4->Rapidity();
         double z_centrality=(lepton_xi-0.5*dijet_xi)/delta_y;
+
+        //pT gap jet
+        double pt_gap_jet{};
+        if (inside_jets(ljet_2_p4,ljet_0_p4,ljet_1_p4)){pt_gap_jet=ljet_2_p4->Pt();}
+        else{
+          if(inside_jets(ljet_3_p4,ljet_0_p4,ljet_1_p4)){pt_gap_jet=ljet_3_p4->Pt();}
+        }
 
         // Cuts vector
         vector<int> cuts={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
@@ -563,15 +570,15 @@ void CLoop::Fill(double weight, int z_sample) {
         if(delta_y>=1.8){cuts[1]=1;}
         if(n_bjets_MV2c10_FixedCutBEff_85==0){cuts[2]=1;}
         if(muon_0_iso_TightTrackOnly_FixedRad==1){cuts[3]=1;}
-        if(tau_0_n_charged_tracks==1 && tau_0_jet_rnn_score_trans>=0.4){cuts[4]=1;}
-        if(tau_0_n_charged_tracks==3 && tau_0_jet_rnn_score_trans>=0.55){cuts[4]=1;}
+        if(tau_0_n_charged_tracks==1 && tau_0_jet_rnn_score_trans>=0.25){cuts[4]=1;}
+        if(tau_0_n_charged_tracks==3 && tau_0_jet_rnn_score_trans>=0.40){cuts[4]=1;}
         if(muon_0_p4->Pt()>=27){cuts[5]=1;}
         if(ljet_0_p4->Pt()>=55){cuts[6]=1;}
         if(ljet_1_p4->Pt()>=45){cuts[7]=1;}
-        if(pt_bal<=0.2){cuts[8]=1;}
+        if(pt_bal<=0.15){cuts[8]=1;}
         if(mjj>=250){cuts[9]=1;}
-        if(n_jets_interval==0){cuts[10]=1;}
-        if(z_centrality<1){cuts[11]=1;}
+        if(n_jets_interval>=1){cuts[10]=1;}
+        if(z_centrality<=0.5){cuts[11]=1;}
         if (omega>0 && omega <1.4){cuts[12]=1;}
         if (inside) {
           if (reco_mass<110 && reco_mass>70){cuts[13]=1;}
@@ -582,7 +589,7 @@ void CLoop::Fill(double weight, int z_sample) {
         if (outside_tau) {
           if (reco_mass_outside<110 && reco_mass_outside>70){cuts[13]=1;}
         }
-        if (tau_0_p4->Pt()>=35){cuts[14]=1;}
+        if (tau_0_p4->Pt()>=25){cuts[14]=1;}
 
         // SUM OF THE VECTOR STORING IF CUTS PASS OR NOT
         int sum{};
@@ -626,6 +633,7 @@ void CLoop::Fill(double weight, int z_sample) {
         }
         if ((sum-cuts[10])==14) {
           h_n_jets_interval->Fill(n_jets_interval,weight);
+          h_gap_jet_pt_basic_cuts_tpt->Fill(pt_gap_jet,weight);
         }
         if ((sum-cuts[11])==14) {
           h_Z_centrality->Fill(z_centrality,weight);
@@ -1459,6 +1467,8 @@ void CLoop::Style(double lumFactor) {
   h_ljet3_pt_basic->Write();
   h_ljet3_pt_basic_cuts->Write();
   h_ljet3_pt_basic_cuts_tpt->Write();
+
+  h_gap_jet_pt_basic_cuts_tpt->Write();
 
   h_delta_phi->Write();
   h_delta_y->Write();

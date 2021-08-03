@@ -314,6 +314,8 @@ TH1F* h_ljet3_pt_basic;
 TH1F* h_ljet3_pt_basic_cuts;
 TH1F* h_ljet3_pt_basic_cuts_tpt;
 
+TH1F* h_gap_jet_pt_basic_cuts_tpt;
+
 TH1F* h_delta_phi;
 TH1F* h_delta_y;
 TH1F* h_n_bjets;

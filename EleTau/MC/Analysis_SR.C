@@ -563,7 +563,7 @@ void CLoop::Fill(double weight, int z_sample) {
             }
           }
         // Z BOSON CENTRALITY
-        double lepton_xi=((*tau_0_p4)+(*elec_0_p4))->Rapidity();
+        double lepton_xi=((*tau_0_p4)+(*elec_0_p4)).Rapidity();
         double dijet_xi=ljet_0_p4->Rapidity()+ljet_1_p4->Rapidity();
         double z_centrality=(lepton_xi-0.5*dijet_xi)/delta_y;
 
@@ -588,8 +588,8 @@ void CLoop::Fill(double weight, int z_sample) {
         if(ljet_1_p4->Pt()>=45){cuts[7]=1;}
         if(pt_bal<=0.15){cuts[8]=1;}
         if(mjj>=250){cuts[9]=1;}
-        if(n_jets_interval==0){cuts[10]=1;}
-        if(z_centrality<1){cuts[11]=1;}
+        if(n_jets_interval>=1){cuts[10]=1;}
+        if(z_centrality<=0.5){cuts[11]=1;}
         if (omega>0 && omega <1.4){cuts[12]=1;}
         if(inv_taulep<=80){cuts[13]=1;}
         if (tau_0_ele_bdt_score_trans_retuned>=0.05){cuts[14]=1;}
