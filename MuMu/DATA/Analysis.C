@@ -297,15 +297,19 @@ void CLoop::Fill(double weight, int z_sample) {
         double delta_y = abs(ljet_0_p4->Rapidity()-ljet_1_p4->Rapidity());
         // INVARIANT MASS 2-JETS
         double mjj=sqrt(2*(ljet_0_p4->Dot(*ljet_1_p4)));
-        //PT BALANCE
-        double pt_bal{0};
-        pt_bal=(((*muon_0_p4)+(*muon_1_p4)+(*ljet_0_p4)+(*ljet_1_p4))).Pt()/(muon_0_p4->Pt()+muon_1_p4->Pt()+ljet_0_p4->Pt()+ljet_1_p4->Pt());
-
         // NUMBER OF JETS INTERVAL
         int n_jets_interval{};
         if(n_jets>2){
           n_jets_interval=n_jets_interval+inside_jets(ljet_2_p4,ljet_0_p4,ljet_1_p4);
         }
+        //PT BALANCE
+        double pt_bal{0};
+        if(n_jets_interval==0){
+          pt_bal=(((*muon_0_p4)+(*muon_1_p4)+(*ljet_0_p4)+(*ljet_1_p4))).Pt()/(muon_0_p4->Pt()+muon_1_p4->Pt()+ljet_0_p4->Pt()+ljet_1_p4->Pt());
+        } else {
+          pt_bal=(((*muon_0_p4)+(*muon_1_p4)+(*ljet_0_p4)+(*ljet_1_p4)+(*ljet_2_p4))).Pt()/(muon_0_p4->Pt()+muon_1_p4->Pt()+ljet_0_p4->Pt()+ljet_1_p4->Pt()+ljet_2_p4->Pt());
+        }
+
         // Z BOSON CENTRALITY
         double lepton_xi=((*muon_0_p4)+(*muon_1_p4)).Rapidity();
         double dijet_xi=ljet_0_p4->Rapidity()+ljet_1_p4->Rapidity();
@@ -331,7 +335,7 @@ void CLoop::Fill(double weight, int z_sample) {
         if(pt_bal<=0.15){cuts[8]=1;}
         if(mjj>=250){cuts[9]=1;}
         if(true){cuts[10]=1;}
-        if(z_centrality>1.0){cuts[11]=1;}
+        if(z_centrality<=1.0){cuts[11]=1;}
         if (inv_mass<100 && inv_mass>80){cuts[12]=1;}
         if (random){
           if(muon_0_p4->Pt()>=(a+0)){cuts[13]=1;}
