@@ -30,5 +30,6 @@ hadd MC/out/Zmumu.root MC/out/Zmumu_201*.root
 hadd MC/out/VV.root MC/out/llll*.root MC/out/lllv*.root MC/out/llvv*.root MC/out/lvvv*.root MC/out/ZqqZvv*.root MC/out/ZqqZll*.root MC/out/WqqZvv*.root MC/out/WqqZll*.root MC/out/WlvZqq*.root
 hadd MC/out/Wjets.root MC/out/Wplusenu*.root MC/out/Wminusenu*.root MC/out/Wplusmunu*.root MC/out/Wminusmunu*.root MC/out/Wplustaunu*.root MC/out/Wminustaunu*.root
 hadd MC/out/singletop.root MC/out/st_schan_top*.root MC/out/st_schan_atop*.root MC/out/st_tchan_top*.root MC/out/st_tchan_atop*.root MC/out/st_wt_top*.root MC/out/st_wt_atop*.root
+hadd MC/out/Higgs.root MC/out/WpH*.root MC/out/WmH*.root MC/out/ZHllbb*.root MC/out/ZHlltautau*.root MC/out/ggHttlm15hp20*.root MC/out/ggHttlp15hm20*.root MC/out/VBFHttlm15hp20*.root MC/out/VBFHttlp15hm20*.root
 hadd MC/out/ttbar.root MC/out/ttbar_201*.root
 hadd DATA/out/data.root DATA/out/data_201*.root
