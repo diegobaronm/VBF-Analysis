@@ -6,6 +6,8 @@
 *.cxx_tmp_*
 *.pcm
 
+.vscode/
+
 TauMu/MC/out/*
 TauMu/MC/output/*
 TauMu/MC/error/*

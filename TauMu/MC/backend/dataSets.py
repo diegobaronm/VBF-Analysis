@@ -6,7 +6,7 @@ remote = sys.argv[2]=="yes"
 totRealLum = 57.6164
 
 if remote:
-  path_to_samples='/eos/user/w/wyatt/data/v26-mm/'
+  path_to_samples='path to samples!!!'
   samples=os.listdir(path_to_samples)
   dirs=[path_to_samples+i+'/' for i in samples if 'mc' in i]
 else :
