@@ -29,7 +29,7 @@ def fastStr(fMode):
     else:
         return ""
 
-def runAnalysis(key, remote):
+def runAnalysis(key, fast):
     """
     Function to know if Z boson process
     """
@@ -47,6 +47,7 @@ def runAnalysis(key, remote):
     filename = dataSets[key]
 
     totRealLum=luminosity(key)
+    print(totRealLum)
 
     # get luminosity weight if data is MC
     if key in realList:
@@ -64,20 +65,47 @@ def runAnalysis(key, remote):
         lumStr = "%.5E" % (lumWeight)
 
     # launch the analysis script for the given data set
+    DrawC(filename,lumStr,fast,z_sample,key)
 
-    tree_name=sys.argv[3]
+    # move the output to a different directory
+    os.system("mv "+key+".root "+"out/" + key + fastStr(fast) + ".root")
 
-    DrawC(filename,lumStr,remote,z_sample,key,tree_name)
+def combine(files, fast):
+    """
+    function to get a list of .root files containing histograms and
+    add all the histograms together
+    """
 
-    # move the output to a different directory and log failure in producing or moving the file
-    if remote:
-        output=os.system("mv "+key+tree_name+".root "+"/afs/cern.ch/work/d/dbaronmo/private/Outputs/Ztm/"+tree_name+"/"+key+tree_name+".root")
-        if (output!=0):
-            os.system("echo "+key+" yes "+tree_name+"   >> "+"/afs/cern.ch/work/d/dbaronmo/private/Outputs/FAILED_Ztm.txt")
-    else :
-        output=os.system("mv "+key+tree_name+".root "+"out/"+tree_name+"/"+key+tree_name+".root")
-        if (output!=0):
-            os.system("echo "+key+" yes "+tree_name+" >> "+"FAILED.txt")
+    # store histograms from the first section of data in a list
+    totHist = []
+    sec0 = r.TFile("out/"+files[0]+fastStr(fast)+".root") # first file
+    key0 = sec0.GetListOfKeys() # first list of keys
+    for j in range(len(key0)):
+        obj0 = sec0.Get(key0[j].GetName()) # get first object
+        if obj0.InheritsFrom("TH1"): # if object is a histogram add it to the list
+            totHist.append(obj0)
+
+    # loop over other output files
+    for i in range(1,len(files)):
+        # read in output file for this section of data
+        secFile = r.TFile("out/" + files[i] + fastStr(fast) + ".root")
+
+        # get histogram keys
+        keys = secFile.GetListOfKeys()
+
+        # loop over histograms in the file and add them to the total histograms
+        for j in range(len(keys)):
+            obj = secFile.Get(keys[j].GetName()) # get object
+            if obj.InheritsFrom("TH1"): # if object is a histogram add it on
+                totHist[j].Add(obj)
+
+    # save the combined histograms to a file
+    name = sys.argv[2]#"_".join(files) # name of output file
+    totFile = r.TFile("out/"+ name + fastStr(fast) + ".root","RECREATE")
+    for hist in totHist:
+        hist.Write()
+    totFile.Close()
+
 
 # get input from user
 # keep asking until answered
@@ -94,13 +122,13 @@ while (not chainsValid):
 answered = False
 while (not answered):
     #print("Would you like to run in fast mode to only analyse 1% of data? (yes/no)")
-    Remote = sys.argv[2]
-    if Remote in "yes":
+    useFast = sys.argv[2]
+    if useFast in "yes":
         answered = True
-        remote_mode = True
-    elif Remote in "no":
+        fastMode = True
+    elif useFast in "no":
         answered = True
-        remote_mode = False
+        fastMode = False
 
 # iterate over sums of chains from user input
 for i in range(len(chains)):
@@ -116,10 +144,18 @@ for i in range(len(chains)):
         if (chain in dataCombos.keys()):
             for subChain in dataCombos[chain]:
                 print(subChain)
-                runAnalysis(subChain, remote_mode)
+                runAnalysis(subChain, fastMode)
             #combine(dataCombos[chain], fastMode)
+
+            # rename the outputted file to use the input key
+            #oldName = sys.argv[2]+fastStr(fastMode)+".root"
+            #os.system("mv out/"+oldName+" out/"+chain+
+                    #fastStr(fastMode)+".root")
 
         # otherwise run the analysis for the single file
         else:
-            runAnalysis(chain,remote_mode)
+            runAnalysis(chain,fastMode)
 
+    # combine chains in the series if it contains more than one chain
+    #if (len(chains[i])>1):
+        #combine(chains[i], fastMode)
