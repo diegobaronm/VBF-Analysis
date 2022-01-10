@@ -4,7 +4,7 @@
 #include <cmath>
 
 
-void CLoop::Loop(double lumFactor, bool fastMode, int z_sample, std::string key)
+void CLoop::Loop(double lumFactor, int z_sample, std::string key)
 {
 //    In a ROOT session, you can do:
 //        root> .L CLoop.C
