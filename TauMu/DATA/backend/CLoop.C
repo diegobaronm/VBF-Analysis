@@ -54,6 +54,31 @@ void CLoop::Loop(double lumFactor, bool fastMode, int z_sample, std::string key)
         nb = fChain->GetEntry(jentry);    nbytes += nb;
         // if (Cut(ientry) < 0) continue;
 
+        double mjj_w=1;
+        // mjj reweighting
+        if(z_sample==1 || z_sample==2){
+            double mjj=sqrt(2*(ljet_0_p4->Dot(*ljet_1_p4)));
+            if(mjj<250){
+                mjj_w=1.204;
+            }else if(mjj>=250 & mjj<500){
+                mjj_w=1.092;
+            }else if(mjj>=500 & mjj<750){
+                mjj_w=0.998;
+            }else if(mjj>=750 & mjj<1000){
+                mjj_w=0.774;
+            }else if(mjj>=1000 & mjj<1250){
+                mjj_w=0.376;
+            }else if(mjj>=1250 & mjj<1500){
+                mjj_w=0.488;
+            }else if(mjj>=1500 & mjj<2000){
+                mjj_w=0.48;
+            }else if(mjj>=2000 & mjj<2500){
+                mjj_w=0.524;
+            }else if(mjj>2500){
+                mjj_w=0.524;
+            }
+        }
+
         // ZpT reweighting
 
         double z_w=1;
@@ -126,7 +151,8 @@ void CLoop::Loop(double lumFactor, bool fastMode, int z_sample, std::string key)
         // check if event is from real data
         if (weight_total != 0) {
             // take product of all scale factors
-            eventWeight = weight_total*lumFactor*zpt_weight*muon_0_NOMINAL_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium*muon_0_NOMINAL_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium
+            eventWeight = weight_total*lumFactor*zpt_weight*mjj_w
+            *muon_0_NOMINAL_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium*muon_0_NOMINAL_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium
             *muon_0_NOMINAL_MuEffSF_IsoTightTrackOnly_FixedRad*muon_0_NOMINAL_MuEffSF_Reco_QualMedium*muon_0_NOMINAL_MuEffSF_TTVA
             *jet_NOMINAL_central_jets_global_effSF_JVT*jet_NOMINAL_central_jets_global_ineffSF_JVT*jet_NOMINAL_forward_jets_global_effSF_JVT
             *jet_NOMINAL_forward_jets_global_ineffSF_JVT*jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85*jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85

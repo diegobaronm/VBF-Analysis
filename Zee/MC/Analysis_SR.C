@@ -334,8 +334,8 @@ void CLoop::Fill(double weight, int z_sample) {
         if(ljet_1_p4->Pt()>=45){cuts[7]=1;}
         if(pt_bal<=0.15){cuts[8]=1;}
         if(mjj>=250){cuts[9]=1;}
-        if(true){cuts[10]=1;}
-        if(z_centrality>1.0){cuts[11]=1;}
+        if(n_jets_interval==0){cuts[10]=1;}
+        if(z_centrality<1.0){cuts[11]=1;}
         if (inv_mass<100 && inv_mass>80){cuts[12]=1;}
         if (random){
           if(elec_0_p4->Pt()>=(a+0)){cuts[13]=1;}

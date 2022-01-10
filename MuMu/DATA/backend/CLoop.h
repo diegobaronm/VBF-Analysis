@@ -28,6 +28,7 @@ class CLoop {
   void Style(double lumFactor);
   void Book(double lumFactor);
   void Fill(double weight, int z_sample);
+  bool DeltaR(TLorentzVector * lep ,int n_jets, double delta_R);
 
   #include "../Analysis.h"
 

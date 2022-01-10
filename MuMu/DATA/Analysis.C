@@ -43,8 +43,16 @@ int inside_jets(TLorentzVector * test_jet,TLorentzVector * j1, TLorentzVector * 
   else{return 0;}
 }
 
+bool CLoop::DeltaR(TLorentzVector * lep ,int n_jets, double delta_R){
+  if(n_jets==0){ return true;}
+  else if (n_jets==1){return (lep->DeltaR(*ljet_0_p4)>0.4);}
+  else if (n_jets==2){return (lep->DeltaR(*ljet_0_p4)>0.4) && (lep->DeltaR(*ljet_1_p4)>0.4);}
+  else if (n_jets>=3){return (lep->DeltaR(*ljet_0_p4)>0.4) && (lep->DeltaR(*ljet_1_p4)>0.4) && (lep->DeltaR(*ljet_2_p4)>0.4);}
+  return 0;
+}
+
 void CLoop::Book(double lumFactor) {
-  double pi=TMath::Pi();
+  double pi = TMath::Pi();
   h_lep1_pt_basic = new TH1F("lep1_pt_basic","Lep 1 pT",200,0,200);
   h_lep1_pt_basic_dphi = new TH1F("lep1_pt_basic_dphi","Lep 1 pT",200,0,200);
   h_lep1_pt_basic_dphi_drap = new TH1F("lep1_pt_basic_dphi_drap","Lep 1 pT",200,0,200);
@@ -270,7 +278,7 @@ void CLoop::Fill(double weight, int z_sample) {
         trigger_match= trigger_match_1 | trigger_match_2 | trigger_match_12;
       }
 
-      if ( angle<7*pi/9 && trigger_decision && trigger_match ) {
+      if ( angle<7*pi/9 && trigger_decision && trigger_match /*&& DeltaR(muon_0_p4,n_jets,0.4) && DeltaR(muon_1_p4,n_jets,0.4)*/) {
 
         double inv_mass{};
         inv_mass=sqrt(2*muon_0_p4->Pt()*muon_1_p4->Pt()*(cosh(muon_0_p4->Eta()-muon_1_p4->Eta())-cos(muon_0_p4->Phi()-muon_1_p4->Phi())));
@@ -334,8 +342,8 @@ void CLoop::Fill(double weight, int z_sample) {
         if(ljet_1_p4->Pt()>=45){cuts[7]=1;}
         if(pt_bal<=0.15){cuts[8]=1;}
         if(mjj>=250){cuts[9]=1;}
-        if(true){cuts[10]=1;}
-        if(z_centrality<=1.0){cuts[11]=1;}
+        if(n_jets_interval==0){cuts[10]=1;}
+        if(z_centrality<1.0){cuts[11]=1;}
         if (inv_mass<100 && inv_mass>80){cuts[12]=1;}
         if (random){
           if(muon_0_p4->Pt()>=(a+0)){cuts[13]=1;}
