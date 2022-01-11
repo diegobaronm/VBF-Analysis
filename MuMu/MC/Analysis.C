@@ -86,6 +86,90 @@ void CLoop::Book(double lumFactor) {
   h_lep2_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass = new TH1F("lep2_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass","Lep 2 pT",200,0,200);
   h_lep2_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl = new TH1F("lep2_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl","Lep 2 pT",200,0,200);
 
+  h_lep1_eta_basic = new TH1F("lep1_eta_basic","Lep 1 eta",50,-2.5,2.5);
+  h_lep1_eta_basic_dphi = new TH1F("lep1_eta_basic_dphi","Lep 1 eta",50,-2.5,2.5);
+  h_lep1_eta_basic_dphi_drap = new TH1F("lep1_eta_basic_dphi_drap","Lep 1 eta",50,-2.5,2.5);
+  h_lep1_eta_basic_dphi_drap_btag = new TH1F("lep1_eta_basic_dphi_drap_btag","Lep 1 eta",50,-2.5,2.5);
+  h_lep1_eta_basic_dphi_drap_btag_iso = new TH1F("lep1_eta_basic_dphi_drap_btag_iso","Lep 1 eta",50,-2.5,2.5);
+  h_lep1_eta_basic_dphi_drap_btag_iso_pt1 = new TH1F("lep1_eta_basic_dphi_drap_btag_iso_pt1","Lep 1 eta",50,-2.5,2.5);
+  h_lep1_eta_basic_dphi_drap_btag_iso_pt1_pt2 = new TH1F("lep1_eta_basic_dphi_drap_btag_iso_pt1_pt2","Lep 1 eta",50,-2.5,2.5);
+  h_lep1_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt = new TH1F("lep1_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt","Lep 1 eta",50,-2.5,2.5);
+  h_lep1_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt = new TH1F("lep1_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt","Lep 1 eta",50,-2.5,2.5);
+  h_lep1_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal = new TH1F("lep1_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal","Lep 1 eta",50,-2.5,2.5);
+  h_lep1_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj = new TH1F("lep1_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj","Lep 1 eta",50,-2.5,2.5);
+  h_lep1_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji = new TH1F("lep1_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji","Lep 1 eta",50,-2.5,2.5);
+  h_lep1_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen = new TH1F("lep1_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen","Lep 1 eta",50,-2.5,2.5);
+  h_lep1_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass = new TH1F("lep1_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass","Lep 1 eta",50,-2.5,2.5);
+  h_lep1_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl = new TH1F("lep1_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl","Lep 1 eta",50,-2.5,2.5);
+
+
+  h_lep2_eta_basic = new TH1F("lep2_eta_basic","Lep 2 eta",50,-2.5,2.5);
+  h_lep2_eta_basic_dphi = new TH1F("lep2_eta_basic_dphi","Lep 2 eta",50,-2.5,2.5);
+  h_lep2_eta_basic_dphi_drap = new TH1F("lep2_eta_basic_dphi_drap","Lep 2 eta",50,-2.5,2.5);
+  h_lep2_eta_basic_dphi_drap_btag = new TH1F("lep2_eta_basic_dphi_drap_btag","Lep 2 eta",50,-2.5,2.5);
+  h_lep2_eta_basic_dphi_drap_btag_iso = new TH1F("lep2_eta_basic_dphi_drap_btag_iso","Lep 2 eta",50,-2.5,2.5);
+  h_lep2_eta_basic_dphi_drap_btag_iso_pt1 = new TH1F("lep2_eta_basic_dphi_drap_btag_iso_pt1","Lep 2 eta",50,-2.5,2.5);
+  h_lep2_eta_basic_dphi_drap_btag_iso_pt1_pt2 = new TH1F("lep2_eta_basic_dphi_drap_btag_iso_pt1_pt2","Lep 2 eta",50,-2.5,2.5);
+  h_lep2_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt = new TH1F("lep2_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt","Lep 2 eta",50,-2.5,2.5);
+  h_lep2_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt = new TH1F("lep2_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt","Lep 2 eta",50,-2.5,2.5);
+  h_lep2_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal = new TH1F("lep2_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal","Lep 2 eta",50,-2.5,2.5);
+  h_lep2_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj = new TH1F("lep2_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj","Lep 2 eta",50,-2.5,2.5);
+  h_lep2_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji = new TH1F("lep2_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji","Lep 2 eta",50,-2.5,2.5);
+  h_lep2_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen = new TH1F("lep2_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen","Lep 2 eta",50,-2.5,2.5);
+  h_lep2_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass = new TH1F("lep2_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass","Lep 2 eta",50,-2.5,2.5);
+  h_lep2_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl = new TH1F("lep2_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl","Lep 2 eta",50,-2.5,2.5);
+
+
+  h_delta_R_leplep_basic = new TH1F("delta_R_leplep_basic","Delta R lep-lep",20,0,2);
+  h_delta_R_leplep_basic_dphi = new TH1F("delta_R_leplep_basic_dphi","Delta R lep-lep",20,0,2);
+  h_delta_R_leplep_basic_dphi_drap = new TH1F("delta_R_leplep_basic_dphi_drap","Delta R lep-lep",20,0,2);
+  h_delta_R_leplep_basic_dphi_drap_btag = new TH1F("delta_R_leplep_basic_dphi_drap_btag","Delta R lep-lep",20,0,2);
+  h_delta_R_leplep_basic_dphi_drap_btag_iso = new TH1F("delta_R_leplep_basic_dphi_drap_btag_iso","Delta R lep-lep",20,0,2);
+  h_delta_R_leplep_basic_dphi_drap_btag_iso_pt1 = new TH1F("delta_R_leplep_basic_dphi_drap_btag_iso_pt1","Delta R lep-lep",20,0,2);
+  h_delta_R_leplep_basic_dphi_drap_btag_iso_pt1_pt2 = new TH1F("delta_R_leplep_basic_dphi_drap_btag_iso_pt1_pt2","Delta R lep-lep",20,0,2);
+  h_delta_R_leplep_basic_dphi_drap_btag_iso_pt1_pt2_j1pt = new TH1F("delta_R_leplep_basic_dphi_drap_btag_iso_pt1_pt2_j1pt","Delta R lep-lep",20,0,2);
+  h_delta_R_leplep_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt = new TH1F("delta_R_leplep_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt","Delta R lep-lep",20,0,2);
+  h_delta_R_leplep_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal = new TH1F("delta_R_leplep_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal","Delta R lep-lep",20,0,2);
+  h_delta_R_leplep_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj = new TH1F("delta_R_leplep_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj","Delta R lep-lep",20,0,2);
+  h_delta_R_leplep_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji = new TH1F("delta_R_leplep_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji","Delta R lep-lep",20,0,2);
+  h_delta_R_leplep_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen = new TH1F("delta_R_leplep_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen","Delta R lep-lep",20,0,2);
+  h_delta_R_leplep_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass = new TH1F("delta_R_leplep_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass","Delta R lep-lep",20,0,2);
+  h_delta_R_leplep_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl = new TH1F("delta_R_leplep_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl","Delta R lep-lep",20,0,2);
+
+
+  h_delta_R_lep1jet_basic = new TH1F("delta_R_lep1jet_basic","Delta R lep1-jet",20,0,2);
+  h_delta_R_lep1jet_basic_dphi = new TH1F("delta_R_lep1jet_basic_dphi","Delta R lep1-jet",20,0,2);
+  h_delta_R_lep1jet_basic_dphi_drap = new TH1F("delta_R_lep1jet_basic_dphi_drap","Delta R lep1-jet",20,0,2);
+  h_delta_R_lep1jet_basic_dphi_drap_btag = new TH1F("delta_R_lep1jet_basic_dphi_drap_btag","Delta R lep1-jet",20,0,2);
+  h_delta_R_lep1jet_basic_dphi_drap_btag_iso = new TH1F("delta_R_lep1jet_basic_dphi_drap_btag_iso","Delta R lep1-jet",20,0,2);
+  h_delta_R_lep1jet_basic_dphi_drap_btag_iso_pt1 = new TH1F("delta_R_lep1jet_basic_dphi_drap_btag_iso_pt1","Delta R lep1-jet",20,0,2);
+  h_delta_R_lep1jet_basic_dphi_drap_btag_iso_pt1_pt2 = new TH1F("delta_R_lep1jet_basic_dphi_drap_btag_iso_pt1_pt2","Delta R lep1-jet",20,0,2);
+  h_delta_R_lep1jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt = new TH1F("delta_R_lep1jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt","Delta R lep1-jet",20,0,2);
+  h_delta_R_lep1jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt = new TH1F("delta_R_lep1jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt","Delta R lep1-jet",20,0,2);
+  h_delta_R_lep1jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal = new TH1F("delta_R_lep1jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal","Delta R lep1-jet",20,0,2);
+  h_delta_R_lep1jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj = new TH1F("delta_R_lep1jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj","Delta R lep1-jet",20,0,2);
+  h_delta_R_lep1jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji = new TH1F("delta_R_lep1jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji","Delta R lep1-jet",20,0,2);
+  h_delta_R_lep1jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen = new TH1F("delta_R_lep1jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen","Delta R lep1-jet",20,0,2);
+  h_delta_R_lep1jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass = new TH1F("delta_R_lep1jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass","Delta R lep1-jet",20,0,2);
+  h_delta_R_lep1jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl = new TH1F("delta_R_lep1jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl","Delta R lep1-jet",20,0,2);
+
+
+  h_delta_R_lep2jet_basic = new TH1F("delta_R_lep2jet_basic","Delta R lep2-jet",20,0,2);
+  h_delta_R_lep2jet_basic_dphi = new TH1F("delta_R_lep2jet_basic_dphi","Delta R lep2-jet",20,0,2);
+  h_delta_R_lep2jet_basic_dphi_drap = new TH1F("delta_R_lep2jet_basic_dphi_drap","Delta R lep2-jet",20,0,2);
+  h_delta_R_lep2jet_basic_dphi_drap_btag = new TH1F("delta_R_lep2jet_basic_dphi_drap_btag","Delta R lep2-jet",20,0,2);
+  h_delta_R_lep2jet_basic_dphi_drap_btag_iso = new TH1F("delta_R_lep2jet_basic_dphi_drap_btag_iso","Delta R lep2-jet",20,0,2);
+  h_delta_R_lep2jet_basic_dphi_drap_btag_iso_pt1 = new TH1F("delta_R_lep2jet_basic_dphi_drap_btag_iso_pt1","Delta R lep2-jet",20,0,2);
+  h_delta_R_lep2jet_basic_dphi_drap_btag_iso_pt1_pt2 = new TH1F("delta_R_lep2jet_basic_dphi_drap_btag_iso_pt1_pt2","Delta R lep2-jet",20,0,2);
+  h_delta_R_lep2jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt = new TH1F("delta_R_lep2jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt","Delta R lep2-jet",20,0,2);
+  h_delta_R_lep2jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt = new TH1F("delta_R_lep2jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt","Delta R lep2-jet",20,0,2);
+  h_delta_R_lep2jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal = new TH1F("delta_R_lep2jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal","Delta R lep2-jet",20,0,2);
+  h_delta_R_lep2jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj = new TH1F("delta_R_lep2jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj","Delta R lep2-jet",20,0,2);
+  h_delta_R_lep2jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji = new TH1F("delta_R_lep2jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji","Delta R lep2-jet",20,0,2);
+  h_delta_R_lep2jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen = new TH1F("delta_R_lep2jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen","Delta R lep2-jet",20,0,2);
+  h_delta_R_lep2jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass = new TH1F("delta_R_lep2jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass","Delta R lep2-jet",20,0,2);
+  h_delta_R_lep2jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl = new TH1F("delta_R_lep2jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl","Delta R lep2-jet",20,0,2);
+
 
   h_sum_pt_basic = new TH1F("sum_pt_basic","Sum of leptons pT",400,0,400);
   h_sum_pt_basic_dphi = new TH1F("sum_pt_basic_dphi","Sum of leptons pT",400,0,400);
@@ -547,6 +631,11 @@ void CLoop::Fill(double weight, int z_sample) {
                                   if(cuts[13]==1){
                                     h_lep1_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl->Fill(muon_0_p4->Pt(),weight);
                                     h_lep2_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl->Fill(muon_1_p4->Pt(),weight);
+                                    h_lep1_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl->Fill(muon_0_p4->Eta(),weight);
+                                    h_lep2_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl->Fill(muon_1_p4->Eta(),weight);
+                                    h_delta_R_leplep_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl->Fill(muon_0_p4->DeltaR(*muon_1_p4),weight);
+                                    h_delta_R_lep1jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl->Fill(muon_0_p4->DeltaR(*muon_1_p4),weight);
+                                    h_delta_R_lep2jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl->Fill(muon_0_p4->DeltaR(*muon_1_p4),weight);
                                     h_sum_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl->Fill(muon_0_p4->Pt()+muon_1_p4->Pt(),weight);
                                     h_met_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl->Fill(met_reco_p4->Pt(),weight);
                                     h_inv_mass_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl->Fill(inv_mass,weight);
@@ -618,6 +707,90 @@ void CLoop::Style(double lumFactor) {
   h_lep2_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen->Write();
   h_lep2_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass->Write();
   h_lep2_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl->Write();
+
+  h_lep1_eta_basic->Write();
+  h_lep1_eta_basic_dphi->Write();
+  h_lep1_eta_basic_dphi_drap->Write();
+  h_lep1_eta_basic_dphi_drap_btag->Write();
+  h_lep1_eta_basic_dphi_drap_btag_iso->Write();
+  h_lep1_eta_basic_dphi_drap_btag_iso_pt1->Write();
+  h_lep1_eta_basic_dphi_drap_btag_iso_pt1_pt2->Write();
+  h_lep1_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt->Write();
+  h_lep1_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt->Write();
+  h_lep1_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal->Write();
+  h_lep1_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj->Write();
+  h_lep1_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji->Write();
+  h_lep1_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen->Write();
+  h_lep1_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass->Write();
+  h_lep1_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl->Write();
+
+
+  h_lep2_eta_basic->Write();
+  h_lep2_eta_basic_dphi->Write();
+  h_lep2_eta_basic_dphi_drap->Write();
+  h_lep2_eta_basic_dphi_drap_btag->Write();
+  h_lep2_eta_basic_dphi_drap_btag_iso->Write();
+  h_lep2_eta_basic_dphi_drap_btag_iso_pt1->Write();
+  h_lep2_eta_basic_dphi_drap_btag_iso_pt1_pt2->Write();
+  h_lep2_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt->Write();
+  h_lep2_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt->Write();
+  h_lep2_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal->Write();
+  h_lep2_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj->Write();
+  h_lep2_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji->Write();
+  h_lep2_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen->Write();
+  h_lep2_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass->Write();
+  h_lep2_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl->Write();
+
+
+  h_delta_R_leplep_basic->Write();
+  h_delta_R_leplep_basic_dphi->Write();
+  h_delta_R_leplep_basic_dphi_drap->Write();
+  h_delta_R_leplep_basic_dphi_drap_btag->Write();
+  h_delta_R_leplep_basic_dphi_drap_btag_iso->Write();
+  h_delta_R_leplep_basic_dphi_drap_btag_iso_pt1->Write();
+  h_delta_R_leplep_basic_dphi_drap_btag_iso_pt1_pt2->Write();
+  h_delta_R_leplep_basic_dphi_drap_btag_iso_pt1_pt2_j1pt->Write();
+  h_delta_R_leplep_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt->Write();
+  h_delta_R_leplep_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal->Write();
+  h_delta_R_leplep_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj->Write();
+  h_delta_R_leplep_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji->Write();
+  h_delta_R_leplep_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen->Write();
+  h_delta_R_leplep_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass->Write();
+  h_delta_R_leplep_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl->Write();
+
+
+  h_delta_R_lep1jet_basic->Write();
+  h_delta_R_lep1jet_basic_dphi->Write();
+  h_delta_R_lep1jet_basic_dphi_drap->Write();
+  h_delta_R_lep1jet_basic_dphi_drap_btag->Write();
+  h_delta_R_lep1jet_basic_dphi_drap_btag_iso->Write();
+  h_delta_R_lep1jet_basic_dphi_drap_btag_iso_pt1->Write();
+  h_delta_R_lep1jet_basic_dphi_drap_btag_iso_pt1_pt2->Write();
+  h_delta_R_lep1jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt->Write();
+  h_delta_R_lep1jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt->Write();
+  h_delta_R_lep1jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal->Write();
+  h_delta_R_lep1jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj->Write();
+  h_delta_R_lep1jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji->Write();
+  h_delta_R_lep1jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen->Write();
+  h_delta_R_lep1jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass->Write();
+  h_delta_R_lep1jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl->Write();
+
+
+  h_delta_R_lep2jet_basic->Write();
+  h_delta_R_lep2jet_basic_dphi->Write();
+  h_delta_R_lep2jet_basic_dphi_drap->Write();
+  h_delta_R_lep2jet_basic_dphi_drap_btag->Write();
+  h_delta_R_lep2jet_basic_dphi_drap_btag_iso->Write();
+  h_delta_R_lep2jet_basic_dphi_drap_btag_iso_pt1->Write();
+  h_delta_R_lep2jet_basic_dphi_drap_btag_iso_pt1_pt2->Write();
+  h_delta_R_lep2jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt->Write();
+  h_delta_R_lep2jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt->Write();
+  h_delta_R_lep2jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal->Write();
+  h_delta_R_lep2jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj->Write();
+  h_delta_R_lep2jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji->Write();
+  h_delta_R_lep2jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen->Write();
+  h_delta_R_lep2jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass->Write();
+  h_delta_R_lep2jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl->Write();
 
 
   h_sum_pt_basic->Write();

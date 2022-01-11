@@ -5,6 +5,11 @@ cuts_basic=["basic","cuts","tpt"]
 histos_full={
 "lep1_pt":["Lep 1 pT",200,0,200],
 "lep2_pt":["Lep 2 pT",200,0,200],
+"lep1_eta":["Lep 1 eta",50,-2.5,2.5],
+"lep2_eta":["Lep 2 eta",50,-2.5,2.5],
+"delta_R_leplep":["Delta R lep-lep",20,0,2],
+"delta_R_lep1jet":["Delta R lep1-jet",20,0,2],
+"delta_R_lep2jet":["Delta R lep2-jet",20,0,2],
 "sum_pt":["Sum of leptons pT",400,0,400],
 "met":["Missing Transverse momentum",300,0,300],
 "inv_mass":["Invariant mass di-lepton system",240,0,240],
