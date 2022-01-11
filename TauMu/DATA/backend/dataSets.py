@@ -1,9 +1,15 @@
 # file to hold variables with info about the data
 import sys
+import os
 # total luminosity of the real data in inverse femtobarns
-remote = sys.argv[2]=="yes"
 
 totRealLum = 57.6164
+
+# Name of host
+if sys.argv[0]=="Condor_Lister.py":
+  remote = False
+else :
+  remote = sys.argv[2]=="yes"
 
 if remote:
   path_to_samples='path to samples!!!'

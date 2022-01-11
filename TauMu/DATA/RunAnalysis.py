@@ -1,3 +1,11 @@
+#!/usr/bin/env python3
+
+# ----------------------------------------------------------------
+#
+#	The shebang above is MANDATORY for Condor execution!
+#
+# ----------------------------------------------------------------
+
 # script which the user launches to ask which data sets to analyse, handle weighting and launch the
 # analysis
 
@@ -36,7 +44,9 @@ def runAnalysis(key, remote):
     """
     # get filename
     filename = dataSets[key]
+
     totRealLum=luminosity(key)
+    print(totRealLum)
 
     # get luminosity weight if data is MC
     if key in realList:
@@ -68,6 +78,7 @@ def runAnalysis(key, remote):
         if (output!=0):
             os.system("echo "+key+" yes "+tree_name+" >> "+"FAILED.txt")
 
+
 # get input from user
 # keep asking until answered
 chainsValid = False
@@ -82,7 +93,7 @@ while (not chainsValid):
 # detect whether the user wants to run in 'fast' mode for only 1% of data
 answered = False
 while (not answered):
-    
+    #print("Would you like to run in fast mode to only analyse 1% of data? (yes/no)")
     Remote = sys.argv[2]
     if Remote in "yes":
         answered = True
@@ -105,9 +116,8 @@ for i in range(len(chains)):
         if (chain in dataCombos.keys()):
             for subChain in dataCombos[chain]:
                 print(subChain)
-                runAnalysis(subChain, remote_mode)
+                runAnalysis(subChain,remote_mode)
 
         # otherwise run the analysis for the single file
         else:
             runAnalysis(chain,remote_mode)
-

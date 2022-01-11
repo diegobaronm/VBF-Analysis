@@ -1,3 +1,11 @@
+#!/usr/bin/env python3
+
+# ----------------------------------------------------------------
+#
+#	The shebang above is MANDATORY for Condor execution!
+#
+# ----------------------------------------------------------------
+
 # script which the user launches to ask which data sets to analyse, handle weighting and launch the
 # analysis
 
