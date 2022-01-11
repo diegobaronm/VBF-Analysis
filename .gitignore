@@ -5,6 +5,7 @@
 *.pyc
 *.cxx_tmp_*
 *.pcm
+*.cc
 
 .vscode/
 .ipynb_checkpoints/

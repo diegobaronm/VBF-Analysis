@@ -5,7 +5,10 @@ import sys
 totRealLum = 57.6164
 
 # Name of host
-remote = sys.argv[2]=="yes"
+if sys.argv[0]=="Condor_Lister.py":
+        remote = False
+else :
+      	remote = sys.argv[2]=="yes"
 
 # list of directories to check for .root files
 if remote:
