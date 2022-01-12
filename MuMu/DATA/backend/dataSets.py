@@ -1,14 +1,14 @@
 # file to hold variables with info about the data
 import sys
+import os
 # total luminosity of the real data in inverse femtobarns
 
 totRealLum = 57.6164
-
-# Name of host
-if sys.argv[0]=="Condor_Lister.py":
-        remote = False
+# Name of host  
+if sys.argv[0]=="RunAnalysis.py" or sys.argv[0]=="condor_exec.exe":
+        remote = sys.argv[2]=="yes"
 else :
-      	remote = sys.argv[2]=="yes"
+        remote = False
 
 # list of directories to check for .root files
 if remote:

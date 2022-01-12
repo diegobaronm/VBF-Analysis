@@ -51,6 +51,21 @@ bool CLoop::DeltaR(TLorentzVector * lep ,int n_jets, double delta_R){
   return 0;
 }
 
+double min_deltaR(TLorentzVector* test_particle, std::vector<UInt_t> bool_vector_container, std::vector<TLorentzVector*> jet_container){
+
+  std::vector<double> delta_Rs{};
+
+  for (size_t index{0};index<jet_container.size();index++){
+    if (bool_vector_container[index]!=0){
+      delta_Rs.push_back(jet_container[index]->DeltaR(*test_particle));
+    }
+    else {break;}
+  }
+
+  double min_dR=*std::min_element(delta_Rs.begin(),delta_Rs.end());
+  return min_dR;
+}
+
 void CLoop::Book(double lumFactor) {
   double pi = TMath::Pi();
   h_lep1_pt_basic = new TH1F("lep1_pt_basic","Lep 1 pT",200,0,200);
@@ -329,7 +344,9 @@ void CLoop::Fill(double weight, int z_sample) {
     bool muon_id=muon_0_id_medium && muon_1_id_medium;
     float q_mu0=muon_0_q;
     float q_mu1=muon_1_q;
-    if (n_muons==2 && q_mu0!=q_mu1 && muon_id && n_jets>=2){
+    size_t n_ljets=n_jets-n_bjets_MV2c10_FixedCutBEff_85;
+
+    if (n_muons==2 && q_mu0!=q_mu1 && muon_id && n_ljets>=2){
       //angles
       double angle_l_MET=del_phi(muon_0_p4->Phi(),met_reco_p4->Phi());
       double angle_tau_MET=del_phi(muon_1_p4->Phi(),met_reco_p4->Phi());
@@ -391,7 +408,7 @@ void CLoop::Fill(double weight, int z_sample) {
         double mjj=sqrt(2*(ljet_0_p4->Dot(*ljet_1_p4)));
         // NUMBER OF JETS INTERVAL
         int n_jets_interval{};
-        if(n_jets>2){
+        if(n_ljets>2){
           n_jets_interval=n_jets_interval+inside_jets(ljet_2_p4,ljet_0_p4,ljet_1_p4);
         }
         //PT BALANCE
@@ -410,6 +427,14 @@ void CLoop::Fill(double weight, int z_sample) {
         //pT gap jet
         double pt_gap_jet{};
         if (inside_jets(ljet_2_p4,ljet_0_p4,ljet_1_p4)){pt_gap_jet=ljet_2_p4->Pt();}
+
+
+        // Minimum DeltaR between lepton and jets
+        std::vector<UInt_t> is_jet_present{ljet_0,ljet_1,ljet_2};
+        std::vector<TLorentzVector*> jet_container{ljet_0_p4,ljet_1_p4,ljet_2_p4};
+        
+        double min_dR_lep1 = min_deltaR(muon_0_p4,is_jet_present,jet_container);
+        double min_dR_lep2 = min_deltaR(muon_1_p4,is_jet_present,jet_container);
 
         // Cuts vector
         vector<int> cuts={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
@@ -484,6 +509,11 @@ void CLoop::Fill(double weight, int z_sample) {
         //  Filling histos
         h_lep1_pt_basic->Fill(muon_0_p4->Pt(),weight);
         h_lep2_pt_basic->Fill(muon_1_p4->Pt(),weight);
+        h_lep1_eta_basic->Fill(muon_0_p4->Eta(),weight);
+        h_lep2_eta_basic->Fill(muon_1_p4->Eta(),weight);
+        h_delta_R_leplep_basic->Fill(muon_0_p4->DeltaR(*muon_1_p4),weight);
+        h_delta_R_lep1jet_basic->Fill(min_dR_lep1,weight);
+        h_delta_R_lep2jet_basic->Fill(min_dR_lep2,weight);
         h_sum_pt_basic->Fill(muon_0_p4->Pt()+muon_1_p4->Pt(),weight);
         h_met_basic->Fill(met_reco_p4->Pt(),weight);
         h_inv_mass_basic->Fill(inv_mass,weight);
@@ -598,6 +628,11 @@ void CLoop::Fill(double weight, int z_sample) {
                               if(cuts[11]==1){
                                 h_lep1_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen->Fill(muon_0_p4->Pt(),weight);
                                 h_lep2_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen->Fill(muon_1_p4->Pt(),weight);
+                                h_lep1_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen->Fill(muon_0_p4->Eta(),weight);
+                                h_lep2_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen->Fill(muon_1_p4->Eta(),weight);
+                                h_delta_R_leplep_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen->Fill(muon_0_p4->DeltaR(*muon_1_p4),weight);
+                                h_delta_R_lep1jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen->Fill(min_dR_lep1,weight);
+                                h_delta_R_lep2jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen->Fill(min_dR_lep2,weight);
                                 h_sum_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen->Fill(muon_0_p4->Pt()+muon_1_p4->Pt(),weight);
                                 h_met_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen->Fill(met_reco_p4->Pt(),weight);
                                 h_inv_mass_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen->Fill(inv_mass,weight);
@@ -606,6 +641,11 @@ void CLoop::Fill(double weight, int z_sample) {
                                 if(cuts[12]==1){
                                   h_lep1_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass->Fill(muon_0_p4->Pt(),weight);
                                   h_lep2_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass->Fill(muon_1_p4->Pt(),weight);
+                                  h_lep1_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass->Fill(muon_0_p4->Eta(),weight);
+                                  h_lep2_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass->Fill(muon_1_p4->Eta(),weight);
+                                  h_delta_R_leplep_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass->Fill(muon_0_p4->DeltaR(*muon_1_p4),weight);
+                                  h_delta_R_lep1jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass->Fill(min_dR_lep1,weight);
+                                  h_delta_R_lep2jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass->Fill(min_dR_lep2,weight);
                                   h_sum_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass->Fill(muon_0_p4->Pt()+muon_1_p4->Pt(),weight);
                                   h_met_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass->Fill(met_reco_p4->Pt(),weight);
                                   h_inv_mass_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass->Fill(inv_mass,weight);
@@ -634,8 +674,8 @@ void CLoop::Fill(double weight, int z_sample) {
                                     h_lep1_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl->Fill(muon_0_p4->Eta(),weight);
                                     h_lep2_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl->Fill(muon_1_p4->Eta(),weight);
                                     h_delta_R_leplep_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl->Fill(muon_0_p4->DeltaR(*muon_1_p4),weight);
-                                    h_delta_R_lep1jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl->Fill(muon_0_p4->DeltaR(*muon_1_p4),weight);
-                                    h_delta_R_lep2jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl->Fill(muon_0_p4->DeltaR(*muon_1_p4),weight);
+                                    h_delta_R_lep1jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl->Fill(min_dR_lep1,weight);
+                                    h_delta_R_lep2jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl->Fill(min_dR_lep2,weight);
                                     h_sum_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl->Fill(muon_0_p4->Pt()+muon_1_p4->Pt(),weight);
                                     h_met_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl->Fill(met_reco_p4->Pt(),weight);
                                     h_inv_mass_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl->Fill(inv_mass,weight);

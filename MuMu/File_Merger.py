@@ -12,9 +12,9 @@ try :
 	type_of_run = menu("Type of run...",["NOMINAL",'Systematics'])
 
 	if type_of_run:
-		os.system('hadd '+channel_dir+'MC/out/Signal_Sherpa.root NOMINAL/Zmumu_sherpa*.root')
-		os.system('hadd '+channel_dir+'MC/out/Ztautau_PoPy.root NOMINAL/Ztautau_*.root')
-		os.system('hadd '+channel_dir+'MC/out/Signal_PoPy.root NOMINAL/Zmumu_201*.root')
+		os.system('hadd '+channel_dir+'MC/out/Zmumu_Sherpa.root NOMINAL/Zmumu_sherpa*.root')
+		os.system('hadd '+channel_dir+'MC/out/Zmumu_PoPy.root NOMINAL/Zmumu_201*.root')
+		os.system('hadd '+channel_dir+'MC/out/Signal.root NOMINAL/VBF_Zmumu_201*.root')
 		os.system('hadd '+channel_dir+'MC/out/VV.root NOMINAL/llll_*.root NOMINAL/lllv_*.root NOMINAL/llvv_*.root NOMINAL/lvvv_*.root NOMINAL/ZqqZvv_*.root NOMINAL/ZqqZll_*.root NOMINAL/WqqZvv_*.root NOMINAL/WqqZll_*.root NOMINAL/WlvZqq_*.root')
 		os.system('hadd '+channel_dir+'MC/out/Wjets.root NOMINAL/Wplusenu_*.root NOMINAL/Wminusenu_*.root NOMINAL/Wplusmunu_*.root NOMINAL/Wminusmunu_*.root NOMINAL/Wplustaunu_*.root NOMINAL/Wminustaunu_*.root')
 		os.system('hadd '+channel_dir+'MC/out/singletop.root NOMINAL/st_schan_top_*.root NOMINAL/st_schan_atop_*.root NOMINAL/st_tchan_top_*.root NOMINAL/st_tchan_atop_*.root NOMINAL/st_wt_top_*.root NOMINAL/st_wt_atop_*.root')
