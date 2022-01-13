@@ -1,0 +1,3 @@
+data_2018_8 yes NOMINAL
+data_2018_10 yes NOMINAL
+data_2018_42 yes NOMINAL

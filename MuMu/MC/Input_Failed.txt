@@ -1,0 +1,5 @@
+Zmumu_2018_22 yes NOMINAL
+ttbar_2017_15 yes NOMINAL
+ttbar_2017_19 yes NOMINAL
+Zmumu_sherpa6_2017_3 yes NOMINAL
+Zmumu_sherpa9_2017_3 yes NOMINAL
