@@ -3,6 +3,12 @@ import sys
 
 from Condor_Lister import menu
 
+clean=menu("Clean the output directories?",["No","Yes"])
+
+if clean:
+	os.system("rm MC/out/*.root")
+	os.system("rm DATA/out/*.root")
+
 channel_dir=os.getcwd()+'/'
 
 samples_dir=sys.argv[1]

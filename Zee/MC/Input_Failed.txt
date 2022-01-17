@@ -1,5 +1,1 @@
-ttbar_2018_8 yes NOMINAL
-WqqZll_2018_1 yes NOMINAL
-Zee_sherpa3_2018_0 yes NOMINAL
-VBF_Ztautau_2015_0 yes NOMINAL
-ggHttlp15hm20_2018_1 yes NOMINAL
+Zee_2018_30 yes NOMINAL

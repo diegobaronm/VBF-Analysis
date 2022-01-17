@@ -346,7 +346,7 @@ void CLoop::Fill(double weight, int z_sample) {
     float q_mu1=muon_1_q;
     size_t n_ljets=n_jets-n_bjets_MV2c10_FixedCutBEff_85;
 
-    if (n_muons==2 && q_mu0!=q_mu1 && muon_id && n_ljets>=2){
+    if (n_muons==2 && q_mu0!=q_mu1 && muon_id && n_ljets>=2 && n_ljets<=3){
       //angles
       double angle_l_MET=del_phi(muon_0_p4->Phi(),met_reco_p4->Phi());
       double angle_tau_MET=del_phi(muon_1_p4->Phi(),met_reco_p4->Phi());
@@ -438,7 +438,7 @@ void CLoop::Fill(double weight, int z_sample) {
 
         // Cuts vector
         vector<int> cuts={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-        int random=rand()%2;
+
         double a{50},b{47};
         // CUTS
         if (angle<=pi/2){cuts[0]=1;}
@@ -451,10 +451,10 @@ void CLoop::Fill(double weight, int z_sample) {
         if(ljet_1_p4->Pt()>=45){cuts[7]=1;}
         if(pt_bal<=0.15){cuts[8]=1;}
         if(mjj>=250){cuts[9]=1;}
-        if(n_jets_interval==1){cuts[10]=1;}
-        if(z_centrality<1.0){cuts[11]=1;}
+        if(n_jets_interval==0){cuts[10]=1;}
+        if(z_centrality<0.5){cuts[11]=1;}
         if (inv_mass<100 && inv_mass>80){cuts[12]=1;}
-        if (random){
+        if (event_number%2==0){
           if(muon_0_p4->Pt()>=(a+0)){cuts[13]=1;}
         } else {
           if(muon_1_p4->Pt()>=(b+0)){cuts[13]=1;}
