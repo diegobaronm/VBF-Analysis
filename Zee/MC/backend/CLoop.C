@@ -55,7 +55,7 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
 
         double mjj_w=1;
         // mjj reweighting
-        if(z_sample==1 || z_sample==2){
+        /*if(z_sample==1 || z_sample==2){
             double mjj=sqrt(2*(ljet_0_p4->Dot(*ljet_1_p4)));
             if(mjj<250){
                 mjj_w=1.204;
@@ -76,7 +76,7 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
             }else if(mjj>2500){
                 mjj_w=0.524;
             }
-        }
+        }*/
 
         // ZpT reweighting
 
