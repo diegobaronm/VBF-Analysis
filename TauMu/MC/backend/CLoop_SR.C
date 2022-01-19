@@ -44,6 +44,8 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
     // if in fast mode only loop over 1% of the entries
     Long64_t nLoop = nentries;
 
+    std::cout<<"Analysing "<<nLoop<<" Events!"<<std::endl;
+
     Long64_t nbytes = 0, nb = 0;
 
     // loop over number of entries

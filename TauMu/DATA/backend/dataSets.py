@@ -6,10 +6,7 @@ import os
 totRealLum = 57.6164
 
 # Name of host
-if sys.argv[0]=="Condor_Lister.py":
-  remote = False
-else :
-  remote = sys.argv[2]=="yes"
+remote = sys.argv[2]=="yes"
 
 if remote:
   path_to_samples='path to samples!!!'

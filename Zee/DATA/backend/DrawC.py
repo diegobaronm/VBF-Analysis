@@ -18,7 +18,7 @@ def DrawC(filename,lumStr,remote,z_sample,key_pop,tree):
     fullPath = correctPath + filename
 
     # load in CLoop.C
-    if remote:
+    if sys.argv[0]=="condor_exec.exe":
         r.gSystem.Load("CLoop_C")
     else :
         r.gSystem.Load("backend/CLoop_C")
