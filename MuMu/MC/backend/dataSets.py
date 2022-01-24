@@ -1,3 +1,6 @@
+if __name__=="__main__":
+  pass
+  
 # file to hold variables with info about the data
 import sys
 import os
@@ -6,7 +9,10 @@ import os
 totRealLum = 57.6164
 
 # Name of host
-remote = sys.argv[2]=="yes"
+try :  
+        remote = sys.argv[2]=="yes"
+except:
+        remote = False
 
 # list of directories to check for .root files
 if remote:

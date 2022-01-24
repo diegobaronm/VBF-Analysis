@@ -35,12 +35,12 @@ double del_phi(double phi_1, double phi_2){
     return delta;
 }
 
-int inside_jets(TLorentzVector * test_jet,TLorentzVector * j1, TLorentzVector * j2){
+int is_inside_jets(TLorentzVector * test_jet,TLorentzVector * j1, TLorentzVector * j2){
   double delta_y_j1j2=abs(j1->Rapidity()-j2->Rapidity());
   double delta_y_j1test=abs(j1->Rapidity()-test_jet->Rapidity());
   double delta_y_j2test=abs(j2->Rapidity()-test_jet->Rapidity());
-  if(delta_y_j1test>delta_y_j1j2 || delta_y_j2test>delta_y_j1j2){return 1;}
-  else{return 0;}
+  if(delta_y_j1test>delta_y_j1j2 || delta_y_j2test>delta_y_j1j2){return 0;}
+  else{return 1;}
 }
 
 bool CLoop::DeltaR(TLorentzVector * lep ,int n_jets, double delta_R){
@@ -409,7 +409,7 @@ void CLoop::Fill(double weight, int z_sample) {
         // NUMBER OF JETS INTERVAL
         int n_jets_interval{};
         if(n_ljets>2){
-          n_jets_interval=n_jets_interval+inside_jets(ljet_2_p4,ljet_0_p4,ljet_1_p4);
+          n_jets_interval=n_jets_interval+is_inside_jets(ljet_2_p4,ljet_0_p4,ljet_1_p4);
         }
         //PT BALANCE
         double pt_bal{0};
@@ -422,11 +422,11 @@ void CLoop::Fill(double weight, int z_sample) {
         // Z BOSON CENTRALITY
         double lepton_xi=((*muon_0_p4)+(*muon_1_p4)).Rapidity();
         double dijet_xi=ljet_0_p4->Rapidity()+ljet_1_p4->Rapidity();
-        double z_centrality=(lepton_xi-0.5*dijet_xi)/delta_y;
+        double z_centrality=abs(lepton_xi-0.5*dijet_xi)/delta_y;
 
         //pT gap jet
         double pt_gap_jet{};
-        if (inside_jets(ljet_2_p4,ljet_0_p4,ljet_1_p4)){pt_gap_jet=ljet_2_p4->Pt();}
+        if (is_inside_jets(ljet_2_p4,ljet_0_p4,ljet_1_p4)){pt_gap_jet=ljet_2_p4->Pt();}
 
 
         // Minimum DeltaR between lepton and jets

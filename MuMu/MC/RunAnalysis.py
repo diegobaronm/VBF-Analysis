@@ -46,7 +46,6 @@ def runAnalysis(key, remote):
     filename = dataSets[key]
 
     totRealLum=luminosity(key)
-    print(totRealLum)
 
     # get luminosity weight if data is MC
     if key in realList:
