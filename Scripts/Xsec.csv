@@ -28,6 +28,14 @@ SampleID,category,xsectioninpb,kfactor,filterefficiency,xsecunc
 308092,    Sherpa_221_NNPDF30NNLO_Zee2jets_Min_N_TChannel,0.63197,1,1,1
 308093,    Sherpa_221_NNPDF30NNLO_Zmm2jets_Min_N_TChannel,0.63433,1,1,1
 308094,    Sherpa_221_NNPDF30NNLO_Ztautau2jets_Min_N_TChannel,0.63347,1,1,1
+700358,Sh_2211_Zee2jets_Min_N_TChannel,0.77943,1,1,1
+700359,Sh_2211_Zmm2jets_Min_N_TChannel,0.77949,1,1,1
+700360,Sh_2211_Ztt2jets_Min_N_TChannel,0.77916,1,1,1
+600937,PhPy8EG_A14NNPDF23_VBF_Zee,0.64977,1,1,1
+600938,PhPy8EG_A14NNPDF23_VBF_Zmumu,0.64977,1,1,1
+600939,PhPy8EG_A14NNPDF23_VBF_Ztautau,0.64977,1,1,1
+,,,,,
+,,,,,
 ,,,,,
 ################################################################################################################,,,,,
 ,,,,,

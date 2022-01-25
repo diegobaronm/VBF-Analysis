@@ -66,15 +66,19 @@ Fit::Fit(std::string name, std::string folderName, std::string histo) {
 	TFile* rebin_histos = new TFile(t_folderName+'/'+"Rebin_histos.root","RECREATE");
 	
 	Double_t xbins[10] = {0.0,250.0,500.0,750.0,1000.0,1250.0,1500.0,2000.0,2500.0,3000.0};
-	TH1* h_data_for_fit=h_data->Rebin(10);//9,"mass_jj",xbins);
-	TH1* h_qcd_z_for_fit=h_qcd_z->Rebin(10);//9,"mass_jj",xbins);
-	TH1* h_vbf_z_for_fit=h_vbf_z->Rebin(10);//9,"mass_jj",xbins);
 
-	rebin_histos->WriteTObject(h_data_for_fit,t_histo_name+"_data");
-	rebin_histos->WriteTObject(h_qcd_z_for_fit,t_histo_name+"_QCD");
-	rebin_histos->WriteTObject(h_vbf_z_for_fit,t_histo_name+"_VBF");
+	TH1::AddDirectory(kFALSE);
+
+	h_data=(TH1F*)h_data->Rebin(9,"mass_jj",xbins);
+	h_qcd_z=(TH1F*)h_qcd_z->Rebin(9,"mass_jj",xbins);
+	h_vbf_z=(TH1F*)h_vbf_z->Rebin(9,"mass_jj",xbins);
+
+	rebin_histos->WriteTObject(h_data,t_histo_name+"_data");
+	rebin_histos->WriteTObject(h_qcd_z,t_histo_name+"_QCD");
+	rebin_histos->WriteTObject(h_vbf_z,t_histo_name+"_VBF");
 
 	rebin_histos->Close();
+	
 
 	/*h_data->GetXaxis()->SetRangeUser(m_minX, 1);
 	h_tauTruth->GetXaxis()->SetRangeUser(m_minX, 1);
@@ -92,25 +96,26 @@ void Fit::performFit(const TString resultsDir = "results/") {
 
 	// norm factors
 	meas.SetPOI("VBFNorm");
-	meas.SetLumi(1.);
+	meas.SetLumi(1);
 	meas.SetLumiRelErr(0.000001);
+	meas.AddConstantParam("Lumi");
 	meas.SetExportOnly(true);
 
 	// channels
 	RooStats::HistFactory::Channel chan(fitName);
 	chan.SetData(histo_name+"_data", s_folderName+'/'+"Rebin_histos.root");
-	chan.SetStatErrorConfig(0.01, "Poisson");
+	chan.SetStatErrorConfig(0.05, "Poisson");
 
 	// samples
 	// truth Tau
 	RooStats::HistFactory::Sample QCD("QCD",histo_name+"_QCD", s_folderName+'/'+"Rebin_histos.root");
-	QCD.ActivateStatError();
+	//QCD.ActivateStatError();
 	QCD.AddNormFactor("QCDNorm", 1., 0.0, 3.);
 	chan.AddSample(QCD);
 
 	// fake tau
 	RooStats::HistFactory::Sample VBF("VBF",histo_name+"_VBF", s_folderName+'/'+"Rebin_histos.root");
-	VBF.ActivateStatError();
+	//VBF.ActivateStatError();
 	VBF.AddNormFactor("VBFNorm", 1., 0.0, 6.);
 	chan.AddSample(VBF);
 
@@ -133,22 +138,24 @@ void Fit::performFit(const TString resultsDir = "results/") {
 	m_VBFNorm     = results->var("VBFNorm")->getVal();
 	m_VBFNormErr  = results->var("VBFNorm")->getError();
 
+	
+
 	// compute chi2
 	double chi2 = 0.;
 	int unusedBins = 0;
-	for (int i = 0; i < h_data->GetNbinsX(); ++i) {
-		const double chi2Num   = pow(h_data->GetBinContent(i + 1) - m_QCDNorm * h_qcd_z->GetBinContent(i + 1) - m_VBFNorm * h_vbf_z->GetBinContent(i + 1), 2);
-		const double chi2Denom = pow(h_data->GetBinError(i + 1), 2) + pow(m_QCDNorm * h_qcd_z->GetBinError(i + 1), 2) +  pow(m_VBFNorm * h_vbf_z->GetBinError(i + 1), 2);
+
+	Int_t n_bins = h_data->GetNbinsX();
+
+	for (Int_t i = 1; i <= n_bins; i++) {
+		std::cout<<i<<std::endl;
+		const double chi2Num   = pow(h_data->GetBinContent(i) - m_QCDNorm * h_qcd_z->GetBinContent(i) - m_VBFNorm * h_vbf_z->GetBinContent(i), 2);
+		
+		const double chi2Denom = pow(h_data->GetBinError(i), 2) + pow(m_QCDNorm * h_qcd_z->GetBinError(i), 2) +  pow(m_VBFNorm * h_vbf_z->GetBinError(i), 2);
+
 		const double tempChi2 = chi2Num / chi2Denom;
-		if (tempChi2 == tempChi2 && tempChi2 < 500) {
-			//std::cout << "h_data: " << h_data->GetBinContent(i+1) << std::endl;
-			//std::cout << "h_tauFake: " << m_jetNorm*h_tauFake->GetBinContent(i+1) << std::endl;
-			//std::cout << "h_tauTruth: " << m_tauNorm*h_tauTruth->GetBinContent(i+1) << std::endl;
-			chi2 += tempChi2;
-		}
-		else {
-			unusedBins += 1;
-		}
+		
+		chi2+=tempChi2;
+
 	}
 
 	const double redChi2 = chi2 / (h_data->GetNbinsX() - 2 - unusedBins);
