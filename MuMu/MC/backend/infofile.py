@@ -762,24 +762,96 @@ infos = {
 #Zmumu_sherpa14_2015
 'Zmumu_sherpa14_2015_0': {'DSID'    : 364113,'events'  : 1017049.293507,'red_eff' :1,'sumw'    :1017049.293507,'xsec'    :0.147600,'kfac'    :0.975100,'fil_eff'    :1.000000},
 'Zmumu_sherpa14_2015_1': {'DSID'    : 364113,'events'  : 1017049.293507,'red_eff' :1,'sumw'    :1017049.293507,'xsec'    :0.147600,'kfac'    :0.975100,'fil_eff'    :1.000000},
+#VBF_Ztautau_old_2017
+'VBF_Ztautau_old_2017_0': {'DSID'    : 308094,'events'  : 629342.387457,'red_eff' :1,'sumw'    :629342.387457,'xsec'    :0.633470,'kfac'    :1.000000,'fil_eff'    :1.000000},
+#VBF_Ztautau_old_2018
+'VBF_Ztautau_old_2018_0': {'DSID'    : 308094,'events'  : 832480.630415,'red_eff' :1,'sumw'    :832480.630415,'xsec'    :0.633470,'kfac'    :1.000000,'fil_eff'    :1.000000},
+#VBF_Ztautau_old_2015
+'VBF_Ztautau_old_2015_0': {'DSID'    : 308094,'events'  : 500312.368274,'red_eff' :1,'sumw'    :500312.368274,'xsec'    :0.633470,'kfac'    :1.000000,'fil_eff'    :1.000000},
+#VBF_Zmumu_old_2017
+'VBF_Zmumu_old_2017_0': {'DSID'    : 308093,'events'  : 630868.206886,'red_eff' :1,'sumw'    :630868.206886,'xsec'    :0.634330,'kfac'    :1.000000,'fil_eff'    :1.000000},
+#VBF_Zmumu_old_2018
+'VBF_Zmumu_old_2018_0': {'DSID'    : 308093,'events'  : 839218.620797,'red_eff' :1,'sumw'    :839218.620797,'xsec'    :0.634330,'kfac'    :1.000000,'fil_eff'    :1.000000},
+#VBF_Zmumu_old_2015
+'VBF_Zmumu_old_2015_0': {'DSID'    : 308093,'events'  : 500655.723163,'red_eff' :1,'sumw'    :500655.723163,'xsec'    :0.634330,'kfac'    :1.000000,'fil_eff'    :1.000000},
+#VBF_Zee_old_2017
+'VBF_Zee_old_2017_0': {'DSID'    : 308092,'events'  : 630389.023704,'red_eff' :1,'sumw'    :630389.023704,'xsec'    :0.631970,'kfac'    :1.000000,'fil_eff'    :1.000000},
+#VBF_Zee_old_2018
+'VBF_Zee_old_2018_0': {'DSID'    : 308092,'events'  : 838458.895959,'red_eff' :1,'sumw'    :838458.895959,'xsec'    :0.631970,'kfac'    :1.000000,'fil_eff'    :1.000000},
+#VBF_Zee_old_2015
+'VBF_Zee_old_2015_0': {'DSID'    : 308092,'events'  : 500423.929551,'red_eff' :1,'sumw'    :500423.929551,'xsec'    :0.631970,'kfac'    :1.000000,'fil_eff'    :1.000000},
 #VBF_Ztautau_2017
-'VBF_Ztautau_2017_0': {'DSID'    : 308094,'events'  : 629342.387457,'red_eff' :1,'sumw'    :629342.387457,'xsec'    :0.633470,'kfac'    :1.000000,'fil_eff'    :1.000000},
+'VBF_Ztautau_2017_0': {'DSID'    : 600939,'events'  : 1687375.624716,'red_eff' :1,'sumw'    :1687375.624716,'xsec'    :0.649770,'kfac'    :1.000000,'fil_eff'    :1.000000},
 #VBF_Ztautau_2018
-'VBF_Ztautau_2018_0': {'DSID'    : 308094,'events'  : 832480.630415,'red_eff' :1,'sumw'    :832480.630415,'xsec'    :0.633470,'kfac'    :1.000000,'fil_eff'    :1.000000},
+'VBF_Ztautau_2018_0': {'DSID'    : 600939,'events'  : 2719530.203015,'red_eff' :1,'sumw'    :2719530.203015,'xsec'    :0.649770,'kfac'    :1.000000,'fil_eff'    :1.000000},
 #VBF_Ztautau_2015
-'VBF_Ztautau_2015_0': {'DSID'    : 308094,'events'  : 500312.368274,'red_eff' :1,'sumw'    :500312.368274,'xsec'    :0.633470,'kfac'    :1.000000,'fil_eff'    :1.000000},
+'VBF_Ztautau_2015_0': {'DSID'    : 600939,'events'  : 1298069.643900,'red_eff' :1,'sumw'    :1298069.643900,'xsec'    :0.649770,'kfac'    :1.000000,'fil_eff'    :1.000000},
+'VBF_Ztautau_2015_1': {'DSID'    : 600939,'events'  : 1298069.643900,'red_eff' :1,'sumw'    :1298069.643900,'xsec'    :0.649770,'kfac'    :1.000000,'fil_eff'    :1.000000},
+'VBF_Ztautau_2015_2': {'DSID'    : 600939,'events'  : 1298069.643900,'red_eff' :1,'sumw'    :1298069.643900,'xsec'    :0.649770,'kfac'    :1.000000,'fil_eff'    :1.000000},
 #VBF_Zmumu_2017
-'VBF_Zmumu_2017_0': {'DSID'    : 308093,'events'  : 630868.206886,'red_eff' :1,'sumw'    :630868.206886,'xsec'    :0.634330,'kfac'    :1.000000,'fil_eff'    :1.000000},
+'VBF_Zmumu_2017_0': {'DSID'    : 600938,'events'  : 1682821.155667,'red_eff' :1,'sumw'    :1682821.155667,'xsec'    :0.649770,'kfac'    :1.000000,'fil_eff'    :1.000000},
 #VBF_Zmumu_2018
-'VBF_Zmumu_2018_0': {'DSID'    : 308093,'events'  : 839218.620797,'red_eff' :1,'sumw'    :839218.620797,'xsec'    :0.634330,'kfac'    :1.000000,'fil_eff'    :1.000000},
+'VBF_Zmumu_2018_0': {'DSID'    : 600938,'events'  : 2720180.278614,'red_eff' :1,'sumw'    :2720180.278614,'xsec'    :0.649770,'kfac'    :1.000000,'fil_eff'    :1.000000},
+'VBF_Zmumu_2018_1': {'DSID'    : 600938,'events'  : 2720180.278614,'red_eff' :1,'sumw'    :2720180.278614,'xsec'    :0.649770,'kfac'    :1.000000,'fil_eff'    :1.000000},
+'VBF_Zmumu_2018_2': {'DSID'    : 600938,'events'  : 2720180.278614,'red_eff' :1,'sumw'    :2720180.278614,'xsec'    :0.649770,'kfac'    :1.000000,'fil_eff'    :1.000000},
+'VBF_Zmumu_2018_3': {'DSID'    : 600938,'events'  : 2720180.278614,'red_eff' :1,'sumw'    :2720180.278614,'xsec'    :0.649770,'kfac'    :1.000000,'fil_eff'    :1.000000},
+'VBF_Zmumu_2018_4': {'DSID'    : 600938,'events'  : 2720180.278614,'red_eff' :1,'sumw'    :2720180.278614,'xsec'    :0.649770,'kfac'    :1.000000,'fil_eff'    :1.000000},
 #VBF_Zmumu_2015
-'VBF_Zmumu_2015_0': {'DSID'    : 308093,'events'  : 500655.723163,'red_eff' :1,'sumw'    :500655.723163,'xsec'    :0.634330,'kfac'    :1.000000,'fil_eff'    :1.000000},
+'VBF_Zmumu_2015_0': {'DSID'    : 600938,'events'  : 1299365.855247,'red_eff' :1,'sumw'    :1299365.855247,'xsec'    :0.649770,'kfac'    :1.000000,'fil_eff'    :1.000000},
+'VBF_Zmumu_2015_1': {'DSID'    : 600938,'events'  : 1299365.855247,'red_eff' :1,'sumw'    :1299365.855247,'xsec'    :0.649770,'kfac'    :1.000000,'fil_eff'    :1.000000},
+'VBF_Zmumu_2015_2': {'DSID'    : 600938,'events'  : 1299365.855247,'red_eff' :1,'sumw'    :1299365.855247,'xsec'    :0.649770,'kfac'    :1.000000,'fil_eff'    :1.000000},
+'VBF_Zmumu_2015_3': {'DSID'    : 600938,'events'  : 1299365.855247,'red_eff' :1,'sumw'    :1299365.855247,'xsec'    :0.649770,'kfac'    :1.000000,'fil_eff'    :1.000000},
+'VBF_Zmumu_2015_4': {'DSID'    : 600938,'events'  : 1299365.855247,'red_eff' :1,'sumw'    :1299365.855247,'xsec'    :0.649770,'kfac'    :1.000000,'fil_eff'    :1.000000},
 #VBF_Zee_2017
-'VBF_Zee_2017_0': {'DSID'    : 308092,'events'  : 630389.023704,'red_eff' :1,'sumw'    :630389.023704,'xsec'    :0.631970,'kfac'    :1.000000,'fil_eff'    :1.000000},
+'VBF_Zee_2017_0': {'DSID'    : 600937,'events'  : 1682836.915076,'red_eff' :1,'sumw'    :1682836.915076,'xsec'    :0.649770,'kfac'    :1.000000,'fil_eff'    :1.000000},
 #VBF_Zee_2018
-'VBF_Zee_2018_0': {'DSID'    : 308092,'events'  : 838458.895959,'red_eff' :1,'sumw'    :838458.895959,'xsec'    :0.631970,'kfac'    :1.000000,'fil_eff'    :1.000000},
+'VBF_Zee_2018_0': {'DSID'    : 600937,'events'  : 2396625.176519,'red_eff' :1,'sumw'    :2396625.176519,'xsec'    :0.649770,'kfac'    :1.000000,'fil_eff'    :1.000000},
+'VBF_Zee_2018_1': {'DSID'    : 600937,'events'  : 2396625.176519,'red_eff' :1,'sumw'    :2396625.176519,'xsec'    :0.649770,'kfac'    :1.000000,'fil_eff'    :1.000000},
+'VBF_Zee_2018_2': {'DSID'    : 600937,'events'  : 2396625.176519,'red_eff' :1,'sumw'    :2396625.176519,'xsec'    :0.649770,'kfac'    :1.000000,'fil_eff'    :1.000000},
+'VBF_Zee_2018_3': {'DSID'    : 600937,'events'  : 2396625.176519,'red_eff' :1,'sumw'    :2396625.176519,'xsec'    :0.649770,'kfac'    :1.000000,'fil_eff'    :1.000000},
+'VBF_Zee_2018_4': {'DSID'    : 600937,'events'  : 2396625.176519,'red_eff' :1,'sumw'    :2396625.176519,'xsec'    :0.649770,'kfac'    :1.000000,'fil_eff'    :1.000000},
+'VBF_Zee_2018_5': {'DSID'    : 600937,'events'  : 2396625.176519,'red_eff' :1,'sumw'    :2396625.176519,'xsec'    :0.649770,'kfac'    :1.000000,'fil_eff'    :1.000000},
+'VBF_Zee_2018_6': {'DSID'    : 600937,'events'  : 2396625.176519,'red_eff' :1,'sumw'    :2396625.176519,'xsec'    :0.649770,'kfac'    :1.000000,'fil_eff'    :1.000000},
 #VBF_Zee_2015
-'VBF_Zee_2015_0': {'DSID'    : 308092,'events'  : 500423.929551,'red_eff' :1,'sumw'    :500423.929551,'xsec'    :0.631970,'kfac'    :1.000000,'fil_eff'    :1.000000},
+'VBF_Zee_2015_0': {'DSID'    : 600937,'events'  : 1299367.168531,'red_eff' :1,'sumw'    :1299367.168531,'xsec'    :0.649770,'kfac'    :1.000000,'fil_eff'    :1.000000},
+'VBF_Zee_2015_1': {'DSID'    : 600937,'events'  : 1299367.168531,'red_eff' :1,'sumw'    :1299367.168531,'xsec'    :0.649770,'kfac'    :1.000000,'fil_eff'    :1.000000},
+'VBF_Zee_2015_2': {'DSID'    : 600937,'events'  : 1299367.168531,'red_eff' :1,'sumw'    :1299367.168531,'xsec'    :0.649770,'kfac'    :1.000000,'fil_eff'    :1.000000},
+'VBF_Zee_2015_3': {'DSID'    : 600937,'events'  : 1299367.168531,'red_eff' :1,'sumw'    :1299367.168531,'xsec'    :0.649770,'kfac'    :1.000000,'fil_eff'    :1.000000},
+#VBF_Ztautau_sherpa_2017
+'VBF_Ztautau_sherpa_2017_0': {'DSID'    : 700360,'events'  : 6818021499.253174,'red_eff' :1,'sumw'    :6818021499.253174,'xsec'    :0.779160,'kfac'    :1.000000,'fil_eff'    :1.000000},
+'VBF_Ztautau_sherpa_2017_1': {'DSID'    : 700360,'events'  : 6818021499.253174,'red_eff' :1,'sumw'    :6818021499.253174,'xsec'    :0.779160,'kfac'    :1.000000,'fil_eff'    :1.000000},
+#VBF_Ztautau_sherpa_2018
+'VBF_Ztautau_sherpa_2018_0': {'DSID'    : 700360,'events'  : 8415178034.322510,'red_eff' :1,'sumw'    :8415178034.322510,'xsec'    :0.779160,'kfac'    :1.000000,'fil_eff'    :1.000000},
+'VBF_Ztautau_sherpa_2018_1': {'DSID'    : 700360,'events'  : 8415178034.322510,'red_eff' :1,'sumw'    :8415178034.322510,'xsec'    :0.779160,'kfac'    :1.000000,'fil_eff'    :1.000000},
+#VBF_Ztautau_sherpa_2015
+'VBF_Ztautau_sherpa_2015_0': {'DSID'    : 700360,'events'  : 1299155896.003418,'red_eff' :1,'sumw'    :1299155896.003418,'xsec'    :0.779160,'kfac'    :1.000000,'fil_eff'    :1.000000},
+#VBF_Zmumu_sherpa_2017
+'VBF_Zmumu_sherpa_2017_0': {'DSID'    : 700359,'events'  : 6869076372.322998,'red_eff' :1,'sumw'    :6869076372.322998,'xsec'    :0.779490,'kfac'    :1.000000,'fil_eff'    :1.000000},
+'VBF_Zmumu_sherpa_2017_1': {'DSID'    : 700359,'events'  : 6869076372.322998,'red_eff' :1,'sumw'    :6869076372.322998,'xsec'    :0.779490,'kfac'    :1.000000,'fil_eff'    :1.000000},
+#VBF_Zmumu_sherpa_2018
+'VBF_Zmumu_sherpa_2018_0': {'DSID'    : 700359,'events'  : 8466976167.042236,'red_eff' :1,'sumw'    :8466976167.042236,'xsec'    :0.779490,'kfac'    :1.000000,'fil_eff'    :1.000000},
+'VBF_Zmumu_sherpa_2018_1': {'DSID'    : 700359,'events'  : 8466976167.042236,'red_eff' :1,'sumw'    :8466976167.042236,'xsec'    :0.779490,'kfac'    :1.000000,'fil_eff'    :1.000000},
+'VBF_Zmumu_sherpa_2018_2': {'DSID'    : 700359,'events'  : 8466976167.042236,'red_eff' :1,'sumw'    :8466976167.042236,'xsec'    :0.779490,'kfac'    :1.000000,'fil_eff'    :1.000000},
+'VBF_Zmumu_sherpa_2018_3': {'DSID'    : 700359,'events'  : 8466976167.042236,'red_eff' :1,'sumw'    :8466976167.042236,'xsec'    :0.779490,'kfac'    :1.000000,'fil_eff'    :1.000000},
+#VBF_Zmumu_sherpa_2015
+'VBF_Zmumu_sherpa_2015_0': {'DSID'    : 700359,'events'  : 5210701551.858154,'red_eff' :1,'sumw'    :5210701551.858154,'xsec'    :0.779490,'kfac'    :1.000000,'fil_eff'    :1.000000},
+'VBF_Zmumu_sherpa_2015_1': {'DSID'    : 700359,'events'  : 5210701551.858154,'red_eff' :1,'sumw'    :5210701551.858154,'xsec'    :0.779490,'kfac'    :1.000000,'fil_eff'    :1.000000},
+#VBF_Zee_sherpa_2017
+'VBF_Zee_sherpa_2017_0': {'DSID'    : 700358,'events'  : 6858512335.981689,'red_eff' :1,'sumw'    :6858512335.981689,'xsec'    :0.779430,'kfac'    :1.000000,'fil_eff'    :1.000000},
+'VBF_Zee_sherpa_2017_1': {'DSID'    : 700358,'events'  : 6858512335.981689,'red_eff' :1,'sumw'    :6858512335.981689,'xsec'    :0.779430,'kfac'    :1.000000,'fil_eff'    :1.000000},
+'VBF_Zee_sherpa_2017_2': {'DSID'    : 700358,'events'  : 6858512335.981689,'red_eff' :1,'sumw'    :6858512335.981689,'xsec'    :0.779430,'kfac'    :1.000000,'fil_eff'    :1.000000},
+#VBF_Zee_sherpa_2018
+'VBF_Zee_sherpa_2018_0': {'DSID'    : 700358,'events'  : 8469972085.642090,'red_eff' :1,'sumw'    :8469972085.642090,'xsec'    :0.779430,'kfac'    :1.000000,'fil_eff'    :1.000000},
+'VBF_Zee_sherpa_2018_1': {'DSID'    : 700358,'events'  : 8469972085.642090,'red_eff' :1,'sumw'    :8469972085.642090,'xsec'    :0.779430,'kfac'    :1.000000,'fil_eff'    :1.000000},
+'VBF_Zee_sherpa_2018_2': {'DSID'    : 700358,'events'  : 8469972085.642090,'red_eff' :1,'sumw'    :8469972085.642090,'xsec'    :0.779430,'kfac'    :1.000000,'fil_eff'    :1.000000},
+'VBF_Zee_sherpa_2018_3': {'DSID'    : 700358,'events'  : 8469972085.642090,'red_eff' :1,'sumw'    :8469972085.642090,'xsec'    :0.779430,'kfac'    :1.000000,'fil_eff'    :1.000000},
+'VBF_Zee_sherpa_2018_4': {'DSID'    : 700358,'events'  : 8469972085.642090,'red_eff' :1,'sumw'    :8469972085.642090,'xsec'    :0.779430,'kfac'    :1.000000,'fil_eff'    :1.000000},
+#VBF_Zee_sherpa_2015
+'VBF_Zee_sherpa_2015_0': {'DSID'    : 700358,'events'  : 5218798313.296143,'red_eff' :1,'sumw'    :5218798313.296143,'xsec'    :0.779430,'kfac'    :1.000000,'fil_eff'    :1.000000},
+'VBF_Zee_sherpa_2015_1': {'DSID'    : 700358,'events'  : 5218798313.296143,'red_eff' :1,'sumw'    :5218798313.296143,'xsec'    :0.779430,'kfac'    :1.000000,'fil_eff'    :1.000000},
+'VBF_Zee_sherpa_2015_2': {'DSID'    : 700358,'events'  : 5218798313.296143,'red_eff' :1,'sumw'    :5218798313.296143,'xsec'    :0.779430,'kfac'    :1.000000,'fil_eff'    :1.000000},
+'VBF_Zee_sherpa_2015_3': {'DSID'    : 700358,'events'  : 5218798313.296143,'red_eff' :1,'sumw'    :5218798313.296143,'xsec'    :0.779430,'kfac'    :1.000000,'fil_eff'    :1.000000},
+'VBF_Zee_sherpa_2015_4': {'DSID'    : 700358,'events'  : 5218798313.296143,'red_eff' :1,'sumw'    :5218798313.296143,'xsec'    :0.779430,'kfac'    :1.000000,'fil_eff'    :1.000000},
 #WpH_2017
 'WpH_2017_0': {'DSID'    : 345212,'events'  : 215422.206073,'red_eff' :1,'sumw'    :215422.206073,'xsec'    :0.052685,'kfac'    :1.000000,'fil_eff'    :1.000000},
 #WpH_2018
@@ -827,15 +899,15 @@ infos = {
 'ggHttlp15hm20_2015_0': {'DSID'    : 345122,'events'  : 59532215.534958,'red_eff' :1,'sumw'    :59532215.534958,'xsec'    :6.093800,'kfac'    :1.000000,'fil_eff'    :0.037826},
 'ggHttlp15hm20_2015_1': {'DSID'    : 345122,'events'  : 59532215.534958,'red_eff' :1,'sumw'    :59532215.534958,'xsec'    :6.093800,'kfac'    :1.000000,'fil_eff'    :0.037826},
 #VBFHttlm15hp20_2017
-'VBFHttlm15hp20_2017_0': {'DSID'    : 346191,'events'  : 1860608.547892,'red_eff' :1,'sumw'    :1860608.547892,'xsec'    :3.747400,'kfac'    :1.000000,'fil_eff'    :0.176370},
+'VBFHttlm15hp20_2017_0': {'DSID'    : 346191,'events'  : 1860608.547892,'red_eff' :1,'sumw'    :1860608.547892,'xsec'    :0.237210,'kfac'    :2.000000,'fil_eff'    :0.040323},
 #VBFHttlm15hp20_2018
-'VBFHttlm15hp20_2018_0': {'DSID'    : 346191,'events'  : 2591944.627647,'red_eff' :1,'sumw'    :2591944.627647,'xsec'    :3.747400,'kfac'    :1.000000,'fil_eff'    :0.176370},
+'VBFHttlm15hp20_2018_0': {'DSID'    : 346191,'events'  : 2591944.627647,'red_eff' :1,'sumw'    :2591944.627647,'xsec'    :0.237210,'kfac'    :2.000000,'fil_eff'    :0.040323},
 #VBFHttlm15hp20_2015
-'VBFHttlm15hp20_2015_0': {'DSID'    : 346191,'events'  : 1486581.988530,'red_eff' :1,'sumw'    :1486581.988530,'xsec'    :3.747400,'kfac'    :1.000000,'fil_eff'    :0.176370},
+'VBFHttlm15hp20_2015_0': {'DSID'    : 346191,'events'  : 1486581.988530,'red_eff' :1,'sumw'    :1486581.988530,'xsec'    :0.237210,'kfac'    :2.000000,'fil_eff'    :0.040323},
 #VBFHttlp15hm20_2017
-'VBFHttlp15hm20_2017_0': {'DSID'    : 346192,'events'  : 1853319.571799,'red_eff' :1,'sumw'    :1853319.571799,'xsec'    :3.747300,'kfac'    :1.000000,'fil_eff'    :0.176480},
+'VBFHttlp15hm20_2017_0': {'DSID'    : 346192,'events'  : 1853319.571799,'red_eff' :1,'sumw'    :1853319.571799,'xsec'    :0.237210,'kfac'    :2.000000,'fil_eff'    :0.040323},
 #VBFHttlp15hm20_2018
-'VBFHttlp15hm20_2018_0': {'DSID'    : 346192,'events'  : 2583828.200736,'red_eff' :1,'sumw'    :2583828.200736,'xsec'    :3.747300,'kfac'    :1.000000,'fil_eff'    :0.176480},
+'VBFHttlp15hm20_2018_0': {'DSID'    : 346192,'events'  : 2583828.200736,'red_eff' :1,'sumw'    :2583828.200736,'xsec'    :0.237210,'kfac'    :2.000000,'fil_eff'    :0.040323},
 #VBFHttlp15hm20_2015
-'VBFHttlp15hm20_2015_0': {'DSID'    : 346192,'events'  : 1483023.836306,'red_eff' :1,'sumw'    :1483023.836306,'xsec'    :3.747300,'kfac'    :1.000000,'fil_eff'    :0.176480},
+'VBFHttlp15hm20_2015_0': {'DSID'    : 346192,'events'  : 1483023.836306,'red_eff' :1,'sumw'    :1483023.836306,'xsec'    :0.237210,'kfac'    :2.000000,'fil_eff'    :0.040323},
 }
