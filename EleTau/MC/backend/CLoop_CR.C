@@ -126,10 +126,11 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
         if (weight_total != 0) {
             // take product of all scale factors
             eventWeight = weight_total*lumFactor*zpt_weight*muon_0_NOMINAL_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium/*muon_0_NOMINAL_MuEffSF_IsoFCTightTrackOnly_FixedRad*/*muon_0_NOMINAL_MuEffSF_IsoLoose_FixedRad*muon_0_NOMINAL_MuEffSF_Reco_QualMedium
-            *muon_0_NOMINAL_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium*muon_0_NOMINAL_MuEffSF_TTVA
+            *elec_0_NOMINAL_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight*elec_0_NOMINAL_EleEffSF_offline_TightLLH_d0z0_v13*elec_0_NOMINAL_EleEffSF_offline_RecoTrk
+            *elec_0_NOMINAL_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight
             *jet_NOMINAL_central_jets_global_effSF_JVT*jet_NOMINAL_central_jets_global_ineffSF_JVT*jet_NOMINAL_forward_jets_global_effSF_JVT*
             jet_NOMINAL_forward_jets_global_ineffSF_JVT*jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85*jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85
-            *tau_0_NOMINAL_TauEffSF_reco;
+            *tau_0_NOMINAL_TauEffSF_LooseEleBDT_electron*tau_0_NOMINAL_TauEffSF_JetRNNmedium;
         }
 
         // fill histograms

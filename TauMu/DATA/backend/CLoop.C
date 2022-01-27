@@ -4,7 +4,7 @@
 #include <cmath>
 
 
-void CLoop::Loop(double lumFactor, bool fastMode, int z_sample, std::string key)
+void CLoop::Loop(double lumFactor, int z_sample, std::string key)
 {
 //    In a ROOT session, you can do:
 //        root> .L CLoop.C
@@ -43,7 +43,8 @@ void CLoop::Loop(double lumFactor, bool fastMode, int z_sample, std::string key)
 
     // if in fast mode only loop over 1% of the entries
     Long64_t nLoop = nentries;
-    if (fastMode) nLoop = nentries * 0.01;
+
+    std::cout<<"Analysing "<<nLoop<<" Events!"<<std::endl;
 
     Long64_t nbytes = 0, nb = 0;
 
@@ -56,29 +57,7 @@ void CLoop::Loop(double lumFactor, bool fastMode, int z_sample, std::string key)
 
         double mjj_w=1;
         // mjj reweighting
-        if(z_sample==1 || z_sample==2){
-            double mjj=sqrt(2*(ljet_0_p4->Dot(*ljet_1_p4)));
-            if(mjj<250){
-                mjj_w=1.204;
-            }else if(mjj>=250 & mjj<500){
-                mjj_w=1.092;
-            }else if(mjj>=500 & mjj<750){
-                mjj_w=0.998;
-            }else if(mjj>=750 & mjj<1000){
-                mjj_w=0.774;
-            }else if(mjj>=1000 & mjj<1250){
-                mjj_w=0.376;
-            }else if(mjj>=1250 & mjj<1500){
-                mjj_w=0.488;
-            }else if(mjj>=1500 & mjj<2000){
-                mjj_w=0.48;
-            }else if(mjj>=2000 & mjj<2500){
-                mjj_w=0.524;
-            }else if(mjj>2500){
-                mjj_w=0.524;
-            }
-        }
-
+        
         // ZpT reweighting
 
         double z_w=1;
@@ -93,7 +72,7 @@ void CLoop::Loop(double lumFactor, bool fastMode, int z_sample, std::string key)
             }
         }*/
         // PYTHIA REWEIGHTING
-        if(z_sample==1){
+        /*if(z_sample==1){
             double zpt=truth_Z_p4->Pt()/1000;
             if(zpt>=40 & zpt<46){
                 z_w=0.995;
@@ -128,7 +107,7 @@ void CLoop::Loop(double lumFactor, bool fastMode, int z_sample, std::string key)
             }else if(zpt>=151){
                 z_w=0.8;
             }
-        }
+        }*/
         /*if (z_sample==1){
             double zpt=truth_Z_p4->Pt()/1000;
             if (zpt>40 & zpt<80){

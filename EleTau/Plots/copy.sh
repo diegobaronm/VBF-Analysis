@@ -8,6 +8,7 @@ cp ../MC/out/ttbar.root ttbar.root
 cp ../MC/out/Ztautau_Sherpa.root .
 cp ../MC/out/Ztautau_PoPy.root .
 cp ../MC/out/Higgs.root .
-cp ../MC/out/Signal.root .
+cp ../MC/out/Signal_PoPy.root .
+cp ../MC/out/Signal_Sherpa.root .
 hadd BG.root VV.root singletop.root Wjets.root Zjets.root ttbar.root Ztautau_Sherpa.root Higgs.root
-hadd MC.root BG.root Signal.root
+hadd MC.root BG.root Signal_Sherpa.root

@@ -1,12 +1,17 @@
 import sys
 
-cuts=["basic","dphi","drap","btag","iso","rnn","ptl","j1pt","j2pt","ptbal","mjj","nji","zcen","omega","mlt","ebdt","mreco","tpt"]
+cuts=["basic","dphi","drap","btag","iso","rnn","ptl","j1pt","j2pt","ptbal","mjj","nji","zcen","omega","mlt","ebdt","mreco","tpt"] # "mlt","ebdt" for Zte
 cuts_basic=["basic","cuts","tpt"]
 histos_full={
 "lep_pt":["Lep pT",200,0,200],
 "lepnu_pt":["Lep + Neutrino pT",200,0,200],
 "tau_pt":["Tau pT",200,0,200],
 "taunu_pt":["Tau pT",200,0,200],
+"lep_eta":["Lep eta",50,-2.5,2.5],
+"tau_eta":["Tau eta",50,-2.5,2.5],
+"delta_R_taulep":["Delta R tau-lep",20,0,2],
+"delta_R_lepjet":["Delta R lep-jet",20,0,2],
+"delta_R_taujet":["Delta R tau-jet",20,0,2],
 "sum_pt":["Sum of lepton and tau pT",400,0,400],
 "met":["Missing Transverse momentum",300,0,300],
 "reco_mass_i":["Reconstructed mass in between events",240,0,240],

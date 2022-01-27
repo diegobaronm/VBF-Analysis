@@ -4,17 +4,23 @@ import os
 # total luminosity of the real data in inverse femtobarns
 
 totRealLum = 57.6164
-
 # Name of host
-remote = sys.argv[2]=="yes"
+try :  
+        remote = sys.argv[2]=="yes"
+except:
+        remote = False
 
 if remote:
   path_to_samples='path to samples!!!'
   samples=os.listdir(path_to_samples)
   dirs=[path_to_samples+i+'/' for i in samples if 'mc' in i]
 else :
-    dirs=['/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.361104.PoPy8_Wminusmunu.M4.e3601_s3126_r10724_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.308092.Sh221_PDF30_Zee2jets_Min_N_TChannel.M4.e5767_s3126_r10724_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.308092.Sh221_PDF30_Zee2jets_Min_N_TChannel.M4.e5767_s3126_r9364_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.308093.Sh221_PDF30_Zmm2jets_Min_N_TChannel.M4.e5767_s3126_r10201_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.308093.Sh221_PDF30_Zmm2jets_Min_N_TChannel.M4.e5767_s3126_r10724_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.308093.Sh221_PDF30_Zmm2jets_Min_N_TChannel.M4.e5767_s3126_r9364_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.308094.Sh221_PDF30_Ztt2jets_Min_N_TChannel.M4.e5767_s3126_r10201_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.308094.Sh221_PDF30_Ztt2jets_Min_N_TChannel.M4.e5767_s3126_r10724_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.308092.Sh221_PDF30_Zee2jets_Min_N_TChannel.M4.e5767_s3126_r10201_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.308094.Sh221_PDF30_Ztt2jets_Min_N_TChannel.M4.e5767_s3126_r9364_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.345212.PoPy8_NNPDF30__WpH125J_Winc_MINLO_tt.M4.e5808_s3126_r10724_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.361101.PoPy8_Wplusmunu.M4.e3601_s3126_r10724_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.345055.PoPy8_NNPDF3__ZH125J_MINLO_llbb_VpT.M4.e5706_s3126_r10201_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.345055.PoPy8_NNPDF3__ZH125J_MINLO_llbb_VpT.M4.e5706_s3126_r10724_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.345055.PoPy8_NNPDF3__ZH125J_MINLO_llbb_VpT.M4.e5706_s3126_r9364_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.345121.PoPy8_NNLO_30_ggH125_ttlm15hp20.M4.e5814_s3126_r10201_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.345121.PoPy8_NNLO_30_ggH125_ttlm15hp20.M4.e5814_s3126_r10724_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.345121.PoPy8_NNLO_30_ggH125_ttlm15hp20.M4.e5814_s3126_r9364_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.345122.PoPy8_NNLO_30_ggH125_ttlp15hm20.M4.e5814_s3126_r10201_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.345122.PoPy8_NNLO_30_ggH125_ttlp15hm20.M4.e5814_s3126_r10724_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.345122.PoPy8_NNLO_30_ggH125_ttlp15hm20.M4.e5814_s3126_r9364_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.345211.PoPy8_NNPDF30__WmH125J_Winc_MINLO_tt.M4.e5808_s3126_r10201_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.345211.PoPy8_NNPDF30__WmH125J_Winc_MINLO_tt.M4.e5808_s3126_r10724_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.345211.PoPy8_NNPDF30__WmH125J_Winc_MINLO_tt.M4.e5808_s3126_r9364_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.345212.PoPy8_NNPDF30__WpH125J_Winc_MINLO_tt.M4.e5808_s3126_r10201_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.345212.PoPy8_NNPDF30__WpH125J_Winc_MINLO_tt.M4.e5808_s3126_r9364_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.346191.PoPy8_NNPDF30_VBFH125_ttlm15hp20.M4.e7259_s3126_r10201_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.346191.PoPy8_NNPDF30_VBFH125_ttlm15hp20.M4.e7259_s3126_r10724_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.346191.PoPy8_NNPDF30_VBFH125_ttlm15hp20.M4.e7259_s3126_r9364_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.346192.PoPy8_NNPDF30_VBFH125_ttlp15hm20.M4.e7259_s3126_r10201_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.346192.PoPy8_NNPDF30_VBFH125_ttlp15hm20.M4.e7259_s3126_r10724_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.346192.PoPy8_NNPDF30_VBFH125_ttlp15hm20.M4.e7259_s3126_r9364_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.346329.PoPy8_NNPDF30__ggZH125_lltt_filt.M4.e7554_s3126_r10201_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.346329.PoPy8_NNPDF30__ggZH125_lltt_filt.M4.e7554_s3126_r10724_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.346329.PoPy8_NNPDF30__ggZH125_lltt_filt.M4.e7554_s3126_r9364_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.361100.PoPy8_Wplusenu.M4.e3601_s3126_r10201_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.361100.PoPy8_Wplusenu.M4.e3601_s3126_r10724_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.361100.PoPy8_Wplusenu.M4.e3601_s3126_r9364_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.361101.PoPy8_Wplusmunu.M4.e3601_s3126_r10201_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.361101.PoPy8_Wplusmunu.M4.e3601_s3126_r9364_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.361102.PoPy8_Wplustaunu.M4.e3601_s3126_r10201_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.361102.PoPy8_Wplustaunu.M4.e3601_s3126_r10724_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.361102.PoPy8_Wplustaunu.M4.e3601_s3126_r9364_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.361103.PoPy8_Wminusenu.M4.e3601_s3126_r10201_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.361103.PoPy8_Wminusenu.M4.e3601_s3126_r10724_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.361103.PoPy8_Wminusenu.M4.e3601_s3126_r9364_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.361104.PoPy8_Wminusmunu.M4.e3601_s3126_r10201_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.361104.PoPy8_Wminusmunu.M4.e3601_s3126_r9364_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.361105.PoPy8_Wminustaunu.M4.e3601_s3126_r10201_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.361105.PoPy8_Wminustaunu.M4.e3601_s3126_r10724_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.361105.PoPy8_Wminustaunu.M4.e3601_s3126_r9364_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.361106.PoPy8_Zee.M4.e3601_s3126_r10201_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.361106.PoPy8_Zee.M4.e3601_s3126_r10724_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.361106.PoPy8_Zee.M4.e3601_s3126_r9364_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.361107.PoPy8_Zmumu.M4.e3601_s3126_r10201_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.361107.PoPy8_Zmumu.M4.e3601_s3126_r9364_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.361108.PoPy8_Ztt.M4.e3601_s3126_r10201_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.361108.PoPy8_Ztt.M4.e3601_s3126_r10724_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.361108.PoPy8_Ztt.M4.e3601_s3126_r9364_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.363355.Sh221_PDF30_ZqqZvv.M4.e5525_s3126_r10201_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.363355.Sh221_PDF30_ZqqZvv.M4.e5525_s3126_r10724_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.363355.Sh221_PDF30_ZqqZvv.M4.e5525_s3126_r9364_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.363356.Sh221_PDF30_ZqqZll.M4.e5525_s3126_r10201_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.363356.Sh221_PDF30_ZqqZll.M4.e5525_s3126_r9364_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.363357.Sh221_PDF30_WqqZvv.M4.e5525_s3126_r10201_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.363357.Sh221_PDF30_WqqZvv.M4.e5525_s3126_r10724_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.363357.Sh221_PDF30_WqqZvv.M4.e5525_s3126_r9364_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.363358.Sh221_PDF30_WqqZll.M4.e5525_s3126_r10201_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.363358.Sh221_PDF30_WqqZll.M4.e5525_s3126_r10724_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.363358.Sh221_PDF30_WqqZll.M4.e5525_s3126_r9364_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.363489.Sh221_PDF30_WlvZqq.M4.e5525_s3126_r10724_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.363489.Sh221_PDF30_WlvZqq.M4.e5525_s3126_r9364_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.364128.Sh221_PDF30_Ztt_MV0_70_CVBV.M4.e5307_s3126_r10201_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.364128.Sh221_PDF30_Ztt_MV0_70_CVBV.M4.e5307_s3126_r10724_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.364128.Sh221_PDF30_Ztt_MV0_70_CVBV.M4.e5307_s3126_r9364_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.364129.Sh221_PDF30_Ztt_MV0_70_CFBV.M4.e5307_s3126_r10201_p4512.sv1_Le/',
- '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.364129.Sh221_PDF30_Ztt_MV0_70_CFBV.M4.e5307_s3126_r10724_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.364130.Sh221_PDF30_Ztt_MV0_70_BF.M4.e5307_s3126_r10201_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.364130.Sh221_PDF30_Ztt_MV0_70_BF.M4.e5307_s3126_r10724_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.364130.Sh221_PDF30_Ztt_MV0_70_BF.M4.e5307_s3126_r9364_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.364131.Sh221_PDF30_Ztt_MV70_140_CVBV.M4.e5307_s3126_r10201_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.364131.Sh221_PDF30_Ztt_MV70_140_CVBV.M4.e5307_s3126_r10724_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.364131.Sh221_PDF30_Ztt_MV70_140_CVBV.M4.e5307_s3126_r9364_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.364132.Sh221_PDF30_Ztt_MV70_140_CFBV.M4.e5307_s3126_r10201_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.364132.Sh221_PDF30_Ztt_MV70_140_CFBV.M4.e5307_s3126_r9364_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.364133.Sh221_PDF30_Ztt_MV70_140_BF.M4.e5307_s3126_r10201_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.364133.Sh221_PDF30_Ztt_MV70_140_BF.M4.e5307_s3126_r10724_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.364133.Sh221_PDF30_Ztt_MV70_140_BF.M4.e5307_s3126_r9364_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.364134.Sh221_PDF30_Ztt_MV140_280_CVBV.M4.e5307_s3126_r10201_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.364134.Sh221_PDF30_Ztt_MV140_280_CVBV.M4.e5307_s3126_r10724_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.364134.Sh221_PDF30_Ztt_MV140_280_CVBV.M4.e5307_s3126_r9364_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.364135.Sh221_PDF30_Ztt_MV140_280_CFBV.M4.e5307_s3126_r10724_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.364135.Sh221_PDF30_Ztt_MV140_280_CFBV.M4.e5307_s3126_r9364_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.364136.Sh221_PDF30_Ztt_MV140_280_BF.M4.e5307_s3126_r10201_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.364136.Sh221_PDF30_Ztt_MV140_280_BF.M4.e5307_s3126_r10724_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.364136.Sh221_PDF30_Ztt_MV140_280_BF.M4.e5307_s3126_r9364_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.364137.Sh221_PDF30_Ztt_MV280_500_CVBV.M4.e5307_s3126_r10201_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.364137.Sh221_PDF30_Ztt_MV280_500_CVBV.M4.e5307_s3126_r10724_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.364138.Sh221_PDF30_Ztt_MV280_500_CFBV.M4.e5313_s3126_r10201_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.364138.Sh221_PDF30_Ztt_MV280_500_CFBV.M4.e5313_s3126_r10724_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.364138.Sh221_PDF30_Ztt_MV280_500_CFBV.M4.e5313_s3126_r9364_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.364139.Sh221_PDF30_Ztt_MV280_500_BF.M4.e5313_s3126_r10201_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.364139.Sh221_PDF30_Ztt_MV280_500_BF.M4.e5313_s3126_r10724_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.364139.Sh221_PDF30_Ztt_MV280_500_BF.M4.e5313_s3126_r9364_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.364140.Sh221_PDF30_Ztt_MV500_1000.M4.e5307_s3126_r10201_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.364140.Sh221_PDF30_Ztt_MV500_1000.M4.e5307_s3126_r9364_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.364141.Sh221_PDF30_Ztt_MV1000_E_CMS.M4.e5307_s3126_r10201_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.364141.Sh221_PDF30_Ztt_MV1000_E_CMS.M4.e5307_s3126_r10724_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.364141.Sh221_PDF30_Ztt_MV1000_E_CMS.M4.e5307_s3126_r9364_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.364250.Sh222_PDF30_llll.M4.e5894_s3126_r10201_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.364250.Sh222_PDF30_llll.M4.e5894_s3126_r10724_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.364250.Sh222_PDF30_llll.M4.e5894_s3126_r9364_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.364253.Sh222_PDF30_lllv.M4.e5916_s3126_r10201_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.361107.PoPy8_Zmumu.M4.e3601_s3126_r10724_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.363356.Sh221_PDF30_ZqqZll.M4.e5525_s3126_r10724_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.363489.Sh221_PDF30_WlvZqq.M4.e5525_s3126_r10201_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.364129.Sh221_PDF30_Ztt_MV0_70_CFBV.M4.e5307_s3126_r9364_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.364132.Sh221_PDF30_Ztt_MV70_140_CFBV.M4.e5307_s3126_r10724_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.364135.Sh221_PDF30_Ztt_MV140_280_CFBV.M4.e5307_s3126_r10201_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.364137.Sh221_PDF30_Ztt_MV280_500_CVBV.M4.e5307_s3126_r9364_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.364140.Sh221_PDF30_Ztt_MV500_1000.M4.e5307_s3126_r10724_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.364253.Sh222_PDF30_lllv.M4.e5916_s3126_r10724_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.410470.PhPy8_A14_ttb_nonallh.M4.e6337_s3126_r10201_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.410645.PoPy8_A14_st_schan_lept_atop.M4.e6527_s3126_r9364_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.364253.Sh222_PDF30_lllv.M4.e5916_s3126_r9364_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.364254.Sh222_PDF30_llvv.M4.e5916_s3126_r10201_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.364254.Sh222_PDF30_llvv.M4.e5916_s3126_r10724_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.364254.Sh222_PDF30_llvv.M4.e5916_s3126_r9364_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.364255.Sh222_PDF30_lvvv.M4.e5916_s3126_r10201_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.364255.Sh222_PDF30_lvvv.M4.e5916_s3126_r10724_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.364255.Sh222_PDF30_lvvv.M4.e5916_s3126_r9364_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.410470.PhPy8_A14_ttb_nonallh.M4.e6337_s3126_r10724_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.410470.PhPy8_A14_ttb_nonallh.M4.e6337_s3126_r9364_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.410644.PoPy8_A14_st_schan_lept_top.M4.e6527_s3126_r10201_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.410644.PoPy8_A14_st_schan_lept_top.M4.e6527_s3126_r10724_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.410644.PoPy8_A14_st_schan_lept_top.M4.e6527_s3126_r9364_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.410645.PoPy8_A14_st_schan_lept_atop.M4.e6527_s3126_r10201_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.410645.PoPy8_A14_st_schan_lept_atop.M4.e6527_s3126_r10724_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.410646.PoPy8_A14_Wt_DR_inclusive_top.M4.e6552_s3126_r10201_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.410646.PoPy8_A14_Wt_DR_inclusive_top.M4.e6552_s3126_r10724_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.410646.PoPy8_A14_Wt_DR_inclusive_top.M4.e6552_s3126_r9364_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.410647.PoPy8_A14_Wt_DR_inclusive_atop.M4.e6552_s3126_r10201_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.410647.PoPy8_A14_Wt_DR_inclusive_atop.M4.e6552_s3126_r10724_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.410647.PoPy8_A14_Wt_DR_inclusive_atop.M4.e6552_s3126_r9364_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.410658.PhPy8_A14_tchan_BW50_lept_top.M4.e6671_s3126_r10201_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.410658.PhPy8_A14_tchan_BW50_lept_top.M4.e6671_s3126_r10724_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.410658.PhPy8_A14_tchan_BW50_lept_top.M4.e6671_s3126_r9364_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.410659.PhPy8_A14_tchan_BW50_lept_atop.M4.e6671_s3126_r10201_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.410659.PhPy8_A14_tchan_BW50_lept_atop.M4.e6671_s3126_r10724_p4512.sv1_Le/', '/media/diego/27AB07EC0C8BE0A7/DATA/v26/user.dbaronmo.v26.mc.410659.PhPy8_A14_tchan_BW50_lept_atop.M4.e6671_s3126_r9364_p4512.sv1_Le/']
+  path_to_samples='/media/diego/27AB07EC0C8BE0A7/DATA/v26/'
+  samples=os.listdir(path_to_samples)
+  dirs=[path_to_samples+i+'/' for i in samples if 'mc' in i]
+
+# list of directories to check for .root files
+
 
 realList=[]
 # inputted by the user
@@ -157,10 +163,10 @@ dataCombos = {
 "st_wt_atop_2018":['st_wt_atop_2018_0','st_wt_atop_2018_1','st_wt_atop_2018_2','st_wt_atop_2018_3',],
 #st_wt_atop_2015
 "st_wt_atop_2015":['st_wt_atop_2015_0','st_wt_atop_2015_1','st_wt_atop_2015_2',],
-#st_tchan_top_2017
-"st_tchan_top_2017":['st_tchan_top_2017_0','st_tchan_top_2017_1','st_tchan_top_2017_2',],
 #st_tchan_top_2018
 "st_tchan_top_2018":['st_tchan_top_2018_0','st_tchan_top_2018_1','st_tchan_top_2018_2','st_tchan_top_2018_3','st_tchan_top_2018_4','st_tchan_top_2018_5','st_tchan_top_2018_6','st_tchan_top_2018_7','st_tchan_top_2018_8','st_tchan_top_2018_9',],
+#st_tchan_top_2017
+"st_tchan_top_2017":['st_tchan_top_2017_0','st_tchan_top_2017_1','st_tchan_top_2017_2',],
 #st_tchan_top_2015
 "st_tchan_top_2015":['st_tchan_top_2015_0','st_tchan_top_2015_1','st_tchan_top_2015_2','st_tchan_top_2015_3','st_tchan_top_2015_4','st_tchan_top_2015_5',],
 #st_tchan_atop_2017
@@ -253,24 +259,60 @@ dataCombos = {
 "Ztautau_sherpa14_2018":['Ztautau_sherpa14_2018_0','Ztautau_sherpa14_2018_1',],
 #Ztautau_sherpa14_2015
 "Ztautau_sherpa14_2015":['Ztautau_sherpa14_2015_0','Ztautau_sherpa14_2015_1','Ztautau_sherpa14_2015_2',],
+#VBF_Ztautau_old_2017
+"VBF_Ztautau_old_2017":['VBF_Ztautau_old_2017_0',],
+#VBF_Ztautau_old_2018
+"VBF_Ztautau_old_2018":['VBF_Ztautau_old_2018_0',],
+#VBF_Ztautau_old_2015
+"VBF_Ztautau_old_2015":['VBF_Ztautau_old_2015_0',],
+#VBF_Zmumu_old_2017
+"VBF_Zmumu_old_2017":['VBF_Zmumu_old_2017_0',],
+#VBF_Zmumu_old_2018
+"VBF_Zmumu_old_2018":['VBF_Zmumu_old_2018_0',],
+#VBF_Zmumu_old_2015
+"VBF_Zmumu_old_2015":['VBF_Zmumu_old_2015_0',],
+#VBF_Zee_old_2018
+"VBF_Zee_old_2018":['VBF_Zee_old_2018_0',],
+#VBF_Zee_old_2015
+"VBF_Zee_old_2015":['VBF_Zee_old_2015_0',],
+#VBF_Zee_old_2017
+"VBF_Zee_old_2017":['VBF_Zee_old_2017_0',],
 #VBF_Ztautau_2017
 "VBF_Ztautau_2017":['VBF_Ztautau_2017_0',],
 #VBF_Ztautau_2018
 "VBF_Ztautau_2018":['VBF_Ztautau_2018_0',],
 #VBF_Ztautau_2015
-"VBF_Ztautau_2015":['VBF_Ztautau_2015_0',],
+"VBF_Ztautau_2015":['VBF_Ztautau_2015_0','VBF_Ztautau_2015_1','VBF_Ztautau_2015_2',],
 #VBF_Zmumu_2017
 "VBF_Zmumu_2017":['VBF_Zmumu_2017_0',],
 #VBF_Zmumu_2018
-"VBF_Zmumu_2018":['VBF_Zmumu_2018_0',],
+"VBF_Zmumu_2018":['VBF_Zmumu_2018_0','VBF_Zmumu_2018_1','VBF_Zmumu_2018_2',],
 #VBF_Zmumu_2015
-"VBF_Zmumu_2015":['VBF_Zmumu_2015_0',],
-#VBF_Zee_2018
-"VBF_Zee_2018":['VBF_Zee_2018_0',],
-#VBF_Zee_2015
-"VBF_Zee_2015":['VBF_Zee_2015_0',],
+"VBF_Zmumu_2015":['VBF_Zmumu_2015_0','VBF_Zmumu_2015_1',],
 #VBF_Zee_2017
 "VBF_Zee_2017":['VBF_Zee_2017_0',],
+#VBF_Zee_2018
+"VBF_Zee_2018":['VBF_Zee_2018_0','VBF_Zee_2018_1','VBF_Zee_2018_2','VBF_Zee_2018_3','VBF_Zee_2018_4','VBF_Zee_2018_5',],
+#VBF_Zee_2015
+"VBF_Zee_2015":['VBF_Zee_2015_0','VBF_Zee_2015_1','VBF_Zee_2015_2','VBF_Zee_2015_3','VBF_Zee_2015_4','VBF_Zee_2015_5',],
+#VBF_Ztautau_sherpa_2017
+"VBF_Ztautau_sherpa_2017":['VBF_Ztautau_sherpa_2017_0','VBF_Ztautau_sherpa_2017_1',],
+#VBF_Ztautau_sherpa_2018
+"VBF_Ztautau_sherpa_2018":['VBF_Ztautau_sherpa_2018_0','VBF_Ztautau_sherpa_2018_1',],
+#VBF_Ztautau_sherpa_2015
+"VBF_Ztautau_sherpa_2015":['VBF_Ztautau_sherpa_2015_0',],
+#VBF_Zmumu_sherpa_2017
+"VBF_Zmumu_sherpa_2017":['VBF_Zmumu_sherpa_2017_0','VBF_Zmumu_sherpa_2017_1','VBF_Zmumu_sherpa_2017_2','VBF_Zmumu_sherpa_2017_3','VBF_Zmumu_sherpa_2017_4',],
+#VBF_Zmumu_sherpa_2018
+"VBF_Zmumu_sherpa_2018":['VBF_Zmumu_sherpa_2018_0','VBF_Zmumu_sherpa_2018_1','VBF_Zmumu_sherpa_2018_2','VBF_Zmumu_sherpa_2018_3','VBF_Zmumu_sherpa_2018_4','VBF_Zmumu_sherpa_2018_5',],
+#VBF_Zmumu_sherpa_2015
+"VBF_Zmumu_sherpa_2015":['VBF_Zmumu_sherpa_2015_0','VBF_Zmumu_sherpa_2015_1',],
+#VBF_Zee_sherpa_2015
+"VBF_Zee_sherpa_2015":['VBF_Zee_sherpa_2015_0','VBF_Zee_sherpa_2015_1','VBF_Zee_sherpa_2015_2','VBF_Zee_sherpa_2015_3','VBF_Zee_sherpa_2015_4','VBF_Zee_sherpa_2015_5',],
+#VBF_Zee_sherpa_2017
+"VBF_Zee_sherpa_2017":['VBF_Zee_sherpa_2017_0','VBF_Zee_sherpa_2017_1','VBF_Zee_sherpa_2017_2','VBF_Zee_sherpa_2017_3',],
+#VBF_Zee_sherpa_2018
+"VBF_Zee_sherpa_2018":['VBF_Zee_sherpa_2018_0','VBF_Zee_sherpa_2018_1','VBF_Zee_sherpa_2018_2',],
 #WpH_2018
 "WpH_2018":['WpH_2018_0',],
 #WpH_2017
@@ -914,10 +956,6 @@ dataSets = {
 'st_wt_atop_2015_0':'user.dbaronmo.25819036._000001.LepUniv_ttbar.root',
 'st_wt_atop_2015_1':'user.dbaronmo.25819036._000002.LepUniv_ttbar.root',
 'st_wt_atop_2015_2':'user.dbaronmo.25819036._000003.LepUniv_ttbar.root',
-#st_tchan_top_2017
-'st_tchan_top_2017_0':'user.dbaronmo.25819102._000001.LepUniv_ttbar.root',
-'st_tchan_top_2017_1':'user.dbaronmo.25819102._000002.LepUniv_ttbar.root',
-'st_tchan_top_2017_2':'user.dbaronmo.25819102._000003.LepUniv_ttbar.root',
 #st_tchan_top_2018
 'st_tchan_top_2018_0':'user.dbaronmo.25819169._000001.LepUniv_ttbar.root',
 'st_tchan_top_2018_1':'user.dbaronmo.25819169._000002.LepUniv_ttbar.root',
@@ -929,6 +967,10 @@ dataSets = {
 'st_tchan_top_2018_7':'user.dbaronmo.25819169._000008.LepUniv_ttbar.root',
 'st_tchan_top_2018_8':'user.dbaronmo.25819169._000009.LepUniv_ttbar.root',
 'st_tchan_top_2018_9':'user.dbaronmo.25819169._000010.LepUniv_ttbar.root',
+#st_tchan_top_2017
+'st_tchan_top_2017_0':'user.dbaronmo.25819102._000001.LepUniv_ttbar.root',
+'st_tchan_top_2017_1':'user.dbaronmo.25819102._000002.LepUniv_ttbar.root',
+'st_tchan_top_2017_2':'user.dbaronmo.25819102._000003.LepUniv_ttbar.root',
 #st_tchan_top_2015
 'st_tchan_top_2015_0':'user.dbaronmo.25819037._000001.LepUniv_ttbar.root',
 'st_tchan_top_2015_1':'user.dbaronmo.25819037._000002.LepUniv_ttbar.root',
@@ -1086,24 +1128,97 @@ dataSets = {
 'Ztautau_sherpa14_2015_0':'user.dbaronmo.25818939._000001.LepUniv_ttbar.root',
 'Ztautau_sherpa14_2015_1':'user.dbaronmo.25818939._000002.LepUniv_ttbar.root',
 'Ztautau_sherpa14_2015_2':'user.dbaronmo.25818939._000003.LepUniv_ttbar.root',
+#VBF_Ztautau_old_2017
+'VBF_Ztautau_old_2017_0':'user.dbaronmo.25819106._000001.LepUniv_ttbar.root',
+#VBF_Ztautau_old_2018
+'VBF_Ztautau_old_2018_0':'user.dbaronmo.25819176._000001.LepUniv_ttbar.root',
+#VBF_Ztautau_old_2015
+'VBF_Ztautau_old_2015_0':'user.dbaronmo.25819046._000001.LepUniv_ttbar.root',
+#VBF_Zmumu_old_2017
+'VBF_Zmumu_old_2017_0':'user.dbaronmo.25819105._000001.LepUniv_ttbar.root',
+#VBF_Zmumu_old_2018
+'VBF_Zmumu_old_2018_0':'user.dbaronmo.25819174._000001.LepUniv_ttbar.root',
+#VBF_Zmumu_old_2015
+'VBF_Zmumu_old_2015_0':'user.dbaronmo.25819044._000001.LepUniv_ttbar.root',
+#VBF_Zee_old_2018
+'VBF_Zee_old_2018_0':'user.dbaronmo.25819173._000001.LepUniv_ttbar.root',
+#VBF_Zee_old_2015
+'VBF_Zee_old_2015_0':'user.dbaronmo.25819042._000001.LepUniv_ttbar.root',
+#VBF_Zee_old_2017
+'VBF_Zee_old_2017_0':'user.dbaronmo.25819104._000001.LepUniv_ttbar.root',
 #VBF_Ztautau_2017
-'VBF_Ztautau_2017_0':'user.dbaronmo.25819106._000001.LepUniv_ttbar.root',
+'VBF_Ztautau_2017_0':'user.dbaronmo.27902165._000001.TauID_Zll.root',
 #VBF_Ztautau_2018
-'VBF_Ztautau_2018_0':'user.dbaronmo.25819176._000001.LepUniv_ttbar.root',
+'VBF_Ztautau_2018_0':'user.dbaronmo.27902169._000001.TauID_Zll.root',
 #VBF_Ztautau_2015
-'VBF_Ztautau_2015_0':'user.dbaronmo.25819046._000001.LepUniv_ttbar.root',
+'VBF_Ztautau_2015_0':'user.dbaronmo.27902167._000001.TauID_Zll.root',
+'VBF_Ztautau_2015_1':'user.dbaronmo.27902167._000002.TauID_Zll.root',
+'VBF_Ztautau_2015_2':'user.dbaronmo.27902167._000003.TauID_Zll.root',
 #VBF_Zmumu_2017
-'VBF_Zmumu_2017_0':'user.dbaronmo.25819105._000001.LepUniv_ttbar.root',
+'VBF_Zmumu_2017_0':'user.dbaronmo.27902159._000001.TauID_Zll.root',
 #VBF_Zmumu_2018
-'VBF_Zmumu_2018_0':'user.dbaronmo.25819174._000001.LepUniv_ttbar.root',
+'VBF_Zmumu_2018_0':'user.dbaronmo.27902161._000001.TauID_Zll.root',
+'VBF_Zmumu_2018_1':'user.dbaronmo.27902161._000002.TauID_Zll.root',
+'VBF_Zmumu_2018_2':'user.dbaronmo.27902161._000003.TauID_Zll.root',
 #VBF_Zmumu_2015
-'VBF_Zmumu_2015_0':'user.dbaronmo.25819044._000001.LepUniv_ttbar.root',
-#VBF_Zee_2018
-'VBF_Zee_2018_0':'user.dbaronmo.25819173._000001.LepUniv_ttbar.root',
-#VBF_Zee_2015
-'VBF_Zee_2015_0':'user.dbaronmo.25819042._000001.LepUniv_ttbar.root',
+'VBF_Zmumu_2015_0':'user.dbaronmo.27902163._000001.TauID_Zll.root',
+'VBF_Zmumu_2015_1':'user.dbaronmo.27902163._000002.TauID_Zll.root',
 #VBF_Zee_2017
-'VBF_Zee_2017_0':'user.dbaronmo.25819104._000001.LepUniv_ttbar.root',
+'VBF_Zee_2017_0':'user.dbaronmo.27902154._000001.TauID_Zll.root',
+#VBF_Zee_2018
+'VBF_Zee_2018_0':'user.dbaronmo.27902155._000001.TauID_Zll.root',
+'VBF_Zee_2018_1':'user.dbaronmo.27902155._000002.TauID_Zll.root',
+'VBF_Zee_2018_2':'user.dbaronmo.27902155._000003.TauID_Zll.root',
+'VBF_Zee_2018_3':'user.dbaronmo.27902155._000004.TauID_Zll.root',
+'VBF_Zee_2018_4':'user.dbaronmo.27902155._000005.TauID_Zll.root',
+'VBF_Zee_2018_5':'user.dbaronmo.27902155._000006.TauID_Zll.root',
+#VBF_Zee_2015
+'VBF_Zee_2015_0':'user.dbaronmo.27902157._000001.TauID_Zll.root',
+'VBF_Zee_2015_1':'user.dbaronmo.27902157._000002.TauID_Zll.root',
+'VBF_Zee_2015_2':'user.dbaronmo.27902157._000003.TauID_Zll.root',
+'VBF_Zee_2015_3':'user.dbaronmo.27902157._000004.TauID_Zll.root',
+'VBF_Zee_2015_4':'user.dbaronmo.27902157._000005.TauID_Zll.root',
+'VBF_Zee_2015_5':'user.dbaronmo.27902157._000006.TauID_Zll.root',
+#VBF_Ztautau_sherpa_2017
+'VBF_Ztautau_sherpa_2017_0':'user.dbaronmo.27902148._000001.TauID_Zll.root',
+'VBF_Ztautau_sherpa_2017_1':'user.dbaronmo.27902148._000002.TauID_Zll.root',
+#VBF_Ztautau_sherpa_2018
+'VBF_Ztautau_sherpa_2018_0':'user.dbaronmo.27902149._000003.TauID_Zll.root',
+'VBF_Ztautau_sherpa_2018_1':'user.dbaronmo.27902149._000004.TauID_Zll.root',
+#VBF_Ztautau_sherpa_2015
+'VBF_Ztautau_sherpa_2015_0':'user.dbaronmo.27902152._000001.TauID_Zll.root',
+#VBF_Zmumu_sherpa_2017
+'VBF_Zmumu_sherpa_2017_0':'user.dbaronmo.27902142._000002.TauID_Zll.root',
+'VBF_Zmumu_sherpa_2017_1':'user.dbaronmo.27902142._000003.TauID_Zll.root',
+'VBF_Zmumu_sherpa_2017_2':'user.dbaronmo.27902142._000004.TauID_Zll.root',
+'VBF_Zmumu_sherpa_2017_3':'user.dbaronmo.27902142._000005.TauID_Zll.root',
+'VBF_Zmumu_sherpa_2017_4':'user.dbaronmo.27902142._000006.TauID_Zll.root',
+#VBF_Zmumu_sherpa_2018
+'VBF_Zmumu_sherpa_2018_0':'user.dbaronmo.27902144._000001.TauID_Zll.root',
+'VBF_Zmumu_sherpa_2018_1':'user.dbaronmo.27902144._000002.TauID_Zll.root',
+'VBF_Zmumu_sherpa_2018_2':'user.dbaronmo.27902144._000003.TauID_Zll.root',
+'VBF_Zmumu_sherpa_2018_3':'user.dbaronmo.27902144._000004.TauID_Zll.root',
+'VBF_Zmumu_sherpa_2018_4':'user.dbaronmo.27902144._000005.TauID_Zll.root',
+'VBF_Zmumu_sherpa_2018_5':'user.dbaronmo.27902144._000006.TauID_Zll.root',
+#VBF_Zmumu_sherpa_2015
+'VBF_Zmumu_sherpa_2015_0':'user.dbaronmo.27902146._000001.TauID_Zll.root',
+'VBF_Zmumu_sherpa_2015_1':'user.dbaronmo.27902146._000002.TauID_Zll.root',
+#VBF_Zee_sherpa_2015
+'VBF_Zee_sherpa_2015_0':'user.dbaronmo.27902139._000001.TauID_Zll.root',
+'VBF_Zee_sherpa_2015_1':'user.dbaronmo.27902139._000002.TauID_Zll.root',
+'VBF_Zee_sherpa_2015_2':'user.dbaronmo.27902139._000003.TauID_Zll.root',
+'VBF_Zee_sherpa_2015_3':'user.dbaronmo.27902139._000005.TauID_Zll.root',
+'VBF_Zee_sherpa_2015_4':'user.dbaronmo.27902139._000006.TauID_Zll.root',
+'VBF_Zee_sherpa_2015_5':'user.dbaronmo.27902139._000007.TauID_Zll.root',
+#VBF_Zee_sherpa_2017
+'VBF_Zee_sherpa_2017_0':'user.dbaronmo.27902134._000001.TauID_Zll.root',
+'VBF_Zee_sherpa_2017_1':'user.dbaronmo.27902134._000002.TauID_Zll.root',
+'VBF_Zee_sherpa_2017_2':'user.dbaronmo.27902134._000003.TauID_Zll.root',
+'VBF_Zee_sherpa_2017_3':'user.dbaronmo.27902134._000004.TauID_Zll.root',
+#VBF_Zee_sherpa_2018
+'VBF_Zee_sherpa_2018_0':'user.dbaronmo.27902136._000001.TauID_Zll.root',
+'VBF_Zee_sherpa_2018_1':'user.dbaronmo.27902136._000002.TauID_Zll.root',
+'VBF_Zee_sherpa_2018_2':'user.dbaronmo.27902136._000003.TauID_Zll.root',
 #WpH_2018
 'WpH_2018_0':'user.dbaronmo.25819184._000001.LepUniv_ttbar.root',
 #WpH_2017
