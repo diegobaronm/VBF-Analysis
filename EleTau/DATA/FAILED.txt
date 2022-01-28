@@ -25,3 +25,8 @@ data_2018_19 yes NOMINAL
 data_2018_17 yes NOMINAL
 data_2018_23 yes NOMINAL
 data_2018_24 yes NOMINAL
+data_2018_1 yes NOMINAL
+data_2018_4 yes NOMINAL
+data_2018_7 yes NOMINAL
+data_2018_12 yes NOMINAL
+data_2018_5 yes NOMINAL
