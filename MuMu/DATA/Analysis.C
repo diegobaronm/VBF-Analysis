@@ -68,38 +68,38 @@ double min_deltaR(TLorentzVector* test_particle, std::vector<UInt_t> bool_vector
 
 void CLoop::Book(double lumFactor) {
   double pi = TMath::Pi();
-  h_lep1_pt_basic = new TH1F("lep1_pt_basic","Lep 1 pT",200,0,200);
-  h_lep1_pt_basic_dphi = new TH1F("lep1_pt_basic_dphi","Lep 1 pT",200,0,200);
-  h_lep1_pt_basic_dphi_drap = new TH1F("lep1_pt_basic_dphi_drap","Lep 1 pT",200,0,200);
-  h_lep1_pt_basic_dphi_drap_btag = new TH1F("lep1_pt_basic_dphi_drap_btag","Lep 1 pT",200,0,200);
-  h_lep1_pt_basic_dphi_drap_btag_iso = new TH1F("lep1_pt_basic_dphi_drap_btag_iso","Lep 1 pT",200,0,200);
-  h_lep1_pt_basic_dphi_drap_btag_iso_pt1 = new TH1F("lep1_pt_basic_dphi_drap_btag_iso_pt1","Lep 1 pT",200,0,200);
-  h_lep1_pt_basic_dphi_drap_btag_iso_pt1_pt2 = new TH1F("lep1_pt_basic_dphi_drap_btag_iso_pt1_pt2","Lep 1 pT",200,0,200);
-  h_lep1_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt = new TH1F("lep1_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt","Lep 1 pT",200,0,200);
-  h_lep1_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt = new TH1F("lep1_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt","Lep 1 pT",200,0,200);
-  h_lep1_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal = new TH1F("lep1_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal","Lep 1 pT",200,0,200);
-  h_lep1_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj = new TH1F("lep1_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj","Lep 1 pT",200,0,200);
-  h_lep1_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji = new TH1F("lep1_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji","Lep 1 pT",200,0,200);
-  h_lep1_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen = new TH1F("lep1_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen","Lep 1 pT",200,0,200);
-  h_lep1_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass = new TH1F("lep1_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass","Lep 1 pT",200,0,200);
-  h_lep1_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl = new TH1F("lep1_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl","Lep 1 pT",200,0,200);
+  h_lep1_pt_basic = new TH1F("lep1_pt_basic","Lep 1 pT",300,0,300);
+  h_lep1_pt_basic_dphi = new TH1F("lep1_pt_basic_dphi","Lep 1 pT",300,0,300);
+  h_lep1_pt_basic_dphi_drap = new TH1F("lep1_pt_basic_dphi_drap","Lep 1 pT",300,0,300);
+  h_lep1_pt_basic_dphi_drap_btag = new TH1F("lep1_pt_basic_dphi_drap_btag","Lep 1 pT",300,0,300);
+  h_lep1_pt_basic_dphi_drap_btag_iso = new TH1F("lep1_pt_basic_dphi_drap_btag_iso","Lep 1 pT",300,0,300);
+  h_lep1_pt_basic_dphi_drap_btag_iso_pt1 = new TH1F("lep1_pt_basic_dphi_drap_btag_iso_pt1","Lep 1 pT",300,0,300);
+  h_lep1_pt_basic_dphi_drap_btag_iso_pt1_pt2 = new TH1F("lep1_pt_basic_dphi_drap_btag_iso_pt1_pt2","Lep 1 pT",300,0,300);
+  h_lep1_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt = new TH1F("lep1_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt","Lep 1 pT",300,0,300);
+  h_lep1_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt = new TH1F("lep1_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt","Lep 1 pT",300,0,300);
+  h_lep1_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal = new TH1F("lep1_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal","Lep 1 pT",300,0,300);
+  h_lep1_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj = new TH1F("lep1_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj","Lep 1 pT",300,0,300);
+  h_lep1_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji = new TH1F("lep1_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji","Lep 1 pT",300,0,300);
+  h_lep1_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen = new TH1F("lep1_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen","Lep 1 pT",300,0,300);
+  h_lep1_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass = new TH1F("lep1_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass","Lep 1 pT",300,0,300);
+  h_lep1_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl = new TH1F("lep1_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl","Lep 1 pT",300,0,300);
 
 
-  h_lep2_pt_basic = new TH1F("lep2_pt_basic","Lep 2 pT",200,0,200);
-  h_lep2_pt_basic_dphi = new TH1F("lep2_pt_basic_dphi","Lep 2 pT",200,0,200);
-  h_lep2_pt_basic_dphi_drap = new TH1F("lep2_pt_basic_dphi_drap","Lep 2 pT",200,0,200);
-  h_lep2_pt_basic_dphi_drap_btag = new TH1F("lep2_pt_basic_dphi_drap_btag","Lep 2 pT",200,0,200);
-  h_lep2_pt_basic_dphi_drap_btag_iso = new TH1F("lep2_pt_basic_dphi_drap_btag_iso","Lep 2 pT",200,0,200);
-  h_lep2_pt_basic_dphi_drap_btag_iso_pt1 = new TH1F("lep2_pt_basic_dphi_drap_btag_iso_pt1","Lep 2 pT",200,0,200);
-  h_lep2_pt_basic_dphi_drap_btag_iso_pt1_pt2 = new TH1F("lep2_pt_basic_dphi_drap_btag_iso_pt1_pt2","Lep 2 pT",200,0,200);
-  h_lep2_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt = new TH1F("lep2_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt","Lep 2 pT",200,0,200);
-  h_lep2_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt = new TH1F("lep2_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt","Lep 2 pT",200,0,200);
-  h_lep2_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal = new TH1F("lep2_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal","Lep 2 pT",200,0,200);
-  h_lep2_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj = new TH1F("lep2_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj","Lep 2 pT",200,0,200);
-  h_lep2_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji = new TH1F("lep2_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji","Lep 2 pT",200,0,200);
-  h_lep2_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen = new TH1F("lep2_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen","Lep 2 pT",200,0,200);
-  h_lep2_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass = new TH1F("lep2_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass","Lep 2 pT",200,0,200);
-  h_lep2_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl = new TH1F("lep2_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl","Lep 2 pT",200,0,200);
+  h_lep2_pt_basic = new TH1F("lep2_pt_basic","Lep 2 pT",300,0,300);
+  h_lep2_pt_basic_dphi = new TH1F("lep2_pt_basic_dphi","Lep 2 pT",300,0,300);
+  h_lep2_pt_basic_dphi_drap = new TH1F("lep2_pt_basic_dphi_drap","Lep 2 pT",300,0,300);
+  h_lep2_pt_basic_dphi_drap_btag = new TH1F("lep2_pt_basic_dphi_drap_btag","Lep 2 pT",300,0,300);
+  h_lep2_pt_basic_dphi_drap_btag_iso = new TH1F("lep2_pt_basic_dphi_drap_btag_iso","Lep 2 pT",300,0,300);
+  h_lep2_pt_basic_dphi_drap_btag_iso_pt1 = new TH1F("lep2_pt_basic_dphi_drap_btag_iso_pt1","Lep 2 pT",300,0,300);
+  h_lep2_pt_basic_dphi_drap_btag_iso_pt1_pt2 = new TH1F("lep2_pt_basic_dphi_drap_btag_iso_pt1_pt2","Lep 2 pT",300,0,300);
+  h_lep2_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt = new TH1F("lep2_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt","Lep 2 pT",300,0,300);
+  h_lep2_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt = new TH1F("lep2_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt","Lep 2 pT",300,0,300);
+  h_lep2_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal = new TH1F("lep2_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal","Lep 2 pT",300,0,300);
+  h_lep2_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj = new TH1F("lep2_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj","Lep 2 pT",300,0,300);
+  h_lep2_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji = new TH1F("lep2_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji","Lep 2 pT",300,0,300);
+  h_lep2_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen = new TH1F("lep2_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen","Lep 2 pT",300,0,300);
+  h_lep2_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass = new TH1F("lep2_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass","Lep 2 pT",300,0,300);
+  h_lep2_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl = new TH1F("lep2_pt_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl","Lep 2 pT",300,0,300);
 
   h_lep1_eta_basic = new TH1F("lep1_eta_basic","Lep 1 eta",50,-2.5,2.5);
   h_lep1_eta_basic_dphi = new TH1F("lep1_eta_basic_dphi","Lep 1 eta",50,-2.5,2.5);
@@ -297,38 +297,38 @@ void CLoop::Book(double lumFactor) {
   h_n_jets_interval_basic_cuts_ptl = new TH1F("n_jets_interval_basic_cuts_ptl","N jets between rapidity interval",10,0,10);
 
 
-  h_ljet0_pt_basic = new TH1F("ljet0_pt_basic","Light jet0 pT",200,0,200);
-  h_ljet0_pt_basic_cuts = new TH1F("ljet0_pt_basic_cuts","Light jet0 pT",200,0,200);
-  h_ljet0_pt_basic_cuts_ptl = new TH1F("ljet0_pt_basic_cuts_ptl","Light jet0 pT",200,0,200);
+  h_ljet0_pt_basic = new TH1F("ljet0_pt_basic","Light jet0 pT",300,0,300);
+  h_ljet0_pt_basic_cuts = new TH1F("ljet0_pt_basic_cuts","Light jet0 pT",300,0,300);
+  h_ljet0_pt_basic_cuts_ptl = new TH1F("ljet0_pt_basic_cuts_ptl","Light jet0 pT",300,0,300);
 
 
-  h_ljet1_pt_basic = new TH1F("ljet1_pt_basic","Light jet1 pT",200,0,200);
-  h_ljet1_pt_basic_cuts = new TH1F("ljet1_pt_basic_cuts","Light jet1 pT",200,0,200);
-  h_ljet1_pt_basic_cuts_ptl = new TH1F("ljet1_pt_basic_cuts_ptl","Light jet1 pT",200,0,200);
+  h_ljet1_pt_basic = new TH1F("ljet1_pt_basic","Light jet1 pT",300,0,300);
+  h_ljet1_pt_basic_cuts = new TH1F("ljet1_pt_basic_cuts","Light jet1 pT",300,0,300);
+  h_ljet1_pt_basic_cuts_ptl = new TH1F("ljet1_pt_basic_cuts_ptl","Light jet1 pT",300,0,300);
 
 
-  h_ljet2_pt_basic = new TH1F("ljet2_pt_basic","Light jet2 pT",200,0,200);
-  h_ljet2_pt_basic_cuts = new TH1F("ljet2_pt_basic_cuts","Light jet2 pT",200,0,200);
-  h_ljet2_pt_basic_cuts_ptl = new TH1F("ljet2_pt_basic_cuts_ptl","Light jet2 pT",200,0,200);
+  h_ljet2_pt_basic = new TH1F("ljet2_pt_basic","Light jet2 pT",300,0,300);
+  h_ljet2_pt_basic_cuts = new TH1F("ljet2_pt_basic_cuts","Light jet2 pT",300,0,300);
+  h_ljet2_pt_basic_cuts_ptl = new TH1F("ljet2_pt_basic_cuts_ptl","Light jet2 pT",300,0,300);
 
 
-  h_gap_jet_pt_basic = new TH1F("gap_jet_pt_basic","Gap jet pT",200,0,200);
-  h_gap_jet_pt_basic_cuts = new TH1F("gap_jet_pt_basic_cuts","Gap jet pT",200,0,200);
-  h_gap_jet_pt_basic_cuts_ptl = new TH1F("gap_jet_pt_basic_cuts_ptl","Gap jet pT",200,0,200);
+  h_gap_jet_pt_basic = new TH1F("gap_jet_pt_basic","Gap jet pT",300,0,300);
+  h_gap_jet_pt_basic_cuts = new TH1F("gap_jet_pt_basic_cuts","Gap jet pT",300,0,300);
+  h_gap_jet_pt_basic_cuts_ptl = new TH1F("gap_jet_pt_basic_cuts_ptl","Gap jet pT",300,0,300);
 
 
   h_delta_phi = new TH1F("delta_phi","Delta phi between leptons",32,0,3.2);
   h_delta_y = new TH1F("delta_y","Delta Rapidity",100,0,10);
   h_n_bjets = new TH1F("n_bjets","Number of b_jets",5,0,5);
   h_lepiso = new TH1F("lepiso","Leptons isolation",2,0,2);
-  h_lep1_pt = new TH1F("lep1_pt","Lep 1 pT",200,0,200);
-  h_lep2_pt = new TH1F("lep2_pt","Lep 2 pT",200,0,200);
-  h_ljet0_pt = new TH1F("ljet0_pt","Light jet0 pT",200,0,200);
-  h_ljet1_pt = new TH1F("ljet1_pt","Light jet1 pT",200,0,200);
+  h_lep1_pt = new TH1F("lep1_pt","Lep 1 pT",300,0,300);
+  h_lep2_pt = new TH1F("lep2_pt","Lep 2 pT",300,0,300);
+  h_ljet0_pt = new TH1F("ljet0_pt","Light jet0 pT",300,0,300);
+  h_ljet1_pt = new TH1F("ljet1_pt","Light jet1 pT",300,0,300);
   h_pt_bal = new TH1F("pt_bal","pT Balance",100,0,1);
   h_mass_jj = new TH1F("mass_jj","Invariant mass di_jet system",3000,0,3000);
-  h_n_jets_interval = new TH1F("n_jets_interval","N jets between rapidity interval",10,0,10);
-  h_Z_centrality = new TH1F("Z_centrality","Z boson centrality",500,0,5);
+  h_n_jets_interval = new TH1F("n_jets_interval","N jets between rapidity interval",5,0,5);
+  h_Z_centrality = new TH1F("Z_centrality","Z boson centrality",350,0,3.5);
   h_inv_mass = new TH1F("inv_mass","Invariant mass di-lepton system",240,0,240);
 
   if (lumFactor!=1){
@@ -432,7 +432,7 @@ void CLoop::Fill(double weight, int z_sample) {
         // Minimum DeltaR between lepton and jets
         std::vector<UInt_t> is_jet_present{ljet_0,ljet_1,ljet_2};
         std::vector<TLorentzVector*> jet_container{ljet_0_p4,ljet_1_p4,ljet_2_p4};
-        
+
         double min_dR_lep1 = min_deltaR(muon_0_p4,is_jet_present,jet_container);
         double min_dR_lep2 = min_deltaR(muon_1_p4,is_jet_present,jet_container);
 
@@ -447,12 +447,12 @@ void CLoop::Fill(double weight, int z_sample) {
         if(muon_0_iso_TightTrackOnly_FixedRad==1 && muon_1_iso_TightTrackOnly_FixedRad==1){cuts[3]=1;}
         if(muon_0_p4->Pt()>=50){cuts[4]=1;}
         if(muon_1_p4->Pt()>=47){cuts[5]=1;}
-        if(ljet_0_p4->Pt()>=55){cuts[6]=1;}
-        if(ljet_1_p4->Pt()>=45){cuts[7]=1;}
+        if(ljet_0_p4->Pt()>=80){cuts[6]=1;}
+        if(ljet_1_p4->Pt()>=75){cuts[7]=1;}
         if(pt_bal<=0.15){cuts[8]=1;}
-        if(mjj>=250){cuts[9]=1;}
-        if(n_jets_interval==0){cuts[10]=1;}
-        if(z_centrality<0.5){cuts[11]=1;}
+        if(mjj>=1000){cuts[9]=1;}
+        if(n_jets_interval==1){cuts[10]=1;}
+        if(z_centrality < 0.5){cuts[11]=1;}
         if (inv_mass<100 && inv_mass>80){cuts[12]=1;}
         if (event_number%2==0){
           if(muon_0_p4->Pt()>=(a+0)){cuts[13]=1;}

@@ -1,8 +1,5 @@
-Wplusenu_2018_2 yes NOMINAL
-Wplusenu_2018_4 yes NOMINAL
-ttbar_2017_7 yes NOMINAL
-ZqqZvv_2017_0 yes NOMINAL
-WqqZll_2018_0 yes NOMINAL
-Zmumu_sherpa4_2015_0 yes NOMINAL
-Zmumu_sherpa5_2015_1 yes NOMINAL
-Zmumu_sherpa6_2017_1 yes NOMINAL
+st_wt_atop_2017_0 yes NOMINAL
+st_tchan_top_2015_8 yes NOMINAL
+Zmumu_sherpa1_2017_0 yes NOMINAL
+Zmumu_sherpa12_2017_4 yes NOMINAL
+VBF_Zee_old_2015_0 yes NOMINAL

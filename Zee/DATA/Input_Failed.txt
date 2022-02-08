@@ -1,0 +1,9 @@
+data_2018_3 yes NOMINAL
+data_2018_30 yes NOMINAL
+data_2018_40 yes NOMINAL
+data_2018_143 yes NOMINAL
+data_2018_260 yes NOMINAL
+data_2017_30 yes NOMINAL
+data_2017_31 yes NOMINAL
+data_2017_37 yes NOMINAL
+data_2017_60 yes NOMINAL

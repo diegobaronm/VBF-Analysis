@@ -6,4 +6,4 @@ log                     = log/$(ClusterId).log
 transfer_input_files    = Analysis.C,Analysis.h,backend/
 +JobFlavour = "microcentury"
 
-queue arguments from Input_Z.txt
+queue arguments from Input_Failed.txt
