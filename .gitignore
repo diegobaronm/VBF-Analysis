@@ -6,6 +6,7 @@
 *.cxx_tmp_*
 *.pcm
 *.cc
+*.d
 
 .vscode/
 .ipynb_checkpoints/
