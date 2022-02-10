@@ -1,4 +1,4 @@
-Zmumu_2017_0 yes NOMINALZmumu_2017_0 yes NOMINAL
+Zmumu_2017_0 yes NOMINAL
 Zmumu_2017_1 yes NOMINAL
 Zmumu_2017_2 yes NOMINAL
 Zmumu_2017_3 yes NOMINAL
