@@ -43,6 +43,7 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
 
     // if in fast mode only loop over 1% of the entries
     Long64_t nLoop = nentries;
+    Long64_t nLoop_five_percent = nentries/20;
 
     std::cout<<"Analysing "<<nLoop<<" Events!"<<std::endl;
 
@@ -54,6 +55,10 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
         if (ientry < 0) break;
         nb = fChain->GetEntry(jentry);    nbytes += nb;
         // if (Cut(ientry) < 0) continue;
+        
+        if (nLoop >= 1000000 && jentry % nLoop_five_percent ==0 && jentry>0 ) {
+            std::cout<<"Analysed... "<<100*double(jentry)/nLoop<<"% of events!"<<std::endl;
+        }
 
         double mjj_w=1;
         // mjj reweighting
