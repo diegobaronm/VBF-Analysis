@@ -711,10 +711,10 @@ void CLoop::Fill(double weight, int z_sample) {
         if(tau_0_n_charged_tracks==1 && tau_0_jet_rnn_score_trans>=0.25){cuts[4]=1;}
         if(tau_0_n_charged_tracks==3 && tau_0_jet_rnn_score_trans>=0.40){cuts[4]=1;}
         if(elec_0_p4->Pt()>=27){cuts[5]=1;}
-        if(ljet_0_p4->Pt()>=55){cuts[6]=1;}
-        if(ljet_1_p4->Pt()>=45){cuts[7]=1;}
+        if(ljet_0_p4->Pt()>=80){cuts[6]=1;}
+        if(ljet_1_p4->Pt()>=75){cuts[7]=1;}
         if(pt_bal<=0.15){cuts[8]=1;}
-        if(mjj>=250){cuts[9]=1;}
+        if(mjj>=1000){cuts[9]=1;}
         if(n_jets_interval==0){cuts[10]=1;}
         if(z_centrality < 0.5){cuts[11]=1;}
         if (omega> -0.2 && omega <1.6){cuts[12]=1;}
