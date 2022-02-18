@@ -452,17 +452,17 @@ void CLoop::Fill(double weight, int z_sample) {
 
         double a{50},b{47};
         // CUTS
-        if (angle<=pi/2){cuts[0]=1;}
-        if(delta_y>=1.8){cuts[1]=1;}
+        if (angle<=1.8){cuts[0]=1;}
+        if(delta_y>=2.0){cuts[1]=1;}
         if(n_bjets_MV2c10_FixedCutBEff_85==0){cuts[2]=1;}
         if(elec_0_iso_FCTight==1 && elec_1_iso_FCTight==1){cuts[3]=1;}
         if(elec_0_p4->Pt()>=50){cuts[4]=1;}
         if(elec_1_p4->Pt()>=47){cuts[5]=1;}
-        if(ljet_0_p4->Pt()>=80){cuts[6]=1;}
-        if(ljet_1_p4->Pt()>=75){cuts[7]=1;}
+        if(ljet_0_p4->Pt()>=100){cuts[6]=1;}
+        if(ljet_1_p4->Pt()>=95){cuts[7]=1;}
         if(pt_bal<=0.15){cuts[8]=1;}
         if(mjj>=1000){cuts[9]=1;}
-        if(n_jets_interval==1){cuts[10]=1;}
+        if(n_jets_interval==0){cuts[10]=1;}
         if(z_centrality < 0.5){cuts[11]=1;}
         if (inv_mass<100 && inv_mass>80){cuts[12]=1;}
         if (event_number%2==0){
