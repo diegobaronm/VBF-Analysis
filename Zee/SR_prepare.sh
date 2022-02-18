@@ -7,3 +7,6 @@ cp MC/backend/CLoop_SR.C MC/backend/CLoop.C
 cp MC/backend/CLoop_SR.C DATA/backend/CLoop.C
 
 cp MC/backend/CLoop.h DATA/backend/CLoop.h
+
+rm MC/error/* MC/output/* MC/log/*
+rm DATA/error/* DATA/output/* DATA/log/*
