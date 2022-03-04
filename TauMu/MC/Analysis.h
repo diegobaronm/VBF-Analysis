@@ -405,6 +405,26 @@ TH1F* h_ljet3_pt_basic_cuts_tpt;
 
 TH1F* h_gap_jet_pt_basic_cuts_tpt;
 
+TH1F* h_ljet0_eta_basic;
+TH1F* h_ljet0_eta_basic_cuts;
+TH1F* h_ljet0_eta_basic_cuts_ptl;
+
+
+TH1F* h_ljet1_eta_basic;
+TH1F* h_ljet1_eta_basic_cuts;
+TH1F* h_ljet1_eta_basic_cuts_ptl;
+
+
+TH1F* h_ljet2_eta_basic;
+TH1F* h_ljet2_eta_basic_cuts;
+TH1F* h_ljet2_eta_basic_cuts_ptl;
+
+
+TH1F* h_gap_jet_eta_basic;
+TH1F* h_gap_jet_eta_basic_cuts;
+TH1F* h_gap_jet_eta_basic_cuts_ptl;
+
+
 TH1F* h_delta_phi;
 TH1F* h_delta_y;
 TH1F* h_n_bjets;
@@ -421,5 +441,6 @@ TH1F* h_Z_centrality;
 TH1F* h_omega;
 TH1F* h_reco_mass_i;
 TH1F* h_reco_mass_o;
+TH1F* h_reco_mass;
 TH1F* h_tau_pt;
 #endif

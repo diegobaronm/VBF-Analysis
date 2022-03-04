@@ -84,7 +84,7 @@ if __name__=="__main__":
                             if flag:
                                     output_file.write(s+" yes "+i+"\n")
 
-    print("cat "+out_path+path_to_check+"/"+output_file_name+" | awk '/data/' > "+launch_dir+"/"+"DATA/Input_Failed.txt")                                    
+    os.system("cat "+out_path+path_to_check+"/"+output_file_name+" | awk '/data/' > "+launch_dir+"/"+"DATA/Input_Failed.txt")                                    
     print("cat "+out_path+path_to_check+"/"+output_file_name+" | awk '!/data/' > "+launch_dir+"/"+"MC/Input_Failed.txt")
     
 

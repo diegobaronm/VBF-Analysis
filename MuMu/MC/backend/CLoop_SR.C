@@ -43,6 +43,7 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
 
     // if in fast mode only loop over 1% of the entries
     Long64_t nLoop = nentries;
+    Long64_t nLoop_five_percent = nentries/20;
 
     std::cout<<"Analysing "<<nLoop<<" Events!"<<std::endl;
 
@@ -54,12 +55,19 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
         if (ientry < 0) break;
         nb = fChain->GetEntry(jentry);    nbytes += nb;
         // if (Cut(ientry) < 0) continue;
+        
+        if (nLoop >= 1000000 && jentry % nLoop_five_percent ==0 && jentry>0 ) {
+            std::cout<<"Analysed... "<<100*double(jentry)/nLoop<<"% of events!"<<std::endl;
+        }
 
         double mjj_w=1;
         // mjj reweighting
-        /*if(z_sample==1 || z_sample==2){
+        /*if(z_sample==1 ){
             double mjj=sqrt(2*(ljet_0_p4->Dot(*ljet_1_p4)));
-            mjj_w = -2.69e-04 * mjj + 1.214;
+            mjj_w = 2.377E-04 * mjj + 1.187E+00;
+        } else if (z_sample==2){
+            double mjj=sqrt(2*(ljet_0_p4->Dot(*ljet_1_p4)));
+            mjj_w = -3.082E-04 * mjj + 1.127E+00;
         }*/
 
         // ZpT reweighting
@@ -76,7 +84,7 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
             }
         }*/
         // PYTHIA REWEIGHTING
-        if(z_sample==1){
+        /*if(z_sample==1){
             double zpt=truth_Z_p4->Pt()/1000;
             if(zpt>=40 & zpt<46){
                 z_w=0.995;
@@ -111,7 +119,7 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
             }else if(zpt>=151){
                 z_w=0.8;
             }
-        }
+        }*/
         /*if (z_sample==1){
             double zpt=truth_Z_p4->Pt()/1000;
             if (zpt>40 & zpt<80){
@@ -137,10 +145,10 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
         if (!(key.substr(0,4)=="data")) {
             // take product of all scale factors
             eventWeight = weight_total*lumFactor*zpt_weight*mjj_w
-            *muon_0_NOMINAL_MuEffSF_IsoTightTrackOnly_FixedRad*muon_0_NOMINAL_MuEffSF_Reco_QualMedium*muon_0_NOMINAL_MuEffSF_TTVA
+            *muon_0_NOMINAL_MuEffSF_IsoTightTrackOnly_FixedRad*muon_0_NOMINAL_MuEffSF_Reco_QualMedium/*muon_0_NOMINAL_MuEffSF_TTVA*/
             *jet_NOMINAL_central_jets_global_effSF_JVT*jet_NOMINAL_central_jets_global_ineffSF_JVT*jet_NOMINAL_forward_jets_global_effSF_JVT
             *jet_NOMINAL_forward_jets_global_ineffSF_JVT*jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85*jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85
-            *muon_1_NOMINAL_MuEffSF_IsoTightTrackOnly_FixedRad*muon_1_NOMINAL_MuEffSF_Reco_QualMedium*muon_1_NOMINAL_MuEffSF_TTVA;
+            *muon_1_NOMINAL_MuEffSF_IsoTightTrackOnly_FixedRad*muon_1_NOMINAL_MuEffSF_Reco_QualMedium/*muon_1_NOMINAL_MuEffSF_TTVA*/;
         }
 
         // fill histograms
