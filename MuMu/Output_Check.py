@@ -1,6 +1,7 @@
 import Condor_Lister
 import sys
 import os
+import subprocess,shlex
 
 def tag_checker(dir,request,avoid,branches):
     os.chdir(dir)
@@ -39,7 +40,7 @@ def sample_list_generator(type_of_ntuples):
         list_to_be_checked+=tag_checker("MC",["sys"],["jet"],"sys_trees.txt")
     elif type_of_ntuples==3 :
         list_to_be_checked+=tag_checker("MC",["sys","jet"],[],"sys_jet_trees.txt")
-    
+
     return list_to_be_checked
 
 if __name__=="__main__":
@@ -84,10 +85,8 @@ if __name__=="__main__":
                             if flag:
                                     output_file.write(s+" yes "+i+"\n")
 
-    print("cat "+out_path+path_to_check+"/"+output_file_name+" | awk '/data/' > "+launch_dir+"/"+"DATA/Input_Failed.txt")                                    
+
+    print("cat "+out_path+path_to_check+"/"+output_file_name+" | awk '/data/' > "+launch_dir+"/"+"DATA/Input_Failed.txt")
     print("cat "+out_path+path_to_check+"/"+output_file_name+" | awk '!/data/' > "+launch_dir+"/"+"MC/Input_Failed.txt")
-    
-
-
 
 

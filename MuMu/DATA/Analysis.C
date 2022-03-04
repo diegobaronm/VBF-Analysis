@@ -399,7 +399,7 @@ void CLoop::Fill(double weight, int z_sample) {
         trigger_match= trigger_match_1 | trigger_match_2 | trigger_match_12;
       }
 
-      if ( angle<7*pi/9 && trigger_decision && trigger_match /*&& DeltaR(muon_0_p4,n_jets,0.4) && DeltaR(muon_1_p4,n_jets,0.4)*/) {
+      if ( angle<7*pi/9 && trigger_decision && trigger_match && abs(muon_0_p4->Eta())>=0.1 && abs(muon_1_p4->Eta())>=0.1) {
 
         double inv_mass{};
         inv_mass=sqrt(2*muon_0_p4->Pt()*muon_1_p4->Pt()*(cosh(muon_0_p4->Eta()-muon_1_p4->Eta())-cos(muon_0_p4->Phi()-muon_1_p4->Phi())));
@@ -461,19 +461,19 @@ void CLoop::Fill(double weight, int z_sample) {
 
         double a{50},b{47};
         // CUTS
-        if (angle<=1.8){cuts[0]=1;}
+        if (angle<=1.5){cuts[0]=1;}
         if(delta_y>=2.0){cuts[1]=1;}
         if(n_bjets_MV2c10_FixedCutBEff_85==0){cuts[2]=1;}
         if(muon_0_iso_TightTrackOnly_FixedRad==1 && muon_1_iso_TightTrackOnly_FixedRad==1){cuts[3]=1;}
         if(muon_0_p4->Pt()>=50){cuts[4]=1;}
         if(muon_1_p4->Pt()>=47){cuts[5]=1;}
-        if(ljet_0_p4->Pt()>=100){cuts[6]=1;}
-        if(ljet_1_p4->Pt()>=95){cuts[7]=1;}
+        if(ljet_0_p4->Pt()>=85){cuts[6]=1;}
+        if(ljet_1_p4->Pt()>=80){cuts[7]=1;}
         if(pt_bal<=0.15){cuts[8]=1;}
         if(mjj>=1000){cuts[9]=1;}
         if(n_jets_interval==0){cuts[10]=1;}
-        if(z_centrality < 0.5){cuts[11]=1;}
-        if (inv_mass<100 && inv_mass>80){cuts[12]=1;}
+        if(z_centrality >= 0.5){cuts[11]=1;}
+        if (inv_mass<101 && inv_mass>81){cuts[12]=1;}
         if (event_number%2==0){
           if(muon_0_p4->Pt()>=(a+0)){cuts[13]=1;}
         } else {
