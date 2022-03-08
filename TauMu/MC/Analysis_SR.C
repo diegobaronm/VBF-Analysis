@@ -560,7 +560,7 @@ void CLoop::Fill(double weight, int z_sample) {
       trigger_match=bool(muTrigMatch_0_HLT_mu26_ivarmedium | muTrigMatch_0_HLT_mu50);
     }
 
-    if ( angle<5*pi/6 && trigger_decision  && trigger_match ) {
+    if ( angle<5*pi/6 && trigger_decision  && trigger_match && abs(muon_0_p4->Eta())>=0.1 && abs(tau_0_p4->Eta())>=0.1) {
 
       //topology
       bool inside= abs(angle-(angle_l_MET+angle_tau_MET))< 0.00001; //ANGLE BEING USED pi/2 AND 2.0943
@@ -706,28 +706,28 @@ void CLoop::Fill(double weight, int z_sample) {
         // Cuts vector
         vector<int> cuts={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
         // CUTS
-        if (angle<=1.8){cuts[0]=1;}
+        if (angle<=1.5){cuts[0]=1;}
         if(delta_y>=2.0){cuts[1]=1;}
         if(n_bjets_MV2c10_FixedCutBEff_85==0){cuts[2]=1;}
         if(muon_0_iso_TightTrackOnly_FixedRad==1){cuts[3]=1;}
         if(tau_0_n_charged_tracks==1 && tau_0_jet_rnn_score_trans>=0.25){cuts[4]=1;}
         if(tau_0_n_charged_tracks==3 && tau_0_jet_rnn_score_trans>=0.40){cuts[4]=1;}
         if(muon_0_p4->Pt()>=27){cuts[5]=1;}
-        if(ljet_0_p4->Pt()>=100){cuts[6]=1;}
-        if(ljet_1_p4->Pt()>=95){cuts[7]=1;}
+        if(ljet_0_p4->Pt()>=85){cuts[6]=1;}
+        if(ljet_1_p4->Pt()>=80){cuts[7]=1;}
         if(pt_bal<=0.15){cuts[8]=1;}
         if(mjj>=1000){cuts[9]=1;}
         if(n_jets_interval==0){cuts[10]=1;}
         if(z_centrality<0.5){cuts[11]=1;}
         if (omega> -0.2 && omega <1.6){cuts[12]=1;}
         if (inside) {
-          if (reco_mass<115 && reco_mass>65){cuts[13]=1;}
+          if (reco_mass<116 && reco_mass>66){cuts[13]=1;}
         }
         if (outside_lep) {
-          if (reco_mass_outside<115 && reco_mass_outside>65){cuts[13]=1;}
+          if (reco_mass_outside<116 && reco_mass_outside>66){cuts[13]=1;}
         }
         if (outside_tau) {
-          if (reco_mass_outside<115 && reco_mass_outside>65){cuts[13]=1;}
+          if (reco_mass_outside<116 && reco_mass_outside>66){cuts[13]=1;}
         }
         if (tau_0_p4->Pt()>=25){cuts[14]=1;}
 

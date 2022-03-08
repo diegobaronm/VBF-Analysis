@@ -863,6 +863,9 @@ void CLoop::Fill(double weight, int z_sample) {
         h_ljet1_pt_basic->Fill(ljet_1_p4->Pt(),weight);
         h_ljet2_pt_basic->Fill(ljet_2_p4->Pt(),weight);
         h_ljet3_pt_basic->Fill(ljet_3_p4->Pt(),weight);
+        h_ljet0_eta_basic->Fill(ljet_0_p4->Eta(),weight);
+        h_ljet1_eta_basic->Fill(ljet_1_p4->Eta(),weight);
+        h_ljet2_eta_basic->Fill(ljet_2_p4->Eta(),weight);
 
         // ANGLE CUT
         if (cuts[0]==1){
@@ -1295,6 +1298,9 @@ void CLoop::Fill(double weight, int z_sample) {
                                     h_ljet1_pt_basic_cuts->Fill(ljet_1_p4->Pt(),weight);
                                     h_ljet2_pt_basic_cuts->Fill(ljet_2_p4->Pt(),weight);
                                     h_ljet3_pt_basic_cuts->Fill(ljet_3_p4->Pt(),weight);
+                                    h_ljet0_eta_basic_cuts->Fill(ljet_0_p4->Eta(),weight);
+                                    h_ljet1_eta_basic_cuts->Fill(ljet_1_p4->Eta(),weight);
+                                    h_ljet2_eta_basic_cuts->Fill(ljet_2_p4->Eta(),weight);
 
                                     // TAU PT CUT
                                     if(cuts[14]==1){
@@ -1356,6 +1362,9 @@ void CLoop::Fill(double weight, int z_sample) {
                                       h_ljet1_pt_basic_cuts_tpt->Fill(ljet_1_p4->Pt(),weight);
                                       h_ljet2_pt_basic_cuts_tpt->Fill(ljet_2_p4->Pt(),weight);
                                       h_ljet3_pt_basic_cuts_tpt->Fill(ljet_3_p4->Pt(),weight);
+                                      h_ljet0_eta_basic_cuts_ptl->Fill(ljet_0_p4->Eta(),weight);
+                                      h_ljet1_eta_basic_cuts_ptl->Fill(ljet_1_p4->Eta(),weight);
+                                      h_ljet2_eta_basic_cuts_ptl->Fill(ljet_2_p4->Eta(),weight);
                                     }
                                   }
                                 }
@@ -1721,6 +1730,25 @@ void CLoop::Style(double lumFactor) {
   h_ljet3_pt_basic_cuts_tpt->Write();
 
   h_gap_jet_pt_basic_cuts_tpt->Write();
+
+  h_ljet0_eta_basic->Write();
+  h_ljet0_eta_basic_cuts->Write();
+  h_ljet0_eta_basic_cuts_ptl->Write();
+
+
+  h_ljet1_eta_basic->Write();
+  h_ljet1_eta_basic_cuts->Write();
+  h_ljet1_eta_basic_cuts_ptl->Write();
+
+
+  h_ljet2_eta_basic->Write();
+  h_ljet2_eta_basic_cuts->Write();
+  h_ljet2_eta_basic_cuts_ptl->Write();
+
+
+  h_gap_jet_eta_basic->Write();
+  h_gap_jet_eta_basic_cuts->Write();
+  h_gap_jet_eta_basic_cuts_ptl->Write();
 
   h_delta_phi->Write();
   h_delta_y->Write();
