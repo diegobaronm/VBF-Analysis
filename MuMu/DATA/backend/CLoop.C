@@ -55,20 +55,20 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
         if (ientry < 0) break;
         nb = fChain->GetEntry(jentry);    nbytes += nb;
         // if (Cut(ientry) < 0) continue;
-        
+
         if (nLoop >= 1000000 && jentry % nLoop_five_percent ==0 && jentry>0 ) {
             std::cout<<"Analysed... "<<100*double(jentry)/nLoop<<"% of events!"<<std::endl;
         }
 
         double mjj_w=1;
         // mjj reweighting
-        /*if(z_sample==1 ){
+        if(z_sample==1 ){
             double mjj=sqrt(2*(ljet_0_p4->Dot(*ljet_1_p4)));
             mjj_w = 2.377E-04 * mjj + 1.187E+00;
         } else if (z_sample==2){
             double mjj=sqrt(2*(ljet_0_p4->Dot(*ljet_1_p4)));
-            mjj_w = -3.082E-04 * mjj + 1.127E+00;
-        }*/
+            mjj_w =-4.120E-04 * mjj + 1.298E+00;
+        }
 
         // ZpT reweighting
 

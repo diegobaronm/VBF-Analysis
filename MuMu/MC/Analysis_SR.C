@@ -472,7 +472,7 @@ void CLoop::Fill(double weight, int z_sample) {
         if(pt_bal<=0.15){cuts[8]=1;}
         if(mjj>=1000){cuts[9]=1;}
         if(n_jets_interval==0){cuts[10]=1;}
-        if(z_centrality >= 0.5){cuts[11]=1;}
+        if(z_centrality < 0.5){cuts[11]=1;}
         if (inv_mass<101 && inv_mass>81){cuts[12]=1;}
         if (event_number%2==0){
           if(muon_0_p4->Pt()>=(a+0)){cuts[13]=1;}

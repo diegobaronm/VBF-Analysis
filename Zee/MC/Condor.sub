@@ -6,4 +6,4 @@ log                     = log/$(ClusterId).log
 transfer_input_files    = Analysis.C,Analysis.h,backend/
 +JobFlavour = "longlunch"
 
-queue arguments from Input_Condor.txt
+queue arguments from Input_MG.txt

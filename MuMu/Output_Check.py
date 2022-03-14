@@ -89,4 +89,17 @@ if __name__=="__main__":
     print("cat "+out_path+path_to_check+"/"+output_file_name+" | awk '/data/' > "+launch_dir+"/"+"DATA/Input_Failed.txt")
     print("cat "+out_path+path_to_check+"/"+output_file_name+" | awk '!/data/' > "+launch_dir+"/"+"MC/Input_Failed.txt")
 
+    os.chdir(out_path+path_to_check)
+    cat_failed = subprocess.Popen(shlex.split("cat "+output_file_name),stdout=subprocess.PIPE)
+    awk_search = subprocess.Popen(shlex.split("awk '/data/'"),stdin=cat_failed.stdout,stdout=subprocess.PIPE)
+    p_out , error = awk_search.communicate()
+    print(p_out)
+    with open('Input_Failed_DATA.txt','wb') as data_failed_file:
+        data_failed_file.write(p_out)
+
+        
+    
+
+
+
 
