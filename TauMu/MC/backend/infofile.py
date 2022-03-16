@@ -761,6 +761,52 @@ infos = {
 'Ztautau_sherpa14_2015_0': {'DSID'    : 364141,'events'  : 1018271.294646,'red_eff' :1,'sumw'    :1018271.294646,'xsec'    :0.148230,'kfac'    :0.975100,'fil_eff'    :1.000000},
 'Ztautau_sherpa14_2015_1': {'DSID'    : 364141,'events'  : 1018271.294646,'red_eff' :1,'sumw'    :1018271.294646,'xsec'    :0.148230,'kfac'    :0.975100,'fil_eff'    :1.000000},
 'Ztautau_sherpa14_2015_2': {'DSID'    : 364141,'events'  : 1018271.294646,'red_eff' :1,'sumw'    :1018271.294646,'xsec'    :0.148230,'kfac'    :0.975100,'fil_eff'    :1.000000},
+#Ztautau_MG1_2017
+'Ztautau_MG1_2017_0': {'DSID'    : 361510,'events'  : 6897000.000000,'red_eff' :1,'sumw'    :6897000.000000,'xsec'    :1398.800000,'kfac'    :1.232000,'fil_eff'    :1.000000},
+#Ztautau_MG1_2018
+'Ztautau_MG1_2018_0': {'DSID'    : 361510,'events'  : 11430200.000000,'red_eff' :1,'sumw'    :11430200.000000,'xsec'    :1398.800000,'kfac'    :1.232000,'fil_eff'    :1.000000},
+'Ztautau_MG1_2018_1': {'DSID'    : 361510,'events'  : 11430200.000000,'red_eff' :1,'sumw'    :11430200.000000,'xsec'    :1398.800000,'kfac'    :1.232000,'fil_eff'    :1.000000},
+'Ztautau_MG1_2018_2': {'DSID'    : 361510,'events'  : 11430200.000000,'red_eff' :1,'sumw'    :11430200.000000,'xsec'    :1398.800000,'kfac'    :1.232000,'fil_eff'    :1.000000},
+'Ztautau_MG1_2018_3': {'DSID'    : 361510,'events'  : 11430200.000000,'red_eff' :1,'sumw'    :11430200.000000,'xsec'    :1398.800000,'kfac'    :1.232000,'fil_eff'    :1.000000},
+#Ztautau_MG1_2015
+'Ztautau_MG1_2015_0': {'DSID'    : 361510,'events'  : 6890000.000000,'red_eff' :1,'sumw'    :6890000.000000,'xsec'    :1398.800000,'kfac'    :1.232000,'fil_eff'    :1.000000},
+'Ztautau_MG1_2015_1': {'DSID'    : 361510,'events'  : 6890000.000000,'red_eff' :1,'sumw'    :6890000.000000,'xsec'    :1398.800000,'kfac'    :1.232000,'fil_eff'    :1.000000},
+'Ztautau_MG1_2015_2': {'DSID'    : 361510,'events'  : 6890000.000000,'red_eff' :1,'sumw'    :6890000.000000,'xsec'    :1398.800000,'kfac'    :1.232000,'fil_eff'    :1.000000},
+'Ztautau_MG1_2015_3': {'DSID'    : 361510,'events'  : 6890000.000000,'red_eff' :1,'sumw'    :6890000.000000,'xsec'    :1398.800000,'kfac'    :1.232000,'fil_eff'    :1.000000},
+'Ztautau_MG1_2015_4': {'DSID'    : 361510,'events'  : 6890000.000000,'red_eff' :1,'sumw'    :6890000.000000,'xsec'    :1398.800000,'kfac'    :1.232000,'fil_eff'    :1.000000},
+#Ztautau_MG2_2017
+'Ztautau_MG2_2017_0': {'DSID'    : 361511,'events'  : 4156210.336531,'red_eff' :1,'sumw'    :4156210.336531,'xsec'    :211.440000,'kfac'    :1.232000,'fil_eff'    :1.000000},
+'Ztautau_MG2_2017_1': {'DSID'    : 361511,'events'  : 4156210.336531,'red_eff' :1,'sumw'    :4156210.336531,'xsec'    :211.440000,'kfac'    :1.232000,'fil_eff'    :1.000000},
+'Ztautau_MG2_2017_2': {'DSID'    : 361511,'events'  : 4156210.336531,'red_eff' :1,'sumw'    :4156210.336531,'xsec'    :211.440000,'kfac'    :1.232000,'fil_eff'    :1.000000},
+#Ztautau_MG2_2018
+'Ztautau_MG2_2018_0': {'DSID'    : 361511,'events'  : 5930186.928498,'red_eff' :1,'sumw'    :5930186.928498,'xsec'    :211.440000,'kfac'    :1.232000,'fil_eff'    :1.000000},
+'Ztautau_MG2_2018_1': {'DSID'    : 361511,'events'  : 5930186.928498,'red_eff' :1,'sumw'    :5930186.928498,'xsec'    :211.440000,'kfac'    :1.232000,'fil_eff'    :1.000000},
+'Ztautau_MG2_2018_2': {'DSID'    : 361511,'events'  : 5930186.928498,'red_eff' :1,'sumw'    :5930186.928498,'xsec'    :211.440000,'kfac'    :1.232000,'fil_eff'    :1.000000},
+'Ztautau_MG2_2018_3': {'DSID'    : 361511,'events'  : 5930186.928498,'red_eff' :1,'sumw'    :5930186.928498,'xsec'    :211.440000,'kfac'    :1.232000,'fil_eff'    :1.000000},
+#Ztautau_MG2_2015
+'Ztautau_MG2_2015_0': {'DSID'    : 361511,'events'  : 4144403.298615,'red_eff' :1,'sumw'    :4144403.298615,'xsec'    :211.440000,'kfac'    :1.232000,'fil_eff'    :1.000000},
+'Ztautau_MG2_2015_1': {'DSID'    : 361511,'events'  : 4144403.298615,'red_eff' :1,'sumw'    :4144403.298615,'xsec'    :211.440000,'kfac'    :1.232000,'fil_eff'    :1.000000},
+#Ztautau_MG3_2017
+'Ztautau_MG3_2017_0': {'DSID'    : 361512,'events'  : 3404312.050988,'red_eff' :1,'sumw'    :3404312.050988,'xsec'    :67.197000,'kfac'    :1.232000,'fil_eff'    :1.000000},
+#Ztautau_MG3_2018
+'Ztautau_MG3_2018_0': {'DSID'    : 361512,'events'  : 2206697.497911,'red_eff' :1,'sumw'    :2206697.497911,'xsec'    :67.197000,'kfac'    :1.232000,'fil_eff'    :1.000000},
+#Ztautau_MG3_2015
+'Ztautau_MG3_2015_0': {'DSID'    : 361512,'events'  : 3299054.704486,'red_eff' :1,'sumw'    :3299054.704486,'xsec'    :67.197000,'kfac'    :1.232000,'fil_eff'    :1.000000},
+'Ztautau_MG3_2015_1': {'DSID'    : 361512,'events'  : 3299054.704486,'red_eff' :1,'sumw'    :3299054.704486,'xsec'    :67.197000,'kfac'    :1.232000,'fil_eff'    :1.000000},
+#Ztautau_MG4_2017
+'Ztautau_MG4_2017_0': {'DSID'    : 361513,'events'  : 939994.005327,'red_eff' :1,'sumw'    :939994.005327,'xsec'    :18.612000,'kfac'    :1.232000,'fil_eff'    :1.000000},
+#Ztautau_MG4_2018
+'Ztautau_MG4_2018_0': {'DSID'    : 361513,'events'  : 1571531.677138,'red_eff' :1,'sumw'    :1571531.677138,'xsec'    :18.612000,'kfac'    :1.232000,'fil_eff'    :1.000000},
+#Ztautau_MG4_2015
+'Ztautau_MG4_2015_0': {'DSID'    : 361513,'events'  : 931587.080909,'red_eff' :1,'sumw'    :931587.080909,'xsec'    :18.612000,'kfac'    :1.232000,'fil_eff'    :1.000000},
+'Ztautau_MG4_2015_1': {'DSID'    : 361513,'events'  : 931587.080909,'red_eff' :1,'sumw'    :931587.080909,'xsec'    :18.612000,'kfac'    :1.232000,'fil_eff'    :1.000000},
+#Ztautau_MG5_2017
+'Ztautau_MG5_2017_0': {'DSID'    : 361514,'events'  : 368937.473465,'red_eff' :1,'sumw'    :368937.473465,'xsec'    :7.259800,'kfac'    :1.232000,'fil_eff'    :1.000000},
+#Ztautau_MG5_2018
+'Ztautau_MG5_2018_0': {'DSID'    : 361514,'events'  : 625268.859629,'red_eff' :1,'sumw'    :625268.859629,'xsec'    :7.259800,'kfac'    :1.232000,'fil_eff'    :1.000000},
+#Ztautau_MG5_2015
+'Ztautau_MG5_2015_0': {'DSID'    : 361514,'events'  : 361721.532833,'red_eff' :1,'sumw'    :361721.532833,'xsec'    :7.259800,'kfac'    :1.232000,'fil_eff'    :1.000000},
+'Ztautau_MG5_2015_1': {'DSID'    : 361514,'events'  : 361721.532833,'red_eff' :1,'sumw'    :361721.532833,'xsec'    :7.259800,'kfac'    :1.232000,'fil_eff'    :1.000000},
 #VBF_Ztautau_old_2017
 'VBF_Ztautau_old_2017_0': {'DSID'    : 308094,'events'  : 629342.387457,'red_eff' :1,'sumw'    :629342.387457,'xsec'    :0.633470,'kfac'    :1.000000,'fil_eff'    :1.000000},
 #VBF_Ztautau_old_2018
