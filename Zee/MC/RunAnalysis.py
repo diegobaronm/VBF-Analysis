@@ -40,7 +40,7 @@ def runAnalysis(key, remote):
         if "VBF" in key:
             z_sample=0
         if "MG" in key:
-            z_sample=0
+            z_sample=3
     """
     Function to run the analysis for a given decay chain labelled 'key'
     """
