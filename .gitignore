@@ -77,3 +77,5 @@ WJets/DATA/log/*
 WJets/Plots/*
 !WJets/Plots/*.ipynb
 !WJets/Plots/*.sh
+
+Taulep/*
