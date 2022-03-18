@@ -78,4 +78,6 @@ WJets/Plots/*
 !WJets/Plots/*.ipynb
 !WJets/Plots/*.sh
 
-Taulep/*
+TauLep/*
+!TauLep/*.ipynb
+!TauLep/*.sh
