@@ -50,6 +50,9 @@ histos_not_full={"lep_phi":["Lep phi angle",64,-3.2,3.2],
 "ljet2_pt":["Light jet2 pT",200,0,200],
 "ljet3_pt":["Light jet3 pT",200,0,200],
 "gap_jet_pt":["Gap jet pT",200,0,200],
+"trans_mass_lep":["Transverse mass lepton",150,0,150],
+"vec_sum_pt_jets":["Vector sum pT tagging jets",2000,0,2000],
+"ratio_zpt_sumjetpt":["Ratio ZpT over vector sum pT tagging jets",500,0,5],
 }
 
 histos_cuts={"delta_phi":["Delta phi between tau and lep",32,0,3.2],

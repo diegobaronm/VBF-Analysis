@@ -467,6 +467,21 @@ void CLoop::Book(double lumFactor) {
     h_gap_jet_eta_basic_cuts_ptl = new TH1F("gap_jet_eta_basic_cuts_ptl","Gap jet eta",140,-7.0,7.0);
 
 
+    h_trans_mass_lep_basic = new TH1F("trans_mass_lep_basic","Transverse mass lepton",150,0,150);
+    h_trans_mass_lep_basic_cuts = new TH1F("trans_mass_lep_basic_cuts","Transverse mass lepton",150,0,150);
+    h_trans_mass_lep_basic_cuts_tpt = new TH1F("trans_mass_lep_basic_cuts_tpt","Transverse mass lepton",150,0,150);
+
+
+    h_vec_sum_pt_jets_basic = new TH1F("vec_sum_pt_jets_basic","Vector sum pT tagging jets",2000,0,2000);
+    h_vec_sum_pt_jets_basic_cuts = new TH1F("vec_sum_pt_jets_basic_cuts","Vector sum pT tagging jets",2000,0,2000);
+    h_vec_sum_pt_jets_basic_cuts_tpt = new TH1F("vec_sum_pt_jets_basic_cuts_tpt","Vector sum pT tagging jets",2000,0,2000);
+
+
+    h_ratio_zpt_sumjetpt_basic = new TH1F("ratio_zpt_sumjetpt_basic","Ratio ZpT over vector sum pT tagging jets",500,0,5);
+    h_ratio_zpt_sumjetpt_basic_cuts = new TH1F("ratio_zpt_sumjetpt_basic_cuts","Ratio ZpT over vector sum pT tagging jets",500,0,5);
+    h_ratio_zpt_sumjetpt_basic_cuts_tpt = new TH1F("ratio_zpt_sumjetpt_basic_cuts_tpt","Ratio ZpT over vector sum pT tagging jets",500,0,5);
+
+
 
     h_delta_phi = new TH1F("delta_phi","Delta phi between tau and lep",32,0,3.2);
     h_delta_y = new TH1F("delta_y","Delta Rapidity",100,0,10);
@@ -630,6 +645,10 @@ void CLoop::Fill(double weight, int z_sample) {
 
         // TRANSVERSE MASS LEPTON
         double lepmet_mass=sqrt(2*muon_0_p4->Pt()*met_reco_p4->Pt()*(1-cos(muon_0_p4->Phi()-met_reco_p4->Phi())));
+        // Vector sum pT of the jets
+        double jet_pt_sum= (*ljet_0_p4 + *ljet_1_p4).Pt();
+        // Ratio ZpT/jet_pt_sum
+        double ratio_zpt_sumjetpt = Z_pt/jet_pt_sum;
 
         // OMEGA VARIABLE DEFINITION
         double omega=0.0;
@@ -706,7 +725,7 @@ void CLoop::Fill(double weight, int z_sample) {
         // Cuts vector
         vector<int> cuts={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
         // CUTS
-        if (angle<=1.5){cuts[0]=1;}
+        if (angle<=2.0){cuts[0]=1;}
         if(delta_y>=2.0){cuts[1]=1;}
         if(n_bjets_MV2c10_FixedCutBEff_85==0){cuts[2]=1;}
         if(muon_0_iso_TightTrackOnly_FixedRad==1){cuts[3]=1;}
@@ -866,6 +885,9 @@ void CLoop::Fill(double weight, int z_sample) {
         h_ljet0_eta_basic->Fill(ljet_0_p4->Eta(),weight);
         h_ljet1_eta_basic->Fill(ljet_1_p4->Eta(),weight);
         h_ljet2_eta_basic->Fill(ljet_2_p4->Eta(),weight);
+        h_trans_mass_lep_basic->Fill(lepmet_mass,weight);
+        h_vec_sum_pt_jets_basic->Fill(jet_pt_sum,weight);
+        h_ratio_zpt_sumjetpt_basic->Fill(ratio_zpt_sumjetpt,weight);
 
         // ANGLE CUT
         if (cuts[0]==1){
@@ -1301,6 +1323,9 @@ void CLoop::Fill(double weight, int z_sample) {
                                     h_ljet0_eta_basic_cuts->Fill(ljet_0_p4->Eta(),weight);
                                     h_ljet1_eta_basic_cuts->Fill(ljet_1_p4->Eta(),weight);
                                     h_ljet2_eta_basic_cuts->Fill(ljet_2_p4->Eta(),weight);
+                                    h_trans_mass_lep_basic_cuts->Fill(lepmet_mass,weight);
+                                    h_vec_sum_pt_jets_basic_cuts->Fill(jet_pt_sum,weight);
+                                    h_ratio_zpt_sumjetpt_basic_cuts->Fill(ratio_zpt_sumjetpt,weight);
 
                                     // TAU PT CUT
                                     if(cuts[14]==1){
@@ -1365,6 +1390,9 @@ void CLoop::Fill(double weight, int z_sample) {
                                       h_ljet0_eta_basic_cuts_ptl->Fill(ljet_0_p4->Eta(),weight);
                                       h_ljet1_eta_basic_cuts_ptl->Fill(ljet_1_p4->Eta(),weight);
                                       h_ljet2_eta_basic_cuts_ptl->Fill(ljet_2_p4->Eta(),weight);
+                                      h_trans_mass_lep_basic_cuts_tpt->Fill(lepmet_mass,weight);
+                                      h_vec_sum_pt_jets_basic_cuts_tpt->Fill(jet_pt_sum,weight);
+                                      h_ratio_zpt_sumjetpt_basic_cuts_tpt->Fill(ratio_zpt_sumjetpt,weight);
                                     }
                                   }
                                 }
@@ -1749,6 +1777,21 @@ void CLoop::Style(double lumFactor) {
   h_gap_jet_eta_basic->Write();
   h_gap_jet_eta_basic_cuts->Write();
   h_gap_jet_eta_basic_cuts_ptl->Write();
+
+
+  h_trans_mass_lep_basic->Write();
+  h_trans_mass_lep_basic_cuts->Write();
+  h_trans_mass_lep_basic_cuts_tpt->Write();
+
+
+  h_vec_sum_pt_jets_basic->Write();
+  h_vec_sum_pt_jets_basic_cuts->Write();
+  h_vec_sum_pt_jets_basic_cuts_tpt->Write();
+
+
+  h_ratio_zpt_sumjetpt_basic->Write();
+  h_ratio_zpt_sumjetpt_basic_cuts->Write();
+  h_ratio_zpt_sumjetpt_basic_cuts_tpt->Write();
 
   h_delta_phi->Write();
   h_delta_y->Write();

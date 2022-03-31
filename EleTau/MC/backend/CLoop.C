@@ -44,8 +44,6 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
     // if in fast mode only loop over 1% of the entries
     Long64_t nLoop = nentries;
 
-    std::cout<<"Analysing "<<nLoop<<" Events!"<<std::endl;
-
     Long64_t nbytes = 0, nb = 0;
 
     // loop over number of entries
@@ -57,17 +55,10 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
 
         double mjj_w=1;
         // mjj reweighting
-        if(z_sample==1 ){
+        if(z_sample==1 || z_sample==2){
             double mjj=sqrt(2*(ljet_0_p4->Dot(*ljet_1_p4)));
-            mjj_w = 9.250E-05 * mjj + 1.151E+00;
-        } else if (z_sample==2){
-            double mjj=sqrt(2*(ljet_0_p4->Dot(*ljet_1_p4)));
-            mjj_w = -4.120E-04 * mjj + 1.298E+00;
-        } else if (z_sample==3){
-            double mjj=sqrt(2*(ljet_0_p4->Dot(*ljet_1_p4)));
-            mjj_w =-2.349E-04 * mjj + 7.681E-01;
+            mjj_w = -3.01e-04 * mjj + 1.261;
         }
-
         // ZpT reweighting
 
         double z_w=1;
@@ -145,7 +136,7 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
             *elec_0_NOMINAL_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight
             *jet_NOMINAL_central_jets_global_effSF_JVT*jet_NOMINAL_central_jets_global_ineffSF_JVT*jet_NOMINAL_forward_jets_global_effSF_JVT*
             jet_NOMINAL_forward_jets_global_ineffSF_JVT*jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85*jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85
-            *tau_0_NOMINAL_TauEffSF_LooseEleBDT_electron*tau_0_NOMINAL_TauEffSF_JetRNNmedium;
+            *tau_0_NOMINAL_TauEffSF_LooseEleBDT_electron*tau_0_NOMINAL_TauEffSF_JetRNNloose;
         }
 
         // fill histograms

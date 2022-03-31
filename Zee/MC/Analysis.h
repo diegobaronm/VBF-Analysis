@@ -275,6 +275,16 @@ TH1F* h_gap_jet_eta_basic_cuts;
 TH1F* h_gap_jet_eta_basic_cuts_ptl;
 
 
+TH1F* h_vec_sum_pt_jets_basic;
+TH1F* h_vec_sum_pt_jets_basic_cuts;
+TH1F* h_vec_sum_pt_jets_basic_cuts_ptl;
+
+
+TH1F* h_ratio_zpt_sumjetpt_basic;
+TH1F* h_ratio_zpt_sumjetpt_basic_cuts;
+TH1F* h_ratio_zpt_sumjetpt_basic_cuts_ptl;
+
+
 
 TH1F* h_delta_phi;
 TH1F* h_delta_y;
