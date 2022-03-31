@@ -19,7 +19,8 @@ try :
 
 	if type_of_run:
 		os.system('hadd '+channel_dir+'MC/out/Zmumu_Sherpa.root NOMINAL/Zmumu_sherpa*.root')
-		os.system('hadd '+channel_dir+'MC/out/Zmumu_PoPy.root NOMINAL/Zmumu_201*.root')
+		#os.system('hadd '+channel_dir+'MC/out/Zmumu_PoPy.root NOMINAL/Zmumu_201*.root')
+		os.system('hadd '+channel_dir+'MC/out/Zmumu_MG.root NOMINAL/Zmumu_MG*.root')
 		os.system('hadd '+channel_dir+'MC/out/Signal_old.root NOMINAL/VBF_Zmumu_old_201*.root')
 		os.system('hadd '+channel_dir+'MC/out/Signal_Sherpa.root NOMINAL/VBF_Zmumu_sherpa_201*.root')
 		os.system('hadd '+channel_dir+'MC/out/Signal_PoPy.root NOMINAL/VBF_Zmumu_201*.root')
