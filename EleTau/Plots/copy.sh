@@ -7,6 +7,7 @@ cp ../MC/out/Zjets.root Zjets.root
 cp ../MC/out/ttbar.root ttbar.root
 cp ../MC/out/Ztautau_Sherpa.root .
 cp ../MC/out/Ztautau_PoPy.root .
+cp ../MC/out/Ztautau_MG.root .
 cp ../MC/out/Higgs.root .
 cp ../MC/out/Signal_PoPy.root .
 cp ../MC/out/Signal_Sherpa.root .
