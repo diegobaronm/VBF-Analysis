@@ -501,7 +501,7 @@ void CLoop::Book(double lumFactor) {
     h_reco_mass_i = new TH1F("reco_mass_i","Reconstructed mass in between events",240,0,240);
     h_reco_mass_o = new TH1F("reco_mass_o","Reconstructed mass outside events",240,0,240);
     h_reco_mass = new TH1F("reco_mass_","Reconstructed mass all events",240,0,240);
-    
+
 
     if (lumFactor!=1){
       h_tau_matched_1p_basic = new TH1F("tau_matched_1p_basic","Tau truth matched 1 prong",2,0,2);
@@ -559,7 +559,7 @@ void CLoop::Fill(double weight, int z_sample) {
   bool lepton_id=muon_0_id_medium;
   size_t n_ljets=n_jets-n_bjets_MV2c10_FixedCutBEff_85;
 
-  if (ql!=qtau && n_muons==1 && n_taus_rnn_loose>=1 && weight > -190 && lepton_id && n_ljets>=2 && n_ljets<=3){
+  if (ql==qtau && n_muons==1 && n_taus_rnn_loose>=1 && weight > -190 && lepton_id && n_ljets>=2 && n_ljets<=3){
     //angles
     double angle_l_MET=del_phi(muon_0_p4->Phi(),met_reco_p4->Phi());
     double angle_tau_MET=del_phi(tau_0_p4->Phi(),met_reco_p4->Phi());
@@ -718,10 +718,10 @@ void CLoop::Fill(double weight, int z_sample) {
         // Minimum DeltaR between lepton and jets
         std::vector<UInt_t> is_jet_present{ljet_0,ljet_1,ljet_2};
         std::vector<TLorentzVector*> jet_container{ljet_0_p4,ljet_1_p4,ljet_2_p4};
-        
+
         double min_dR_tau = min_deltaR(tau_0_p4,is_jet_present,jet_container);
         double min_dR_lep = min_deltaR(muon_0_p4,is_jet_present,jet_container);
-        
+
         // Cuts vector
         vector<int> cuts={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
         // CUTS

@@ -6,7 +6,7 @@ import os
 totRealLum = 57.6164
 
 # Name of host
-try :  
+try :
         remote = sys.argv[2]=="yes"
 except:
         remote = False
@@ -16,7 +16,7 @@ if remote:
   samples=os.listdir(path_to_samples)
   dirs=[path_to_samples+i+'/' for i in samples if 'data' in i]
 else :
-        path_to_samples='/media/diego/27AB07EC0C8BE0A7/DATA/v26/'
+        path_to_samples='/media/diego/Seagate Basic/DATA/v26/'
         samples=os.listdir(path_to_samples)
         dirs=[path_to_samples+i+'/' for i in samples if 'data' in i]
 # list of keys which correspond to real datasets
