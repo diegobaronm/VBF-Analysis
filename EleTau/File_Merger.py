@@ -22,6 +22,7 @@ try :
 		os.system('hadd '+channel_dir+'MC/out/Signal_PoPy.root NOMINAL/VBF_Ztautau_201*.root')
 		os.system('hadd '+channel_dir+'MC/out/Ztautau_Sherpa.root NOMINAL/Ztautau_sherpa*.root')
 		os.system('hadd '+channel_dir+'MC/out/Ztautau_PoPy.root NOMINAL/Ztautau_201*.root')
+		os.system('hadd '+channel_dir+'MC/out/Ztautau_MG.root NOMINAL/Ztautau_MG*.root')
 		os.system('hadd '+channel_dir+'MC/out/Zjets.root NOMINAL/Zmumu_*.root NOMINAL/Zee_*.root')
 		os.system('hadd '+channel_dir+'MC/out/Higgs.root NOMINAL/WpH*.root NOMINAL/WmH*.root NOMINAL/ZHllbb*.root NOMINAL/ZHlltautau*.root NOMINAL/ggHttlm15hp20*.root NOMINAL/ggHttlp15hm20*.root NOMINAL/VBFHttlm15hp20*.root NOMINAL/VBFHttlp15hm20*.root')
 		os.system('hadd '+channel_dir+'MC/out/VV.root NOMINAL/llll_*.root NOMINAL/lllv_*.root NOMINAL/llvv_*.root NOMINAL/lvvv_*.root NOMINAL/ZqqZvv_*.root NOMINAL/ZqqZll_*.root NOMINAL/WqqZvv_*.root NOMINAL/WqqZll_*.root NOMINAL/WlvZqq_*.root')
