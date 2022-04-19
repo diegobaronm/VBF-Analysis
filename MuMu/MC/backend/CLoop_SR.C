@@ -79,7 +79,7 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
             mjj_w = mjj_rw_sherpa(mjj,-3.932E-04,1.355E+00);
         } else if (z_sample==3){
             double mjj=sqrt(2*(ljet_0_p4->Dot(*ljet_1_p4)));
-            mjj_w = mjj_rw_madgraph(mjj,-2.616E-04,3.834E-01,-4.204E-04);
+            mjj_w = mjj_rw_madgraph(mjj,-2.616E-04,3.834E-01,-1.022E-04);
         }
 
         // ZpT reweighting
