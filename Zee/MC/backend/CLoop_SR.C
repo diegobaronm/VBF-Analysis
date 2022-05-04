@@ -3,9 +3,8 @@
 #include "../Analysis.C"
 #include <cmath>
 
-double mjj_rw_madgraph(double mjj, double slope, double level, double second_slope){
-    if (mjj<=1250.0) return slope*mjj+level-1250.0*slope;
-    else return level+second_slope*(mjj-1250.0);
+double mjj_rw_madgraph(double mjj, double a, double b, double c){
+    return a*mjj*mjj+b*mjj+c;
 }
 
 double mjj_rw_sherpa(double mjj, double slope, double level){
@@ -75,10 +74,10 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
             mjj_w = mjj_rw_sherpa(mjj,1.0,1.0);
         } else if (z_sample==2){
             double mjj=sqrt(2*(ljet_0_p4->Dot(*ljet_1_p4)));
-            mjj_w = mjj_rw_sherpa(mjj,-3.932E-04,1.355E+00);
+            mjj_w = mjj_rw_sherpa(mjj,-3.932E-04,1.314E+00);
         } else if (z_sample==3){
             double mjj=sqrt(2*(ljet_0_p4->Dot(*ljet_1_p4)));
-            mjj_w = mjj_rw_madgraph(mjj,-2.616E-04,3.834E-01,-1.022E-04);
+            mjj_w = mjj_rw_madgraph(mjj,-1.545E-09,-1.436E-04,8.347E-01);
         }
 
         // ZpT reweighting
