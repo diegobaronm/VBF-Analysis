@@ -371,14 +371,14 @@ void CLoop::Book(double lumFactor) {
     h_delta_phi_basic_cuts_tpt = new TH1F("delta_phi_basic_cuts_tpt","Delta phi between tau and lep",32,0,3.2);
 
 
-    h_Z_pt_reco_i_basic = new TH1F("Z_pt_reco_i_basic","ZpT in between events",400,0,400);
-    h_Z_pt_reco_i_basic_cuts = new TH1F("Z_pt_reco_i_basic_cuts","ZpT in between events",400,0,400);
-    h_Z_pt_reco_i_basic_cuts_tpt = new TH1F("Z_pt_reco_i_basic_cuts_tpt","ZpT in between events",400,0,400);
+    h_Z_pt_reco_i_basic = new TH1F("Z_pt_reco_i_basic","ZpT in between events",1000,0,1000);
+    h_Z_pt_reco_i_basic_cuts = new TH1F("Z_pt_reco_i_basic_cuts","ZpT in between events",1000,0,1000);
+    h_Z_pt_reco_i_basic_cuts_tpt = new TH1F("Z_pt_reco_i_basic_cuts_tpt","ZpT in between events",1000,0,1000);
 
 
-    h_Z_pt_reco_o_basic = new TH1F("Z_pt_reco_o_basic","ZpT outside events",400,0,400);
-    h_Z_pt_reco_o_basic_cuts = new TH1F("Z_pt_reco_o_basic_cuts","ZpT outside events",400,0,400);
-    h_Z_pt_reco_o_basic_cuts_tpt = new TH1F("Z_pt_reco_o_basic_cuts_tpt","ZpT outside events",400,0,400);
+    h_Z_pt_reco_o_basic = new TH1F("Z_pt_reco_o_basic","ZpT outside events",1000,0,1000);
+    h_Z_pt_reco_o_basic_cuts = new TH1F("Z_pt_reco_o_basic_cuts","ZpT outside events",1000,0,1000);
+    h_Z_pt_reco_o_basic_cuts_tpt = new TH1F("Z_pt_reco_o_basic_cuts_tpt","ZpT outside events",1000,0,1000);
 
 
     h_n_fake_tracks_basic = new TH1F("n_fake_tracks_basic","Number of fake tracks",40,0,40);
@@ -416,9 +416,9 @@ void CLoop::Book(double lumFactor) {
     h_pt_bal_basic_cuts_tpt = new TH1F("pt_bal_basic_cuts_tpt","pT Balance",100,0,1);
 
 
-    h_mass_jj_basic = new TH1F("mass_jj_basic","Invariant mass di_jet system",3000,0,3000);
-    h_mass_jj_basic_cuts = new TH1F("mass_jj_basic_cuts","Invariant mass di_jet system",3000,0,3000);
-    h_mass_jj_basic_cuts_tpt = new TH1F("mass_jj_basic_cuts_tpt","Invariant mass di_jet system",3000,0,3000);
+    h_mass_jj_basic = new TH1F("mass_jj_basic","Invariant mass di_jet system",5000,0,5000);
+    h_mass_jj_basic_cuts = new TH1F("mass_jj_basic_cuts","Invariant mass di_jet system",5000,0,5000);
+    h_mass_jj_basic_cuts_tpt = new TH1F("mass_jj_basic_cuts_tpt","Invariant mass di_jet system",5000,0,5000);
 
 
     h_n_jets_interval_basic = new TH1F("n_jets_interval_basic","N jets between rapidity interval",10,0,10);
@@ -494,7 +494,7 @@ void CLoop::Book(double lumFactor) {
     h_ljet0_pt = new TH1F("ljet0_pt","Light jet0 pT",1000,0,1000);
     h_ljet1_pt = new TH1F("ljet1_pt","Light jet1 pT",1000,0,1000);
     h_pt_bal = new TH1F("pt_bal","pT Balance",100,0,1);
-    h_mass_jj = new TH1F("mass_jj","Invariant mass di_jet system",3000,0,3000);
+    h_mass_jj = new TH1F("mass_jj","Invariant mass di_jet system",5000,0,5000);
     h_n_jets_interval = new TH1F("n_jets_interval","N jets between rapidity interval",10,0,10);
     h_Z_centrality = new TH1F("Z_centrality","Z boson centrality",500,0,5);
     h_omega = new TH1F("omega","Omega variable",60,-3.0,3.0);
@@ -539,14 +539,14 @@ void CLoop::Book(double lumFactor) {
       h_tau_matched_3p_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco = new TH1F("tau_matched_3p_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco","Tau truth matched 3 prong",2,0,2);
       h_tau_matched_3p_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt = new TH1F("tau_matched_3p_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt","Tau truth matched 3 prong",2,0,2);
 
-      h_Z_pt_truth_i_basic = new TH1F("Z_pt_truth_i_basic","Truth ZpT in between events",400,0,400);
-      h_Z_pt_truth_i_basic_cuts = new TH1F("Z_pt_truth_i_basic_cuts","Truth ZpT in between events",400,0,400);
-      h_Z_pt_truth_i_basic_cuts_tpt = new TH1F("Z_pt_truth_i_basic_cuts_tpt","Truth ZpT in between events",400,0,400);
+      h_Z_pt_truth_i_basic = new TH1F("Z_pt_truth_i_basic","Truth ZpT in between events",1000,0,1000);
+      h_Z_pt_truth_i_basic_cuts = new TH1F("Z_pt_truth_i_basic_cuts","Truth ZpT in between events",1000,0,1000);
+      h_Z_pt_truth_i_basic_cuts_tpt = new TH1F("Z_pt_truth_i_basic_cuts_tpt","Truth ZpT in between events",1000,0,1000);
 
 
-      h_Z_pt_truth_o_basic = new TH1F("Z_pt_truth_o_basic","Truth ZpT outside events",400,0,400);
-      h_Z_pt_truth_o_basic_cuts = new TH1F("Z_pt_truth_o_basic_cuts","Truth ZpT outside events",400,0,400);
-      h_Z_pt_truth_o_basic_cuts_tpt = new TH1F("Z_pt_truth_o_basic_cuts_tpt","Truth ZpT outside events",400,0,400);
+      h_Z_pt_truth_o_basic = new TH1F("Z_pt_truth_o_basic","Truth ZpT outside events",1000,0,1000);
+      h_Z_pt_truth_o_basic_cuts = new TH1F("Z_pt_truth_o_basic_cuts","Truth ZpT outside events",1000,0,1000);
+      h_Z_pt_truth_o_basic_cuts_tpt = new TH1F("Z_pt_truth_o_basic_cuts_tpt","Truth ZpT outside events",1000,0,1000);
     }
 
 }
@@ -574,8 +574,9 @@ void CLoop::Fill(double weight, int z_sample) {
       trigger_decision= bool(HLT_mu26_ivarmedium | HLT_mu50);
       trigger_match=bool(muTrigMatch_0_HLT_mu26_ivarmedium | muTrigMatch_0_HLT_mu50);
     }
-
-    if ( angle<5*pi/6 && trigger_decision  && trigger_match && abs(muon_0_p4->Eta())>=0.1 && abs(tau_0_p4->Eta())>=0.1) {
+    // INVARIANT MASS 2-JETS
+    double mjj=sqrt(2*(ljet_0_p4->Dot(*ljet_1_p4)));
+    if (mjj>=250 && angle<5*pi/6 && trigger_decision  && trigger_match && abs(muon_0_p4->Eta())>=0.1 && abs(tau_0_p4->Eta())>=0.1) {
 
       //topology
       bool inside= abs(angle-(angle_l_MET+angle_tau_MET))< 0.00001; //ANGLE BEING USED pi/2 AND 2.0943
@@ -668,8 +669,6 @@ void CLoop::Fill(double weight, int z_sample) {
         // VBF variables
         // DELTA RAPIDITY 2-JETS
         double delta_y = abs(ljet_0_p4->Rapidity()-ljet_1_p4->Rapidity());
-        // INVARIANT MASS 2-JETS
-        double mjj=sqrt(2*(ljet_0_p4->Dot(*ljet_1_p4)));
         // NUMBER OF JETS INTERVAL
         int n_jets_interval{};
         if(n_ljets>2){
