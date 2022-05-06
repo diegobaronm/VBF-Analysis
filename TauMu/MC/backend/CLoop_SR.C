@@ -66,7 +66,7 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
         // mjj reweighting
         if(z_sample==1 ){
             double mjj=sqrt(2*(ljet_0_p4->Dot(*ljet_1_p4)));
-            mjj_w = mjj_rw_sherpa(mjj,1.0,1.0);
+            mjj_w = 1;
         } else if (z_sample==2){
             double mjj=sqrt(2*(ljet_0_p4->Dot(*ljet_1_p4)));
             mjj_w = mjj_rw_sherpa(mjj,-3.932E-04,1.314E+00);

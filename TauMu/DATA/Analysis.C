@@ -560,6 +560,7 @@ void CLoop::Fill(double weight, int z_sample) {
   size_t n_ljets=n_jets-n_bjets_MV2c10_FixedCutBEff_85;
 
   if (ql!=qtau && n_muons==1 && n_taus_rnn_loose>=1 && weight > -190 && lepton_id && n_ljets>=2 && n_ljets<=3){
+    
     //angles
     double angle_l_MET=del_phi(muon_0_p4->Phi(),met_reco_p4->Phi());
     double angle_tau_MET=del_phi(tau_0_p4->Phi(),met_reco_p4->Phi());
@@ -787,6 +788,7 @@ void CLoop::Fill(double weight, int z_sample) {
           h_pt_bal->Fill(pt_bal,weight);
         }
         if ((sum-cuts[9])==14) {
+          std::cout<<weight<<std::endl;
           h_mass_jj->Fill(mjj,weight);
         }
         if ((sum-cuts[10])==14) {
@@ -1392,6 +1394,8 @@ void CLoop::Fill(double weight, int z_sample) {
                                       h_trans_mass_lep_basic_cuts_tpt->Fill(lepmet_mass,weight);
                                       h_vec_sum_pt_jets_basic_cuts_tpt->Fill(jet_pt_sum,weight);
                                       h_ratio_zpt_sumjetpt_basic_cuts_tpt->Fill(ratio_zpt_sumjetpt,weight);
+
+                                      std::cout<<weight<<std::endl;
                                     }
                                   }
                                 }
@@ -1735,6 +1739,7 @@ void CLoop::Style(double lumFactor) {
   h_mass_jj_basic->Write();
   h_mass_jj_basic_cuts->Write();
   h_mass_jj_basic_cuts_tpt->Write();
+  std::cout<<h_mass_jj_basic_cuts_tpt->Integral()<<std::endl;
 
   h_n_jets_interval_basic->Write();
   h_n_jets_interval_basic_cuts->Write();
