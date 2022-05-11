@@ -1,6 +1,3 @@
-if __name__=="__main__":
-  pass
-
 # file to hold variables with info about the data
 import sys
 import os
@@ -20,9 +17,13 @@ if remote:
   samples=os.listdir(path_to_samples)
   dirs=[path_to_samples+i+'/' for i in samples if 'mc' in i]
 else :
-  path_to_samples='/home/diegol/DATA/v26/'
-  samples=os.listdir(path_to_samples)
-  dirs=[path_to_samples+i+'/' for i in samples if 'mc' in i]
+  try :
+    path_to_samples='/home/diegol/DATA/v26/'
+    samples=os.listdir(path_to_samples)
+    dirs=[path_to_samples+i+'/' for i in samples if 'mc' in i]
+  except FileNotFoundError:
+    samples=[]
+    print("Invalid directory of samples..." )
 
 realList=[]
 # inputted by the user
