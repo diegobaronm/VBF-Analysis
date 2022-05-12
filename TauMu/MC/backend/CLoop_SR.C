@@ -4,11 +4,21 @@
 #include <cmath>
 
 double mjj_rw_madgraph(double mjj, double a, double b, double c){
-    return a*mjj*mjj+b*mjj+c;
+    double rw = a*mjj*mjj+b*mjj+c;
+    if (rw<0){
+        return 0.0;
+    } else {
+        return rw;
+    }
 }
 
 double mjj_rw_sherpa(double mjj, double slope, double level){
-    return slope*mjj+level;  
+    double rw = slope*mjj+level;
+    if (rw<0){
+        return 0.0;
+    } else {
+        return rw;
+    } 
 }
 
 void CLoop::Loop(double lumFactor, int z_sample, std::string key)
@@ -69,10 +79,10 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
             mjj_w = 1;
         } else if (z_sample==2){
             double mjj=sqrt(2*(ljet_0_p4->Dot(*ljet_1_p4)));
-            mjj_w = mjj_rw_sherpa(mjj,-3.932E-04,1.314E+00);
+            mjj_w = mjj_rw_sherpa(mjj,-4.074E-04,1.309E+00);
         } else if (z_sample==3){
             double mjj=sqrt(2*(ljet_0_p4->Dot(*ljet_1_p4)));
-            mjj_w = mjj_rw_madgraph(mjj,-1.545E-09,-1.436E-04,8.347E-01);
+            mjj_w = mjj_rw_madgraph(mjj,-1.953E-09,-1.501E-04,8.258E-01);
         }
         // ZpT reweighting
 

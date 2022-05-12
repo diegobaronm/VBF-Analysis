@@ -2,11 +2,12 @@
 *.root
 *.pdf
 *.so
-*.pyc
+*.pycMu
 *.cxx_tmp_*
 *.pcm
 *.cc
 *.d
+*.pyc
 
 .vscode/
 .ipynb_checkpoints/
@@ -36,6 +37,19 @@ EleTau/DATA/log/*
 EleTau/Plots/*
 !EleTau/Plots/*.ipynb
 !EleTau/Plots/*.sh
+
+MuEle/MC/out/*
+MuEle/MC/output/*
+MuEle/MC/error/*
+MuEle/MC/log/*
+MuEle/DATA/out/*
+MuEle/DATA/output/*
+MuEle/DATA/error/*
+MuEle/DATA/log/*
+
+MuEle/Plots/*
+!MuEle/Plots/*.ipynb
+!MuEle/Plots/*.sh
 
 MuMu/MC/out/*
 MuMu/MC/output/*
