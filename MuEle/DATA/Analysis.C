@@ -1134,8 +1134,8 @@ void CLoop::Fill(double weight, int z_sample) {
 
                                     h_elec_phi_basic_cuts_tpt->Fill(elec_0_p4->Phi(),weight);
                                     h_muon_phi_basic_cuts_tpt->Fill(muon_0_p4->Phi(),weight);
-                                    h_trans_mass_elec_basic_cuts->Fill(elecmet_mass,weight);
-                                    h_trans_mass_muon_basic_cuts->Fill(muonmet_mass,weight);
+                                    h_trans_mass_elec_basic_cuts_tpt->Fill(elecmet_mass,weight);
+                                    h_trans_mass_muon_basic_cuts_tpt->Fill(muonmet_mass,weight);
                                     h_jet_n_basic_cuts_tpt->Fill(n_jets,weight);
                                     h_n_bjets_basic_cuts_tpt->Fill(n_bjets_MV2c10_FixedCutBEff_85,weight);
                                     h_iso_basic_cuts_tpt->Fill(muon_0_iso_TightTrackOnly_FixedRad,weight);
