@@ -678,7 +678,7 @@ void CLoop::Fill(double weight, int z_sample) {
         if(mjj>=1000){cuts[8]=1;}
         if(n_jets_interval==0){cuts[9]=1;}
         if(z_centrality<0.5){cuts[10]=1;}
-        if (omega> -0.4 && omega <1.8){cuts[11]=1;}
+        if (omega> -0.5 && omega <1.5){cuts[11]=1;}
         if (inside) {
           if (reco_mass<116 && reco_mass>66){cuts[12]=1;}
         }
