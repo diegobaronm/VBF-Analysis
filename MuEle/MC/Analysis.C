@@ -668,16 +668,16 @@ void CLoop::Fill(double weight, int z_sample) {
         vector<int> cuts={0,0,0,0,0,0,0,0,0,0,0,0,0,0};
         // CUTS
         if (angle<=2.0){cuts[0]=1;}
-        if(delta_y>=2.0){cuts[1]=1;}
+        if(delta_y>=1.0){cuts[1]=1;} // 2.0
         if(n_bjets_MV2c10_FixedCutBEff_85==0){cuts[2]=1;}
         if(muon_0_iso_TightTrackOnly_FixedRad==1 && elec_0_iso_FCTight==1){cuts[3]=1;}
         if(elec_0_p4->Pt()>=27){cuts[4]=1;}
-        if(ljet_0_p4->Pt()>=85){cuts[5]=1;}
-        if(ljet_1_p4->Pt()>=80){cuts[6]=1;}
-        if(pt_bal<=0.4){cuts[7]=1;}
-        if(mjj>=1000){cuts[8]=1;}
-        if(n_jets_interval==0){cuts[9]=1;}
-        if(z_centrality<0.5){cuts[10]=1;}
+        if(ljet_0_p4->Pt()>=45){cuts[5]=1;} //85
+        if(ljet_1_p4->Pt()>=40){cuts[6]=1;} //80
+        if(pt_bal<=0.8){cuts[7]=1;} //0.4
+        if(mjj>=250){cuts[8]=1;} // 1000
+        if(n_jets_interval==0 || n_jets_interval==1){cuts[9]=1;}
+        if(z_centrality<1.5){cuts[10]=1;} // 0.5
         if (omega> -0.5 && omega <1.5){cuts[11]=1;}
         if (inside) {
           if (reco_mass<116 && reco_mass>66){cuts[12]=1;}
