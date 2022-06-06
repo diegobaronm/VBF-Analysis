@@ -598,7 +598,7 @@ void CLoop::Fill(double weight, int z_sample) {
     }
     // INVARIANT MASS 2-JETS
     double mjj=sqrt(2*(ljet_0_p4->Dot(*ljet_1_p4)));
-    if (mjj>=250 && angle<5*pi/6 && trigger_decision && trigger_match) {
+    if (mjj>=250 && angle<5*pi/6 && trigger_decision && trigger_match && abs(elec_0_p4->Eta())>=0.1 && abs(tau_0_p4->Eta())>=0.1) {
       //topology
       bool inside= abs(angle-(angle_l_MET+angle_tau_MET))< 0.00001; //ANGLE BEING USED pi/2 AND 2.0943
       bool outside_lep= angle_l_MET<angle_tau_MET && abs(angle-(angle_l_MET+angle_tau_MET)) > 0.00001 && cos(angle_l_MET)>0;
@@ -744,15 +744,15 @@ void CLoop::Fill(double weight, int z_sample) {
         // Cuts vector
         vector<int> cuts={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
         // CUTS
-        if (angle<=2.0){cuts[0]=1;}
+        if (angle<=3.2){cuts[0]=1;}
         if(delta_y>=2.0){cuts[1]=1;}
         if(n_bjets_MV2c10_FixedCutBEff_85==0){cuts[2]=1;}
         if(elec_0_iso_FCTight==1){cuts[3]=1;}
         if(tau_0_n_charged_tracks==1 && tau_0_jet_rnn_score_trans>=0.25){cuts[4]=1;}
         if(tau_0_n_charged_tracks==3 && tau_0_jet_rnn_score_trans>=0.40){cuts[4]=1;}
         if(elec_0_p4->Pt()>=27){cuts[5]=1;}
-        if(ljet_0_p4->Pt()>=85){cuts[6]=1;}
-        if(ljet_1_p4->Pt()>=80){cuts[7]=1;}
+        if(ljet_0_p4->Pt()>=70){cuts[6]=1;}
+        if(ljet_1_p4->Pt()>=65){cuts[7]=1;}
         if(pt_bal<=0.15){cuts[8]=1;}
         if(mjj>=1000){cuts[9]=1;}
         if(n_jets_interval==0){cuts[10]=1;}
