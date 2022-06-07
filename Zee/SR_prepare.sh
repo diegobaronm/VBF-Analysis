@@ -10,3 +10,6 @@ cp MC/backend/CLoop.h DATA/backend/CLoop.h
 
 rm MC/error/* MC/output/* MC/log/*
 rm DATA/error/* DATA/output/* DATA/log/*
+
+python3 Compiler.py MC
+python3 Compiler.py DATA
