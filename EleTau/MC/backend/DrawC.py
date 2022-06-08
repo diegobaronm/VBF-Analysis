@@ -30,6 +30,6 @@ def DrawC(filename,lumStr,remote,z_sample,key_pop,tree):
     r.gROOT.ProcessLine("f->GetObject(\""+tree+"\",minTree)")
 
     # create new instance of CLoop and loop over events
-    r.gROOT.ProcessLine("CLoop* t = new CLoop(minTree)")
+    r.gROOT.ProcessLine("CLoop* t = new CLoop(minTree"+","+'"'+key_pop+'"'+")")
     r.gROOT.ProcessLine("t->Loop("+lumStr+","+str(z_sample)+","+'"'+key_pop+tree+'"'+")")
     r.gROOT.ProcessLine("f->Close("R")")

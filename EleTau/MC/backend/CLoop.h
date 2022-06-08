@@ -807,12 +807,12 @@ public :
 
 
 
-   CLoop(TTree *tree=0);
+   CLoop(TTree *tree=0,std::string sample_name="");
    virtual ~CLoop();
    virtual Int_t    Cut(Long64_t entry);
    virtual Int_t    GetEntry(Long64_t entry);
    virtual Long64_t LoadTree(Long64_t entry);
-   virtual void     Init(TTree *tree);
+   virtual void     Init(TTree *tree,std::string sample_name="");
    virtual void     Loop(double lumFactor, int z_sample, std::string key);
    virtual Bool_t   Notify();
    virtual void     Show(Long64_t entry = -1);
@@ -821,7 +821,7 @@ public :
 #endif
 
 #ifdef CLoop_cxx
-CLoop::CLoop(TTree *tree) : fChain(0)
+CLoop::CLoop(TTree *tree,std::string sample_name) : fChain(0)
 {
 // if parameter tree is not specified (or zero), connect the file
 // used to generate this class and read the Tree.
@@ -833,7 +833,7 @@ CLoop::CLoop(TTree *tree) : fChain(0)
       f->GetObject("NOMINAL",tree);
 
    }
-   Init(tree);
+   Init(tree,sample_name);
 }
 
 CLoop::~CLoop()
@@ -861,7 +861,7 @@ Long64_t CLoop::LoadTree(Long64_t entry)
    return centry;
 }
 
-void CLoop::Init(TTree *tree)
+void CLoop::Init(TTree *tree,std::string sample_name)
 {
    // The Init() function is called when the selector needs to initialize
    // a new tree or chain. Typically here the branch addresses and branch
@@ -905,7 +905,225 @@ void CLoop::Init(TTree *tree)
    fChain = tree;
    fCurrent = -1;
    fChain->SetMakeClass(1);
-
+   if (sample_name.substr(0,4)=="data"){
+   fChain->SetBranchAddress("HLT_e120_lhloose", &HLT_e120_lhloose, &b_HLT_e120_lhloose);
+   fChain->SetBranchAddress("HLT_e140_lhloose_nod0", &HLT_e140_lhloose_nod0, &b_HLT_e140_lhloose_nod0);
+   fChain->SetBranchAddress("HLT_e24_lhmedium_L1EM20VH", &HLT_e24_lhmedium_L1EM20VH, &b_HLT_e24_lhmedium_L1EM20VH);
+   fChain->SetBranchAddress("HLT_e26_lhtight_nod0_ivarloose", &HLT_e26_lhtight_nod0_ivarloose, &b_HLT_e26_lhtight_nod0_ivarloose);
+   fChain->SetBranchAddress("HLT_e60_lhmedium", &HLT_e60_lhmedium, &b_HLT_e60_lhmedium);
+   fChain->SetBranchAddress("HLT_e60_lhmedium_nod0", &HLT_e60_lhmedium_nod0, &b_HLT_e60_lhmedium_nod0);
+   fChain->SetBranchAddress("HLT_mu20_iloose_L1MU15", &HLT_mu20_iloose_L1MU15, &b_HLT_mu20_iloose_L1MU15);
+   fChain->SetBranchAddress("HLT_mu26_ivarmedium", &HLT_mu26_ivarmedium, &b_HLT_mu26_ivarmedium);
+   fChain->SetBranchAddress("HLT_mu50", &HLT_mu50, &b_HLT_mu50);
+   fChain->SetBranchAddress("bjet_0", &bjet_0, &b_bjet_0);
+   fChain->SetBranchAddress("bjet_0_MV2c10_FixedCutBEff_85_weight", &bjet_0_MV2c10_FixedCutBEff_85_weight, &b_bjet_0_MV2c10_FixedCutBEff_85_weight);
+   fChain->SetBranchAddress("bjet_0_b_tagged_MV2c10_FixedCutBEff_85", &bjet_0_b_tagged_MV2c10_FixedCutBEff_85, &b_bjet_0_b_tagged_MV2c10_FixedCutBEff_85);
+   fChain->SetBranchAddress("bjet_0_origin", &bjet_0_origin, &b_bjet_0_origin);
+   fChain->SetBranchAddress("bjet_0_p4", &bjet_0_p4, &b_bjet_0_p4);
+   fChain->SetBranchAddress("bjet_0_q", &bjet_0_q, &b_bjet_0_q);
+   fChain->SetBranchAddress("bjet_0_type", &bjet_0_type, &b_bjet_0_type);
+   fChain->SetBranchAddress("bjet_0_width", &bjet_0_width, &b_bjet_0_width);
+   fChain->SetBranchAddress("bjet_1", &bjet_1, &b_bjet_1);
+   fChain->SetBranchAddress("bjet_1_MV2c10_FixedCutBEff_85_weight", &bjet_1_MV2c10_FixedCutBEff_85_weight, &b_bjet_1_MV2c10_FixedCutBEff_85_weight);
+   fChain->SetBranchAddress("bjet_1_b_tagged_MV2c10_FixedCutBEff_85", &bjet_1_b_tagged_MV2c10_FixedCutBEff_85, &b_bjet_1_b_tagged_MV2c10_FixedCutBEff_85);
+   fChain->SetBranchAddress("bjet_1_flavorlabel", &bjet_1_flavorlabel, &b_bjet_1_flavorlabel);
+   fChain->SetBranchAddress("bjet_1_origin", &bjet_1_origin, &b_bjet_1_origin);
+   fChain->SetBranchAddress("bjet_1_p4", &bjet_1_p4, &b_bjet_1_p4);
+   fChain->SetBranchAddress("bjet_1_q", &bjet_1_q, &b_bjet_1_q);
+   fChain->SetBranchAddress("bjet_1_type", &bjet_1_type, &b_bjet_1_type);
+   fChain->SetBranchAddress("bjet_1_width", &bjet_1_width, &b_bjet_1_width);
+   fChain->SetBranchAddress("eleTrigMatch_0_HLT_e120_lhloose", &eleTrigMatch_0_HLT_e120_lhloose, &b_eleTrigMatch_0_HLT_e120_lhloose);
+   fChain->SetBranchAddress("eleTrigMatch_0_HLT_e140_lhloose_nod0", &eleTrigMatch_0_HLT_e140_lhloose_nod0, &b_eleTrigMatch_0_HLT_e140_lhloose_nod0);
+   fChain->SetBranchAddress("eleTrigMatch_0_HLT_e24_lhmedium_L1EM20VH", &eleTrigMatch_0_HLT_e24_lhmedium_L1EM20VH, &b_eleTrigMatch_0_HLT_e24_lhmedium_L1EM20VH);
+   fChain->SetBranchAddress("eleTrigMatch_0_HLT_e26_lhtight_nod0_ivarloose", &eleTrigMatch_0_HLT_e26_lhtight_nod0_ivarloose, &b_eleTrigMatch_0_HLT_e26_lhtight_nod0_ivarloose);
+   fChain->SetBranchAddress("eleTrigMatch_0_HLT_e60_lhmedium", &eleTrigMatch_0_HLT_e60_lhmedium, &b_eleTrigMatch_0_HLT_e60_lhmedium);
+   fChain->SetBranchAddress("eleTrigMatch_0_HLT_e60_lhmedium_nod0", &eleTrigMatch_0_HLT_e60_lhmedium_nod0, &b_eleTrigMatch_0_HLT_e60_lhmedium_nod0);
+   fChain->SetBranchAddress("eleTrigMatch_0_trigger_matched", &eleTrigMatch_0_trigger_matched, &b_eleTrigMatch_0_trigger_matched);
+   fChain->SetBranchAddress("elec_0", &elec_0, &b_elec_0);
+   fChain->SetBranchAddress("elec_0_cluster_eta", &elec_0_cluster_eta, &b_elec_0_cluster_eta);
+   fChain->SetBranchAddress("elec_0_cluster_eta_be2", &elec_0_cluster_eta_be2, &b_elec_0_cluster_eta_be2);
+   fChain->SetBranchAddress("elec_0_id_bad", &elec_0_id_bad, &b_elec_0_id_bad);
+   fChain->SetBranchAddress("elec_0_id_charge", &elec_0_id_charge, &b_elec_0_id_charge);
+   fChain->SetBranchAddress("elec_0_id_loose", &elec_0_id_loose, &b_elec_0_id_loose);
+   fChain->SetBranchAddress("elec_0_id_medium", &elec_0_id_medium, &b_elec_0_id_medium);
+   fChain->SetBranchAddress("elec_0_id_tight", &elec_0_id_tight, &b_elec_0_id_tight);
+   fChain->SetBranchAddress("elec_0_id_veryloose", &elec_0_id_veryloose, &b_elec_0_id_veryloose);
+   fChain->SetBranchAddress("elec_0_iso_FCLoose", &elec_0_iso_FCLoose, &b_elec_0_iso_FCLoose);
+   fChain->SetBranchAddress("elec_0_iso_FCTight", &elec_0_iso_FCTight, &b_elec_0_iso_FCTight);
+   fChain->SetBranchAddress("elec_0_iso_FixedCutLoose", &elec_0_iso_FixedCutLoose, &b_elec_0_iso_FixedCutLoose);
+   fChain->SetBranchAddress("elec_0_iso_FixedCutTight", &elec_0_iso_FixedCutTight, &b_elec_0_iso_FixedCutTight);
+   fChain->SetBranchAddress("elec_0_iso_FixedCutTightCaloOnly", &elec_0_iso_FixedCutTightCaloOnly, &b_elec_0_iso_FixedCutTightCaloOnly);
+   fChain->SetBranchAddress("elec_0_iso_Loose_FixedRad", &elec_0_iso_Loose_FixedRad, &b_elec_0_iso_Loose_FixedRad);
+   fChain->SetBranchAddress("elec_0_iso_TightTrackOnly_FixedRad", &elec_0_iso_TightTrackOnly_FixedRad, &b_elec_0_iso_TightTrackOnly_FixedRad);
+   fChain->SetBranchAddress("elec_0_muonAuthor", &elec_0_muonAuthor, &b_elec_0_muonAuthor);
+   fChain->SetBranchAddress("elec_0_muonType", &elec_0_muonType, &b_elec_0_muonType);
+   fChain->SetBranchAddress("elec_0_origin", &elec_0_origin, &b_elec_0_origin);
+   fChain->SetBranchAddress("elec_0_p4", &elec_0_p4, &b_elec_0_p4);
+   fChain->SetBranchAddress("elec_0_q", &elec_0_q, &b_elec_0_q);
+   fChain->SetBranchAddress("elec_0_trk_d0", &elec_0_trk_d0, &b_elec_0_trk_d0);
+   fChain->SetBranchAddress("elec_0_trk_d0_sig", &elec_0_trk_d0_sig, &b_elec_0_trk_d0_sig);
+   fChain->SetBranchAddress("elec_0_trk_p4", &elec_0_trk_p4, &b_elec_0_trk_p4);
+   fChain->SetBranchAddress("elec_0_trk_pt_error", &elec_0_trk_pt_error, &b_elec_0_trk_pt_error);
+   fChain->SetBranchAddress("elec_0_trk_pvx_z0", &elec_0_trk_pvx_z0, &b_elec_0_trk_pvx_z0);
+   fChain->SetBranchAddress("elec_0_trk_pvx_z0_sig", &elec_0_trk_pvx_z0_sig, &b_elec_0_trk_pvx_z0_sig);
+   fChain->SetBranchAddress("elec_0_trk_pvx_z0_sintheta", &elec_0_trk_pvx_z0_sintheta, &b_elec_0_trk_pvx_z0_sintheta);
+   fChain->SetBranchAddress("elec_0_trk_vx", &elec_0_trk_vx, &b_elec_0_trk_vx);
+   fChain->SetBranchAddress("elec_0_trk_vx_v", &elec_0_trk_vx_v, &b_elec_0_trk_vx_v);
+   fChain->SetBranchAddress("elec_0_trk_z0", &elec_0_trk_z0, &b_elec_0_trk_z0);
+   fChain->SetBranchAddress("elec_0_trk_z0_sig", &elec_0_trk_z0_sig, &b_elec_0_trk_z0_sig);
+   fChain->SetBranchAddress("elec_0_trk_z0_sintheta", &elec_0_trk_z0_sintheta, &b_elec_0_trk_z0_sintheta);
+   fChain->SetBranchAddress("elec_0_type", &elec_0_type, &b_elec_0_type);
+   fChain->SetBranchAddress("event_clean_EC_LooseBad", &event_clean_EC_LooseBad, &b_event_clean_EC_LooseBad);
+   fChain->SetBranchAddress("event_clean_EC_TightBad", &event_clean_EC_TightBad, &b_event_clean_EC_TightBad);
+   fChain->SetBranchAddress("event_clean_detector_core", &event_clean_detector_core, &b_event_clean_detector_core);
+   fChain->SetBranchAddress("event_is_bad_batman", &event_is_bad_batman, &b_event_is_bad_batman);
+   fChain->SetBranchAddress("event_number", &event_number, &b_event_number);
+   fChain->SetBranchAddress("ljet_0", &ljet_0, &b_ljet_0);
+   fChain->SetBranchAddress("ljet_0_MV2c10_FixedCutBEff_85_weight", &ljet_0_MV2c10_FixedCutBEff_85_weight, &b_ljet_0_MV2c10_FixedCutBEff_85_weight);
+   fChain->SetBranchAddress("ljet_0_b_tag_score", &ljet_0_b_tag_score, &b_ljet_0_b_tag_score);
+   fChain->SetBranchAddress("ljet_0_b_tagged_MV2c10_FixedCutBEff_85", &ljet_0_b_tagged_MV2c10_FixedCutBEff_85, &b_ljet_0_b_tagged_MV2c10_FixedCutBEff_85);
+   fChain->SetBranchAddress("ljet_0_origin", &ljet_0_origin, &b_ljet_0_origin);
+   fChain->SetBranchAddress("ljet_0_p4", &ljet_0_p4, &b_ljet_0_p4);
+   fChain->SetBranchAddress("ljet_0_q", &ljet_0_q, &b_ljet_0_q);
+   fChain->SetBranchAddress("ljet_0_type", &ljet_0_type, &b_ljet_0_type);
+   fChain->SetBranchAddress("ljet_0_width", &ljet_0_width, &b_ljet_0_width);
+   fChain->SetBranchAddress("ljet_1", &ljet_1, &b_ljet_1);
+   fChain->SetBranchAddress("ljet_1_MV2c10_FixedCutBEff_85_weight", &ljet_1_MV2c10_FixedCutBEff_85_weight, &b_ljet_1_MV2c10_FixedCutBEff_85_weight);
+   fChain->SetBranchAddress("ljet_1_b_tag_score", &ljet_1_b_tag_score, &b_ljet_1_b_tag_score);
+   fChain->SetBranchAddress("ljet_1_b_tagged_MV2c10_FixedCutBEff_85", &ljet_1_b_tagged_MV2c10_FixedCutBEff_85, &b_ljet_1_b_tagged_MV2c10_FixedCutBEff_85);
+   fChain->SetBranchAddress("ljet_1_origin", &ljet_1_origin, &b_ljet_1_origin);
+   fChain->SetBranchAddress("ljet_1_p4", &ljet_1_p4, &b_ljet_1_p4);
+   fChain->SetBranchAddress("ljet_1_q", &ljet_1_q, &b_ljet_1_q);
+   fChain->SetBranchAddress("ljet_1_type", &ljet_1_type, &b_ljet_1_type);
+   fChain->SetBranchAddress("ljet_1_width", &ljet_1_width, &b_ljet_1_width);
+   fChain->SetBranchAddress("ljet_2", &ljet_2, &b_ljet_2);
+   fChain->SetBranchAddress("ljet_2_MV2c10_FixedCutBEff_85_weight", &ljet_2_MV2c10_FixedCutBEff_85_weight, &b_ljet_2_MV2c10_FixedCutBEff_85_weight);
+   fChain->SetBranchAddress("ljet_2_b_tag_score", &ljet_2_b_tag_score, &b_ljet_2_b_tag_score);
+   fChain->SetBranchAddress("ljet_2_b_tagged_MV2c10_FixedCutBEff_85", &ljet_2_b_tagged_MV2c10_FixedCutBEff_85, &b_ljet_2_b_tagged_MV2c10_FixedCutBEff_85);
+   fChain->SetBranchAddress("ljet_2_origin", &ljet_2_origin, &b_ljet_2_origin);
+   fChain->SetBranchAddress("ljet_2_p4", &ljet_2_p4, &b_ljet_2_p4);
+   fChain->SetBranchAddress("ljet_2_q", &ljet_2_q, &b_ljet_2_q);
+   fChain->SetBranchAddress("ljet_2_type", &ljet_2_type, &b_ljet_2_type);
+   fChain->SetBranchAddress("ljet_2_width", &ljet_2_width, &b_ljet_2_width);
+   fChain->SetBranchAddress("ljet_3", &ljet_3, &b_ljet_3);
+   fChain->SetBranchAddress("ljet_3_MV2c10_FixedCutBEff_85_weight", &ljet_3_MV2c10_FixedCutBEff_85_weight, &b_ljet_3_MV2c10_FixedCutBEff_85_weight);
+   fChain->SetBranchAddress("ljet_3_b_tag_score", &ljet_3_b_tag_score, &b_ljet_3_b_tag_score);
+   fChain->SetBranchAddress("ljet_3_b_tagged_MV2c10_FixedCutBEff_85", &ljet_3_b_tagged_MV2c10_FixedCutBEff_85, &b_ljet_3_b_tagged_MV2c10_FixedCutBEff_85);
+   fChain->SetBranchAddress("ljet_3_origin", &ljet_3_origin, &b_ljet_3_origin);
+   fChain->SetBranchAddress("ljet_3_p4", &ljet_3_p4, &b_ljet_3_p4);
+   fChain->SetBranchAddress("ljet_3_q", &ljet_3_q, &b_ljet_3_q);
+   fChain->SetBranchAddress("ljet_3_type", &ljet_3_type, &b_ljet_3_type);
+   fChain->SetBranchAddress("ljet_3_width", &ljet_3_width, &b_ljet_3_width);
+   fChain->SetBranchAddress("met_reco_p4", &met_reco_p4, &b_met_reco_p4);
+   fChain->SetBranchAddress("muTrigMatch_0_HLT_mu20_iloose_L1MU15", &muTrigMatch_0_HLT_mu20_iloose_L1MU15, &b_muTrigMatch_0_HLT_mu20_iloose_L1MU15);
+   fChain->SetBranchAddress("muTrigMatch_0_HLT_mu26_ivarmedium", &muTrigMatch_0_HLT_mu26_ivarmedium, &b_muTrigMatch_0_HLT_mu26_ivarmedium);
+   fChain->SetBranchAddress("muTrigMatch_0_HLT_mu50", &muTrigMatch_0_HLT_mu50, &b_muTrigMatch_0_HLT_mu50);
+   fChain->SetBranchAddress("muTrigMatch_0_trigger_matched", &muTrigMatch_0_trigger_matched, &b_muTrigMatch_0_trigger_matched);
+   fChain->SetBranchAddress("muon_0", &muon_0, &b_muon_0);
+   fChain->SetBranchAddress("muon_0_cluster_eta", &muon_0_cluster_eta, &b_muon_0_cluster_eta);
+   fChain->SetBranchAddress("muon_0_cluster_eta_be2", &muon_0_cluster_eta_be2, &b_muon_0_cluster_eta_be2);
+   fChain->SetBranchAddress("muon_0_id_bad", &muon_0_id_bad, &b_muon_0_id_bad);
+   fChain->SetBranchAddress("muon_0_id_charge", &muon_0_id_charge, &b_muon_0_id_charge);
+   fChain->SetBranchAddress("muon_0_id_loose", &muon_0_id_loose, &b_muon_0_id_loose);
+   fChain->SetBranchAddress("muon_0_id_medium", &muon_0_id_medium, &b_muon_0_id_medium);
+   fChain->SetBranchAddress("muon_0_id_tight", &muon_0_id_tight, &b_muon_0_id_tight);
+   fChain->SetBranchAddress("muon_0_id_veryloose", &muon_0_id_veryloose, &b_muon_0_id_veryloose);
+   fChain->SetBranchAddress("muon_0_iso_FCLoose", &muon_0_iso_FCLoose, &b_muon_0_iso_FCLoose);
+   fChain->SetBranchAddress("muon_0_iso_FCTight", &muon_0_iso_FCTight, &b_muon_0_iso_FCTight);
+   fChain->SetBranchAddress("muon_0_iso_FixedCutLoose", &muon_0_iso_FixedCutLoose, &b_muon_0_iso_FixedCutLoose);
+   fChain->SetBranchAddress("muon_0_iso_FixedCutTight", &muon_0_iso_FixedCutTight, &b_muon_0_iso_FixedCutTight);
+   fChain->SetBranchAddress("muon_0_iso_FixedCutTightCaloOnly", &muon_0_iso_FixedCutTightCaloOnly, &b_muon_0_iso_FixedCutTightCaloOnly);
+   fChain->SetBranchAddress("muon_0_iso_Loose_FixedRad", &muon_0_iso_Loose_FixedRad, &b_muon_0_iso_Loose_FixedRad);
+   fChain->SetBranchAddress("muon_0_iso_TightTrackOnly_FixedRad", &muon_0_iso_TightTrackOnly_FixedRad, &b_muon_0_iso_TightTrackOnly_FixedRad);
+   fChain->SetBranchAddress("muon_0_muonAuthor", &muon_0_muonAuthor, &b_muon_0_muonAuthor);
+   fChain->SetBranchAddress("muon_0_muonType", &muon_0_muonType, &b_muon_0_muonType);
+   fChain->SetBranchAddress("muon_0_origin", &muon_0_origin, &b_muon_0_origin);
+   fChain->SetBranchAddress("muon_0_p4", &muon_0_p4, &b_muon_0_p4);
+   fChain->SetBranchAddress("muon_0_q", &muon_0_q, &b_muon_0_q);
+   fChain->SetBranchAddress("muon_0_trk_d0", &muon_0_trk_d0, &b_muon_0_trk_d0);
+   fChain->SetBranchAddress("muon_0_trk_d0_sig", &muon_0_trk_d0_sig, &b_muon_0_trk_d0_sig);
+   fChain->SetBranchAddress("muon_0_trk_p4", &muon_0_trk_p4, &b_muon_0_trk_p4);
+   fChain->SetBranchAddress("muon_0_trk_pt_error", &muon_0_trk_pt_error, &b_muon_0_trk_pt_error);
+   fChain->SetBranchAddress("muon_0_trk_pvx_z0", &muon_0_trk_pvx_z0, &b_muon_0_trk_pvx_z0);
+   fChain->SetBranchAddress("muon_0_trk_pvx_z0_sig", &muon_0_trk_pvx_z0_sig, &b_muon_0_trk_pvx_z0_sig);
+   fChain->SetBranchAddress("muon_0_trk_pvx_z0_sintheta", &muon_0_trk_pvx_z0_sintheta, &b_muon_0_trk_pvx_z0_sintheta);
+   fChain->SetBranchAddress("muon_0_trk_vx", &muon_0_trk_vx, &b_muon_0_trk_vx);
+   fChain->SetBranchAddress("muon_0_trk_vx_v", &muon_0_trk_vx_v, &b_muon_0_trk_vx_v);
+   fChain->SetBranchAddress("muon_0_trk_z0", &muon_0_trk_z0, &b_muon_0_trk_z0);
+   fChain->SetBranchAddress("muon_0_trk_z0_sig", &muon_0_trk_z0_sig, &b_muon_0_trk_z0_sig);
+   fChain->SetBranchAddress("muon_0_trk_z0_sintheta", &muon_0_trk_z0_sintheta, &b_muon_0_trk_z0_sintheta);
+   fChain->SetBranchAddress("muon_0_type", &muon_0_type, &b_muon_0_type);
+   fChain->SetBranchAddress("n_actual_int", &n_actual_int, &b_n_actual_int);
+   fChain->SetBranchAddress("n_actual_int_cor", &n_actual_int_cor, &b_n_actual_int_cor);
+   fChain->SetBranchAddress("n_avg_int", &n_avg_int, &b_n_avg_int);
+   fChain->SetBranchAddress("n_avg_int_cor", &n_avg_int_cor, &b_n_avg_int_cor);
+   fChain->SetBranchAddress("n_bjets_MV2c10_FixedCutBEff_85", &n_bjets_MV2c10_FixedCutBEff_85, &b_n_bjets_MV2c10_FixedCutBEff_85);
+   fChain->SetBranchAddress("n_electrons", &n_electrons, &b_n_electrons);
+   fChain->SetBranchAddress("n_electrons_met", &n_electrons_met, &b_n_electrons_met);
+   fChain->SetBranchAddress("n_electrons_olr", &n_electrons_olr, &b_n_electrons_olr);
+   fChain->SetBranchAddress("n_jets", &n_jets, &b_n_jets);
+   fChain->SetBranchAddress("n_jets_30", &n_jets_30, &b_n_jets_30);
+   fChain->SetBranchAddress("n_jets_40", &n_jets_40, &b_n_jets_40);
+   fChain->SetBranchAddress("n_jets_bad", &n_jets_bad, &b_n_jets_bad);
+   fChain->SetBranchAddress("n_jets_mc_hs", &n_jets_mc_hs, &b_n_jets_mc_hs);
+   fChain->SetBranchAddress("n_jets_met", &n_jets_met, &b_n_jets_met);
+   fChain->SetBranchAddress("n_jets_olr", &n_jets_olr, &b_n_jets_olr);
+   fChain->SetBranchAddress("n_muons", &n_muons, &b_n_muons);
+   fChain->SetBranchAddress("n_muons_bad", &n_muons_bad, &b_n_muons_bad);
+   fChain->SetBranchAddress("n_muons_loose", &n_muons_loose, &b_n_muons_loose);
+   fChain->SetBranchAddress("n_muons_medium", &n_muons_medium, &b_n_muons_medium);
+   fChain->SetBranchAddress("n_muons_met", &n_muons_met, &b_n_muons_met);
+   fChain->SetBranchAddress("n_muons_olr", &n_muons_olr, &b_n_muons_olr);
+   fChain->SetBranchAddress("n_muons_tight", &n_muons_tight, &b_n_muons_tight);
+   fChain->SetBranchAddress("n_muons_veryloose", &n_muons_veryloose, &b_n_muons_veryloose);
+   fChain->SetBranchAddress("n_photons", &n_photons, &b_n_photons);
+   fChain->SetBranchAddress("n_pvx", &n_pvx, &b_n_pvx);
+   fChain->SetBranchAddress("n_taus", &n_taus, &b_n_taus);
+   fChain->SetBranchAddress("n_taus_met", &n_taus_met, &b_n_taus_met);
+   fChain->SetBranchAddress("n_taus_olr", &n_taus_olr, &b_n_taus_olr);
+   fChain->SetBranchAddress("n_taus_rnn_loose", &n_taus_rnn_loose, &b_n_taus_rnn_loose);
+   fChain->SetBranchAddress("n_taus_rnn_medium", &n_taus_rnn_medium, &b_n_taus_rnn_medium);
+   fChain->SetBranchAddress("n_taus_rnn_tight", &n_taus_rnn_tight, &b_n_taus_rnn_tight);
+   fChain->SetBranchAddress("n_taus_rnn_veryloose", &n_taus_rnn_veryloose, &b_n_taus_rnn_veryloose);
+   fChain->SetBranchAddress("n_vx", &n_vx, &b_n_vx);
+   fChain->SetBranchAddress("run_number", &run_number, &b_run_number);
+   fChain->SetBranchAddress("tau_0", &tau_0, &b_tau_0);
+   fChain->SetBranchAddress("tau_0_b_tag_score", &tau_0_b_tag_score, &b_tau_0_b_tag_score);
+   fChain->SetBranchAddress("tau_0_b_tagged", &tau_0_b_tagged, &b_tau_0_b_tagged);
+   fChain->SetBranchAddress("tau_0_decay_mode", &tau_0_decay_mode, &b_tau_0_decay_mode);
+   fChain->SetBranchAddress("tau_0_ele_bdt_loose_retuned", &tau_0_ele_bdt_loose_retuned, &b_tau_0_ele_bdt_loose_retuned);
+   fChain->SetBranchAddress("tau_0_ele_bdt_medium_retuned", &tau_0_ele_bdt_medium_retuned, &b_tau_0_ele_bdt_medium_retuned);
+   fChain->SetBranchAddress("tau_0_ele_bdt_score_retuned", &tau_0_ele_bdt_score_retuned, &b_tau_0_ele_bdt_score_retuned);
+   fChain->SetBranchAddress("tau_0_ele_bdt_score_trans_retuned", &tau_0_ele_bdt_score_trans_retuned, &b_tau_0_ele_bdt_score_trans_retuned);
+   fChain->SetBranchAddress("tau_0_ele_bdt_tight_retuned", &tau_0_ele_bdt_tight_retuned, &b_tau_0_ele_bdt_tight_retuned);
+   fChain->SetBranchAddress("tau_0_ele_olr_pass", &tau_0_ele_olr_pass, &b_tau_0_ele_olr_pass);
+   fChain->SetBranchAddress("tau_0_jet_bdt_score", &tau_0_jet_bdt_score, &b_tau_0_jet_bdt_score);
+   fChain->SetBranchAddress("tau_0_jet_bdt_score_trans", &tau_0_jet_bdt_score_trans, &b_tau_0_jet_bdt_score_trans);
+   fChain->SetBranchAddress("tau_0_jet_rnn_loose", &tau_0_jet_rnn_loose, &b_tau_0_jet_rnn_loose);
+   fChain->SetBranchAddress("tau_0_jet_rnn_medium", &tau_0_jet_rnn_medium, &b_tau_0_jet_rnn_medium);
+   fChain->SetBranchAddress("tau_0_jet_rnn_score", &tau_0_jet_rnn_score, &b_tau_0_jet_rnn_score);
+   fChain->SetBranchAddress("tau_0_jet_rnn_score_trans", &tau_0_jet_rnn_score_trans, &b_tau_0_jet_rnn_score_trans);
+   fChain->SetBranchAddress("tau_0_jet_rnn_tight", &tau_0_jet_rnn_tight, &b_tau_0_jet_rnn_tight);
+   fChain->SetBranchAddress("tau_0_jet_rnn_veryloose", &tau_0_jet_rnn_veryloose, &b_tau_0_jet_rnn_veryloose);
+   fChain->SetBranchAddress("tau_0_jet_width", &tau_0_jet_width, &b_tau_0_jet_width);
+   fChain->SetBranchAddress("tau_0_n_all_tracks", &tau_0_n_all_tracks, &b_tau_0_n_all_tracks);
+   fChain->SetBranchAddress("tau_0_n_charged_tracks", &tau_0_n_charged_tracks, &b_tau_0_n_charged_tracks);
+   fChain->SetBranchAddress("tau_0_n_conversion_tracks", &tau_0_n_conversion_tracks, &b_tau_0_n_conversion_tracks);
+   fChain->SetBranchAddress("tau_0_n_core_tracks", &tau_0_n_core_tracks, &b_tau_0_n_core_tracks);
+   fChain->SetBranchAddress("tau_0_n_failTrackFilter_tracks", &tau_0_n_failTrackFilter_tracks, &b_tau_0_n_failTrackFilter_tracks);
+   fChain->SetBranchAddress("tau_0_n_fake_tracks", &tau_0_n_fake_tracks, &b_tau_0_n_fake_tracks);
+   fChain->SetBranchAddress("tau_0_n_isolation_tracks", &tau_0_n_isolation_tracks, &b_tau_0_n_isolation_tracks);
+   fChain->SetBranchAddress("tau_0_n_modified_isolation_tracks", &tau_0_n_modified_isolation_tracks, &b_tau_0_n_modified_isolation_tracks);
+   fChain->SetBranchAddress("tau_0_n_old_tracks", &tau_0_n_old_tracks, &b_tau_0_n_old_tracks);
+   fChain->SetBranchAddress("tau_0_n_passTrkSelectionTight_tracks", &tau_0_n_passTrkSelectionTight_tracks, &b_tau_0_n_passTrkSelectionTight_tracks);
+   fChain->SetBranchAddress("tau_0_n_passTrkSelector_tracks", &tau_0_n_passTrkSelector_tracks, &b_tau_0_n_passTrkSelector_tracks);
+   fChain->SetBranchAddress("tau_0_n_unclassified_tracks", &tau_0_n_unclassified_tracks, &b_tau_0_n_unclassified_tracks);
+   fChain->SetBranchAddress("tau_0_n_wide_tracks", &tau_0_n_wide_tracks, &b_tau_0_n_wide_tracks);
+   fChain->SetBranchAddress("tau_0_origin", &tau_0_origin, &b_tau_0_origin);
+   fChain->SetBranchAddress("tau_0_p4", &tau_0_p4, &b_tau_0_p4);
+   fChain->SetBranchAddress("tau_0_q", &tau_0_q, &b_tau_0_q);
+   fChain->SetBranchAddress("tau_0_type", &tau_0_type, &b_tau_0_type);
+   } else {
    fChain->SetBranchAddress("HLT_e120_lhloose", &HLT_e120_lhloose, &b_HLT_e120_lhloose);
    fChain->SetBranchAddress("HLT_e140_lhloose_nod0", &HLT_e140_lhloose_nod0, &b_HLT_e140_lhloose_nod0);
    fChain->SetBranchAddress("HLT_e24_lhmedium_L1EM20VH", &HLT_e24_lhmedium_L1EM20VH, &b_HLT_e24_lhmedium_L1EM20VH);
@@ -1287,7 +1505,7 @@ void CLoop::Init(TTree *tree)
    fChain->SetBranchAddress("truth_Z_p4", &truth_Z_p4, &b_truth_Z_p4);
    fChain->SetBranchAddress("weight_mc", &weight_mc, &b_weight_mc);
    fChain->SetBranchAddress("weight_mc_v", &weight_mc_v, &b_weight_mc_v);
-
+   }
    Notify();
 }
 

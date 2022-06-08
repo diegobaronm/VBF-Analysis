@@ -67,6 +67,7 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
 
 
     // Only activate relevant branches
+    if (!(key.substr(0,4)=="data")){
     fChain->SetBranchStatus("*",0);
     fChain->SetBranchStatus("HLT_mu20_iloose_L1MU15",1);
     fChain->SetBranchStatus("HLT_mu26_ivarmedium",1);
@@ -164,7 +165,75 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
     fChain->SetBranchStatus("truth_Z_p4",1);
     fChain->SetBranchStatus("weight_mc",1);
     fChain->SetBranchStatus("weight_mc_v",1);
-
+    } else {
+    fChain->SetBranchStatus("*",0);
+    fChain->SetBranchStatus("HLT_mu20_iloose_L1MU15",1);
+    fChain->SetBranchStatus("HLT_mu26_ivarmedium",1);
+    fChain->SetBranchStatus("HLT_mu50",1);
+    fChain->SetBranchStatus("event_number",1);
+    fChain->SetBranchStatus("ljet_0",1);
+    fChain->SetBranchStatus("ljet_0_p4",1);
+    fChain->SetBranchStatus("ljet_0_q",1);
+    fChain->SetBranchStatus("ljet_1",1);
+    fChain->SetBranchStatus("ljet_1_p4",1);
+    fChain->SetBranchStatus("ljet_1_q",1);
+    fChain->SetBranchStatus("ljet_2",1);
+    fChain->SetBranchStatus("ljet_2_p4",1);
+    fChain->SetBranchStatus("ljet_2_q",1);
+    fChain->SetBranchStatus("ljet_3",1);
+    fChain->SetBranchStatus("ljet_3_p4",1);
+    fChain->SetBranchStatus("ljet_3_q",1);
+    fChain->SetBranchStatus("met_reco_p4",1);
+    fChain->SetBranchStatus("muTrigMatch_0_HLT_mu20_iloose_L1MU15",1);
+    fChain->SetBranchStatus("muTrigMatch_0_HLT_mu26_ivarmedium",1);
+    fChain->SetBranchStatus("muTrigMatch_0_HLT_mu50",1);
+    fChain->SetBranchStatus("muTrigMatch_0_trigger_matched",1);
+    fChain->SetBranchStatus("muon_0",1);
+    fChain->SetBranchStatus("muon_0_id_medium",1);
+    fChain->SetBranchStatus("muon_0_iso_FCLoose",1);
+    fChain->SetBranchStatus("muon_0_iso_FCTight",1);
+    fChain->SetBranchStatus("muon_0_iso_FixedCutLoose",1);
+    fChain->SetBranchStatus("muon_0_iso_FixedCutTight",1);
+    fChain->SetBranchStatus("muon_0_iso_FixedCutTightCaloOnly",1);
+    fChain->SetBranchStatus("muon_0_iso_Loose_FixedRad",1);
+    fChain->SetBranchStatus("muon_0_iso_TightTrackOnly_FixedRad",1);
+    fChain->SetBranchStatus("muon_0_p4",1);
+    fChain->SetBranchStatus("muon_0_q",1);
+    fChain->SetBranchStatus("n_bjets_MV2c10_FixedCutBEff_85",1);
+    fChain->SetBranchStatus("n_electrons",1);
+    fChain->SetBranchStatus("n_jets",1);
+    fChain->SetBranchStatus("n_muons",1);
+    fChain->SetBranchStatus("n_taus",1);
+    fChain->SetBranchStatus("n_taus_rnn_loose",1);
+    fChain->SetBranchStatus("n_taus_rnn_medium",1);
+    fChain->SetBranchStatus("n_taus_rnn_tight",1);
+    fChain->SetBranchStatus("n_taus_rnn_veryloose",1);
+    fChain->SetBranchStatus("run_number",1);
+    fChain->SetBranchStatus("tau_0",1);
+    fChain->SetBranchStatus("tau_0_ele_bdt_loose_retuned",1);
+    fChain->SetBranchStatus("tau_0_ele_bdt_medium_retuned",1);
+    fChain->SetBranchStatus("tau_0_ele_bdt_score_retuned",1);
+    fChain->SetBranchStatus("tau_0_ele_bdt_score_trans_retuned",1);
+    fChain->SetBranchStatus("tau_0_ele_bdt_tight_retuned",1);
+    fChain->SetBranchStatus("tau_0_jet_bdt_score",1);
+    fChain->SetBranchStatus("tau_0_jet_bdt_score_trans",1);
+    fChain->SetBranchStatus("tau_0_jet_rnn_loose",1);
+    fChain->SetBranchStatus("tau_0_jet_rnn_medium",1);
+    fChain->SetBranchStatus("tau_0_jet_rnn_score",1);
+    fChain->SetBranchStatus("tau_0_jet_rnn_score_trans",1);
+    fChain->SetBranchStatus("tau_0_jet_rnn_tight",1);
+    fChain->SetBranchStatus("tau_0_jet_rnn_veryloose",1);
+    fChain->SetBranchStatus("tau_0_n_all_tracks",1);
+    fChain->SetBranchStatus("tau_0_n_charged_tracks",1);
+    fChain->SetBranchStatus("tau_0_n_conversion_tracks",1);
+    fChain->SetBranchStatus("tau_0_n_core_tracks",1);
+    fChain->SetBranchStatus("tau_0_n_fake_tracks",1);
+    fChain->SetBranchStatus("tau_0_n_isolation_tracks",1);
+    fChain->SetBranchStatus("tau_0_n_old_tracks",1);
+    fChain->SetBranchStatus("tau_0_n_unclassified_tracks",1);
+    fChain->SetBranchStatus("tau_0_p4",1);
+    fChain->SetBranchStatus("tau_0_q",1);   
+    }
     // loop over number of entries
     for (Long64_t jentry=0; jentry<nLoop;jentry++) {
         Long64_t ientry = LoadTree(jentry);
