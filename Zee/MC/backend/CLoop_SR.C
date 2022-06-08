@@ -66,11 +66,101 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
 
     Long64_t nbytes = 0, nb = 0;
 
+    // Only relevant branches are activated
+    fChain->SetBranchStatus("*",0);
+    fChain->SetBranchStatus("HLT_e120_lhloose",1);
+    fChain->SetBranchStatus("HLT_e140_lhloose_nod0",1);
+    fChain->SetBranchStatus("HLT_e24_lhmedium_L1EM20VH",1);
+    fChain->SetBranchStatus("HLT_e26_lhtight_nod0_ivarloose",1);
+    fChain->SetBranchStatus("HLT_e60_lhmedium",1);
+    fChain->SetBranchStatus("HLT_e60_lhmedium_nod0",1);
+    fChain->SetBranchStatus("NOMINAL_pileup_combined_weight",1);
+    fChain->SetBranchStatus("NOMINAL_pileup_random_run_number",1);
+    fChain->SetBranchStatus("eleTrigMatch_0_HLT_e120_lhloose",1);
+    fChain->SetBranchStatus("eleTrigMatch_0_HLT_e140_lhloose_nod0",1);
+    fChain->SetBranchStatus("eleTrigMatch_0_HLT_e24_lhmedium_L1EM20VH",1);
+    fChain->SetBranchStatus("eleTrigMatch_0_HLT_e26_lhtight_nod0_ivarloose",1);
+    fChain->SetBranchStatus("eleTrigMatch_0_HLT_e60_lhmedium",1);
+    fChain->SetBranchStatus("eleTrigMatch_0_HLT_e60_lhmedium_nod0",1);
+    fChain->SetBranchStatus("eleTrigMatch_0_trigger_matched",1);
+    fChain->SetBranchStatus("eleTrigMatch_1_HLT_e120_lhloose",1);
+    fChain->SetBranchStatus("eleTrigMatch_1_HLT_e140_lhloose_nod0",1);
+    fChain->SetBranchStatus("eleTrigMatch_1_HLT_e24_lhmedium_L1EM20VH",1);
+    fChain->SetBranchStatus("eleTrigMatch_1_HLT_e26_lhtight_nod0_ivarloose",1);
+    fChain->SetBranchStatus("eleTrigMatch_1_HLT_e60_lhmedium",1);
+    fChain->SetBranchStatus("eleTrigMatch_1_HLT_e60_lhmedium_nod0",1);
+    fChain->SetBranchStatus("eleTrigMatch_1_trigger_matched",1);
+    fChain->SetBranchStatus("elec_0",1);
+    fChain->SetBranchStatus("elec_0_NOMINAL_EleEffSF_Isolation_TightLLH_d0z0_v13_FCLoose",1);
+    fChain->SetBranchStatus("elec_0_NOMINAL_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight",1);
+    fChain->SetBranchStatus("elec_0_NOMINAL_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight",1);
+    fChain->SetBranchStatus("elec_0_NOMINAL_EleEffSF_offline_RecoTrk",1);
+    fChain->SetBranchStatus("elec_0_NOMINAL_EleEffSF_offline_TightLLH_d0z0_v13",1);
+    fChain->SetBranchStatus("elec_0_NOMINAL_efficiency_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight",1);
+    fChain->SetBranchStatus("elec_0_id_medium",1);
+    fChain->SetBranchStatus("elec_0_id_tight",1);
+    fChain->SetBranchStatus("elec_0_id_veryloose",1);
+    fChain->SetBranchStatus("elec_0_iso_FCLoose",1);
+    fChain->SetBranchStatus("elec_0_iso_FCTight",1);
+    fChain->SetBranchStatus("elec_0_iso_FixedCutLoose",1);
+    fChain->SetBranchStatus("elec_0_iso_FixedCutTight",1);
+    fChain->SetBranchStatus("elec_0_iso_FixedCutTightCaloOnly",1);
+    fChain->SetBranchStatus("elec_0_iso_Loose_FixedRad",1);
+    fChain->SetBranchStatus("elec_0_iso_TightTrackOnly_FixedRad",1);
+    fChain->SetBranchStatus("elec_0_p4",1);
+    fChain->SetBranchStatus("elec_0_q",1);
+    fChain->SetBranchStatus("elec_1",1);
+    fChain->SetBranchStatus("elec_1_NOMINAL_EleEffSF_Isolation_TightLLH_d0z0_v13_FCLoose",1);
+    fChain->SetBranchStatus("elec_1_NOMINAL_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight",1);
+    fChain->SetBranchStatus("elec_1_NOMINAL_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight",1);
+    fChain->SetBranchStatus("elec_1_NOMINAL_EleEffSF_offline_RecoTrk",1);
+    fChain->SetBranchStatus("elec_1_NOMINAL_EleEffSF_offline_TightLLH_d0z0_v13",1);
+    fChain->SetBranchStatus("elec_1_NOMINAL_efficiency_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight",1);
+    fChain->SetBranchStatus("elec_1_id_medium",1);
+    fChain->SetBranchStatus("elec_1_id_tight",1);
+    fChain->SetBranchStatus("elec_1_id_veryloose",1);
+    fChain->SetBranchStatus("elec_1_iso_FCLoose",1);
+    fChain->SetBranchStatus("elec_1_iso_FCTight",1);
+    fChain->SetBranchStatus("elec_1_iso_FixedCutLoose",1);
+    fChain->SetBranchStatus("elec_1_iso_FixedCutTight",1);
+    fChain->SetBranchStatus("elec_1_iso_FixedCutTightCaloOnly",1);
+    fChain->SetBranchStatus("elec_1_iso_Loose_FixedRad",1);
+    fChain->SetBranchStatus("elec_1_iso_TightTrackOnly_FixedRad",1);
+    fChain->SetBranchStatus("elec_1_p4",1);
+    fChain->SetBranchStatus("elec_1_q",1);
+    fChain->SetBranchStatus("event_number",1);
+    fChain->SetBranchStatus("jet_NOMINAL_central_jets_global_effSF_JVT",1);
+    fChain->SetBranchStatus("jet_NOMINAL_central_jets_global_ineffSF_JVT",1);
+    fChain->SetBranchStatus("jet_NOMINAL_forward_jets_global_effSF_JVT",1);
+    fChain->SetBranchStatus("jet_NOMINAL_forward_jets_global_ineffSF_JVT",1);
+    fChain->SetBranchStatus("jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85",1);
+    fChain->SetBranchStatus("jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85",1);
+    fChain->SetBranchStatus("ljet_0",1);
+    fChain->SetBranchStatus("ljet_0_p4",1);
+    fChain->SetBranchStatus("ljet_0_q",1);
+    fChain->SetBranchStatus("ljet_1",1);
+    fChain->SetBranchStatus("ljet_1_p4",1);
+    fChain->SetBranchStatus("ljet_1_q",1);
+    fChain->SetBranchStatus("ljet_2",1);
+    fChain->SetBranchStatus("ljet_2_p4",1);
+    fChain->SetBranchStatus("ljet_2_q",1);
+    fChain->SetBranchStatus("met_reco_p4",1);
+    fChain->SetBranchStatus("met_truth_p4",1);
+    fChain->SetBranchStatus("n_bjets_MV2c10_FixedCutBEff_85",1);
+    fChain->SetBranchStatus("n_electrons",1);
+    fChain->SetBranchStatus("n_jets",1);
+    fChain->SetBranchStatus("n_muons",1);
+    fChain->SetBranchStatus("run_number",1);
+    fChain->SetBranchStatus("triggerSF_em_NOMINAL",1);
+    fChain->SetBranchStatus("truth_Z_p4",1);
+    fChain->SetBranchStatus("weight_mc",1);
+    fChain->SetBranchStatus("weight_mc_v",1);
+
     // loop over number of entries
     for (Long64_t jentry=0; jentry<nLoop;jentry++) {
         Long64_t ientry = LoadTree(jentry);
         if (ientry < 0) break;
-        nb = fChain->GetEntry(jentry);    nbytes += nb;
+        nb = fChain->GetEntry(jentry,0);    nbytes += nb;
         // if (Cut(ientry) < 0) continue;
 
         if (nLoop >= 1000000 && jentry % nLoop_five_percent ==0 && jentry>0 ) {
@@ -79,16 +169,16 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
 
         double mjj_w=1;
         // mjj reweighting
-        if(z_sample==1 ){
+        /*if(z_sample==1 ){
             double mjj=sqrt(2*(ljet_0_p4->Dot(*ljet_1_p4)));
             mjj_w = mjj_rw_sherpa(mjj,0.0,1.0);
         } else if (z_sample==2){
             double mjj=sqrt(2*(ljet_0_p4->Dot(*ljet_1_p4)));
-            mjj_w = mjj_rw_sherpa(mjj,-3.705E-04,1.312E+00);
+            mjj_w = mjj_rw_sherpa(mjj,-3.437E-04,1.248E+00);
         } else if (z_sample==3){
             double mjj=sqrt(2*(ljet_0_p4->Dot(*ljet_1_p4)));
-            mjj_w = mjj_rw_madgraph(mjj,-1.878E-09,-1.524E-04,8.254E-01);
-        }
+            mjj_w = mjj_rw_madgraph(mjj,1.553E-11,-1.879E-04,8.686E-01);
+        }*/
 
         // ZpT reweighting
 
