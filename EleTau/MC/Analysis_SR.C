@@ -598,7 +598,7 @@ void CLoop::Fill(double weight, int z_sample) {
     }
     // INVARIANT MASS 2-JETS
     double mjj=sqrt(2*(ljet_0_p4->Dot(*ljet_1_p4)));
-    if (mjj>=250 && angle<5*pi/6 && trigger_decision && trigger_match) {
+    if (mjj>=250 && trigger_decision && trigger_match) {
       //topology
       bool inside= abs(angle-(angle_l_MET+angle_tau_MET))< 0.00001; //ANGLE BEING USED pi/2 AND 2.0943
       bool outside_lep= angle_l_MET<angle_tau_MET && abs(angle-(angle_l_MET+angle_tau_MET)) > 0.00001 && cos(angle_l_MET)>0;
