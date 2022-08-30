@@ -15,7 +15,7 @@ if remote:
   samples=os.listdir(path_to_samples)
   dirs=[path_to_samples+i+'/' for i in samples if 'mc' in i]
 else :
-  path_to_samples='/home/diego/DATA/v26/'
+  path_to_samples='/Users/diegomac/Documents/HEP/v26/'
   samples=os.listdir(path_to_samples)
   dirs=[path_to_samples+i+'/' for i in samples if 'mc' in i]
 
