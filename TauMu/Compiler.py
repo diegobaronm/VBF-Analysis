@@ -2,4 +2,4 @@
 import ROOT as r
 import sys
 
-r.gROOT.ProcessLine(".L "+sys.argv[1]+"/backend/CLoop.C++")
+r.gROOT.ProcessLine(".L "+sys.argv[1]+"/backend/CLoop.C+")

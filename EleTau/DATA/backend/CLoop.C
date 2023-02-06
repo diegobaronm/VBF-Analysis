@@ -255,16 +255,16 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
 
         double mjj_w=1;
         // mjj reweighting
-        /*if(z_sample==1 ){
+        if(z_sample==1 ){
             double mjj=sqrt(2*(ljet_0_p4->Dot(*ljet_1_p4)));
             mjj_w = mjj_rw_sherpa(mjj,0.0,1.0);
         } else if (z_sample==2){
             double mjj=sqrt(2*(ljet_0_p4->Dot(*ljet_1_p4)));
-            mjj_w = mjj_rw_madgraph(mjj,1.59E-07,-0.000732,1.447779);
+            mjj_w = mjj_rw_madgraph(mjj,1.51E-07,-7.12E-04,1.438495);
         } else if (z_sample==3){
             double mjj=sqrt(2*(ljet_0_p4->Dot(*ljet_1_p4)));
-            mjj_w = mjj_rw_madgraph(mjj,1.23E-07,-0.00048,0.909447);
-        }*/
+            mjj_w = mjj_rw_madgraph(mjj,1.33E-07,-5.05E-04,0.92086);
+        }
 
         // ZpT reweighting
 
