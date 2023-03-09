@@ -96,3 +96,5 @@ WJets/Plots/*
 TauLep/*
 !TauLep/*.ipynb
 !TauLep/*.sh
+
+Scripts/Plots/*
