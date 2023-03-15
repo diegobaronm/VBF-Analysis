@@ -3,8 +3,8 @@ import sys
 import ROOT
 
 Ztaulep="/media/diego/27AB07EC0C8BE0A7/DATA/v26/"
-Zmumu="/eos/user/w/wyatt/data/v26-mm/"
-Zee="/eos/user/w/wyatt/data/v26-ee/"
+Zmumu="/eos/user/t/twyatt/data/diego/v26-mm/"
+Zee="/eos/user/t/twyatt/data/diego/v26-ee/"
 
 mc_taulep={'Ztautau_2017'  :  ['user.dbaronmo.v26.mc.361108.PoPy8_Ztt.M4.e3601_s3126_r10201_p4512.sv1_Le', '361108', 1901.2, 1.026, 1.0] ,
 'Ztautau_2018'  :  ['user.dbaronmo.v26.mc.361108.PoPy8_Ztt.M4.e3601_s3126_r10724_p4512.sv1_Le', '361108', 1901.2, 1.026, 1.0] ,
@@ -675,8 +675,8 @@ mc_ee={'Ztautau_2017'  :  ['user.dbaronmo.v26-ee.mc.361108.PoPy8_Ztt.M4.e3601_s3
 'VBFHttlp15hm20_2015'  :  ['user.dbaronmo.v26-ee.mc.346192.PoPy8_NNPDF30_VBFH125_ttlp15hm20.M4.e7259_s3126_r9364_p4512.sv1_Le', '346192', 0.23721, 2.0, 0.040323] ,
 }
 
-mc=mc_taulep # IT CAN BE mc_taulep, mc_ee, mc_mumu
-ntuples_type=Ztaulep # IT CAN BE Zee,Zmumu,Ztaulep
+mc=mc_mumu # IT CAN BE mc_taulep, mc_ee, mc_mumu
+ntuples_type=Zmumu # IT CAN BE Zee,Zmumu,Ztaulep
 
 
 for x in mc.keys():

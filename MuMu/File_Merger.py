@@ -28,7 +28,7 @@ try :
 		os.system('hadd '+channel_dir+'MC/out/Wjets.root NOMINAL/Wplusenu_*.root NOMINAL/Wminusenu_*.root NOMINAL/Wplusmunu_*.root NOMINAL/Wminusmunu_*.root NOMINAL/Wplustaunu_*.root NOMINAL/Wminustaunu_*.root')
 		os.system('hadd '+channel_dir+'MC/out/singletop.root NOMINAL/st_schan_top_*.root NOMINAL/st_schan_atop_*.root NOMINAL/st_tchan_top_*.root NOMINAL/st_tchan_atop_*.root NOMINAL/st_wt_top_*.root NOMINAL/st_wt_atop_*.root')
 		os.system('hadd '+channel_dir+'MC/out/ttbar.root NOMINAL/ttbar_*.root')
-		os.system('hadd '+channel_dir+'DATA/out/data.root NOMINAL/data_*.root')
+		os.system('hadd '+channel_dir+'DATA/out/Data.root ../../DATA/out/NOMINAL/data_*.root')
 
 	elif type_of_run==2:
 		for d in os.listdir():

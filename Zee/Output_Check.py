@@ -63,8 +63,10 @@ if __name__=="__main__":
     launch_dir = os.getcwd()
     os.chdir(out_path+path_to_check)
 
-    output_file_name = "Failed_"+path_to_check+".txt"
-    output_file = open(output_file_name,"w+")
+    filedDataFileName = "FailedData_"+path_to_check+".txt"
+    filedMCFileName = "FailedMC_"+path_to_check+".txt"
+    outputFileData=open(filedDataFileName,"w+")
+    outputFileMC=open(filedMCFileName,"w+")
 
     ############### THIS HAS TO BE ADAPTED IN THE FUTURE ######################
     directories=['NOMINAL']
@@ -82,10 +84,13 @@ if __name__=="__main__":
                                             break
 
                             if flag:
-                                    output_file.write(s+" yes "+i+"\n")
-
-    os.system("cat "+out_path+path_to_check+"/"+output_file_name+" | awk '/data/' > "+launch_dir+"/"+"DATA/Input_Failed.txt")                                    
-    print("cat "+out_path+path_to_check+"/"+output_file_name+" | awk '!/data/' > "+launch_dir+"/"+"MC/Input_Failed.txt")
+                                if "data" in s:
+                                    outputFileData.write(s+" yes "+i+"\n")
+                                else :
+                                    outputFileMC.write(s+" yes "+i+"\n")
+    
+    os.system("mv "+filedDataFileName+" "+launch_dir+"/DATA/"+filedDataFileName)
+    os.system("mv "+filedMCFileName+" "+launch_dir+"/MC/"+filedMCFileName)
     
 
 

@@ -12,7 +12,7 @@ except:
 
 # list of directories to check for .root files
 if remote:
-  path_to_samples='/eos/user/w/wyatt/data/v26-mm/'
+  path_to_samples='/eos/user/t/twyatt/data/diego/v26-mm/'
   samples=os.listdir(path_to_samples)
   dirs=[path_to_samples+i+'/' for i in samples if 'data' in i]
 else :

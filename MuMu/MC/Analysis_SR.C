@@ -412,7 +412,7 @@ void CLoop::Fill(double weight, int z_sample) {
       // INVARIANT MASS 2-JETS
       double mjj=sqrt(2*(ljet_0_p4->Dot(*ljet_1_p4)));
 
-      if (mjj>=250 && angle<7*pi/9 && trigger_decision && trigger_match && abs(muon_0_p4->Eta())>=0.1 && abs(muon_1_p4->Eta())>=0.1) {
+      if (mjj>=250 && trigger_decision && trigger_match && abs(muon_0_p4->Eta())>=0.1 && abs(muon_1_p4->Eta())>=0.1) {
 
         double inv_mass{};
         inv_mass=sqrt(2*muon_0_p4->Pt()*muon_1_p4->Pt()*(cosh(muon_0_p4->Eta()-muon_1_p4->Eta())-cos(muon_0_p4->Phi()-muon_1_p4->Phi())));
@@ -489,8 +489,8 @@ void CLoop::Fill(double weight, int z_sample) {
         if(pt_bal<=0.15){cuts[8]=1;}
         if(mjj>=1000){cuts[9]=1;}
         if(n_jets_interval==0){cuts[10]=1;}
-        if(z_centrality < 0.5 /*&& z_centrality <= 1.0*/){cuts[11]=1;}
-        if (inv_mass<101 && inv_mass>81){cuts[12]=1;}
+        if(z_centrality < 0.5 && z_centrality <= 1.0){cuts[11]=1;}
+        if (inv_mass<101 && inv_mass>81){cuts[12]=1;} // Low mass range 81 < m < 101 GeV.
         if (event_number%2==0){
           if(muon_0_p4->Pt()>=(a+0)){cuts[13]=1;}
         } else {

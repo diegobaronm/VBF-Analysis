@@ -1,0 +1,2 @@
+Zmumu_sherpa6_2017_1 yes NOMINAL
+Zmumu_sherpa10_2017_1 yes NOMINAL

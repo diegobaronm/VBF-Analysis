@@ -259,9 +259,9 @@ void CLoop::Book(double lumFactor) {
   h_delta_phi_basic_cuts_ptl = new TH1F("delta_phi_basic_cuts_ptl","Delta phi between leptons",32,0,3.2);
 
 
-  h_Z_pt_reco_basic = new TH1F("Z_pt_reco_basic","ZpT",400,0,400);
-  h_Z_pt_reco_basic_cuts = new TH1F("Z_pt_reco_basic_cuts","ZpT",400,0,400);
-  h_Z_pt_reco_basic_cuts_ptl = new TH1F("Z_pt_reco_basic_cuts_ptl","ZpT",400,0,400);
+  h_Z_pt_reco_basic = new TH1F("Z_pt_reco_basic","ZpT",1000,0,1000);
+  h_Z_pt_reco_basic_cuts = new TH1F("Z_pt_reco_basic_cuts","ZpT",1000,0,1000);
+  h_Z_pt_reco_basic_cuts_ptl = new TH1F("Z_pt_reco_basic_cuts_ptl","ZpT",1000,0,1000);
 
 
   h_delta_y_basic = new TH1F("delta_y_basic","Delta Rapidity",100,0,10);
@@ -279,9 +279,9 @@ void CLoop::Book(double lumFactor) {
   h_pt_bal_basic_cuts_ptl = new TH1F("pt_bal_basic_cuts_ptl","pT Balance",100,0,1);
 
 
-  h_mass_jj_basic = new TH1F("mass_jj_basic","Invariant mass di_jet system",3000,0,3000);
-  h_mass_jj_basic_cuts = new TH1F("mass_jj_basic_cuts","Invariant mass di_jet system",3000,0,3000);
-  h_mass_jj_basic_cuts_ptl = new TH1F("mass_jj_basic_cuts_ptl","Invariant mass di_jet system",3000,0,3000);
+  h_mass_jj_basic = new TH1F("mass_jj_basic","Invariant mass di_jet system",5000,0,5000);
+  h_mass_jj_basic_cuts = new TH1F("mass_jj_basic_cuts","Invariant mass di_jet system",5000,0,5000);
+  h_mass_jj_basic_cuts_ptl = new TH1F("mass_jj_basic_cuts_ptl","Invariant mass di_jet system",5000,0,5000);
 
 
   h_n_jets_interval_basic = new TH1F("n_jets_interval_basic","N jets between rapidity interval",10,0,10);
@@ -348,15 +348,15 @@ void CLoop::Book(double lumFactor) {
   h_ljet0_pt = new TH1F("ljet0_pt","Light jet0 pT",1000,0,1000);
   h_ljet1_pt = new TH1F("ljet1_pt","Light jet1 pT",1000,0,1000);
   h_pt_bal = new TH1F("pt_bal","pT Balance",100,0,1);
-  h_mass_jj = new TH1F("mass_jj","Invariant mass di_jet system",3000,0,3000);
+  h_mass_jj = new TH1F("mass_jj","Invariant mass di_jet system",5000,0,5000);
   h_n_jets_interval = new TH1F("n_jets_interval","N jets between rapidity interval",5,0,5);
   h_Z_centrality = new TH1F("Z_centrality","Z boson centrality",350,0,3.5);
   h_inv_mass = new TH1F("inv_mass","Invariant mass di-lepton system",240,0,240);
 
   if (lumFactor!=1){
-    h_Z_pt_truth_basic = new TH1F("Z_pt_truth_basic","Truth ZpT",400,0,400);
-    h_Z_pt_truth_basic_cuts = new TH1F("Z_pt_truth_basic_cuts","Truth ZpT",400,0,400);
-    h_Z_pt_truth_basic_cuts_ptl = new TH1F("Z_pt_truth_basic_cuts_ptl","Truth ZpT",400,0,400);
+    h_Z_pt_truth_basic = new TH1F("Z_pt_truth_basic","Truth ZpT",1000,0,1000);
+    h_Z_pt_truth_basic_cuts = new TH1F("Z_pt_truth_basic_cuts","Truth ZpT",1000,0,1000);
+    h_Z_pt_truth_basic_cuts_ptl = new TH1F("Z_pt_truth_basic_cuts_ptl","Truth ZpT",1000,0,1000);
   }
 }
 
@@ -401,7 +401,9 @@ void CLoop::Fill(double weight, int z_sample) {
         trigger_match = trigger_match_1 | trigger_match_2 | trigger_match_12;
       }
 
-      if ( angle<7*pi/9 && trigger_decision && trigger_match ) {
+      // INVARIANT MASS 2-JETS
+      double mjj=sqrt(2*(ljet_0_p4->Dot(*ljet_1_p4)));
+      if (mjj>=250 && trigger_decision && trigger_match) {
 
         double inv_mass{};
         inv_mass=sqrt(2*elec_0_p4->Pt()*elec_1_p4->Pt()*(cosh(elec_0_p4->Eta()-elec_1_p4->Eta())-cos(elec_0_p4->Phi()-elec_1_p4->Phi())));
@@ -431,8 +433,6 @@ void CLoop::Fill(double weight, int z_sample) {
         // VBF variables
         // DELTA RAPIDITY 2-JETS
         double delta_y = abs(ljet_0_p4->Rapidity()-ljet_1_p4->Rapidity());
-        // INVARIANT MASS 2-JETS
-        double mjj=sqrt(2*(ljet_0_p4->Dot(*ljet_1_p4)));
         // NUMBER OF JETS INTERVAL
         int n_jets_interval{};
         if(n_ljets>2){
@@ -465,21 +465,21 @@ void CLoop::Fill(double weight, int z_sample) {
         // Cuts vector
         vector<int> cuts={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 
-        double a{50},b{47};
+        double a{50},b{40};
         // CUTS
-        if (angle<=2.0){cuts[0]=1;}
+        if (angle<=3.2){cuts[0]=1;}
         if(delta_y>=2.0){cuts[1]=1;}
         if(n_bjets_MV2c10_FixedCutBEff_85==0){cuts[2]=1;}
         if(elec_0_iso_FCTight==1 && elec_1_iso_FCTight==1){cuts[3]=1;}
-        if(elec_0_p4->Pt()>=50){cuts[4]=1;}
-        if(elec_1_p4->Pt()>=47){cuts[5]=1;}
-        if(ljet_0_p4->Pt()>=85){cuts[6]=1;}
-        if(ljet_1_p4->Pt()>=80){cuts[7]=1;}
+        if(elec_0_p4->Pt()>=a){cuts[4]=1;}
+        if(elec_1_p4->Pt()>=b){cuts[5]=1;}
+        if(ljet_0_p4->Pt()>=75){cuts[6]=1;}
+        if(ljet_1_p4->Pt()>=70){cuts[7]=1;}
         if(pt_bal<=0.15){cuts[8]=1;}
         if(mjj>=1000){cuts[9]=1;}
         if(n_jets_interval==0){cuts[10]=1;}
-        if(z_centrality < 0.5){cuts[11]=1;}
-        if (inv_mass<101 && inv_mass>81){cuts[12]=1;}
+        if(z_centrality < 0.5 && z_centrality <= 1.0){cuts[11]=1;}
+        if (inv_mass<101 && inv_mass>81){cuts[12]=1;} // Low mass range 81 < m < 101 GeV.
         if (event_number%2==0){
           if(elec_0_p4->Pt()>=(a+0)){cuts[13]=1;}
         } else {

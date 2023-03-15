@@ -1,5 +1,5 @@
 #!/bin/bash
-cp ../DATA/out/data.root Data.root
+cp ../DATA/out/Data.root Data.root
 cp ../MC/out/VV.root .
 cp ../MC/out/singletop.root .
 cp ../MC/out/Wjets.root .

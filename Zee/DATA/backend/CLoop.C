@@ -3,6 +3,23 @@
 #include "../Analysis.C"
 #include <cmath>
 
+double mjj_rw_quadratic(double mjj, double a, double b, double c){
+    double rw = a*mjj*mjj+b*mjj+c;
+    if (rw<0){
+        return 0.0;
+    } else {
+        return rw;
+    }
+}
+
+double mjj_rw_linear(double mjj, double slope, double level){
+    double rw = slope*mjj+level;
+    if (rw<0){
+        return 0.0;
+    } else {
+        return rw;
+    } 
+}
 
 void CLoop::Loop(double lumFactor, int z_sample, std::string key)
 {
@@ -49,92 +66,122 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
 
     Long64_t nbytes = 0, nb = 0;
 
+    // Only relevant branches are activated
+    fChain->SetBranchStatus("*",0);
+    fChain->SetBranchStatus("HLT_e120_lhloose",1);
+    fChain->SetBranchStatus("HLT_e140_lhloose_nod0",1);
+    fChain->SetBranchStatus("HLT_e24_lhmedium_L1EM20VH",1);
+    fChain->SetBranchStatus("HLT_e26_lhtight_nod0_ivarloose",1);
+    fChain->SetBranchStatus("HLT_e60_lhmedium",1);
+    fChain->SetBranchStatus("HLT_e60_lhmedium_nod0",1);
+    fChain->SetBranchStatus("NOMINAL_pileup_combined_weight",1);
+    fChain->SetBranchStatus("NOMINAL_pileup_random_run_number",1);
+    fChain->SetBranchStatus("eleTrigMatch_0_HLT_e120_lhloose",1);
+    fChain->SetBranchStatus("eleTrigMatch_0_HLT_e140_lhloose_nod0",1);
+    fChain->SetBranchStatus("eleTrigMatch_0_HLT_e24_lhmedium_L1EM20VH",1);
+    fChain->SetBranchStatus("eleTrigMatch_0_HLT_e26_lhtight_nod0_ivarloose",1);
+    fChain->SetBranchStatus("eleTrigMatch_0_HLT_e60_lhmedium",1);
+    fChain->SetBranchStatus("eleTrigMatch_0_HLT_e60_lhmedium_nod0",1);
+    fChain->SetBranchStatus("eleTrigMatch_0_trigger_matched",1);
+    fChain->SetBranchStatus("eleTrigMatch_1_HLT_e120_lhloose",1);
+    fChain->SetBranchStatus("eleTrigMatch_1_HLT_e140_lhloose_nod0",1);
+    fChain->SetBranchStatus("eleTrigMatch_1_HLT_e24_lhmedium_L1EM20VH",1);
+    fChain->SetBranchStatus("eleTrigMatch_1_HLT_e26_lhtight_nod0_ivarloose",1);
+    fChain->SetBranchStatus("eleTrigMatch_1_HLT_e60_lhmedium",1);
+    fChain->SetBranchStatus("eleTrigMatch_1_HLT_e60_lhmedium_nod0",1);
+    fChain->SetBranchStatus("eleTrigMatch_1_trigger_matched",1);
+    fChain->SetBranchStatus("elec_0",1);
+    fChain->SetBranchStatus("elec_0_NOMINAL_EleEffSF_Isolation_TightLLH_d0z0_v13_FCLoose",1);
+    fChain->SetBranchStatus("elec_0_NOMINAL_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight",1);
+    fChain->SetBranchStatus("elec_0_NOMINAL_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight",1);
+    fChain->SetBranchStatus("elec_0_NOMINAL_EleEffSF_offline_RecoTrk",1);
+    fChain->SetBranchStatus("elec_0_NOMINAL_EleEffSF_offline_TightLLH_d0z0_v13",1);
+    fChain->SetBranchStatus("elec_0_NOMINAL_efficiency_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight",1);
+    fChain->SetBranchStatus("elec_0_id_medium",1);
+    fChain->SetBranchStatus("elec_0_id_tight",1);
+    fChain->SetBranchStatus("elec_0_id_veryloose",1);
+    fChain->SetBranchStatus("elec_0_iso_FCLoose",1);
+    fChain->SetBranchStatus("elec_0_iso_FCTight",1);
+    fChain->SetBranchStatus("elec_0_iso_FixedCutLoose",1);
+    fChain->SetBranchStatus("elec_0_iso_FixedCutTight",1);
+    fChain->SetBranchStatus("elec_0_iso_FixedCutTightCaloOnly",1);
+    fChain->SetBranchStatus("elec_0_iso_Loose_FixedRad",1);
+    fChain->SetBranchStatus("elec_0_iso_TightTrackOnly_FixedRad",1);
+    fChain->SetBranchStatus("elec_0_p4",1);
+    fChain->SetBranchStatus("elec_0_q",1);
+    fChain->SetBranchStatus("elec_1",1);
+    fChain->SetBranchStatus("elec_1_NOMINAL_EleEffSF_Isolation_TightLLH_d0z0_v13_FCLoose",1);
+    fChain->SetBranchStatus("elec_1_NOMINAL_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight",1);
+    fChain->SetBranchStatus("elec_1_NOMINAL_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight",1);
+    fChain->SetBranchStatus("elec_1_NOMINAL_EleEffSF_offline_RecoTrk",1);
+    fChain->SetBranchStatus("elec_1_NOMINAL_EleEffSF_offline_TightLLH_d0z0_v13",1);
+    fChain->SetBranchStatus("elec_1_NOMINAL_efficiency_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight",1);
+    fChain->SetBranchStatus("elec_1_id_medium",1);
+    fChain->SetBranchStatus("elec_1_id_tight",1);
+    fChain->SetBranchStatus("elec_1_id_veryloose",1);
+    fChain->SetBranchStatus("elec_1_iso_FCLoose",1);
+    fChain->SetBranchStatus("elec_1_iso_FCTight",1);
+    fChain->SetBranchStatus("elec_1_iso_FixedCutLoose",1);
+    fChain->SetBranchStatus("elec_1_iso_FixedCutTight",1);
+    fChain->SetBranchStatus("elec_1_iso_FixedCutTightCaloOnly",1);
+    fChain->SetBranchStatus("elec_1_iso_Loose_FixedRad",1);
+    fChain->SetBranchStatus("elec_1_iso_TightTrackOnly_FixedRad",1);
+    fChain->SetBranchStatus("elec_1_p4",1);
+    fChain->SetBranchStatus("elec_1_q",1);
+    fChain->SetBranchStatus("event_number",1);
+    fChain->SetBranchStatus("jet_NOMINAL_central_jets_global_effSF_JVT",1);
+    fChain->SetBranchStatus("jet_NOMINAL_central_jets_global_ineffSF_JVT",1);
+    fChain->SetBranchStatus("jet_NOMINAL_forward_jets_global_effSF_JVT",1);
+    fChain->SetBranchStatus("jet_NOMINAL_forward_jets_global_ineffSF_JVT",1);
+    fChain->SetBranchStatus("jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85",1);
+    fChain->SetBranchStatus("jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85",1);
+    fChain->SetBranchStatus("ljet_0",1);
+    fChain->SetBranchStatus("ljet_0_p4",1);
+    fChain->SetBranchStatus("ljet_0_q",1);
+    fChain->SetBranchStatus("ljet_1",1);
+    fChain->SetBranchStatus("ljet_1_p4",1);
+    fChain->SetBranchStatus("ljet_1_q",1);
+    fChain->SetBranchStatus("ljet_2",1);
+    fChain->SetBranchStatus("ljet_2_p4",1);
+    fChain->SetBranchStatus("ljet_2_q",1);
+    fChain->SetBranchStatus("met_reco_p4",1);
+    fChain->SetBranchStatus("met_truth_p4",1);
+    fChain->SetBranchStatus("n_bjets_MV2c10_FixedCutBEff_85",1);
+    fChain->SetBranchStatus("n_electrons",1);
+    fChain->SetBranchStatus("n_jets",1);
+    fChain->SetBranchStatus("n_muons",1);
+    fChain->SetBranchStatus("run_number",1);
+    fChain->SetBranchStatus("triggerSF_em_NOMINAL",1);
+    fChain->SetBranchStatus("truth_Z_p4",1);
+    fChain->SetBranchStatus("weight_mc",1);
+    fChain->SetBranchStatus("weight_mc_v",1);
+
     // loop over number of entries
     for (Long64_t jentry=0; jentry<nLoop;jentry++) {
         Long64_t ientry = LoadTree(jentry);
         if (ientry < 0) break;
-        nb = fChain->GetEntry(jentry);    nbytes += nb;
+        nb = fChain->GetEntry(jentry,0);    nbytes += nb;
         // if (Cut(ientry) < 0) continue;
 
         if (nLoop >= 1000000 && jentry % nLoop_five_percent ==0 && jentry>0 ) {
             std::cout<<"Analysed... "<<100*double(jentry)/nLoop<<"% of events!"<<std::endl;
         }
 
-        double mjj_w=1;
+        double mjj_w=1.0;
         // mjj reweighting
-        if(z_sample==1 ){
+        /*if(z_sample==1 ){
+            mjj_w = 1.0;
+        } else if (z_sample==2){ // SHERPA
             double mjj=sqrt(2*(ljet_0_p4->Dot(*ljet_1_p4)));
-            mjj_w = 8.814E-05 * mjj + 1.212E+00;
-        } else if (z_sample==2){
+            mjj_w = mjj_rw_quadratic(mjj,1.09E-07,-6.10E-04,1.30E+00);
+        } else if (z_sample==3){ // MadGraph
             double mjj=sqrt(2*(ljet_0_p4->Dot(*ljet_1_p4)));
-            mjj_w =-4.120E-04 * mjj + 1.298E+00;
-        } else if (z_sample==3){
-            double mjj=sqrt(2*(ljet_0_p4->Dot(*ljet_1_p4)));
-            mjj_w =-2.349E-04 * mjj + 7.681E-01;
-        }
+            mjj_w = mjj_rw_quadratic(mjj,5.95E-08,-3.32E-04,8.78E-01);
+        }*/
 
         // ZpT reweighting
 
         double z_w=1;
-        // SHERPA REWEIGHTING
-        /*if (z_sample==2){
-            double zpt=truth_Z_p4->Pt()/1000;
-            if (zpt>30 & zpt<80){
-                z_w=((0.95-0.98)/(log10(80)-log10(30)))*(log10(zpt)-log10(30))+0.98;
-            }
-            if (zpt>80){
-                z_w=((1-0.95)/(log10(400)-log10(80)))*(log10(zpt)-log10(80))+0.95;
-            }
-        }*/
-        // PYTHIA REWEIGHTING
-        /*if(z_sample==1){
-            double zpt=truth_Z_p4->Pt()/1000;
-            if(zpt>=40 & zpt<46){
-                z_w=0.995;
-            }else if(zpt>=46 & zpt<48){
-                z_w=0.99;
-            }else if(zpt>=48 & zpt<51){
-                z_w=0.983;
-            }else if(zpt>=51 & zpt<54){
-                z_w=0.974;
-            }else if(zpt>=54 & zpt<58){
-                z_w=0.978;
-            }else if(zpt>=58 & zpt<60){
-                z_w=0.969;
-            }else if(zpt>=60 & zpt<65){
-                z_w=0.95;
-            }else if(zpt>=65 & zpt<70){
-                z_w=0.949;
-            }else if(zpt>=70 & zpt<75){
-                z_w=0.942;
-            }else if(zpt>=75 & zpt<80){
-                z_w=0.937;
-            }else if(zpt>=80 & zpt<85){
-                z_w=0.92;
-            }else if(zpt>=85 & zpt<95){
-                z_w=0.9;
-            }else if(zpt>=95 & zpt<108){
-                z_w=0.891;
-            }else if(zpt>=108 & zpt<130){
-                z_w=0.863;
-            }else if(zpt>=130 & zpt<151){
-                z_w=0.84;
-            }else if(zpt>=151){
-                z_w=0.8;
-            }
-        }*/
-        /*if (z_sample==1){
-            double zpt=truth_Z_p4->Pt()/1000;
-            if (zpt>40 & zpt<80){
-                z_w=((0.93-1)/(log10(80)-log10(40)))*(log10(zpt)-log10(40))+1;
-            }
-            if (zpt>=80 & zpt<151){
-                z_w=((0.8-0.93)/(log10(151)-log10(80)))*(log10(zpt)-log10(80))+0.93;
-            }
-            if (zpt>=151){
-                z_w=0.80;
-            }
-        }*/
         double zpt_weight=1/z_w;
 
 
