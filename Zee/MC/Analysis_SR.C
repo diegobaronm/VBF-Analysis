@@ -368,7 +368,7 @@ void CLoop::Fill(double weight, int z_sample) {
     float q_mu1=elec_1_q;
     size_t n_ljets=n_jets-n_bjets_MV2c10_FixedCutBEff_85;
 
-    if (n_electrons==2 && q_mu0!=q_mu1 && elec_id  && n_ljets>=2 && n_ljets<=3){
+    if (n_electrons==2 && q_mu0==q_mu1 && elec_id  && n_ljets>=2 && n_ljets<=3){
       //angles
       double angle_l_MET=del_phi(elec_0_p4->Phi(),met_reco_p4->Phi());
       double angle_tau_MET=del_phi(elec_1_p4->Phi(),met_reco_p4->Phi());
@@ -462,6 +462,12 @@ void CLoop::Fill(double weight, int z_sample) {
         double min_dR_lep1 = min_deltaR(elec_0_p4,is_jet_present,jet_container);
         double min_dR_lep2 = min_deltaR(elec_1_p4,is_jet_present,jet_container);
 
+        // Definition of the superCR = CR(a+b+c)
+        bool CRa = z_centrality < 0.5 && n_jets_interval == 1;
+        bool CRb = z_centrality>=0.5 && z_centrality <=1 && n_jets_interval == 1;
+        bool CRc = z_centrality>=0.5 && z_centrality <=1 && n_jets_interval == 0;
+        bool superCR = CRa || CRb || CRc;
+
         // Cuts vector
         vector<int> cuts={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 
@@ -478,8 +484,8 @@ void CLoop::Fill(double weight, int z_sample) {
         if(pt_bal<=0.15){cuts[8]=1;}
         if(mjj>=1000){cuts[9]=1;}
         if(n_jets_interval==0){cuts[10]=1;}
-        if(z_centrality < 0.5 && z_centrality <= 1.0){cuts[11]=1;}
-        if (inv_mass<101 && inv_mass>81){cuts[12]=1;} // Low mass range 81 < m < 101 GeV.
+        if(z_centrality<0.5){cuts[11]=1;}
+        if (inv_mass>81 && inv_mass<101){cuts[12]=1;} // Low mass range 81 < m < 101 GeV.
         if (event_number%2==0){
           if(elec_0_p4->Pt()>=(a+0)){cuts[13]=1;}
         } else {
