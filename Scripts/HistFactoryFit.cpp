@@ -7,7 +7,7 @@ using namespace RooStats;
 using namespace HistFactory;
 using namespace RooFit;
  
-void Fit() {
+void HistFactoryFit() {
  
 
     std::string InputFile = "histograms.root";
@@ -38,14 +38,14 @@ void Fit() {
 
     // Create the signal sample
     Sample signal( "Signal", "Signal", "histograms.root" );
-    signal.AddNormFactor( "SF-VBF", 100, 0, 5000 );
+    signal.AddNormFactor( "SF-VBF", 10, 0, 3);
     signal.ActivateStatError();
     chan.AddSample( signal );
 
     // Background 1
     Sample background1( "QCDjj", "QCDjj", "histograms.root" );
     background1.ActivateStatError();
-    background1.AddNormFactor( "SF-QCD", 1000, 0, 30000);
+    background1.AddNormFactor( "SF-QCD", 1, 0, 3);
     chan.AddSample( background1 );
 
 

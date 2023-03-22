@@ -97,4 +97,9 @@ TauLep/*
 !TauLep/*.ipynb
 !TauLep/*.sh
 
+Zll/*
+!Zll/*.sh
+!Zll/*.ipynb
+
 Scripts/Plots/*
+Scripts/results/*

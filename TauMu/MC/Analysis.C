@@ -559,7 +559,7 @@ void CLoop::Fill(double weight, int z_sample) {
   bool lepton_id=muon_0_id_medium;
   size_t n_ljets=n_jets-n_bjets_MV2c10_FixedCutBEff_85;
 
-  if (ql!=qtau && n_muons==1 && n_taus_rnn_loose>=1 && weight > -190 && lepton_id && n_ljets>=2 && n_ljets<=3){
+  if (ql==qtau && n_muons==1 && n_taus_rnn_loose>=1 && weight > -190 && lepton_id && n_ljets>=2 && n_ljets<=3){
     
     //angles
     double angle_l_MET=del_phi(muon_0_p4->Phi(),met_reco_p4->Phi());
@@ -722,6 +722,12 @@ void CLoop::Fill(double weight, int z_sample) {
         double min_dR_tau = min_deltaR(tau_0_p4,is_jet_present,jet_container);
         double min_dR_lep = min_deltaR(muon_0_p4,is_jet_present,jet_container);
 
+        // Definition of the superCR = CR(a+b+c)
+        bool CRa = z_centrality < 0.5 && n_jets_interval == 1;
+        bool CRb = z_centrality>=0.5 && z_centrality <=1 && n_jets_interval == 1;
+        bool CRc = z_centrality>=0.5 && z_centrality <=1 && n_jets_interval == 0;
+        bool superCR = CRa || CRb || CRc;
+
         // Cuts vector
         vector<int> cuts={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
         // CUTS
@@ -732,12 +738,12 @@ void CLoop::Fill(double weight, int z_sample) {
         if(tau_0_n_charged_tracks==1 && tau_0_jet_rnn_score_trans>=0.25){cuts[4]=1;}
         if(tau_0_n_charged_tracks==3 && tau_0_jet_rnn_score_trans>=0.40){cuts[4]=1;}
         if(muon_0_p4->Pt()>=27){cuts[5]=1;}
-        if(ljet_0_p4->Pt()>=70){cuts[6]=1;}
-        if(ljet_1_p4->Pt()>=65){cuts[7]=1;}
+        if(ljet_0_p4->Pt()>=75){cuts[6]=1;}
+        if(ljet_1_p4->Pt()>=70){cuts[7]=1;}
         if(pt_bal<=0.15){cuts[8]=1;}
         if(mjj>=1000){cuts[9]=1;}
-        if(n_jets_interval==0){cuts[10]=1;}
-        if(z_centrality<0.5){cuts[11]=1;}
+        if(true){cuts[10]=1;}
+        if(superCR){cuts[11]=1;} // SR -> z_centrality < 0.5
         if (omega> -0.2 && omega <1.6){cuts[12]=1;}
         if (inside) {
           if (reco_mass<116 && reco_mass>66){cuts[13]=1;}
