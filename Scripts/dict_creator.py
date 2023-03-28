@@ -13,6 +13,9 @@ import csv
 # ARGUMENTS GIVEN TO THE SCRIPT
 
 folders=os.listdir(sys.argv[1]) # PATH TO LOOK FOR THE SAMPLES
+sys_key=""
+if(len(sys.argv)>2):
+    sys_key="_sys"
 
 def create_dict(sample_name,sample_match_strings):
 
@@ -79,7 +82,7 @@ def create_dict(sample_name,sample_match_strings):
 
     # PRINT THE DICTIONARY IN THE CORRECT FORMAT TO PUT IT ON THE lister_mc.py SCRIPT
     for key, value in dict.items():
-        print("'"+key+"'", ' : ', value,",")
+        print("'"+key+sys_key+"'", ' : ', value,",")
 
 dict_of_samples={"Ztautau":"361108_PoPy","Zmumu":"mumu_PoPy","Zee":"Zee_PoPy","Wplustaunu":"Wplustaunu_PoPy","Wminustaunu":"Wminustaunu_PoPy",
 "Wplusmunu":"Wplusmunu_PoPy","Wminusmunu":"Wminusmunu_PoPy","Wminusenu":"Wminusenu_PoPy","Wplusenu":"Wplusenu_PoPy","ttbar":"ttb",
