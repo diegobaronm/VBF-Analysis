@@ -11,7 +11,7 @@ except:
         remote = False
 
 if remote:
-  path_to_samples='path to samples!!!'
+  path_to_samples='/eos/user/w/wyatt/data/v26-sys-vbf/'
   samples=os.listdir(path_to_samples)
   dirs=[path_to_samples+i+'/' for i in samples if 'mc' in i]
 else :
