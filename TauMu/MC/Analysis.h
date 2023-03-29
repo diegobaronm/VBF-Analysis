@@ -1,7 +1,7 @@
 #ifndef Header
 #define Header
 
-#define WEIGHTSYSTEMATICS
+#define SHAPESYSTEMATICS
 #ifdef NOMINAL
 // declare histograms here
 TH1F* h_lepiso_basic;
@@ -511,99 +511,6 @@ TH1F* h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_HIGHPT_1down_TauEffSF_JetRNNmedi
 TH1F* h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_HIGHPT_1up_TauEffSF_JetRNNmedium;
 TH1F* h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_SYST_1down_TauEffSF_JetRNNmedium;
 TH1F* h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_SYST_1up_TauEffSF_JetRNNmedium;
-#endif
-
-#ifdef SHAPESYSTEMATICS
-
-TH1F* h_mass_jj_JET_BJES_Response_1down;
-TH1F* h_mass_jj_JET_BJES_Response_1up;
-TH1F* h_mass_jj_JET_EffectiveNP_1_1down;
-TH1F* h_mass_jj_JET_EffectiveNP_1_1up;
-TH1F* h_mass_jj_JET_EffectiveNP_2_1down;
-TH1F* h_mass_jj_JET_EffectiveNP_2_1up;
-TH1F* h_mass_jj_JET_EffectiveNP_3_1down;
-TH1F* h_mass_jj_JET_EffectiveNP_3_1up;
-TH1F* h_mass_jj_JET_EffectiveNP_4_1down;
-TH1F* h_mass_jj_JET_EffectiveNP_4_1up;
-TH1F* h_mass_jj_JET_EffectiveNP_5_1down;
-TH1F* h_mass_jj_JET_EffectiveNP_5_1up;
-TH1F* h_mass_jj_JET_EffectiveNP_6_1down;
-TH1F* h_mass_jj_JET_EffectiveNP_6_1up;
-TH1F* h_mass_jj_JET_EffectiveNP_7_1down;
-TH1F* h_mass_jj_JET_EffectiveNP_7_1up;
-TH1F* h_mass_jj_JET_EffectiveNP_8restTerm_1down;
-TH1F* h_mass_jj_JET_EffectiveNP_8restTerm_1up;
-TH1F* h_mass_jj_JET_EtaIntercalibration_Modelling_1down;
-TH1F* h_mass_jj_JET_EtaIntercalibration_Modelling_1up;
-TH1F* h_mass_jj_JET_EtaIntercalibration_NonClosure_2018data_1down;
-TH1F* h_mass_jj_JET_EtaIntercalibration_NonClosure_2018data_1up;
-TH1F* h_mass_jj_JET_EtaIntercalibration_NonClosure_highE_1down;
-TH1F* h_mass_jj_JET_EtaIntercalibration_NonClosure_highE_1up;
-TH1F* h_mass_jj_JET_EtaIntercalibration_NonClosure_negEta_1down;
-TH1F* h_mass_jj_JET_EtaIntercalibration_NonClosure_negEta_1up;
-TH1F* h_mass_jj_JET_EtaIntercalibration_NonClosure_posEta_1down;
-TH1F* h_mass_jj_JET_EtaIntercalibration_NonClosure_posEta_1up;
-TH1F* h_mass_jj_JET_EtaIntercalibration_TotalStat_1down;
-TH1F* h_mass_jj_JET_EtaIntercalibration_TotalStat_1up;
-TH1F* h_mass_jj_JET_Flavor_Composition_1down;
-TH1F* h_mass_jj_JET_Flavor_Composition_1up;
-TH1F* h_mass_jj_JET_Flavor_Response_1down;
-TH1F* h_mass_jj_JET_Flavor_Response_1up;
-TH1F* h_mass_jj_JET_JER_DataVsMC_MC16_1down;
-TH1F* h_mass_jj_JET_JER_DataVsMC_MC16_1up;
-TH1F* h_mass_jj_JET_JER_EffectiveNP_1_1down;
-TH1F* h_mass_jj_JET_JER_EffectiveNP_1_1up;
-TH1F* h_mass_jj_JET_JER_EffectiveNP_2_1down;
-TH1F* h_mass_jj_JET_JER_EffectiveNP_2_1up;
-TH1F* h_mass_jj_JET_JER_EffectiveNP_3_1down;
-TH1F* h_mass_jj_JET_JER_EffectiveNP_3_1up;
-TH1F* h_mass_jj_JET_JER_EffectiveNP_4_1down;
-TH1F* h_mass_jj_JET_JER_EffectiveNP_4_1up;
-TH1F* h_mass_jj_JET_JER_EffectiveNP_5_1down;
-TH1F* h_mass_jj_JET_JER_EffectiveNP_5_1up;
-TH1F* h_mass_jj_JET_JER_EffectiveNP_6_1down;
-TH1F* h_mass_jj_JET_JER_EffectiveNP_6_1up;
-TH1F* h_mass_jj_JET_JER_EffectiveNP_7restTerm_1down;
-TH1F* h_mass_jj_JET_JER_EffectiveNP_7restTerm_1up;
-TH1F* h_mass_jj_JET_Pileup_OffsetMu_1down;
-TH1F* h_mass_jj_JET_Pileup_OffsetMu_1up;
-TH1F* h_mass_jj_JET_Pileup_OffsetNPV_1down;
-TH1F* h_mass_jj_JET_Pileup_OffsetNPV_1up;
-TH1F* h_mass_jj_JET_Pileup_PtTerm_1down;
-TH1F* h_mass_jj_JET_Pileup_PtTerm_1up;
-TH1F* h_mass_jj_JET_Pileup_RhoTopology_1down;
-TH1F* h_mass_jj_JET_Pileup_RhoTopology_1up;
-TH1F* h_mass_jj_JET_PunchThrough_MC16_1down;
-TH1F* h_mass_jj_JET_PunchThrough_MC16_1up;
-TH1F* h_mass_jj_JET_SingleParticle_HighPt_1down;
-TH1F* h_mass_jj_JET_SingleParticle_HighPt_1up;
-TH1F* h_mass_jj_JET_TILECORR_Uncertainty_1down;
-TH1F* h_mass_jj_JET_TILECORR_Uncertainty_1up;
-TH1F* h_mass_jj_MET_SoftTrk_ResoPara;
-TH1F* h_mass_jj_MET_SoftTrk_ResoPerp;
-TH1F* h_mass_jj_MET_SoftTrk_Scale_1down;
-TH1F* h_mass_jj_MET_SoftTrk_Scale_1up;
-TH1F* h_mass_jj_MUON_ID_1down;
-TH1F* h_mass_jj_MUON_ID_1up;
-TH1F* h_mass_jj_MUON_MS_1down;
-TH1F* h_mass_jj_MUON_MS_1up;
-TH1F* h_mass_jj_MUON_SAGITTA_RESBIAS_1down;
-TH1F* h_mass_jj_MUON_SAGITTA_RESBIAS_1up;
-TH1F* h_mass_jj_MUON_SAGITTA_RHO_1down;
-TH1F* h_mass_jj_MUON_SAGITTA_RHO_1up;
-TH1F* h_mass_jj_MUON_SCALE_1down;
-TH1F* h_mass_jj_MUON_SCALE_1up;
-TH1F* h_mass_jj_TAUS_TRUEHADTAU_SME_TES_DETECTOR_1down;
-TH1F* h_mass_jj_TAUS_TRUEHADTAU_SME_TES_DETECTOR_1up;
-TH1F* h_mass_jj_TAUS_TRUEHADTAU_SME_TES_INSITUEXP_1down;
-TH1F* h_mass_jj_TAUS_TRUEHADTAU_SME_TES_INSITUEXP_1up;
-TH1F* h_mass_jj_TAUS_TRUEHADTAU_SME_TES_INSITUFIT_1down;
-TH1F* h_mass_jj_TAUS_TRUEHADTAU_SME_TES_INSITUFIT_1up;
-TH1F* h_mass_jj_TAUS_TRUEHADTAU_SME_TES_MODEL_CLOSURE_1down;
-TH1F* h_mass_jj_TAUS_TRUEHADTAU_SME_TES_MODEL_CLOSURE_1up;
-TH1F* h_mass_jj_TAUS_TRUEHADTAU_SME_TES_PHYSICSLIST_1down;
-TH1F* h_mass_jj_TAUS_TRUEHADTAU_SME_TES_PHYSICSLIST_1up;
-
 #endif
 
 #endif

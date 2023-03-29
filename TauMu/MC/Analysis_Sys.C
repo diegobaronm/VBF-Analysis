@@ -125,99 +125,6 @@ void CLoop::Book(double lumFactor) {
 
     #endif 
 
-    #ifdef SHAPESYSTEMATICS
-
-    h_mass_jj_JET_BJES_Response_1down = new TH1F("mass_jj_JET_BJES_Response_1down","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_JET_BJES_Response_1up = new TH1F("mass_jj_JET_BJES_Response_1up","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_JET_EffectiveNP_1_1down = new TH1F("mass_jj_JET_EffectiveNP_1_1down","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_JET_EffectiveNP_1_1up = new TH1F("mass_jj_JET_EffectiveNP_1_1up","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_JET_EffectiveNP_2_1down = new TH1F("mass_jj_JET_EffectiveNP_2_1down","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_JET_EffectiveNP_2_1up = new TH1F("mass_jj_JET_EffectiveNP_2_1up","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_JET_EffectiveNP_3_1down = new TH1F("mass_jj_JET_EffectiveNP_3_1down","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_JET_EffectiveNP_3_1up = new TH1F("mass_jj_JET_EffectiveNP_3_1up","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_JET_EffectiveNP_4_1down = new TH1F("mass_jj_JET_EffectiveNP_4_1down","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_JET_EffectiveNP_4_1up = new TH1F("mass_jj_JET_EffectiveNP_4_1up","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_JET_EffectiveNP_5_1down = new TH1F("mass_jj_JET_EffectiveNP_5_1down","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_JET_EffectiveNP_5_1up = new TH1F("mass_jj_JET_EffectiveNP_5_1up","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_JET_EffectiveNP_6_1down = new TH1F("mass_jj_JET_EffectiveNP_6_1down","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_JET_EffectiveNP_6_1up = new TH1F("mass_jj_JET_EffectiveNP_6_1up","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_JET_EffectiveNP_7_1down = new TH1F("mass_jj_JET_EffectiveNP_7_1down","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_JET_EffectiveNP_7_1up = new TH1F("mass_jj_JET_EffectiveNP_7_1up","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_JET_EffectiveNP_8restTerm_1down = new TH1F("mass_jj_JET_EffectiveNP_8restTerm_1down","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_JET_EffectiveNP_8restTerm_1up = new TH1F("mass_jj_JET_EffectiveNP_8restTerm_1up","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_JET_EtaIntercalibration_Modelling_1down = new TH1F("mass_jj_JET_EtaIntercalibration_Modelling_1down","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_JET_EtaIntercalibration_Modelling_1up = new TH1F("mass_jj_JET_EtaIntercalibration_Modelling_1up","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_JET_EtaIntercalibration_NonClosure_2018data_1down = new TH1F("mass_jj_JET_EtaIntercalibration_NonClosure_2018data_1down","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_JET_EtaIntercalibration_NonClosure_2018data_1up = new TH1F("mass_jj_JET_EtaIntercalibration_NonClosure_2018data_1up","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_JET_EtaIntercalibration_NonClosure_highE_1down = new TH1F("mass_jj_JET_EtaIntercalibration_NonClosure_highE_1down","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_JET_EtaIntercalibration_NonClosure_highE_1up = new TH1F("mass_jj_JET_EtaIntercalibration_NonClosure_highE_1up","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_JET_EtaIntercalibration_NonClosure_negEta_1down = new TH1F("mass_jj_JET_EtaIntercalibration_NonClosure_negEta_1down","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_JET_EtaIntercalibration_NonClosure_negEta_1up = new TH1F("mass_jj_JET_EtaIntercalibration_NonClosure_negEta_1up","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_JET_EtaIntercalibration_NonClosure_posEta_1down = new TH1F("mass_jj_JET_EtaIntercalibration_NonClosure_posEta_1down","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_JET_EtaIntercalibration_NonClosure_posEta_1up = new TH1F("mass_jj_JET_EtaIntercalibration_NonClosure_posEta_1up","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_JET_EtaIntercalibration_TotalStat_1down = new TH1F("mass_jj_JET_EtaIntercalibration_TotalStat_1down","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_JET_EtaIntercalibration_TotalStat_1up = new TH1F("mass_jj_JET_EtaIntercalibration_TotalStat_1up","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_JET_Flavor_Composition_1down = new TH1F("mass_jj_JET_Flavor_Composition_1down","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_JET_Flavor_Composition_1up = new TH1F("mass_jj_JET_Flavor_Composition_1up","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_JET_Flavor_Response_1down = new TH1F("mass_jj_JET_Flavor_Response_1down","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_JET_Flavor_Response_1up = new TH1F("mass_jj_JET_Flavor_Response_1up","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_JET_JER_DataVsMC_MC16_1down = new TH1F("mass_jj_JET_JER_DataVsMC_MC16_1down","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_JET_JER_DataVsMC_MC16_1up = new TH1F("mass_jj_JET_JER_DataVsMC_MC16_1up","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_JET_JER_EffectiveNP_1_1down = new TH1F("mass_jj_JET_JER_EffectiveNP_1_1down","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_JET_JER_EffectiveNP_1_1up = new TH1F("mass_jj_JET_JER_EffectiveNP_1_1up","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_JET_JER_EffectiveNP_2_1down = new TH1F("mass_jj_JET_JER_EffectiveNP_2_1down","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_JET_JER_EffectiveNP_2_1up = new TH1F("mass_jj_JET_JER_EffectiveNP_2_1up","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_JET_JER_EffectiveNP_3_1down = new TH1F("mass_jj_JET_JER_EffectiveNP_3_1down","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_JET_JER_EffectiveNP_3_1up = new TH1F("mass_jj_JET_JER_EffectiveNP_3_1up","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_JET_JER_EffectiveNP_4_1down = new TH1F("mass_jj_JET_JER_EffectiveNP_4_1down","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_JET_JER_EffectiveNP_4_1up = new TH1F("mass_jj_JET_JER_EffectiveNP_4_1up","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_JET_JER_EffectiveNP_5_1down = new TH1F("mass_jj_JET_JER_EffectiveNP_5_1down","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_JET_JER_EffectiveNP_5_1up = new TH1F("mass_jj_JET_JER_EffectiveNP_5_1up","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_JET_JER_EffectiveNP_6_1down = new TH1F("mass_jj_JET_JER_EffectiveNP_6_1down","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_JET_JER_EffectiveNP_6_1up = new TH1F("mass_jj_JET_JER_EffectiveNP_6_1up","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_JET_JER_EffectiveNP_7restTerm_1down = new TH1F("mass_jj_JET_JER_EffectiveNP_7restTerm_1down","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_JET_JER_EffectiveNP_7restTerm_1up = new TH1F("mass_jj_JET_JER_EffectiveNP_7restTerm_1up","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_JET_Pileup_OffsetMu_1down = new TH1F("mass_jj_JET_Pileup_OffsetMu_1down","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_JET_Pileup_OffsetMu_1up = new TH1F("mass_jj_JET_Pileup_OffsetMu_1up","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_JET_Pileup_OffsetNPV_1down = new TH1F("mass_jj_JET_Pileup_OffsetNPV_1down","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_JET_Pileup_OffsetNPV_1up = new TH1F("mass_jj_JET_Pileup_OffsetNPV_1up","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_JET_Pileup_PtTerm_1down = new TH1F("mass_jj_JET_Pileup_PtTerm_1down","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_JET_Pileup_PtTerm_1up = new TH1F("mass_jj_JET_Pileup_PtTerm_1up","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_JET_Pileup_RhoTopology_1down = new TH1F("mass_jj_JET_Pileup_RhoTopology_1down","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_JET_Pileup_RhoTopology_1up = new TH1F("mass_jj_JET_Pileup_RhoTopology_1up","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_JET_PunchThrough_MC16_1down = new TH1F("mass_jj_JET_PunchThrough_MC16_1down","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_JET_PunchThrough_MC16_1up = new TH1F("mass_jj_JET_PunchThrough_MC16_1up","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_JET_SingleParticle_HighPt_1down = new TH1F("mass_jj_JET_SingleParticle_HighPt_1down","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_JET_SingleParticle_HighPt_1up = new TH1F("mass_jj_JET_SingleParticle_HighPt_1up","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_JET_TILECORR_Uncertainty_1down = new TH1F("mass_jj_JET_TILECORR_Uncertainty_1down","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_JET_TILECORR_Uncertainty_1up = new TH1F("mass_jj_JET_TILECORR_Uncertainty_1up","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_MET_SoftTrk_ResoPara = new TH1F("mass_jj_MET_SoftTrk_ResoPara","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_MET_SoftTrk_ResoPerp = new TH1F("mass_jj_MET_SoftTrk_ResoPerp","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_MET_SoftTrk_Scale_1down = new TH1F("mass_jj_MET_SoftTrk_Scale_1down","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_MET_SoftTrk_Scale_1up = new TH1F("mass_jj_MET_SoftTrk_Scale_1up","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_MUON_ID_1down = new TH1F("mass_jj_MUON_ID_1down","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_MUON_ID_1up = new TH1F("mass_jj_MUON_ID_1up","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_MUON_MS_1down = new TH1F("mass_jj_MUON_MS_1down","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_MUON_MS_1up = new TH1F("mass_jj_MUON_MS_1up","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_MUON_SAGITTA_RESBIAS_1down = new TH1F("mass_jj_MUON_SAGITTA_RESBIAS_1down","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_MUON_SAGITTA_RESBIAS_1up = new TH1F("mass_jj_MUON_SAGITTA_RESBIAS_1up","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_MUON_SAGITTA_RHO_1down = new TH1F("mass_jj_MUON_SAGITTA_RHO_1down","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_MUON_SAGITTA_RHO_1up = new TH1F("mass_jj_MUON_SAGITTA_RHO_1up","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_MUON_SCALE_1down = new TH1F("mass_jj_MUON_SCALE_1down","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_MUON_SCALE_1up = new TH1F("mass_jj_MUON_SCALE_1up","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_TAUS_TRUEHADTAU_SME_TES_DETECTOR_1down = new TH1F("mass_jj_TAUS_TRUEHADTAU_SME_TES_DETECTOR_1down","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_TAUS_TRUEHADTAU_SME_TES_DETECTOR_1up = new TH1F("mass_jj_TAUS_TRUEHADTAU_SME_TES_DETECTOR_1up","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_TAUS_TRUEHADTAU_SME_TES_INSITUEXP_1down = new TH1F("mass_jj_TAUS_TRUEHADTAU_SME_TES_INSITUEXP_1down","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_TAUS_TRUEHADTAU_SME_TES_INSITUEXP_1up = new TH1F("mass_jj_TAUS_TRUEHADTAU_SME_TES_INSITUEXP_1up","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_TAUS_TRUEHADTAU_SME_TES_INSITUFIT_1down = new TH1F("mass_jj_TAUS_TRUEHADTAU_SME_TES_INSITUFIT_1down","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_TAUS_TRUEHADTAU_SME_TES_INSITUFIT_1up = new TH1F("mass_jj_TAUS_TRUEHADTAU_SME_TES_INSITUFIT_1up","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_TAUS_TRUEHADTAU_SME_TES_MODEL_CLOSURE_1down = new TH1F("mass_jj_TAUS_TRUEHADTAU_SME_TES_MODEL_CLOSURE_1down","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_TAUS_TRUEHADTAU_SME_TES_MODEL_CLOSURE_1up = new TH1F("mass_jj_TAUS_TRUEHADTAU_SME_TES_MODEL_CLOSURE_1up","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_TAUS_TRUEHADTAU_SME_TES_PHYSICSLIST_1down = new TH1F("mass_jj_TAUS_TRUEHADTAU_SME_TES_PHYSICSLIST_1down","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_TAUS_TRUEHADTAU_SME_TES_PHYSICSLIST_1up = new TH1F("mass_jj_TAUS_TRUEHADTAU_SME_TES_PHYSICSLIST_1up","Invariant mass di-jet system",5000,0,5000);
-
-    #endif
-
     h_delta_phi = new TH1F("delta_phi","Delta phi between tau and lep",32,0,3.2);
     h_delta_y = new TH1F("delta_y","Delta Rapidity",100,0,10);
     h_n_bjets = new TH1F("n_bjets","Number of b_jets",5,0,5);
@@ -246,7 +153,7 @@ void CLoop::Fill(double weight, int z_sample) {
   bool lepton_id=muon_0_id_medium;
   size_t n_ljets=n_jets-n_bjets_MV2c10_FixedCutBEff_85;
 
-  if (ql==qtau && n_muons==1 && n_taus_rnn_loose>=1 && weight > -190 && lepton_id && n_ljets>=2 && n_ljets<=3){
+  if (ql!=qtau && n_muons==1 && n_taus_rnn_loose>=1 && weight > -190 && lepton_id && n_ljets>=2 && n_ljets<=3 && useEvent==1){
     
     //angles
     double angle_l_MET=del_phi(muon_0_p4->Phi(),met_reco_p4->Phi());
@@ -429,8 +336,8 @@ void CLoop::Fill(double weight, int z_sample) {
         if(ljet_1_p4->Pt()>=70){cuts[7]=1;}
         if(pt_bal<=0.15){cuts[8]=1;}
         if(mjj>=1000){cuts[9]=1;}
-        if(true){cuts[10]=1;}
-        if(superCR){cuts[11]=1;} // SR -> z_centrality < 0.5
+        if(n_jets_interval==0){cuts[10]=1;}
+        if(z_centrality<0.5){cuts[11]=1;} // SR -> z_centrality < 0.5
         if (omega> -0.2 && omega <1.6){cuts[12]=1;}
         if (inside) {
           if (reco_mass<116 && reco_mass>66){cuts[13]=1;}
@@ -534,98 +441,6 @@ void CLoop::Fill(double weight, int z_sample) {
             h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_SYST_1up_TauEffSF_JetRNNmedium->Fill(mjj,weight*tau_0_TAUS_TRUEHADTAU_EFF_RNNID_SYST_1up_TauEffSF_JetRNNmedium/tau_0_NOMINAL_TauEffSF_JetRNNmedium);
         #endif
 
-        #ifdef SHAPESYSTEMATICS
-        h_mass_jj_JET_BJES_Response_1down->Fill(mjj,weight);
-        h_mass_jj_JET_BJES_Response_1up->Fill(mjj,weight);
-        h_mass_jj_JET_EffectiveNP_1_1down->Fill(mjj,weight);
-        h_mass_jj_JET_EffectiveNP_1_1up->Fill(mjj,weight);
-        h_mass_jj_JET_EffectiveNP_2_1down->Fill(mjj,weight);
-        h_mass_jj_JET_EffectiveNP_2_1up->Fill(mjj,weight);
-        h_mass_jj_JET_EffectiveNP_3_1down->Fill(mjj,weight);
-        h_mass_jj_JET_EffectiveNP_3_1up->Fill(mjj,weight);
-        h_mass_jj_JET_EffectiveNP_4_1down->Fill(mjj,weight);
-        h_mass_jj_JET_EffectiveNP_4_1up->Fill(mjj,weight);
-        h_mass_jj_JET_EffectiveNP_5_1down->Fill(mjj,weight);
-        h_mass_jj_JET_EffectiveNP_5_1up->Fill(mjj,weight);
-        h_mass_jj_JET_EffectiveNP_6_1down->Fill(mjj,weight);
-        h_mass_jj_JET_EffectiveNP_6_1up->Fill(mjj,weight);
-        h_mass_jj_JET_EffectiveNP_7_1down->Fill(mjj,weight);
-        h_mass_jj_JET_EffectiveNP_7_1up->Fill(mjj,weight);
-        h_mass_jj_JET_EffectiveNP_8restTerm_1down->Fill(mjj,weight);
-        h_mass_jj_JET_EffectiveNP_8restTerm_1up->Fill(mjj,weight);
-        h_mass_jj_JET_EtaIntercalibration_Modelling_1down->Fill(mjj,weight);
-        h_mass_jj_JET_EtaIntercalibration_Modelling_1up->Fill(mjj,weight);
-        h_mass_jj_JET_EtaIntercalibration_NonClosure_2018data_1down->Fill(mjj,weight);
-        h_mass_jj_JET_EtaIntercalibration_NonClosure_2018data_1up->Fill(mjj,weight);
-        h_mass_jj_JET_EtaIntercalibration_NonClosure_highE_1down->Fill(mjj,weight);
-        h_mass_jj_JET_EtaIntercalibration_NonClosure_highE_1up->Fill(mjj,weight);
-        h_mass_jj_JET_EtaIntercalibration_NonClosure_negEta_1down->Fill(mjj,weight);
-        h_mass_jj_JET_EtaIntercalibration_NonClosure_negEta_1up->Fill(mjj,weight);
-        h_mass_jj_JET_EtaIntercalibration_NonClosure_posEta_1down->Fill(mjj,weight);
-        h_mass_jj_JET_EtaIntercalibration_NonClosure_posEta_1up->Fill(mjj,weight);
-        h_mass_jj_JET_EtaIntercalibration_TotalStat_1down->Fill(mjj,weight);
-        h_mass_jj_JET_EtaIntercalibration_TotalStat_1up->Fill(mjj,weight);
-        h_mass_jj_JET_Flavor_Composition_1down->Fill(mjj,weight);
-        h_mass_jj_JET_Flavor_Composition_1up->Fill(mjj,weight);
-        h_mass_jj_JET_Flavor_Response_1down->Fill(mjj,weight);
-        h_mass_jj_JET_Flavor_Response_1up->Fill(mjj,weight);
-        h_mass_jj_JET_JER_DataVsMC_MC16_1down->Fill(mjj,weight);
-        h_mass_jj_JET_JER_DataVsMC_MC16_1up->Fill(mjj,weight);
-        h_mass_jj_JET_JER_EffectiveNP_1_1down->Fill(mjj,weight);
-        h_mass_jj_JET_JER_EffectiveNP_1_1up->Fill(mjj,weight);
-        h_mass_jj_JET_JER_EffectiveNP_2_1down->Fill(mjj,weight);
-        h_mass_jj_JET_JER_EffectiveNP_2_1up->Fill(mjj,weight);
-        h_mass_jj_JET_JER_EffectiveNP_3_1down->Fill(mjj,weight);
-        h_mass_jj_JET_JER_EffectiveNP_3_1up->Fill(mjj,weight);
-        h_mass_jj_JET_JER_EffectiveNP_4_1down->Fill(mjj,weight);
-        h_mass_jj_JET_JER_EffectiveNP_4_1up->Fill(mjj,weight);
-        h_mass_jj_JET_JER_EffectiveNP_5_1down->Fill(mjj,weight);
-        h_mass_jj_JET_JER_EffectiveNP_5_1up->Fill(mjj,weight);
-        h_mass_jj_JET_JER_EffectiveNP_6_1down->Fill(mjj,weight);
-        h_mass_jj_JET_JER_EffectiveNP_6_1up->Fill(mjj,weight);
-        h_mass_jj_JET_JER_EffectiveNP_7restTerm_1down->Fill(mjj,weight);
-        h_mass_jj_JET_JER_EffectiveNP_7restTerm_1up->Fill(mjj,weight);
-        h_mass_jj_JET_Pileup_OffsetMu_1down->Fill(mjj,weight);
-        h_mass_jj_JET_Pileup_OffsetMu_1up->Fill(mjj,weight);
-        h_mass_jj_JET_Pileup_OffsetNPV_1down->Fill(mjj,weight);
-        h_mass_jj_JET_Pileup_OffsetNPV_1up->Fill(mjj,weight);
-        h_mass_jj_JET_Pileup_PtTerm_1down->Fill(mjj,weight);
-        h_mass_jj_JET_Pileup_PtTerm_1up->Fill(mjj,weight);
-        h_mass_jj_JET_Pileup_RhoTopology_1down->Fill(mjj,weight);
-        h_mass_jj_JET_Pileup_RhoTopology_1up->Fill(mjj,weight);
-        h_mass_jj_JET_PunchThrough_MC16_1down->Fill(mjj,weight);
-        h_mass_jj_JET_PunchThrough_MC16_1up->Fill(mjj,weight);
-        h_mass_jj_JET_SingleParticle_HighPt_1down->Fill(mjj,weight);
-        h_mass_jj_JET_SingleParticle_HighPt_1up->Fill(mjj,weight);
-        h_mass_jj_JET_TILECORR_Uncertainty_1down->Fill(mjj,weight);
-        h_mass_jj_JET_TILECORR_Uncertainty_1up->Fill(mjj,weight);
-        h_mass_jj_MET_SoftTrk_ResoPara->Fill(mjj,weight);
-        h_mass_jj_MET_SoftTrk_ResoPerp->Fill(mjj,weight);
-        h_mass_jj_MET_SoftTrk_Scale_1down->Fill(mjj,weight);
-        h_mass_jj_MET_SoftTrk_Scale_1up->Fill(mjj,weight);
-        h_mass_jj_MUON_ID_1down->Fill(mjj,weight);
-        h_mass_jj_MUON_ID_1up->Fill(mjj,weight);
-        h_mass_jj_MUON_MS_1down->Fill(mjj,weight);
-        h_mass_jj_MUON_MS_1up->Fill(mjj,weight);
-        h_mass_jj_MUON_SAGITTA_RESBIAS_1down->Fill(mjj,weight);
-        h_mass_jj_MUON_SAGITTA_RESBIAS_1up->Fill(mjj,weight);
-        h_mass_jj_MUON_SAGITTA_RHO_1down->Fill(mjj,weight);
-        h_mass_jj_MUON_SAGITTA_RHO_1up->Fill(mjj,weight);
-        h_mass_jj_MUON_SCALE_1down->Fill(mjj,weight);
-        h_mass_jj_MUON_SCALE_1up->Fill(mjj,weight);
-        h_mass_jj_TAUS_TRUEHADTAU_SME_TES_DETECTOR_1down->Fill(mjj,weight);
-        h_mass_jj_TAUS_TRUEHADTAU_SME_TES_DETECTOR_1up->Fill(mjj,weight);
-        h_mass_jj_TAUS_TRUEHADTAU_SME_TES_INSITUEXP_1down->Fill(mjj,weight);
-        h_mass_jj_TAUS_TRUEHADTAU_SME_TES_INSITUEXP_1up->Fill(mjj,weight);
-        h_mass_jj_TAUS_TRUEHADTAU_SME_TES_INSITUFIT_1down->Fill(mjj,weight);
-        h_mass_jj_TAUS_TRUEHADTAU_SME_TES_INSITUFIT_1up->Fill(mjj,weight);
-        h_mass_jj_TAUS_TRUEHADTAU_SME_TES_MODEL_CLOSURE_1down->Fill(mjj,weight);
-        h_mass_jj_TAUS_TRUEHADTAU_SME_TES_MODEL_CLOSURE_1up->Fill(mjj,weight);
-        h_mass_jj_TAUS_TRUEHADTAU_SME_TES_PHYSICSLIST_1down->Fill(mjj,weight);
-        h_mass_jj_TAUS_TRUEHADTAU_SME_TES_PHYSICSLIST_1up->Fill(mjj,weight);
-        #endif
-
-
         }
         if ((sum-cuts[10])==14) {
           h_n_jets_interval->Fill(n_jets_interval,weight);
@@ -714,98 +529,7 @@ void CLoop::Style(double lumFactor) {
     h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_SYST_1down_TauEffSF_JetRNNmedium->Write();
     h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_SYST_1up_TauEffSF_JetRNNmedium->Write();
     #endif
-
-    #ifdef SHAPESYSTEMATICS
-    h_mass_jj_JET_BJES_Response_1down->Write();
-    h_mass_jj_JET_BJES_Response_1up->Write();
-    h_mass_jj_JET_EffectiveNP_1_1down->Write();
-    h_mass_jj_JET_EffectiveNP_1_1up->Write();
-    h_mass_jj_JET_EffectiveNP_2_1down->Write();
-    h_mass_jj_JET_EffectiveNP_2_1up->Write();
-    h_mass_jj_JET_EffectiveNP_3_1down->Write();
-    h_mass_jj_JET_EffectiveNP_3_1up->Write();
-    h_mass_jj_JET_EffectiveNP_4_1down->Write();
-    h_mass_jj_JET_EffectiveNP_4_1up->Write();
-    h_mass_jj_JET_EffectiveNP_5_1down->Write();
-    h_mass_jj_JET_EffectiveNP_5_1up->Write();
-    h_mass_jj_JET_EffectiveNP_6_1down->Write();
-    h_mass_jj_JET_EffectiveNP_6_1up->Write();
-    h_mass_jj_JET_EffectiveNP_7_1down->Write();
-    h_mass_jj_JET_EffectiveNP_7_1up->Write();
-    h_mass_jj_JET_EffectiveNP_8restTerm_1down->Write();
-    h_mass_jj_JET_EffectiveNP_8restTerm_1up->Write();
-    h_mass_jj_JET_EtaIntercalibration_Modelling_1down->Write();
-    h_mass_jj_JET_EtaIntercalibration_Modelling_1up->Write();
-    h_mass_jj_JET_EtaIntercalibration_NonClosure_2018data_1down->Write();
-    h_mass_jj_JET_EtaIntercalibration_NonClosure_2018data_1up->Write();
-    h_mass_jj_JET_EtaIntercalibration_NonClosure_highE_1down->Write();
-    h_mass_jj_JET_EtaIntercalibration_NonClosure_highE_1up->Write();
-    h_mass_jj_JET_EtaIntercalibration_NonClosure_negEta_1down->Write();
-    h_mass_jj_JET_EtaIntercalibration_NonClosure_negEta_1up->Write();
-    h_mass_jj_JET_EtaIntercalibration_NonClosure_posEta_1down->Write();
-    h_mass_jj_JET_EtaIntercalibration_NonClosure_posEta_1up->Write();
-    h_mass_jj_JET_EtaIntercalibration_TotalStat_1down->Write();
-    h_mass_jj_JET_EtaIntercalibration_TotalStat_1up->Write();
-    h_mass_jj_JET_Flavor_Composition_1down->Write();
-    h_mass_jj_JET_Flavor_Composition_1up->Write();
-    h_mass_jj_JET_Flavor_Response_1down->Write();
-    h_mass_jj_JET_Flavor_Response_1up->Write();
-    h_mass_jj_JET_JER_DataVsMC_MC16_1down->Write();
-    h_mass_jj_JET_JER_DataVsMC_MC16_1up->Write();
-    h_mass_jj_JET_JER_EffectiveNP_1_1down->Write();
-    h_mass_jj_JET_JER_EffectiveNP_1_1up->Write();
-    h_mass_jj_JET_JER_EffectiveNP_2_1down->Write();
-    h_mass_jj_JET_JER_EffectiveNP_2_1up->Write();
-    h_mass_jj_JET_JER_EffectiveNP_3_1down->Write();
-    h_mass_jj_JET_JER_EffectiveNP_3_1up->Write();
-    h_mass_jj_JET_JER_EffectiveNP_4_1down->Write();
-    h_mass_jj_JET_JER_EffectiveNP_4_1up->Write();
-    h_mass_jj_JET_JER_EffectiveNP_5_1down->Write();
-    h_mass_jj_JET_JER_EffectiveNP_5_1up->Write();
-    h_mass_jj_JET_JER_EffectiveNP_6_1down->Write();
-    h_mass_jj_JET_JER_EffectiveNP_6_1up->Write();
-    h_mass_jj_JET_JER_EffectiveNP_7restTerm_1down->Write();
-    h_mass_jj_JET_JER_EffectiveNP_7restTerm_1up->Write();
-    h_mass_jj_JET_Pileup_OffsetMu_1down->Write();
-    h_mass_jj_JET_Pileup_OffsetMu_1up->Write();
-    h_mass_jj_JET_Pileup_OffsetNPV_1down->Write();
-    h_mass_jj_JET_Pileup_OffsetNPV_1up->Write();
-    h_mass_jj_JET_Pileup_PtTerm_1down->Write();
-    h_mass_jj_JET_Pileup_PtTerm_1up->Write();
-    h_mass_jj_JET_Pileup_RhoTopology_1down->Write();
-    h_mass_jj_JET_Pileup_RhoTopology_1up->Write();
-    h_mass_jj_JET_PunchThrough_MC16_1down->Write();
-    h_mass_jj_JET_PunchThrough_MC16_1up->Write();
-    h_mass_jj_JET_SingleParticle_HighPt_1down->Write();
-    h_mass_jj_JET_SingleParticle_HighPt_1up->Write();
-    h_mass_jj_JET_TILECORR_Uncertainty_1down->Write();
-    h_mass_jj_JET_TILECORR_Uncertainty_1up->Write();
-    h_mass_jj_MET_SoftTrk_ResoPara->Write();
-    h_mass_jj_MET_SoftTrk_ResoPerp->Write();
-    h_mass_jj_MET_SoftTrk_Scale_1down->Write();
-    h_mass_jj_MET_SoftTrk_Scale_1up->Write();
-    h_mass_jj_MUON_ID_1down->Write();
-    h_mass_jj_MUON_ID_1up->Write();
-    h_mass_jj_MUON_MS_1down->Write();
-    h_mass_jj_MUON_MS_1up->Write();
-    h_mass_jj_MUON_SAGITTA_RESBIAS_1down->Write();
-    h_mass_jj_MUON_SAGITTA_RESBIAS_1up->Write();
-    h_mass_jj_MUON_SAGITTA_RHO_1down->Write();
-    h_mass_jj_MUON_SAGITTA_RHO_1up->Write();
-    h_mass_jj_MUON_SCALE_1down->Write();
-    h_mass_jj_MUON_SCALE_1up->Write();
-    h_mass_jj_TAUS_TRUEHADTAU_SME_TES_DETECTOR_1down->Write();
-    h_mass_jj_TAUS_TRUEHADTAU_SME_TES_DETECTOR_1up->Write();
-    h_mass_jj_TAUS_TRUEHADTAU_SME_TES_INSITUEXP_1down->Write();
-    h_mass_jj_TAUS_TRUEHADTAU_SME_TES_INSITUEXP_1up->Write();
-    h_mass_jj_TAUS_TRUEHADTAU_SME_TES_INSITUFIT_1down->Write();
-    h_mass_jj_TAUS_TRUEHADTAU_SME_TES_INSITUFIT_1up->Write();
-    h_mass_jj_TAUS_TRUEHADTAU_SME_TES_MODEL_CLOSURE_1down->Write();
-    h_mass_jj_TAUS_TRUEHADTAU_SME_TES_MODEL_CLOSURE_1up->Write();
-    h_mass_jj_TAUS_TRUEHADTAU_SME_TES_PHYSICSLIST_1down->Write();
-    h_mass_jj_TAUS_TRUEHADTAU_SME_TES_PHYSICSLIST_1up->Write();
-    #endif    
-
+    
     h_delta_phi->Write();
     h_delta_y->Write();
     h_n_bjets->Write();
