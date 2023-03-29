@@ -1,7 +1,7 @@
 #ifndef Header
 #define Header
 
-#define SHAPESYSTEMATICS
+#define WEIGHTSYSTEMATICS // NOMINAL , SHAPESYSTEMATICS, WEIGHTSYSTEMATICS
 #ifdef NOMINAL
 // declare histograms here
 TH1F* h_lepiso_basic;
