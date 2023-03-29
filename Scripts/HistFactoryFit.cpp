@@ -66,7 +66,7 @@ void HistFactoryFit() {
     RooWorkspace* results = MakeModelAndMeasurementFast( meas );
 
     RooRealVar x("x", "x", 0.0, 5000.0);
-    x.setRange("Above250", 250.0, 5000.0);
+    x.setRange("Above250", 0.0, 5000.0);
 
     RooStats::ModelConfig* mc = (RooStats::ModelConfig*)results->obj("ModelConfig");
     RooAbsData* data = results->data("obsData");
