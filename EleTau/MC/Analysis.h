@@ -1,7 +1,7 @@
 #ifndef Header
 #define Header
 
-#define WEIGHTSYSTEMATICS // NOMINAL , SHAPESYSTEMATICS, WEIGHTSYSTEMATICS
+#define SHAPESYSTEMATICS // NOMINAL , SHAPESYSTEMATICS, WEIGHTSYSTEMATICS
 #ifdef NOMINAL
 TH1F* h_lep_pt_basic;
 TH1F* h_lep_pt_basic_dphi;
