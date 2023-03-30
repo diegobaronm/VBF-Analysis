@@ -82,7 +82,7 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
     std::cout<<"Analysing "<<nLoop<<" Events!"<<std::endl;
 
     Long64_t nbytes = 0, nb = 0;
-
+    #ifdef NOMINAL
     // Only relevant branches are activated
     fChain->SetBranchStatus("*",0);
     fChain->SetBranchStatus("HLT_mu20_iloose_L1MU15",1);
@@ -160,7 +160,7 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
     fChain->SetBranchStatus("truth_Z_p4",1);
     fChain->SetBranchStatus("weight_mc",1);
     fChain->SetBranchStatus("weight_mc_v",1);
-
+    #endif
     // loop over number of entries
     for (Long64_t jentry=0; jentry<nLoop;jentry++) {
         Long64_t ientry = LoadTree(jentry);

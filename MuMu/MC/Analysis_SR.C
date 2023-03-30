@@ -43,14 +43,6 @@ int is_inside_jets(TLorentzVector * test_jet,TLorentzVector * j1, TLorentzVector
   else{return 1;}
 }
 
-bool CLoop::DeltaR(TLorentzVector * lep ,int n_jets, double delta_R){
-  if(n_jets==0){ return true;}
-  else if (n_jets==1){return (lep->DeltaR(*ljet_0_p4)>0.4);}
-  else if (n_jets==2){return (lep->DeltaR(*ljet_0_p4)>0.4) && (lep->DeltaR(*ljet_1_p4)>0.4);}
-  else if (n_jets>=3){return (lep->DeltaR(*ljet_0_p4)>0.4) && (lep->DeltaR(*ljet_1_p4)>0.4) && (lep->DeltaR(*ljet_2_p4)>0.4);}
-  return 0;
-}
-
 double min_deltaR(TLorentzVector* test_particle, std::vector<UInt_t> bool_vector_container, std::vector<TLorentzVector*> jet_container){
 
   std::vector<double> delta_Rs{};

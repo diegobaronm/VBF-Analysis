@@ -165,15 +165,35 @@ systematicsShape = [
 "TAUS_TRUEHADTAU_SME_TES_PHYSICSLIST_1up",
 ]
 
-
-
 histosSystematics={"mass_jj_":["Invariant mass di-jet system",5000,0,5000,"mjj"],}
+
+def dileptonPrint(systematicName,sytematicsDictionary):
+     if ("muon_0_" in systematicName or "elec_0_" in systematicName):
+        prefix = systematicName[:4]
+        systematicOneKey = prefix+"_1_"+systematicName[7:]
+        systematicGlobalKey = prefix+"_"+systematicName[7:]
+
+        baseValue = sytematicsDictionary[systematicName]
+        systematicOneValue = systematicOneKey+"/"+prefix+"_1_"+baseValue[7:]
+        systematicGlobalValue = "("+systematicName+"*"+systematicOneKey+")/("+baseValue+"*"+prefix+"_1_"+baseValue[7:]+")"
+
+        return {systematicOneKey : systematicOneValue, systematicGlobalKey : systematicGlobalValue}
+     else:
+          return {}
+
 
 
 def book():
     for i in histosSystematics:
         for systematic in systematicsWeight:
             print('h_'+i+systematic+' = new TH1F("'+i+systematic+'","'+histosSystematics[i][0]+'",'+str(histosSystematics[i][1])+','+str(histosSystematics[i][2])+','+str(histosSystematics[i][3])+');')
+            try :
+                if (sys.argv[2]=="zll"):
+                    tempDictionary = dileptonPrint(systematic,systematicsWeight)
+                    for systematic in tempDictionary:
+                        print('h_'+i+systematic+' = new TH1F("'+i+systematic+'","'+histosSystematics[i][0]+'",'+str(histosSystematics[i][1])+','+str(histosSystematics[i][2])+','+str(histosSystematics[i][3])+');')
+            except:
+                 pass
         for systematic in systematicsShape:
             print('h_'+i+systematic+' = new TH1F("'+i+systematic+'","'+histosSystematics[i][0]+'",'+str(histosSystematics[i][1])+','+str(histosSystematics[i][2])+','+str(histosSystematics[i][3])+');')
 
@@ -184,6 +204,13 @@ def write():
     for i in histosSystematics:
         for systematic in systematicsWeight:
             print('h_'+i+systematic+'->Write();')
+            try :
+                if (sys.argv[2]=="zll"):
+                    tempDictionary = dileptonPrint(systematic,systematicsWeight)
+                    for systematic in tempDictionary:
+                        print('h_'+i+systematic+'->Write();')
+            except:
+                 pass
         for systematic in systematicsShape:
             print('h_'+i+systematic+'->Write();')
 
@@ -192,6 +219,14 @@ def fill():
     for i in histosSystematics:
         for systematic in systematicsWeight:
             print('h_'+i+systematic+'->Fill('+histosSystematics[i][4]+',weight*'+systematic+'/'+systematicsWeight[systematic]+');')
+            try :
+                if (sys.argv[2]=="zll"):
+                    tempDictionary = dileptonPrint(systematic,systematicsWeight)
+                    for systematic in tempDictionary:
+                        print('h_'+i+systematic+'->Fill('+histosSystematics[i][4]+',weight*'+tempDictionary[systematic]+');')
+            except:
+                 pass
+                      
         for systematic in systematicsShape:
             print('h_'+i+systematic+'->Fill('+histosSystematics[i][4]+',weight);')
 
@@ -200,6 +235,13 @@ def define():
     for i in histosSystematics:
         for systematic in systematicsWeight:
             print('TH1F* '+'h_'+i+systematic+';')
+            try :
+                if (sys.argv[2]=="zll"):
+                    tempDictionary = dileptonPrint(systematic,systematicsWeight)
+                    for systematic in tempDictionary:
+                        print('TH1F* '+'h_'+i+systematic+';')
+            except:
+                 pass
         for systematic in systematicsShape:
             print('TH1F* '+'h_'+i+systematic+';')
         
