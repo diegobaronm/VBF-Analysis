@@ -16,9 +16,10 @@ def menu(question,options):
             print("Select a correct option!")
     return int(answer)
 
-def tag_checker(dir,request,avoid,branches):
+def tag_checker(dir,request,avoid,branches,remote):
     os.chdir(dir)
     sys.path.append('backend')
+    print(os.getcwd())
     from dataSets import dataCombos
     samples=[]
     for i in dataCombos:
@@ -37,37 +38,51 @@ def tag_checker(dir,request,avoid,branches):
         elif include and ".txt" in branches :
             samples=samples+[i]
 
-    with open("Input_Condor.txt","w") as file:
+    file_name_string=""
+    if remote:
+        file_name_string="_Condor"
+    
+    with open("Input"+file_name_string+".txt","w") as file:
         if ".txt" not in branches:
             for j in samples:
-                file.write(j+" yes "+branches)
-                file.write('\n')
+                if remote:
+                    file.write(j+" yes "+branches)
+                    file.write('\n')
+                else :
+                    file.write(j)
+                    file.write('\n')
         else :
             with open(branches) as f:
                 lines = f.readlines()
             for l in lines:
                 for j in samples:
-                    file.write(j+" yes "+l.strip("\n"))
-                    file.write('\n')
-
+                    if remote:
+                        file.write(j+" yes "+l.strip("\n"))
+                        file.write('\n')
+                    else :
+                        file.write(j)
+                        file.write('\n')
+    
+    del dataCombos
     sys.path.pop() # CLEAN PATH
+    sys.path_importer_cache.clear()
     sys.modules.pop("dataSets") # MODULE
     os.chdir('..')
 
-def sample_file_generator(type_of_ntuples):
+def sample_file_generator(type_of_ntuples,rem):
     # NOMINAL
     if type_of_ntuples==1 :
-        tag_checker("DATA",[],["sys"],"NOMINAL")
-        tag_checker("MC",[],["sys"],"NOMINAL")
+        tag_checker("DATA",[],["sys"],"NOMINAL",rem)
+        tag_checker("MC",[],["sys"],"NOMINAL",rem)
     elif type_of_ntuples==2 :
-        tag_checker("MC",["sys"],["jet"],"sys_trees.txt")
-    elif type_of_ntuples==3 :
-        tag_checker("MC",["sys","jet"],[],"sys_jet_trees.txt")
-
+        tag_checker("MC",["sys"],[],"sysTrees.txt",rem)
 
 if __name__ == "__main__":
 
-    ntuples_type=menu("Nominal or systematics?",["Nominal","Systematics NO JET","Systematics JET"])
-    sample_file_generator(ntuples_type)
+    ntuples_type=menu("Nominal or systematics?",["Nominal","Systematics"])
+    remote=sys.argv[1]=="yes"
+    if remote:
+        sys.argv.append("yes")
+    sample_file_generator(ntuples_type,remote)
 
 
