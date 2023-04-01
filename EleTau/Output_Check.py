@@ -103,8 +103,10 @@ if __name__=="__main__":
 
     # Systematics run
     if ntuples_type==2:
-        filedMCFileName = "FailedMC_"+path_to_check+".txt"
-        outputFileMC=open(filedMCFileName,"w+")
+        filedWeightFileName = "FailedWeightSys_"+path_to_check+".txt"
+        outputFileWeight=open(filedWeightFileName,"w+")
+        filedShapeFileName = "FailedShapeSys_"+path_to_check+".txt"
+        outputFileShape=open(filedShapeFileName,"w+")
 
         for directoryName in directories:
             root_files=os.listdir(directoryName)
@@ -121,13 +123,17 @@ if __name__=="__main__":
                             break
 
                     if flag:
-                        outputFileMC.write(s+" yes "+directoryName+"\n")
+                        if directoryName=="NOMINAL":
+                            outputFileWeight.write(s+" yes "+directoryName+"\n")
+                        else :
+                            outputFileShape.write(s+" yes "+directoryName+"\n")
 
                 print(numberSamplesFound,"samples found.")
             else :
                 print("All found!")
 
-        os.system("mv "+filedMCFileName+" "+launch_dir+"/MC/"+filedMCFileName)   
+        os.system("mv "+filedWeightFileName+" "+launch_dir+"/MC/"+filedWeightFileName)
+        os.system("mv "+filedShapeFileName+" "+launch_dir+"/MC/"+filedShapeFileName)   
     
 
 

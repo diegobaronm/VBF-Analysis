@@ -15,9 +15,13 @@ if remote:
   samples=os.listdir(path_to_samples)
   dirs=[path_to_samples+i+'/' for i in samples if 'mc' in i]
 else :
-  path_to_samples='/Users/diegomac/Documents/HEP/v26/'
-  samples=os.listdir(path_to_samples)
-  dirs=[path_to_samples+i+'/' for i in samples if 'mc' in i]
+  try:
+    path_to_samples='/Users/diegomac/Documents/HEP/v26/'
+    samples=os.listdir(path_to_samples)
+    dirs=[path_to_samples+i+'/' for i in samples if 'mc' in i]
+  except FileNotFoundError:
+    samples=[]
+    print("Invalid directory of samples..." )
 
 # list of directories to check for .root files
 
