@@ -17,7 +17,7 @@ try :
 	os.chdir(samples_dir)
 	type_of_run = menu("Type of run...",["NOMINAL",'Systematics'])
 
-	if type_of_run:
+	if type_of_run==1:
 		os.system('hadd '+channel_dir+'MC/out/Signal_Sherpa.root NOMINAL/VBF_Ztautau_sherpa*.root')
 		os.system('hadd '+channel_dir+'MC/out/Signal_PoPy.root NOMINAL/VBF_Ztautau_201*.root')
 		os.system('hadd '+channel_dir+'MC/out/Ztautau_Sherpa.root NOMINAL/Ztautau_sherpa*.root')
@@ -33,10 +33,9 @@ try :
 
 	elif type_of_run==2:
 		for d in os.listdir():
-			if d!="out":
-				os.system("hadd out/Signal_Sherpa"+d+".root "+d+"/Zmumu_sherpa*_sys_*"+d+".root")
-				os.system("hadd out/Signal_PoPy"+d+".root "+d+"/Zmumu_201*_sys_*"+d+".root")
-				os.system("hadd out/VV"+d+".root "+d+"/llll*_sys_*"+d+".root "+d+"/lllv*_sys_*"+d+".root "+d+"/llvv*_sys_*"+d+".root "+d+"/lvvv*_sys_*"+d+".root "+d+"/ZqqZvv*_sys_*"+d+".root "+d+"/ZqqZll*_sys_*"+d+".root "+d+"/WqqZvv*_sys_*"+d+".root "+d+"/WqqZll*_sys_*"+d+".root "+d+"/WlvZqq*_sys_*"+d+".root")
+			if d!="Systematics":
+				os.system("hadd -j 10 Systematics/Signal_Sherpa_"+d+".root "+d+"/VBF_Ztautau*"+d+".root")
+				os.system("hadd -j 10 Systematics/Ztautau_SherpaRW_"+d+".root "+d+"/Ztautau_sherpa*"+d+".root")
 
 except FileNotFoundError :
 	print("Non valid directory!")
