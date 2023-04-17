@@ -17,7 +17,7 @@ try :
 	os.chdir(samples_dir)
 	type_of_run = menu("Type of run...",["NOMINAL",'Systematics'])
 
-	if type_of_run:
+	if type_of_run==1:
 		os.system('hadd '+channel_dir+'MC/out/Signal_Sherpa.root NOMINAL/VBF_Ztautau_sherpa*.root')
 		os.system('hadd '+channel_dir+'MC/out/Signal_PoPy.root NOMINAL/VBF_Ztautau_201*.root')
 		os.system('hadd '+channel_dir+'MC/out/Ztautau_Sherpa.root NOMINAL/Ztautau_sherpa*.root')

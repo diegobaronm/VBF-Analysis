@@ -518,7 +518,9 @@ void CLoop::Fill(double weight, int z_sample) {
 
     // INVARIANT MASS 2-JETS
     double mjj=sqrt(2*(ljet_0_p4->Dot(*ljet_1_p4)));
-    if (!( abs(ljet_0_p4->Eta())>2.5 && abs(ljet_1_p4->Eta())>2.5 ) && mjj>=250 && angle<5*pi/6 && ((trigger_decision_mu && trigger_match_mu) || (trigger_decision_e && trigger_match_e))) {
+    //bool twoLightJetsInID = !( abs(ljet_0_p4->Eta())>2.5 && abs(ljet_1_p4->Eta())>2.5 );
+    //bool twoLightJetsOutsideID = ( abs(ljet_0_p4->Eta())>2.5 && abs(ljet_1_p4->Eta())>2.5 );
+    if (mjj>=250 && ((trigger_decision_mu && trigger_match_mu) || (trigger_decision_e && trigger_match_e))) {
 
       //topology
       bool inside= abs(angle-(angle_elec_MET+angle_muon_MET))< 0.00001; //ANGLE BEING USED pi/2 AND 2.0943
@@ -672,8 +674,8 @@ void CLoop::Fill(double weight, int z_sample) {
         if(n_bjets_MV2c10_FixedCutBEff_85==0){cuts[2]=1;}
         if(muon_0_iso_TightTrackOnly_FixedRad==1 && elec_0_iso_FCTight==1){cuts[3]=1;}
         if(elec_0_p4->Pt()>=27){cuts[4]=1;}
-        if(ljet_0_p4->Pt()>=70){cuts[5]=1;} //85
-        if(ljet_1_p4->Pt()>=65){cuts[6]=1;} //80
+        if(ljet_0_p4->Pt()>=75){cuts[5]=1;} //85
+        if(ljet_1_p4->Pt()>=70){cuts[6]=1;} //80
         if(pt_bal<=0.15){cuts[7]=1;} //0.4
         if(mjj>=1000){cuts[8]=1;} // 1000
         if(n_jets_interval==0){cuts[9]=1;}

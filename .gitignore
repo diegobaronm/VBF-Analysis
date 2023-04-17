@@ -93,9 +93,9 @@ WJets/Plots/*
 !WJets/Plots/*.ipynb
 !WJets/Plots/*.sh
 
-TauLep/*
-!TauLep/*.ipynb
-!TauLep/*.sh
+TauTau/*
+!TauTau/*.ipynb
+!TauTau/*.sh
 
 Zll/*
 !Zll/*.sh
