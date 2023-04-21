@@ -666,6 +666,12 @@ void CLoop::Fill(double weight, int z_sample) {
         double min_dR_muon = min_deltaR(muon_0_p4,is_jet_present,jet_container);
         double min_dR_elec = min_deltaR(elec_0_p4,is_jet_present,jet_container);
 
+        // Definition of the superCR = CR(a+b+c)
+        bool CRa = z_centrality < 0.5 && n_jets_interval == 1;
+        bool CRb = z_centrality>=0.5 && z_centrality <=1 && n_jets_interval == 1;
+        bool CRc = z_centrality>=0.5 && z_centrality <=1 && n_jets_interval == 0;
+        bool superCR = CRa || CRb || CRc;
+
         // Cuts vector
         vector<int> cuts={0,0,0,0,0,0,0,0,0,0,0,0,0,0};
         // CUTS
@@ -678,8 +684,8 @@ void CLoop::Fill(double weight, int z_sample) {
         if(ljet_1_p4->Pt()>=70){cuts[6]=1;} //80
         if(pt_bal<=0.15){cuts[7]=1;} //0.4
         if(mjj>=1000){cuts[8]=1;} // 1000
-        if(n_jets_interval==0){cuts[9]=1;}
-        if(z_centrality<0.5){cuts[10]=1;} // 0.5
+        if(true){cuts[9]=1;}
+        if(superCR){cuts[10]=1;} // SR -> z_centrality < 0.5
         if (omega> -0.4 && omega <1.4){cuts[11]=1;}
         if (inside) {
           if (reco_mass<116 && reco_mass>66){cuts[12]=1;}
