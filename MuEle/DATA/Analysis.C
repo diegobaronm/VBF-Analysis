@@ -267,40 +267,40 @@ void CLoop::Book(double lumFactor) {
     h_met_basic_dphi_drap_btag_iso_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt = new TH1F("met_basic_dphi_drap_btag_iso_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt","Missing Transverse momentum",500,0,500);
 
 
-    h_reco_mass_i_basic = new TH1F("reco_mass_i_basic","Reconstructed mass in between events",240,0,240);
-    h_reco_mass_i_basic_dphi = new TH1F("reco_mass_i_basic_dphi","Reconstructed mass in between events",240,0,240);
-    h_reco_mass_i_basic_dphi_drap = new TH1F("reco_mass_i_basic_dphi_drap","Reconstructed mass in between events",240,0,240);
-    h_reco_mass_i_basic_dphi_drap_btag = new TH1F("reco_mass_i_basic_dphi_drap_btag","Reconstructed mass in between events",240,0,240);
-    h_reco_mass_i_basic_dphi_drap_btag_iso = new TH1F("reco_mass_i_basic_dphi_drap_btag_iso","Reconstructed mass in between events",240,0,240);
-    h_reco_mass_i_basic_dphi_drap_btag_iso_rnn = new TH1F("reco_mass_i_basic_dphi_drap_btag_iso_rnn","Reconstructed mass in between events",240,0,240);
-    h_reco_mass_i_basic_dphi_drap_btag_iso_ptl = new TH1F("reco_mass_i_basic_dphi_drap_btag_iso_ptl","Reconstructed mass in between events",240,0,240);
-    h_reco_mass_i_basic_dphi_drap_btag_iso_ptl_j1pt = new TH1F("reco_mass_i_basic_dphi_drap_btag_iso_ptl_j1pt","Reconstructed mass in between events",240,0,240);
-    h_reco_mass_i_basic_dphi_drap_btag_iso_ptl_j1pt_j2pt = new TH1F("reco_mass_i_basic_dphi_drap_btag_iso_ptl_j1pt_j2pt","Reconstructed mass in between events",240,0,240);
-    h_reco_mass_i_basic_dphi_drap_btag_iso_ptl_j1pt_j2pt_ptbal = new TH1F("reco_mass_i_basic_dphi_drap_btag_iso_ptl_j1pt_j2pt_ptbal","Reconstructed mass in between events",240,0,240);
-    h_reco_mass_i_basic_dphi_drap_btag_iso_ptl_j1pt_j2pt_ptbal_mjj = new TH1F("reco_mass_i_basic_dphi_drap_btag_iso_ptl_j1pt_j2pt_ptbal_mjj","Reconstructed mass in between events",240,0,240);
-    h_reco_mass_i_basic_dphi_drap_btag_iso_ptl_j1pt_j2pt_ptbal_mjj_nji = new TH1F("reco_mass_i_basic_dphi_drap_btag_iso_ptl_j1pt_j2pt_ptbal_mjj_nji","Reconstructed mass in between events",240,0,240);
-    h_reco_mass_i_basic_dphi_drap_btag_iso_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen = new TH1F("reco_mass_i_basic_dphi_drap_btag_iso_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen","Reconstructed mass in between events",240,0,240);
-    h_reco_mass_i_basic_dphi_drap_btag_iso_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega = new TH1F("reco_mass_i_basic_dphi_drap_btag_iso_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega","Reconstructed mass in between events",240,0,240);
-    h_reco_mass_i_basic_dphi_drap_btag_iso_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco = new TH1F("reco_mass_i_basic_dphi_drap_btag_iso_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco","Reconstructed mass in between events",240,0,240);
-    h_reco_mass_i_basic_dphi_drap_btag_iso_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt = new TH1F("reco_mass_i_basic_dphi_drap_btag_iso_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt","Reconstructed mass in between events",240,0,240);
+    h_reco_mass_i_basic = new TH1F("reco_mass_i_basic","Reconstructed mass in between events",1000,0,1000);
+    h_reco_mass_i_basic_dphi = new TH1F("reco_mass_i_basic_dphi","Reconstructed mass in between events",1000,0,1000);
+    h_reco_mass_i_basic_dphi_drap = new TH1F("reco_mass_i_basic_dphi_drap","Reconstructed mass in between events",1000,0,1000);
+    h_reco_mass_i_basic_dphi_drap_btag = new TH1F("reco_mass_i_basic_dphi_drap_btag","Reconstructed mass in between events",1000,0,1000);
+    h_reco_mass_i_basic_dphi_drap_btag_iso = new TH1F("reco_mass_i_basic_dphi_drap_btag_iso","Reconstructed mass in between events",1000,0,1000);
+    h_reco_mass_i_basic_dphi_drap_btag_iso_rnn = new TH1F("reco_mass_i_basic_dphi_drap_btag_iso_rnn","Reconstructed mass in between events",1000,0,1000);
+    h_reco_mass_i_basic_dphi_drap_btag_iso_ptl = new TH1F("reco_mass_i_basic_dphi_drap_btag_iso_ptl","Reconstructed mass in between events",1000,0,1000);
+    h_reco_mass_i_basic_dphi_drap_btag_iso_ptl_j1pt = new TH1F("reco_mass_i_basic_dphi_drap_btag_iso_ptl_j1pt","Reconstructed mass in between events",1000,0,1000);
+    h_reco_mass_i_basic_dphi_drap_btag_iso_ptl_j1pt_j2pt = new TH1F("reco_mass_i_basic_dphi_drap_btag_iso_ptl_j1pt_j2pt","Reconstructed mass in between events",1000,0,1000);
+    h_reco_mass_i_basic_dphi_drap_btag_iso_ptl_j1pt_j2pt_ptbal = new TH1F("reco_mass_i_basic_dphi_drap_btag_iso_ptl_j1pt_j2pt_ptbal","Reconstructed mass in between events",1000,0,1000);
+    h_reco_mass_i_basic_dphi_drap_btag_iso_ptl_j1pt_j2pt_ptbal_mjj = new TH1F("reco_mass_i_basic_dphi_drap_btag_iso_ptl_j1pt_j2pt_ptbal_mjj","Reconstructed mass in between events",1000,0,1000);
+    h_reco_mass_i_basic_dphi_drap_btag_iso_ptl_j1pt_j2pt_ptbal_mjj_nji = new TH1F("reco_mass_i_basic_dphi_drap_btag_iso_ptl_j1pt_j2pt_ptbal_mjj_nji","Reconstructed mass in between events",1000,0,1000);
+    h_reco_mass_i_basic_dphi_drap_btag_iso_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen = new TH1F("reco_mass_i_basic_dphi_drap_btag_iso_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen","Reconstructed mass in between events",1000,0,1000);
+    h_reco_mass_i_basic_dphi_drap_btag_iso_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega = new TH1F("reco_mass_i_basic_dphi_drap_btag_iso_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega","Reconstructed mass in between events",1000,0,1000);
+    h_reco_mass_i_basic_dphi_drap_btag_iso_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco = new TH1F("reco_mass_i_basic_dphi_drap_btag_iso_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco","Reconstructed mass in between events",1000,0,1000);
+    h_reco_mass_i_basic_dphi_drap_btag_iso_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt = new TH1F("reco_mass_i_basic_dphi_drap_btag_iso_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt","Reconstructed mass in between events",1000,0,1000);
 
 
-    h_reco_mass_o_basic = new TH1F("reco_mass_o_basic","Reconstructed mass outside events",240,0,240);
-    h_reco_mass_o_basic_dphi = new TH1F("reco_mass_o_basic_dphi","Reconstructed mass outside events",240,0,240);
-    h_reco_mass_o_basic_dphi_drap = new TH1F("reco_mass_o_basic_dphi_drap","Reconstructed mass outside events",240,0,240);
-    h_reco_mass_o_basic_dphi_drap_btag = new TH1F("reco_mass_o_basic_dphi_drap_btag","Reconstructed mass outside events",240,0,240);
-    h_reco_mass_o_basic_dphi_drap_btag_iso = new TH1F("reco_mass_o_basic_dphi_drap_btag_iso","Reconstructed mass outside events",240,0,240);
-    h_reco_mass_o_basic_dphi_drap_btag_iso_rnn = new TH1F("reco_mass_o_basic_dphi_drap_btag_iso_rnn","Reconstructed mass outside events",240,0,240);
-    h_reco_mass_o_basic_dphi_drap_btag_iso_ptl = new TH1F("reco_mass_o_basic_dphi_drap_btag_iso_ptl","Reconstructed mass outside events",240,0,240);
-    h_reco_mass_o_basic_dphi_drap_btag_iso_ptl_j1pt = new TH1F("reco_mass_o_basic_dphi_drap_btag_iso_ptl_j1pt","Reconstructed mass outside events",240,0,240);
-    h_reco_mass_o_basic_dphi_drap_btag_iso_ptl_j1pt_j2pt = new TH1F("reco_mass_o_basic_dphi_drap_btag_iso_ptl_j1pt_j2pt","Reconstructed mass outside events",240,0,240);
-    h_reco_mass_o_basic_dphi_drap_btag_iso_ptl_j1pt_j2pt_ptbal = new TH1F("reco_mass_o_basic_dphi_drap_btag_iso_ptl_j1pt_j2pt_ptbal","Reconstructed mass outside events",240,0,240);
-    h_reco_mass_o_basic_dphi_drap_btag_iso_ptl_j1pt_j2pt_ptbal_mjj = new TH1F("reco_mass_o_basic_dphi_drap_btag_iso_ptl_j1pt_j2pt_ptbal_mjj","Reconstructed mass outside events",240,0,240);
-    h_reco_mass_o_basic_dphi_drap_btag_iso_ptl_j1pt_j2pt_ptbal_mjj_nji = new TH1F("reco_mass_o_basic_dphi_drap_btag_iso_ptl_j1pt_j2pt_ptbal_mjj_nji","Reconstructed mass outside events",240,0,240);
-    h_reco_mass_o_basic_dphi_drap_btag_iso_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen = new TH1F("reco_mass_o_basic_dphi_drap_btag_iso_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen","Reconstructed mass outside events",240,0,240);
-    h_reco_mass_o_basic_dphi_drap_btag_iso_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega = new TH1F("reco_mass_o_basic_dphi_drap_btag_iso_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega","Reconstructed mass outside events",240,0,240);
-    h_reco_mass_o_basic_dphi_drap_btag_iso_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco = new TH1F("reco_mass_o_basic_dphi_drap_btag_iso_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco","Reconstructed mass outside events",240,0,240);
-    h_reco_mass_o_basic_dphi_drap_btag_iso_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt = new TH1F("reco_mass_o_basic_dphi_drap_btag_iso_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt","Reconstructed mass outside events",240,0,240);
+    h_reco_mass_o_basic = new TH1F("reco_mass_o_basic","Reconstructed mass outside events",1000,0,1000);
+    h_reco_mass_o_basic_dphi = new TH1F("reco_mass_o_basic_dphi","Reconstructed mass outside events",1000,0,1000);
+    h_reco_mass_o_basic_dphi_drap = new TH1F("reco_mass_o_basic_dphi_drap","Reconstructed mass outside events",1000,0,1000);
+    h_reco_mass_o_basic_dphi_drap_btag = new TH1F("reco_mass_o_basic_dphi_drap_btag","Reconstructed mass outside events",1000,0,1000);
+    h_reco_mass_o_basic_dphi_drap_btag_iso = new TH1F("reco_mass_o_basic_dphi_drap_btag_iso","Reconstructed mass outside events",1000,0,1000);
+    h_reco_mass_o_basic_dphi_drap_btag_iso_rnn = new TH1F("reco_mass_o_basic_dphi_drap_btag_iso_rnn","Reconstructed mass outside events",1000,0,1000);
+    h_reco_mass_o_basic_dphi_drap_btag_iso_ptl = new TH1F("reco_mass_o_basic_dphi_drap_btag_iso_ptl","Reconstructed mass outside events",1000,0,1000);
+    h_reco_mass_o_basic_dphi_drap_btag_iso_ptl_j1pt = new TH1F("reco_mass_o_basic_dphi_drap_btag_iso_ptl_j1pt","Reconstructed mass outside events",1000,0,1000);
+    h_reco_mass_o_basic_dphi_drap_btag_iso_ptl_j1pt_j2pt = new TH1F("reco_mass_o_basic_dphi_drap_btag_iso_ptl_j1pt_j2pt","Reconstructed mass outside events",1000,0,1000);
+    h_reco_mass_o_basic_dphi_drap_btag_iso_ptl_j1pt_j2pt_ptbal = new TH1F("reco_mass_o_basic_dphi_drap_btag_iso_ptl_j1pt_j2pt_ptbal","Reconstructed mass outside events",1000,0,1000);
+    h_reco_mass_o_basic_dphi_drap_btag_iso_ptl_j1pt_j2pt_ptbal_mjj = new TH1F("reco_mass_o_basic_dphi_drap_btag_iso_ptl_j1pt_j2pt_ptbal_mjj","Reconstructed mass outside events",1000,0,1000);
+    h_reco_mass_o_basic_dphi_drap_btag_iso_ptl_j1pt_j2pt_ptbal_mjj_nji = new TH1F("reco_mass_o_basic_dphi_drap_btag_iso_ptl_j1pt_j2pt_ptbal_mjj_nji","Reconstructed mass outside events",1000,0,1000);
+    h_reco_mass_o_basic_dphi_drap_btag_iso_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen = new TH1F("reco_mass_o_basic_dphi_drap_btag_iso_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen","Reconstructed mass outside events",1000,0,1000);
+    h_reco_mass_o_basic_dphi_drap_btag_iso_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega = new TH1F("reco_mass_o_basic_dphi_drap_btag_iso_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega","Reconstructed mass outside events",1000,0,1000);
+    h_reco_mass_o_basic_dphi_drap_btag_iso_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco = new TH1F("reco_mass_o_basic_dphi_drap_btag_iso_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco","Reconstructed mass outside events",1000,0,1000);
+    h_reco_mass_o_basic_dphi_drap_btag_iso_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt = new TH1F("reco_mass_o_basic_dphi_drap_btag_iso_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt","Reconstructed mass outside events",1000,0,1000);
 
 
     h_omega_basic = new TH1F("omega_basic","Omega variable",60,-3.0,3.0);
@@ -461,9 +461,9 @@ void CLoop::Book(double lumFactor) {
     h_n_jets_interval = new TH1F("n_jets_interval","N jets between rapidity interval",10,0,10);
     h_Z_centrality = new TH1F("Z_centrality","Z boson centrality",500,0,5);
     h_omega = new TH1F("omega","Omega variable",60,-3.0,3.0);
-    h_reco_mass_i = new TH1F("reco_mass_i","Reconstructed mass in between events",240,0,240);
-    h_reco_mass_o = new TH1F("reco_mass_o","Reconstructed mass outside events",240,0,240);
-    h_reco_mass = new TH1F("reco_mass_","Reconstructed mass all events",240,0,240);
+    h_reco_mass_i = new TH1F("reco_mass_i","Reconstructed mass in between events",1000,0,1000);
+    h_reco_mass_o = new TH1F("reco_mass_o","Reconstructed mass outside events",1000,0,1000);
+    h_reco_mass = new TH1F("reco_mass_","Reconstructed mass all events",1000,0,1000);
 
 
     if (lumFactor!=1){
@@ -488,7 +488,7 @@ void CLoop::Fill(double weight, int z_sample) {
   bool elec_id=elec_0_id_tight;
   size_t n_ljets=n_jets-n_bjets_MV2c10_FixedCutBEff_85;
 
-  if (qelec!=qmuon && n_muons==1 && n_electrons==1 && weight > -190 && elec_id && muon_id && n_ljets>=2 && n_ljets<=3){
+  if (qelec==qmuon && n_muons==1 && n_electrons==1 && weight > -190 && elec_id && muon_id && n_ljets>=2 && n_ljets<=3){
     
     //angles
     double angle_elec_MET=del_phi(elec_0_p4->Phi(),met_reco_p4->Phi());
@@ -688,13 +688,13 @@ void CLoop::Fill(double weight, int z_sample) {
         if(superCR){cuts[10]=1;} // SR -> z_centrality < 0.5
         if (omega> -0.4 && omega <1.4){cuts[11]=1;}
         if (inside) {
-          if (reco_mass<116 && reco_mass>66){cuts[12]=1;}
+          if (reco_mass>=116){cuts[12]=1;} // Z-peak reco_mass<116 && reco_mass>66
         }
         if (outside_elec) {
-          if (reco_mass_outside<116 && reco_mass_outside>66){cuts[12]=1;}
+          if (reco_mass>=116){cuts[12]=1;}
         }
         if (outside_muon) {
-          if (reco_mass_outside<116 && reco_mass_outside>66){cuts[12]=1;}
+          if (reco_mass>=116){cuts[12]=1;}
         }
         if (muon_0_p4->Pt()>=27){cuts[13]=1;}
 

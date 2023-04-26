@@ -81,6 +81,7 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
 
     Long64_t nbytes = 0, nb = 0;
 
+    #ifdef NOMINAL
     // Only activate relevant branches
     if (!(key.substr(0,4)=="data")){
     fChain->SetBranchStatus("*",0);
@@ -261,6 +262,7 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
     fChain->SetBranchStatus("tau_0_p4",1);
     fChain->SetBranchStatus("tau_0_q",1);
     }
+    #endif
 
     // loop over number of entries
     for (Long64_t jentry=0; jentry<nLoop;jentry++) {
