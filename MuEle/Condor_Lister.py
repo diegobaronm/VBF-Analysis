@@ -75,15 +75,14 @@ def sample_file_generator(type_of_ntuples,rem):
         tag_checker("DATA",[],["sys"],"NOMINAL",rem)
         tag_checker("MC",[],["sys"],"NOMINAL",rem)
     elif type_of_ntuples==2 :
-        tag_checker("MC",["sys"],["jet"],"sys_trees.txt",rem)
-    elif type_of_ntuples==3 :
-        tag_checker("MC",["sys","jet"],[],"sys_jet_trees.txt",rem)
-
+        tag_checker("MC",["sys"],[],"sysTrees.txt",rem)
 
 if __name__ == "__main__":
 
-    ntuples_type=menu("Nominal or systematics?",["Nominal","Systematics NO JET","Systematics JET"])
+    ntuples_type=menu("Nominal or systematics?",["Nominal","Systematics"])
     remote=sys.argv[1]=="yes"
+    if remote:
+        sys.argv.append("yes")
     sample_file_generator(ntuples_type,remote)
 
 

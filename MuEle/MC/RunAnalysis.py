@@ -72,9 +72,9 @@ def runAnalysis(key, remote):
 
     # move the output to a different directory
     if sys.argv[0]=="condor_exec.exe":
-        output=os.system("mv "+key+tree_name+".root "+"/afs/cern.ch/work/d/dbaronmo/private/Outputs/Ztm/"+tree_name+"/"+key+tree_name+".root")
+        output=os.system("mv "+key+tree_name+".root "+"/afs/cern.ch/work/d/dbaronmo/private/Outputs/Zem/"+tree_name+"/"+key+tree_name+".root")
         if (output!=0):
-            os.system("echo "+key+" yes "+tree_name+"   >> "+"/afs/cern.ch/work/d/dbaronmo/private/Outputs/FAILED_Ztm.txt")
+            os.system("echo "+key+" yes "+tree_name+"   >> "+"/afs/cern.ch/work/d/dbaronmo/private/Outputs/FAILED_Zem.txt")
     else :
         output=os.system("mv "+key+tree_name+".root "+"out/"+tree_name+"/"+key+tree_name+".root")
         if (output!=0):
