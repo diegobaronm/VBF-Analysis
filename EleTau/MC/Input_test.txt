@@ -1,0 +1,2 @@
+VBF_Ztautau_sherpa_2018_sys yes JET_Pileup_PtTerm_1up
+VBF_Ztautau_sherpa_2018_sys yes NOMINAL
