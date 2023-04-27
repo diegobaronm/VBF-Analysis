@@ -29,9 +29,9 @@ def getSystematicsName(path, histogramName):
 if __name__ == "__main__":
     r.TH1.AddDirectory(False)
     # Define paths of the two input channels
-    path1 = "/Users/diegomac/Documents/HEP/VBF-Analysis/MuMu/Plots/AnalysisCrosscheck/Systematics/"
-    path2 = "/Users/diegomac/Documents/HEP/VBF-Analysis/Zee/Plots/AnalysisCrosscheck/Systematics/"
-    targetPath = "/Users/diegomac/Documents/HEP/VBF-Analysis/Zll/AnalysisCrosscheck/Systematics/"
+    path1 = "/Users/diegomac/Documents/HEP/VBF-Analysis/TauMu/Plots/Systematics/"
+    path2 = "/Users/diegomac/Documents/HEP/VBF-Analysis/EleTau/Plots/Systematics/"
+    targetPath = "/Users/diegomac/Documents/HEP/VBF-Analysis/TauTau/TauhadTaulep/AnalysisCrosscheck/Systematics/"
 
     systematics1 = getSystematicsName(path1, "mass_jj")
     systematics2 = getSystematicsName(path2, "mass_jj")
@@ -41,7 +41,7 @@ if __name__ == "__main__":
     sysWeight2 = systematics2['weightSys']
     sysShape1 = systematics1['shapeSys']
     sysShape2 = systematics2['shapeSys']
-    samples = {'Zll_SherpaRW':['Zmumu_SherpaRW','Zee_SherpaRW'], 
+    samples = {'Ztautau_SherpaRW':['Ztautau_SherpaRW','Ztautau_SherpaRW'], 
                'Signal_Sherpa':['Signal_Sherpa','Signal_Sherpa']}
 
     # Get all the systematics names combined
