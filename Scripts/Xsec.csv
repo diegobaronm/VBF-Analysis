@@ -4,13 +4,13 @@ SampleID,category,xsectioninpb,kfactor,filterefficiency,xsecunc
 # top,,,,,
 # ttbar,,,,,
 410501,     PowhegPythia8EvtGen_A14_ttbar_hdamp258p75_nonallhad,730.17,1.1391,0.544,1
-410470,     PhPy8EG_A14_ttbar_hdamp258p75_nonallhad,729.77,1.13975636159,0.54383,1
+410470,     PhPy8EG_A14_ttbar_hdamp258p75_nonallhad,729.77,1.139756362,0.54383,1
 ,,,,,
 # single top,,,,,
-410025,    PowhegPythiaEvtGen_P2012_SingleTopSchan_noAllHad_top,2.0514,1.00478210003,1,1
-410026,    PowhegPythiaEvtGen_P2012_SingleTopSchan_noAllHad_antitop,1.2615,1.02153151011,1,1
-410011,    PowhegPythiaEvtGen_P2012_singletop_tchan_lept_top,43.739,1.00944237408,1,1
-410012,    PowhegPythiaEvtGen_P2012_singletop_tchan_lept_antitop,25.778,1.01931879898,1,1
+410025,    PowhegPythiaEvtGen_P2012_SingleTopSchan_noAllHad_top,2.0514,1.0047821,1,1
+410026,    PowhegPythiaEvtGen_P2012_SingleTopSchan_noAllHad_antitop,1.2615,1.02153151,1,1
+410011,    PowhegPythiaEvtGen_P2012_singletop_tchan_lept_top,43.739,1.009442374,1,1
+410012,    PowhegPythiaEvtGen_P2012_singletop_tchan_lept_antitop,25.778,1.019318799,1,1
 410013,    PowhegPythiaEvtGen_P2012_Wt_inclusive_top,34.009,1.054,1,1
 410014,    PowhegPythiaEvtGen_P2012_Wt_inclusive_antitop,33.989,1.054,1,1
 410015,    PowhegPythiaEvtGen_P2012_Wt_dilepton_top,3.5834,1.054,1,1
@@ -167,6 +167,29 @@ SampleID,category,xsectioninpb,kfactor,filterefficiency,xsecunc
 364132,    Sherpa_221_NNPDF30NNLO_Ztautau_MAXHTPTV70_140_CFilterBVeto,110.55,0.9751,0.1902,1
 364135,    Sherpa_221_NNPDF30NNLO_Ztautau_MAXHTPTV140_280_CFilterBVeto,40.718,0.9751,0.23417,1
 364138,    Sherpa_221_NNPDF30NNLO_Ztautau_MAXHTPTV280_500_CFilterBVeto,8.6756,0.9751,0.26523,1
+,,,,,
+,,,,,
+# SherpaNLO,,,,,
+# Zee,,,,,
+700320,Sh_2211_Zee_maxHTpTV2_BFilter,2221.2,1,2.49E-02,1
+700321,Sh_2211_Zee_maxHTpTV2_CFilterBVeto,2221.2,1,0.1298145,1
+700322,Sh_2211_Zee_maxHTpTV2_CVetoBVeto,2221.2,1,8.46E-01,1
+,,,,,
+# Zmumu,,,,,
+700323,Sh_2211_Zmumu_maxHTpTV2_BFilter,2221.3,1,2.44E-02,1
+700324,Sh_2211_Zmumu_maxHTpTV2_CFilterBVeto,2221.3,1,0.13003,1
+700325,Sh_2211_Zmumu_maxHTpTV2_CVetoBVeto,2221.3,1,8.46E-01,1
+,,,,,
+# Ztautau,,,,,
+700326,Sh_2211_Ztautau_LL_maxHTpTV2_BFilter,275.33,1,0.0249068,1
+700327,Sh_2211_Ztautau_LL_maxHTpTV2_CFilterBVeto,275.33,1,1.25E-01,1
+700328,Sh_2211_Ztautau_LL_maxHTpTV2_CVetoBVeto,275.33,1,8.50E-01,1
+700329,Sh_2211_Ztautau_LH_maxHTpTV2_BFilter,1013.2,1,2.44E-02,1
+700330,Sh_2211_Ztautau_LH_maxHTpTV2_CFilterBVeto,1013.2,1,1.25E-01,1
+700331,Sh_2211_Ztautau_LH_maxHTpTV2_CVetoBVeto,1013.2,1,8.50E-01,1
+700332,Sh_2211_Ztautau_HH_maxHTpTV2_BFilter,932.53,1,2.46E-02,1
+700333,Sh_2211_Ztautau_HH_maxHTpTV2_CFilterBVeto,932.53,1,0.1247522,1
+700334,Sh_2211_Ztautau_HH_maxHTpTV2_CVetoBVeto,932.53,1,8.50E-01,1
 ,,,,,
 ,,,,,
 # MadGraph,,,,,
@@ -332,6 +355,23 @@ SampleID,category,xsectioninpb,kfactor,filterefficiency,xsecunc
 361514,MadGraphPythia8EvtGen_A14NNPDF23LO_Ztautau_Np4,7.2598,1.232,1,1
 361514,MadGraphPythia8EvtGen_A14NNPDF23LO_Ztautau_Np4,7.2523,1.232,1,1
 361514,MadGraphPythia8EvtGen_A14NNPDF23LO_Ztautau_Np4,7.2598,1.232,1,1
+,,,,,
+,,,,,
+# MadGraph NLO,,,,,
+# Zee,,,,,
+506193,MGPy8EG_Zee_FxFx_3jets_HT2bias_BFilter,2270.7,1,2.18E-02,1
+506194,MGPy8EG_Zee_FxFx_3jets_HT2bias_CFilterBVeto,2265.8,1,1.21E-01,1
+506195,MGPy8EG_Zee_FxFx_3jets_HT2bias_CVetoBVeto,2268,1,8.57E-01,1
+,,,,,
+# Zmumu,,,,,
+506196,MGPy8EG_Zmumu_FxFx_3jets_HT2bias_BFilter,2274.1,1,2.14E-02,1
+506197,MGPy8EG_Zmumu_FxFx_3jets_HT2bias_CFilterBVeto,2272.4,1,1.21E-01,1
+506198,MGPy8EG_Zmumu_FxFx_3jets_HT2bias_CVetoBVeto,2267.8,1,8.57E-01,1
+,,,,,
+# Ztautau,,,,,
+512198,MGPy8EG_FxFx_Ztautau_3jets_HT2bias_BFilter,2272.7,1,2.18E-02,1
+512199,MGPy8EG_FxFx_Ztautau_3jets_HT2bias_CFilterBVeto,2271.6,1,1.22E-01,1
+512200,MGPy8EG_FxFx_Ztautau_3jets_HT2bias_CVetoBVeto,2269,1,8.56E-01,1
 ,,,,,
 ################################################################################################################,,,,,
 ,,,,,

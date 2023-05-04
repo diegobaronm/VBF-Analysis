@@ -29,9 +29,9 @@ def getSystematicsName(path, histogramName):
 if __name__ == "__main__":
     r.TH1.AddDirectory(False)
     # Define paths of the two input channels
-    path1 = "/Users/diegomac/Documents/HEP/VBF-Analysis/TauMu/Plots/Systematics/"
-    path2 = "/Users/diegomac/Documents/HEP/VBF-Analysis/EleTau/Plots/Systematics/"
-    targetPath = "/Users/diegomac/Documents/HEP/VBF-Analysis/TauTau/TauhadTaulep/AnalysisCrosscheck/Systematics/"
+    path1 = "/Users/diegomac/Documents/HEP/VBF-Analysis/MuMu/Plots/AnalysisCrosscheck/Systematics/"
+    path2 = "/Users/diegomac/Documents/HEP/VBF-Analysis/Zee/Plots/AnalysisCrosscheck/Systematics/"
+    targetPath = "/Users/diegomac/Documents/HEP/VBF-Analysis/Zll/AnalysisCrosscheck/Systematics/"
 
     systematics1 = getSystematicsName(path1, "mass_jj")
     systematics2 = getSystematicsName(path2, "mass_jj")
@@ -41,7 +41,7 @@ if __name__ == "__main__":
     sysWeight2 = systematics2['weightSys']
     sysShape1 = systematics1['shapeSys']
     sysShape2 = systematics2['shapeSys']
-    samples = {'Ztautau_SherpaRW':['Ztautau_SherpaRW','Ztautau_SherpaRW'], 
+    samples = {'Zll_SherpaRW':['Zmumu_SherpaRW','Zee_SherpaRW'], 
                'Signal_Sherpa':['Signal_Sherpa','Signal_Sherpa']}
 
     # Get all the systematics names combined
@@ -54,15 +54,24 @@ if __name__ == "__main__":
         histogram1 = r.TH1F(r.TFile.Open(path1+sourceSample[0]+"_NOMINAL.root").Get("mass_jj"))
         histogram2 = r.TH1F(r.TFile.Open(path2+sourceSample[1]+"_NOMINAL.root").Get("mass_jj"))
         nominalHistograms[targetSample] = [histogram1, histogram2]
-    
+   
     # First, process the shape systematics
     for targetSample,sourceSample in samples.items():
         for sysName in sysShape:
             # If the two channels have the same shape systematics, then we can add them using hadd
             if sysName in sysShape1 and sysName in sysShape2:
-                print("Systematic "+sysName+" in both channels, adding them.")
-                os.system("hadd -f "+targetPath+targetSample+"_"+sysName+".root "+path1+sourceSample[0]+"_"+sysName+".root "+path2+sourceSample[1]+"_"+sysName+".root")
-                print("\n")
+                # If systematic is NOMINAL just add the mass_jj histograms
+                if sysName == "NOMINAL":
+                    targetFile = r.TFile.Open(targetPath+targetSample+"_NOMINAL.root", "UPDATE")
+                    histo1 = r.TH1F(r.TFile.Open(path1+sourceSample[0]+"_NOMINAL.root").Get("mass_jj"))
+                    histo2 = r.TH1F(r.TFile.Open(path2+sourceSample[1]+"_NOMINAL.root").Get("mass_jj"))
+                    histo1.Add(histo2)
+                    targetFile.WriteTObject(histo1, "mass_jj")
+                    targetFile.Close()
+                else :
+                    print("Systematic "+sysName+" in both channels, adding them.")
+                    os.system("hadd -f "+targetPath+targetSample+"_"+sysName+".root "+path1+sourceSample[0]+"_"+sysName+".root "+path2+sourceSample[1]+"_"+sysName+".root")
+                    print("\n")
             # If only the first channel has the shape systematic, then we need to add the nominal histogram from the second channel
             elif sysName in sysShape1:
                 # Create a root file in the target directory and write a histogram with the sum of the shape1 and nominal2 histograms
@@ -82,9 +91,10 @@ if __name__ == "__main__":
                 targetFile.WriteTObject(histoSystematic, "mass_jj")
                 targetFile.Close()
                 print("\n")
-
+ 
     # Now, process the weight systematics
     for targetSample,sourceSample in samples.items():
+        print('Doing ... ',targetSample)
         for sysName in sysWeight:
             # Fist open the file in the target location with the NOMINAL name
             targetFile = r.TFile.Open(targetPath+targetSample+"_NOMINAL.root", "UPDATE")
