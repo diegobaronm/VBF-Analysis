@@ -93,7 +93,9 @@ dict_of_samples={"Ztautau":"361108_PoPy","Zmumu":"mumu_PoPy","Zee":"Zee_PoPy","W
 "VBF_Zee_old":"Zee_Sh221_2jets","VBF_Ztautau":"600939","VBF_Zmumu":"600938","VBF_Zee":"600937","VBF_Ztautau_sherpa":"700360","VBF_Zmumu_sherpa":"700359",
 "VBF_Zee_sherpa":"700358",
 "WpH":"345212","WmH":"345211","ZHllbb":"345055","ZHlltautau":"346329","ggHttlm15hp20":"345121","ggHttlp15hm20":"345122",
-"VBFHttlm15hp20":"346191","VBFHttlp15hm20":"346192","Zee_MG":"MGPy8_Zee","Zmumu_MG":"MGPy8_Zmumu","Ztautau_MG":"MadPy_Ztt"}
+"VBFHttlm15hp20":"346191","VBFHttlp15hm20":"346192","Zee_MG":"MGPy8_Zee","Zmumu_MG":"MGPy8_Zmumu","Ztautau_MG":"MadPy_Ztt",
+"Zee_MGNLO":"MGPy8_Zee_3jets","Zmumu_MGNLO":"MGPy8_Zmumu_3jets","Ztautau_MGNLO":"MGPy8_Ztt_3jets",
+"Zee_SherpaNLO":"Sh_2211_Zee","Zmumu_SherpaNLO":"Sh_2211_Zmumu","Ztautau_SherpaNLO":"Sh_2211_Ztt"}
 
 
 for i in dict_of_samples:
