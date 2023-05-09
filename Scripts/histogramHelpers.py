@@ -343,13 +343,64 @@ def stackPlot(data,signal,background,histograms,watermark,signalMu = 1.0, backgr
 
 # Dictionaries for Z->ee
 
+histogramsHighStatsZee ={
+"n_bjets":['N b-jets'],
+"lepiso":['Lepton Isolation'],
+"n_jets_interval":['N jets gap'],
+"delta_R_leplep_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl":['#DeltaR(e_{1},e_{2})'],
+"delta_R_lep1jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl":['#DeltaR(e_{1},j)'],
+"delta_R_lep2jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl":['#DeltaR(e_{2},j)'],    
+"delta_phi":[[2.0],[0.2,0.8],0.2,'#Delta#phi(e_{1},e_{2})'],
+"lep1_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl":[[0.1],[0.2,0.199],0.2,'#eta(e_{1})'],
+"lep2_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl":[[0.1],[0.2,0.199],0.2,'#eta(e_{2})'],
+"ljet0_eta_basic_cuts_ptl":[[-3.0,3.0],[0.5,0.2,0.5],0.2,'#eta(j_{1})'],
+"ljet1_eta_basic_cuts_ptl":[[-3.0,3.0],[0.5,0.2,0.5],0.2,'#eta(j_{2})'],
+"lep1_pt":[[300],[20,50],20,'pT(e_{1})'],
+"lep2_pt":[[300],[20,50],20,'pT(e_{2})'],
+"ljet0_pt":[[75,460],[15,35,54],15,'pT(j_{1})'],
+"ljet1_pt":[[70,440],[10,37,56],10,'pT(j_{2})'],
+"ljet2_pt_basic_cuts_ptl":[[100],[20,50],20,'pT(j_{2})'],
+"pt_bal":[[0.15,0.3],[0.03,0.05,0.7],0.15,'pT balance'],
+"Z_centrality":[[0.5],[0.1,0.5],0.1,'#xi(Z)'],
+"delta_y":[[2.0,6.0],[1.0,0.5,1.0],1.0,'#Deltay_{jj}'],
+"inv_mass":[[70,110,140],[10,5,10,20],5,'m_{ee}'],
+"mass_jj":[[1500],[250,500],250,'m_{jj}'],
+"Z_pt_reco_basic_cuts_ptl":[[300,600],[20,50,200],20,'pT(Z)'],
+"vec_sum_pt_jets_basic_cuts_ptl":[[300],[20,50],20],
+"ratio_zpt_sumjetpt_basic_cuts_ptl":[[0.75,1.25],[0.25,0.1,0.25],0.1],
+"met_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl":[[50],[10,50],10,'MET'],
+}
+
+histogramsLowStatsZee ={
+"n_bjets":['N b-jets'],
+"lepiso":['Lepton Isolation'],
+"n_jets_interval":['N jets gap'],
+"lep1_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl":[[0.1],[0.2,0.199],0.2,'#eta(e_{1})'],
+"lep2_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl":[[0.1],[0.2,0.199],0.2,'#eta(e_{2})'],
+"ljet0_eta_basic_cuts_ptl":[[-3.0,3.0],[0.5,0.2,0.5],0.2,'#eta(j_{1})'],
+"ljet1_eta_basic_cuts_ptl":[[-3.0,3.0],[0.5,0.2,0.5],0.2,'#eta(j_{2})'],
+"delta_R_leplep_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl":[[0.2],[0.2,0.199],0.2,'#DeltaR(e_{1},e_{2})'],
+"delta_R_lep1jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl":[[0.2],[0.2,0.199],0.2,'#DeltaR(e_{1},j)'],
+"delta_R_lep2jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl":[[0.2],[0.2,0.199],0.2,'#DeltaR(e_{2},j)'],
+"delta_phi":[[2.0],[0.2,0.8],0.2,'#Delta#phi(e_{1},e_{2})'],
+"lep1_pt":[[300],[20,50],20,'pT(e_{1})'],
+"lep2_pt":[[300],[20,50],20,'pT(e_{2})'],
+"ljet0_pt":[[75,460],[15,35,54],15,'pT(j_{1})'],
+"ljet1_pt":[[70,440],[10,37,56],10,'pT(j_{2})'],
+"pt_bal":[[0.15,0.3],[0.0499,0.15,0.7],0.15,'pT balance'],
+"Z_centrality":[[0.5],[0.1,0.5],0.1,'#xi(Z)'],
+"delta_y":[[2.0,6.0],[1.0,0.5,1.0],1.0,'#Deltay_{jj}'],
+"inv_mass":[[70,100,150,250],[70,10,25,50,250],10,'m_{ee}'],
+"mass_jj":[[1500,3000],[250,500,1000],250,'m_{jj}'],
+"Z_pt_reco_basic_cuts_ptl":[[300,600],[20,50,200],20,'pT(Z)'],
+"vec_sum_pt_jets_basic_cuts_ptl":[[300],[20,50],20],
+"ratio_zpt_sumjetpt_basic_cuts_ptl":[[0.75,1.25],[0.25,0.1,0.25],0.1],
+"met_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl":[[50],[10,50],10,'MET'],
+}
+
 # Dictionaries for Z->mumu
 
-# Dictionaries for Z->tautau
-
-# Dictionaries for Z->ll
-
-histogramsHighStatsZll = {
+histogramsHighStatsZmumu = {
 "n_bjets":['n b-jets'],
 "lepiso":['Lepton Isolation'],
 "n_jets_interval":['N jets gap'],
@@ -377,7 +428,7 @@ histogramsHighStatsZll = {
 "met_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl":[[50],[10,50],10,'MET'],
 }
 
-histogramsLowStatsZll = {
+histogramsLowStatsZmumu = {
 "n_bjets":['N b-jets'],
 "lepiso":['Lepton Isolation'],
 "n_jets_interval":['N jets gap'],
@@ -396,7 +447,66 @@ histogramsLowStatsZll = {
 "pt_bal":[[0.15,0.3],[0.0499,0.15,0.7],0.15,'pT balance'],
 "Z_centrality":[[0.5],[0.1,0.5],0.1,'#xi(Z)'],
 "delta_y":[[2.0,6.0],[1.0,0.5,1.0],1.0,'#Deltay_{jj}'],
-"inv_mass":[[70,110,140],[10,5,10,20],5,'m_{#mu#mu}'],
+"inv_mass":[[70,100,150,250],[70,10,25,50,250],10,'m_{#mu#mu}'],
+"mass_jj":[[1500,3000],[250,500,1000],250,'m_{jj}'],
+"Z_pt_reco_basic_cuts_ptl":[[300,600],[20,50,200],20,'pT(Z)'],
+"vec_sum_pt_jets_basic_cuts_ptl":[[300],[20,50],20],
+"ratio_zpt_sumjetpt_basic_cuts_ptl":[[0.75,1.25],[0.25,0.1,0.25],0.1],
+"met_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl":[[50],[10,50],10,'MET'],
+}
+
+# Dictionaries for Z->tautau
+
+# Dictionaries for Z->ll
+
+histogramsHighStatsZll = {
+"n_bjets":['n b-jets'],
+"lepiso":['Lepton Isolation'],
+"n_jets_interval":['N jets gap'],
+"delta_R_leplep_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl":['#DeltaR(l_{1},l_{2})'],
+"delta_R_lep1jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl":['#DeltaR(l_{1},j)'],
+"delta_R_lep2jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl":['#DeltaR(l_{2},j)'],    
+"delta_phi":[[2.0],[0.2,0.8],0.2,'#Delta#phi(l_{1},l_{2})'],
+"lep1_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl":[[0.1],[0.2,0.199],0.2,'#eta(l_{1})'],
+"lep2_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl":[[0.1],[0.2,0.199],0.2,'#eta(l_{2})'],
+"ljet0_eta_basic_cuts_ptl":[[-3.0,3.0],[0.5,0.2,0.5],0.2,'#eta(j_{1})'],
+"ljet1_eta_basic_cuts_ptl":[[-3.0,3.0],[0.5,0.2,0.5],0.2,'#eta(j_{2})'],  
+"lep1_pt":[[100,200,300],[20,50,100,350],20,'pT(l_{1})'],
+"lep2_pt":[[100,200,300],[20,50,100,350],20,'pT(l_{2})'],
+"ljet0_pt":[[75,460],[15,35,54],15,'pT(j_{1})'],
+"ljet1_pt":[[70,440],[10,37,56],10,'pT(j_{2})'],
+"ljet2_pt_basic_cuts_ptl":[[100],[20,50],20,'pT(j_{2})'],
+"pt_bal":[[0.15,0.3],[0.03,0.05,0.7],0.15,'pT balance'],
+"Z_centrality":[[0.5],[0.1,0.5],0.1,'#xi(Z)'],
+"delta_y":[[2.0,6.0],[1.0,0.5,1.0],1.0,'#Deltay_{jj}'],
+"inv_mass":[[70,110,140,300],[70,5,10,80,700],5,'m_{ll}'],
+"mass_jj":[[1500],[250,500],250,'m_{jj}'],
+"Z_pt_reco_basic_cuts_ptl":[[300,600],[20,50,200],20,'pT(Z)'],
+"vec_sum_pt_jets_basic_cuts_ptl":[[300],[20,50],20],
+"ratio_zpt_sumjetpt_basic_cuts_ptl":[[0.75,1.25],[0.25,0.1,0.25],0.1],
+"met_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl":[[50],[10,50],10,'MET'],
+}
+
+histogramsLowStatsZll = {
+"n_bjets":['N b-jets'],
+"lepiso":['Lepton Isolation'],
+"n_jets_interval":['N jets gap'],
+"lep1_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl":[[0.1],[0.2,0.199],0.2,'#eta(l_{1})'],
+"lep2_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl":[[0.1],[0.2,0.199],0.2,'#eta(l_{2})'],
+"ljet0_eta_basic_cuts_ptl":[[-3.0,3.0],[0.5,0.2,0.5],0.2,'#eta(j_{1})'],
+"ljet1_eta_basic_cuts_ptl":[[-3.0,3.0],[0.5,0.2,0.5],0.2,'#eta(j_{2})'],
+"delta_R_leplep_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl":[[0.2],[0.2,0.199],0.2,'#DeltaR(l_{1},l_{2})'],
+"delta_R_lep1jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl":[[0.2],[0.2,0.199],0.2,'#DeltaR(l_{1},j)'],
+"delta_R_lep2jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl":[[0.2],[0.2,0.199],0.2,'#DeltaR(l_{2},j)'],
+"delta_phi":[[2.0],[0.2,0.8],0.2,'#Delta#phi(l_{1},l_{2})'],
+"lep1_pt":[[300],[20,50],20,'pT(l_{1})'],
+"lep2_pt":[[300],[20,50],20,'pT(l_{2})'],
+"ljet0_pt":[[75,460],[15,35,54],15,'pT(j_{1})'],
+"ljet1_pt":[[70,440],[10,37,56],10,'pT(j_{2})'],
+"pt_bal":[[0.15,0.3],[0.0499,0.15,0.7],0.15,'pT balance'],
+"Z_centrality":[[0.5],[0.1,0.5],0.1,'#xi(Z)'],
+"delta_y":[[2.0,6.0],[1.0,0.5,1.0],1.0,'#Deltay_{jj}'],
+"inv_mass":[[70,110,140],[10,5,10,20],5,'m_{ll}'],
 "mass_jj":[[1500,3000],[250,500,1000],250,'m_{jj}'],
 "Z_pt_reco_basic_cuts_ptl":[[300,600],[20,50,200],20,'pT(Z)'],
 "vec_sum_pt_jets_basic_cuts_ptl":[[300],[20,50],20],
