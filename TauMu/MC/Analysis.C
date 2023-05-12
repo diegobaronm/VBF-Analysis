@@ -734,25 +734,25 @@ void CLoop::Fill(double weight, int z_sample) {
         if (angle<=3.2){cuts[0]=1;}
         if(delta_y>=2.0){cuts[1]=1;}
         if(n_bjets_MV2c10_FixedCutBEff_85==0){cuts[2]=1;}
-        if(muon_0_iso_TightTrackOnly_FixedRad==1){cuts[3]=1;}
-        if(tau_0_n_charged_tracks==1 && tau_0_jet_rnn_score_trans>=0.25){cuts[4]=1;}
-        if(tau_0_n_charged_tracks==3 && tau_0_jet_rnn_score_trans>=0.40){cuts[4]=1;}
+        if(muon_0_iso_TightTrackOnly_FixedRad==0){cuts[3]=1;}
+        if(tau_0_n_charged_tracks==1 && tau_0_jet_rnn_score_trans < 0.25){cuts[4]=1;}
+        if(tau_0_n_charged_tracks==3 && tau_0_jet_rnn_score_trans < 0.40){cuts[4]=1;}
         if(muon_0_p4->Pt()>=27){cuts[5]=1;}
         if(ljet_0_p4->Pt()>=75){cuts[6]=1;}
         if(ljet_1_p4->Pt()>=70){cuts[7]=1;}
         if(pt_bal<=0.15){cuts[8]=1;}
-        if(mjj>=1000){cuts[9]=1;}
-        if(true){cuts[10]=1;}
-        if(superCR){cuts[11]=1;} // SR -> z_centrality < 0.5
+        if(mjj>=250){cuts[9]=1;}
+        if(n_jets_interval==0){cuts[10]=1;}
+        if(z_centrality<0.5){cuts[11]=1;} // SR -> z_centrality < 0.5
         if (omega> -0.2 && omega <1.6){cuts[12]=1;}
         if (inside) {
-          if (reco_mass>=116){cuts[13]=1;} // Z-peak reco_mass<116 && reco_mass>66
+          if (reco_mass > 66 && reco_mass < 116){cuts[13]=1;} // Z-peak reco_mass<116 && reco_mass>66
         }
         if (outside_lep) {
-          if (reco_mass>=116){cuts[13]=1;}
+          if (reco_mass > 66 && reco_mass < 116){cuts[13]=1;}
         }
         if (outside_tau) {
-          if (reco_mass>=116){cuts[13]=1;}
+          if (reco_mass > 66 && reco_mass < 116){cuts[13]=1;}
         }
         if (tau_0_p4->Pt()>=25){cuts[14]=1;}
 

@@ -44,6 +44,18 @@ def normalization(hist_list,norm_bin):
 
 ############################################################################################################
 
+# Function to return the bin content and uncertainty of a histogram as numpy arrays
+def unpackHisto(histogram_file):
+    bin_content = []
+    bin_content_uncer =[]
+    for i in range(1,histogram_file.GetNbinsX()+1):
+        bin_content.append(histogram_file.GetBinContent(i))
+        bin_content_uncer.append(histogram_file.GetBinError(i))
+        
+    return np.array(bin_content),np.array(bin_content_uncer)
+
+############################################################################################################
+
 # Function to return a histogram that is the data minus all the samples included in a list
 def dataSubtract(histoName,histogramsPath,dataFileName,sampleFilesToSubtract,histogramInfo,rebin=True):
     # Get the data histogram
@@ -75,6 +87,16 @@ def makeNegativeBinsZero(histogram):
     for i in range(1,histogram.GetNbinsX()+1):
         if histogram.GetBinContent(i)<0:
             histogram.SetBinContent(i,0.0)
+
+############################################################################################################
+
+# Function to scale the uncertainty of a histogram by a fractional amount of the bin content
+def scaleUncertainty(histogram,scaleFactor):
+    for i in range(1,histogram.GetNbinsX()+1):
+        error = histogram.GetBinError(i)
+        content = histogram.GetBinContent(i)
+        newError = np.sqrt(error*error + content*content*scaleFactor*scaleFactor)
+        histogram.SetBinError(i,newError)
 
 ############################################################################################################
 
@@ -140,11 +162,12 @@ def stackPlot(data,signal,background,histograms,watermark,signalMu = 1.0, backgr
                 hs.Add(samples[s][2])
                 if s!="Signal":
                     mc.Add(samples[s][2],1)
+        mc.SetFillColor(r.kGray+1)
 
         ############### DEFINING RATIOS ###############
 
-        ratio = mc.Clone()
-        ratio.Divide(samples["Data"][2])
+        ratio = r.TGraphAsymmErrors()
+        ratio.Divide(mc,samples["Data"][2],"pois")
     
         ratio_sg_mc=samples["Signal"][2].Clone()
         ratio_sg_mc.Divide(mc)
@@ -179,6 +202,7 @@ def stackPlot(data,signal,background,histograms,watermark,signalMu = 1.0, backgr
         
         samples["Data"][2].Draw("pe same")
         hs.Draw("HIST same")
+        mc.Draw('E2')
         samples["Data"][2].Draw("pe same")
         samples["Data"][2].Draw("sameaxis")
         
@@ -209,16 +233,22 @@ def stackPlot(data,signal,background,histograms,watermark,signalMu = 1.0, backgr
         l.SetNDC ()
         l.DrawLatex(0.9,0.7,final_state)
         
-        max_ratio = ratio.GetMaximum()
-        #if max_ratio > 3:
-            #max_ratio = 3
+        max_ratio = 4
+        print(max_ratio)
+        if max_ratio > 3.5:
+            max_ratio = 3.5
         if max_ratio < 1.5:
             max_ratio = 1.5
 
-        min_ratio = ratio.GetMinimum()
+        min_ratio = -1
         if min_ratio > 0.7:
             min_ratio = 0.5
+        if min_ratio < 0.7:
+            min_ratio = 0.2
+        
             
+        print(max_ratio,min_ratio)
+
         canvas.cd()
         pad2 = r . TPad (" pad2 "," pad2 " ,0 ,0.17 ,1 ,0.35)
         pad2.SetRightMargin(0.03)
@@ -228,19 +258,22 @@ def stackPlot(data,signal,background,histograms,watermark,signalMu = 1.0, backgr
         pad2.Draw ()
         pad2.cd ()
         ratio.SetFillColorAlpha(r.kBlue,0.35)
-        ratio.Draw ("E2")
+        mc.Divide(mc) # NECESSARY TRICK BECAUSE ALL PLOT PARAMETERS GET ATTACHED TO THE FIRST HISTOGRAM
+        mc.Draw("hist p")
+        ratio.Draw("P E2 same")
         ratio.SetTitle("")
-        ratio.SetStats(0)
-        ratio . GetYaxis (). SetRangeUser (min_ratio ,max_ratio)
-        ratio . GetXaxis (). SetRangeUser (s ,e)
-        ratio . GetYaxis (). SetTitle ("MC/DATA")
-        ratio . GetYaxis (). SetTitleSize (0.15)
-        ratio . GetYaxis (). SetTitleOffset (0.25)
-        ratio . GetXaxis (). SetTitleSize (0.09)
-        ratio.GetXaxis().SetLabelSize(0.10)
-        ratio.GetYaxis().SetLabelSize(0.08)
+        mc.SetStats(0)
+        mc . GetYaxis (). SetRangeUser (min_ratio ,max_ratio)
+        mc . GetXaxis (). SetRangeUser (s ,e)
+        mc . GetYaxis (). SetTitle ("MC/DATA")
+        mc . GetYaxis (). SetTitleSize (0.15)
+        mc . GetYaxis (). SetTitleOffset (0.25)
+        mc . GetXaxis (). SetTitleSize (0.09)
+        mc.GetXaxis().SetLabelSize(0.10)
+        mc.GetYaxis().SetLabelSize(0.08)
         ratio.SetMarkerStyle(8)
         ratio.SetMarkerSize(0.6)
+        
 
 
         ###### SETTING ALL THE HORIZONTAL DASHED LINES #######
@@ -269,6 +302,7 @@ def stackPlot(data,signal,background,histograms,watermark,signalMu = 1.0, backgr
         line . Draw (" same ")   
         for separ in separators:
             separ.Draw("same")
+    
         canvas.cd()
         pad3 = r . TPad (" pad3","pad3" ,0.0 ,0.0 ,1 ,0.17)
         pad3.SetRightMargin(0.03)
@@ -334,8 +368,7 @@ def stackPlot(data,signal,background,histograms,watermark,signalMu = 1.0, backgr
         
         file_name = i+"_"+watermark+".pdf"
         canvas.Update()
-        canvas.Print(file_name)
-
+        canvas.Print(file_name)        
 
 ############################################################################################################
 
@@ -456,6 +489,87 @@ histogramsLowStatsZmumu = {
 }
 
 # Dictionaries for Z->tautau
+# Tau(had)Tau(lep)
+histogramsHighStatsZtautau = {
+"n_bjets":['N b-jets'],
+"lepiso":['Lepton Isolation'],
+"n_jets_interval":['N jets gap'],
+"tau_pt":[[25.0,100.0,150.0],[25.0,25.0,50.0,350.0],25.0,'pT(#tau)'],
+"lep_pt":[[27,102,150],[27,25,48,350],20,'pT(l)'],
+"delta_phi":[[1.8],[0.3,0.7],0.3,'#Delta#phi(#tau,l)'],
+"lep_eta_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt":[[0.5],[0.5,0.5],0.5,'#eta(l)'],
+"tau_eta_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt":[[0.5],[0.5,0.5],0.5,'#eta(#tau)'],
+"delta_R_taulep_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt":[[0.5],[0.5,0.5],0.5,'#DeltaR(#tau,l)'],
+"delta_R_lepjet_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt":[[0.5],[0.5,0.5],0.5,'#DeltaR(l,j)'],
+"delta_R_taujet_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt":[[0.5],[0.5,0.5],0.5,'#DeltaR(#tau,j)'],
+"met_basic_dphi":[[100],[20,100],20,'MET'],
+"delta_y":[[2.0,6.0],[2.0,1.0,4.0],1.0,'#Deltay_{jj}'],
+"omega":[[-0.2,1.6],[2.8,0.3,1.4],0.3,'#Omega'],
+"rnn_score_1p":[[0.25],[0.25,0.25],0.25,'jetRNN Score 1p'],
+"rnn_score_3p":[[0.4],[0.2,0.1999],0.2,'jetRNN Score 3p'],
+"ljet0_pt":[[75,400,600],[75,65,100,400],50,'pT(j_{1})'],
+"ljet1_pt":[[70,150,350],[70,40,100,650],50,'pT(j_{2})'],
+"pt_bal":[[0.15],[0.03,0.75],0.03,'pT balance'],
+"Z_centrality":[[0.5],[0.1,0.5],0.1,'#xi(Z)'],
+"mass_jj":[[1500,3000],[250,500,1000],250,'m_{jj}'],
+"reco_mass_i":[[40,65,115,175],[40,25,10,15,65],10,'m_{#tau,l}(i)'],
+"reco_mass_o":[[40,65,115,175],[40,25,10,15,65],10,'m_{#tau,l}(o)'],
+"reco_mass_":[[66,116,176],[66,10,20,64],10,'m_{#tau,l}'],
+"Z_pt_reco_i_basic_cuts_tpt":[[300],[50,100],50,'pT(Z)']
+}
+
+histogramsLowStatsZtautau = {
+"n_bjets":['N b-jets'],
+"lepiso":['Lepton Isolation'],
+"n_jets_interval":['N jets gap'],
+"tau_pt":[[80.0,160.0],[20.0,40.0,170.0],20.0,'pT(#tau)'],
+"lep_pt":[[80,160],[20,40,170],20,'pT(l)'],
+"delta_phi":[[3.0],[0.3,0.2],0.3,'#Delta#phi(#tau,l)'],
+"lep_eta_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt":[[0.5],[0.5,0.5],0.5,'#eta(l)'],
+"tau_eta_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt":[[0.5],[0.5,0.5],0.5,'#eta(#tau)'],
+"delta_R_taulep_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt":[[0.5],[0.5,0.5],0.5,'#DeltaR(#tau,l)'],
+"delta_R_lepjet_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt":[[0.5],[0.5,0.5],0.5,'#DeltaR(l,j)'],
+"delta_R_taujet_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt":[[0.5],[0.5,0.5],0.5,'#DeltaR(#tau,j)'],
+"met_basic_dphi":[[100],[20,100],20,'MET'],
+"delta_y":[[6.0],[1.0,4.0],1.0,'#Deltay_{jj}'],
+"omega":[[-0.2,1.6],[2.8,0.3,1.4],0.3,'#Omega'],
+"rnn_score_1p":[[0.25],[0.25,0.25],0.25,'jetRNN Score 1p'],
+"rnn_score_3p":[[0.4],[0.2,0.1999],0.2,'jetRNN Score 3p'],
+"ljet0_pt":[[400,600],[50,100,400],50,'pT(j_{1})'],
+"ljet1_pt":[[150,350],[50,100,650],50,'pT(j_{2})'],
+"pt_bal":[[0.15],[0.03,0.75],0.03,'pT balance'],
+"Z_centrality":[[0.5],[0.1,0.5],0.1,'#xi(Z)'],
+"mass_jj":[[1500,3000],[250,500,1000],250,'m_{jj}'],
+"reco_mass_i":[[40,65,115,175],[40,25,10,15,65],10,'m_{#tau,l}(i)'],
+"reco_mass_o":[[40,65,115,175],[40,25,10,15,65],10,'m_{#tau,l}(o)'],
+"reco_mass_":[[40,65,115,175],[40,25,10,15,65],10,'m_{#tau,l}'],
+"Z_pt_reco_i_basic_cuts_tpt":[[300],[50,100],50,'pT(Z)']
+}
+
+# Tau(lep)Tau(lep)
+histogramsLowStatsZtauleptaulep ={
+"n_bjets":[],
+"iso":[],
+"n_jets_interval":[],
+"elec_pt":[[27,102,150],[27,25,48,350],20,'pT(e)'],
+"muon_pt":[[27,102,150],[27,25,48,350],20,'pT(#mu)'],
+"delta_phi":[[3.0],[0.3,0.2],0.3],
+"delta_R_muonelec_basic_dphi_drap_btag_iso_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt":[[0.5],[0.5,0.5],0.5],
+"delta_R_elecjet_basic_dphi_drap_btag_iso_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt":[[0.5],[0.5,0.5],0.5],
+"delta_R_muonjet_basic_dphi_drap_btag_iso_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt":[[0.5],[0.5,0.5],0.5],
+"met_basic_dphi":[[100],[20,100],20],
+"delta_y":[[6.0],[1.0,4.0],1.0],
+"omega":[[-0.2,1.6],[2.8,0.3,1.4],0.3],
+"ljet0_pt":[[400,600],[50,100,400],50],
+"ljet1_pt":[[150,350],[50,100,650],50],
+"pt_bal":[[0.15],[0.03,0.75],0.03],
+"Z_centrality":[[0.5],[0.1,0.5],0.1],
+"mass_jj":[[1500,3000],[250,500,1000],250],
+"reco_mass_i":[[40,65,115,175],[40,25,10,15,65],10],
+"reco_mass_o":[[40,65,115,175],[40,25,10,15,65],10],
+"reco_mass_":[[40,65,115,175],[40,25,10,15,65],10],
+"Z_pt_reco_i_basic_cuts_tpt":[[300],[50,100],50]
+}
 
 # Dictionaries for Z->ll
 
@@ -499,14 +613,14 @@ histogramsLowStatsZll = {
 "delta_R_lep1jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl":[[0.2],[0.2,0.199],0.2,'#DeltaR(l_{1},j)'],
 "delta_R_lep2jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl":[[0.2],[0.2,0.199],0.2,'#DeltaR(l_{2},j)'],
 "delta_phi":[[2.0],[0.2,0.8],0.2,'#Delta#phi(l_{1},l_{2})'],
-"lep1_pt":[[300],[20,50],20,'pT(l_{1})'],
-"lep2_pt":[[300],[20,50],20,'pT(l_{2})'],
-"ljet0_pt":[[75,460],[15,35,54],15,'pT(j_{1})'],
-"ljet1_pt":[[70,440],[10,37,56],10,'pT(j_{2})'],
+"lep1_pt":[[100,220,300],[20,40,80,200],20,'pT(l_{1})'],
+"lep2_pt":[[100,220,300],[20,40,80,200],20,'pT(l_{2})'],
+"ljet0_pt":[[75,200,300,500],[75,25,50,100,500],25,'pT(j_{1})'],
+"ljet1_pt":[[70,195,295,495],[70,25,50,100,505],25,'pT(j_{2})'],
 "pt_bal":[[0.15,0.3],[0.0499,0.15,0.7],0.15,'pT balance'],
 "Z_centrality":[[0.5],[0.1,0.5],0.1,'#xi(Z)'],
-"delta_y":[[2.0,6.0],[1.0,0.5,1.0],1.0,'#Deltay_{jj}'],
-"inv_mass":[[70,110,140],[10,5,10,20],5,'m_{ll}'],
+"delta_y":[[2.0,6.0],[2.0,0.5,4.0],1.0,'#Deltay_{jj}'],
+"inv_mass":[[70,100,150,250],[70,10,25,50,250],10,'m_{ll}'],
 "mass_jj":[[1500,3000],[250,500,1000],250,'m_{jj}'],
 "Z_pt_reco_basic_cuts_ptl":[[300,600],[20,50,200],20,'pT(Z)'],
 "vec_sum_pt_jets_basic_cuts_ptl":[[300],[20,50],20],
