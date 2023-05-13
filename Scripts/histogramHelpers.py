@@ -162,8 +162,9 @@ def stackPlot(data,signal,background,histograms,watermark,signalMu = 1.0, backgr
                 hs.Add(samples[s][2])
                 if s!="Signal":
                     mc.Add(samples[s][2],1)
-        mc.SetFillColor(r.kGray+1)
-
+        statUncer = mc.Clone()
+        statUncer.SetFillColor(r.kBlack)
+        statUncer.SetFillStyle(3145)
         ############### DEFINING RATIOS ###############
 
         ratio = r.TGraphAsymmErrors()
@@ -202,7 +203,7 @@ def stackPlot(data,signal,background,histograms,watermark,signalMu = 1.0, backgr
         
         samples["Data"][2].Draw("pe same")
         hs.Draw("HIST same")
-        mc.Draw('E2')
+        statUncer.Draw("E2 same")
         samples["Data"][2].Draw("pe same")
         samples["Data"][2].Draw("sameaxis")
         
@@ -217,12 +218,13 @@ def stackPlot(data,signal,background,histograms,watermark,signalMu = 1.0, backgr
         
         samples["Data"][2].GetYaxis().SetRangeUser(0.1 ,13*samples["Data"][2].GetBinContent(samples["Data"][2].GetMaximumBin()))
         samples["Data"][2].GetXaxis().SetRangeUser(s,e)
-        hs.GetXaxis().SetRangeUser(s,e)
+        samples["Data"][2].GetXaxis().SetRangeUser(s,e)
         if len(histograms[i])>2:
             samples["Data"][2].GetYaxis().SetTitle("Events/"+str(histograms[i][2])+" GeV")
         legend = r . TLegend (0.45 ,0.80 ,0.85 ,0.95)
         for sample in samples:
             legend.AddEntry(samples[sample][2],sample)
+        legend.AddEntry(statUncer,"MC Stat. Uncer.")
         legend.SetNColumns(3)
         r.gStyle.SetLegendBorderSize(0)
         legend . SetLineWidth (0)
@@ -245,9 +247,6 @@ def stackPlot(data,signal,background,histograms,watermark,signalMu = 1.0, backgr
             min_ratio = 0.5
         if min_ratio < 0.7:
             min_ratio = 0.2
-        
-            
-        print(max_ratio,min_ratio)
 
         canvas.cd()
         pad2 = r . TPad (" pad2 "," pad2 " ,0 ,0.17 ,1 ,0.35)
@@ -338,7 +337,7 @@ def stackPlot(data,signal,background,histograms,watermark,signalMu = 1.0, backgr
         ratio_sg_mc.SetMarkerStyle(8)
         ratio_sg_mc.SetMarkerSize(0.6)
 
-        ratio_sg_mc.Draw ("hist p")
+        ratio_sg_mc.Draw ("hist p E")
         ###### SETTING ALL THE HORIZONTAL DASHED LINES #######
 
         line11 = r . TLine (s ,0.80 ,e,0.80)
