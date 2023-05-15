@@ -145,7 +145,7 @@ def stackPlot(data,signal,background,histograms,watermark,signalMu = 1.0, backgr
                 #if s=="Signal" or s=="QCD Z" :
                     #samples[s][2].SetLineWidth(0)
                 samples[s][2].SetFillColor(samples[s][1])
-                samples[s][2].SetLineColor(samples[s][1]+1)
+                samples[s][2].SetLineColor(samples[s][1])
 
         #################### SCALING FACTORS FROM FIT ####################
 
@@ -163,7 +163,8 @@ def stackPlot(data,signal,background,histograms,watermark,signalMu = 1.0, backgr
                 if s!="Signal":
                     mc.Add(samples[s][2],1)
         statUncer = mc.Clone()
-        statUncer.SetFillColor(r.kBlack)
+        statUncer.SetLineColor(r.kBlack)
+        statUncer.SetFillColor(r.kGray+2)
         statUncer.SetFillStyle(3145)
         ############### DEFINING RATIOS ###############
 
@@ -172,11 +173,14 @@ def stackPlot(data,signal,background,histograms,watermark,signalMu = 1.0, backgr
     
         ratio_sg_mc=samples["Signal"][2].Clone()
         ratio_sg_mc.Divide(mc)
+        ratio_sg_mc.SetLineColor(r.kBlack)
 
 
         ##### DRAWING TOP PAD, SETTING MARGINS #######
         
         r.gStyle.SetOptStat(1111111)
+        if "reco_mass" in i: # Blind the data
+            r.gStyle.SetOptStat(0)
         r.gStyle.SetStatY(0.97);                
         r.gStyle.SetStatX(1.0);
         r.gStyle.SetStatW(0.12);                
@@ -212,7 +216,7 @@ def stackPlot(data,signal,background,histograms,watermark,signalMu = 1.0, backgr
         s=samples["Data"][2].GetXaxis().GetBinLowEdge(1)
         e=samples["Data"][2].GetXaxis().GetBinUpEdge(samples["Data"][2].GetNbinsX())
         
-        if "reco_mass_" in i:
+        if "reco_mass" in i:
             s=66
             e=116
         
@@ -223,7 +227,7 @@ def stackPlot(data,signal,background,histograms,watermark,signalMu = 1.0, backgr
             samples["Data"][2].GetYaxis().SetTitle("Events/"+str(histograms[i][2])+" GeV")
         legend = r . TLegend (0.45 ,0.80 ,0.85 ,0.95)
         for sample in samples:
-            legend.AddEntry(samples[sample][2],sample)
+            legend.AddEntry(samples[sample][2],sample,"f")
         legend.AddEntry(statUncer,"MC Stat. Uncer.")
         legend.SetNColumns(3)
         r.gStyle.SetLegendBorderSize(0)
@@ -238,7 +242,7 @@ def stackPlot(data,signal,background,histograms,watermark,signalMu = 1.0, backgr
         max_ratio = 4
         print(max_ratio)
         if max_ratio > 3.5:
-            max_ratio = 3.5
+            max_ratio = 2.5
         if max_ratio < 1.5:
             max_ratio = 1.5
 
@@ -256,11 +260,11 @@ def stackPlot(data,signal,background,histograms,watermark,signalMu = 1.0, backgr
         pad2.SetBottomMargin(0.0)
         pad2.Draw ()
         pad2.cd ()
-        ratio.SetFillColorAlpha(r.kBlue,0.35)
+        ratio.SetFillColorAlpha(r.kGray,0.95)
         mc.Divide(mc) # NECESSARY TRICK BECAUSE ALL PLOT PARAMETERS GET ATTACHED TO THE FIRST HISTOGRAM
         mc.Draw("hist p")
         ratio.Draw("P E2 same")
-        ratio.SetTitle("")
+        mc.SetTitle("")
         mc.SetStats(0)
         mc . GetYaxis (). SetRangeUser (min_ratio ,max_ratio)
         mc . GetXaxis (). SetRangeUser (s ,e)
@@ -337,7 +341,7 @@ def stackPlot(data,signal,background,histograms,watermark,signalMu = 1.0, backgr
         ratio_sg_mc.SetMarkerStyle(8)
         ratio_sg_mc.SetMarkerSize(0.6)
 
-        ratio_sg_mc.Draw ("hist p E")
+        ratio_sg_mc.Draw ("hist p E1 X0")
         ###### SETTING ALL THE HORIZONTAL DASHED LINES #######
 
         line11 = r . TLine (s ,0.80 ,e,0.80)
@@ -371,6 +375,267 @@ def stackPlot(data,signal,background,histograms,watermark,signalMu = 1.0, backgr
 
 ############################################################################################################
 
+
+def stackPlotNoData(signal,background,histograms,watermark,signalMu = 1.0, backgroundMu = 1.0,average=False,after_fit=False,final_state="Z#rightarrow #mu#mu"):
+    samples = background.copy()
+    samples.update(signal)
+
+    for i in histograms:
+        print("HISTOGRAM = ",i)
+        for s in samples:
+            file = r.TFile.Open(samples[s][0],"READ")
+            hist = file.Get(i)
+            hist.SetDirectory(0)
+            samples[s].append
+            samples[s][2]=hist # add histogram (TH1F) to list of samples
+            file.Close()
+        if average:
+            watermark = "Average"
+            if after_fit:
+                watermark = "Average_AfterFit"
+            
+        ###### REBIN AND NORMALISE ######
+        if len(histograms[i])>2:
+            rebining=biner(histograms[i][0],histograms[i][1],samples["Signal"][2])
+            print("Using following bins... ",rebining)
+            nb=len(rebining)-1
+            for s in samples:
+                if 'Average' in samples[s][0]:
+                    print(s,samples[s])
+                    continue
+                else :    
+                    samples[s][2]=samples[s][2].Rebin(nb,s,rebining)
+            hist_list=[samples[s][2] for s in samples if 'Average' not in samples[s][0]]
+            normalization(hist_list,histograms[i][2])
+
+        ###### SETTING THE COLOURS ######
+
+        for s in samples:
+            samples[s][2].SetFillColor(samples[s][1])
+            samples[s][2].SetLineColor(samples[s][1])
+
+        #################### SCALING FACTORS FROM FIT ####################
+
+        if after_fit:
+            samples["Signal"][2].Scale(signalMu)
+            samples["QCD Z"][2].Scale(backgroundMu)
+                
+        ####################### CREATING MC AND STACK HISTOGRAM ########################        
+        
+        hs = r.THStack("hs","")
+        mc = samples["Signal"][2].Clone()
+        for s in samples:
+            hs.Add(samples[s][2])
+            if s!="Signal":
+                mc.Add(samples[s][2],1)
+        statUncer = mc.Clone()
+        statUncer.SetLineColor(r.kBlack)
+        statUncer.SetFillColor(r.kGray+2)
+        statUncer.SetFillStyle(3145)
+        ############### DEFINING RATIOS ###############
+
+        ratio = r.TGraphAsymmErrors()
+        ratio.Divide(mc,mc,"pois")
+    
+        ratio_sg_mc=samples["Signal"][2].Clone()
+        ratio_sg_mc.Divide(mc)
+        ratio_sg_mc.SetLineColor(r.kBlack)
+
+
+        ##### DRAWING TOP PAD, SETTING MARGINS #######
+        
+        r.gStyle.SetOptStat(1111111)
+        r.gStyle.SetStatY(0.97);                
+        r.gStyle.SetStatX(1.0);
+        r.gStyle.SetStatW(0.12);                
+        r.gStyle.SetStatH(0.12);
+
+        canvas = r.TCanvas("canvas2")
+        canvas.cd()
+
+        pad1 = r . TPad (" pad1 "," pad1 " ,0 ,0.35 ,1 ,1)
+        pad1.SetTopMargin(0.03)
+        pad1.SetRightMargin(0.03)
+        pad1.SetLeftMargin(0.08)
+        pad1.SetBottomMargin(0.0)
+        pad1.Draw ()
+        pad1.cd ()
+
+        ###### SETTING STATS BOX POSITION ######
+        
+        r.gStyle.SetStatY(0.95);                
+        r.gStyle.SetStatX(0.96);
+        r.gStyle.SetStatW(0.1);                
+        r.gStyle.SetStatH(0.1);
+
+        
+        samples["Signal"][2].Draw("pe")
+        hs.Draw("HIST same")
+        statUncer.Draw("E2 same")
+        samples["Signal"][2].Draw("pe same")
+        samples["Signal"][2].Draw("sameaxis")
+        
+        pad1.SetLogy()
+        
+        s=samples["Signal"][2].GetXaxis().GetBinLowEdge(1)
+        e=samples["Signal"][2].GetXaxis().GetBinUpEdge(samples["Signal"][2].GetNbinsX())
+        
+        samples["Signal"][2].GetYaxis().SetRangeUser(0.1 ,13*hs.GetMaximum())
+        samples["Signal"][2].GetXaxis().SetRangeUser(s,e)
+        samples["Signal"][2].GetXaxis().SetRangeUser(s,e)
+        if len(histograms[i])>2:
+            samples["Signal"][2].GetYaxis().SetTitle("Events/"+str(histograms[i][2])+" GeV")
+        legend = r . TLegend (0.45 ,0.80 ,0.85 ,0.95)
+        for sample in samples:
+            legend.AddEntry(samples[sample][2],sample,"f")
+        legend.AddEntry(statUncer,"MC Stat. Uncer.")
+        legend.SetNColumns(3)
+        r.gStyle.SetLegendBorderSize(0)
+        legend . SetLineWidth (0)
+        legend . Draw ()
+
+        samples["Signal"][2].SetTitle("")
+        l=r.TLatex()
+        l.SetNDC ()
+        l.DrawLatex(0.9,0.7,final_state)
+        
+        max_ratio = 4
+        print(max_ratio)
+        if max_ratio > 3.5:
+            max_ratio = 2.5
+        if max_ratio < 1.5:
+            max_ratio = 1.5
+
+        min_ratio = -1
+        if min_ratio > 0.7:
+            min_ratio = 0.5
+        if min_ratio < 0.7:
+            min_ratio = 0.2
+
+        canvas.cd()
+        pad2 = r . TPad (" pad2 "," pad2 " ,0 ,0.17 ,1 ,0.35)
+        pad2.SetRightMargin(0.03)
+        pad2.SetLeftMargin(0.08)
+        pad2.SetTopMargin(0)
+        pad2.SetBottomMargin(0.0)
+        pad2.Draw ()
+        pad2.cd ()
+        ratio.SetFillColorAlpha(r.kGray,0.95)
+        mc.Divide(mc) # NECESSARY TRICK BECAUSE ALL PLOT PARAMETERS GET ATTACHED TO THE FIRST HISTOGRAM
+        mc.Draw("hist p")
+        ratio.Draw("P E2 same")
+        mc.SetTitle("")
+        mc.SetStats(0)
+        mc . GetYaxis (). SetRangeUser (min_ratio ,max_ratio)
+        mc . GetXaxis (). SetRangeUser (s ,e)
+        mc . GetYaxis (). SetTitle ("MC/DATA")
+        mc . GetYaxis (). SetTitleSize (0.15)
+        mc . GetYaxis (). SetTitleOffset (0.25)
+        mc . GetXaxis (). SetTitleSize (0.09)
+        mc.GetXaxis().SetLabelSize(0.10)
+        mc.GetYaxis().SetLabelSize(0.08)
+        ratio.SetMarkerStyle(8)
+        ratio.SetMarkerSize(0.6)
+        
+
+
+        ###### SETTING ALL THE HORIZONTAL DASHED LINES #######
+
+        line = r . TLine (s ,1 ,e,1)
+        line . SetLineColor ( r . kBlack )
+        line . SetLineWidth (2)
+
+        separators = []
+        resolution = 10 # In percentage
+        j=0
+        range_sep = []
+        while j < (int(max_ratio)+1):
+            step = resolution/100
+            if j > min_ratio:
+                range_sep.append(j)
+            j = j + step
+
+        for k in range (len(range_sep)):
+            sep = r.TLine(s ,range_sep[k],e,range_sep[k])
+            sep.SetLineColor(r.kBlack)
+            sep.SetLineWidth(1)
+            sep.SetLineStyle(2)
+            separators.append(sep)
+
+        line . Draw (" same ")   
+        for separ in separators:
+            separ.Draw("same")
+    
+        canvas.cd()
+        pad3 = r . TPad (" pad3","pad3" ,0.0 ,0.0 ,1 ,0.17)
+        pad3.SetRightMargin(0.03)
+        pad3.SetLeftMargin(0.08)
+        pad3.SetTopMargin(0)
+        pad3.SetBottomMargin(0.4)
+        pad3.Draw ()
+        pad3.cd ()
+        ratio_sg_mc.SetStats(0)
+        ratio_sg_mc . GetYaxis (). SetRangeUser (0.0 ,1.02)
+        ratio_sg_mc . GetXaxis (). SetRangeUser (s ,e)
+        ratio_sg_mc . GetYaxis (). SetTitle ("SIGNAL/MC")
+        ratio_sg_mc . GetYaxis (). SetTitleSize (0.15)
+        ratio_sg_mc . GetYaxis (). SetTitleOffset (0.25)
+        ############ X AXIS TITLE #################
+        axisTitle='hola'
+        if len(histograms[i])>2:
+            try :
+                axisTitle=histograms[i][3]    
+            except :
+                pass
+        else :
+            try :
+                axisTitle=histograms[i][0]    
+            except :
+                pass
+        ##########################################
+        ratio_sg_mc.SetXTitle(axisTitle)
+        ratio_sg_mc.SetTitleSize(0.17,"X")
+        ratio_sg_mc.SetTitleOffset(0.9,"X")
+        ratio_sg_mc.GetYaxis().SetLabelSize(0.09)
+        ratio_sg_mc.GetXaxis().SetLabelSize(0.16)
+        ratio_sg_mc.SetMarkerStyle(8)
+        ratio_sg_mc.SetMarkerSize(0.6)
+
+        ratio_sg_mc.Draw ("hist p E1 X0")
+        ###### SETTING ALL THE HORIZONTAL DASHED LINES #######
+
+        line11 = r . TLine (s ,0.80 ,e,0.80)
+        line11 . SetLineColor ( r . kBlack )
+        line11 . SetLineWidth (1)
+        line11 . SetLineStyle(2)
+        line12 = r . TLine (s ,0.60 ,e,0.60)
+        line12 . SetLineColor ( r . kBlack )
+        line12 . SetLineWidth (1)
+        line12 . SetLineStyle(2)
+        line13 = r . TLine (s ,0.40 ,e,0.40)
+        line13 . SetLineColor ( r . kBlack )
+        line13 . SetLineWidth (1)
+        line13 . SetLineStyle(2)
+        line14 = r . TLine (s ,0.20 ,e,0.20)
+        line14 . SetLineColor ( r . kBlack )
+        line14 . SetLineWidth (1)
+        line14 . SetLineStyle(2)
+        sline = r . TLine (s ,1 ,e,1)
+        sline . SetLineColor ( r . kBlack )
+        sline . SetLineWidth (2)
+        sline.Draw("same")
+        line11 . Draw (" same ")
+        line12 . Draw (" same ")
+        line13 . Draw (" same ")
+        line14 . Draw (" same ")
+        
+        file_name = i+"_"+watermark+"NODATA.pdf"
+        canvas.Update()
+        canvas.Print(file_name)        
+
+
+############################################################################################################
+
 # Histogram dictionaries for the different channels
 
 # Dictionaries for Z->ee
@@ -389,8 +654,8 @@ histogramsHighStatsZee ={
 "ljet1_eta_basic_cuts_ptl":[[-3.0,3.0],[0.5,0.2,0.5],0.2,'#eta(j_{2})'],
 "lep1_pt":[[300],[20,50],20,'pT(e_{1})'],
 "lep2_pt":[[300],[20,50],20,'pT(e_{2})'],
-"ljet0_pt":[[75,460],[15,35,54],15,'pT(j_{1})'],
-"ljet1_pt":[[70,440],[10,37,56],10,'pT(j_{2})'],
+"ljet0_pt":[[75,215,365,500],[15,35,50,135,500],15,'pT(j_{1})'],
+"ljet1_pt":[[70,210,360,495],[35,35,50,135,505],35,'pT(j_{2})'],
 "ljet2_pt_basic_cuts_ptl":[[100],[20,50],20,'pT(j_{2})'],
 "pt_bal":[[0.15,0.3],[0.03,0.05,0.7],0.15,'pT balance'],
 "Z_centrality":[[0.5],[0.1,0.5],0.1,'#xi(Z)'],
@@ -446,8 +711,8 @@ histogramsHighStatsZmumu = {
 "ljet1_eta_basic_cuts_ptl":[[-3.0,3.0],[0.5,0.2,0.5],0.2,'#eta(j_{2})'],  
 "lep1_pt":[[100,200,300],[20,50,100,350],20,'pT(#mu_{1})'],
 "lep2_pt":[[100,200,300],[20,50,100,350],20,'pT(#mu_{2})'],
-"ljet0_pt":[[75,460],[15,35,54],15,'pT(j_{1})'],
-"ljet1_pt":[[70,440],[10,37,56],10,'pT(j_{2})'],
+"ljet0_pt":[[75,215,365,500],[15,35,50,135,500],15,'pT(j_{1})'],
+"ljet1_pt":[[70,210,360,495],[35,35,50,135,505],35,'pT(j_{2})'],
 "ljet2_pt_basic_cuts_ptl":[[100],[20,50],20,'pT(j_{2})'],
 "pt_bal":[[0.15,0.3],[0.03,0.05,0.7],0.15,'pT balance'],
 "Z_centrality":[[0.5],[0.1,0.5],0.1,'#xi(Z)'],
@@ -539,9 +804,9 @@ histogramsLowStatsZtautau = {
 "pt_bal":[[0.15],[0.03,0.75],0.03,'pT balance'],
 "Z_centrality":[[0.5],[0.1,0.5],0.1,'#xi(Z)'],
 "mass_jj":[[1500,3000],[250,500,1000],250,'m_{jj}'],
-"reco_mass_i":[[40,65,115,175],[40,25,10,15,65],10,'m_{#tau,l}(i)'],
-"reco_mass_o":[[40,65,115,175],[40,25,10,15,65],10,'m_{#tau,l}(o)'],
-"reco_mass_":[[40,65,115,175],[40,25,10,15,65],10,'m_{#tau,l}'],
+"reco_mass_i":[[40,65,115,175,370,670],[40,25,10,15,65,150,330],10,'m_{#tau,l}(i)'],
+"reco_mass_o":[[40,65,115,175,370,670],[40,25,10,15,65,150,330],10,'m_{#tau,l}(o)'],
+"reco_mass_":[[40,65,115,175,370,670],[40,25,10,15,65,150,330],10,'m_{#tau,l}'],
 "Z_pt_reco_i_basic_cuts_tpt":[[300],[50,100],50,'pT(Z)']
 }
 
