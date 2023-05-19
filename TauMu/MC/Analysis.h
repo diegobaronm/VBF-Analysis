@@ -1,465 +1,74 @@
 #ifndef Header
 #define Header
 
+double pi=TMath::Pi();
+std::vector<std::string> cutNames{"basic","dphi","drap","btag","iso","rnn","ptl","j1pt","j2pt","ptbal","mjj","nji","zcen","omega","mreco","tpt"};
+std::vector<std::string> notFull{"basic","all"};
+
 #define NOMINAL // NOMINAL , SHAPESYSTEMATICS, WEIGHTSYSTEMATICS
 #ifdef NOMINAL
-// declare histograms here
-TH1F* h_lepiso_basic;
-TH1F* h_lepiso_basic_dphi;
-TH1F* h_lepiso_basic_dphi_drap;
-TH1F* h_lepiso_basic_dphi_drap_btag;
-TH1F* h_lepiso_basic_dphi_drap_btag_iso;
-TH1F* h_lepiso_basic_dphi_drap_btag_iso_rnn;
-TH1F* h_lepiso_basic_dphi_drap_btag_iso_rnn_ptl;
-TH1F* h_lepiso_basic_dphi_drap_btag_iso_rnn_ptl_j1pt;
-TH1F* h_lepiso_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt;
-TH1F* h_lepiso_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal;
-TH1F* h_lepiso_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj;
-TH1F* h_lepiso_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji;
-TH1F* h_lepiso_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen;
-TH1F* h_lepiso_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega;
-TH1F* h_lepiso_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco;
-TH1F* h_lepiso_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt;
+histogramContainer lepnu_ptContainer{"lepnu_pt","Lep + Neutrino pT",500,0,500,cutNames};
+histogramContainer taunu_ptContainer{"taunu_pt","Tau pT",500,0,500,cutNames};
+histogramContainer lep_etaContainer{"lep_eta","Lep eta",50,-2.5,2.5,cutNames};
+histogramContainer tau_etaContainer{"tau_eta","Tau eta",50,-2.5,2.5,cutNames};
+histogramContainer delta_R_taulepContainer{"delta_R_taulep","Delta R tau-lep",60,0,6,cutNames};
+histogramContainer delta_R_lepjetContainer{"delta_R_lepjet","Delta R lep-jet",60,0,6,cutNames};
+histogramContainer delta_R_taujetContainer{"delta_R_taujet","Delta R tau-jet",60,0,6,cutNames};
+histogramContainer sum_ptContainer{"sum_pt","Sum of lepton and tau pT",800,0,800,cutNames};
+histogramContainer metContainer{"met","Missing Transverse momentum",500,0,500,cutNames};
+histogramContainer moreCentralJetContainer{"moreCentralJet","More central tagging jet",140,-7.0,7.0,notFull};
+histogramContainer lessCentralJetContainer{"lessCentralJet","Less central tagging jet",140,-7.0,7.0,notFull};
+histogramContainer normPtDifferenceContainer{"normPtDifference"," (tau-mu)/(tau+mu) pT ",200,-1.0,1.0,notFull};
+histogramContainer metToDilepnuRatioContainer{"metToDilepnuRatio","MET/(tau+mu+neutrinos) pT",50,0,5.0,notFull};
+histogramContainer metToDilepRatioContainer{"metToDilepRatio","MET/(tau+mu) pT",50,0,5.0,notFull};
+histogramContainer delta_phijjContainer{"delta_phijj","Delta phi between tagging jets",32,0,3.2,notFull};
 
-TH1F* h_lep_pt_basic;
-TH1F* h_lep_pt_basic_dphi;
-TH1F* h_lep_pt_basic_dphi_drap;
-TH1F* h_lep_pt_basic_dphi_drap_btag;
-TH1F* h_lep_pt_basic_dphi_drap_btag_iso;
-TH1F* h_lep_pt_basic_dphi_drap_btag_iso_rnn;
-TH1F* h_lep_pt_basic_dphi_drap_btag_iso_rnn_ptl;
-TH1F* h_lep_pt_basic_dphi_drap_btag_iso_rnn_ptl_j1pt;
-TH1F* h_lep_pt_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt;
-TH1F* h_lep_pt_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal;
-TH1F* h_lep_pt_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj;
-TH1F* h_lep_pt_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji;
-TH1F* h_lep_pt_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen;
-TH1F* h_lep_pt_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega;
-TH1F* h_lep_pt_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco;
-TH1F* h_lep_pt_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt;
+histogramContainer lep_phiNotFullContainer{"lep_phi","Lep phi angle",64,-3.2,3.2,notFull};
+histogramContainer tau_phiNotFullContainer{"tau_phi","Tau phi angle",64,-3.2,3.2,notFull};
+histogramContainer tau_nprongsNotFullContainer{"tau_nprongs","Tau prongness",4,0,4,notFull};
+histogramContainer trans_lep_massNotFullContainer{"trans_lep_mass","Lepton transverse mass",200,0,200,notFull};
+histogramContainer jet_nNotFullContainer{"jet_n","Number of jets",10,0,10,notFull};
+histogramContainer Z_pt_reco_iNotFullContainer{"Z_pt_reco_i","ZpT in between events",1000,0,1000,notFull};
+histogramContainer Z_pt_reco_oNotFullContainer{"Z_pt_reco_o","ZpT outside events",1000,0,1000,notFull};
+histogramContainer n_fake_tracksNotFullContainer{"n_fake_tracks","Number of fake tracks",40,0,40,notFull};
+histogramContainer n_core_tracksNotFullContainer{"n_core_tracks","Number of core tracks",40,0,40,notFull};
+histogramContainer n_iso_tracksNotFullContainer{"n_iso_tracks","Number of isolation tracks",40,0,40,notFull};
+histogramContainer n_tracksNotFullContainer{"n_tracks","Number of all tracks",40,0,40,notFull};
+histogramContainer ljet2_ptNotFullContainer{"ljet2_pt","Light jet2 pT",1000,0,1000,notFull};
+histogramContainer ljet3_ptNotFullContainer{"ljet3_pt","Light jet3 pT",1000,0,1000,notFull};
+histogramContainer gap_jet_ptNotFullContainer{"gap_jet_pt","Gap jet pT",1000,0,1000,notFull};
+histogramContainer ljet0_etaNotFullContainer{"ljet0_eta","Light jet0 eta",140,-7.0,7.0,notFull};
+histogramContainer ljet1_etaNotFullContainer{"ljet1_eta","Light jet1 eta",140,-7.0,7.0,notFull};
+histogramContainer ljet2_etaNotFullContainer{"ljet2_eta","Light jet2 eta",140,-7.0,7.0,notFull};
+histogramContainer gap_jet_etaNotFullContainer{"gap_jet_eta","Gap jet eta",140,-7.0,7.0,notFull};
+histogramContainer trans_mass_lepNotFullContainer{"trans_mass_lep","Transverse mass lepton",150,0,150,notFull};
+histogramContainer vec_sum_pt_jetsNotFullContainer{"vec_sum_pt_jets","Vector sum pT tagging jets",2000,0,2000,notFull};
+histogramContainer ratio_zpt_sumjetptNotFullContainer{"ratio_zpt_sumjetpt","Ratio ZpT over vector sum pT tagging jets",500,0,5,notFull};
+histogramContainer tau_matched_1pNotFullContainer{"tau_matched_1p","Tau truth matched 1 prong",2,0,2,notFull};
+histogramContainer tau_matched_3pNotFullContainer{"tau_matched_3p","Tau truth matched 3 prong",2,0,2,notFull};
+histogramContainer Z_pt_truth_iNotFullContainer{"Z_pt_truth_i","Truth ZpT in between events",1000,0,1000,notFull};
+histogramContainer Z_pt_truth_oNotFullContainer{"Z_pt_truth_o","Truth ZpT outside events",1000,0,1000,notFull};
 
-TH1F* h_lepnu_pt_basic;
-TH1F* h_lepnu_pt_basic_dphi;
-TH1F* h_lepnu_pt_basic_dphi_drap;
-TH1F* h_lepnu_pt_basic_dphi_drap_btag;
-TH1F* h_lepnu_pt_basic_dphi_drap_btag_iso;
-TH1F* h_lepnu_pt_basic_dphi_drap_btag_iso_rnn;
-TH1F* h_lepnu_pt_basic_dphi_drap_btag_iso_rnn_ptl;
-TH1F* h_lepnu_pt_basic_dphi_drap_btag_iso_rnn_ptl_j1pt;
-TH1F* h_lepnu_pt_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt;
-TH1F* h_lepnu_pt_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal;
-TH1F* h_lepnu_pt_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj;
-TH1F* h_lepnu_pt_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji;
-TH1F* h_lepnu_pt_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen;
-TH1F* h_lepnu_pt_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega;
-TH1F* h_lepnu_pt_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco;
-TH1F* h_lepnu_pt_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt;
-
-TH1F* h_tau_pt_basic;
-TH1F* h_tau_pt_basic_dphi;
-TH1F* h_tau_pt_basic_dphi_drap;
-TH1F* h_tau_pt_basic_dphi_drap_btag;
-TH1F* h_tau_pt_basic_dphi_drap_btag_iso;
-TH1F* h_tau_pt_basic_dphi_drap_btag_iso_rnn;
-TH1F* h_tau_pt_basic_dphi_drap_btag_iso_rnn_ptl;
-TH1F* h_tau_pt_basic_dphi_drap_btag_iso_rnn_ptl_j1pt;
-TH1F* h_tau_pt_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt;
-TH1F* h_tau_pt_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal;
-TH1F* h_tau_pt_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj;
-TH1F* h_tau_pt_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji;
-TH1F* h_tau_pt_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen;
-TH1F* h_tau_pt_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega;
-TH1F* h_tau_pt_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco;
-TH1F* h_tau_pt_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt;
-
-TH1F* h_taunu_pt_basic;
-TH1F* h_taunu_pt_basic_dphi;
-TH1F* h_taunu_pt_basic_dphi_drap;
-TH1F* h_taunu_pt_basic_dphi_drap_btag;
-TH1F* h_taunu_pt_basic_dphi_drap_btag_iso;
-TH1F* h_taunu_pt_basic_dphi_drap_btag_iso_rnn;
-TH1F* h_taunu_pt_basic_dphi_drap_btag_iso_rnn_ptl;
-TH1F* h_taunu_pt_basic_dphi_drap_btag_iso_rnn_ptl_j1pt;
-TH1F* h_taunu_pt_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt;
-TH1F* h_taunu_pt_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal;
-TH1F* h_taunu_pt_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj;
-TH1F* h_taunu_pt_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji;
-TH1F* h_taunu_pt_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen;
-TH1F* h_taunu_pt_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega;
-TH1F* h_taunu_pt_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco;
-TH1F* h_taunu_pt_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt;
-
-TH1F* h_lep_eta_basic;
-TH1F* h_lep_eta_basic_dphi;
-TH1F* h_lep_eta_basic_dphi_drap;
-TH1F* h_lep_eta_basic_dphi_drap_btag;
-TH1F* h_lep_eta_basic_dphi_drap_btag_iso;
-TH1F* h_lep_eta_basic_dphi_drap_btag_iso_rnn;
-TH1F* h_lep_eta_basic_dphi_drap_btag_iso_rnn_ptl;
-TH1F* h_lep_eta_basic_dphi_drap_btag_iso_rnn_ptl_j1pt;
-TH1F* h_lep_eta_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt;
-TH1F* h_lep_eta_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal;
-TH1F* h_lep_eta_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj;
-TH1F* h_lep_eta_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji;
-TH1F* h_lep_eta_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen;
-TH1F* h_lep_eta_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega;
-TH1F* h_lep_eta_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco;
-TH1F* h_lep_eta_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt;
-
-
-TH1F* h_tau_eta_basic;
-TH1F* h_tau_eta_basic_dphi;
-TH1F* h_tau_eta_basic_dphi_drap;
-TH1F* h_tau_eta_basic_dphi_drap_btag;
-TH1F* h_tau_eta_basic_dphi_drap_btag_iso;
-TH1F* h_tau_eta_basic_dphi_drap_btag_iso_rnn;
-TH1F* h_tau_eta_basic_dphi_drap_btag_iso_rnn_ptl;
-TH1F* h_tau_eta_basic_dphi_drap_btag_iso_rnn_ptl_j1pt;
-TH1F* h_tau_eta_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt;
-TH1F* h_tau_eta_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal;
-TH1F* h_tau_eta_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj;
-TH1F* h_tau_eta_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji;
-TH1F* h_tau_eta_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen;
-TH1F* h_tau_eta_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega;
-TH1F* h_tau_eta_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco;
-TH1F* h_tau_eta_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt;
-
-
-TH1F* h_delta_R_taulep_basic;
-TH1F* h_delta_R_taulep_basic_dphi;
-TH1F* h_delta_R_taulep_basic_dphi_drap;
-TH1F* h_delta_R_taulep_basic_dphi_drap_btag;
-TH1F* h_delta_R_taulep_basic_dphi_drap_btag_iso;
-TH1F* h_delta_R_taulep_basic_dphi_drap_btag_iso_rnn;
-TH1F* h_delta_R_taulep_basic_dphi_drap_btag_iso_rnn_ptl;
-TH1F* h_delta_R_taulep_basic_dphi_drap_btag_iso_rnn_ptl_j1pt;
-TH1F* h_delta_R_taulep_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt;
-TH1F* h_delta_R_taulep_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal;
-TH1F* h_delta_R_taulep_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj;
-TH1F* h_delta_R_taulep_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji;
-TH1F* h_delta_R_taulep_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen;
-TH1F* h_delta_R_taulep_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega;
-TH1F* h_delta_R_taulep_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco;
-TH1F* h_delta_R_taulep_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt;
-
-
-TH1F* h_delta_R_lepjet_basic;
-TH1F* h_delta_R_lepjet_basic_dphi;
-TH1F* h_delta_R_lepjet_basic_dphi_drap;
-TH1F* h_delta_R_lepjet_basic_dphi_drap_btag;
-TH1F* h_delta_R_lepjet_basic_dphi_drap_btag_iso;
-TH1F* h_delta_R_lepjet_basic_dphi_drap_btag_iso_rnn;
-TH1F* h_delta_R_lepjet_basic_dphi_drap_btag_iso_rnn_ptl;
-TH1F* h_delta_R_lepjet_basic_dphi_drap_btag_iso_rnn_ptl_j1pt;
-TH1F* h_delta_R_lepjet_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt;
-TH1F* h_delta_R_lepjet_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal;
-TH1F* h_delta_R_lepjet_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj;
-TH1F* h_delta_R_lepjet_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji;
-TH1F* h_delta_R_lepjet_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen;
-TH1F* h_delta_R_lepjet_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega;
-TH1F* h_delta_R_lepjet_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco;
-TH1F* h_delta_R_lepjet_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt;
-
-
-TH1F* h_delta_R_taujet_basic;
-TH1F* h_delta_R_taujet_basic_dphi;
-TH1F* h_delta_R_taujet_basic_dphi_drap;
-TH1F* h_delta_R_taujet_basic_dphi_drap_btag;
-TH1F* h_delta_R_taujet_basic_dphi_drap_btag_iso;
-TH1F* h_delta_R_taujet_basic_dphi_drap_btag_iso_rnn;
-TH1F* h_delta_R_taujet_basic_dphi_drap_btag_iso_rnn_ptl;
-TH1F* h_delta_R_taujet_basic_dphi_drap_btag_iso_rnn_ptl_j1pt;
-TH1F* h_delta_R_taujet_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt;
-TH1F* h_delta_R_taujet_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal;
-TH1F* h_delta_R_taujet_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj;
-TH1F* h_delta_R_taujet_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji;
-TH1F* h_delta_R_taujet_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen;
-TH1F* h_delta_R_taujet_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega;
-TH1F* h_delta_R_taujet_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco;
-TH1F* h_delta_R_taujet_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt;
-
-TH1F* h_sum_pt_basic;
-TH1F* h_sum_pt_basic_dphi;
-TH1F* h_sum_pt_basic_dphi_drap;
-TH1F* h_sum_pt_basic_dphi_drap_btag;
-TH1F* h_sum_pt_basic_dphi_drap_btag_iso;
-TH1F* h_sum_pt_basic_dphi_drap_btag_iso_rnn;
-TH1F* h_sum_pt_basic_dphi_drap_btag_iso_rnn_ptl;
-TH1F* h_sum_pt_basic_dphi_drap_btag_iso_rnn_ptl_j1pt;
-TH1F* h_sum_pt_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt;
-TH1F* h_sum_pt_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal;
-TH1F* h_sum_pt_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj;
-TH1F* h_sum_pt_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji;
-TH1F* h_sum_pt_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen;
-TH1F* h_sum_pt_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega;
-TH1F* h_sum_pt_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco;
-TH1F* h_sum_pt_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt;
-
-TH1F* h_met_basic;
-TH1F* h_met_basic_dphi;
-TH1F* h_met_basic_dphi_drap;
-TH1F* h_met_basic_dphi_drap_btag;
-TH1F* h_met_basic_dphi_drap_btag_iso;
-TH1F* h_met_basic_dphi_drap_btag_iso_rnn;
-TH1F* h_met_basic_dphi_drap_btag_iso_rnn_ptl;
-TH1F* h_met_basic_dphi_drap_btag_iso_rnn_ptl_j1pt;
-TH1F* h_met_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt;
-TH1F* h_met_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal;
-TH1F* h_met_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj;
-TH1F* h_met_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji;
-TH1F* h_met_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen;
-TH1F* h_met_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega;
-TH1F* h_met_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco;
-TH1F* h_met_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt;
-
-TH1F* h_reco_mass_i_basic;
-TH1F* h_reco_mass_i_basic_dphi;
-TH1F* h_reco_mass_i_basic_dphi_drap;
-TH1F* h_reco_mass_i_basic_dphi_drap_btag;
-TH1F* h_reco_mass_i_basic_dphi_drap_btag_iso;
-TH1F* h_reco_mass_i_basic_dphi_drap_btag_iso_rnn;
-TH1F* h_reco_mass_i_basic_dphi_drap_btag_iso_rnn_ptl;
-TH1F* h_reco_mass_i_basic_dphi_drap_btag_iso_rnn_ptl_j1pt;
-TH1F* h_reco_mass_i_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt;
-TH1F* h_reco_mass_i_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal;
-TH1F* h_reco_mass_i_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj;
-TH1F* h_reco_mass_i_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji;
-TH1F* h_reco_mass_i_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen;
-TH1F* h_reco_mass_i_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega;
-TH1F* h_reco_mass_i_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco;
-TH1F* h_reco_mass_i_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt;
-
-TH1F* h_reco_mass_o_basic;
-TH1F* h_reco_mass_o_basic_dphi;
-TH1F* h_reco_mass_o_basic_dphi_drap;
-TH1F* h_reco_mass_o_basic_dphi_drap_btag;
-TH1F* h_reco_mass_o_basic_dphi_drap_btag_iso;
-TH1F* h_reco_mass_o_basic_dphi_drap_btag_iso_rnn;
-TH1F* h_reco_mass_o_basic_dphi_drap_btag_iso_rnn_ptl;
-TH1F* h_reco_mass_o_basic_dphi_drap_btag_iso_rnn_ptl_j1pt;
-TH1F* h_reco_mass_o_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt;
-TH1F* h_reco_mass_o_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal;
-TH1F* h_reco_mass_o_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj;
-TH1F* h_reco_mass_o_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji;
-TH1F* h_reco_mass_o_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen;
-TH1F* h_reco_mass_o_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega;
-TH1F* h_reco_mass_o_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco;
-TH1F* h_reco_mass_o_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt;
-
-TH1F* h_tau_matched_1p_basic;
-TH1F* h_tau_matched_1p_basic_dphi;
-TH1F* h_tau_matched_1p_basic_dphi_drap;
-TH1F* h_tau_matched_1p_basic_dphi_drap_btag;
-TH1F* h_tau_matched_1p_basic_dphi_drap_btag_iso;
-TH1F* h_tau_matched_1p_basic_dphi_drap_btag_iso_rnn;
-TH1F* h_tau_matched_1p_basic_dphi_drap_btag_iso_rnn_ptl;
-TH1F* h_tau_matched_1p_basic_dphi_drap_btag_iso_rnn_ptl_j1pt;
-TH1F* h_tau_matched_1p_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt;
-TH1F* h_tau_matched_1p_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal;
-TH1F* h_tau_matched_1p_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj;
-TH1F* h_tau_matched_1p_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji;
-TH1F* h_tau_matched_1p_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen;
-TH1F* h_tau_matched_1p_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega;
-TH1F* h_tau_matched_1p_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco;
-TH1F* h_tau_matched_1p_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt;
-
-TH1F* h_tau_matched_3p_basic;
-TH1F* h_tau_matched_3p_basic_dphi;
-TH1F* h_tau_matched_3p_basic_dphi_drap;
-TH1F* h_tau_matched_3p_basic_dphi_drap_btag;
-TH1F* h_tau_matched_3p_basic_dphi_drap_btag_iso;
-TH1F* h_tau_matched_3p_basic_dphi_drap_btag_iso_rnn;
-TH1F* h_tau_matched_3p_basic_dphi_drap_btag_iso_rnn_ptl;
-TH1F* h_tau_matched_3p_basic_dphi_drap_btag_iso_rnn_ptl_j1pt;
-TH1F* h_tau_matched_3p_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt;
-TH1F* h_tau_matched_3p_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal;
-TH1F* h_tau_matched_3p_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj;
-TH1F* h_tau_matched_3p_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji;
-TH1F* h_tau_matched_3p_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen;
-TH1F* h_tau_matched_3p_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega;
-TH1F* h_tau_matched_3p_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco;
-TH1F* h_tau_matched_3p_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt;
-
-TH1F* h_omega_basic;
-TH1F* h_omega_basic_dphi;
-TH1F* h_omega_basic_dphi_drap;
-TH1F* h_omega_basic_dphi_drap_btag;
-TH1F* h_omega_basic_dphi_drap_btag_iso;
-TH1F* h_omega_basic_dphi_drap_btag_iso_rnn;
-TH1F* h_omega_basic_dphi_drap_btag_iso_rnn_ptl;
-TH1F* h_omega_basic_dphi_drap_btag_iso_rnn_ptl_j1pt;
-TH1F* h_omega_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt;
-TH1F* h_omega_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal;
-TH1F* h_omega_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj;
-TH1F* h_omega_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji;
-TH1F* h_omega_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen;
-TH1F* h_omega_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega;
-TH1F* h_omega_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco;
-TH1F* h_omega_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt;
-
-TH1F* h_lep_phi_basic;
-TH1F* h_lep_phi_basic_cuts;
-TH1F* h_lep_phi_basic_cuts_tpt;
-
-TH1F* h_tau_phi_basic;
-TH1F* h_tau_phi_basic_cuts;
-TH1F* h_tau_phi_basic_cuts_tpt;
-
-TH1F* h_tau_nprongs_basic;
-TH1F* h_tau_nprongs_basic_cuts;
-TH1F* h_tau_nprongs_basic_cuts_tpt;
-
-TH1F* h_trans_lep_mass_basic;
-TH1F* h_trans_lep_mass_basic_cuts;
-TH1F* h_trans_lep_mass_basic_cuts_tpt;
-
-TH1F* h_rnn_score_1p_basic;
-TH1F* h_rnn_score_1p_basic_cuts;
-TH1F* h_rnn_score_1p_basic_cuts_tpt;
-
-TH1F* h_rnn_score_3p_basic;
-TH1F* h_rnn_score_3p_basic_cuts;
-TH1F* h_rnn_score_3p_basic_cuts_tpt;
-
-TH1F* h_Z_pt_truth_i_basic;
-TH1F* h_Z_pt_truth_i_basic_cuts;
-TH1F* h_Z_pt_truth_i_basic_cuts_tpt;
-
-TH1F* h_Z_pt_truth_o_basic;
-TH1F* h_Z_pt_truth_o_basic_cuts;
-TH1F* h_Z_pt_truth_o_basic_cuts_tpt;
-
-TH1F* h_jet_n_basic;
-TH1F* h_jet_n_basic_cuts;
-TH1F* h_jet_n_basic_cuts_tpt;
-
-TH1F* h_n_bjets_basic;
-TH1F* h_n_bjets_basic_cuts;
-TH1F* h_n_bjets_basic_cuts_tpt;
-
-TH1F* h_lep_iso_basic;
-TH1F* h_lep_iso_basic_cuts;
-TH1F* h_lep_iso_basic_cuts_tpt;
-
-TH1F* h_delta_phi_basic;
-TH1F* h_delta_phi_basic_cuts;
-TH1F* h_delta_phi_basic_cuts_tpt;
-
-TH1F* h_Z_pt_reco_i_basic;
-TH1F* h_Z_pt_reco_i_basic_cuts;
-TH1F* h_Z_pt_reco_i_basic_cuts_tpt;
-
-TH1F* h_Z_pt_reco_o_basic;
-TH1F* h_Z_pt_reco_o_basic_cuts;
-TH1F* h_Z_pt_reco_o_basic_cuts_tpt;
-
-TH1F* h_n_fake_tracks_basic;
-TH1F* h_n_fake_tracks_basic_cuts;
-TH1F* h_n_fake_tracks_basic_cuts_tpt;
-
-TH1F* h_n_core_tracks_basic;
-TH1F* h_n_core_tracks_basic_cuts;
-TH1F* h_n_core_tracks_basic_cuts_tpt;
-
-TH1F* h_n_iso_tracks_basic;
-TH1F* h_n_iso_tracks_basic_cuts;
-TH1F* h_n_iso_tracks_basic_cuts_tpt;
-
-TH1F* h_n_tracks_basic;
-TH1F* h_n_tracks_basic_cuts;
-TH1F* h_n_tracks_basic_cuts_tpt;
-
-TH1F* h_delta_y_basic;
-TH1F* h_delta_y_basic_cuts;
-TH1F* h_delta_y_basic_cuts_tpt;
-
-TH1F* h_Z_centrality_basic;
-TH1F* h_Z_centrality_basic_cuts;
-TH1F* h_Z_centrality_basic_cuts_tpt;
-
-TH1F* h_pt_bal_basic;
-TH1F* h_pt_bal_basic_cuts;
-TH1F* h_pt_bal_basic_cuts_tpt;
-
-TH1F* h_mass_jj_basic;
-TH1F* h_mass_jj_basic_cuts;
-TH1F* h_mass_jj_basic_cuts_tpt;
-
-TH1F* h_n_jets_interval_basic;
-TH1F* h_n_jets_interval_basic_cuts;
-TH1F* h_n_jets_interval_basic_cuts_tpt;
-
-TH1F* h_ljet0_pt_basic;
-TH1F* h_ljet0_pt_basic_cuts;
-TH1F* h_ljet0_pt_basic_cuts_tpt;
-
-TH1F* h_ljet1_pt_basic;
-TH1F* h_ljet1_pt_basic_cuts;
-TH1F* h_ljet1_pt_basic_cuts_tpt;
-
-TH1F* h_ljet2_pt_basic;
-TH1F* h_ljet2_pt_basic_cuts;
-TH1F* h_ljet2_pt_basic_cuts_tpt;
-
-TH1F* h_ljet3_pt_basic;
-TH1F* h_ljet3_pt_basic_cuts;
-TH1F* h_ljet3_pt_basic_cuts_tpt;
-
-TH1F* h_gap_jet_pt_basic_cuts_tpt;
-
-TH1F* h_ljet0_eta_basic;
-TH1F* h_ljet0_eta_basic_cuts;
-TH1F* h_ljet0_eta_basic_cuts_ptl;
-
-
-TH1F* h_ljet1_eta_basic;
-TH1F* h_ljet1_eta_basic_cuts;
-TH1F* h_ljet1_eta_basic_cuts_ptl;
-
-
-TH1F* h_ljet2_eta_basic;
-TH1F* h_ljet2_eta_basic_cuts;
-TH1F* h_ljet2_eta_basic_cuts_ptl;
-
-
-TH1F* h_gap_jet_eta_basic;
-TH1F* h_gap_jet_eta_basic_cuts;
-TH1F* h_gap_jet_eta_basic_cuts_ptl;
-
-
-TH1F* h_trans_mass_lep_basic;
-TH1F* h_trans_mass_lep_basic_cuts;
-TH1F* h_trans_mass_lep_basic_cuts_tpt;
-
-
-TH1F* h_vec_sum_pt_jets_basic;
-TH1F* h_vec_sum_pt_jets_basic_cuts;
-TH1F* h_vec_sum_pt_jets_basic_cuts_tpt;
-
-
-TH1F* h_ratio_zpt_sumjetpt_basic;
-TH1F* h_ratio_zpt_sumjetpt_basic_cuts;
-TH1F* h_ratio_zpt_sumjetpt_basic_cuts_tpt;
 #endif
 
-TH1F* h_delta_phi;
-TH1F* h_delta_y;
-TH1F* h_n_bjets;
-TH1F* h_lepiso;
-TH1F* h_rnn_score_1p;
-TH1F* h_rnn_score_3p;
-TH1F* h_lep_pt;
-TH1F* h_ljet0_pt;
-TH1F* h_ljet1_pt;
-TH1F* h_pt_bal;
-TH1F* h_mass_jj;
-TH1F* h_n_jets_interval;
-TH1F* h_Z_centrality;
-TH1F* h_omega;
-TH1F* h_reco_mass_i;
-TH1F* h_reco_mass_o;
-TH1F* h_reco_mass;
-TH1F* h_tau_pt;
+histogramContainer delta_phiContainer{"delta_phi","Delta phi between tau and lep",32,0,3.2,cutNames,"dphi"};
+histogramContainer delta_yContainer{"delta_y","Delta Rapidity",100,0,10,cutNames,"drap"};
+histogramContainer n_bjetsContainer{"n_bjets","Number of b_jets",5,0,5,cutNames,"btag"};
+histogramContainer lepisoContainer{"lepiso","Lep Isolation",2,0,2,cutNames,"iso"};
+histogramContainer rnn_score_1pContainer{"rnn_score_1p","RNN Score 1 prong taus",100,0,1,cutNames,"rnn"};
+histogramContainer rnn_score_3pContainer{"rnn_score_3p","RNN Score 3 prong taus",100,0,1,cutNames,"rnn"};
+histogramContainer lep_ptContainer{"lep_pt","Lep pT",500,0,500,cutNames,"ptl"};
+histogramContainer tau_ptContainer{"tau_pt","Tau pT",500,0,500,cutNames,"tpt"};
+histogramContainer ljet0_ptContainer{"ljet0_pt","Light jet0 pT",1000,0,1000,cutNames,"j1pt"};
+histogramContainer ljet1_ptContainer{"ljet1_pt","Light jet1 pT",1000,0,1000,cutNames,"j2pt"};
+histogramContainer pt_balContainer{"pt_bal","pT Balance",100,0,1,cutNames,"ptbal"};
+histogramContainer mass_jjContainer{"mass_jj","Invariant mass di_jet system",5000,0,5000,cutNames,"mjj"};
+histogramContainer n_jets_intervalContainer{"n_jets_interval","N jets between rapidity interval",10,0,10,cutNames,"nji"};
+histogramContainer Z_centralityContainer{"Z_centrality","Z boson centrality",500,0,5,cutNames,"zcen"};
+histogramContainer omegaContainer{"omega","Omega variable",60,-3.0,3.0,cutNames,"omega"};
+histogramContainer reco_mass_iContainer{"reco_mass_i","Reconstructed mass in between events",1000,0,1000,cutNames,"mreco"};
+histogramContainer reco_mass_oContainer{"reco_mass_o","Reconstructed mass outside events",1000,0,1000,cutNames,"mreco"};
+histogramContainer reco_massContainer{"reco_mass_","Reconstructed mass all events",1000,0,1000,cutNames,"mreco"};
 
 
 #ifdef WEIGHTSYSTEMATICS

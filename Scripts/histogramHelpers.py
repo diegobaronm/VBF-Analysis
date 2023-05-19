@@ -776,10 +776,17 @@ histogramsHighStatsZtautau = {
 "pt_bal":[[0.15],[0.03,0.75],0.03,'pT balance'],
 "Z_centrality":[[0.5],[0.1,0.5],0.1,'#xi(Z)'],
 "mass_jj":[[1500,3000],[250,500,1000],250,'m_{jj}'],
-"reco_mass_i":[[40,65,115,175],[40,25,10,15,65],10,'m_{#tau,l}(i)'],
-"reco_mass_o":[[40,65,115,175],[40,25,10,15,65],10,'m_{#tau,l}(o)'],
+"reco_mass_i":[[66,116,176],[66,10,20,64],10,'m_{#tau,l}(i)'],
+"reco_mass_o":[[66,116,176],[66,10,20,64],10,'m_{#tau,l}(o)'],
 "reco_mass_":[[66,116,176],[66,10,20,64],10,'m_{#tau,l}'],
-"Z_pt_reco_i_basic_cuts_tpt":[[300],[50,100],50,'pT(Z)']
+"Z_pt_reco_i_basic_all":[[300],[50,100],50,'pT(Z)'],
+"Z_pt_reco_o_basic_all":[[300],[50,100],50],
+"moreCentralJet_basic_all":[[0.0],[0.2,0.2],0.2,"more central jet rapidity"],
+"lessCentralJet_basic_all":[[0.0],[0.2,0.2],0.2,"less central jet rapidity"],
+"normPtDifference_basic_all":[[0.0],[0.1,0.1],0.1,"pT(#mu - e)/(#mu + e)"],
+"metToDilepnuRatio_basic_all":[[1.0],[0.2,0.2],0.2,"MET/(pT(#mu) + pT(e)+ pT(#nu))"],
+"metToDilepRatio_basic_all":[[1.0],[0.2,0.2],0.2,"MET/(pT(#mu) + pT(e))"],
+"delta_phijj_basic_all":[[3.0],[0.3,0.2],0.3,"#Delta#phi(j_{1},j_{2})"],
 }
 
 histogramsLowStatsZtautau = {
@@ -807,7 +814,14 @@ histogramsLowStatsZtautau = {
 "reco_mass_i":[[40,65,115,175,370,670],[40,25,10,15,65,150,330],10,'m_{#tau,l}(i)'],
 "reco_mass_o":[[40,65,115,175,370,670],[40,25,10,15,65,150,330],10,'m_{#tau,l}(o)'],
 "reco_mass_":[[40,65,115,175,370,670],[40,25,10,15,65,150,330],10,'m_{#tau,l}'],
-"Z_pt_reco_i_basic_cuts_tpt":[[300],[50,100],50,'pT(Z)']
+"Z_pt_reco_i_basic_all":[[300],[50,100],50,'pT(Z)'],
+"Z_pt_reco_o_basic_all":[[300],[50,100],50],
+"moreCentralJet_basic_all":[[0.0],[0.2,0.2],0.2,"more central jet rapidity"],
+"lessCentralJet_basic_all":[[0.0],[0.2,0.2],0.2,"less central jet rapidity"],
+"normPtDifference_basic_all":[[0.0],[0.1,0.1],0.1,"pT(#mu - e)/(#mu + e)"],
+"metToDilepnuRatio_basic_all":[[1.0],[0.2,0.2],0.2,"MET/(pT(#mu) + pT(e)+ pT(#nu))"],
+"metToDilepRatio_basic_all":[[1.0],[0.2,0.2],0.2,"MET/(pT(#mu) + pT(e))"],
+"delta_phijj_basic_all":[[3.0],[0.3,0.2],0.3,"#Delta#phi(j_{1},j_{2})"],
 }
 
 # Tau(lep)Tau(lep)
@@ -829,10 +843,17 @@ histogramsLowStatsZtauleptaulep ={
 "pt_bal":[[0.15],[0.03,0.75],0.03],
 "Z_centrality":[[0.5],[0.1,0.5],0.1],
 "mass_jj":[[1500,3000],[250,500,1000],250],
-"reco_mass_i":[[40,65,115,175],[40,25,10,15,65],10],
-"reco_mass_o":[[40,65,115,175],[40,25,10,15,65],10],
-"reco_mass_":[[40,65,115,175],[40,25,10,15,65],10],
-"Z_pt_reco_i_basic_cuts_tpt":[[300],[50,100],50]
+"reco_mass_i":[[40,65,115,175,370,670],[40,25,10,15,65,150,330],10,'m_{#tau,l}(i)'],
+"reco_mass_o":[[40,65,115,175,370,670],[40,25,10,15,65,150,330],10,'m_{#tau,l}(o)'],
+"reco_mass_":[[40,65,115,175,370,670],[40,25,10,15,65,150,330],10,'m_{#tau,l}'],
+"Z_pt_reco_i_basic_all":[[300],[50,100],50],
+"Z_pt_reco_o_basic_all":[[300],[50,100],50],
+"moreCentralJet_basic_all":[[0.0],[0.2,0.2],0.2,"more central jet rapidity"],
+"lessCentralJet_basic_all":[[0.0],[0.2,0.2],0.2,"less central jet rapidity"],
+"normPtDifference_basic_all":[[0.0],[0.1,0.1],0.1,"pT(#mu - e)/(#mu + e)"],
+"metToDilepnuRatio_basic_all":[[1.0],[0.2,0.2],0.2,"MET/(pT(#mu) + pT(e)+ pT(#nu))"],
+"metToDilepRatio_basic_all":[[1.0],[0.2,0.2],0.2,"MET/(pT(#mu) + pT(e))"],
+"delta_phijj_basic_all":[[3.0],[0.3,0.2],0.3,"#Delta#phi(j_{1},j_{2})"],
 }
 
 # Dictionaries for Z->ll
