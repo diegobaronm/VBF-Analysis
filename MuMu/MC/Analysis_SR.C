@@ -212,21 +212,21 @@ void CLoop::Book(double lumFactor) {
   h_met_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl = new TH1F("met_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl","Missing Transverse momentum",500,0,500);
 
 
-  h_inv_mass_basic = new TH1F("inv_mass_basic","Invariant mass di-lepton system",240,0,240);
-  h_inv_mass_basic_dphi = new TH1F("inv_mass_basic_dphi","Invariant mass di-lepton system",240,0,240);
-  h_inv_mass_basic_dphi_drap = new TH1F("inv_mass_basic_dphi_drap","Invariant mass di-lepton system",240,0,240);
-  h_inv_mass_basic_dphi_drap_btag = new TH1F("inv_mass_basic_dphi_drap_btag","Invariant mass di-lepton system",240,0,240);
-  h_inv_mass_basic_dphi_drap_btag_iso = new TH1F("inv_mass_basic_dphi_drap_btag_iso","Invariant mass di-lepton system",240,0,240);
-  h_inv_mass_basic_dphi_drap_btag_iso_pt1 = new TH1F("inv_mass_basic_dphi_drap_btag_iso_pt1","Invariant mass di-lepton system",240,0,240);
-  h_inv_mass_basic_dphi_drap_btag_iso_pt1_pt2 = new TH1F("inv_mass_basic_dphi_drap_btag_iso_pt1_pt2","Invariant mass di-lepton system",240,0,240);
-  h_inv_mass_basic_dphi_drap_btag_iso_pt1_pt2_j1pt = new TH1F("inv_mass_basic_dphi_drap_btag_iso_pt1_pt2_j1pt","Invariant mass di-lepton system",240,0,240);
-  h_inv_mass_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt = new TH1F("inv_mass_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt","Invariant mass di-lepton system",240,0,240);
-  h_inv_mass_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal = new TH1F("inv_mass_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal","Invariant mass di-lepton system",240,0,240);
-  h_inv_mass_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj = new TH1F("inv_mass_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj","Invariant mass di-lepton system",240,0,240);
-  h_inv_mass_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji = new TH1F("inv_mass_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji","Invariant mass di-lepton system",240,0,240);
-  h_inv_mass_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen = new TH1F("inv_mass_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen","Invariant mass di-lepton system",240,0,240);
-  h_inv_mass_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass = new TH1F("inv_mass_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass","Invariant mass di-lepton system",240,0,240);
-  h_inv_mass_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl = new TH1F("inv_mass_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl","Invariant mass di-lepton system",240,0,240);
+  h_inv_mass_basic = new TH1F("inv_mass_basic","Invariant mass di-lepton system",1000,0,1000);
+  h_inv_mass_basic_dphi = new TH1F("inv_mass_basic_dphi","Invariant mass di-lepton system",1000,0,1000);
+  h_inv_mass_basic_dphi_drap = new TH1F("inv_mass_basic_dphi_drap","Invariant mass di-lepton system",1000,0,1000);
+  h_inv_mass_basic_dphi_drap_btag = new TH1F("inv_mass_basic_dphi_drap_btag","Invariant mass di-lepton system",1000,0,1000);
+  h_inv_mass_basic_dphi_drap_btag_iso = new TH1F("inv_mass_basic_dphi_drap_btag_iso","Invariant mass di-lepton system",1000,0,1000);
+  h_inv_mass_basic_dphi_drap_btag_iso_pt1 = new TH1F("inv_mass_basic_dphi_drap_btag_iso_pt1","Invariant mass di-lepton system",1000,0,1000);
+  h_inv_mass_basic_dphi_drap_btag_iso_pt1_pt2 = new TH1F("inv_mass_basic_dphi_drap_btag_iso_pt1_pt2","Invariant mass di-lepton system",1000,0,1000);
+  h_inv_mass_basic_dphi_drap_btag_iso_pt1_pt2_j1pt = new TH1F("inv_mass_basic_dphi_drap_btag_iso_pt1_pt2_j1pt","Invariant mass di-lepton system",1000,0,1000);
+  h_inv_mass_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt = new TH1F("inv_mass_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt","Invariant mass di-lepton system",1000,0,1000);
+  h_inv_mass_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal = new TH1F("inv_mass_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal","Invariant mass di-lepton system",1000,0,1000);
+  h_inv_mass_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj = new TH1F("inv_mass_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj","Invariant mass di-lepton system",1000,0,1000);
+  h_inv_mass_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji = new TH1F("inv_mass_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji","Invariant mass di-lepton system",1000,0,1000);
+  h_inv_mass_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen = new TH1F("inv_mass_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen","Invariant mass di-lepton system",1000,0,1000);
+  h_inv_mass_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass = new TH1F("inv_mass_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass","Invariant mass di-lepton system",1000,0,1000);
+  h_inv_mass_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl = new TH1F("inv_mass_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl","Invariant mass di-lepton system",1000,0,1000);
 
 
   h_lep1_phi_basic = new TH1F("lep1_phi_basic","Lep 1 phi angle",64,-3.2,3.2);
@@ -351,7 +351,7 @@ void CLoop::Book(double lumFactor) {
   h_mass_jj = new TH1F("mass_jj","Invariant mass di_jet system",5000,0,5000);
   h_n_jets_interval = new TH1F("n_jets_interval","N jets between rapidity interval",5,0,5);
   h_Z_centrality = new TH1F("Z_centrality","Z boson centrality",350,0,3.5);
-  h_inv_mass = new TH1F("inv_mass","Invariant mass di-lepton system",240,0,240);
+  h_inv_mass = new TH1F("inv_mass","Invariant mass di-lepton system",1000,0,1000);
 
   if (lumFactor!=1){
     h_Z_pt_truth_basic = new TH1F("Z_pt_truth_basic","Truth ZpT",1000,0,1000);
@@ -479,16 +479,16 @@ void CLoop::Fill(double weight, int z_sample) {
         if (angle<=3.2){cuts[0]=1;}
         if(delta_y>=2.0){cuts[1]=1;}
         if(n_bjets_MV2c10_FixedCutBEff_85==0){cuts[2]=1;}
-        if(muon_0_iso_TightTrackOnly_FixedRad==1 && muon_1_iso_TightTrackOnly_FixedRad==1){cuts[3]=1;}
+        if(muon_0_iso_TightTrackOnly_FixedRad==0 || muon_1_iso_TightTrackOnly_FixedRad==0){cuts[3]=1;}
         if(muon_0_p4->Pt()>=a){cuts[4]=1;}
         if(muon_1_p4->Pt()>=b){cuts[5]=1;}
         if(ljet_0_p4->Pt()>=75){cuts[6]=1;}
         if(ljet_1_p4->Pt()>=70){cuts[7]=1;}
         if(pt_bal<=0.15){cuts[8]=1;}
-        if(mjj>=1000){cuts[9]=1;}
+        if(mjj>=250){cuts[9]=1;}
         if(n_jets_interval==0){cuts[10]=1;}
         if(z_centrality<0.5){cuts[11]=1;}
-        if (inv_mass>81 && inv_mass<101){cuts[12]=1;} // Low mass range 81 < m < 101 GeV.
+        if (inv_mass>=101){cuts[12]=1;} // Low mass range 81 < m < 101 GeV.
         if (event_number%2==0){
           if(muon_0_p4->Pt()>=(a+0)){cuts[13]=1;}
         } else {

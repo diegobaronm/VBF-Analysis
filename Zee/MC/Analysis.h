@@ -3,7 +3,7 @@
 
 // declare histograms here
 // jet pT
-#define WEIGHTSYSTEMATICS // WEIGHTSYSTEMATICS, SHAPESYSTEMATICS , NOMINAL
+#define NOMINAL // WEIGHTSYSTEMATICS, SHAPESYSTEMATICS , NOMINAL
 #ifdef NOMINAL
 TH1F* h_lep1_pt_basic;
 TH1F* h_lep1_pt_basic_dphi;
