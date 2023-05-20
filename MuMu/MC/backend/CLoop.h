@@ -23,6 +23,7 @@
 
 // Header file for the classes stored in the TTree if any.
 #include "TLorentzVector.h"
+#include "../../../AnalysisCommons/histogramContainer.h"
 
 class CLoop {
   void Style(double lumFactor);
