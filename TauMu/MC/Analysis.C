@@ -82,7 +82,7 @@ void CLoop::Fill(double weight, int z_sample) {
   bool lepton_id=muon_0_id_medium;
   size_t n_ljets=n_jets-n_bjets_MV2c10_FixedCutBEff_85;
 
-  if (ql==qtau && n_muons==1 && n_taus_rnn_loose>=1 && weight > -190 && lepton_id && n_ljets>=2 && n_ljets<=3){
+  if (ql!=qtau && n_muons==1 && n_taus_rnn_loose>=1 && weight > -190 && lepton_id && n_ljets>=2 && n_ljets<=3){
     
     //angles
     double angle_l_MET=del_phi(muon_0_p4->Phi(),met_reco_p4->Phi());
@@ -269,7 +269,7 @@ void CLoop::Fill(double weight, int z_sample) {
         if(z_centrality<0.5){cuts[11]=1;} // SR -> z_centrality < 0.5
         if (omega> -0.2 && omega <1.6){cuts[12]=1;}
         if (inside) {
-          if (reco_mass >= 150){cuts[13]=1;} // Z-peak reco_mass<116 && reco_mass>66
+          if (reco_mass >= 150){cuts[13]=1;} // Z-peak reco_mass<116 && reco_mass>66 // Higgs reco_mass >= 116 && reco_mass < 150
         }
         if (outside_lep) {
           if (reco_mass >= 150){cuts[13]=1;}
@@ -288,6 +288,48 @@ void CLoop::Fill(double weight, int z_sample) {
         bool passedAllCuts = (sum+1==cutsVector.size());
         std::vector<int> notFullCutsVector{1,static_cast<int>(passedAllCuts)};
 
+        double etaMoreCentral = abs(ljet_0_p4->Eta())>=abs(ljet_1_p4->Eta()) ? ljet_1_p4->Eta() : ljet_0_p4->Eta();
+        double etaLessCentral = abs(ljet_0_p4->Eta())<abs(ljet_1_p4->Eta()) ? ljet_1_p4->Eta() : ljet_0_p4->Eta();
+        double normPtDifference = (tau_0_p4->Pt()-muon_0_p4->Pt())/(tau_0_p4->Pt()+muon_0_p4->Pt());
+        double anglejj = del_phi(ljet_0_p4->Phi(),ljet_1_p4->Phi());
+        double metToDilepnuRatio = 0.0;
+        double metToDilepRatio = met_reco_p4->Pt()/(tau_0_p4->Pt()+muon_0_p4->Pt());
+        if (inside)
+        {
+          metToDilepnuRatio = met_reco_p4->Pt()/(tau_0_p4->Pt()+pt_tau_nu+muon_0_p4->Pt()+pt_lep_nu);
+        }
+        if (outside_lep || outside_tau)
+        {
+          metToDilepnuRatio = met_reco_p4->Pt()/(tau_0_p4->Pt()+muon_0_p4->Pt()+neutrino_pt);
+        }
+
+        double massTauCloserJet{0.0};
+        double massLepClosestJet{0.0};
+        double massTauFurthestJet{0.0};
+        bool j0CloserToTau = tau_0_p4->DeltaR(*ljet_0_p4) <= tau_0_p4->DeltaR(*ljet_1_p4);
+        if (j0CloserToTau)
+        {
+          massTauCloserJet = sqrt(2*(tau_0_p4->Dot(*ljet_0_p4)));
+          massTauFurthestJet = sqrt(2*(tau_0_p4->Dot(*ljet_1_p4)));
+          massLepClosestJet = sqrt(2*(muon_0_p4->Dot(*ljet_1_p4)));
+        }
+        else
+        {
+          massTauCloserJet = sqrt(2*(tau_0_p4->Dot(*ljet_1_p4)));
+          massTauFurthestJet = sqrt(2*(tau_0_p4->Dot(*ljet_0_p4)));
+          massLepClosestJet = sqrt(2*(muon_0_p4->Dot(*ljet_0_p4)));
+        }
+
+        bool neutrinoPtAboveT = false;
+        if (inside) 
+        {
+          neutrinoPtAboveT = (pt_tau_nu>=25 && pt_lep_nu>=35);
+        } else 
+        {
+          neutrinoPtAboveT = outside_lep ? neutrino_pt>=35 : neutrino_pt>=25;
+        }
+        bool testCuts = massTauCloserJet>=100 && normPtDifference >= -0.2 && met_reco_p4->Pt()<=250 && neutrinoPtAboveT && (ratio_zpt_sumjetpt>=0.8 && ratio_zpt_sumjetpt<=1.7);
+        if (true){
         // FILLING HISTOGRAMS
         lep_ptContainer.Fill(muon_0_p4->Pt(),weight,cutsVector);
         tau_ptContainer.Fill(tau_0_p4->Pt(),weight,cutsVector);
@@ -311,14 +353,21 @@ void CLoop::Fill(double weight, int z_sample) {
         if (inside) {
           reco_mass_iContainer.Fill(reco_mass,weight,cutsVector);
           reco_massContainer.Fill(reco_mass,weight,cutsVector);
+          nuLepPtContainer.Fill(pt_lep_nu,weight,notFullCutsVector);
+          nuTauPtContainer.Fill(pt_tau_nu,weight,notFullCutsVector);
+          nuPtAssummetryContainer.Fill((pt_lep_nu-pt_tau_nu)/(pt_lep_nu+pt_tau_nu),weight,notFullCutsVector);
         }
         if (outside_lep) {
           reco_mass_oContainer.Fill(reco_mass_outside,weight,cutsVector);
           reco_massContainer.Fill(reco_mass_outside,weight,cutsVector);
+          nuLepPtContainer.Fill(neutrino_pt,weight,notFullCutsVector);
+          nuPtAssummetryContainer.Fill(1.0,weight,notFullCutsVector);
         }
         if (outside_tau) {
           reco_mass_oContainer.Fill(reco_mass_outside,weight,cutsVector);
           reco_massContainer.Fill(reco_mass_outside,weight,cutsVector);
+          nuTauPtContainer.Fill(neutrino_pt,weight,notFullCutsVector);
+          nuPtAssummetryContainer.Fill(-1.0,weight,notFullCutsVector);
         }
       
 
@@ -368,21 +417,6 @@ void CLoop::Fill(double weight, int z_sample) {
         trans_mass_lepNotFullContainer.Fill(lepmet_mass,weight,notFullCutsVector);
         vec_sum_pt_jetsNotFullContainer.Fill(jet_pt_sum,weight,notFullCutsVector);
         ratio_zpt_sumjetptNotFullContainer.Fill(ratio_zpt_sumjetpt,weight,notFullCutsVector);
-
-        double etaMoreCentral = abs(ljet_0_p4->Eta())>=abs(ljet_1_p4->Eta()) ? ljet_1_p4->Eta() : ljet_0_p4->Eta();
-        double etaLessCentral = abs(ljet_0_p4->Eta())<abs(ljet_1_p4->Eta()) ? ljet_1_p4->Eta() : ljet_0_p4->Eta();
-        double normPtDifference = (tau_0_p4->Pt()-muon_0_p4->Pt())/(tau_0_p4->Pt()+muon_0_p4->Pt());
-        double anglejj = del_phi(ljet_0_p4->Phi(),ljet_1_p4->Phi());
-        double metToDilepnuRatio = 0.0;
-        double metToDilepRatio = met_reco_p4->Pt()/(tau_0_p4->Pt()+muon_0_p4->Pt());
-        if (inside)
-        {
-          metToDilepnuRatio = met_reco_p4->Pt()/(tau_0_p4->Pt()+pt_tau_nu+muon_0_p4->Pt()+pt_lep_nu);
-        }
-        if (outside_lep || outside_tau)
-        {
-          metToDilepnuRatio = met_reco_p4->Pt()/(tau_0_p4->Pt()+muon_0_p4->Pt()+neutrino_pt);
-        }
         
         moreCentralJetContainer.Fill(etaMoreCentral,weight,notFullCutsVector);
         lessCentralJetContainer.Fill(etaLessCentral,weight,notFullCutsVector);
@@ -390,6 +424,9 @@ void CLoop::Fill(double weight, int z_sample) {
         metToDilepnuRatioContainer.Fill(metToDilepnuRatio,weight,notFullCutsVector);
         metToDilepRatioContainer.Fill(metToDilepRatio,weight,notFullCutsVector);
         delta_phijjContainer.Fill(anglejj,weight,notFullCutsVector);
+        massTauClosestJetContainer.Fill(massTauCloserJet,weight,notFullCutsVector);
+        massTauFurthestJetContainer.Fill(massTauFurthestJet,weight,notFullCutsVector);
+        massLepClosestJetContainer.Fill(massLepClosestJet,weight,notFullCutsVector);}
       }
     }
   }
@@ -453,6 +490,12 @@ void CLoop::Style(double lumFactor) {
   metToDilepnuRatioContainer.Write();
   metToDilepRatioContainer.Write();
   delta_phijjContainer.Write();
+  massTauClosestJetContainer.Write();
+  massLepClosestJetContainer.Write();
+  massTauFurthestJetContainer.Write();
+  nuLepPtContainer.Write();
+  nuTauPtContainer.Write();
+  nuPtAssummetryContainer.Write();
 
   if (lumFactor!=1){
     Z_pt_truth_iNotFullContainer.Write();

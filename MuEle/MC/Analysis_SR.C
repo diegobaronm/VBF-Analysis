@@ -301,6 +301,21 @@ void CLoop::Fill(double weight, int z_sample) {
         bool passedAllCuts = (sum+1==cutsVector.size());
         std::vector<int> notFullCutsVector{1,static_cast<int>(passedAllCuts)};
 
+        double etaMoreCentral = abs(ljet_0_p4->Eta())>=abs(ljet_1_p4->Eta()) ? ljet_1_p4->Eta() : ljet_0_p4->Eta();
+        double etaLessCentral = abs(ljet_0_p4->Eta())<abs(ljet_1_p4->Eta()) ? ljet_1_p4->Eta() : ljet_0_p4->Eta();
+        double normPtDifference = (muon_0_p4->Pt()-elec_0_p4->Pt())/(muon_0_p4->Pt()+elec_0_p4->Pt());
+        double anglejj = del_phi(ljet_0_p4->Phi(),ljet_1_p4->Phi());
+        double metToDilepnuRatio = 0.0;
+        double metToDilepRatio = met_reco_p4->Pt()/(muon_0_p4->Pt()+elec_0_p4->Pt());
+        if (inside)
+        {
+          metToDilepnuRatio = met_reco_p4->Pt()/(muon_0_p4->Pt()+pt_muon_nu+elec_0_p4->Pt()+pt_elec_nu);
+        }
+        if (outside_muon || outside_elec)
+        {
+          metToDilepnuRatio = met_reco_p4->Pt()/(muon_0_p4->Pt()+elec_0_p4->Pt()+neutrino_pt);
+        }
+
         // FILLING CUTS HISTOGRAMS
 
         delta_phiContainer.Fill(angle,weight,cutsVector);
@@ -319,14 +334,21 @@ void CLoop::Fill(double weight, int z_sample) {
         if (inside) {
             reco_mass_iContainer.Fill(reco_mass,weight,cutsVector);
             reco_massContainer.Fill(reco_mass,weight,cutsVector);
+            nuElecPtContainer.Fill(pt_elec_nu,weight,notFullCutsVector);
+            nuMuonPtContainer.Fill(pt_muon_nu,weight,notFullCutsVector);
+            nuPtAssummetryContainer.Fill((pt_elec_nu+pt_muon_nu)/(elec_0_p4->Pt()+muon_0_p4->Pt()),weight,notFullCutsVector);
         }
         if (outside_elec) {
             reco_mass_oContainer.Fill(reco_mass_outside,weight,cutsVector);
             reco_massContainer.Fill(reco_mass_outside,weight,cutsVector);
+            nuElecPtContainer.Fill(pt_elec_nu,weight,notFullCutsVector);
+            nuPtAssummetryContainer.Fill((neutrino_pt)/(elec_0_p4->Pt()+muon_0_p4->Pt()),weight,notFullCutsVector);
         }
         if (outside_muon) {
             reco_mass_oContainer.Fill(reco_mass_outside,weight,cutsVector);
             reco_massContainer.Fill(reco_mass_outside,weight,cutsVector);
+            nuMuonPtContainer.Fill(pt_muon_nu,weight,notFullCutsVector);
+            nuPtAssummetryContainer.Fill((neutrino_pt)/(elec_0_p4->Pt()+muon_0_p4->Pt()),weight,notFullCutsVector);
         }
         
         // HISTOGRAM FILLING STARTING IN BASIC SELECTION
@@ -366,21 +388,6 @@ void CLoop::Fill(double weight, int z_sample) {
         ljet2_etaNotFullContainer.Fill(ljet_2_p4->Eta(),weight,notFullCutsVector);
         vec_sum_pt_jetsNotFullContainer.Fill(jet_pt_sum,weight,notFullCutsVector);
         ratio_zpt_sumjetptNotFullContainer.Fill(ratio_zpt_sumjetpt,weight,notFullCutsVector);
-
-        double etaMoreCentral = abs(ljet_0_p4->Eta())>=abs(ljet_1_p4->Eta()) ? ljet_1_p4->Eta() : ljet_0_p4->Eta();
-        double etaLessCentral = abs(ljet_0_p4->Eta())<abs(ljet_1_p4->Eta()) ? ljet_1_p4->Eta() : ljet_0_p4->Eta();
-        double normPtDifference = (muon_0_p4->Pt()-elec_0_p4->Pt())/(muon_0_p4->Pt()+elec_0_p4->Pt());
-        double anglejj = del_phi(ljet_0_p4->Phi(),ljet_1_p4->Phi());
-        double metToDilepnuRatio = 0.0;
-        double metToDilepRatio = met_reco_p4->Pt()/(muon_0_p4->Pt()+elec_0_p4->Pt());
-        if (inside)
-        {
-          metToDilepnuRatio = met_reco_p4->Pt()/(muon_0_p4->Pt()+pt_muon_nu+elec_0_p4->Pt()+pt_elec_nu);
-        }
-        if (outside_muon || outside_elec)
-        {
-          metToDilepnuRatio = met_reco_p4->Pt()/(muon_0_p4->Pt()+elec_0_p4->Pt()+neutrino_pt);
-        }
         
         moreCentralJetContainer.Fill(etaMoreCentral,weight,notFullCutsVector);
         lessCentralJetContainer.Fill(etaLessCentral,weight,notFullCutsVector);
@@ -388,7 +395,6 @@ void CLoop::Fill(double weight, int z_sample) {
         metToDilepnuRatioContainer.Fill(metToDilepnuRatio,weight,notFullCutsVector);
         metToDilepRatioContainer.Fill(metToDilepRatio,weight,notFullCutsVector);
         delta_phijjContainer.Fill(anglejj,weight,notFullCutsVector);
-
       }
     }
   }
@@ -442,6 +448,9 @@ void CLoop::Style(double lumFactor) {
   metToDilepnuRatioContainer.Write();
   metToDilepRatioContainer.Write();
   delta_phijjContainer.Write();
+  nuElecPtContainer.Write();
+  nuMuonPtContainer.Write();
+  nuPtAssummetryContainer.Write();
 
   if (lumFactor!=1){
     Z_pt_truth_iNotFullContainer.Write();

@@ -22,6 +22,12 @@ histogramContainer normPtDifferenceContainer{"normPtDifference"," (tau-e)/(tau+e
 histogramContainer metToDilepnuRatioContainer{"metToDilepnuRatio","MET/(tau+e+neutrinos) pT",50,0,5.0,notFull};
 histogramContainer metToDilepRatioContainer{"metToDilepRatio","MET/(tau+e) pT",50,0,5.0,notFull};
 histogramContainer delta_phijjContainer{"delta_phijj","Delta phi between tagging jets",32,0,3.2,notFull};
+histogramContainer massTauClosestJetContainer{"massTauClosestJet","Mass of tau and closest jet",2000,0,2000,notFull};
+histogramContainer massTauFurthestJetContainer{"massTauFurthestJet","Mass of tau and furthest jet",2000,0,2000,notFull};
+histogramContainer nuLepPtContainer{"nuLepPt","Neutrino lepton side pT",200,0,200,notFull};
+histogramContainer nuTauPtContainer{"nuTauPt","Neutrino tau side pT",200,0,200,notFull};
+histogramContainer nuPtAssummetryContainer{"nuPtAssummetry","Neutrinos pT difference over sumn",40,-1,1,notFull};
+histogramContainer massLepClosestJetContainer{"massLepClosestJet","Mass of lep and closest jet",2000,0,2000,notFull};
 
 histogramContainer lep_phiNotFullContainer{"lep_phi","Lep phi angle",64,-3.2,3.2,notFull};
 histogramContainer tau_phiNotFullContainer{"tau_phi","Tau phi angle",64,-3.2,3.2,notFull};

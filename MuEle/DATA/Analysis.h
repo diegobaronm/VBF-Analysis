@@ -22,6 +22,9 @@ histogramContainer normPtDifferenceContainer{"normPtDifference"," (mu-e)/(mu+e) 
 histogramContainer metToDilepnuRatioContainer{"metToDilepnuRatio","MET/(mu+e+neutrinos) pT",50,0,5.0,notFull};
 histogramContainer metToDilepRatioContainer{"metToDilepRatio","MET/(mu+e) pT",50,0,5.0,notFull};
 histogramContainer delta_phijjContainer{"delta_phijj","Delta phi between tagging jets",32,0,3.2,notFull};
+histogramContainer nuElecPtContainer{"nuElecPt","Neutrino electron side pT",200,0,200,notFull};
+histogramContainer nuMuonPtContainer{"nuMuonPt","Neutrino muon side pT",200,0,200,notFull};
+histogramContainer nuPtAssummetryContainer{"nuPtAssummetry","Neutrinos pT difference over sum",60,0,3,notFull};
 
 histogramContainer elec_phiNotFullContainer{"elec_phi","Lep phi angle",64,-3.2,3.2,notFull};
 histogramContainer muon_phiNotFullContainer{"muon_phi","Tau phi angle",64,-3.2,3.2,notFull};
