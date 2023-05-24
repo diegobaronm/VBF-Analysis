@@ -128,7 +128,7 @@ TH1F* h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_SYST_1up_TauEffSF_JetRNNmedium;
 
 #endif
 
-#if define(WEIGHTSYSTEMATICS) || define(SHAPESYSTEMATICS)
+#if defined(WEIGHTSYSTEMATICS) || defined(SHAPESYSTEMATICS)
 
 TH1F* h_delta_phi;
 TH1F* h_delta_y;
