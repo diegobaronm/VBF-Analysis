@@ -5,7 +5,7 @@ double pi=TMath::Pi();
 std::vector<std::string> cutNames{"basic","dphi","drap","btag","iso","rnn","ptl","j1pt","j2pt","ptbal","mjj","nji","zcen","omega","mlt","ebdt","mreco","tpt"};
 std::vector<std::string> notFull{"basic","all"};
 
-#define NOMINAL // NOMINAL , SHAPESYSTEMATICS, WEIGHTSYSTEMATICS
+#define WEIGHTSYSTEMATICS // NOMINAL , SHAPESYSTEMATICS, WEIGHTSYSTEMATICS
 #ifdef NOMINAL
 histogramContainer lepnu_ptContainer{"lepnu_pt","Lep + Neutrino pT",500,0,500,cutNames};
 histogramContainer taunu_ptContainer{"taunu_pt","Tau pT",500,0,500,cutNames};
@@ -128,7 +128,7 @@ TH1F* h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_SYST_1up_TauEffSF_JetRNNmedium;
 
 #endif
 
-#ifdef define(WEIGHTSYSTEMATICS) || define(SHAPESYSTEMATICS)
+#if define(WEIGHTSYSTEMATICS) || define(SHAPESYSTEMATICS)
 
 TH1F* h_delta_phi;
 TH1F* h_delta_y;
