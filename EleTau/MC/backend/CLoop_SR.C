@@ -189,6 +189,9 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
     fChain->SetBranchStatus("truth_Z_p4",1);
     fChain->SetBranchStatus("weight_mc",1);
     fChain->SetBranchStatus("weight_mc_v",1);
+    #ifdef define(WEIGHTSYSTEMATICS) || define(SHAPESYSTEMATICS)
+    fChain->SetBranchStatus("useEvent",1);
+    #endif
     } else {
     fChain->SetBranchStatus("*",0);
     fChain->SetBranchStatus("HLT_e120_lhloose",1);
