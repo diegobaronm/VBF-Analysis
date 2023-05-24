@@ -28,6 +28,8 @@ histogramContainer nuLepPtContainer{"nuLepPt","Neutrino lepton side pT",200,0,20
 histogramContainer nuTauPtContainer{"nuTauPt","Neutrino tau side pT",200,0,200,notFull};
 histogramContainer nuPtAssummetryContainer{"nuPtAssummetry","Neutrinos pT difference over sumn",40,-1,1,notFull};
 histogramContainer massLepClosestJetContainer{"massLepClosestJet","Mass of lep and closest jet",2000,0,2000,notFull};
+histogramContainer flavourJet1Container{"flavourJet1","Jet1 truth flavour",50,-25,25,notFull};
+histogramContainer flavourJet2Container{"flavourJet2","Jet2 truth flavour",50,-25,25,notFull};
 
 histogramContainer lep_phiNotFullContainer{"lep_phi","Lep phi angle",64,-3.2,3.2,notFull};
 histogramContainer tau_phiNotFullContainer{"tau_phi","Tau phi angle",64,-3.2,3.2,notFull};

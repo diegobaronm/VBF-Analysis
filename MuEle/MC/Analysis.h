@@ -25,6 +25,10 @@ histogramContainer delta_phijjContainer{"delta_phijj","Delta phi between tagging
 histogramContainer nuElecPtContainer{"nuElecPt","Neutrino electron side pT",200,0,200,notFull};
 histogramContainer nuMuonPtContainer{"nuMuonPt","Neutrino muon side pT",200,0,200,notFull};
 histogramContainer nuPtAssummetryContainer{"nuPtAssummetry","Neutrinos pT difference over sum",60,0,3,notFull};
+histogramContainer massElecClosestJetContainer{"massElecClosestJet","Mass of electron and closest jet",2000,0,2000,notFull};
+histogramContainer massMuonClosestJetContainer{"massMuonClosestJet","Mass of muon and closest jet",2000,0,2000,notFull};
+histogramContainer flavourJet1Container{"flavourJet1","Jet1 truth flavour",50,-25,25,notFull};
+histogramContainer flavourJet2Container{"flavourJet2","Jet2 truth flavour",50,-25,25,notFull};
 
 histogramContainer elec_phiNotFullContainer{"elec_phi","Lep phi angle",64,-3.2,3.2,notFull};
 histogramContainer muon_phiNotFullContainer{"muon_phi","Tau phi angle",64,-3.2,3.2,notFull};

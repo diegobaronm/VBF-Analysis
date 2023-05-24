@@ -100,9 +100,11 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
     fChain->SetBranchStatus("ljet_0",1);
     fChain->SetBranchStatus("ljet_0_p4",1);
     fChain->SetBranchStatus("ljet_0_q",1);
+    fChain->SetBranchStatus("ljet_0_matched_pdgId",1);
     fChain->SetBranchStatus("ljet_1",1);
     fChain->SetBranchStatus("ljet_1_p4",1);
     fChain->SetBranchStatus("ljet_1_q",1);
+    fChain->SetBranchStatus("ljet_1_matched_pdgId",1);
     fChain->SetBranchStatus("ljet_2",1);
     fChain->SetBranchStatus("ljet_2_p4",1);
     fChain->SetBranchStatus("ljet_2_q",1);

@@ -316,8 +316,21 @@ void CLoop::Fill(double weight, int z_sample) {
           metToDilepnuRatio = met_reco_p4->Pt()/(muon_0_p4->Pt()+elec_0_p4->Pt()+neutrino_pt);
         }
 
+        double massMuonClosestJet{0.0};
+        double massElecClosestJet{0.0};
+        bool j0CloserToMuon = muon_0_p4->DeltaR(*ljet_0_p4) <= muon_0_p4->DeltaR(*ljet_1_p4);
+        if (j0CloserToMuon)
+        {
+          massMuonClosestJet = sqrt(2*(muon_0_p4->Dot(*ljet_0_p4)));
+          massElecClosestJet = sqrt(2*(elec_0_p4->Dot(*ljet_1_p4)));
+        }
+        else
+        {
+          massMuonClosestJet = sqrt(2*(muon_0_p4->Dot(*ljet_1_p4)));
+          massElecClosestJet = sqrt(2*(elec_0_p4->Dot(*ljet_0_p4)));
+        }
+        
         // FILLING CUTS HISTOGRAMS
-
         delta_phiContainer.Fill(angle,weight,cutsVector);
         delta_yContainer.Fill(delta_y,weight,cutsVector);
         n_bjetsContainer.Fill(n_bjets_MV2c10_FixedCutBEff_85,weight,cutsVector);
@@ -395,6 +408,10 @@ void CLoop::Fill(double weight, int z_sample) {
         metToDilepnuRatioContainer.Fill(metToDilepnuRatio,weight,notFullCutsVector);
         metToDilepRatioContainer.Fill(metToDilepRatio,weight,notFullCutsVector);
         delta_phijjContainer.Fill(anglejj,weight,notFullCutsVector);
+        massMuonClosestJetContainer.Fill(massMuonClosestJet,weight,notFullCutsVector);
+        massElecClosestJetContainer.Fill(massElecClosestJet,weight,notFullCutsVector);
+        flavourJet1Container.Fill(ljet_0_matched_pdgId,weight,notFullCutsVector);
+        flavourJet2Container.Fill(ljet_1_matched_pdgId,weight,notFullCutsVector);
       }
     }
   }
@@ -451,6 +468,10 @@ void CLoop::Style(double lumFactor) {
   nuElecPtContainer.Write();
   nuMuonPtContainer.Write();
   nuPtAssummetryContainer.Write();
+  massMuonClosestJetContainer.Write();
+  massElecClosestJetContainer.Write();
+  flavourJet1Container.Write();
+  flavourJet2Container.Write();
 
   if (lumFactor!=1){
     Z_pt_truth_iNotFullContainer.Write();

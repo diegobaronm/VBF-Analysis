@@ -426,7 +426,9 @@ void CLoop::Fill(double weight, int z_sample) {
         delta_phijjContainer.Fill(anglejj,weight,notFullCutsVector);
         massTauClosestJetContainer.Fill(massTauCloserJet,weight,notFullCutsVector);
         massTauFurthestJetContainer.Fill(massTauFurthestJet,weight,notFullCutsVector);
-        massLepClosestJetContainer.Fill(massLepClosestJet,weight,notFullCutsVector);}
+        massLepClosestJetContainer.Fill(massLepClosestJet,weight,notFullCutsVector);
+        flavourJet1Container.Fill(ljet_0_matched_pdgId,weight,notFullCutsVector);
+        flavourJet2Container.Fill(ljet_1_matched_pdgId,weight,notFullCutsVector);}
       }
     }
   }
@@ -496,6 +498,8 @@ void CLoop::Style(double lumFactor) {
   nuLepPtContainer.Write();
   nuTauPtContainer.Write();
   nuPtAssummetryContainer.Write();
+  flavourJet1Container.Write();
+  flavourJet2Container.Write();
 
   if (lumFactor!=1){
     Z_pt_truth_iNotFullContainer.Write();
