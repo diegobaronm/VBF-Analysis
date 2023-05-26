@@ -5,7 +5,7 @@ double pi=TMath::Pi();
 std::vector<std::string> cutNames{"basic","dphi","drap","btag","iso","ptl","j1pt","j2pt","ptbal","mjj","nji","zcen","omega","mreco","tpt"};
 std::vector<std::string> notFull{"basic","all"};
 
-#define NOMINAL // NOMINAL , SHAPESYSTEMATICS, WEIGHTSYSTEMATICS
+#define WEIGHTSYSTEMATICS // NOMINAL , SHAPESYSTEMATICS, WEIGHTSYSTEMATICS
 #ifdef NOMINAL
 histogramContainer elecnu_ptContainer{"elecnu_pt","Lep + Neutrino pT",500,0,500,cutNames};
 histogramContainer muonnu_ptContainer{"muonnu_pt","Tau pT",500,0,500,cutNames};
@@ -49,8 +49,6 @@ histogramContainer ratio_zpt_sumjetptNotFullContainer{"ratio_zpt_sumjetpt","Rati
 histogramContainer Z_pt_truth_iNotFullContainer{"Z_pt_truth_i","Truth ZpT in between events",1000,0,1000,notFull};
 histogramContainer Z_pt_truth_oNotFullContainer{"Z_pt_truth_o","Truth ZpT outside events",1000,0,1000,notFull};
 
-#endif
-
 histogramContainer delta_phiContainer{"delta_phi","Delta phi between elec and muon",32,0,3.2,cutNames,"dphi"};
 histogramContainer delta_yContainer{"delta_y","Delta Rapidity",100,0,10,cutNames,"drap"};
 histogramContainer n_bjetsContainer{"n_bjets","Number of b_jets",5,0,5,cutNames,"btag"};
@@ -67,6 +65,8 @@ histogramContainer omegaContainer{"omega","Omega variable",60,-3.0,3.0,cutNames,
 histogramContainer reco_mass_iContainer{"reco_mass_i","Reconstructed mass in between events",1000,0,1000,cutNames,"mreco"};
 histogramContainer reco_mass_oContainer{"reco_mass_o","Reconstructed mass outside events",1000,0,1000,cutNames,"mreco"};
 histogramContainer reco_massContainer{"reco_mass_","Reconstructed mass all events",1000,0,1000,cutNames,"mreco"};
+
+#endif
 
 #ifdef WEIGHTSYSTEMATICS
 
@@ -104,6 +104,26 @@ TH1F* h_mass_jj_muon_0_MUON_EFF_TrigSystUncertainty_1down_MuEffSF_HLT_mu20_iloos
 TH1F* h_mass_jj_muon_0_MUON_EFF_TrigSystUncertainty_1down_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium;
 TH1F* h_mass_jj_muon_0_MUON_EFF_TrigSystUncertainty_1up_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium;
 TH1F* h_mass_jj_muon_0_MUON_EFF_TrigSystUncertainty_1up_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium;
+#endif
+
+#if defined(WEIGHTSYSTEMATICS) || defined(SHAPESYSTEMATICS)
+
+TH1F* h_delta_phi;
+TH1F* h_delta_y;
+TH1F* h_n_bjets;
+TH1F* h_iso;
+TH1F* h_elec_pt;
+TH1F* h_muon_pt;
+TH1F* h_ljet0_pt;
+TH1F* h_ljet1_pt;
+TH1F* h_pt_bal;
+TH1F* h_mass_jj;
+TH1F* h_n_jets_interval;
+TH1F* h_Z_centrality;
+TH1F* h_omega;
+TH1F* h_reco_mass_i;
+TH1F* h_reco_mass_o;
+TH1F* h_reco_mass;
 
 #endif
 
