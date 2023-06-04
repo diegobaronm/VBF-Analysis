@@ -80,7 +80,7 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
     std::cout<<"Analysing "<<nLoop<<" Events!"<<std::endl;
 
     Long64_t nbytes = 0, nb = 0;
-
+    #ifdef NOMINAL
     // Only activate relevant branches
     fChain->SetBranchStatus("*",0);
     fChain->SetBranchStatus("HLT_mu20_iloose_L1MU15",1);
@@ -172,7 +172,7 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
     fChain->SetBranchStatus("truth_Z_p4",1);
     fChain->SetBranchStatus("weight_mc",1);
     fChain->SetBranchStatus("weight_mc_v",1);
-
+    #endif 
     // loop over number of entries
     for (Long64_t jentry=0; jentry<nLoop;jentry++) {
         Long64_t ientry = LoadTree(jentry);
@@ -304,7 +304,7 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
             weight_total= weight_mc*NOMINAL_pileup_combined_weight;
         }
         // check if event is from real data
-        if (weight_total != 0) {
+        if (!(key.substr(0,4)=="data")) {
             // take product of all scale factors
             eventWeight = weight_total*lumFactor*zpt_weight*mjj_w
             *muon_0_NOMINAL_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium*muon_0_NOMINAL_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium

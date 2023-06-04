@@ -232,17 +232,12 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
         double z_w=1;
         double zpt_weight=1/z_w;
 
-
         // calculate event weight
         double eventWeight = 1;
-        double weight_total{0};
-        if(!(key.substr(0,4)=="data")){
-            weight_total= weight_mc*NOMINAL_pileup_combined_weight;
-        }
         // check if event is from real data
         if (!(key.substr(0,4)=="data")) {
             // take product of all scale factors
-            eventWeight = weight_total*lumFactor*zpt_weight*mjj_w
+            eventWeight = weight_mc*NOMINAL_pileup_combined_weight*lumFactor*zpt_weight*mjj_w
             *muon_0_NOMINAL_MuEffSF_IsoTightTrackOnly_FixedRad*muon_0_NOMINAL_MuEffSF_Reco_QualMedium/*muon_0_NOMINAL_MuEffSF_TTVA*/
             *jet_NOMINAL_central_jets_global_effSF_JVT*jet_NOMINAL_central_jets_global_ineffSF_JVT*jet_NOMINAL_forward_jets_global_effSF_JVT
             *jet_NOMINAL_forward_jets_global_ineffSF_JVT*jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85*jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85

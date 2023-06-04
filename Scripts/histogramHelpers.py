@@ -218,7 +218,7 @@ def stackPlot(data,signal,background,histograms,watermark,signalMu = 1.0, backgr
         
         if "reco_mass" in i:
             s=66
-            e=150
+            e=116
         
         samples["Data"][2].GetYaxis().SetRangeUser(0.1 ,13*samples["Data"][2].GetBinContent(samples["Data"][2].GetMaximumBin()))
         samples["Data"][2].GetXaxis().SetRangeUser(s,e)
@@ -758,8 +758,8 @@ histogramsHighStatsZtautau = {
 "n_bjets":['N b-jets'],
 "lepiso":['Lepton Isolation'],
 "n_jets_interval":['N jets gap'],
-"flavourJet1_basic_all":[],
-"flavourJet2_basic_all":[],
+#"flavourJet1_basic_all":[],
+#"flavourJet2_basic_all":[],
 "tau_pt":[[25.0,100.0,150.0],[25.0,25.0,50.0,350.0],25.0,'pT(#tau)'],
 "lep_pt":[[27,102,150],[27,25,48,350],20,'pT(l)'],
 "delta_phi":[[1.8],[0.3,0.7],0.3,'#Delta#phi(#tau,l)'],
@@ -768,8 +768,8 @@ histogramsHighStatsZtautau = {
 "delta_R_taulep_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt":[[0.5],[0.5,0.5],0.5,'#DeltaR(#tau,l)'],
 "delta_R_lepjet_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt":[[0.5],[0.5,0.5],0.5,'#DeltaR(l,j)'],
 "delta_R_taujet_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt":[[0.5],[0.5,0.5],0.5,'#DeltaR(#tau,j)'],
-"met_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mlt_ebdt_mreco_tpt":[[100],[20,100],20,'MET(e,#tau)'],
-"met_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt":[[100],[20,100],20,'MET(#mu,#tau)'],
+#"met_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mlt_ebdt_mreco_tpt":[[100],[20,100],20,'MET(e,#tau)'],
+#"met_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt":[[100],[20,100],20,'MET(#mu,#tau)'],
 "delta_y":[[2.0,6.0],[2.0,1.0,4.0],1.0,'#Deltay_{jj}'],
 "omega":[[-0.2,1.6],[2.8,0.3,1.4],0.3,'#Omega'],
 "rnn_score_1p":[[0.25],[0.25,0.25],0.25,'jetRNN Score 1p'],
@@ -779,25 +779,25 @@ histogramsHighStatsZtautau = {
 "pt_bal":[[0.15],[0.03,0.75],0.03,'pT balance'],
 "Z_centrality":[[0.5],[0.1,0.5],0.1,'#xi(Z)'],
 "mass_jj":[[1500,3000],[250,500,1000],250,'m_{jj}'],
-"reco_mass_i":[[66,116,176],[66,10,20,64],10,'m_{#tau,l}(i)'],
-"reco_mass_o":[[66,116,176],[66,10,20,64],10,'m_{#tau,l}(o)'],
-"reco_mass_":[[66,116,176],[66,10,20,64],10,'m_{#tau,l}'],
-"Z_pt_reco_i_basic_all":[[300],[50,100],50,'pT(Z)'],
-"Z_pt_reco_o_basic_all":[[300],[50,100],50],
-"ratio_zpt_sumjetpt_basic_all":[[1.5],[0.1,0.5],0.1,'pT(ll)/pT(j_{1}+j_{2})'],
-"vec_sum_pt_jets_basic_all":[[100,250],[20,50,250],20,'Vec Sum pT(j_{1}+j_{2})'],
-"moreCentralJet_basic_all":[[0.0],[0.2,0.2],0.2,"more central jet rapidity"],
-"lessCentralJet_basic_all":[[0.0],[0.2,0.2],0.2,"less central jet rapidity"],
-"normPtDifference_basic_all":[[0.0],[0.1,0.1],0.1,"pT(#mu - e)/(#mu + e)"],
-"metToDilepnuRatio_basic_all":[[1.0],[0.2,0.2],0.2,"MET/(pT(#mu) + pT(e)+ pT(#nu))"],
-"metToDilepRatio_basic_all":[[1.0],[0.2,0.2],0.2,"MET/(pT(#mu) + pT(e))"],
-"delta_phijj_basic_all":[[3.0],[0.3,0.2],0.3,"#Delta#phi(j_{1},j_{2})"],
-"massTauClosestJet_basic_all":[[100,200,500],[10,20,50,500],10,"m_{#tau,j_{closest}}"],
-"massLepClosestJet_basic_all":[[100,200,500],[10,20,50,500],10,"m_{l,j_{closest}}"],
-"massTauFurthestJet_basic_all":[[100,200,500],[10,20,50,500],10,"m_{#tau,j_{furthest}}"],
-"nuLepPt_basic_all":[[50,150],[10,20,50],10,'pT(#nu_{l})'],
-"nuTauPt_basic_all":[[50,150],[10,20,50],10,'pT(#nu_{#tau})'],
-"nuPtAssummetry_basic_all":[[0.0],[0.1,0.1],0.1,'pT(#nu_{l}-#nu_{#tau})/(#nu_{l}+#nu_{#tau})'],
+#"reco_mass_i":[[66,116,176],[66,10,20,64],10,'m_{#tau,l}(i)'],
+#"reco_mass_o":[[66,116,176],[66,10,20,64],10,'m_{#tau,l}(o)'],
+#"reco_mass_":[[66,116,176],[66,10,20,64],10,'m_{#tau,l}'],
+#"Z_pt_reco_i_basic_all":[[300],[50,100],50,'pT(Z)'],
+#"Z_pt_reco_o_basic_all":[[300],[50,100],50],
+#"ratio_zpt_sumjetpt_basic_all":[[1.5],[0.1,0.5],0.1,'pT(ll)/pT(j_{1}+j_{2})'],
+#"vec_sum_pt_jets_basic_all":[[100,250],[20,50,250],20,'Vec Sum pT(j_{1}+j_{2})'],
+#"moreCentralJet_basic_all":[[0.0],[0.2,0.2],0.2,"more central jet rapidity"],
+#"lessCentralJet_basic_all":[[0.0],[0.2,0.2],0.2,"less central jet rapidity"],
+#"normPtDifference_basic_all":[[0.0],[0.1,0.1],0.1,"pT(#mu - e)/(#mu + e)"],
+#"metToDilepnuRatio_basic_all":[[1.0],[0.2,0.2],0.2,"MET/(pT(#mu) + pT(e)+ pT(#nu))"],
+#"metToDilepRatio_basic_all":[[1.0],[0.2,0.2],0.2,"MET/(pT(#mu) + pT(e))"],
+#"delta_phijj_basic_all":[[3.0],[0.3,0.2],0.3,"#Delta#phi(j_{1},j_{2})"],
+#"massTauClosestJet_basic_all":[[100,200,500],[10,20,50,500],10,"m_{#tau,j_{closest}}"],
+#"massLepClosestJet_basic_all":[[100,200,500],[10,20,50,500],10,"m_{l,j_{closest}}"],
+#"massTauFurthestJet_basic_all":[[100,200,500],[10,20,50,500],10,"m_{#tau,j_{furthest}}"],
+#"nuLepPt_basic_all":[[50,150],[10,20,50],10,'pT(#nu_{l})'],
+#"nuTauPt_basic_all":[[50,150],[10,20,50],10,'pT(#nu_{#tau})'],
+#"nuPtAssummetry_basic_all":[[0.0],[0.1,0.1],0.1,'pT(#nu_{l}-#nu_{#tau})/(#nu_{l}+#nu_{#tau})'],
 }
 
 histogramsLowStatsZtautau = {
