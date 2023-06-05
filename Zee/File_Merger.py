@@ -21,6 +21,8 @@ try :
 		os.system('hadd '+channel_dir+'MC/out/Zee_Sherpa.root NOMINAL/Zee_sherpa*.root')
 		#os.system('hadd '+channel_dir+'MC/out/Zee_PoPy.root NOMINAL/Zee_201*.root')
 		os.system('hadd '+channel_dir+'MC/out/Zee_MG.root NOMINAL/Zee_MG*.root')
+		os.system('hadd '+channel_dir+'MC/out/Zee_MGNLO.root NOMINAL/Zee_MGNLO*.root')
+		os.system('hadd '+channel_dir+'MC/out/Zee_SherpaNLO.root NOMINAL/Zee_SherpaNLO*.root')
 		os.system('hadd '+channel_dir+'MC/out/Signal_old.root NOMINAL/VBF_Zee_old_201*.root')
 		os.system('hadd '+channel_dir+'MC/out/Signal_Sherpa.root NOMINAL/VBF_Zee_sherpa_201*.root')
 		os.system('hadd '+channel_dir+'MC/out/Signal_PoPy.root NOMINAL/VBF_Zee_201*.root')

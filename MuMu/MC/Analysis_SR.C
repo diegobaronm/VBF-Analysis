@@ -70,7 +70,7 @@ void CLoop::Fill(double weight, int z_sample) {
     float q_mu1=muon_1_q;
     size_t n_ljets=n_jets-n_bjets_MV2c10_FixedCutBEff_85;
 
-    if (n_muons==2 && q_mu0==q_mu1 && muon_id && n_ljets>=2 && n_ljets<=3){
+    if (n_muons==2 && q_mu0!=q_mu1 && muon_id && n_ljets>=2 && n_ljets<=3){
       //angles
       double angle_l_MET=del_phi(muon_0_p4->Phi(),met_reco_p4->Phi());
       double angle_tau_MET=del_phi(muon_1_p4->Phi(),met_reco_p4->Phi());
@@ -181,16 +181,16 @@ void CLoop::Fill(double weight, int z_sample) {
         if (angle<=3.2){cuts[0]=1;}
         if(delta_y>=2.0){cuts[1]=1;}
         if(n_bjets_MV2c10_FixedCutBEff_85==0){cuts[2]=1;}
-        if(muon_0_iso_TightTrackOnly_FixedRad==0 || muon_1_iso_TightTrackOnly_FixedRad==0){cuts[3]=1;}
+        if(muon_0_iso_TightTrackOnly_FixedRad==1 && muon_1_iso_TightTrackOnly_FixedRad==1){cuts[3]=1;}
         if(muon_0_p4->Pt()>=a){cuts[4]=1;}
         if(muon_1_p4->Pt()>=b){cuts[5]=1;}
         if(ljet_0_p4->Pt()>=75){cuts[6]=1;}
         if(ljet_1_p4->Pt()>=70){cuts[7]=1;}
         if(pt_bal<=0.15){cuts[8]=1;}
-        if(mjj>=250){cuts[9]=1;}
+        if(mjj>=1000){cuts[9]=1;}
         if(n_jets_interval==0){cuts[10]=1;}
         if(z_centrality<0.5){cuts[11]=1;}
-        if (inv_mass>=101){cuts[12]=1;} // Low mass range 81 < m < 101 GeV.
+        if (inv_mass > 81 && inv_mass < 101){cuts[12]=1;} // Low mass range 81 < m < 101 GeV.
         if (event_number%2==0){
           if(muon_0_p4->Pt()>=(a+0)){cuts[13]=1;}
         } else {

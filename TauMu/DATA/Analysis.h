@@ -57,8 +57,6 @@ histogramContainer tau_matched_3pNotFullContainer{"tau_matched_3p","Tau truth ma
 histogramContainer Z_pt_truth_iNotFullContainer{"Z_pt_truth_i","Truth ZpT in between events",1000,0,1000,notFull};
 histogramContainer Z_pt_truth_oNotFullContainer{"Z_pt_truth_o","Truth ZpT outside events",1000,0,1000,notFull};
 
-#endif
-
 histogramContainer delta_phiContainer{"delta_phi","Delta phi between tau and lep",32,0,3.2,cutNames,"dphi"};
 histogramContainer delta_yContainer{"delta_y","Delta Rapidity",100,0,10,cutNames,"drap"};
 histogramContainer n_bjetsContainer{"n_bjets","Number of b_jets",5,0,5,cutNames,"btag"};
@@ -78,6 +76,7 @@ histogramContainer reco_mass_iContainer{"reco_mass_i","Reconstructed mass in bet
 histogramContainer reco_mass_oContainer{"reco_mass_o","Reconstructed mass outside events",1000,0,1000,cutNames,"mreco"};
 histogramContainer reco_massContainer{"reco_mass_","Reconstructed mass all events",1000,0,1000,cutNames,"mreco"};
 
+#endif
 
 #ifdef WEIGHTSYSTEMATICS
 TH1F* h_mass_jj_muon_0_MUON_EFF_ISO_STAT_1down_MuEffSF_IsoTightTrackOnly_FixedRad;
@@ -128,6 +127,30 @@ TH1F* h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_HIGHPT_1down_TauEffSF_JetRNNmedi
 TH1F* h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_HIGHPT_1up_TauEffSF_JetRNNmedium;
 TH1F* h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_SYST_1down_TauEffSF_JetRNNmedium;
 TH1F* h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_SYST_1up_TauEffSF_JetRNNmedium;
+
+#endif
+
+#if defined(WEIGHTSYSTEMATICS) || defined(SHAPESYSTEMATICS)
+
+TH1F* h_delta_phi;
+TH1F* h_delta_y;
+TH1F* h_n_bjets;
+TH1F* h_lepiso;
+TH1F* h_rnn_score_1p;
+TH1F* h_rnn_score_3p;
+TH1F* h_lep_pt;
+TH1F* h_tau_pt;
+TH1F* h_ljet0_pt;
+TH1F* h_ljet1_pt;
+TH1F* h_pt_bal;
+TH1F* h_mass_jj;
+TH1F* h_n_jets_interval;
+TH1F* h_Z_centrality;
+TH1F* h_omega;
+TH1F* h_reco_mass_i;
+TH1F* h_reco_mass_o;
+TH1F* h_reco_mass;
+
 #endif
 
 #endif

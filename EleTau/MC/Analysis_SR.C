@@ -68,7 +68,7 @@ void CLoop::Fill(double weight, int z_sample) {
   bool lepton_id=elec_0_id_tight;
   size_t n_ljets=n_jets-n_bjets_MV2c10_FixedCutBEff_85;
 
-  if (ql!=qtau && n_electrons==1 && n_taus_rnn_loose>=1 && lepton_id && n_ljets>=2 && n_ljets<=3){
+  if (ql==qtau && n_electrons==1 && n_taus_rnn_loose>=1 && lepton_id && n_ljets>=2 && n_ljets<=3){
     //angles
     double angle_l_MET=del_phi(elec_0_p4->Phi(),met_reco_p4->Phi());
     double angle_tau_MET=del_phi(tau_0_p4->Phi(),met_reco_p4->Phi());
@@ -105,16 +105,15 @@ void CLoop::Fill(double weight, int z_sample) {
         }
 
         double neutrino_pt=0;
-        double reco_mass_outside=0;
         if (outside_lep) {
           neutrino_pt=met_reco_p4->Pt()*cos(angle_l_MET);
-          reco_mass_outside=5+sqrt(2*(elec_0_p4->Pt()*tau_0_p4->Pt()*(cosh(elec_0_p4->Eta()-tau_0_p4->Eta())-cos(elec_0_p4->Phi()-tau_0_p4->Phi()))+tau_0_p4->Pt()*neutrino_pt*(cosh(elec_0_p4->Eta()-tau_0_p4->Eta())-cos(elec_0_p4->Phi()-tau_0_p4->Phi()))));
+          reco_mass = 5+sqrt(2*(elec_0_p4->Pt()*tau_0_p4->Pt()*(cosh(elec_0_p4->Eta()-tau_0_p4->Eta())-cos(elec_0_p4->Phi()-tau_0_p4->Phi()))+tau_0_p4->Pt()*neutrino_pt*(cosh(elec_0_p4->Eta()-tau_0_p4->Eta())-cos(elec_0_p4->Phi()-tau_0_p4->Phi()))));
         }
         if (outside_tau) {
           neutrino_pt=met_reco_p4->Pt()*cos(angle_tau_MET);
-          reco_mass_outside=5+sqrt(2*(elec_0_p4->Pt()*tau_0_p4->Pt()*(cosh(elec_0_p4->Eta()-tau_0_p4->Eta())-cos(elec_0_p4->Phi()-tau_0_p4->Phi()))+elec_0_p4->Pt()*neutrino_pt*(cosh(elec_0_p4->Eta()-tau_0_p4->Eta())-cos(elec_0_p4->Phi()-tau_0_p4->Phi()))));
+          reco_mass = 5+sqrt(2*(elec_0_p4->Pt()*tau_0_p4->Pt()*(cosh(elec_0_p4->Eta()-tau_0_p4->Eta())-cos(elec_0_p4->Phi()-tau_0_p4->Phi()))+elec_0_p4->Pt()*neutrino_pt*(cosh(elec_0_p4->Eta()-tau_0_p4->Eta())-cos(elec_0_p4->Phi()-tau_0_p4->Phi()))));
         }
-
+        
         // ZpT calculations
         double Z_pt_x=0;
         double Z_pt_y=0;
@@ -251,17 +250,10 @@ void CLoop::Fill(double weight, int z_sample) {
         if(n_jets_interval==0){cuts[10]=1;}
         if(z_centrality<0.5){cuts[11]=1;} // SR -> z_centrality < 0.5
         if (omega> -0.2 && omega <1.6){cuts[12]=1;}
-        if(inv_taulep<=80 || inv_taulep>=100){cuts[13]=1;}
+        if(inv_taulep<=80 /*|| inv_taulep>=100*/){cuts[13]=1;}
         if (tau_0_ele_bdt_score_trans_retuned>=0.05){cuts[14]=1;}
-        if (inside) {
-          if (reco_mass >= 150){cuts[15]=1;} // Z-peak reco_mass<116 && reco_mass>66 // Higgs reco_mass >= 116 && reco_mass < 150
-        }
-        if (outside_lep) {
-          if (reco_mass >= 150){cuts[15]=1;}
-        }
-        if (outside_tau) {
-          if (reco_mass >= 150){cuts[15]=1;}
-        }
+        bool diLeptonMassRequirement = reco_mass > 66 && reco_mass < 116;
+        if (diLeptonMassRequirement){cuts[15]=1;} // Z-peak reco_mass<116 && reco_mass>66 // Higgs reco_mass >= 116 && reco_mass < 150
         if (tau_0_p4->Pt()>=25){cuts[16]=1;}
 
         // SUM OF THE VECTOR STORING IF CUTS PASS OR NOT
@@ -330,6 +322,7 @@ void CLoop::Fill(double weight, int z_sample) {
         ljet1_ptContainer.Fill(ljet_1_p4->Pt(),weight,cutsVector);
         leptau_massContainer.Fill(inv_taulep,weight,cutsVector);
         eBDTContainer.Fill(tau_0_ele_bdt_score_trans_retuned,weight,cutsVector);
+        reco_massContainer.Fill(reco_mass,weight,cutsVector);
         if (tau_0_n_charged_tracks==1){
           rnn_score_1pContainer.Fill(tau_0_jet_rnn_score_trans,weight,cutsVector);
         }
@@ -338,20 +331,17 @@ void CLoop::Fill(double weight, int z_sample) {
         }
         if (inside) {
           reco_mass_iContainer.Fill(reco_mass,weight,cutsVector);
-          reco_massContainer.Fill(reco_mass,weight,cutsVector);
           nuLepPtContainer.Fill(pt_lep_nu,weight,notFullCutsVector);
           nuTauPtContainer.Fill(pt_tau_nu,weight,notFullCutsVector);
           nuPtAssummetryContainer.Fill((pt_lep_nu-pt_tau_nu)/(pt_lep_nu+pt_tau_nu),weight,notFullCutsVector);
         }
         if (outside_lep) {
-          reco_mass_oContainer.Fill(reco_mass_outside,weight,cutsVector);
-          reco_massContainer.Fill(reco_mass_outside,weight,cutsVector);
+          reco_mass_oContainer.Fill(reco_mass,weight,cutsVector);
           nuLepPtContainer.Fill(neutrino_pt,weight,notFullCutsVector);
           nuPtAssummetryContainer.Fill(1.0,weight,notFullCutsVector);
         }
         if (outside_tau) {
-          reco_mass_oContainer.Fill(reco_mass_outside,weight,cutsVector);
-          reco_massContainer.Fill(reco_mass_outside,weight,cutsVector);
+          reco_mass_oContainer.Fill(reco_mass,weight,cutsVector);
           nuTauPtContainer.Fill(neutrino_pt,weight,notFullCutsVector);
           nuPtAssummetryContainer.Fill(-1.0,weight,notFullCutsVector);
         }
