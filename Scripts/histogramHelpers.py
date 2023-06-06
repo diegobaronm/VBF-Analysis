@@ -34,13 +34,18 @@ def biner(edges,bin_widths,histogram):
 def normalization(hist_list,norm_bin):
     # Loop the histograms
     for hist in hist_list:
+        # Store number of entries to fix at the end of the loop
+        entries=hist.GetEntries()
         # Scale each bin of the histogram by the bin width
         for i in range(1,hist.GetNbinsX()+1):
             value=hist.GetBinContent(i)
             error=hist.GetBinError(i)
-            sf=hist.GetBinWidth(i)/norm_bin
+            if value==0 and error==0:
+                continue
+            sf=hist.GetXaxis().GetBinWidth(i)/norm_bin
             hist.SetBinContent(i,value/sf)
             hist.SetBinError(i,error/sf)
+        hist.SetEntries(entries)
 
 ############################################################################################################
 
@@ -73,7 +78,13 @@ def dataSubtract(histoName,histogramsPath,dataFileName,sampleFilesToSubtract,his
             sampleHistogram = r.TH1F(sampleFile.Get(histoName))
             sampleHistogram = sampleHistogram.Rebin(numberBins,sampleToSubtract,binsArray)
             subtractHistograms.append(sampleHistogram)
-
+            
+    else :
+        for sampleToSubtract in sampleFilesToSubtract:
+            sampleFile = r.TFile.Open(histogramsPath+sampleToSubtract+".root")
+            sampleHistogram = r.TH1F(sampleFile.Get(histoName))
+            subtractHistograms.append(sampleHistogram)
+            
     # Subtract the samples
     for sampleHistogram in subtractHistograms:
         dataHistogram.Add(sampleHistogram,-1)
@@ -119,7 +130,7 @@ def stackPlot(data,signal,background,histograms,watermark,signalMu = 1.0, backgr
             watermark = "Average"
             if after_fit:
                 watermark = "Average_AfterFit"
-            
+
         ###### REBIN AND NORMALISE ######
         if len(histograms[i])>2:
             rebining=biner(histograms[i][0],histograms[i][1],samples["Data"][2])
@@ -219,10 +230,11 @@ def stackPlot(data,signal,background,histograms,watermark,signalMu = 1.0, backgr
         if "reco_mass" in i:
             s=66
             e=116
-        
+        s = round(s,3)
+        e = round(e,3)
         samples["Data"][2].GetYaxis().SetRangeUser(0.1 ,13*samples["Data"][2].GetBinContent(samples["Data"][2].GetMaximumBin()))
         samples["Data"][2].GetXaxis().SetRangeUser(s,e)
-        samples["Data"][2].GetXaxis().SetRangeUser(s,e)
+    
         if len(histograms[i])>2:
             samples["Data"][2].GetYaxis().SetTitle("Events/"+str(histograms[i][2])+" GeV")
         legend = r . TLegend (0.45 ,0.80 ,0.85 ,0.95)
@@ -238,6 +250,21 @@ def stackPlot(data,signal,background,histograms,watermark,signalMu = 1.0, backgr
         l=r.TLatex()
         l.SetNDC ()
         l.DrawLatex(0.9,0.7,final_state)
+
+        # Draw normalisation factors used in this plot
+        vbfNormText = r.TText(.9,.65,"VBF = "+str(round(signalMu,3)))
+        vbfNormText.SetNDC ()
+        vbfNormText.SetTextAlign(22)
+        vbfNormText.SetTextFont(43)
+        vbfNormText.SetTextSize(14)
+        vbfNormText.Draw("same")
+
+        qcdNormText = r.TText(.9,.60,"QCD = "+str(round(backgroundMu,3)))
+        qcdNormText.SetNDC ()
+        qcdNormText.SetTextAlign(22)
+        qcdNormText.SetTextFont(43)
+        qcdNormText.SetTextSize(14)
+        qcdNormText.Draw("same")
         
         max_ratio = 4
         print(max_ratio)
@@ -707,21 +734,21 @@ histogramsHighStatsZmumu = {
 "delta_phi":[[2.0],[0.2,0.8],0.2,'#Delta#phi(#mu_{1},#mu_{2})'],
 "lep1_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl":[[0.1],[0.2,0.199],0.2,'#eta(#mu_{1})'],
 "lep2_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl":[[0.1],[0.2,0.199],0.2,'#eta(#mu_{2})'],
-"ljet0_eta_basic_cuts_ptl":[[-3.0,3.0],[0.5,0.2,0.5],0.2,'#eta(j_{1})'],
-"ljet1_eta_basic_cuts_ptl":[[-3.0,3.0],[0.5,0.2,0.5],0.2,'#eta(j_{2})'],  
+"ljet0_eta_basic_all":[[-3.0,3.0],[0.5,0.2,0.5],0.2,'#eta(j_{1})'],
+"ljet1_eta_basic_all":[[-3.0,3.0],[0.5,0.2,0.5],0.2,'#eta(j_{2})'],  
 "lep1_pt":[[100,200,300],[20,50,100,350],20,'pT(#mu_{1})'],
 "lep2_pt":[[100,200,300],[20,50,100,350],20,'pT(#mu_{2})'],
 "ljet0_pt":[[75,215,365,500],[15,35,50,135,500],15,'pT(j_{1})'],
 "ljet1_pt":[[70,210,360,495],[35,35,50,135,505],35,'pT(j_{2})'],
-"ljet2_pt_basic_cuts_ptl":[[100],[20,50],20,'pT(j_{2})'],
+"ljet2_pt_basic_all":[[100],[20,50],20,'pT(j_{2})'],
 "pt_bal":[[0.15,0.3],[0.03,0.05,0.7],0.15,'pT balance'],
 "Z_centrality":[[0.5],[0.1,0.5],0.1,'#xi(Z)'],
 "delta_y":[[2.0,6.0],[1.0,0.5,1.0],1.0,'#Deltay_{jj}'],
 "inv_mass":[[70,110,140,300],[70,5,10,80,700],5,'m_{#mu#mu}'],
 "mass_jj":[[1500],[250,500],250,'m_{jj}'],
-"Z_pt_reco_basic_cuts_ptl":[[300,600],[20,50,200],20,'pT(Z)'],
-"vec_sum_pt_jets_basic_cuts_ptl":[[300],[20,50],20],
-"ratio_zpt_sumjetpt_basic_cuts_ptl":[[0.75,1.25],[0.25,0.1,0.25],0.1],
+"Z_pt_reco_basic_all":[[300,600],[20,50,200],20,'pT(Z)'],
+"vec_sum_pt_jets_basic_all":[[300],[20,50],20],
+"ratio_zpt_sumjetpt_basic_all":[[0.75,1.25],[0.25,0.1,0.25],0.1],
 "met_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl":[[50],[10,50],10,'MET'],
 }
 
@@ -760,6 +787,7 @@ histogramsHighStatsZtautau = {
 "n_jets_interval":['N jets gap'],
 "flavourJet1_basic_all":[],
 "flavourJet2_basic_all":[],
+"nLightJets_basic_all":[],
 "tau_pt":[[25.0,100.0,150.0],[25.0,25.0,50.0,350.0],25.0,'pT(#tau)'],
 "lep_pt":[[27,102,150],[27,25,48,350],20,'pT(l)'],
 "delta_phi":[[1.8],[0.3,0.7],0.3,'#Delta#phi(#tau,l)'],
@@ -806,6 +834,7 @@ histogramsLowStatsZtautau = {
 "n_jets_interval":['N jets gap'],
 "flavourJet1_basic_all":[],
 "flavourJet2_basic_all":[],
+"nLightJets_basic_all":[],
 "tau_pt":[[80.0,160.0],[20.0,40.0,170.0],20.0,'pT(#tau)'],
 "lep_pt":[[80,160],[20,40,170],20,'pT(l)'],
 "delta_phi":[[3.0],[0.3,0.2],0.3,'#Delta#phi(#tau,l)'],
@@ -850,6 +879,7 @@ histogramsLowStatsZtautau = {
 histogramsLowStatsZtauleptaulep ={
 "n_bjets":[],
 "iso":[],
+"nLightJets_basic_all":[],
 "n_jets_interval":[],
 "flavourJet1_basic_all":[],
 "flavourJet2_basic_all":[],
@@ -899,21 +929,21 @@ histogramsHighStatsZll = {
 "delta_phi":[[2.0],[0.2,0.8],0.2,'#Delta#phi(l_{1},l_{2})'],
 "lep1_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl":[[0.1],[0.2,0.199],0.2,'#eta(l_{1})'],
 "lep2_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl":[[0.1],[0.2,0.199],0.2,'#eta(l_{2})'],
-"ljet0_eta_basic_cuts_ptl":[[-3.0,3.0],[0.5,0.2,0.5],0.2,'#eta(j_{1})'],
-"ljet1_eta_basic_cuts_ptl":[[-3.0,3.0],[0.5,0.2,0.5],0.2,'#eta(j_{2})'],  
+"ljet0_eta_basic_all":[[-3.0,3.0],[0.5,0.2,0.5],0.2,'#eta(j_{1})'],
+"ljet1_eta_basic_all":[[-3.0,3.0],[0.5,0.2,0.5],0.2,'#eta(j_{2})'],  
 "lep1_pt":[[100,200,300],[20,50,100,350],20,'pT(l_{1})'],
 "lep2_pt":[[100,200,300],[20,50,100,350],20,'pT(l_{2})'],
 "ljet0_pt":[[75,460],[15,35,54],15,'pT(j_{1})'],
 "ljet1_pt":[[70,440],[10,37,56],10,'pT(j_{2})'],
-"ljet2_pt_basic_cuts_ptl":[[100],[20,50],20,'pT(j_{2})'],
+"ljet2_pt_basic_all":[[100],[20,50],20,'pT(j_{2})'],
 "pt_bal":[[0.15,0.3],[0.03,0.05,0.7],0.15,'pT balance'],
 "Z_centrality":[[0.5],[0.1,0.5],0.1,'#xi(Z)'],
 "delta_y":[[2.0,6.0],[1.0,0.5,1.0],1.0,'#Deltay_{jj}'],
 "inv_mass":[[70,110,140,300],[70,5,10,80,700],5,'m_{ll}'],
 "mass_jj":[[1500],[250,500],250,'m_{jj}'],
-"Z_pt_reco_basic_cuts_ptl":[[300,600],[20,50,200],20,'pT(Z)'],
-"vec_sum_pt_jets_basic_cuts_ptl":[[300],[20,50],20],
-"ratio_zpt_sumjetpt_basic_cuts_ptl":[[0.75,1.25],[0.25,0.1,0.25],0.1],
+"Z_pt_reco_basic_all":[[300,600],[20,50,200],20,'pT(Z)'],
+"vec_sum_pt_jets_basic_all":[[300],[20,50],20],
+"ratio_zpt_sumjetpt_basic_all":[[0.75,1.25],[0.25,0.1,0.25],0.1],
 "met_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl":[[50],[10,50],10,'MET'],
 }
 
@@ -923,8 +953,8 @@ histogramsLowStatsZll = {
 "n_jets_interval":['N jets gap'],
 "lep1_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl":[[0.1],[0.2,0.199],0.2,'#eta(l_{1})'],
 "lep2_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl":[[0.1],[0.2,0.199],0.2,'#eta(l_{2})'],
-"ljet0_eta_basic_cuts_ptl":[[-3.0,3.0],[0.5,0.2,0.5],0.2,'#eta(j_{1})'],
-"ljet1_eta_basic_cuts_ptl":[[-3.0,3.0],[0.5,0.2,0.5],0.2,'#eta(j_{2})'],
+"ljet0_eta_basic_all":[[-3.0,3.0],[0.5,0.2,0.5],0.2,'#eta(j_{1})'],
+"ljet1_eta_basic_all":[[-3.0,3.0],[0.5,0.2,0.5],0.2,'#eta(j_{2})'],
 "delta_R_leplep_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl":[[0.2],[0.2,0.199],0.2,'#DeltaR(l_{1},l_{2})'],
 "delta_R_lep1jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl":[[0.2],[0.2,0.199],0.2,'#DeltaR(l_{1},j)'],
 "delta_R_lep2jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl":[[0.2],[0.2,0.199],0.2,'#DeltaR(l_{2},j)'],
@@ -938,9 +968,9 @@ histogramsLowStatsZll = {
 "delta_y":[[2.0,6.0],[2.0,0.5,4.0],1.0,'#Deltay_{jj}'],
 "inv_mass":[[70,100,150,250],[70,10,25,50,250],10,'m_{ll}'],
 "mass_jj":[[1500,3000],[250,500,1000],250,'m_{jj}'],
-"Z_pt_reco_basic_cuts_ptl":[[300,600],[20,50,200],20,'pT(Z)'],
-"vec_sum_pt_jets_basic_cuts_ptl":[[300],[20,50],20],
-"ratio_zpt_sumjetpt_basic_cuts_ptl":[[0.75,1.25],[0.25,0.1,0.25],0.1],
+"Z_pt_reco_basic_all":[[300,600],[20,50,200],20,'pT(Z)'],
+"vec_sum_pt_jets_basic_all":[[300],[20,50],20],
+"ratio_zpt_sumjetpt_basic_all":[[0.75,1.25],[0.25,0.1,0.25],0.1],
 "met_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl":[[50],[10,50],10,'MET'],
 }
 

@@ -30,6 +30,7 @@ histogramContainer nuPtAssummetryContainer{"nuPtAssummetry","Neutrinos pT differ
 histogramContainer massLepClosestJetContainer{"massLepClosestJet","Mass of lep and closest jet",2000,0,2000,notFull};
 histogramContainer flavourJet1Container{"flavourJet1","Jet1 truth flavour",50,-25,25,notFull};
 histogramContainer flavourJet2Container{"flavourJet2","Jet2 truth flavour",50,-25,25,notFull};
+histogramContainer nLightJetsContainer{"nLightJets","Number of light jets",4,0,4,notFull};
 
 histogramContainer lep_phiNotFullContainer{"lep_phi","Lep phi angle",64,-3.2,3.2,notFull};
 histogramContainer tau_phiNotFullContainer{"tau_phi","Tau phi angle",64,-3.2,3.2,notFull};

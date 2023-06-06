@@ -82,7 +82,7 @@ void CLoop::Fill(double weight, int z_sample) {
   bool lepton_id=muon_0_id_medium;
   size_t n_ljets=n_jets-n_bjets_MV2c10_FixedCutBEff_85;
 
-  if (ql==qtau && n_muons==1 && n_taus_rnn_loose>=1 && weight > -190 && lepton_id && n_ljets>=2 && n_ljets<=3){
+  if (ql!=qtau && n_muons==1 && n_taus_rnn_loose>=1 && weight > -190 && lepton_id && n_ljets>=2 && n_ljets<=3){
     
     //angles
     double angle_l_MET=del_phi(muon_0_p4->Phi(),met_reco_p4->Phi());
@@ -267,7 +267,7 @@ void CLoop::Fill(double weight, int z_sample) {
         if(n_jets_interval==0){cuts[10]=1;}
         if(z_centrality<0.5){cuts[11]=1;} // SR -> z_centrality < 0.5
         if (omega> -0.2 && omega <1.6){cuts[12]=1;}
-        bool diLeptonMassRequirement = reco_mass > 66 && reco_mass < 116;
+        bool diLeptonMassRequirement = reco_mass >= 150;
         if (diLeptonMassRequirement){cuts[13]=1;} // Z-peak reco_mass<116 && reco_mass>66 // Higgs reco_mass >= 116 && reco_mass < 150
         if (tau_0_p4->Pt()>=25){cuts[14]=1;}
 
@@ -407,6 +407,7 @@ void CLoop::Fill(double weight, int z_sample) {
         trans_mass_lepNotFullContainer.Fill(lepmet_mass,weight,notFullCutsVector);
         vec_sum_pt_jetsNotFullContainer.Fill(jet_pt_sum,weight,notFullCutsVector);
         ratio_zpt_sumjetptNotFullContainer.Fill(ratio_zpt_sumjetpt,weight,notFullCutsVector);
+        nLightJetsContainer.Fill(n_ljets,weight,notFullCutsVector);
         
         moreCentralJetContainer.Fill(etaMoreCentral,weight,notFullCutsVector);
         lessCentralJetContainer.Fill(etaLessCentral,weight,notFullCutsVector);
@@ -475,6 +476,7 @@ void CLoop::Style(double lumFactor) {
   trans_mass_lepNotFullContainer.Write();
   vec_sum_pt_jetsNotFullContainer.Write();
   ratio_zpt_sumjetptNotFullContainer.Write();
+  nLightJetsContainer.Write();
 
   moreCentralJetContainer.Write();
   lessCentralJetContainer.Write();

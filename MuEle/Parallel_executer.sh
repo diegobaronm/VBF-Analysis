@@ -2,13 +2,13 @@
 rm MC/out/NOMINAL/*
 rm DATA/out/NOMINAL/*
 
-python3 Compiler.py DATA
+#python3 Compiler.py DATA
 
-cd DATA
+#cd DATA
 
-parallel -j $1 --progress -a Input.txt python3 RunAnalysis.py ::: no ::: NOMINAL
+#parallel -j $1 --progress -a Input.txt python3 RunAnalysis.py ::: no ::: NOMINAL
 
-cd ..
+#cd ..
 
 python3 Compiler.py MC
 
