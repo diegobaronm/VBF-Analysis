@@ -76,6 +76,10 @@ histogramContainer omegaContainer{"omega","Omega variable",60,-3.0,3.0,cutNames,
 histogramContainer reco_mass_iContainer{"reco_mass_i","Reconstructed mass in between events",1000,0,1000,cutNames,"mreco"};
 histogramContainer reco_mass_oContainer{"reco_mass_o","Reconstructed mass outside events",1000,0,1000,cutNames,"mreco"};
 histogramContainer reco_massContainer{"reco_mass_","Reconstructed mass all events",1000,0,1000,cutNames,"mreco"};
+histogramContainer lepTransMassContainer{"lepTransMass","Transverse mass lepton",500,0,500,notFull};
+histogramContainer tauTransMassContainer{"tauTransMass","Transverse mass tau",500,0,500,notFull};
+histogramContainer transMassSumContainer{"transMassSum","Transverse mass sum",1000,0,1000,notFull};
+histogramContainer transMassRatioContainer{"transMassRatio","Transverse mass ratio",200,-1.0,1.0,notFull};
 
 #endif
 

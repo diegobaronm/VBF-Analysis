@@ -35,14 +35,16 @@ def runAnalysis(key, remote):
     z_sample=0
     if ("Zee" in key) or ("Zmumu" in key) or ("Ztautau" in key):
         z_sample=1
-        if "sherpa" in key:
+        if "sherpa" in key or "Sherpa" in key:
             z_sample=2
+            if "NLO" in key:
+                z_sample=4
         if "VBF" in key:
             z_sample=0
         if "MG" in key:
             z_sample=3
-        if "NLO" in key:
-            z_sample=0
+            if "NLO" in key:
+                z_sample=5
     """
     Function to run the analysis for a given decay chain labelled 'key'
     """
