@@ -266,7 +266,7 @@ void CLoop::Fill(double weight, int z_sample) {
         if(mjj>=1000){cuts[9]=1;}
         if(n_jets_interval==0){cuts[10]=1;}
         if(z_centrality<0.5){cuts[11]=1;} // SR -> z_centrality < 0.5
-        if (omega> -0.2 && omega <1.6){cuts[12]=1;}
+        if (omega> 0.2 && omega <1.1){cuts[12]=1;} // Z-peak omega> -0.2 && omega <1.6
         bool diLeptonMassRequirement = reco_mass >= 150;
         if (diLeptonMassRequirement){cuts[13]=1;} // Z-peak reco_mass<116 && reco_mass>66 // Higgs reco_mass >= 116 && reco_mass < 150
         if (tau_0_p4->Pt()>=25){cuts[14]=1;}
@@ -320,7 +320,14 @@ void CLoop::Fill(double weight, int z_sample) {
         {
           neutrinoPtAboveT = outside_lep ? neutrino_pt>=35 : neutrino_pt>=25;
         }
-        bool testCuts = massTauCloserJet>=100 && normPtDifference >= -0.2 && met_reco_p4->Pt()<=250 && neutrinoPtAboveT && (ratio_zpt_sumjetpt>=0.8 && ratio_zpt_sumjetpt<=1.7);
+
+        // Transverse mass
+        double transverseMassLep = (*muon_0_p4 + *met_reco_p4).Mt();
+        double transverseMassTau = (*tau_0_p4 + *met_reco_p4).Mt();
+        double transverseMassSum = transverseMassTau + transverseMassLep;
+        double transverseMassRatio = (transverseMassTau - transverseMassLep)/transverseMassSum;
+
+        bool testCuts = massTauCloserJet>=90 && normPtDifference > -0.3;
         if (true){
         // FILLING HISTOGRAMS
         lep_ptContainer.Fill(muon_0_p4->Pt(),weight,cutsVector);
@@ -337,6 +344,12 @@ void CLoop::Fill(double weight, int z_sample) {
         ljet0_ptContainer.Fill(ljet_0_p4->Pt(),weight,cutsVector);
         ljet1_ptContainer.Fill(ljet_1_p4->Pt(),weight,cutsVector);
         reco_massContainer.Fill(reco_mass,weight,cutsVector);
+        
+        lepTransMassContainer.Fill(transverseMassLep,weight,notFullCutsVector);
+        tauTransMassContainer.Fill(transverseMassTau,weight,notFullCutsVector);
+        transMassSumContainer.Fill(transverseMassSum,weight,notFullCutsVector);
+        transMassRatioContainer.Fill(transverseMassRatio,weight,notFullCutsVector);
+
         if (tau_0_n_charged_tracks==1){
           rnn_score_1pContainer.Fill(tau_0_jet_rnn_score_trans,weight,cutsVector);
         }
@@ -444,6 +457,11 @@ void CLoop::Style(double lumFactor) {
   reco_mass_iContainer.Write();
   reco_massContainer.Write();
   reco_mass_oContainer.Write();
+
+  lepTransMassContainer.Write();
+  tauTransMassContainer.Write();
+  transMassSumContainer.Write();
+  transMassRatioContainer.Write();
 
   lepnu_ptContainer.Write();
   taunu_ptContainer.Write();
