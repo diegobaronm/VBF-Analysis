@@ -13,7 +13,7 @@ except:
 
 # list of directories to check for .root files
 if remote:
-  pathsToSamplesList =['/eos/user/t/twyatt/data/diego/v26-mm/',,'/eos/user/d/dbaronmo/v26-mm/']
+  pathsToSamplesList =['/eos/user/t/twyatt/data/diego/v26-mm/','/eos/user/d/dbaronmo/v26-mm/']
   samples=[]
   dirs = []
   for path in pathsToSamplesList:

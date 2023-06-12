@@ -10,5 +10,7 @@ cp ../MC/out/ttbar.root ttbar.root
 cp ../MC/out/Zmumu_Sherpa.root .
 cp ../MC/out/Zmumu_PoPy.root .
 cp ../MC/out/Zmumu_MG.root .
+cp ../MC/out/Zmumu_MGNLO.root .
+cp ../MC/out/Zmumu_SherpaNLO.root .
 hadd BG.root VV.root singletop.root Wjets.root ttbar.root Zmumu_Sherpa.root
 hadd MC.root BG.root Signal_Sherpa.root

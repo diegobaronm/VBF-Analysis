@@ -12,5 +12,7 @@ cp ../MC/out/Signal_old.root .
 cp ../MC/out/Signal_Sherpa.root .
 cp ../MC/out/Signal_PoPy.root .
 cp ../MC/out/Ztautau_PoPy.root .
+cp ../MC/out/Zee_MGNLO.root .
+cp ../MC/out/Zee_SherpaNLO.root .
 hadd BG.root VV.root singletop.root Wjets.root Ztautau_PoPy.root ttbar.root Zmumu.root Zee_Sherpa.root
 hadd MC.root BG.root Signal_Sherpa.root
