@@ -68,7 +68,7 @@ void CLoop::Fill(double weight, int z_sample) {
   bool lepton_id=elec_0_id_tight;
   size_t n_ljets=n_jets-n_bjets_MV2c10_FixedCutBEff_85;
 
-  if (ql!=qtau && n_electrons==1 && n_taus_rnn_loose>=1 && lepton_id && n_ljets>=2 && n_ljets<=3){
+  if (ql!=qtau && n_electrons==1 && n_taus_rnn_loose>=1 && lepton_id && n_ljets>=2 && n_ljets<=3 && NOMINAL_pileup_combined_weight > -1){
     //angles
     double angle_l_MET=del_phi(elec_0_p4->Phi(),met_reco_p4->Phi());
     double angle_tau_MET=del_phi(tau_0_p4->Phi(),met_reco_p4->Phi());
@@ -148,8 +148,7 @@ void CLoop::Fill(double weight, int z_sample) {
           }
         }
 
-        // LEPTON TRANSVERSE MASS AND LEP-TAU INVARIANT MASS
-        double lepmet_mass=sqrt(2*elec_0_p4->Pt()*met_reco_p4->Pt()*(1-cos(elec_0_p4->Phi()-met_reco_p4->Phi())));
+        // LEP-TAU INVARIANT MASS
         double inv_taulep=sqrt((2*elec_0_p4->Pt()*tau_0_p4->Pt())*(cosh(elec_0_p4->Eta()-tau_0_p4->Eta())-cos(elec_0_p4->Phi()-tau_0_p4->Phi())));
         // Vector sum pT of the jets
         double jet_pt_sum= (*ljet_0_p4 + *ljet_1_p4).Pt();
@@ -249,8 +248,8 @@ void CLoop::Fill(double weight, int z_sample) {
         if(mjj>=1000){cuts[9]=1;}
         if(n_jets_interval==0){cuts[10]=1;}
         if(z_centrality<0.5){cuts[11]=1;} // SR -> z_centrality < 0.5
-        if (omega> -0.2 && omega <1.6){cuts[12]=1;}
-        if(inv_taulep<=80 /*|| inv_taulep>=100*/){cuts[13]=1;}
+        if (omega> 0.2 && omega <1.1){cuts[12]=1;} // Z-peak omega> -0.2 && omega <1.6
+        if(inv_taulep<=80 || inv_taulep>=100){cuts[13]=1;}
         if (tau_0_ele_bdt_score_trans_retuned>=0.05){cuts[14]=1;}
         bool diLeptonMassRequirement = reco_mass >= 150;
         if (diLeptonMassRequirement){cuts[15]=1;} // Z-peak reco_mass<116 && reco_mass>66 // Higgs reco_mass >= 116 && reco_mass < 150
@@ -304,7 +303,14 @@ void CLoop::Fill(double weight, int z_sample) {
         {
           neutrinoPtAboveT = outside_lep ? neutrino_pt>=35 : neutrino_pt>=25;
         }
-        bool testCuts = massTauCloserJet>=100 && normPtDifference >= -0.2 && met_reco_p4->Pt()<=250 && neutrinoPtAboveT && (ratio_zpt_sumjetpt>=0.8 && ratio_zpt_sumjetpt<=1.7);
+
+        // Transverse mass
+        double transverseMassLep = sqrt(2*elec_0_p4->Pt()*met_reco_p4->Pt()*(1-cos(elec_0_p4->Phi()-met_reco_p4->Phi())));
+        double transverseMassTau = sqrt(2*tau_0_p4->Pt()*met_reco_p4->Pt()*(1-cos(tau_0_p4->Phi()-met_reco_p4->Phi())));
+        double transverseMassSum = transverseMassTau + transverseMassLep;
+        double transverseMassRatio = (transverseMassTau - transverseMassLep)/transverseMassSum;
+
+        bool testCuts = massTauCloserJet>=90 && normPtDifference > -0.3;
         if (true){
         // HISTOGRAM FILLING 
         lep_ptContainer.Fill(elec_0_p4->Pt(),weight,cutsVector);
@@ -323,6 +329,12 @@ void CLoop::Fill(double weight, int z_sample) {
         leptau_massContainer.Fill(inv_taulep,weight,cutsVector);
         eBDTContainer.Fill(tau_0_ele_bdt_score_trans_retuned,weight,cutsVector);
         reco_massContainer.Fill(reco_mass,weight,cutsVector);
+
+        lepTransMassContainer.Fill(transverseMassLep,weight,notFullCutsVector);
+        tauTransMassContainer.Fill(transverseMassTau,weight,notFullCutsVector);
+        transMassSumContainer.Fill(transverseMassSum,weight,notFullCutsVector);
+        transMassRatioContainer.Fill(transverseMassRatio,weight,notFullCutsVector);
+
         if (tau_0_n_charged_tracks==1){
           rnn_score_1pContainer.Fill(tau_0_jet_rnn_score_trans,weight,cutsVector);
         }
@@ -379,7 +391,6 @@ void CLoop::Fill(double weight, int z_sample) {
         lep_phiNotFullContainer.Fill(elec_0_p4->Phi(),weight,notFullCutsVector);
         tau_phiNotFullContainer.Fill(tau_0_p4->Phi(),weight,notFullCutsVector);
         tau_nprongsNotFullContainer.Fill(tau_0_n_charged_tracks,weight,notFullCutsVector);
-        trans_lep_massNotFullContainer.Fill(lepmet_mass,weight,notFullCutsVector);
         jet_nNotFullContainer.Fill(n_jets,weight,notFullCutsVector);
         n_fake_tracksNotFullContainer.Fill(tau_0_n_fake_tracks,weight,notFullCutsVector);
         n_core_tracksNotFullContainer.Fill(tau_0_n_core_tracks,weight,notFullCutsVector);
@@ -390,10 +401,9 @@ void CLoop::Fill(double weight, int z_sample) {
         ljet0_etaNotFullContainer.Fill(ljet_0_p4->Eta(),weight,notFullCutsVector);
         ljet1_etaNotFullContainer.Fill(ljet_1_p4->Eta(),weight,notFullCutsVector);
         ljet2_etaNotFullContainer.Fill(ljet_2_p4->Eta(),weight,notFullCutsVector);
-        trans_mass_lepNotFullContainer.Fill(lepmet_mass,weight,notFullCutsVector);
         vec_sum_pt_jetsNotFullContainer.Fill(jet_pt_sum,weight,notFullCutsVector);
         ratio_zpt_sumjetptNotFullContainer.Fill(ratio_zpt_sumjetpt,weight,notFullCutsVector);
-        nLightJetsContainer.Fill(n_ljets,weight,notFullCutsVector);
+        nLightJetsContainer.Fill(n_ljets,weight,notFullCutsVector);        
         
         moreCentralJetContainer.Fill(etaMoreCentral,weight,notFullCutsVector);
         lessCentralJetContainer.Fill(etaLessCentral,weight,notFullCutsVector);
@@ -433,6 +443,11 @@ void CLoop::Style(double lumFactor) {
   reco_massContainer.Write();
   reco_mass_oContainer.Write();
 
+  lepTransMassContainer.Write();
+  tauTransMassContainer.Write();
+  transMassSumContainer.Write();
+  transMassRatioContainer.Write();
+
   lepnu_ptContainer.Write();
   taunu_ptContainer.Write();
   sum_ptContainer.Write();
@@ -450,7 +465,6 @@ void CLoop::Style(double lumFactor) {
   lep_phiNotFullContainer.Write();
   tau_phiNotFullContainer.Write();
   tau_nprongsNotFullContainer.Write();
-  trans_lep_massNotFullContainer.Write();
   jet_nNotFullContainer.Write();
   n_fake_tracksNotFullContainer.Write();
   n_core_tracksNotFullContainer.Write();
@@ -461,7 +475,6 @@ void CLoop::Style(double lumFactor) {
   ljet0_etaNotFullContainer.Write();
   ljet1_etaNotFullContainer.Write();
   ljet2_etaNotFullContainer.Write();
-  trans_mass_lepNotFullContainer.Write();
   vec_sum_pt_jetsNotFullContainer.Write();
   ratio_zpt_sumjetptNotFullContainer.Write();
   nLightJetsContainer.Write();

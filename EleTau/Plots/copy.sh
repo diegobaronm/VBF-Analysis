@@ -11,5 +11,8 @@ cp ../MC/out/Ztautau_MG.root .
 cp ../MC/out/Higgs.root .
 cp ../MC/out/Signal_PoPy.root .
 cp ../MC/out/Signal_Sherpa.root .
-hadd BG.root VV.root singletop.root Wjets.root Zjets.root ttbar.root Ztautau_Sherpa.root Higgs.root
+cp ../MC/out/W_EWK_Sherpa.root .
+cp ../MC/out/W_EWK_PoPy.root .
+cp ../MC/out/VV_EWK.root .
+hadd BG.root VV_EWK.root W_EWK_Sherpa.root VV.root singletop.root Wjets.root Zjets.root ttbar.root Ztautau_Sherpa.root Higgs.root
 hadd MC.root BG.root Signal_Sherpa.root

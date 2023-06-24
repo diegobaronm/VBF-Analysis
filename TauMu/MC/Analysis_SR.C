@@ -167,8 +167,6 @@ void CLoop::Fill(double weight, int z_sample) {
           }
         }
 
-        // TRANSVERSE MASS LEPTON
-        double lepmet_mass=sqrt(2*muon_0_p4->Pt()*met_reco_p4->Pt()*(1-cos(muon_0_p4->Phi()-met_reco_p4->Phi())));
         // Vector sum pT of the jets
         double jet_pt_sum= (*ljet_0_p4 + *ljet_1_p4).Pt();
         // Ratio ZpT/jet_pt_sum
@@ -322,8 +320,8 @@ void CLoop::Fill(double weight, int z_sample) {
         }
 
         // Transverse mass
-        double transverseMassLep = (*muon_0_p4 + *met_reco_p4).Mt();
-        double transverseMassTau = (*tau_0_p4 + *met_reco_p4).Mt();
+        double transverseMassLep = sqrt(2*muon_0_p4->Pt()*met_reco_p4->Pt()*(1-cos(muon_0_p4->Phi()-met_reco_p4->Phi())));
+        double transverseMassTau = sqrt(2*tau_0_p4->Pt()*met_reco_p4->Pt()*(1-cos(tau_0_p4->Phi()-met_reco_p4->Phi())));
         double transverseMassSum = transverseMassTau + transverseMassLep;
         double transverseMassRatio = (transverseMassTau - transverseMassLep)/transverseMassSum;
 
@@ -406,7 +404,6 @@ void CLoop::Fill(double weight, int z_sample) {
         lep_phiNotFullContainer.Fill(muon_0_p4->Phi(),weight,notFullCutsVector);
         tau_phiNotFullContainer.Fill(tau_0_p4->Phi(),weight,notFullCutsVector);
         tau_nprongsNotFullContainer.Fill(tau_0_n_charged_tracks,weight,notFullCutsVector);
-        trans_lep_massNotFullContainer.Fill(lepmet_mass,weight,notFullCutsVector);
         jet_nNotFullContainer.Fill(n_jets,weight,notFullCutsVector);
         n_fake_tracksNotFullContainer.Fill(tau_0_n_fake_tracks,weight,notFullCutsVector);
         n_core_tracksNotFullContainer.Fill(tau_0_n_core_tracks,weight,notFullCutsVector);
@@ -417,7 +414,6 @@ void CLoop::Fill(double weight, int z_sample) {
         ljet0_etaNotFullContainer.Fill(ljet_0_p4->Eta(),weight,notFullCutsVector);
         ljet1_etaNotFullContainer.Fill(ljet_1_p4->Eta(),weight,notFullCutsVector);
         ljet2_etaNotFullContainer.Fill(ljet_2_p4->Eta(),weight,notFullCutsVector);
-        trans_mass_lepNotFullContainer.Fill(lepmet_mass,weight,notFullCutsVector);
         vec_sum_pt_jetsNotFullContainer.Fill(jet_pt_sum,weight,notFullCutsVector);
         ratio_zpt_sumjetptNotFullContainer.Fill(ratio_zpt_sumjetpt,weight,notFullCutsVector);
         nLightJetsContainer.Fill(n_ljets,weight,notFullCutsVector);
@@ -480,7 +476,6 @@ void CLoop::Style(double lumFactor) {
   lep_phiNotFullContainer.Write();
   tau_phiNotFullContainer.Write();
   tau_nprongsNotFullContainer.Write();
-  trans_lep_massNotFullContainer.Write();
   jet_nNotFullContainer.Write();
   n_fake_tracksNotFullContainer.Write();
   n_core_tracksNotFullContainer.Write();
@@ -491,7 +486,6 @@ void CLoop::Style(double lumFactor) {
   ljet0_etaNotFullContainer.Write();
   ljet1_etaNotFullContainer.Write();
   ljet2_etaNotFullContainer.Write();
-  trans_mass_lepNotFullContainer.Write();
   vec_sum_pt_jetsNotFullContainer.Write();
   ratio_zpt_sumjetptNotFullContainer.Write();
   nLightJetsContainer.Write();

@@ -86,8 +86,8 @@ def create_dict(sample_name,sample_match_strings):
 
 dict_of_samples={"Ztautau":"361108_PoPy","Zmumu":"mumu_PoPy","Zee":"Zee_PoPy","Wplustaunu":"Wplustaunu_PoPy","Wminustaunu":"Wminustaunu_PoPy",
 "Wplusmunu":"Wplusmunu_PoPy","Wminusmunu":"Wminusmunu_PoPy","Wminusenu":"Wminusenu_PoPy","Wplusenu":"Wplusenu_PoPy","ttbar":"ttb",
-"ZqqZvv":"ZqqZvv","ZqqZll":"ZqqZll","WqqZvv":"WqqZvv","WqqZll":"WqqZll","WlvZqq":"WlvZqq","llll":"llll","lllv":"lllv",
-"llvv":"llvv","lvvv":"lvvv","st_schan_top":"410644","st_schan_atop":"410645","st_wt_top":"410646","st_wt_atop":"410647",
+"ZqqZvv":"ZqqZvv","ZqqZll":"ZqqZll","WqqZvv":"WqqZvv","WqqZll":"WqqZll","WlvZqq":"WlvZqq","llll":"llll_Sh222","lllv":"lllv_Sh222",
+"llvv":"llvv_Sh222","lvvv":"lvvv_Sh222","st_schan_top":"410644","st_schan_atop":"410645","st_wt_top":"410646","st_wt_atop":"410647",
 "st_tchan_top":"410658","st_tchan_atop":"410659","Ztautau_sherpa":"364_MV_tt_Sh221","Zmumu_sherpa":"364_MV_mumu_Sh221",
 "Zee_sherpa":"364_MV_Zee_Sh221","VBF_Ztautau_old":"Ztt_Sh221_2jets","VBF_Zmumu_old":"Zmm_Sh221_2jets",
 "VBF_Zee_old":"Zee_Sh221_2jets","VBF_Ztautau":"600939","VBF_Zmumu":"600938","VBF_Zee":"600937","VBF_Ztautau_sherpa":"700360","VBF_Zmumu_sherpa":"700359",
@@ -95,7 +95,10 @@ dict_of_samples={"Ztautau":"361108_PoPy","Zmumu":"mumu_PoPy","Zee":"Zee_PoPy","W
 "WpH":"345212","WmH":"345211","ZHllbb":"345055","ZHlltautau":"346329","ggHttlm15hp20":"345121","ggHttlp15hm20":"345122",
 "VBFHttlm15hp20":"346191","VBFHttlp15hm20":"346192","Zee_MG":"MGPy8_Zee","Zmumu_MG":"MGPy8_Zmumu","Ztautau_MG":"MadPy_Ztt",
 "Zee_MGNLO":"MGPy8_Zee_3jets","Zmumu_MGNLO":"MGPy8_Zmumu_3jets","Ztautau_MGNLO":"MGPy8_Ztt_3jets",
-"Zee_SherpaNLO":"Sh_2211_Zee","Zmumu_SherpaNLO":"Sh_2211_Zmumu","Ztautau_SherpaNLO":"Sh_2211_Ztt"}
+"Zee_SherpaNLO":"Sh_2211_Zee","Zmumu_SherpaNLO":"Sh_2211_Zmumu","Ztautau_SherpaNLO":"Sh_2211_Ztt",
+"W_EWK_PoPy":"PhPy8_VBF_W","W_EWK_sherpa":"Sh_2211_W_2jets",
+"VV_EWK":"Sh_2212_jj"
+}
 
 
 for i in dict_of_samples:

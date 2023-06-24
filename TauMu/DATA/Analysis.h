@@ -35,7 +35,6 @@ histogramContainer nLightJetsContainer{"nLightJets","Number of light jets",4,0,4
 histogramContainer lep_phiNotFullContainer{"lep_phi","Lep phi angle",64,-3.2,3.2,notFull};
 histogramContainer tau_phiNotFullContainer{"tau_phi","Tau phi angle",64,-3.2,3.2,notFull};
 histogramContainer tau_nprongsNotFullContainer{"tau_nprongs","Tau prongness",4,0,4,notFull};
-histogramContainer trans_lep_massNotFullContainer{"trans_lep_mass","Lepton transverse mass",200,0,200,notFull};
 histogramContainer jet_nNotFullContainer{"jet_n","Number of jets",10,0,10,notFull};
 histogramContainer Z_pt_reco_iNotFullContainer{"Z_pt_reco_i","ZpT in between events",1000,0,1000,notFull};
 histogramContainer Z_pt_reco_oNotFullContainer{"Z_pt_reco_o","ZpT outside events",1000,0,1000,notFull};
@@ -50,7 +49,6 @@ histogramContainer ljet0_etaNotFullContainer{"ljet0_eta","Light jet0 eta",140,-7
 histogramContainer ljet1_etaNotFullContainer{"ljet1_eta","Light jet1 eta",140,-7.0,7.0,notFull};
 histogramContainer ljet2_etaNotFullContainer{"ljet2_eta","Light jet2 eta",140,-7.0,7.0,notFull};
 histogramContainer gap_jet_etaNotFullContainer{"gap_jet_eta","Gap jet eta",140,-7.0,7.0,notFull};
-histogramContainer trans_mass_lepNotFullContainer{"trans_mass_lep","Transverse mass lepton",150,0,150,notFull};
 histogramContainer vec_sum_pt_jetsNotFullContainer{"vec_sum_pt_jets","Vector sum pT tagging jets",2000,0,2000,notFull};
 histogramContainer ratio_zpt_sumjetptNotFullContainer{"ratio_zpt_sumjetpt","Ratio ZpT over vector sum pT tagging jets",500,0,5,notFull};
 histogramContainer tau_matched_1pNotFullContainer{"tau_matched_1p","Tau truth matched 1 prong",2,0,2,notFull};
@@ -76,6 +74,10 @@ histogramContainer omegaContainer{"omega","Omega variable",60,-3.0,3.0,cutNames,
 histogramContainer reco_mass_iContainer{"reco_mass_i","Reconstructed mass in between events",1000,0,1000,cutNames,"mreco"};
 histogramContainer reco_mass_oContainer{"reco_mass_o","Reconstructed mass outside events",1000,0,1000,cutNames,"mreco"};
 histogramContainer reco_massContainer{"reco_mass_","Reconstructed mass all events",1000,0,1000,cutNames,"mreco"};
+histogramContainer lepTransMassContainer{"lepTransMass","Transverse mass lepton",500,0,500,notFull};
+histogramContainer tauTransMassContainer{"tauTransMass","Transverse mass tau",500,0,500,notFull};
+histogramContainer transMassSumContainer{"transMassSum","Transverse mass sum",1000,0,1000,notFull};
+histogramContainer transMassRatioContainer{"transMassRatio","Transverse mass ratio",200,-1.0,1.0,notFull};
 
 #endif
 
