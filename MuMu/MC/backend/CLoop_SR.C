@@ -247,14 +247,14 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
             c = parametersMadGraph[region].at(2);
             mjj_w = mjj_rw_quadratic(mjj,a,b,c);
         } else if (mcSample == MC::SHERPANLO){ 
-            a = parametersMadGraph[region].at(0);
-            b = parametersMadGraph[region].at(1);
-            c = parametersMadGraph[region].at(2);
+            a = parametersSHERPANLO[region].at(0);
+            b = parametersSHERPANLO[region].at(1);
+            c = parametersSHERPANLO[region].at(2);
             mjj_w = mjj_rw_quadratic(mjj,a,b,c);
         } else if (mcSample == MC::MadGraphNLO){ 
-            a = parametersMadGraph[region].at(0);
-            b = parametersMadGraph[region].at(1);
-            c = parametersMadGraph[region].at(2);
+            a = parametersMadGraphNLO[region].at(0);
+            b = parametersMadGraphNLO[region].at(1);
+            c = parametersMadGraphNLO[region].at(2);
             mjj_w = mjj_rw_quadratic(mjj,a,b,c);
         }
         
