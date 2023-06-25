@@ -1,5 +1,6 @@
 #ifndef rewightingTools_h
 #define rewightingTools_h
+#include <map>
 
 double mjj_rw_quadratic(double mjj, double a, double b, double c){
     double rw = a*mjj*mjj+b*mjj+c;
@@ -76,17 +77,17 @@ std::map<Region,std::vector<double>> parametersMadGraph = {
 std::map<Region,std::vector<double>> parametersSHERPANLO = {
     {Region::DefaultNoRW,{0.0,0.0,1.0}},
     {Region::SR,{9.15E-08,-4.62E-04,1.21E+00}},
-    {Region::CRa,{5.81E-08,-2.63E-04,1.21E+00}},
+    {Region::CRa,{5.81E-08,-2.63E-04,1.21E+00,2750.0,0.827}},
     {Region::CRb,{1.11E-08,-1.41E-04,1.05E+00}},
     {Region::CRc,{4.96E-08,-3.38E-04,1.07E+00}}
 };
 
 std::map<Region,std::vector<double>> parametersMadGraphNLO = {
     {Region::DefaultNoRW,{0.0,0.0,1.0}},
-    {Region::SR,{1.26E-07,-2.35E-04,1.19E+00}},
+    {Region::SR,{1.26E-07,-2.35E-04,1.19E+00,2750.0,1.453}},
     {Region::CRa,{1.69E-07,-2.58E-04,9.68E-01}},
     {Region::CRb,{-3.62E-08,1.19E-04,7.73E-01}},
-    {Region::CRc,{-8.28E-08,1.61E-04,9.65E-01}}
+    {Region::CRc,{-8.28E-08,1.61E-04,9.65E-01,2250.0,0.947}}
 };
 
 #endif
