@@ -112,7 +112,7 @@ def scaleUncertainty(histogram,scaleFactor):
 ############################################################################################################
 
 # Function to plot a histogram stack of MC with data
-def stackPlot(data,signal,background,histograms,watermark,signalMu = 1.0, backgroundMu = 1.0,average=False,after_fit=False,final_state="Z#rightarrow #mu#mu"):
+def stackPlot(data,signal,background,histograms,watermark,function,signalMu = 1.0, backgroundMu = 1.0,average=False,after_fit=False,final_state="Z#rightarrow #mu#mu"):
     samples = data.copy()
     samples.update(background)
     samples.update(signal)
@@ -232,6 +232,9 @@ def stackPlot(data,signal,background,histograms,watermark,signalMu = 1.0, backgr
             e=116
         s = round(s,3)
         e = round(e,3)
+
+        s = function(s,i)
+
         samples["Data"][2].GetYaxis().SetRangeUser(0.1 ,13*samples["Data"][2].GetBinContent(samples["Data"][2].GetMaximumBin()))
         samples["Data"][2].GetXaxis().SetRangeUser(s,e)
     

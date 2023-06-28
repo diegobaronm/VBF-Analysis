@@ -248,6 +248,9 @@ void CLoop::Fill(double weight, int z_sample) {
         bool CRc = z_centrality>=0.5 && z_centrality <=1 && n_jets_interval == 0;
         bool superCR = CRa || CRb || CRc;
 
+        // ONLY SUPER CR
+        if (!superCR) return;
+
         // Cuts vector
         vector<int> cuts={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
         // CUTS
@@ -262,10 +265,10 @@ void CLoop::Fill(double weight, int z_sample) {
         if(ljet_1_p4->Pt()>=70){cuts[7]=1;}
         if(pt_bal<=0.15){cuts[8]=1;}
         if(mjj>=1000){cuts[9]=1;}
-        if(n_jets_interval==0){cuts[10]=1;}
-        if(z_centrality<0.5){cuts[11]=1;} // SR -> z_centrality < 0.5
-        if (omega> 0.2 && omega <1.1){cuts[12]=1;} // Z-peak omega> -0.2 && omega <1.6
-        bool diLeptonMassRequirement = reco_mass >= 150;
+        if(true){cuts[10]=1;}
+        if(superCR){cuts[11]=1;} // SR -> z_centrality < 0.5
+        if (omega> -0.2 && omega <1.6){cuts[12]=1;} // Z-peak omega> -0.2 && omega <1.6
+        bool diLeptonMassRequirement = reco_mass<116 && reco_mass>66;
         if (diLeptonMassRequirement){cuts[13]=1;} // Z-peak reco_mass<116 && reco_mass>66 // Higgs reco_mass >= 116 && reco_mass < 150
         if (tau_0_p4->Pt()>=25){cuts[14]=1;}
 

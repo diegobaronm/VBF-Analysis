@@ -171,18 +171,21 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
         double mjj_w = 1.0;
 
         // mjj reweighting
-        MC mcSample = static_cast<MC>(z_sample);
-        if(mcSample == MC::PowHegPythia){
-            mjj_w = 1.0;
-        } else if (mcSample == MC::SHERPA){
-            mjj_w = mjj_rw(mjj,parametersSHERPA[region]); 
-        } else if (mcSample == MC::MadGraph){ 
-            mjj_w = mjj_rw(mjj,parametersMadGraph[region]);
-        } else if (mcSample == MC::SHERPANLO){ 
-            mjj_w = mjj_rw(mjj,parametersSHERPANLO[region]);
-        } else if (mcSample == MC::MadGraphNLO){ 
-            mjj_w = mjj_rw(mjj,parametersMadGraphNLO[region]);
-        } 
+        bool reweight_mjj = false;
+        if (reweight_mjj){
+            MC mcSample = static_cast<MC>(z_sample);
+            if(mcSample == MC::PowHegPythia){
+                mjj_w = 1.0;
+            } else if (mcSample == MC::SHERPA){
+                mjj_w = mjj_rw(mjj,parametersSHERPA[region]); 
+            } else if (mcSample == MC::MadGraph){ 
+                mjj_w = mjj_rw(mjj,parametersMadGraph[region]);
+            } else if (mcSample == MC::SHERPANLO){ 
+                mjj_w = mjj_rw(mjj,parametersSHERPANLO[region]);
+            } else if (mcSample == MC::MadGraphNLO){ 
+                mjj_w = mjj_rw(mjj,parametersMadGraphNLO[region]);
+            } 
+        }
         
         // ZpT reweighting
         double z_w=1;
