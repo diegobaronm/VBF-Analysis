@@ -29,6 +29,7 @@ class CLoop {
   void Style(double lumFactor);
   void Book(double lumFactor);
   void Fill(double weight, int z_sample);
+  void FillTree(double weight, int z_sample, const std::string& sampleName, TTree* stree, TTree* btree);
 
   #include "../Analysis.h"
 

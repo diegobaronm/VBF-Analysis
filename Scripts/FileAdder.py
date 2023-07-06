@@ -4,7 +4,7 @@ import sys
 def AddRootFiles(path,destination):
     os.chdir(path)
     samples = [i for i in os.listdir('SR') if '.root' in i]
-    folders = ['SR/','CRa/','CRb/','CRc/']
+    folders = ['SR/','CR/']#'CRa/','CRb/','CRc/']
     for sample in samples:
         addCommand = 'hadd '+destination+sample
         for folder in folders:

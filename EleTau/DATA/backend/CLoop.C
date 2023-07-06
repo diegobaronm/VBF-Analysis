@@ -2,40 +2,56 @@
 
 #include "../Analysis.C"
 #include <cmath>
+#include <TMVA/Reader.h>
+#include "../../../AnalysisCommons/rewightingTools.h"
 
-double mjj_rw_quadratic(double mjj, double a, double b, double c){
-    double rw = a*mjj*mjj+b*mjj+c;
-    if (rw<0){
-        return 0.0;
-    } else {
-        return rw;
-    }
-}
+// Tree variables 
+// Signal tree
+double SigTree_mcWeight;
+double SigTree_mjj;
+double SigTree_deltaRapidity;
+double SigTree_deltaPhiLT;
+double SigTree_deltaPhiJJ;
+double SigTree_jetRNNScore;
+double SigTree_ptBalance;
+double SigTree_zCentrality;
+double SigTree_omega;
+double SigTree_reco_mass;
+double SigTree_lepNuPt;
+double SigTree_transverseMassLep;
+double SigTree_massTauLep;
+int SigTree_nLightJets;
+TLorentzVector* SigTree_tau4Vector = nullptr;
+TLorentzVector* SigTree_lep4Vector = nullptr;
+TLorentzVector* SigTree_jet04Vector = nullptr;
+TLorentzVector* SigTree_jet14Vector = nullptr;
+TLorentzVector* SigTree_met4Vector = nullptr;
+// Background tree
+double BgTree_mcWeight;
+double BgTree_mjj;
+double BgTree_deltaRapidity;
+double BgTree_deltaPhiLT;
+double BgTree_deltaPhiJJ;
+double BgTree_jetRNNScore;
+double BgTree_ptBalance;
+double BgTree_zCentrality;
+double BgTree_omega;
+double BgTree_reco_mass;
+double BgTree_lepNuPt;
+double BgTree_transverseMassLep;
+double BgTree_massTauLep;
+int BgTree_nLightJets;
+TLorentzVector* BgTree_tau4Vector = nullptr;
+TLorentzVector* BgTree_lep4Vector = nullptr;
+TLorentzVector* BgTree_jet04Vector = nullptr;
+TLorentzVector* BgTree_jet14Vector = nullptr;
+TLorentzVector* BgTree_met4Vector = nullptr;
 
-double mjj_rw_linear(double mjj, double slope, double level){
-    double rw = slope*mjj+level;
-    if (rw<0){
-        return 0.0;
-    } else {
-        return rw;
-    } 
-}
-
-enum class MC
-{
-    PowHegPythia = 1,
-    SHERPA,
-    MadGraph
-};
-
-enum class Region
-{
-    DefaultNoRW,
-    SR,
-    CRa,
-    CRb,
-    CRc
-};
+// Handling external BDT
+TMVA::Reader* reader = new TMVA::Reader();
+float bdt_mjj, bdt_drap, bdt_dphi, bdt_jetRNN, bdt_ptbal, bdt_zcen, bdt_omega, bdt_recomass, bdt_lepnupt, bdt_transmasslep, bdt_masstaul;
+float bdt_nljet;
+float bdt_taupt, bdt_leppt, bdt_jet0pt, bdt_jet1pt, bdt_met;
 
 void CLoop::Loop(double lumFactor, int z_sample, std::string key)
 {
@@ -266,6 +282,78 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
     }
     #endif
 
+    // Create output file for the events passing the selection
+    key = key+".root";
+    const char*  name_root = key.c_str();
+    // set style of histograms and write to output file
+    // open output file
+    TFile outfile(name_root,"recreate");
+    // Create TTree
+    bool saveEvents = false;
+    bool saveHistograms = true;
+    TTree* signalTree = new TTree("SIGNAL", "Signal TTree");
+    TTree* bgTree = new TTree("BG", "Background TTree");
+
+    // Setting tree branches
+    signalTree->Branch("mcWeight", &SigTree_mcWeight);
+    signalTree->Branch("mjj", &SigTree_mjj);
+    signalTree->Branch("deltaRapidity", &SigTree_deltaRapidity);
+    signalTree->Branch("deltaPhiLT",&SigTree_deltaPhiLT);
+    signalTree->Branch("deltaPhiJJ",&SigTree_deltaPhiJJ);
+    signalTree->Branch("jetRNNScore",&SigTree_jetRNNScore);
+    signalTree->Branch("ptBalance",&SigTree_ptBalance);
+    signalTree->Branch("zCentrality",&SigTree_zCentrality);
+    signalTree->Branch("omega",&SigTree_omega);
+    signalTree->Branch("reco_mass",&SigTree_reco_mass);
+    signalTree->Branch("lepNuPt",&SigTree_lepNuPt);
+    signalTree->Branch("transverseMassLep",&SigTree_transverseMassLep);
+    signalTree->Branch("massTauLep",&SigTree_massTauLep);
+    signalTree->Branch("nLightJets",&SigTree_nLightJets);
+    signalTree->Branch("tau_p4", &SigTree_tau4Vector);
+    signalTree->Branch("lep_p4", &SigTree_lep4Vector);
+    signalTree->Branch("jet0_p4", &SigTree_jet04Vector);
+    signalTree->Branch("jet1_p4", &SigTree_jet14Vector);
+    signalTree->Branch("met_p4", &SigTree_met4Vector);
+
+    bgTree->Branch("mcWeight", &BgTree_mcWeight);
+    bgTree->Branch("mjj", &BgTree_mjj);
+    bgTree->Branch("deltaRapidity", &BgTree_deltaRapidity);
+    bgTree->Branch("deltaPhiLT",&BgTree_deltaPhiLT);
+    bgTree->Branch("deltaPhiJJ",&BgTree_deltaPhiJJ);
+    bgTree->Branch("jetRNNScore",&BgTree_jetRNNScore);
+    bgTree->Branch("ptBalance",&BgTree_ptBalance);
+    bgTree->Branch("zCentrality",&BgTree_zCentrality);
+    bgTree->Branch("omega",&BgTree_omega);
+    bgTree->Branch("reco_mass",&BgTree_reco_mass);
+    bgTree->Branch("lepNuPt",&BgTree_lepNuPt);
+    bgTree->Branch("transverseMassLep",&BgTree_transverseMassLep);
+    bgTree->Branch("massTauLep",&BgTree_massTauLep);
+    bgTree->Branch("nLightJets",&BgTree_nLightJets);
+    bgTree->Branch("tau_p4", &BgTree_tau4Vector);
+    bgTree->Branch("lep_p4", &BgTree_lep4Vector);
+    bgTree->Branch("jet0_p4", &BgTree_jet04Vector);
+    bgTree->Branch("jet1_p4", &BgTree_jet14Vector);
+    bgTree->Branch("met_p4", &BgTree_met4Vector);
+
+    reader->AddVariable("mjj",&bdt_mjj);
+    reader->AddVariable("deltaRapidity",&bdt_drap);
+    reader->AddVariable("deltaPhiLT",&bdt_dphi);
+    reader->AddVariable("jetRNNScore",&bdt_jetRNN);
+    reader->AddVariable("ptBalance",&bdt_ptbal);
+    reader->AddVariable("zCentrality",&bdt_zcen);
+    reader->AddVariable("omega",&bdt_omega);
+    reader->AddVariable("reco_mass",&bdt_recomass);
+    reader->AddVariable("lepNuPt",&bdt_lepnupt);
+    reader->AddVariable("transverseMassLep",&bdt_transmasslep);
+    reader->AddVariable("massTauLep",&bdt_masstaul);
+    reader->AddVariable("nLightJets",&bdt_nljet);
+    reader->AddVariable("tau_p4->Pt()",&bdt_taupt);
+    reader->AddVariable("lep_p4->Pt()",&bdt_leppt);
+    reader->AddVariable("jet0_p4->Pt()",&bdt_jet0pt);
+    reader->AddVariable("jet1_p4->Pt()",&bdt_jet1pt);
+    reader->AddVariable("met_p4->Pt()",&bdt_met);
+    reader->BookMVA("VBF_BDT", "/Users/diegomac/Documents/HEP/MVA-Analysis/dataset/weights/Classification_BDT1.weights.xml");
+
     // loop over number of entries
     for (Long64_t jentry=0; jentry<nLoop;jentry++) {
         Long64_t ientry = LoadTree(jentry);
@@ -293,43 +381,27 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
         else if ((z_centrality>=0.5 && z_centrality<=1) && n_jets_interval==1){region = Region::CRb;}
         else if ((z_centrality>=0.5 && z_centrality<=1) && n_jets_interval==0){region = Region::CRc;}
 
-        std::map<Region,std::vector<double>> parametersSHERPA = {
-            {Region::DefaultNoRW,{0.0,0.0,1.0}},
-            {Region::SR,{1.40E-07,-7.16E-04,1.51E+00}},
-            {Region::CRa,{5.61E-08,-4.20E-04,1.25E+00}},
-            {Region::CRb,{4.12E-08,-3.64E-04,1.08E+00}},
-            {Region::CRc,{1.09E-07,-6.10E-04,1.30E+00}}
-        };
+        double mjj = sqrt(2*(ljet_0_p4->Dot(*ljet_1_p4)));
+        double mjj_w = 1.0;
 
-        std::map<Region,std::vector<double>> parametersMadGraph = {
-            {Region::DefaultNoRW,{0.0,0.0,1.0}},
-            {Region::SR,{1.30E-07,-5.29E-04,9.82E-01}},
-            {Region::CRa,{1.53E-07,-5.42E-04,1.10E+00}},
-            {Region::CRb,{6.24E-08,-2.97E-04,9.72E-01}},
-            {Region::CRc,{5.95E-08,-3.32E-04,8.78E-01}}
-        };
-
-        double mjj_w=1;
         // mjj reweighting
-        MC mcSample = static_cast<MC>(z_sample);
-        if(mcSample == MC::PowHegPythia){
-            mjj_w = 1.0;
-        } else if (mcSample == MC::SHERPA){
-            double a = parametersSHERPA[region].at(0);
-            double b = parametersSHERPA[region].at(1);
-            double c = parametersSHERPA[region].at(2);
-            double mjj=sqrt(2*(ljet_0_p4->Dot(*ljet_1_p4)));
-            mjj_w = mjj_rw_quadratic(mjj,a,b,c);
-        } else if (mcSample == MC::MadGraph){ 
-            double a = parametersMadGraph[region].at(0);
-            double b = parametersMadGraph[region].at(1);
-            double c = parametersMadGraph[region].at(2);
-            double mjj=sqrt(2*(ljet_0_p4->Dot(*ljet_1_p4)));
-            mjj_w = mjj_rw_quadratic(mjj,a,b,c);
+        bool reweight_mjj = false;
+        if (reweight_mjj){
+            MC mcSample = static_cast<MC>(z_sample);
+            if(mcSample == MC::PowHegPythia){
+                mjj_w = 1.0;
+            } else if (mcSample == MC::SHERPA){
+                mjj_w = mjj_rw(mjj,parametersSHERPA[region]); 
+            } else if (mcSample == MC::MadGraph){ 
+                mjj_w = mjj_rw(mjj,parametersMadGraph[region]);
+            } else if (mcSample == MC::SHERPANLO){ 
+                mjj_w = mjj_rw(mjj,parametersSHERPANLO[region]);
+            } else if (mcSample == MC::MadGraphNLO){ 
+                mjj_w = mjj_rw(mjj,parametersMadGraphNLO[region]);
+            } 
         }
 
         // ZpT reweighting
-
         double z_w=1;
         // SHERPA REWEIGHTING
         /*if (z_sample==2){
@@ -406,17 +478,18 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
 
         // fill histograms
         //cout << eventWeight;
-        Fill(eventWeight, z_sample);
+        if (saveHistograms) Fill(eventWeight, z_sample);
+        if (saveEvents) FillTree(eventWeight, z_sample, key, signalTree, bgTree);
         // end filling
     }
-    key = key+".root";
-    const char*  name_root = key.c_str();
-    // set style of histograms and write to output file
-    // open output file
-    TFile outfile(name_root,"recreate");
-    Style(lumFactor);
     // end style and writing
-    //
+    if (saveHistograms) Style(lumFactor);   
+    if (saveEvents) {
+        outfile.WriteObject(signalTree,"SIGNAL");
+        outfile.WriteObject(bgTree,"BACKGROUND");
+    }
+    delete signalTree;
+    delete bgTree;
     outfile.Close();
 
     clock_t endTime = clock(); // get end time

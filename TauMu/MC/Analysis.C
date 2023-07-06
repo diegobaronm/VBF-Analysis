@@ -6,6 +6,7 @@
 #include "backend/CLoop.h"
 #include <iostream>
 #include <vector>
+#include <TMVA/Reader.h>
 #include <algorithm>
 //#include <bits/stdc++.h>
 #include <utility>
@@ -73,6 +74,24 @@ void CLoop::Book(double lumFactor) {
   
 
 }
+extern TMVA::Reader* reader;
+extern float bdt_mjj;
+extern float bdt_drap;
+extern float bdt_dphi;
+extern float bdt_jetRNN;
+extern float bdt_ptbal;
+extern float bdt_zcen;
+extern float bdt_omega;
+extern float bdt_recomass;
+extern float bdt_lepnupt;
+extern float bdt_transmasslep;
+extern float bdt_masstaul;
+extern float bdt_nljet;
+extern float bdt_taupt;
+extern float bdt_leppt;
+extern float bdt_jet0pt;
+extern float bdt_jet1pt;
+extern float bdt_met;
 
 void CLoop::Fill(double weight, int z_sample) {
   double pi=TMath::Pi();
@@ -248,6 +267,9 @@ void CLoop::Fill(double weight, int z_sample) {
         bool CRc = z_centrality>=0.5 && z_centrality <=1 && n_jets_interval == 0;
         bool superCR = CRa || CRb || CRc;
 
+        // ONLY SUPER CR
+        //if (!superCR) return;
+
         // Cuts vector
         vector<int> cuts={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
         // CUTS
@@ -265,7 +287,7 @@ void CLoop::Fill(double weight, int z_sample) {
         if(n_jets_interval==0){cuts[10]=1;}
         if(z_centrality<0.5){cuts[11]=1;} // SR -> z_centrality < 0.5
         if (omega> 0.2 && omega <1.1){cuts[12]=1;} // Z-peak omega> -0.2 && omega <1.6
-        bool diLeptonMassRequirement = reco_mass >= 150;
+        bool diLeptonMassRequirement = reco_mass>150;
         if (diLeptonMassRequirement){cuts[13]=1;} // Z-peak reco_mass<116 && reco_mass>66 // Higgs reco_mass >= 116 && reco_mass < 150
         if (tau_0_p4->Pt()>=25){cuts[14]=1;}
 
@@ -310,13 +332,13 @@ void CLoop::Fill(double weight, int z_sample) {
           massLepClosestJet = sqrt(2*(muon_0_p4->Dot(*ljet_0_p4)));
         }
 
-        bool neutrinoPtAboveT = false;
+        bool neutrinoPtAboveT = true;
         if (inside) 
         {
-          neutrinoPtAboveT = (pt_tau_nu>=25 && pt_lep_nu>=35);
+          neutrinoPtAboveT = pt_lep_nu>=30;
         } else 
         {
-          neutrinoPtAboveT = outside_lep ? neutrino_pt>=35 : neutrino_pt>=25;
+          if (outside_lep) neutrinoPtAboveT = neutrino_pt>=30;
         }
 
         // Transverse mass
@@ -325,7 +347,31 @@ void CLoop::Fill(double weight, int z_sample) {
         double transverseMassSum = transverseMassTau + transverseMassLep;
         double transverseMassRatio = (transverseMassTau - transverseMassLep)/transverseMassSum;
 
-        bool testCuts = massTauCloserJet>=90 && normPtDifference > -0.3;
+        bool testCuts = neutrinoPtAboveT && transverseMassLep <= 65 && massTauCloserJet >= 90;
+
+        // Handiling external BDT
+        bdt_mjj = mjj;
+        bdt_drap = delta_y;
+        bdt_dphi = angle;
+        bdt_jetRNN = tau_0_jet_rnn_score_trans;
+        bdt_ptbal = pt_bal;
+        bdt_zcen = z_centrality;
+        bdt_omega = omega;
+        bdt_recomass = reco_mass;
+        if (inside) bdt_lepnupt = pt_lep_nu;
+        if (outside_lep) bdt_lepnupt = neutrino_pt;
+        if (outside_tau) bdt_lepnupt = 0.0;
+        bdt_transmasslep = transverseMassLep;
+        double inv_taulep=sqrt((2*muon_0_p4->Pt()*tau_0_p4->Pt())*(cosh(muon_0_p4->Eta()-tau_0_p4->Eta())-cos(muon_0_p4->Phi()-tau_0_p4->Phi())));
+        bdt_masstaul = inv_taulep;
+        bdt_nljet = (float)n_ljets;
+        bdt_taupt = tau_0_p4->Pt();
+        bdt_leppt = muon_0_p4->Pt();
+        bdt_jet0pt = ljet_0_p4->Pt();
+        bdt_jet1pt = ljet_1_p4->Pt();
+        bdt_met = met_reco_p4->Pt();
+        double VBFBDT_score = reader->EvaluateMVA("VBF_BDT");
+
         if (true){
         // FILLING HISTOGRAMS
         lep_ptContainer.Fill(muon_0_p4->Pt(),weight,cutsVector);
@@ -342,6 +388,7 @@ void CLoop::Fill(double weight, int z_sample) {
         ljet0_ptContainer.Fill(ljet_0_p4->Pt(),weight,cutsVector);
         ljet1_ptContainer.Fill(ljet_1_p4->Pt(),weight,cutsVector);
         reco_massContainer.Fill(reco_mass,weight,cutsVector);
+        bdtContainer.Fill(VBFBDT_score,weight,notFullCutsVector);
         
         lepTransMassContainer.Fill(transverseMassLep,weight,notFullCutsVector);
         tauTransMassContainer.Fill(transverseMassTau,weight,notFullCutsVector);
@@ -453,6 +500,7 @@ void CLoop::Style(double lumFactor) {
   reco_mass_iContainer.Write();
   reco_massContainer.Write();
   reco_mass_oContainer.Write();
+  bdtContainer.Write();
 
   lepTransMassContainer.Write();
   tauTransMassContainer.Write();
@@ -510,6 +558,370 @@ void CLoop::Style(double lumFactor) {
     Z_pt_truth_oNotFullContainer.Write();
     tau_matched_1pNotFullContainer.Write();
     tau_matched_3pNotFullContainer.Write();
+  }
+}
+
+// Tree variables 
+// Signal tree
+extern double SigTree_mcWeight;
+extern double SigTree_mjj;
+extern double SigTree_deltaRapidity;
+extern double SigTree_deltaPhiLT;
+extern double SigTree_deltaPhiJJ;
+extern double SigTree_jetRNNScore;
+extern double SigTree_ptBalance;
+extern double SigTree_zCentrality;
+extern double SigTree_omega;
+extern double SigTree_reco_mass;
+extern double SigTree_lepNuPt;
+extern double SigTree_transverseMassLep;
+extern double SigTree_massTauLep;
+extern int SigTree_nLightJets;
+extern TLorentzVector* SigTree_tau4Vector;
+extern TLorentzVector* SigTree_lep4Vector;
+extern TLorentzVector* SigTree_jet04Vector;
+extern TLorentzVector* SigTree_jet14Vector;
+extern TLorentzVector* SigTree_met4Vector;
+// Background tree
+extern double BgTree_mcWeight;
+extern double BgTree_mjj;
+extern double BgTree_deltaRapidity;
+extern double BgTree_deltaPhiLT;
+extern double BgTree_deltaPhiJJ;
+extern double BgTree_jetRNNScore;
+extern double BgTree_ptBalance;
+extern double BgTree_zCentrality;
+extern double BgTree_omega;
+extern double BgTree_reco_mass;
+extern double BgTree_lepNuPt;
+extern double BgTree_transverseMassLep;
+extern double BgTree_massTauLep;
+extern int BgTree_nLightJets;
+extern TLorentzVector* BgTree_tau4Vector;
+extern TLorentzVector* BgTree_lep4Vector;
+extern TLorentzVector* BgTree_jet04Vector;
+extern TLorentzVector* BgTree_jet14Vector;
+extern TLorentzVector* BgTree_met4Vector;
+
+void CLoop::FillTree(double weight, int z_sample, const std::string& sampleName, TTree* stree, TTree* btree) {
+  double pi=TMath::Pi();
+  //Charges and lepton ID
+  float ql=muon_0_q;
+  float qtau=tau_0_q;
+  bool lepton_id=muon_0_id_medium;
+  size_t n_ljets=n_jets-n_bjets_MV2c10_FixedCutBEff_85;
+
+  if (ql!=qtau && n_muons==1 && n_taus_rnn_loose>=1 && weight > -190 && lepton_id && n_ljets>=2 && n_ljets<=3){
+    
+    //angles
+    double angle_l_MET=del_phi(muon_0_p4->Phi(),met_reco_p4->Phi());
+    double angle_tau_MET=del_phi(tau_0_p4->Phi(),met_reco_p4->Phi());
+    double angle=del_phi(tau_0_p4->Phi(),muon_0_p4->Phi());
+    //trigger decision
+    bool trigger_decision= false;
+    bool trigger_match= false;
+    if (run_number>= 276262 && run_number<=284484) {
+      trigger_decision= bool(HLT_mu20_iloose_L1MU15 | HLT_mu50);
+      trigger_match=bool(muTrigMatch_0_HLT_mu20_iloose_L1MU15 | muTrigMatch_0_HLT_mu50);
+    } else {
+      trigger_decision= bool(HLT_mu26_ivarmedium | HLT_mu50);
+      trigger_match=bool(muTrigMatch_0_HLT_mu26_ivarmedium | muTrigMatch_0_HLT_mu50);
+    }
+    // INVARIANT MASS 2-JETS
+    double mjj=sqrt(2*(ljet_0_p4->Dot(*ljet_1_p4)));
+    if (mjj>=250 && trigger_decision  && trigger_match  && abs(muon_0_p4->Eta())>=0.1 && abs(tau_0_p4->Eta())>=0.1) {
+
+      //topology
+      bool inside= abs(angle-(angle_l_MET+angle_tau_MET))< 0.00001; //ANGLE BEING USED pi/2 AND 2.0943
+      bool outside_lep= angle_l_MET<angle_tau_MET && abs(angle-(angle_l_MET+angle_tau_MET)) > 0.00001 && cos(angle_l_MET)>0;
+      bool outside_tau= angle_l_MET>angle_tau_MET && abs(angle-(angle_l_MET+angle_tau_MET)) > 0.00001 && cos(angle_tau_MET)>0;
+      bool signal_events = inside || outside_lep || outside_tau;
+
+      if (signal_events){
+        // RECO mass AND neutrino momentum
+        double cot_lep=1.0/tan(muon_0_p4->Phi());
+        double cot_tau=1.0/tan(tau_0_p4->Phi());
+        double pt_tau_nu=(met_reco_p4->Pt()*cos(met_reco_p4->Phi())-met_reco_p4->Pt()*sin(met_reco_p4->Phi())*cot_lep)/(cos(tau_0_p4->Phi())-sin(tau_0_p4->Phi())*cot_lep);
+        double pt_lep_nu=(met_reco_p4->Pt()*cos(met_reco_p4->Phi())-met_reco_p4->Pt()*sin(met_reco_p4->Phi())*cot_tau)/(cos(muon_0_p4->Phi())-sin(muon_0_p4->Phi())*cot_tau);
+
+        double reco_mass{};
+        if(inside){
+            reco_mass=sqrt(2*muon_0_p4->Pt()*tau_0_p4->Pt()*(cosh(muon_0_p4->Eta()-tau_0_p4->Eta())-cos(muon_0_p4->Phi()-tau_0_p4->Phi()))+2*muon_0_p4->Pt()*pt_tau_nu*(cosh(muon_0_p4->Eta()-tau_0_p4->Eta())-cos(muon_0_p4->Phi()-tau_0_p4->Phi()))+2*tau_0_p4->Pt()*pt_lep_nu*(cosh(tau_0_p4->Eta()-muon_0_p4->Eta())-cos(tau_0_p4->Phi()-muon_0_p4->Phi()))+2*pt_lep_nu*pt_tau_nu*(cosh(muon_0_p4->Eta()-tau_0_p4->Eta())-cos(muon_0_p4->Phi()-tau_0_p4->Phi())));
+        }
+
+        double neutrino_pt=0;
+        if (outside_lep) {
+          neutrino_pt=met_reco_p4->Pt()*cos(angle_l_MET);
+          reco_mass = 5+sqrt(2*(muon_0_p4->Pt()*tau_0_p4->Pt()*(cosh(muon_0_p4->Eta()-tau_0_p4->Eta())-cos(muon_0_p4->Phi()-tau_0_p4->Phi()))+tau_0_p4->Pt()*neutrino_pt*(cosh(muon_0_p4->Eta()-tau_0_p4->Eta())-cos(muon_0_p4->Phi()-tau_0_p4->Phi()))));
+        }
+        if (outside_tau) {
+          neutrino_pt=met_reco_p4->Pt()*cos(angle_tau_MET);
+          reco_mass = 5+sqrt(2*(muon_0_p4->Pt()*tau_0_p4->Pt()*(cosh(muon_0_p4->Eta()-tau_0_p4->Eta())-cos(muon_0_p4->Phi()-tau_0_p4->Phi()))+muon_0_p4->Pt()*neutrino_pt*(cosh(muon_0_p4->Eta()-tau_0_p4->Eta())-cos(muon_0_p4->Phi()-tau_0_p4->Phi()))));
+        }
+
+        // ZpT calculations
+        double Z_pt_x=0;
+        double Z_pt_y=0;
+        double Z_pt=0;
+        double truth_z_pt=0.0;
+
+        // truth ZpT definition
+        if (z_sample==1 || z_sample==2)
+        {
+          truth_z_pt=truth_Z_p4->Pt()/1000;
+        }
+
+        if (inside) {
+          Z_pt_x=tau_0_p4->Pt()*cos(tau_0_p4->Phi())+muon_0_p4->Pt()*cos(muon_0_p4->Phi())+pt_tau_nu*cos(tau_0_p4->Phi())+pt_lep_nu*cos(muon_0_p4->Phi());
+          Z_pt_y=tau_0_p4->Pt()*sin(tau_0_p4->Phi())+muon_0_p4->Pt()*sin(muon_0_p4->Phi())+pt_tau_nu*sin(tau_0_p4->Phi())+pt_lep_nu*sin(muon_0_p4->Phi());
+          Z_pt=sqrt(Z_pt_x*Z_pt_x+Z_pt_y*Z_pt_y);
+          if (z_sample==0){
+            truth_z_pt=Z_pt;
+          }
+        }
+        if (outside_tau) {
+          Z_pt_x=tau_0_p4->Pt()*cos(tau_0_p4->Phi())+muon_0_p4->Pt()*cos(muon_0_p4->Phi())+neutrino_pt*cos(tau_0_p4->Phi());
+          Z_pt_y=tau_0_p4->Pt()*sin(tau_0_p4->Phi())+muon_0_p4->Pt()*sin(muon_0_p4->Phi())+neutrino_pt*sin(tau_0_p4->Phi());
+          Z_pt=sqrt(Z_pt_x*Z_pt_x+Z_pt_y*Z_pt_y);
+          if (z_sample==0){
+            truth_z_pt=Z_pt;
+          }
+        }
+        if (outside_lep) {
+          Z_pt_x=tau_0_p4->Pt()*cos(tau_0_p4->Phi())+muon_0_p4->Pt()*cos(muon_0_p4->Phi())+neutrino_pt*cos(muon_0_p4->Phi());
+          Z_pt_y=tau_0_p4->Pt()*sin(tau_0_p4->Phi())+muon_0_p4->Pt()*sin(muon_0_p4->Phi())+neutrino_pt*sin(muon_0_p4->Phi());
+          Z_pt=sqrt(Z_pt_x*Z_pt_x+Z_pt_y*Z_pt_y);
+          if (z_sample==0){
+            truth_z_pt=Z_pt;
+          }
+        }
+
+        // Vector sum pT of the jets
+        double jet_pt_sum= (*ljet_0_p4 + *ljet_1_p4).Pt();
+        // Ratio ZpT/jet_pt_sum
+        double ratio_zpt_sumjetpt = Z_pt/jet_pt_sum;
+
+        // OMEGA VARIABLE DEFINITION
+        double omega=0.0;
+        if (inside && (angle_l_MET<angle_tau_MET)) {
+          omega=1.0-(angle_l_MET)/(angle);
+        }
+        if (inside && (angle_l_MET>angle_tau_MET)) {
+          omega=(angle_tau_MET)/(angle);
+        }
+        if (outside_lep) {
+          omega=1.0+(angle_l_MET)/(angle);
+        }
+        if (outside_tau) {
+          omega=-1.0*(angle_tau_MET)/(angle);
+        }
+
+        // VBF variables
+        // DELTA RAPIDITY 2-JETS
+        double delta_y = abs(ljet_0_p4->Rapidity()-ljet_1_p4->Rapidity());
+        // NUMBER OF JETS INTERVAL
+        int n_jets_interval{};
+        if(n_ljets>2){
+          n_jets_interval=n_jets_interval+is_inside_jets(ljet_2_p4,ljet_0_p4,ljet_1_p4);
+        }
+        //PT BALANCE
+        double pt_bal{0};
+        if(inside){
+          TLorentzVector nu_tau_p4(pt_tau_nu*cos(tau_0_p4->Phi()),pt_tau_nu*sin(tau_0_p4->Phi()),0,0);
+          TLorentzVector nu_lep_p4(pt_lep_nu*cos(muon_0_p4->Phi()),pt_lep_nu*sin(muon_0_p4->Phi()),0,0);
+          if (n_jets_interval==0){
+            pt_bal=(((*tau_0_p4)+(*muon_0_p4)+(*ljet_0_p4)+(*ljet_1_p4)+nu_tau_p4+nu_lep_p4)).Pt()/(tau_0_p4->Pt()+muon_0_p4->Pt()+ljet_0_p4->Pt()+ljet_1_p4->Pt()+nu_tau_p4.Pt()+nu_lep_p4.Pt());
+          } else {
+            pt_bal=(((*tau_0_p4)+(*muon_0_p4)+(*ljet_0_p4)+(*ljet_1_p4)+(*ljet_2_p4)+nu_tau_p4+nu_lep_p4)).Pt()/(tau_0_p4->Pt()+muon_0_p4->Pt()+ljet_0_p4->Pt()+ljet_1_p4->Pt()+ljet_2_p4->Pt()+nu_tau_p4.Pt()+nu_lep_p4.Pt());
+          }
+
+
+        } else {
+          if (outside_lep){
+            TLorentzVector nu_p4(pt_lep_nu*cos(muon_0_p4->Phi()),pt_lep_nu*sin(muon_0_p4->Phi()),0,0);
+            if (n_jets_interval==0){
+              pt_bal=(((*tau_0_p4)+(*muon_0_p4)+(*ljet_0_p4)+(*ljet_1_p4)+nu_p4)).Pt()/(tau_0_p4->Pt()+muon_0_p4->Pt()+ljet_0_p4->Pt()+ljet_1_p4->Pt()+nu_p4.Pt());
+            } else {
+              pt_bal=(((*tau_0_p4)+(*muon_0_p4)+(*ljet_0_p4)+(*ljet_1_p4)+(*ljet_2_p4)+nu_p4)).Pt()/(tau_0_p4->Pt()+muon_0_p4->Pt()+ljet_0_p4->Pt()+ljet_1_p4->Pt()+ljet_2_p4->Pt()+nu_p4.Pt());
+            }
+          } else{
+            if(outside_tau){
+              TLorentzVector nu_p4(pt_tau_nu*cos(tau_0_p4->Phi()),pt_tau_nu*sin(tau_0_p4->Phi()),0,0);
+              if (n_jets_interval==0){
+                pt_bal=(((*tau_0_p4)+(*muon_0_p4)+(*ljet_0_p4)+(*ljet_1_p4)+nu_p4)).Pt()/(tau_0_p4->Pt()+muon_0_p4->Pt()+ljet_0_p4->Pt()+ljet_1_p4->Pt()+nu_p4.Pt());
+              } else {
+                pt_bal=(((*tau_0_p4)+(*muon_0_p4)+(*ljet_0_p4)+(*ljet_1_p4)+(*ljet_2_p4)+nu_p4)).Pt()/(tau_0_p4->Pt()+muon_0_p4->Pt()+ljet_0_p4->Pt()+ljet_1_p4->Pt()+ljet_2_p4->Pt()+nu_p4.Pt());
+              }
+            }
+          }
+        }
+        // Z BOSON CENTRALITY
+        double lepton_xi=((*tau_0_p4)+(*muon_0_p4)).Rapidity();
+        double dijet_xi=ljet_0_p4->Rapidity()+ljet_1_p4->Rapidity();
+        double z_centrality=abs(lepton_xi-0.5*dijet_xi)/delta_y;
+
+        //pT gap jet
+        double pt_gap_jet{};
+        if (is_inside_jets(ljet_2_p4,ljet_0_p4,ljet_1_p4)){pt_gap_jet=ljet_2_p4->Pt();}
+
+        // Minimum DeltaR between lepton and jets
+        std::vector<UInt_t> is_jet_present{ljet_0,ljet_1,ljet_2};
+        std::vector<TLorentzVector*> jet_container{ljet_0_p4,ljet_1_p4,ljet_2_p4};
+
+        double min_dR_tau = min_deltaR(tau_0_p4,is_jet_present,jet_container);
+        double min_dR_lep = min_deltaR(muon_0_p4,is_jet_present,jet_container);
+
+        // Definition of the superCR = CR(a+b+c)
+        bool CRa = z_centrality < 0.5 && n_jets_interval == 1;
+        bool CRb = z_centrality>=0.5 && z_centrality <=1 && n_jets_interval == 1;
+        bool CRc = z_centrality>=0.5 && z_centrality <=1 && n_jets_interval == 0;
+        bool superCR = CRa || CRb || CRc;
+
+        // ONLY SUPER CR
+        //if (!superCR) return;
+
+        // Cuts vector
+        vector<int> cuts={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+        // CUTS
+        if (angle<=3.2){cuts[0]=1;}
+        if(delta_y>=2.0){cuts[1]=1;}
+        if(n_bjets_MV2c10_FixedCutBEff_85==0){cuts[2]=1;}
+        if(muon_0_iso_TightTrackOnly_FixedRad==1){cuts[3]=1;}
+        if(tau_0_n_charged_tracks==1 && tau_0_jet_rnn_score_trans >= 0.25){cuts[4]=1;}
+        if(tau_0_n_charged_tracks==3 && tau_0_jet_rnn_score_trans >= 0.40){cuts[4]=1;}
+        if(muon_0_p4->Pt()>=27){cuts[5]=1;}
+        if(ljet_0_p4->Pt()>=75){cuts[6]=1;}
+        if(ljet_1_p4->Pt()>=70){cuts[7]=1;}
+        if(pt_bal<=0.15){cuts[8]=1;}
+        if(mjj>=1000){cuts[9]=1;}
+        if(n_jets_interval==0){cuts[10]=1;}
+        if(z_centrality<0.5){cuts[11]=1;} // SR -> z_centrality < 0.5
+        if (omega> 0.2 && omega <1.1){cuts[12]=1;} // Z-peak omega> -0.2 && omega <1.6
+        bool diLeptonMassRequirement = reco_mass>150;
+        if (diLeptonMassRequirement){cuts[13]=1;} // Z-peak reco_mass<116 && reco_mass>66 // Higgs reco_mass >= 116 && reco_mass < 150
+        if (tau_0_p4->Pt()>=25){cuts[14]=1;}
+
+        // SUM OF THE VECTOR STORING IF CUTS PASS OR NOT
+        size_t sum{0};
+        for(auto &j : cuts){sum=sum+j;}
+
+        std::vector<int> cutsVector{1};
+        cutsVector.insert(cutsVector.end(),cuts.begin(),cuts.end());
+        bool passedAllCuts = (sum+1==cutsVector.size());
+        std::vector<int> notFullCutsVector{1,static_cast<int>(passedAllCuts)};
+
+        double etaMoreCentral = abs(ljet_0_p4->Eta())>=abs(ljet_1_p4->Eta()) ? ljet_1_p4->Eta() : ljet_0_p4->Eta();
+        double etaLessCentral = abs(ljet_0_p4->Eta())<abs(ljet_1_p4->Eta()) ? ljet_1_p4->Eta() : ljet_0_p4->Eta();
+        double normPtDifference = (tau_0_p4->Pt()-muon_0_p4->Pt())/(tau_0_p4->Pt()+muon_0_p4->Pt());
+        double anglejj = del_phi(ljet_0_p4->Phi(),ljet_1_p4->Phi());
+        double metToDilepnuRatio = 0.0;
+        double metToDilepRatio = met_reco_p4->Pt()/(tau_0_p4->Pt()+muon_0_p4->Pt());
+        if (inside)
+        {
+          metToDilepnuRatio = met_reco_p4->Pt()/(tau_0_p4->Pt()+pt_tau_nu+muon_0_p4->Pt()+pt_lep_nu);
+        }
+        if (outside_lep || outside_tau)
+        {
+          metToDilepnuRatio = met_reco_p4->Pt()/(tau_0_p4->Pt()+muon_0_p4->Pt()+neutrino_pt);
+        }
+
+        double massTauCloserJet{0.0};
+        double massLepClosestJet{0.0};
+        double massTauFurthestJet{0.0};
+        bool j0CloserToTau = tau_0_p4->DeltaR(*ljet_0_p4) <= tau_0_p4->DeltaR(*ljet_1_p4);
+        if (j0CloserToTau)
+        {
+          massTauCloserJet = sqrt(2*(tau_0_p4->Dot(*ljet_0_p4)));
+          massTauFurthestJet = sqrt(2*(tau_0_p4->Dot(*ljet_1_p4)));
+          massLepClosestJet = sqrt(2*(muon_0_p4->Dot(*ljet_1_p4)));
+        }
+        else
+        {
+          massTauCloserJet = sqrt(2*(tau_0_p4->Dot(*ljet_1_p4)));
+          massTauFurthestJet = sqrt(2*(tau_0_p4->Dot(*ljet_0_p4)));
+          massLepClosestJet = sqrt(2*(muon_0_p4->Dot(*ljet_0_p4)));
+        }
+
+        bool neutrinoPtAboveT = true;
+        if (inside) 
+        {
+          neutrinoPtAboveT = pt_lep_nu>=30;
+        } else 
+        {
+          if (outside_lep) neutrinoPtAboveT = neutrino_pt>=30;
+        }
+
+        // Transverse mass
+        double transverseMassLep = sqrt(2*muon_0_p4->Pt()*met_reco_p4->Pt()*(1-cos(muon_0_p4->Phi()-met_reco_p4->Phi())));
+        double transverseMassTau = sqrt(2*tau_0_p4->Pt()*met_reco_p4->Pt()*(1-cos(tau_0_p4->Phi()-met_reco_p4->Phi())));
+        double transverseMassSum = transverseMassTau + transverseMassLep;
+        double transverseMassRatio = (transverseMassTau - transverseMassLep)/transverseMassSum;
+
+        bool testCuts = neutrinoPtAboveT && transverseMassLep <= 65 && massTauCloserJet >= 90;
+        if (passedAllCuts){
+        // FILLING TTree
+        // Check if sample is VBF Ztautau
+        // LEP-TAU INVARIANT MASS
+        double inv_taulep=sqrt((2*muon_0_p4->Pt()*tau_0_p4->Pt())*(cosh(muon_0_p4->Eta()-tau_0_p4->Eta())-cos(muon_0_p4->Phi()-tau_0_p4->Phi())));
+        if (sampleName.find("VBF") != std::string::npos && sampleName.find("Ztautau") != std::string::npos && sampleName.find("old") == std::string::npos) {
+          SigTree_mcWeight = weight;
+          SigTree_mjj = mjj;
+          SigTree_deltaRapidity = delta_y;
+          SigTree_tau4Vector = tau_0_p4;
+          SigTree_mjj = mjj;
+          SigTree_deltaRapidity = delta_y;
+          SigTree_deltaPhiLT = angle;
+          SigTree_deltaPhiJJ = anglejj;
+          SigTree_jetRNNScore = tau_0_jet_rnn_score_trans;
+          SigTree_ptBalance = pt_bal;
+          SigTree_zCentrality = z_centrality;
+          SigTree_omega = omega;
+          SigTree_reco_mass = reco_mass;
+          if (inside) SigTree_lepNuPt = pt_lep_nu;
+          if (outside_lep) SigTree_lepNuPt = neutrino_pt;
+          if (outside_tau) SigTree_lepNuPt = 0.0;
+          SigTree_transverseMassLep = transverseMassLep;
+          SigTree_massTauLep = inv_taulep;
+          SigTree_nLightJets = n_ljets;
+          SigTree_tau4Vector = tau_0_p4;
+          SigTree_lep4Vector = muon_0_p4;
+          SigTree_jet04Vector = ljet_0_p4;
+          SigTree_jet14Vector = ljet_1_p4;
+          SigTree_met4Vector = met_reco_p4;
+          // Fill tree
+          stree->Fill();
+        } else {
+          std::cout << "Filling BG tree" << std::endl;
+          BgTree_mcWeight = weight;
+          BgTree_mjj = mjj;
+          BgTree_deltaRapidity = delta_y;
+          BgTree_tau4Vector = tau_0_p4;
+          BgTree_mjj = mjj;
+          BgTree_deltaRapidity = delta_y;
+          BgTree_deltaPhiLT = angle;
+          BgTree_deltaPhiJJ = anglejj;
+          BgTree_jetRNNScore = tau_0_jet_rnn_score_trans;
+          BgTree_ptBalance = pt_bal;
+          BgTree_zCentrality = z_centrality;
+          BgTree_omega = omega;
+          BgTree_reco_mass = reco_mass;
+          if (inside) BgTree_lepNuPt = pt_lep_nu;
+          if (outside_lep) BgTree_lepNuPt = neutrino_pt;
+          if (outside_tau) BgTree_lepNuPt = 0.0;
+          BgTree_transverseMassLep = transverseMassLep;
+          BgTree_massTauLep = inv_taulep;
+          BgTree_nLightJets = n_ljets;
+          BgTree_tau4Vector = tau_0_p4;
+          BgTree_lep4Vector = muon_0_p4;
+          BgTree_jet04Vector = ljet_0_p4;
+          BgTree_jet14Vector = ljet_1_p4;
+          BgTree_met4Vector = met_reco_p4;
+          // Fill tree
+          btree->Fill();
+        }
+        }
+      }
+    }
   }
 }
 

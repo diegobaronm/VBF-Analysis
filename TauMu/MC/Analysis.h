@@ -78,6 +78,7 @@ histogramContainer lepTransMassContainer{"lepTransMass","Transverse mass lepton"
 histogramContainer tauTransMassContainer{"tauTransMass","Transverse mass tau",500,0,500,notFull};
 histogramContainer transMassSumContainer{"transMassSum","Transverse mass sum",1000,0,1000,notFull};
 histogramContainer transMassRatioContainer{"transMassRatio","Transverse mass ratio",200,-1.0,1.0,notFull};
+histogramContainer bdtContainer{"bdtScore","BDT Score",200,-1,1,notFull};
 
 #endif
 
