@@ -101,7 +101,7 @@ void CLoop::Fill(double weight, int z_sample) {
   bool lepton_id=muon_0_id_medium;
   size_t n_ljets=n_jets-n_bjets_MV2c10_FixedCutBEff_85;
 
-  if (ql!=qtau && n_muons==1 && n_taus_rnn_loose>=1 && weight > -190 && lepton_id && n_ljets>=2 && n_ljets<=3){
+  if (ql==qtau && n_muons==1 && n_taus_rnn_loose>=1 && weight > -190 && lepton_id && n_ljets>=2 && n_ljets<=3){
     
     //angles
     double angle_l_MET=del_phi(muon_0_p4->Phi(),met_reco_p4->Phi());
@@ -261,45 +261,7 @@ void CLoop::Fill(double weight, int z_sample) {
         double min_dR_tau = min_deltaR(tau_0_p4,is_jet_present,jet_container);
         double min_dR_lep = min_deltaR(muon_0_p4,is_jet_present,jet_container);
 
-        // Definition of the superCR = CR(a+b+c)
-        bool CRa = z_centrality < 0.5 && n_jets_interval == 1;
-        bool CRb = z_centrality>=0.5 && z_centrality <=1 && n_jets_interval == 1;
-        bool CRc = z_centrality>=0.5 && z_centrality <=1 && n_jets_interval == 0;
-        bool superCR = CRa || CRb || CRc;
-
-        // ONLY SUPER CR
-        //if (!superCR) return;
-
-        // Cuts vector
-        vector<int> cuts={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-        // CUTS
-        if (angle<=3.2){cuts[0]=1;}
-        if(delta_y>=2.0){cuts[1]=1;}
-        if(n_bjets_MV2c10_FixedCutBEff_85==0){cuts[2]=1;}
-        if(muon_0_iso_TightTrackOnly_FixedRad==1){cuts[3]=1;}
-        if(tau_0_n_charged_tracks==1 && tau_0_jet_rnn_score_trans >= 0.25){cuts[4]=1;}
-        if(tau_0_n_charged_tracks==3 && tau_0_jet_rnn_score_trans >= 0.40){cuts[4]=1;}
-        if(muon_0_p4->Pt()>=27){cuts[5]=1;}
-        if(ljet_0_p4->Pt()>=75){cuts[6]=1;}
-        if(ljet_1_p4->Pt()>=70){cuts[7]=1;}
-        if(pt_bal<=0.15){cuts[8]=1;}
-        if(mjj>=1000){cuts[9]=1;}
-        if(n_jets_interval==0){cuts[10]=1;}
-        if(z_centrality<0.5){cuts[11]=1;} // SR -> z_centrality < 0.5
-        if (omega> 0.2 && omega <1.1){cuts[12]=1;} // Z-peak omega> -0.2 && omega <1.6
-        bool diLeptonMassRequirement = reco_mass>150;
-        if (diLeptonMassRequirement){cuts[13]=1;} // Z-peak reco_mass<116 && reco_mass>66 // Higgs reco_mass >= 116 && reco_mass < 150
-        if (tau_0_p4->Pt()>=25){cuts[14]=1;}
-
-        // SUM OF THE VECTOR STORING IF CUTS PASS OR NOT
-        size_t sum{0};
-        for(auto &j : cuts){sum=sum+j;}
-
-        std::vector<int> cutsVector{1};
-        cutsVector.insert(cutsVector.end(),cuts.begin(),cuts.end());
-        bool passedAllCuts = (sum+1==cutsVector.size());
-        std::vector<int> notFullCutsVector{1,static_cast<int>(passedAllCuts)};
-
+        // More kinematic variables
         double etaMoreCentral = abs(ljet_0_p4->Eta())>=abs(ljet_1_p4->Eta()) ? ljet_1_p4->Eta() : ljet_0_p4->Eta();
         double etaLessCentral = abs(ljet_0_p4->Eta())<abs(ljet_1_p4->Eta()) ? ljet_1_p4->Eta() : ljet_0_p4->Eta();
         double normPtDifference = (tau_0_p4->Pt()-muon_0_p4->Pt())/(tau_0_p4->Pt()+muon_0_p4->Pt());
@@ -347,8 +309,6 @@ void CLoop::Fill(double weight, int z_sample) {
         double transverseMassSum = transverseMassTau + transverseMassLep;
         double transverseMassRatio = (transverseMassTau - transverseMassLep)/transverseMassSum;
 
-        bool testCuts = neutrinoPtAboveT && transverseMassLep <= 65 && massTauCloserJet >= 90;
-
         // Handiling external BDT
         bdt_mjj = mjj;
         bdt_drap = delta_y;
@@ -372,6 +332,51 @@ void CLoop::Fill(double weight, int z_sample) {
         bdt_met = met_reco_p4->Pt();
         double VBFBDT_score = reader->EvaluateMVA("VBF_BDT");
 
+
+        // Definition of the superCR = CR(a+b+c)
+        bool CRa = z_centrality < 0.5 && n_jets_interval == 1;
+        bool CRb = z_centrality>=0.5 && z_centrality <=1 && n_jets_interval == 1;
+        bool CRc = z_centrality>=0.5 && z_centrality <=1 && n_jets_interval == 0;
+        bool superCR = CRa || CRb || CRc;
+
+        // ONLY SUPER CR
+        //if (!superCR) return;
+
+        // Cuts vector
+        vector<int> cuts={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+        // CUTS
+        if (angle<=3.2){cuts[0]=1;}
+        if(delta_y>=2.0){cuts[1]=1;}
+        if(n_bjets_MV2c10_FixedCutBEff_85==0){cuts[2]=1;}
+        if(muon_0_iso_TightTrackOnly_FixedRad==1){cuts[3]=1;}
+        if(tau_0_n_charged_tracks==1 && tau_0_jet_rnn_score_trans >= 0.25){cuts[4]=1;}
+        if(tau_0_n_charged_tracks==3 && tau_0_jet_rnn_score_trans >= 0.40){cuts[4]=1;}
+        if(muon_0_p4->Pt()>=27){cuts[5]=1;}
+        if(ljet_0_p4->Pt()>=75){cuts[6]=1;}
+        if(ljet_1_p4->Pt()>=70){cuts[7]=1;}
+        if(pt_bal<=0.15){cuts[8]=1;}
+        if(mjj>=750){cuts[9]=1;}
+        if(n_jets_interval==0){cuts[10]=1;}
+        if(z_centrality<0.5){cuts[11]=1;} // SR -> z_centrality < 0.5
+        if (omega> -0.2 && omega <1.4){cuts[12]=1;} // Z-peak omega> -0.2 && omega <1.6
+        bool diLeptonMassRequirement = reco_mass>150;
+        if (diLeptonMassRequirement){cuts[13]=1;} // Z-peak reco_mass<116 && reco_mass>66 // Higgs reco_mass >= 116 && reco_mass < 150
+        if (tau_0_p4->Pt()>=25){cuts[14]=1;}
+        if (VBFBDT_score>0.3){cuts[15]=1;}
+        if (neutrinoPtAboveT){cuts[16]=1;}
+        if (normPtDifference > -0.3){cuts[17]=1;}
+
+        // SUM OF THE VECTOR STORING IF CUTS PASS OR NOT
+        size_t sum{0};
+        for(auto &j : cuts){sum=sum+j;}
+
+        std::vector<int> cutsVector{1};
+        cutsVector.insert(cutsVector.end(),cuts.begin(),cuts.end());
+        bool passedAllCuts = (sum+1==cutsVector.size());
+        std::vector<int> notFullCutsVector{1,static_cast<int>(passedAllCuts)};
+        
+        bool testCuts = neutrinoPtAboveT && transverseMassLep <= 65 && massTauCloserJet >= 90;
+        
         if (true){
         // FILLING HISTOGRAMS
         lep_ptContainer.Fill(muon_0_p4->Pt(),weight,cutsVector);
@@ -388,7 +393,8 @@ void CLoop::Fill(double weight, int z_sample) {
         ljet0_ptContainer.Fill(ljet_0_p4->Pt(),weight,cutsVector);
         ljet1_ptContainer.Fill(ljet_1_p4->Pt(),weight,cutsVector);
         reco_massContainer.Fill(reco_mass,weight,cutsVector);
-        bdtContainer.Fill(VBFBDT_score,weight,notFullCutsVector);
+        bdtContainer.Fill(VBFBDT_score,weight,cutsVector);
+        ptsymContainer.Fill(normPtDifference,weight,cutsVector);
         
         lepTransMassContainer.Fill(transverseMassLep,weight,notFullCutsVector);
         tauTransMassContainer.Fill(transverseMassTau,weight,notFullCutsVector);
@@ -402,12 +408,14 @@ void CLoop::Fill(double weight, int z_sample) {
           rnn_score_3pContainer.Fill(tau_0_jet_rnn_score_trans,weight,cutsVector);
         }
         if (inside) {
+          lepnuptContainer.Fill(pt_lep_nu,weight,cutsVector);
           reco_mass_iContainer.Fill(reco_mass,weight,cutsVector);
           nuLepPtContainer.Fill(pt_lep_nu,weight,notFullCutsVector);
           nuTauPtContainer.Fill(pt_tau_nu,weight,notFullCutsVector);
           nuPtAssummetryContainer.Fill((pt_lep_nu-pt_tau_nu)/(pt_lep_nu+pt_tau_nu),weight,notFullCutsVector);
         }
         if (outside_lep) {
+          lepnuptContainer.Fill(neutrino_pt,weight,cutsVector);
           reco_mass_oContainer.Fill(reco_mass,weight,cutsVector);
           nuLepPtContainer.Fill(neutrino_pt,weight,notFullCutsVector);
           nuPtAssummetryContainer.Fill(1.0,weight,notFullCutsVector);
@@ -501,6 +509,8 @@ void CLoop::Style(double lumFactor) {
   reco_massContainer.Write();
   reco_mass_oContainer.Write();
   bdtContainer.Write();
+  lepnu_ptContainer.Write();
+  ptsymContainer.Write();
 
   lepTransMassContainer.Write();
   tauTransMassContainer.Write();
@@ -577,11 +587,11 @@ extern double SigTree_lepNuPt;
 extern double SigTree_transverseMassLep;
 extern double SigTree_massTauLep;
 extern int SigTree_nLightJets;
-extern TLorentzVector* SigTree_tau4Vector;
-extern TLorentzVector* SigTree_lep4Vector;
-extern TLorentzVector* SigTree_jet04Vector;
-extern TLorentzVector* SigTree_jet14Vector;
-extern TLorentzVector* SigTree_met4Vector;
+extern double SigTree_tau_pT;
+extern double SigTree_lep_pT;
+extern double SigTree_jet0_pT;
+extern double SigTree_jet1_pT;
+extern double SigTree_met_pT;
 // Background tree
 extern double BgTree_mcWeight;
 extern double BgTree_mjj;
@@ -597,11 +607,11 @@ extern double BgTree_lepNuPt;
 extern double BgTree_transverseMassLep;
 extern double BgTree_massTauLep;
 extern int BgTree_nLightJets;
-extern TLorentzVector* BgTree_tau4Vector;
-extern TLorentzVector* BgTree_lep4Vector;
-extern TLorentzVector* BgTree_jet04Vector;
-extern TLorentzVector* BgTree_jet14Vector;
-extern TLorentzVector* BgTree_met4Vector;
+extern double BgTree_tau_pT;
+extern double BgTree_lep_pT;
+extern double BgTree_jet0_pT;
+extern double BgTree_jet1_pT;
+extern double BgTree_met_pT;
 
 void CLoop::FillTree(double weight, int z_sample, const std::string& sampleName, TTree* stree, TTree* btree) {
   double pi=TMath::Pi();
@@ -728,29 +738,29 @@ void CLoop::FillTree(double weight, int z_sample, const std::string& sampleName,
         double pt_bal{0};
         if(inside){
           TLorentzVector nu_tau_p4(pt_tau_nu*cos(tau_0_p4->Phi()),pt_tau_nu*sin(tau_0_p4->Phi()),0,0);
-          TLorentzVector nu_lep_p4(pt_lep_nu*cos(muon_0_p4->Phi()),pt_lep_nu*sin(muon_0_p4->Phi()),0,0);
+          TLorentzVector nu_lep_p4(pt_lep_nu*cos(elec_0_p4->Phi()),pt_lep_nu*sin(elec_0_p4->Phi()),0,0);
           if (n_jets_interval==0){
-            pt_bal=(((*tau_0_p4)+(*muon_0_p4)+(*ljet_0_p4)+(*ljet_1_p4)+nu_tau_p4+nu_lep_p4)).Pt()/(tau_0_p4->Pt()+muon_0_p4->Pt()+ljet_0_p4->Pt()+ljet_1_p4->Pt()+nu_tau_p4.Pt()+nu_lep_p4.Pt());
+            pt_bal=(((*tau_0_p4)+(*elec_0_p4)+(*ljet_0_p4)+(*ljet_1_p4)+nu_tau_p4+nu_lep_p4)).Pt()/(tau_0_p4->Pt()+elec_0_p4->Pt()+ljet_0_p4->Pt()+ljet_1_p4->Pt()+nu_tau_p4.Pt()+nu_lep_p4.Pt());
           } else {
-            pt_bal=(((*tau_0_p4)+(*muon_0_p4)+(*ljet_0_p4)+(*ljet_1_p4)+(*ljet_2_p4)+nu_tau_p4+nu_lep_p4)).Pt()/(tau_0_p4->Pt()+muon_0_p4->Pt()+ljet_0_p4->Pt()+ljet_1_p4->Pt()+ljet_2_p4->Pt()+nu_tau_p4.Pt()+nu_lep_p4.Pt());
+            pt_bal=(((*tau_0_p4)+(*elec_0_p4)+(*ljet_0_p4)+(*ljet_1_p4)+(*ljet_2_p4)+nu_tau_p4+nu_lep_p4)).Pt()/(tau_0_p4->Pt()+elec_0_p4->Pt()+ljet_0_p4->Pt()+ljet_1_p4->Pt()+ljet_2_p4->Pt()+nu_tau_p4.Pt()+nu_lep_p4.Pt());
           }
 
 
         } else {
           if (outside_lep){
-            TLorentzVector nu_p4(pt_lep_nu*cos(muon_0_p4->Phi()),pt_lep_nu*sin(muon_0_p4->Phi()),0,0);
+            TLorentzVector nu_p4(pt_lep_nu*cos(elec_0_p4->Phi()),pt_lep_nu*sin(elec_0_p4->Phi()),0,0);
             if (n_jets_interval==0){
-              pt_bal=(((*tau_0_p4)+(*muon_0_p4)+(*ljet_0_p4)+(*ljet_1_p4)+nu_p4)).Pt()/(tau_0_p4->Pt()+muon_0_p4->Pt()+ljet_0_p4->Pt()+ljet_1_p4->Pt()+nu_p4.Pt());
+              pt_bal=(((*tau_0_p4)+(*elec_0_p4)+(*ljet_0_p4)+(*ljet_1_p4)+nu_p4)).Pt()/(tau_0_p4->Pt()+elec_0_p4->Pt()+ljet_0_p4->Pt()+ljet_1_p4->Pt()+nu_p4.Pt());
             } else {
-              pt_bal=(((*tau_0_p4)+(*muon_0_p4)+(*ljet_0_p4)+(*ljet_1_p4)+(*ljet_2_p4)+nu_p4)).Pt()/(tau_0_p4->Pt()+muon_0_p4->Pt()+ljet_0_p4->Pt()+ljet_1_p4->Pt()+ljet_2_p4->Pt()+nu_p4.Pt());
+              pt_bal=(((*tau_0_p4)+(*elec_0_p4)+(*ljet_0_p4)+(*ljet_1_p4)+(*ljet_2_p4)+nu_p4)).Pt()/(tau_0_p4->Pt()+elec_0_p4->Pt()+ljet_0_p4->Pt()+ljet_1_p4->Pt()+ljet_2_p4->Pt()+nu_p4.Pt());
             }
           } else{
             if(outside_tau){
               TLorentzVector nu_p4(pt_tau_nu*cos(tau_0_p4->Phi()),pt_tau_nu*sin(tau_0_p4->Phi()),0,0);
               if (n_jets_interval==0){
-                pt_bal=(((*tau_0_p4)+(*muon_0_p4)+(*ljet_0_p4)+(*ljet_1_p4)+nu_p4)).Pt()/(tau_0_p4->Pt()+muon_0_p4->Pt()+ljet_0_p4->Pt()+ljet_1_p4->Pt()+nu_p4.Pt());
+                pt_bal=(((*tau_0_p4)+(*elec_0_p4)+(*ljet_0_p4)+(*ljet_1_p4)+nu_p4)).Pt()/(tau_0_p4->Pt()+elec_0_p4->Pt()+ljet_0_p4->Pt()+ljet_1_p4->Pt()+nu_p4.Pt());
               } else {
-                pt_bal=(((*tau_0_p4)+(*muon_0_p4)+(*ljet_0_p4)+(*ljet_1_p4)+(*ljet_2_p4)+nu_p4)).Pt()/(tau_0_p4->Pt()+muon_0_p4->Pt()+ljet_0_p4->Pt()+ljet_1_p4->Pt()+ljet_2_p4->Pt()+nu_p4.Pt());
+                pt_bal=(((*tau_0_p4)+(*elec_0_p4)+(*ljet_0_p4)+(*ljet_1_p4)+(*ljet_2_p4)+nu_p4)).Pt()/(tau_0_p4->Pt()+elec_0_p4->Pt()+ljet_0_p4->Pt()+ljet_1_p4->Pt()+ljet_2_p4->Pt()+nu_p4.Pt());
               }
             }
           }
@@ -791,13 +801,13 @@ void CLoop::FillTree(double weight, int z_sample, const std::string& sampleName,
         if(tau_0_n_charged_tracks==3 && tau_0_jet_rnn_score_trans >= 0.40){cuts[4]=1;}
         if(muon_0_p4->Pt()>=27){cuts[5]=1;}
         if(ljet_0_p4->Pt()>=75){cuts[6]=1;}
-        if(ljet_1_p4->Pt()>=70){cuts[7]=1;}
+        if(ljet_1_p4->Pt()>=65){cuts[7]=1;}
         if(pt_bal<=0.15){cuts[8]=1;}
-        if(mjj>=1000){cuts[9]=1;}
-        if(n_jets_interval==0){cuts[10]=1;}
+        if(mjj>=750){cuts[9]=1;}
+        if(n_jets_interval==1){cuts[10]=1;}
         if(z_centrality<0.5){cuts[11]=1;} // SR -> z_centrality < 0.5
-        if (omega> 0.2 && omega <1.1){cuts[12]=1;} // Z-peak omega> -0.2 && omega <1.6
-        bool diLeptonMassRequirement = reco_mass>150;
+        if (omega> -0.2 && omega <1.4){cuts[12]=1;} // Z-peak omega> -0.2 && omega <1.6
+        bool diLeptonMassRequirement = reco_mass>120;
         if (diLeptonMassRequirement){cuts[13]=1;} // Z-peak reco_mass<116 && reco_mass>66 // Higgs reco_mass >= 116 && reco_mass < 150
         if (tau_0_p4->Pt()>=25){cuts[14]=1;}
 
@@ -863,11 +873,12 @@ void CLoop::FillTree(double weight, int z_sample, const std::string& sampleName,
         // Check if sample is VBF Ztautau
         // LEP-TAU INVARIANT MASS
         double inv_taulep=sqrt((2*muon_0_p4->Pt()*tau_0_p4->Pt())*(cosh(muon_0_p4->Eta()-tau_0_p4->Eta())-cos(muon_0_p4->Phi()-tau_0_p4->Phi())));
-        if (sampleName.find("VBF") != std::string::npos && sampleName.find("Ztautau") != std::string::npos && sampleName.find("old") == std::string::npos) {
+        bool isVBFZtautau = sampleName.find("VBF") != std::string::npos && sampleName.find("Ztautau") != std::string::npos && sampleName.find("old") == std::string::npos;
+        bool isVBFHiggs = sampleName.find("H") != std::string::npos && sampleName.find("VBF") != std::string::npos;
+        if (isVBFZtautau || isVBFHiggs) {
           SigTree_mcWeight = weight;
           SigTree_mjj = mjj;
           SigTree_deltaRapidity = delta_y;
-          SigTree_tau4Vector = tau_0_p4;
           SigTree_mjj = mjj;
           SigTree_deltaRapidity = delta_y;
           SigTree_deltaPhiLT = angle;
@@ -883,19 +894,17 @@ void CLoop::FillTree(double weight, int z_sample, const std::string& sampleName,
           SigTree_transverseMassLep = transverseMassLep;
           SigTree_massTauLep = inv_taulep;
           SigTree_nLightJets = n_ljets;
-          SigTree_tau4Vector = tau_0_p4;
-          SigTree_lep4Vector = muon_0_p4;
-          SigTree_jet04Vector = ljet_0_p4;
-          SigTree_jet14Vector = ljet_1_p4;
-          SigTree_met4Vector = met_reco_p4;
+          SigTree_tau_pT = tau_0_p4->Pt();
+          SigTree_lep_pT = muon_0_p4->Pt();
+          SigTree_jet0_pT = ljet_0_p4->Pt();
+          SigTree_jet1_pT = ljet_1_p4->Pt();
+          SigTree_met_pT = met_reco_p4->Pt();
           // Fill tree
           stree->Fill();
         } else {
-          std::cout << "Filling BG tree" << std::endl;
           BgTree_mcWeight = weight;
           BgTree_mjj = mjj;
           BgTree_deltaRapidity = delta_y;
-          BgTree_tau4Vector = tau_0_p4;
           BgTree_mjj = mjj;
           BgTree_deltaRapidity = delta_y;
           BgTree_deltaPhiLT = angle;
@@ -911,11 +920,11 @@ void CLoop::FillTree(double weight, int z_sample, const std::string& sampleName,
           BgTree_transverseMassLep = transverseMassLep;
           BgTree_massTauLep = inv_taulep;
           BgTree_nLightJets = n_ljets;
-          BgTree_tau4Vector = tau_0_p4;
-          BgTree_lep4Vector = muon_0_p4;
-          BgTree_jet04Vector = ljet_0_p4;
-          BgTree_jet14Vector = ljet_1_p4;
-          BgTree_met4Vector = met_reco_p4;
+          BgTree_tau_pT = tau_0_p4->Pt();
+          BgTree_lep_pT = muon_0_p4->Pt();
+          BgTree_jet0_pT = ljet_0_p4->Pt();
+          BgTree_jet1_pT = ljet_1_p4->Pt();
+          BgTree_met_pT = met_reco_p4->Pt();
           // Fill tree
           btree->Fill();
         }

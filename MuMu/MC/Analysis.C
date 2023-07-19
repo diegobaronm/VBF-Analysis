@@ -59,82 +59,7 @@ double min_deltaR(TLorentzVector* test_particle, std::vector<UInt_t> bool_vector
 }
 
 void CLoop::Book(double lumFactor) {
-  double pi = TMath::Pi();
-
-  #ifdef WEIGHTSYSTEMATICS
-    h_mass_jj_muon_0_MUON_EFF_ISO_STAT_1down_MuEffSF_IsoTightTrackOnly_FixedRad = new TH1F("mass_jj_muon_0_MUON_EFF_ISO_STAT_1down_MuEffSF_IsoTightTrackOnly_FixedRad","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_muon_1_MUON_EFF_ISO_STAT_1down_MuEffSF_IsoTightTrackOnly_FixedRad = new TH1F("mass_jj_muon_1_MUON_EFF_ISO_STAT_1down_MuEffSF_IsoTightTrackOnly_FixedRad","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_muon_MUON_EFF_ISO_STAT_1down_MuEffSF_IsoTightTrackOnly_FixedRad = new TH1F("mass_jj_muon_MUON_EFF_ISO_STAT_1down_MuEffSF_IsoTightTrackOnly_FixedRad","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_muon_0_MUON_EFF_ISO_STAT_1up_MuEffSF_IsoTightTrackOnly_FixedRad = new TH1F("mass_jj_muon_0_MUON_EFF_ISO_STAT_1up_MuEffSF_IsoTightTrackOnly_FixedRad","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_muon_1_MUON_EFF_ISO_STAT_1up_MuEffSF_IsoTightTrackOnly_FixedRad = new TH1F("mass_jj_muon_1_MUON_EFF_ISO_STAT_1up_MuEffSF_IsoTightTrackOnly_FixedRad","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_muon_MUON_EFF_ISO_STAT_1up_MuEffSF_IsoTightTrackOnly_FixedRad = new TH1F("mass_jj_muon_MUON_EFF_ISO_STAT_1up_MuEffSF_IsoTightTrackOnly_FixedRad","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_muon_0_MUON_EFF_ISO_SYS_1down_MuEffSF_IsoTightTrackOnly_FixedRad = new TH1F("mass_jj_muon_0_MUON_EFF_ISO_SYS_1down_MuEffSF_IsoTightTrackOnly_FixedRad","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_muon_1_MUON_EFF_ISO_SYS_1down_MuEffSF_IsoTightTrackOnly_FixedRad = new TH1F("mass_jj_muon_1_MUON_EFF_ISO_SYS_1down_MuEffSF_IsoTightTrackOnly_FixedRad","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_muon_MUON_EFF_ISO_SYS_1down_MuEffSF_IsoTightTrackOnly_FixedRad = new TH1F("mass_jj_muon_MUON_EFF_ISO_SYS_1down_MuEffSF_IsoTightTrackOnly_FixedRad","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_muon_0_MUON_EFF_ISO_SYS_1up_MuEffSF_IsoTightTrackOnly_FixedRad = new TH1F("mass_jj_muon_0_MUON_EFF_ISO_SYS_1up_MuEffSF_IsoTightTrackOnly_FixedRad","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_muon_1_MUON_EFF_ISO_SYS_1up_MuEffSF_IsoTightTrackOnly_FixedRad = new TH1F("mass_jj_muon_1_MUON_EFF_ISO_SYS_1up_MuEffSF_IsoTightTrackOnly_FixedRad","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_muon_MUON_EFF_ISO_SYS_1up_MuEffSF_IsoTightTrackOnly_FixedRad = new TH1F("mass_jj_muon_MUON_EFF_ISO_SYS_1up_MuEffSF_IsoTightTrackOnly_FixedRad","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_muon_0_MUON_EFF_RECO_STAT_1down_MuEffSF_Reco_QualMedium = new TH1F("mass_jj_muon_0_MUON_EFF_RECO_STAT_1down_MuEffSF_Reco_QualMedium","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_muon_1_MUON_EFF_RECO_STAT_1down_MuEffSF_Reco_QualMedium = new TH1F("mass_jj_muon_1_MUON_EFF_RECO_STAT_1down_MuEffSF_Reco_QualMedium","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_muon_MUON_EFF_RECO_STAT_1down_MuEffSF_Reco_QualMedium = new TH1F("mass_jj_muon_MUON_EFF_RECO_STAT_1down_MuEffSF_Reco_QualMedium","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_muon_0_MUON_EFF_RECO_STAT_1up_MuEffSF_Reco_QualMedium = new TH1F("mass_jj_muon_0_MUON_EFF_RECO_STAT_1up_MuEffSF_Reco_QualMedium","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_muon_1_MUON_EFF_RECO_STAT_1up_MuEffSF_Reco_QualMedium = new TH1F("mass_jj_muon_1_MUON_EFF_RECO_STAT_1up_MuEffSF_Reco_QualMedium","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_muon_MUON_EFF_RECO_STAT_1up_MuEffSF_Reco_QualMedium = new TH1F("mass_jj_muon_MUON_EFF_RECO_STAT_1up_MuEffSF_Reco_QualMedium","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_muon_0_MUON_EFF_RECO_SYS_1down_MuEffSF_Reco_QualMedium = new TH1F("mass_jj_muon_0_MUON_EFF_RECO_SYS_1down_MuEffSF_Reco_QualMedium","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_muon_1_MUON_EFF_RECO_SYS_1down_MuEffSF_Reco_QualMedium = new TH1F("mass_jj_muon_1_MUON_EFF_RECO_SYS_1down_MuEffSF_Reco_QualMedium","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_muon_MUON_EFF_RECO_SYS_1down_MuEffSF_Reco_QualMedium = new TH1F("mass_jj_muon_MUON_EFF_RECO_SYS_1down_MuEffSF_Reco_QualMedium","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_muon_0_MUON_EFF_RECO_SYS_1up_MuEffSF_Reco_QualMedium = new TH1F("mass_jj_muon_0_MUON_EFF_RECO_SYS_1up_MuEffSF_Reco_QualMedium","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_muon_1_MUON_EFF_RECO_SYS_1up_MuEffSF_Reco_QualMedium = new TH1F("mass_jj_muon_1_MUON_EFF_RECO_SYS_1up_MuEffSF_Reco_QualMedium","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_muon_MUON_EFF_RECO_SYS_1up_MuEffSF_Reco_QualMedium = new TH1F("mass_jj_muon_MUON_EFF_RECO_SYS_1up_MuEffSF_Reco_QualMedium","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_muon_0_MUON_EFF_TrigStatUncertainty_1down_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium = new TH1F("mass_jj_muon_0_MUON_EFF_TrigStatUncertainty_1down_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_muon_1_MUON_EFF_TrigStatUncertainty_1down_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium = new TH1F("mass_jj_muon_1_MUON_EFF_TrigStatUncertainty_1down_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_muon_MUON_EFF_TrigStatUncertainty_1down_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium = new TH1F("mass_jj_muon_MUON_EFF_TrigStatUncertainty_1down_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_muon_0_MUON_EFF_TrigStatUncertainty_1down_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium = new TH1F("mass_jj_muon_0_MUON_EFF_TrigStatUncertainty_1down_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_muon_1_MUON_EFF_TrigStatUncertainty_1down_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium = new TH1F("mass_jj_muon_1_MUON_EFF_TrigStatUncertainty_1down_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_muon_MUON_EFF_TrigStatUncertainty_1down_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium = new TH1F("mass_jj_muon_MUON_EFF_TrigStatUncertainty_1down_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_muon_0_MUON_EFF_TrigStatUncertainty_1up_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium = new TH1F("mass_jj_muon_0_MUON_EFF_TrigStatUncertainty_1up_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_muon_1_MUON_EFF_TrigStatUncertainty_1up_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium = new TH1F("mass_jj_muon_1_MUON_EFF_TrigStatUncertainty_1up_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_muon_MUON_EFF_TrigStatUncertainty_1up_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium = new TH1F("mass_jj_muon_MUON_EFF_TrigStatUncertainty_1up_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_muon_0_MUON_EFF_TrigStatUncertainty_1up_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium = new TH1F("mass_jj_muon_0_MUON_EFF_TrigStatUncertainty_1up_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_muon_1_MUON_EFF_TrigStatUncertainty_1up_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium = new TH1F("mass_jj_muon_1_MUON_EFF_TrigStatUncertainty_1up_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_muon_MUON_EFF_TrigStatUncertainty_1up_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium = new TH1F("mass_jj_muon_MUON_EFF_TrigStatUncertainty_1up_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_muon_0_MUON_EFF_TrigSystUncertainty_1down_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium = new TH1F("mass_jj_muon_0_MUON_EFF_TrigSystUncertainty_1down_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_muon_1_MUON_EFF_TrigSystUncertainty_1down_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium = new TH1F("mass_jj_muon_1_MUON_EFF_TrigSystUncertainty_1down_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_muon_MUON_EFF_TrigSystUncertainty_1down_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium = new TH1F("mass_jj_muon_MUON_EFF_TrigSystUncertainty_1down_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_muon_0_MUON_EFF_TrigSystUncertainty_1down_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium = new TH1F("mass_jj_muon_0_MUON_EFF_TrigSystUncertainty_1down_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_muon_1_MUON_EFF_TrigSystUncertainty_1down_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium = new TH1F("mass_jj_muon_1_MUON_EFF_TrigSystUncertainty_1down_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_muon_MUON_EFF_TrigSystUncertainty_1down_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium = new TH1F("mass_jj_muon_MUON_EFF_TrigSystUncertainty_1down_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_muon_0_MUON_EFF_TrigSystUncertainty_1up_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium = new TH1F("mass_jj_muon_0_MUON_EFF_TrigSystUncertainty_1up_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_muon_1_MUON_EFF_TrigSystUncertainty_1up_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium = new TH1F("mass_jj_muon_1_MUON_EFF_TrigSystUncertainty_1up_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_muon_MUON_EFF_TrigSystUncertainty_1up_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium = new TH1F("mass_jj_muon_MUON_EFF_TrigSystUncertainty_1up_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_muon_0_MUON_EFF_TrigSystUncertainty_1up_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium = new TH1F("mass_jj_muon_0_MUON_EFF_TrigSystUncertainty_1up_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_muon_1_MUON_EFF_TrigSystUncertainty_1up_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium = new TH1F("mass_jj_muon_1_MUON_EFF_TrigSystUncertainty_1up_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_muon_MUON_EFF_TrigSystUncertainty_1up_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium = new TH1F("mass_jj_muon_MUON_EFF_TrigSystUncertainty_1up_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_PRW_DATASF_1down_pileup_combined_weight = new TH1F("mass_jj_PRW_DATASF_1down_pileup_combined_weight","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_PRW_DATASF_1up_pileup_combined_weight = new TH1F("mass_jj_PRW_DATASF_1up_pileup_combined_weight","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_jet_JET_JvtEfficiency_1down_central_jets_global_effSF_JVT = new TH1F("mass_jj_jet_JET_JvtEfficiency_1down_central_jets_global_effSF_JVT","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_jet_JET_JvtEfficiency_1down_central_jets_global_ineffSF_JVT = new TH1F("mass_jj_jet_JET_JvtEfficiency_1down_central_jets_global_ineffSF_JVT","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_jet_JET_JvtEfficiency_1up_central_jets_global_effSF_JVT = new TH1F("mass_jj_jet_JET_JvtEfficiency_1up_central_jets_global_effSF_JVT","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_jet_JET_JvtEfficiency_1up_central_jets_global_ineffSF_JVT = new TH1F("mass_jj_jet_JET_JvtEfficiency_1up_central_jets_global_ineffSF_JVT","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_jet_JET_fJvtEfficiency_1down_forward_jets_global_effSF_JVT = new TH1F("mass_jj_jet_JET_fJvtEfficiency_1down_forward_jets_global_effSF_JVT","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_jet_JET_fJvtEfficiency_1down_forward_jets_global_ineffSF_JVT = new TH1F("mass_jj_jet_JET_fJvtEfficiency_1down_forward_jets_global_ineffSF_JVT","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_jet_JET_fJvtEfficiency_1up_forward_jets_global_effSF_JVT = new TH1F("mass_jj_jet_JET_fJvtEfficiency_1up_forward_jets_global_effSF_JVT","Invariant mass di-jet system",5000,0,5000);
-    h_mass_jj_jet_JET_fJvtEfficiency_1up_forward_jets_global_ineffSF_JVT = new TH1F("mass_jj_jet_JET_fJvtEfficiency_1up_forward_jets_global_ineffSF_JVT","Invariant mass di-jet system",5000,0,5000);
-   #endif
   
-  h_delta_phi = new TH1F("delta_phi","Delta phi between leptons",32,0,3.2);
-  h_delta_y = new TH1F("delta_y","Delta Rapidity",100,0,10);
-  h_n_bjets = new TH1F("n_bjets","Number of b_jets",5,0,5);
-  h_lepiso = new TH1F("lepiso","Leptons isolation",2,0,2);
-  h_lep1_pt = new TH1F("lep1_pt","Lep 1 pT",500,0,500);
-  h_lep2_pt = new TH1F("lep2_pt","Lep 2 pT",500,0,500);
-  h_ljet0_pt = new TH1F("ljet0_pt","Light jet0 pT",1000,0,1000);
-  h_ljet1_pt = new TH1F("ljet1_pt","Light jet1 pT",1000,0,1000);
-  h_pt_bal = new TH1F("pt_bal","pT Balance",100,0,1);
-  h_mass_jj = new TH1F("mass_jj","Invariant mass di_jet system",5000,0,5000);
-  h_n_jets_interval = new TH1F("n_jets_interval","N jets between rapidity interval",5,0,5);
-  h_Z_centrality = new TH1F("Z_centrality","Z boson centrality",350,0,3.5);
-  h_inv_mass = new TH1F("inv_mass","Invariant mass di-lepton system",240,0,240);
 }
 
 void CLoop::Fill(double weight, int z_sample) {
@@ -145,7 +70,7 @@ void CLoop::Fill(double weight, int z_sample) {
     float q_mu1=muon_1_q;
     size_t n_ljets=n_jets-n_bjets_MV2c10_FixedCutBEff_85;
 
-    if (n_muons==2 && q_mu0!=q_mu1 && muon_id && n_ljets>=2 && n_ljets<=3 && useEvent==1){
+    if (n_muons==2 && q_mu0!=q_mu1 && muon_id && n_ljets>=2 && n_ljets<=3){
       //angles
       double angle_l_MET=del_phi(muon_0_p4->Phi(),met_reco_p4->Phi());
       double angle_tau_MET=del_phi(muon_1_p4->Phi(),met_reco_p4->Phi());
@@ -249,7 +174,7 @@ void CLoop::Fill(double weight, int z_sample) {
         bool superCR = CRa || CRb || CRc;
 
         // Cuts vector
-        vector<int> cuts={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+        vector<int> cuts={0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 
         double a{50},b{40};
         // CUTS
@@ -263,9 +188,9 @@ void CLoop::Fill(double weight, int z_sample) {
         if(ljet_1_p4->Pt()>=70){cuts[7]=1;}
         if(pt_bal<=0.15){cuts[8]=1;}
         if(mjj>=1000){cuts[9]=1;}
-        if(n_jets_interval==0){cuts[10]=1;}
-        if(z_centrality<0.5){cuts[11]=1;}
-        if (inv_mass>81 && inv_mass<101){cuts[12]=1;} // Low mass range 81 < m < 101 GeV.
+        if(n_jets_interval==1){cuts[10]=1;}
+        if(z_centrality < 0.5){cuts[11]=1;}
+        if (inv_mass < 101 && inv_mass > 81){cuts[12]=1;} // Low mass range 81 < m < 101 GeV.
         if (event_number%2==0){
           if(muon_0_p4->Pt()>=(a+0)){cuts[13]=1;}
         } else {
@@ -273,189 +198,101 @@ void CLoop::Fill(double weight, int z_sample) {
         }
 
         // SUM OF THE VECTOR STORING IF CUTS PASS OR NOT
-        int sum{};
+        size_t sum{};
         for(auto &j : cuts){sum=sum+j;}
 
+        std::vector<int> cutsVector{1};
+        cutsVector.insert(cutsVector.end(),cuts.begin(),cuts.end());
+        bool passedAllCuts = (sum+1==cutsVector.size());
+        std::vector<int> notFullCutsVector{1,static_cast<int>(passedAllCuts)};
+
         // FILLING CUTS HISTOGRAMS
-        if ((sum-cuts[0])==13) {
-          h_delta_phi->Fill(angle,weight);
-        }
-        if ((sum-cuts[1])==13) {
-          h_delta_y->Fill(delta_y,weight);
-        }
-        if ((sum-cuts[2])==13) {
-          h_n_bjets->Fill(n_bjets_MV2c10_FixedCutBEff_85,weight);
-        }
-        if ((sum-cuts[3])==13) {
-          h_lepiso->Fill(muon_0_iso_TightTrackOnly_FixedRad==1 && muon_0_iso_TightTrackOnly_FixedRad==1,weight);
-        }
-        if ((sum-cuts[4])==13) {
-          h_lep1_pt->Fill(muon_0_p4->Pt(),weight);
-        }
-        if ((sum-cuts[5])==13) {
-          h_lep2_pt->Fill(muon_1_p4->Pt(),weight);
-        }
-        if ((sum-cuts[6])==13) {
-          h_ljet0_pt->Fill(ljet_0_p4->Pt(),weight);
-        }
-        if ((sum-cuts[7])==13) {
-          h_ljet1_pt->Fill(ljet_1_p4->Pt(),weight);
-        }
-        if ((sum-cuts[8])==13) {
-          h_pt_bal->Fill(pt_bal,weight);
-        }
-        if ((sum-cuts[9])==13) {
-          h_mass_jj->Fill(mjj,weight);
-          #ifdef WEIGHTSYSTEMATICS
-          h_mass_jj_muon_0_MUON_EFF_ISO_STAT_1down_MuEffSF_IsoTightTrackOnly_FixedRad->Fill(mjj,weight*muon_0_MUON_EFF_ISO_STAT_1down_MuEffSF_IsoTightTrackOnly_FixedRad/muon_0_NOMINAL_MuEffSF_IsoTightTrackOnly_FixedRad);
-            h_mass_jj_muon_1_MUON_EFF_ISO_STAT_1down_MuEffSF_IsoTightTrackOnly_FixedRad->Fill(mjj,weight*muon_1_MUON_EFF_ISO_STAT_1down_MuEffSF_IsoTightTrackOnly_FixedRad/muon_1_NOMINAL_MuEffSF_IsoTightTrackOnly_FixedRad);
-            h_mass_jj_muon_MUON_EFF_ISO_STAT_1down_MuEffSF_IsoTightTrackOnly_FixedRad->Fill(mjj,weight*(muon_0_MUON_EFF_ISO_STAT_1down_MuEffSF_IsoTightTrackOnly_FixedRad*muon_1_MUON_EFF_ISO_STAT_1down_MuEffSF_IsoTightTrackOnly_FixedRad)/(muon_0_NOMINAL_MuEffSF_IsoTightTrackOnly_FixedRad*muon_1_NOMINAL_MuEffSF_IsoTightTrackOnly_FixedRad));
-            h_mass_jj_muon_0_MUON_EFF_ISO_STAT_1up_MuEffSF_IsoTightTrackOnly_FixedRad->Fill(mjj,weight*muon_0_MUON_EFF_ISO_STAT_1up_MuEffSF_IsoTightTrackOnly_FixedRad/muon_0_NOMINAL_MuEffSF_IsoTightTrackOnly_FixedRad);
-            h_mass_jj_muon_1_MUON_EFF_ISO_STAT_1up_MuEffSF_IsoTightTrackOnly_FixedRad->Fill(mjj,weight*muon_1_MUON_EFF_ISO_STAT_1up_MuEffSF_IsoTightTrackOnly_FixedRad/muon_1_NOMINAL_MuEffSF_IsoTightTrackOnly_FixedRad);
-            h_mass_jj_muon_MUON_EFF_ISO_STAT_1up_MuEffSF_IsoTightTrackOnly_FixedRad->Fill(mjj,weight*(muon_0_MUON_EFF_ISO_STAT_1up_MuEffSF_IsoTightTrackOnly_FixedRad*muon_1_MUON_EFF_ISO_STAT_1up_MuEffSF_IsoTightTrackOnly_FixedRad)/(muon_0_NOMINAL_MuEffSF_IsoTightTrackOnly_FixedRad*muon_1_NOMINAL_MuEffSF_IsoTightTrackOnly_FixedRad));
-            h_mass_jj_muon_0_MUON_EFF_ISO_SYS_1down_MuEffSF_IsoTightTrackOnly_FixedRad->Fill(mjj,weight*muon_0_MUON_EFF_ISO_SYS_1down_MuEffSF_IsoTightTrackOnly_FixedRad/muon_0_NOMINAL_MuEffSF_IsoTightTrackOnly_FixedRad);
-            h_mass_jj_muon_1_MUON_EFF_ISO_SYS_1down_MuEffSF_IsoTightTrackOnly_FixedRad->Fill(mjj,weight*muon_1_MUON_EFF_ISO_SYS_1down_MuEffSF_IsoTightTrackOnly_FixedRad/muon_1_NOMINAL_MuEffSF_IsoTightTrackOnly_FixedRad);
-            h_mass_jj_muon_MUON_EFF_ISO_SYS_1down_MuEffSF_IsoTightTrackOnly_FixedRad->Fill(mjj,weight*(muon_0_MUON_EFF_ISO_SYS_1down_MuEffSF_IsoTightTrackOnly_FixedRad*muon_1_MUON_EFF_ISO_SYS_1down_MuEffSF_IsoTightTrackOnly_FixedRad)/(muon_0_NOMINAL_MuEffSF_IsoTightTrackOnly_FixedRad*muon_1_NOMINAL_MuEffSF_IsoTightTrackOnly_FixedRad));
-            h_mass_jj_muon_0_MUON_EFF_ISO_SYS_1up_MuEffSF_IsoTightTrackOnly_FixedRad->Fill(mjj,weight*muon_0_MUON_EFF_ISO_SYS_1up_MuEffSF_IsoTightTrackOnly_FixedRad/muon_0_NOMINAL_MuEffSF_IsoTightTrackOnly_FixedRad);
-            h_mass_jj_muon_1_MUON_EFF_ISO_SYS_1up_MuEffSF_IsoTightTrackOnly_FixedRad->Fill(mjj,weight*muon_1_MUON_EFF_ISO_SYS_1up_MuEffSF_IsoTightTrackOnly_FixedRad/muon_1_NOMINAL_MuEffSF_IsoTightTrackOnly_FixedRad);
-            h_mass_jj_muon_MUON_EFF_ISO_SYS_1up_MuEffSF_IsoTightTrackOnly_FixedRad->Fill(mjj,weight*(muon_0_MUON_EFF_ISO_SYS_1up_MuEffSF_IsoTightTrackOnly_FixedRad*muon_1_MUON_EFF_ISO_SYS_1up_MuEffSF_IsoTightTrackOnly_FixedRad)/(muon_0_NOMINAL_MuEffSF_IsoTightTrackOnly_FixedRad*muon_1_NOMINAL_MuEffSF_IsoTightTrackOnly_FixedRad));
-            h_mass_jj_muon_0_MUON_EFF_RECO_STAT_1down_MuEffSF_Reco_QualMedium->Fill(mjj,weight*muon_0_MUON_EFF_RECO_STAT_1down_MuEffSF_Reco_QualMedium/muon_0_NOMINAL_MuEffSF_Reco_QualMedium);
-            h_mass_jj_muon_1_MUON_EFF_RECO_STAT_1down_MuEffSF_Reco_QualMedium->Fill(mjj,weight*muon_1_MUON_EFF_RECO_STAT_1down_MuEffSF_Reco_QualMedium/muon_1_NOMINAL_MuEffSF_Reco_QualMedium);
-            h_mass_jj_muon_MUON_EFF_RECO_STAT_1down_MuEffSF_Reco_QualMedium->Fill(mjj,weight*(muon_0_MUON_EFF_RECO_STAT_1down_MuEffSF_Reco_QualMedium*muon_1_MUON_EFF_RECO_STAT_1down_MuEffSF_Reco_QualMedium)/(muon_0_NOMINAL_MuEffSF_Reco_QualMedium*muon_1_NOMINAL_MuEffSF_Reco_QualMedium));
-            h_mass_jj_muon_0_MUON_EFF_RECO_STAT_1up_MuEffSF_Reco_QualMedium->Fill(mjj,weight*muon_0_MUON_EFF_RECO_STAT_1up_MuEffSF_Reco_QualMedium/muon_0_NOMINAL_MuEffSF_Reco_QualMedium);
-            h_mass_jj_muon_1_MUON_EFF_RECO_STAT_1up_MuEffSF_Reco_QualMedium->Fill(mjj,weight*muon_1_MUON_EFF_RECO_STAT_1up_MuEffSF_Reco_QualMedium/muon_1_NOMINAL_MuEffSF_Reco_QualMedium);
-            h_mass_jj_muon_MUON_EFF_RECO_STAT_1up_MuEffSF_Reco_QualMedium->Fill(mjj,weight*(muon_0_MUON_EFF_RECO_STAT_1up_MuEffSF_Reco_QualMedium*muon_1_MUON_EFF_RECO_STAT_1up_MuEffSF_Reco_QualMedium)/(muon_0_NOMINAL_MuEffSF_Reco_QualMedium*muon_1_NOMINAL_MuEffSF_Reco_QualMedium));
-            h_mass_jj_muon_0_MUON_EFF_RECO_SYS_1down_MuEffSF_Reco_QualMedium->Fill(mjj,weight*muon_0_MUON_EFF_RECO_SYS_1down_MuEffSF_Reco_QualMedium/muon_0_NOMINAL_MuEffSF_Reco_QualMedium);
-            h_mass_jj_muon_1_MUON_EFF_RECO_SYS_1down_MuEffSF_Reco_QualMedium->Fill(mjj,weight*muon_1_MUON_EFF_RECO_SYS_1down_MuEffSF_Reco_QualMedium/muon_1_NOMINAL_MuEffSF_Reco_QualMedium);
-            h_mass_jj_muon_MUON_EFF_RECO_SYS_1down_MuEffSF_Reco_QualMedium->Fill(mjj,weight*(muon_0_MUON_EFF_RECO_SYS_1down_MuEffSF_Reco_QualMedium*muon_1_MUON_EFF_RECO_SYS_1down_MuEffSF_Reco_QualMedium)/(muon_0_NOMINAL_MuEffSF_Reco_QualMedium*muon_1_NOMINAL_MuEffSF_Reco_QualMedium));
-            h_mass_jj_muon_0_MUON_EFF_RECO_SYS_1up_MuEffSF_Reco_QualMedium->Fill(mjj,weight*muon_0_MUON_EFF_RECO_SYS_1up_MuEffSF_Reco_QualMedium/muon_0_NOMINAL_MuEffSF_Reco_QualMedium);
-            h_mass_jj_muon_1_MUON_EFF_RECO_SYS_1up_MuEffSF_Reco_QualMedium->Fill(mjj,weight*muon_1_MUON_EFF_RECO_SYS_1up_MuEffSF_Reco_QualMedium/muon_1_NOMINAL_MuEffSF_Reco_QualMedium);
-            h_mass_jj_muon_MUON_EFF_RECO_SYS_1up_MuEffSF_Reco_QualMedium->Fill(mjj,weight*(muon_0_MUON_EFF_RECO_SYS_1up_MuEffSF_Reco_QualMedium*muon_1_MUON_EFF_RECO_SYS_1up_MuEffSF_Reco_QualMedium)/(muon_0_NOMINAL_MuEffSF_Reco_QualMedium*muon_1_NOMINAL_MuEffSF_Reco_QualMedium));
-            h_mass_jj_muon_0_MUON_EFF_TrigStatUncertainty_1down_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium->Fill(mjj,weight*muon_0_MUON_EFF_TrigStatUncertainty_1down_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium/muon_0_NOMINAL_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium);
-            h_mass_jj_muon_1_MUON_EFF_TrigStatUncertainty_1down_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium->Fill(mjj,weight*muon_1_MUON_EFF_TrigStatUncertainty_1down_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium/muon_1_NOMINAL_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium);
-            h_mass_jj_muon_MUON_EFF_TrigStatUncertainty_1down_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium->Fill(mjj,weight*(muon_0_MUON_EFF_TrigStatUncertainty_1down_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium*muon_1_MUON_EFF_TrigStatUncertainty_1down_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium)/(muon_0_NOMINAL_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium*muon_1_NOMINAL_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium));
-            h_mass_jj_muon_0_MUON_EFF_TrigStatUncertainty_1down_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium->Fill(mjj,weight*muon_0_MUON_EFF_TrigStatUncertainty_1down_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium/muon_0_NOMINAL_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium);
-            h_mass_jj_muon_1_MUON_EFF_TrigStatUncertainty_1down_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium->Fill(mjj,weight*muon_1_MUON_EFF_TrigStatUncertainty_1down_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium/muon_1_NOMINAL_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium);
-            h_mass_jj_muon_MUON_EFF_TrigStatUncertainty_1down_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium->Fill(mjj,weight*(muon_0_MUON_EFF_TrigStatUncertainty_1down_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium*muon_1_MUON_EFF_TrigStatUncertainty_1down_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium)/(muon_0_NOMINAL_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium*muon_1_NOMINAL_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium));
-            h_mass_jj_muon_0_MUON_EFF_TrigStatUncertainty_1up_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium->Fill(mjj,weight*muon_0_MUON_EFF_TrigStatUncertainty_1up_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium/muon_0_NOMINAL_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium);
-            h_mass_jj_muon_1_MUON_EFF_TrigStatUncertainty_1up_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium->Fill(mjj,weight*muon_1_MUON_EFF_TrigStatUncertainty_1up_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium/muon_1_NOMINAL_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium);
-            h_mass_jj_muon_MUON_EFF_TrigStatUncertainty_1up_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium->Fill(mjj,weight*(muon_0_MUON_EFF_TrigStatUncertainty_1up_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium*muon_1_MUON_EFF_TrigStatUncertainty_1up_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium)/(muon_0_NOMINAL_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium*muon_1_NOMINAL_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium));
-            h_mass_jj_muon_0_MUON_EFF_TrigStatUncertainty_1up_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium->Fill(mjj,weight*muon_0_MUON_EFF_TrigStatUncertainty_1up_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium/muon_0_NOMINAL_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium);
-            h_mass_jj_muon_1_MUON_EFF_TrigStatUncertainty_1up_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium->Fill(mjj,weight*muon_1_MUON_EFF_TrigStatUncertainty_1up_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium/muon_1_NOMINAL_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium);
-            h_mass_jj_muon_MUON_EFF_TrigStatUncertainty_1up_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium->Fill(mjj,weight*(muon_0_MUON_EFF_TrigStatUncertainty_1up_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium*muon_1_MUON_EFF_TrigStatUncertainty_1up_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium)/(muon_0_NOMINAL_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium*muon_1_NOMINAL_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium));
-            h_mass_jj_muon_0_MUON_EFF_TrigSystUncertainty_1down_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium->Fill(mjj,weight*muon_0_MUON_EFF_TrigSystUncertainty_1down_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium/muon_0_NOMINAL_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium);
-            h_mass_jj_muon_1_MUON_EFF_TrigSystUncertainty_1down_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium->Fill(mjj,weight*muon_1_MUON_EFF_TrigSystUncertainty_1down_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium/muon_1_NOMINAL_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium);
-            h_mass_jj_muon_MUON_EFF_TrigSystUncertainty_1down_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium->Fill(mjj,weight*(muon_0_MUON_EFF_TrigSystUncertainty_1down_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium*muon_1_MUON_EFF_TrigSystUncertainty_1down_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium)/(muon_0_NOMINAL_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium*muon_1_NOMINAL_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium));
-            h_mass_jj_muon_0_MUON_EFF_TrigSystUncertainty_1down_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium->Fill(mjj,weight*muon_0_MUON_EFF_TrigSystUncertainty_1down_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium/muon_0_NOMINAL_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium);
-            h_mass_jj_muon_1_MUON_EFF_TrigSystUncertainty_1down_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium->Fill(mjj,weight*muon_1_MUON_EFF_TrigSystUncertainty_1down_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium/muon_1_NOMINAL_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium);
-            h_mass_jj_muon_MUON_EFF_TrigSystUncertainty_1down_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium->Fill(mjj,weight*(muon_0_MUON_EFF_TrigSystUncertainty_1down_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium*muon_1_MUON_EFF_TrigSystUncertainty_1down_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium)/(muon_0_NOMINAL_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium*muon_1_NOMINAL_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium));
-            h_mass_jj_muon_0_MUON_EFF_TrigSystUncertainty_1up_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium->Fill(mjj,weight*muon_0_MUON_EFF_TrigSystUncertainty_1up_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium/muon_0_NOMINAL_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium);
-            h_mass_jj_muon_1_MUON_EFF_TrigSystUncertainty_1up_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium->Fill(mjj,weight*muon_1_MUON_EFF_TrigSystUncertainty_1up_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium/muon_1_NOMINAL_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium);
-            h_mass_jj_muon_MUON_EFF_TrigSystUncertainty_1up_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium->Fill(mjj,weight*(muon_0_MUON_EFF_TrigSystUncertainty_1up_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium*muon_1_MUON_EFF_TrigSystUncertainty_1up_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium)/(muon_0_NOMINAL_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium*muon_1_NOMINAL_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium));
-            h_mass_jj_muon_0_MUON_EFF_TrigSystUncertainty_1up_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium->Fill(mjj,weight*muon_0_MUON_EFF_TrigSystUncertainty_1up_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium/muon_0_NOMINAL_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium);
-            h_mass_jj_muon_1_MUON_EFF_TrigSystUncertainty_1up_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium->Fill(mjj,weight*muon_1_MUON_EFF_TrigSystUncertainty_1up_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium/muon_1_NOMINAL_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium);
-            h_mass_jj_muon_MUON_EFF_TrigSystUncertainty_1up_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium->Fill(mjj,weight*(muon_0_MUON_EFF_TrigSystUncertainty_1up_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium*muon_1_MUON_EFF_TrigSystUncertainty_1up_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium)/(muon_0_NOMINAL_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium*muon_1_NOMINAL_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium));
-            h_mass_jj_PRW_DATASF_1down_pileup_combined_weight->Fill(mjj,weight*PRW_DATASF_1down_pileup_combined_weight/NOMINAL_pileup_combined_weight);
-            h_mass_jj_PRW_DATASF_1up_pileup_combined_weight->Fill(mjj,weight*PRW_DATASF_1up_pileup_combined_weight/NOMINAL_pileup_combined_weight);
-            h_mass_jj_jet_JET_JvtEfficiency_1down_central_jets_global_effSF_JVT->Fill(mjj,weight*jet_JET_JvtEfficiency_1down_central_jets_global_effSF_JVT/jet_NOMINAL_central_jets_global_effSF_JVT);
-            h_mass_jj_jet_JET_JvtEfficiency_1down_central_jets_global_ineffSF_JVT->Fill(mjj,weight*jet_JET_JvtEfficiency_1down_central_jets_global_ineffSF_JVT/jet_NOMINAL_central_jets_global_ineffSF_JVT);
-            h_mass_jj_jet_JET_JvtEfficiency_1up_central_jets_global_effSF_JVT->Fill(mjj,weight*jet_JET_JvtEfficiency_1up_central_jets_global_effSF_JVT/jet_NOMINAL_central_jets_global_effSF_JVT);
-            h_mass_jj_jet_JET_JvtEfficiency_1up_central_jets_global_ineffSF_JVT->Fill(mjj,weight*jet_JET_JvtEfficiency_1up_central_jets_global_ineffSF_JVT/jet_NOMINAL_central_jets_global_ineffSF_JVT);
-            h_mass_jj_jet_JET_fJvtEfficiency_1down_forward_jets_global_effSF_JVT->Fill(mjj,weight*jet_JET_fJvtEfficiency_1down_forward_jets_global_effSF_JVT/jet_NOMINAL_forward_jets_global_effSF_JVT);
-            h_mass_jj_jet_JET_fJvtEfficiency_1down_forward_jets_global_ineffSF_JVT->Fill(mjj,weight*jet_JET_fJvtEfficiency_1down_forward_jets_global_ineffSF_JVT/jet_NOMINAL_forward_jets_global_ineffSF_JVT);
-            h_mass_jj_jet_JET_fJvtEfficiency_1up_forward_jets_global_effSF_JVT->Fill(mjj,weight*jet_JET_fJvtEfficiency_1up_forward_jets_global_effSF_JVT/jet_NOMINAL_forward_jets_global_effSF_JVT);
-            h_mass_jj_jet_JET_fJvtEfficiency_1up_forward_jets_global_ineffSF_JVT->Fill(mjj,weight*jet_JET_fJvtEfficiency_1up_forward_jets_global_ineffSF_JVT/jet_NOMINAL_forward_jets_global_ineffSF_JVT);
-        #endif 
-        }
-        if ((sum-cuts[10])==13) {
-          h_n_jets_interval->Fill(n_jets_interval,weight);
-        }
-        if ((sum-cuts[11])==13) {
-          h_Z_centrality->Fill(z_centrality,weight);
-        }
-        if ((sum-cuts[12])==13) {
-          h_inv_mass->Fill(inv_mass,weight);
-        }
+        delta_phiContainer.Fill(angle,weight,cutsVector);
+        delta_yContainer.Fill(delta_y,weight,cutsVector);
+        n_bjetsContainer.Fill(n_bjets_MV2c10_FixedCutBEff_85,weight,cutsVector);
+        lepisoContainer.Fill(muon_0_iso_TightTrackOnly_FixedRad==1 && muon_1_iso_TightTrackOnly_FixedRad==1,weight,cutsVector);
+        lep1_ptContainer.Fill(muon_0_p4->Pt(),weight,cutsVector);
+        lep2_ptContainer.Fill(muon_1_p4->Pt(),weight,cutsVector);
+        ljet0_ptContainer.Fill(ljet_0_p4->Pt(),weight,cutsVector);
+        ljet1_ptContainer.Fill(ljet_1_p4->Pt(),weight,cutsVector);
+        pt_balContainer.Fill(pt_bal,weight,cutsVector);
+        mass_jjContainer.Fill(mjj,weight,cutsVector);
+        n_jets_intervalContainer.Fill(n_jets_interval,weight,cutsVector);
+        Z_centralityContainer.Fill(z_centrality,weight,cutsVector);
+        inv_massContainer.Fill(inv_mass,weight,cutsVector);
+
+        //  Filling histos
+        lep1_etaContainer.Fill(muon_0_p4->Eta(),weight,cutsVector);
+        lep2_etaContainer.Fill(muon_1_p4->Eta(),weight,cutsVector);
+        delta_R_leplepContainer.Fill(muon_0_p4->DeltaR(*muon_1_p4),weight,cutsVector);
+        delta_R_lep1jetContainer.Fill(min_dR_lep1,weight,cutsVector);
+        delta_R_lep2jetContainer.Fill(min_dR_lep2,weight,cutsVector);
+        sum_ptContainer.Fill(muon_0_p4->Pt()+muon_1_p4->Pt(),weight,cutsVector);
+        metContainer.Fill(met_reco_p4->Pt(),weight,cutsVector);
+        lep1_phiContainer.Fill(muon_0_p4->Phi(),weight,notFullCutsVector);
+        lep2_phiContainer.Fill(muon_1_p4->Phi(),weight,notFullCutsVector);
+        if(weight!=1){Z_pt_truthContainer.Fill(truth_z_pt,weight,notFullCutsVector);}
+        if(n_jets_interval==1){gap_jet_ptContainer.Fill(pt_gap_jet,weight,notFullCutsVector);}
+        jet_nContainer.Fill(n_jets,weight,notFullCutsVector);
+        Z_pt_recoContainer.Fill(Z_pt,weight,notFullCutsVector);
+        ljet2_ptContainer.Fill(ljet_2_p4->Pt(),weight,notFullCutsVector);
+        ljet0_etaContainer.Fill(ljet_0_p4->Eta(),weight,notFullCutsVector);
+        ljet1_etaContainer.Fill(ljet_1_p4->Eta(),weight,notFullCutsVector);
+        ljet2_etaContainer.Fill(ljet_2_p4->Eta(),weight,notFullCutsVector);
+        vec_sum_pt_jetsContainer.Fill(jet_pt_sum,weight,notFullCutsVector);
+        ratio_zpt_sumjetptContainer.Fill(ratio_zpt_sumjetpt,weight,notFullCutsVector);
+
+        double etaMoreCentral = abs(ljet_0_p4->Eta())>=abs(ljet_1_p4->Eta()) ? ljet_1_p4->Eta() : ljet_0_p4->Eta();
+        double etaLessCentral = abs(ljet_0_p4->Eta())<abs(ljet_1_p4->Eta()) ? ljet_1_p4->Eta() : ljet_0_p4->Eta();
+        double anglejj = del_phi(ljet_0_p4->Phi(),ljet_1_p4->Phi());
+        moreCentralJetContainer.Fill(etaMoreCentral,weight,notFullCutsVector);
+        lessCentralJetContainer.Fill(etaLessCentral,weight,notFullCutsVector);
+        delta_phijjContainer.Fill(anglejj,weight,notFullCutsVector);
       }
     }
   }
 
 void CLoop::Style(double lumFactor) {
+  lep1_etaContainer.Write();
+  lep2_etaContainer.Write();
+  delta_R_leplepContainer.Write();
+  delta_R_lep1jetContainer.Write();
+  delta_R_lep2jetContainer.Write();
+  sum_ptContainer.Write();
+  metContainer.Write();
+  lep1_phiContainer.Write();
+  lep2_phiContainer.Write();
+  jet_nContainer.Write();
+  Z_pt_recoContainer.Write();
+  ljet2_ptContainer.Write();
+  ljet0_etaContainer.Write();
+  ljet1_etaContainer.Write();
+  ljet2_etaContainer.Write();
+  vec_sum_pt_jetsContainer.Write();
+  ratio_zpt_sumjetptContainer.Write();
+  gap_jet_ptContainer.Write();
 
-    #ifdef WEIGHTSYSTEMATICS
-    h_mass_jj_muon_0_MUON_EFF_ISO_STAT_1down_MuEffSF_IsoTightTrackOnly_FixedRad->Write();
-    h_mass_jj_muon_1_MUON_EFF_ISO_STAT_1down_MuEffSF_IsoTightTrackOnly_FixedRad->Write();
-    h_mass_jj_muon_MUON_EFF_ISO_STAT_1down_MuEffSF_IsoTightTrackOnly_FixedRad->Write();
-    h_mass_jj_muon_0_MUON_EFF_ISO_STAT_1up_MuEffSF_IsoTightTrackOnly_FixedRad->Write();
-    h_mass_jj_muon_1_MUON_EFF_ISO_STAT_1up_MuEffSF_IsoTightTrackOnly_FixedRad->Write();
-    h_mass_jj_muon_MUON_EFF_ISO_STAT_1up_MuEffSF_IsoTightTrackOnly_FixedRad->Write();
-    h_mass_jj_muon_0_MUON_EFF_ISO_SYS_1down_MuEffSF_IsoTightTrackOnly_FixedRad->Write();
-    h_mass_jj_muon_1_MUON_EFF_ISO_SYS_1down_MuEffSF_IsoTightTrackOnly_FixedRad->Write();
-    h_mass_jj_muon_MUON_EFF_ISO_SYS_1down_MuEffSF_IsoTightTrackOnly_FixedRad->Write();
-    h_mass_jj_muon_0_MUON_EFF_ISO_SYS_1up_MuEffSF_IsoTightTrackOnly_FixedRad->Write();
-    h_mass_jj_muon_1_MUON_EFF_ISO_SYS_1up_MuEffSF_IsoTightTrackOnly_FixedRad->Write();
-    h_mass_jj_muon_MUON_EFF_ISO_SYS_1up_MuEffSF_IsoTightTrackOnly_FixedRad->Write();
-    h_mass_jj_muon_0_MUON_EFF_RECO_STAT_1down_MuEffSF_Reco_QualMedium->Write();
-    h_mass_jj_muon_1_MUON_EFF_RECO_STAT_1down_MuEffSF_Reco_QualMedium->Write();
-    h_mass_jj_muon_MUON_EFF_RECO_STAT_1down_MuEffSF_Reco_QualMedium->Write();
-    h_mass_jj_muon_0_MUON_EFF_RECO_STAT_1up_MuEffSF_Reco_QualMedium->Write();
-    h_mass_jj_muon_1_MUON_EFF_RECO_STAT_1up_MuEffSF_Reco_QualMedium->Write();
-    h_mass_jj_muon_MUON_EFF_RECO_STAT_1up_MuEffSF_Reco_QualMedium->Write();
-    h_mass_jj_muon_0_MUON_EFF_RECO_SYS_1down_MuEffSF_Reco_QualMedium->Write();
-    h_mass_jj_muon_1_MUON_EFF_RECO_SYS_1down_MuEffSF_Reco_QualMedium->Write();
-    h_mass_jj_muon_MUON_EFF_RECO_SYS_1down_MuEffSF_Reco_QualMedium->Write();
-    h_mass_jj_muon_0_MUON_EFF_RECO_SYS_1up_MuEffSF_Reco_QualMedium->Write();
-    h_mass_jj_muon_1_MUON_EFF_RECO_SYS_1up_MuEffSF_Reco_QualMedium->Write();
-    h_mass_jj_muon_MUON_EFF_RECO_SYS_1up_MuEffSF_Reco_QualMedium->Write();
-    h_mass_jj_muon_0_MUON_EFF_TrigStatUncertainty_1down_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium->Write();
-    h_mass_jj_muon_1_MUON_EFF_TrigStatUncertainty_1down_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium->Write();
-    h_mass_jj_muon_MUON_EFF_TrigStatUncertainty_1down_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium->Write();
-    h_mass_jj_muon_0_MUON_EFF_TrigStatUncertainty_1down_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium->Write();
-    h_mass_jj_muon_1_MUON_EFF_TrigStatUncertainty_1down_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium->Write();
-    h_mass_jj_muon_MUON_EFF_TrigStatUncertainty_1down_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium->Write();
-    h_mass_jj_muon_0_MUON_EFF_TrigStatUncertainty_1up_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium->Write();
-    h_mass_jj_muon_1_MUON_EFF_TrigStatUncertainty_1up_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium->Write();
-    h_mass_jj_muon_MUON_EFF_TrigStatUncertainty_1up_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium->Write();
-    h_mass_jj_muon_0_MUON_EFF_TrigStatUncertainty_1up_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium->Write();
-    h_mass_jj_muon_1_MUON_EFF_TrigStatUncertainty_1up_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium->Write();
-    h_mass_jj_muon_MUON_EFF_TrigStatUncertainty_1up_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium->Write();
-    h_mass_jj_muon_0_MUON_EFF_TrigSystUncertainty_1down_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium->Write();
-    h_mass_jj_muon_1_MUON_EFF_TrigSystUncertainty_1down_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium->Write();
-    h_mass_jj_muon_MUON_EFF_TrigSystUncertainty_1down_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium->Write();
-    h_mass_jj_muon_0_MUON_EFF_TrigSystUncertainty_1down_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium->Write();
-    h_mass_jj_muon_1_MUON_EFF_TrigSystUncertainty_1down_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium->Write();
-    h_mass_jj_muon_MUON_EFF_TrigSystUncertainty_1down_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium->Write();
-    h_mass_jj_muon_0_MUON_EFF_TrigSystUncertainty_1up_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium->Write();
-    h_mass_jj_muon_1_MUON_EFF_TrigSystUncertainty_1up_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium->Write();
-    h_mass_jj_muon_MUON_EFF_TrigSystUncertainty_1up_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium->Write();
-    h_mass_jj_muon_0_MUON_EFF_TrigSystUncertainty_1up_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium->Write();
-    h_mass_jj_muon_1_MUON_EFF_TrigSystUncertainty_1up_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium->Write();
-    h_mass_jj_muon_MUON_EFF_TrigSystUncertainty_1up_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium->Write();
-    h_mass_jj_PRW_DATASF_1down_pileup_combined_weight->Write();
-    h_mass_jj_PRW_DATASF_1up_pileup_combined_weight->Write();
-    h_mass_jj_jet_JET_JvtEfficiency_1down_central_jets_global_effSF_JVT->Write();
-    h_mass_jj_jet_JET_JvtEfficiency_1down_central_jets_global_ineffSF_JVT->Write();
-    h_mass_jj_jet_JET_JvtEfficiency_1up_central_jets_global_effSF_JVT->Write();
-    h_mass_jj_jet_JET_JvtEfficiency_1up_central_jets_global_ineffSF_JVT->Write();
-    h_mass_jj_jet_JET_fJvtEfficiency_1down_forward_jets_global_effSF_JVT->Write();
-    h_mass_jj_jet_JET_fJvtEfficiency_1down_forward_jets_global_ineffSF_JVT->Write();
-    h_mass_jj_jet_JET_fJvtEfficiency_1up_forward_jets_global_effSF_JVT->Write();
-    h_mass_jj_jet_JET_fJvtEfficiency_1up_forward_jets_global_ineffSF_JVT->Write();
-    #endif
+  moreCentralJetContainer.Write();
+  lessCentralJetContainer.Write();
+  delta_phijjContainer.Write();
 
-  h_delta_phi->Write();
-  h_delta_y->Write();
-  h_n_bjets->Write();
-  h_lepiso->Write();
-  h_lep1_pt->Write();
-  h_lep2_pt->Write();
-  h_ljet0_pt->Write();
-  h_ljet1_pt->Write();
-  h_pt_bal->Write();
-  h_mass_jj->Write();
-  h_n_jets_interval->Write();
-  h_Z_centrality->Write();
-  h_inv_mass->Write();
+  delta_phiContainer.Write();
+  delta_yContainer.Write();
+  n_bjetsContainer.Write();
+  lepisoContainer.Write();
+  lep1_ptContainer.Write();
+  lep2_ptContainer.Write();
+  ljet0_ptContainer.Write();
+  ljet1_ptContainer.Write();
+  pt_balContainer.Write();
+  mass_jjContainer.Write();
+  n_jets_intervalContainer.Write();
+  Z_centralityContainer.Write();
+  inv_massContainer.Write();
+
+  if (lumFactor!=1){
+    Z_pt_truthContainer.Write();
+  }
 }
 
 #endif // End header guard

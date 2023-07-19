@@ -21,11 +21,11 @@ double SigTree_lepNuPt;
 double SigTree_transverseMassLep;
 double SigTree_massTauLep;
 int SigTree_nLightJets;
-TLorentzVector* SigTree_tau4Vector = nullptr;
-TLorentzVector* SigTree_lep4Vector = nullptr;
-TLorentzVector* SigTree_jet04Vector = nullptr;
-TLorentzVector* SigTree_jet14Vector = nullptr;
-TLorentzVector* SigTree_met4Vector = nullptr;
+double SigTree_tau_pT;
+double SigTree_lep_pT;
+double SigTree_jet0_pT;
+double SigTree_jet1_pT;
+double SigTree_met_pT;
 // Background tree
 double BgTree_mcWeight;
 double BgTree_mjj;
@@ -41,11 +41,11 @@ double BgTree_lepNuPt;
 double BgTree_transverseMassLep;
 double BgTree_massTauLep;
 int BgTree_nLightJets;
-TLorentzVector* BgTree_tau4Vector = nullptr;
-TLorentzVector* BgTree_lep4Vector = nullptr;
-TLorentzVector* BgTree_jet04Vector = nullptr;
-TLorentzVector* BgTree_jet14Vector = nullptr;
-TLorentzVector* BgTree_met4Vector = nullptr;
+double BgTree_tau_pT;
+double BgTree_lep_pT;
+double BgTree_jet0_pT;
+double BgTree_jet1_pT;
+double BgTree_met_pT;
 
 // Handling external BDT
 TMVA::Reader* reader = new TMVA::Reader();
@@ -154,6 +154,9 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
     fChain->SetBranchStatus("ljet_3",1);
     fChain->SetBranchStatus("ljet_3_p4",1);
     fChain->SetBranchStatus("ljet_3_q",1);
+    fChain->SetBranchStatus("bjet_0",1);
+    fChain->SetBranchStatus("bjet_0_p4",1);
+    fChain->SetBranchStatus("bjet_0_q",1);
     fChain->SetBranchStatus("met_reco_p4",1);
     fChain->SetBranchStatus("n_bjets_MV2c10_FixedCutBEff_85",1);
     fChain->SetBranchStatus("n_electrons",1);
@@ -309,11 +312,11 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
     signalTree->Branch("transverseMassLep",&SigTree_transverseMassLep);
     signalTree->Branch("massTauLep",&SigTree_massTauLep);
     signalTree->Branch("nLightJets",&SigTree_nLightJets);
-    signalTree->Branch("tau_p4", &SigTree_tau4Vector);
-    signalTree->Branch("lep_p4", &SigTree_lep4Vector);
-    signalTree->Branch("jet0_p4", &SigTree_jet04Vector);
-    signalTree->Branch("jet1_p4", &SigTree_jet14Vector);
-    signalTree->Branch("met_p4", &SigTree_met4Vector);
+    signalTree->Branch("tau_p4", &SigTree_tau_pT);
+    signalTree->Branch("lep_p4", &SigTree_lep_pT);
+    signalTree->Branch("jet0_p4", &SigTree_jet0_pT);
+    signalTree->Branch("jet1_p4", &SigTree_jet1_pT);
+    signalTree->Branch("met_p4", &SigTree_met_pT);
 
     bgTree->Branch("mcWeight", &BgTree_mcWeight);
     bgTree->Branch("mjj", &BgTree_mjj);
@@ -329,31 +332,31 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
     bgTree->Branch("transverseMassLep",&BgTree_transverseMassLep);
     bgTree->Branch("massTauLep",&BgTree_massTauLep);
     bgTree->Branch("nLightJets",&BgTree_nLightJets);
-    bgTree->Branch("tau_p4", &BgTree_tau4Vector);
-    bgTree->Branch("lep_p4", &BgTree_lep4Vector);
-    bgTree->Branch("jet0_p4", &BgTree_jet04Vector);
-    bgTree->Branch("jet1_p4", &BgTree_jet14Vector);
-    bgTree->Branch("met_p4", &BgTree_met4Vector);
-
+    bgTree->Branch("tau_p4", &BgTree_tau_pT);
+    bgTree->Branch("lep_p4", &BgTree_lep_pT);
+    bgTree->Branch("jet0_p4", &BgTree_jet0_pT);
+    bgTree->Branch("jet1_p4", &BgTree_jet1_pT);
+    bgTree->Branch("met_p4", &BgTree_met_pT);
+    if(saveHistograms){
     reader->AddVariable("mjj",&bdt_mjj);
     reader->AddVariable("deltaRapidity",&bdt_drap);
-    reader->AddVariable("deltaPhiLT",&bdt_dphi);
-    reader->AddVariable("jetRNNScore",&bdt_jetRNN);
+    //reader->AddVariable("deltaPhiLT",&bdt_dphi);
+    //reader->AddVariable("jetRNNScore",&bdt_jetRNN);
     reader->AddVariable("ptBalance",&bdt_ptbal);
     reader->AddVariable("zCentrality",&bdt_zcen);
     reader->AddVariable("omega",&bdt_omega);
-    reader->AddVariable("reco_mass",&bdt_recomass);
-    reader->AddVariable("lepNuPt",&bdt_lepnupt);
+    //reader->AddVariable("reco_mass",&bdt_recomass);
+    //reader->AddVariable("lepNuPt",&bdt_lepnupt);
     reader->AddVariable("transverseMassLep",&bdt_transmasslep);
-    reader->AddVariable("massTauLep",&bdt_masstaul);
-    reader->AddVariable("nLightJets",&bdt_nljet);
-    reader->AddVariable("tau_p4->Pt()",&bdt_taupt);
-    reader->AddVariable("lep_p4->Pt()",&bdt_leppt);
-    reader->AddVariable("jet0_p4->Pt()",&bdt_jet0pt);
-    reader->AddVariable("jet1_p4->Pt()",&bdt_jet1pt);
-    reader->AddVariable("met_p4->Pt()",&bdt_met);
-    reader->BookMVA("VBF_BDT", "/Users/diegomac/Documents/HEP/MVA-Analysis/dataset/weights/Classification_BDT1.weights.xml");
-
+    //reader->AddVariable("massTauLep",&bdt_masstaul);
+    //reader->AddVariable("nLightJets",&bdt_nljet);
+    //reader->AddVariable("tau_p4->Pt()",&bdt_taupt);
+    //reader->AddVariable("lep_p4->Pt()",&bdt_leppt);
+    //reader->AddVariable("jet0_p4->Pt()",&bdt_jet0pt);
+    //reader->AddVariable("jet1_p4->Pt()",&bdt_jet1pt);
+    //reader->AddVariable("met_p4->Pt()",&bdt_met);
+    reader->BookMVA("VBF_BDT", "/Users/diegomac/Documents/HEP/MVA-Analysis/dataset/weights/_BDTProduction.weights.xml");
+    }
     // loop over number of entries
     for (Long64_t jentry=0; jentry<nLoop;jentry++) {
         Long64_t ientry = LoadTree(jentry);
@@ -385,7 +388,7 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
         double mjj_w = 1.0;
 
         // mjj reweighting
-        bool reweight_mjj = false;
+        bool reweight_mjj = true;
         if (reweight_mjj){
             MC mcSample = static_cast<MC>(z_sample);
             if(mcSample == MC::PowHegPythia){

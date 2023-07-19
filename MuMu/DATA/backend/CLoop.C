@@ -2,25 +2,7 @@
 
 #include "../Analysis.C"
 #include <cmath>
-
-double mjj_rw_quadratic(double mjj, double a, double b, double c){
-    double rw = a*mjj*mjj+b*mjj+c;
-    if (rw<0){
-        return 0.0;
-    } else {
-        return rw;
-    }
-}
-
-double mjj_rw_linear(double mjj, double slope, double level){
-    double rw = slope*mjj+level;
-    if (rw<0){
-        return 0.0;
-    } else {
-        return rw;
-    } 
-}
-
+#include "../../../AnalysisCommons/rewightingTools.h"
 
 void CLoop::Loop(double lumFactor, int z_sample, std::string key)
 {
@@ -66,7 +48,7 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
     std::cout<<"Analysing "<<nLoop<<" Events!"<<std::endl;
 
     Long64_t nbytes = 0, nb = 0;
-
+    #ifdef NOMINAL
     // Only relevant branches are activated
     fChain->SetBranchStatus("*",0);
     fChain->SetBranchStatus("HLT_mu20_iloose_L1MU15",1);
@@ -144,7 +126,7 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
     fChain->SetBranchStatus("truth_Z_p4",1);
     fChain->SetBranchStatus("weight_mc",1);
     fChain->SetBranchStatus("weight_mc_v",1);
-
+    #endif
     // loop over number of entries
     for (Long64_t jentry=0; jentry<nLoop;jentry++) {
         Long64_t ientry = LoadTree(jentry);
@@ -156,34 +138,101 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
             std::cout<<"Analysed... "<<100*double(jentry)/nLoop<<"% of events!"<<std::endl;
         }
 
-        double mjj_w=1.0;
+        // Variables defining regions
+        // DELTA RAPIDITY 2-JETS
+        double delta_y = abs(ljet_0_p4->Rapidity()-ljet_1_p4->Rapidity());
+        // NUMBER OF JETS INTERVAL
+        size_t n_ljets=n_jets-n_bjets_MV2c10_FixedCutBEff_85;
+        int n_jets_interval{};
+        if(n_ljets>2){
+          n_jets_interval=n_jets_interval+is_inside_jets(ljet_2_p4,ljet_0_p4,ljet_1_p4);
+        }
+        // Z BOSON CENTRALITY
+        double lepton_xi=((*muon_0_p4)+(*muon_1_p4)).Rapidity();
+        double dijet_xi=ljet_0_p4->Rapidity()+ljet_1_p4->Rapidity();
+        double z_centrality=abs(lepton_xi-0.5*dijet_xi)/delta_y;
+
+        Region region = Region::DefaultNoRW;
+        if ((z_centrality<0.5 && z_centrality<=1) && n_jets_interval==0){region = Region::SR;}
+        else if ((z_centrality<0.5 && z_centrality<=1) && n_jets_interval==1){region = Region::CRa;}
+        else if ((z_centrality>=0.5 && z_centrality<=1) && n_jets_interval==1){region = Region::CRb;}
+        else if ((z_centrality>=0.5 && z_centrality<=1) && n_jets_interval==0){region = Region::CRc;}
+
+        std::map<Region,std::vector<double>> parametersSHERPA = {
+            {Region::DefaultNoRW,{0.0,0.0,1.0}},
+            {Region::SR,{1.40E-07,-7.16E-04,1.51E+00}},
+            {Region::CRa,{5.61E-08,-4.20E-04,1.25E+00}},
+            {Region::CRb,{4.12E-08,-3.64E-04,1.08E+00}},
+            {Region::CRc,{1.09E-07,-6.10E-04,1.30E+00}}
+        };
+
+        std::map<Region,std::vector<double>> parametersMadGraph = {
+            {Region::DefaultNoRW,{0.0,0.0,1.0}},
+            {Region::SR,{1.30E-07,-5.29E-04,9.82E-01}},
+            {Region::CRa,{1.53E-07,-5.42E-04,1.10E+00}},
+            {Region::CRb,{6.24E-08,-2.97E-04,9.72E-01}},
+            {Region::CRc,{5.95E-08,-3.32E-04,8.78E-01}}
+        };
+
+        std::map<Region,std::vector<double>> parametersSHERPANLO = {
+            {Region::DefaultNoRW,{0.0,0.0,1.0}},
+            {Region::SR,{9.15E-08,-4.62E-04,1.21E+00}},
+            {Region::CRa,{5.81E-08,-2.63E-04,1.21E+00}},
+            {Region::CRb,{1.11E-08,-1.41E-04,1.05E+00}},
+            {Region::CRc,{4.96E-08,-3.38E-04,1.07E+00}}
+        };
+
+        std::map<Region,std::vector<double>> parametersMadGraphNLO = {
+            {Region::DefaultNoRW,{0.0,0.0,1.0}},
+            {Region::SR,{1.26E-07,-2.35E-04,1.19E+00}},
+            {Region::CRa,{1.69E-07,-2.58E-04,9.68E-01}},
+            {Region::CRb,{-3.62E-08,1.19E-04,7.73E-01}},
+            {Region::CRc,{-8.28E-08,1.61E-04,9.65E-01}}
+        };
+
+        double mjj=sqrt(2*(ljet_0_p4->Dot(*ljet_1_p4)));
+        double mjj_w=1;
+        double a{0.0};
+        double b{0.0};
+        double c{1.0};
+
         // mjj reweighting
-        /*if(z_sample==1 ){
+        MC mcSample = static_cast<MC>(z_sample);
+        if(mcSample == MC::PowHegPythia){
             mjj_w = 1.0;
-        } else if (z_sample==2){ // SHERPA
-            double mjj=sqrt(2*(ljet_0_p4->Dot(*ljet_1_p4)));
-            mjj_w = mjj_rw_quadratic(mjj,1.09E-07,-6.10E-04,1.30E+00);
-        } else if (z_sample==3){ // MadGraph
-            double mjj=sqrt(2*(ljet_0_p4->Dot(*ljet_1_p4)));
-            mjj_w = mjj_rw_quadratic(mjj,5.95E-08,-3.32E-04,8.78E-01);
-        }*/
-
+        } else if (mcSample == MC::SHERPA){
+            a = parametersSHERPA[region].at(0);
+            b = parametersSHERPA[region].at(1);
+            c = parametersSHERPA[region].at(2);
+            mjj_w = mjj_rw_quadratic(mjj,a,b,c);
+        } else if (mcSample == MC::MadGraph){ 
+            a = parametersMadGraph[region].at(0);
+            b = parametersMadGraph[region].at(1);
+            c = parametersMadGraph[region].at(2);
+            mjj_w = mjj_rw_quadratic(mjj,a,b,c);
+        } else if (mcSample == MC::SHERPANLO){ 
+            a = parametersMadGraph[region].at(0);
+            b = parametersMadGraph[region].at(1);
+            c = parametersMadGraph[region].at(2);
+            mjj_w = mjj_rw_quadratic(mjj,a,b,c);
+        } else if (mcSample == MC::MadGraphNLO){ 
+            a = parametersMadGraph[region].at(0);
+            b = parametersMadGraph[region].at(1);
+            c = parametersMadGraph[region].at(2);
+            mjj_w = mjj_rw_quadratic(mjj,a,b,c);
+        }
+        
         // ZpT reweighting
-
+						
         double z_w=1;
         double zpt_weight=1/z_w;
 
-
         // calculate event weight
         double eventWeight = 1;
-        double weight_total{0};
-        if(!(key.substr(0,4)=="data")){
-            weight_total= weight_mc*NOMINAL_pileup_combined_weight;
-        }
         // check if event is from real data
         if (!(key.substr(0,4)=="data")) {
             // take product of all scale factors
-            eventWeight = weight_total*lumFactor*zpt_weight*mjj_w
+            eventWeight = weight_mc*NOMINAL_pileup_combined_weight*lumFactor*zpt_weight*mjj_w
             *muon_0_NOMINAL_MuEffSF_IsoTightTrackOnly_FixedRad*muon_0_NOMINAL_MuEffSF_Reco_QualMedium/*muon_0_NOMINAL_MuEffSF_TTVA*/
             *jet_NOMINAL_central_jets_global_effSF_JVT*jet_NOMINAL_central_jets_global_ineffSF_JVT*jet_NOMINAL_forward_jets_global_effSF_JVT
             *jet_NOMINAL_forward_jets_global_ineffSF_JVT*jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85*jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85

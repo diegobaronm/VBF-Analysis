@@ -2,7 +2,7 @@
 #define Header
 
 double pi=TMath::Pi();
-std::vector<std::string> cutNames{"basic","dphi","drap","btag","iso","rnn","ptl","j1pt","j2pt","ptbal","mjj","nji","zcen","omega","mreco","tpt"};
+std::vector<std::string> cutNames{"basic","dphi","drap","btag","iso","rnn","ptl","j1pt","j2pt","ptbal","mjj","nji","zcen","omega","mreco","tpt","mva","lepnupt","ptsym"};
 std::vector<std::string> notFull{"basic","all"};
 
 #define NOMINAL // NOMINAL , SHAPESYSTEMATICS, WEIGHTSYSTEMATICS
@@ -56,6 +56,9 @@ histogramContainer tau_matched_3pNotFullContainer{"tau_matched_3p","Tau truth ma
 histogramContainer Z_pt_truth_iNotFullContainer{"Z_pt_truth_i","Truth ZpT in between events",1000,0,1000,notFull};
 histogramContainer Z_pt_truth_oNotFullContainer{"Z_pt_truth_o","Truth ZpT outside events",1000,0,1000,notFull};
 
+histogramContainer lepnuptContainer{"lepNuPt","Lepton neutrino pT",200,0,200,cutNames,"lepnupt"};
+histogramContainer ptsymContainer{"pTsymmetry","Lepton-tau pT normalised difference",200,-1,1,cutNames,"ptsym"};  
+histogramContainer bdtContainer{"bdtScore","BDT Score",200,-1,1,cutNames,"mva"};
 histogramContainer delta_phiContainer{"delta_phi","Delta phi between tau and lep",32,0,3.2,cutNames,"dphi"};
 histogramContainer delta_yContainer{"delta_y","Delta Rapidity",100,0,10,cutNames,"drap"};
 histogramContainer n_bjetsContainer{"n_bjets","Number of b_jets",5,0,5,cutNames,"btag"};
@@ -78,7 +81,6 @@ histogramContainer lepTransMassContainer{"lepTransMass","Transverse mass lepton"
 histogramContainer tauTransMassContainer{"tauTransMass","Transverse mass tau",500,0,500,notFull};
 histogramContainer transMassSumContainer{"transMassSum","Transverse mass sum",1000,0,1000,notFull};
 histogramContainer transMassRatioContainer{"transMassRatio","Transverse mass ratio",200,-1.0,1.0,notFull};
-histogramContainer bdtContainer{"bdtScore","BDT Score",200,-1,1,notFull};
 
 #endif
 
