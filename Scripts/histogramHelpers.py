@@ -112,7 +112,7 @@ def scaleUncertainty(histogram,scaleFactor):
 ############################################################################################################
 
 # Function to plot a histogram stack of MC with data
-def stackPlot(data,signal,background,histograms,watermark,function,signalMu = 1.0, backgroundMu = 1.0,average=False,after_fit=False,final_state="Z#rightarrow #mu#mu"):
+def stackPlot(data,signal,background,histograms,watermark,function,additionalSignal=[],signalMu = 1.0, backgroundMu = 1.0,average=False,after_fit=False,final_state="Z#rightarrow #mu#mu"):
     samples = data.copy()
     samples.update(background)
     samples.update(signal)
@@ -183,6 +183,8 @@ def stackPlot(data,signal,background,histograms,watermark,function,signalMu = 1.
         ratio.Divide(mc,samples["Data"][2],"pois")
     
         ratio_sg_mc=samples["Signal"][2].Clone()
+        for additionalS in additionalSignal:
+            ratio_sg_mc.Add(samples[additionalS][2])
         ratio_sg_mc.Divide(mc)
         ratio_sg_mc.SetLineColor(r.kBlack)
 
@@ -406,7 +408,7 @@ def stackPlot(data,signal,background,histograms,watermark,function,signalMu = 1.
 ############################################################################################################
 
 
-def stackPlotNoData(signal,background,histograms,watermark,signalMu = 1.0, backgroundMu = 1.0,average=False,after_fit=False,final_state="Z#rightarrow #mu#mu"):
+def stackPlotNoData(signal,background,histograms,watermark,additionalSignal=[],signalMu = 1.0, backgroundMu = 1.0,average=False,after_fit=False,final_state="Z#rightarrow #mu#mu"):
     samples = background.copy()
     samples.update(signal)
 
@@ -468,6 +470,8 @@ def stackPlotNoData(signal,background,histograms,watermark,signalMu = 1.0, backg
         ratio.Divide(mc,mc,"pois")
     
         ratio_sg_mc=samples["Signal"][2].Clone()
+        for additionalS in additionalSignal:
+            ratio_sg_mc.Add(samples[additionalS][2])
         ratio_sg_mc.Divide(mc)
         ratio_sg_mc.SetLineColor(r.kBlack)
 
@@ -510,7 +514,7 @@ def stackPlotNoData(signal,background,histograms,watermark,signalMu = 1.0, backg
         s=samples["Signal"][2].GetXaxis().GetBinLowEdge(1)
         e=samples["Signal"][2].GetXaxis().GetBinUpEdge(samples["Signal"][2].GetNbinsX())
         
-        samples["Signal"][2].GetYaxis().SetRangeUser(0.01 ,1.3*hs.GetMaximum())
+        samples["Signal"][2].GetYaxis().SetRangeUser(0.01 ,1.6*hs.GetMaximum())
         samples["Signal"][2].GetXaxis().SetRangeUser(s,e)
         samples["Signal"][2].GetXaxis().SetRangeUser(s,e)
         if len(histograms[i])>2:
@@ -799,8 +803,9 @@ histogramsHighStatsZtautau = {
 "delta_R_taulep_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt":[[0.5],[0.5,0.5],0.5,'#DeltaR(#tau,l)'],
 "delta_R_lepjet_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt":[[0.5],[0.5,0.5],0.5,'#DeltaR(l,j)'],
 "delta_R_taujet_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt":[[0.5],[0.5,0.5],0.5,'#DeltaR(#tau,j)'],
-"met_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mlt_ebdt_mreco_tpt":[[100],[20,100],20,'MET(e,#tau)'],
-"met_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt":[[100],[20,100],20,'MET(#mu,#tau)'],
+#"met_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mlt_ebdt_mreco_tpt":[[100],[20,100],20,'MET(e,#tau)'],
+#"met_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt":[[100],[20,100],20,'MET(#mu,#tau)'],
+"met_basic_all":[[100],[20,100],20,'MET'],
 "delta_y":[[2.0,6.0],[2.0,1.0,4.0],1.0,'#Deltay_{jj}'],
 "omega":[[-0.2,1.6],[1.4,0.2,0.7],0.2,'#Omega'],
 "rnn_score_1p":[[0.25],[0.25,0.25],0.25,'jetRNN Score 1p'],
@@ -829,7 +834,13 @@ histogramsHighStatsZtautau = {
 "nuLepPt_basic_all":[[50,150],[10,20,50],10,'pT(#nu_{l})'],
 "nuTauPt_basic_all":[[50,150],[10,20,50],10,'pT(#nu_{#tau})'],
 "nuPtAssummetry_basic_all":[[0.0],[0.1,0.1],0.1,'pT(#nu_{l}-#nu_{#tau})/(#nu_{l}+#nu_{#tau})'],
-"bdtScore":[[0.0],[0.2,0.2],0.2,"BDT score"],
+
+"bdtScore":[[0.0,0.3,0.4],[0.2,0.15,0.1,0.2],0.2,"BDT score"],
+"lepNuPt":[[30,100],[15,35,100],15,'pT(#nu_{l})'],
+"pTsymmetry":[[0.4],[0.35,0.3],0.3,"pT(#tau - l)/(#tau + l)"],
+"lepTransMass_basic_all":[[100,200],[20,50,50],20,'m_{T}(l)'],
+"tauTransMass_basic_all":[[100,200],[20,50,50],20,'m_{T}(#tau)'],
+
 }
 
 histogramsLowStatsZtautau = {
@@ -889,26 +900,29 @@ histogramsVeryLowStatsZtautau = {
 "n_jets_interval":['N jets gap'],
 "flavourJet1_basic_all":[],
 "flavourJet2_basic_all":[],
+"elecPdgID_basic_all":[],
+"muonPdgID_basic_all":[],
+"tauPdgID_basic_all":[],
 "nLightJets_basic_all":[],
-"tau_pt":[[25.0,125.0,150.0],[25.0,40.0,125.0,350.0],25.0,'pT(#tau)'],
+"tau_pt":[[25.0,125.0,150.0],[25.0,20.0,125.0,350.0],25.0,'pT(#tau)'],
 "lep_pt":[[27,97,297],[27,35,100,203],27,'pT(l)'],
 "delta_phi":[[1.8],[0.9,0.7],0.7,'#Delta#phi(#tau,l)'],
-"lep_eta_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt":[[0.5],[0.5,0.5],0.5,'#eta(l)'],
-"tau_eta_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt":[[0.5],[0.5,0.5],0.5,'#eta(#tau)'],
-"delta_R_taulep_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt":[[0.5],[0.5,0.5],0.5,'#DeltaR(#tau,l)'],
-"delta_R_lepjet_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt":[[0.5],[0.5,0.5],0.5,'#DeltaR(l,j)'],
-"delta_R_taujet_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt":[[0.5],[0.5,0.5],0.5,'#DeltaR(#tau,j)'],
-"met_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mlt_ebdt_mreco_tpt":[[100],[20,100],20,'MET(e,#tau)'],
-"met_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt":[[100],[20,100],20,'MET(#mu,#tau)'],
+#"lep_eta_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt":[[0.5],[0.5,0.5],0.5,'#eta(l)'],
+#"tau_eta_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt":[[0.5],[0.5,0.5],0.5,'#eta(#tau)'],
+#"delta_R_taulep_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt":[[0.5],[0.5,0.5],0.5,'#DeltaR(#tau,l)'],
+#"delta_R_lepjet_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt":[[0.5],[0.5,0.5],0.5,'#DeltaR(l,j)'],
+#"delta_R_taujet_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt":[[0.5],[0.5,0.5],0.5,'#DeltaR(#tau,j)'],
+#"met_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mlt_ebdt_mreco_tpt":[[100],[20,100],20,'MET(e,#tau)'],
+#"met_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt":[[100],[20,100],20,'MET(#mu,#tau)'],
 "delta_y":[[6.0],[2.0,4.0],2.0,'#Deltay_{jj}'],
-"omega":[[-0.2,0.0,0.6,1.4],[1.4,0.2,0.3,0.4,1.6],0.2,'#Omega'],
+"omega":[[-0.2,0.0,0.6,1.4],[1.4,0.2,0.3,0.39999,1.6],0.2,'#Omega'],
 "rnn_score_1p":[[0.25],[0.25,0.25],0.25,'jetRNN Score 1p'],
 "rnn_score_3p":[[0.4],[0.2,0.1999],0.2,'jetRNN Score 3p'],
 "ljet0_pt":[[75,375,625],[75,100,225,375],75,'pT(j_{1})'],
 "ljet1_pt":[[70,370,630],[70,100,230,370],70,'pT(j_{2})'],
 "pt_bal":[[0.15],[0.03,0.75],0.03,'pT balance'],
 "Z_centrality":[[0.2,0.5],[0.2,0.3,4.5],0.2,'#xi(Z)'],
-"mass_jj":[[500,1250],[250,500,1250],250,'m_{jj}'],
+"mass_jj":[[1000,2500],[250,750,1250],250,'m_{jj}'],
 "reco_mass_i":[[66,81,101,116,150,250],[66,15,20,15,17,50,250],15,'m_{#tau,l}(i)'],
 "reco_mass_o":[[66,81,101,116,150,250],[66,15,20,15,17,50,250],15,'m_{#tau,l}(o)'],
 "reco_mass_":[[66,81,101,116,150,250],[66,15,20,15,17,50,250],15,'m_{#tau,l}'],
@@ -918,19 +932,23 @@ histogramsVeryLowStatsZtautau = {
 "vec_sum_pt_jets_basic_all":[[100,250],[20,50,250],20,'Vec Sum pT(j_{1}+j_{2})'],
 "moreCentralJet_basic_all":[[0.0],[0.2,0.2],0.2,"more central jet rapidity"],
 "lessCentralJet_basic_all":[[0.0],[0.2,0.2],0.2,"less central jet rapidity"],
-"normPtDifference_basic_all":[[0.4],[0.35,0.3],0.3,"pT(#mu - e)/(#mu + e)"],
-"metToDilepnuRatio_basic_all":[[1.0],[0.2,0.2],0.2,"MET/(pT(#mu) + pT(e)+ pT(#nu))"],
-"metToDilepRatio_basic_all":[[1.0],[0.2,0.2],0.2,"MET/(pT(#mu) + pT(e))"],
+#"normPtDifference_basic_all":[[0.4],[0.35,0.3],0.3,"pT(#mu - e)/(#mu + e)"],
+#"metToDilepnuRatio_basic_all":[[1.0],[0.2,0.2],0.2,"MET/(pT(#mu) + pT(e)+ pT(#nu))"],
+#"metToDilepRatio_basic_all":[[1.0],[0.2,0.2],0.2,"MET/(pT(#mu) + pT(e))"],
 "delta_phijj_basic_all":[[1.8],[0.9,0.7],0.7,"#Delta#phi(j_{1},j_{2})"],
 "massTauClosestJet_basic_all":[[200,500],[100,100,500],100,"m_{#tau,j_{closest}}"],
-"massLepClosestJet_basic_all":[[100,200,500],[10,20,50,500],10,"m_{l,j_{closest}}"],
-"massTauFurthestJet_basic_all":[[100,200,500],[10,20,50,500],10,"m_{#tau,j_{furthest}}"],
-"nuLepPt_basic_all":[[30,100],[15,35,100],15,'pT(#nu_{l})'],
-"nuTauPt_basic_all":[[30,100],[15,35,100],15,'pT(#nu_{#tau})'],
+"massLepClosestJet_basic_all":[[200,500],[100,100,500],100,"m_{l,j_{closest}}"],
+"massTauFurthestJet_basic_all":[[200,500],[100,100,500],100,"m_{#tau,j_{furthest}}"],
+#"nuLepPt_basic_all":[[30,100],[15,35,100],15,'pT(#nu_{l})'],
+"nuTauPt":[[30,100],[15,35,100],15,'pT(#nu_{#tau})'],
 "nuPtAssummetry_basic_all":[[0.0],[0.1,0.1],0.1,'pT(#nu_{l}-#nu_{#tau})/(#nu_{l}+#nu_{#tau})'],
 "bdtScore":[[0.0,0.3,0.4],[0.2,0.15,0.1,0.2],0.2,"BDT score"],
 "lepNuPt":[[30,100],[15,35,100],15,'pT(#nu_{l})'],
 "pTsymmetry":[[0.4],[0.35,0.3],0.3,"pT(#tau - l)/(#tau + l)"],
+"lepTransMass_basic_all":[[100,200],[20,50,50],20,'m_{T}(l)'],
+"tauTransMass_basic_all":[[100,200],[20,50,50],20,'m_{T}(#tau)'],
+"signedCentrality_basic_all":[[0.0],[0.1,0.1],0.1,"Signed #xi(Z)"],
+"visibleMass_basic_all":[[40,100,150,250],[40,20,25,50,250],20,'m(vis)_{#tau,l}'],
 }
 
 # Tau(lep)Tau(lep)

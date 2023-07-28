@@ -26,6 +26,7 @@ double SigTree_lep_pT;
 double SigTree_jet0_pT;
 double SigTree_jet1_pT;
 double SigTree_met_pT;
+double SigTree_event_number;
 // Background tree
 double BgTree_mcWeight;
 double BgTree_mjj;
@@ -46,12 +47,13 @@ double BgTree_lep_pT;
 double BgTree_jet0_pT;
 double BgTree_jet1_pT;
 double BgTree_met_pT;
+double BgTree_event_number;
 
 // Handling external BDT
 TMVA::Reader* reader = new TMVA::Reader();
 float bdt_mjj, bdt_drap, bdt_dphi, bdt_jetRNN, bdt_ptbal, bdt_zcen, bdt_omega, bdt_recomass, bdt_lepnupt, bdt_transmasslep, bdt_masstaul;
 float bdt_nljet;
-float bdt_taupt, bdt_leppt, bdt_jet0pt, bdt_jet1pt, bdt_met;
+float bdt_taupt, bdt_leppt, bdt_jet0pt, bdt_jet1pt, bdt_met, bdt_eventNumber;
 
 void CLoop::Loop(double lumFactor, int z_sample, std::string key)
 {
@@ -200,6 +202,9 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
     fChain->SetBranchStatus("truth_Z_p4",1);
     fChain->SetBranchStatus("weight_mc",1);
     fChain->SetBranchStatus("weight_mc_v",1);
+    fChain->SetBranchStatus("event_number",1);   
+    fChain->SetBranchStatus("tau_0_truth_pdgId",1);
+    fChain->SetBranchStatus("muon_0_matched_pdgId",1);
     } else {
     fChain->SetBranchStatus("*",0);
     fChain->SetBranchStatus("HLT_mu20_iloose_L1MU15",1);
@@ -267,7 +272,7 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
     fChain->SetBranchStatus("tau_0_n_old_tracks",1);
     fChain->SetBranchStatus("tau_0_n_unclassified_tracks",1);
     fChain->SetBranchStatus("tau_0_p4",1);
-    fChain->SetBranchStatus("tau_0_q",1);   
+    fChain->SetBranchStatus("tau_0_q",1);
     }
     #endif
 
@@ -303,6 +308,7 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
     signalTree->Branch("jet0_p4", &SigTree_jet0_pT);
     signalTree->Branch("jet1_p4", &SigTree_jet1_pT);
     signalTree->Branch("met_p4", &SigTree_met_pT);
+    signalTree->Branch("eventNumber", &SigTree_event_number);
 
     bgTree->Branch("mcWeight", &BgTree_mcWeight);
     bgTree->Branch("mjj", &BgTree_mjj);
@@ -323,6 +329,7 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
     bgTree->Branch("jet0_p4", &BgTree_jet0_pT);
     bgTree->Branch("jet1_p4", &BgTree_jet1_pT);
     bgTree->Branch("met_p4", &BgTree_met_pT);
+    bgTree->Branch("eventNumber", &BgTree_event_number);
     if(saveHistograms){
     reader->AddVariable("mjj",&bdt_mjj);
     reader->AddVariable("deltaRapidity",&bdt_drap);
@@ -341,7 +348,8 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
     //reader->AddVariable("jet0_p4->Pt()",&bdt_jet0pt);
     //reader->AddVariable("jet1_p4->Pt()",&bdt_jet1pt);
     //reader->AddVariable("met_p4->Pt()",&bdt_met);
-    reader->BookMVA("VBF_BDT", "/Users/diegomac/Documents/HEP/MVA-Analysis/dataset/weights/_BDTProduction.weights.xml");
+    reader->AddSpectator("eventNumber", &bdt_eventNumber); // For deterministic split
+    reader->BookMVA("VBF_BDT", "/Users/diegomac/Documents/HEP/MVA-Analysis/dataset/weights/validateBDT_BDT-HM-10Folds.weights.xml");
     }
     // loop over number of entries
     for (Long64_t jentry=0; jentry<nLoop;jentry++) {
@@ -479,9 +487,9 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
     delete signalTree;
     delete bgTree;
     outfile.Close();
-    
+    delete reader;
     clock_t endTime = clock(); // get end time
     // calculate time taken and print it
     double time_spent = (endTime - startTime) / CLOCKS_PER_SEC;
-    cout << "Time processing == " <<time_spent << std::endl;
+    std::cout << "Time processing == " <<time_spent << std::endl;
 }

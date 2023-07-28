@@ -2,7 +2,7 @@
 #define Header
 
 double pi=TMath::Pi();
-std::vector<std::string> cutNames{"basic","dphi","drap","btag","iso","rnn","ptl","j1pt","j2pt","ptbal","mjj","nji","zcen","omega","mreco","tpt","mva","lepnupt","ptsym"};
+std::vector<std::string> cutNames{"basic","dphi","drap","btag","iso","rnn","ptl","j1pt","j2pt","ptbal","mjj","nji","zcen","omega","mreco","tpt","mva","lepnupt","ptsym","taunupt"};
 std::vector<std::string> notFull{"basic","all"};
 
 #define NOMINAL // NOMINAL , SHAPESYSTEMATICS, WEIGHTSYSTEMATICS
@@ -15,7 +15,7 @@ histogramContainer delta_R_taulepContainer{"delta_R_taulep","Delta R tau-lep",60
 histogramContainer delta_R_lepjetContainer{"delta_R_lepjet","Delta R lep-jet",60,0,6,cutNames};
 histogramContainer delta_R_taujetContainer{"delta_R_taujet","Delta R tau-jet",60,0,6,cutNames};
 histogramContainer sum_ptContainer{"sum_pt","Sum of lepton and tau pT",800,0,800,cutNames};
-histogramContainer metContainer{"met","Missing Transverse momentum",500,0,500,cutNames};
+histogramContainer metContainer{"met","Missing Transverse momentum",500,0,500,notFull};
 histogramContainer moreCentralJetContainer{"moreCentralJet","More central tagging jet",140,-7.0,7.0,notFull};
 histogramContainer lessCentralJetContainer{"lessCentralJet","Less central tagging jet",140,-7.0,7.0,notFull};
 histogramContainer normPtDifferenceContainer{"normPtDifference"," (tau-mu)/(tau+mu) pT ",200,-1.0,1.0,notFull};
@@ -24,13 +24,14 @@ histogramContainer metToDilepRatioContainer{"metToDilepRatio","MET/(tau+mu) pT",
 histogramContainer delta_phijjContainer{"delta_phijj","Delta phi between tagging jets",32,0,3.2,notFull};
 histogramContainer massTauClosestJetContainer{"massTauClosestJet","Mass of tau and closest jet",2000,0,2000,notFull};
 histogramContainer massTauFurthestJetContainer{"massTauFurthestJet","Mass of tau and furthest jet",2000,0,2000,notFull};
-histogramContainer nuLepPtContainer{"nuLepPt","Neutrino lepton side pT",200,0,200,notFull};
-histogramContainer nuTauPtContainer{"nuTauPt","Neutrino tau side pT",200,0,200,notFull};
 histogramContainer nuPtAssummetryContainer{"nuPtAssummetry","Neutrinos pT difference over sumn",40,-1,1,notFull};
 histogramContainer massLepClosestJetContainer{"massLepClosestJet","Mass of lep and closest jet",2000,0,2000,notFull};
 histogramContainer flavourJet1Container{"flavourJet1","Jet1 truth flavour",50,-25,25,notFull};
 histogramContainer flavourJet2Container{"flavourJet2","Jet2 truth flavour",50,-25,25,notFull};
 histogramContainer nLightJetsContainer{"nLightJets","Number of light jets",4,0,4,notFull};
+histogramContainer muonPdgIDContainer{"muonPdgID","Muon truth pdgID",50,-25,25,notFull};
+histogramContainer tauPdgIDContainer{"tauPdgID","Tau truth pdgID",50,-25,25,notFull};
+histogramContainer signedCentralityContainer{"signedCentrality","Z boson signed centrality",400,-2,2,notFull};
 
 histogramContainer lep_phiNotFullContainer{"lep_phi","Lep phi angle",64,-3.2,3.2,notFull};
 histogramContainer tau_phiNotFullContainer{"tau_phi","Tau phi angle",64,-3.2,3.2,notFull};
@@ -56,6 +57,8 @@ histogramContainer tau_matched_3pNotFullContainer{"tau_matched_3p","Tau truth ma
 histogramContainer Z_pt_truth_iNotFullContainer{"Z_pt_truth_i","Truth ZpT in between events",1000,0,1000,notFull};
 histogramContainer Z_pt_truth_oNotFullContainer{"Z_pt_truth_o","Truth ZpT outside events",1000,0,1000,notFull};
 
+histogramContainer visibleMassContainer{"visibleMass","Visible mass tau-lep",1000,0,1000,notFull};
+histogramContainer taunuptContainer{"nuTauPt","Neutrino tau side pT",200,0,200,cutNames,"taunupt"};
 histogramContainer lepnuptContainer{"lepNuPt","Lepton neutrino pT",200,0,200,cutNames,"lepnupt"};
 histogramContainer ptsymContainer{"pTsymmetry","Lepton-tau pT normalised difference",200,-1,1,cutNames,"ptsym"};  
 histogramContainer bdtContainer{"bdtScore","BDT Score",200,-1,1,cutNames,"mva"};
