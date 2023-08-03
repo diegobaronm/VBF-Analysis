@@ -474,7 +474,7 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
 
         // fill histograms
         //cout << eventWeight;
-        if (saveHistograms) Fill(eventWeight, z_sample);
+        if (saveHistograms) Fill(eventWeight, z_sample, key);
         if (saveEvents) FillTree(eventWeight, z_sample, key, signalTree, bgTree);
         // end filling
     }

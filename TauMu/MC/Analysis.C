@@ -94,7 +94,7 @@ extern float bdt_jet1pt;
 extern float bdt_met;
 extern float bdt_eventNumber;
 
-void CLoop::Fill(double weight, int z_sample) {
+void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
   double pi=TMath::Pi();
   //Charges and lepton ID
   float ql=muon_0_q;
@@ -290,7 +290,7 @@ void CLoop::Fill(double weight, int z_sample) {
         if (inside) 
         {
           taunuPtPass = pt_tau_nu>=15;
-          lepnuPtPass = pt_tau_nu>=30;
+          lepnuPtPass = pt_lep_nu>=30;
         } else {
           if (outside_lep) lepnuPtPass = neutrino_pt>=30;
           if (outside_tau) taunuPtPass = neutrino_pt>=15;
@@ -335,6 +335,8 @@ void CLoop::Fill(double weight, int z_sample) {
 
         // ONLY SUPER CR
         //if (!superCR) return;
+        // Blind H-M region
+        //if (sampleName.substr(0,4)=="data" && reco_mass >= 160) return;
 
         // Cuts vector
         vector<int> cuts={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
@@ -349,17 +351,17 @@ void CLoop::Fill(double weight, int z_sample) {
         if(ljet_0_p4->Pt()>=75){cuts[6]=1;}
         if(ljet_1_p4->Pt()>=70){cuts[7]=1;}
         if(pt_bal<=0.15){cuts[8]=1;}
-        if(mjj>=750){cuts[9]=1;} // High-mass mjj>= 750
+        if(mjj>=1000){cuts[9]=1;} // High-mass mjj>= 750
         if(n_jets_interval==0){cuts[10]=1;}
         if(z_centrality < 0.5){cuts[11]=1;} // SR -> z_centrality < 0.5
         if (omega> -0.2 && omega <1.4){cuts[12]=1;} // Z-peak omega> -0.2 && omega <1.6 // High-mass omega> -0.2 && omega <1.4
-        bool diLeptonMassRequirement = reco_mass>150;
-        if (diLeptonMassRequirement){cuts[13]=1;} // Z-peak reco_mass<116 && reco_mass>66 // Higgs reco_mass >= 116 && reco_mass < 150
+        bool diLeptonMassRequirement = reco_mass >= 116 && reco_mass < 160;
+        if (diLeptonMassRequirement){cuts[13]=1;} // Z-peak reco_mass<116 && reco_mass>66 // Higgs reco_mass >= 116 && reco_mass < 160
         if (tau_0_p4->Pt()>=25){cuts[14]=1;}
-        if (VBFBDT_score > 0.3){cuts[15]=1;} // High-mass VBFBDT_score > 0.3
-        if (lepnuPtPass){cuts[16]=1;} // High-mass lepnuPtPass>=30 GeV.
-        if (normPtDifference > -0.3){cuts[17]=1;} // High-mass normPtDifference > -0.3
-        if (true){cuts[18]=1;} // High-mass taunuPtPass >= 15 GeV
+        if (true){cuts[15]=1;} // High-mass VBFBDT_score > 0.3
+        if (true){cuts[16]=1;} // High-mass lepnuPtPass>=30 GeV.
+        if (true){cuts[17]=1;} // High-mass normPtDifference > -0.3
+        if (true){cuts[18]=1;} // High-mass taunuPtPass >= 15 GeV Higgs NO CUT
 
         // SUM OF THE VECTOR STORING IF CUTS PASS OR NOT
         size_t sum{0};
@@ -394,6 +396,7 @@ void CLoop::Fill(double weight, int z_sample) {
         tauPdgIDContainer.Fill(tau_0_truth_pdgId,weight,notFullCutsVector);
         signedCentralityContainer.Fill(signed_z_centrality,weight,notFullCutsVector);
         visibleMassContainer.Fill(inv_taulep,weight,notFullCutsVector);
+        recoVisibleMassRatioContainer.Fill(reco_mass/inv_taulep,weight,notFullCutsVector);
         
         lepTransMassContainer.Fill(transverseMassLep,weight,notFullCutsVector);
         tauTransMassContainer.Fill(transverseMassTau,weight,notFullCutsVector);
@@ -512,6 +515,7 @@ void CLoop::Style(double lumFactor) {
   tauPdgIDContainer.Write();
   signedCentralityContainer.Write();
   visibleMassContainer.Write();
+  recoVisibleMassRatioContainer.Write();
 
   lepTransMassContainer.Write();
   tauTransMassContainer.Write();
@@ -738,8 +742,8 @@ void CLoop::FillTree(double weight, int z_sample, const std::string& sampleName,
         }
         //PT BALANCE
         double pt_bal{0};
-        double scalarSum = tau_0_p4->Pt()+muon_0_p4->Pt()+ljet_0_p4->Pt()+ljet_1_p4->Pt()+bjet_0_p4->Pt();
-        TLorentzVector vectorSum = (*tau_0_p4)+(*muon_0_p4)+(*ljet_0_p4)+(*ljet_1_p4)+(*bjet_0_p4);
+        double scalarSum = tau_0_p4->Pt()+muon_0_p4->Pt()+ljet_0_p4->Pt()+ljet_1_p4->Pt();
+        TLorentzVector vectorSum = (*tau_0_p4)+(*muon_0_p4)+(*ljet_0_p4)+(*ljet_1_p4);
         if (n_jets_interval==1){
           scalarSum+= ljet_2_p4->Pt();
           vectorSum+= (*ljet_2_p4);

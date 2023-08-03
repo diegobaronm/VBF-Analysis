@@ -112,7 +112,7 @@ def scaleUncertainty(histogram,scaleFactor):
 ############################################################################################################
 
 # Function to plot a histogram stack of MC with data
-def stackPlot(data,signal,background,histograms,watermark,function,additionalSignal=[],signalMu = 1.0, backgroundMu = 1.0,average=False,after_fit=False,final_state="Z#rightarrow #mu#mu"):
+def stackPlot(data,signal,background,histograms,watermark,function,additionalSignal=[],signalMu = 1.0, backgroundMu = 1.0,average=False,after_fit=False,final_state="Z#rightarrow #mu#mu",blindPlot=True):
     samples = data.copy()
     samples.update(background)
     samples.update(signal)
@@ -192,7 +192,7 @@ def stackPlot(data,signal,background,histograms,watermark,function,additionalSig
         ##### DRAWING TOP PAD, SETTING MARGINS #######
         
         r.gStyle.SetOptStat(1111111)
-        if "reco_mass" in i: # Blind the data
+        if "reco_mass" in i and blindPlot: # Blind the data
             r.gStyle.SetOptStat(0)
         r.gStyle.SetStatY(0.97);                
         r.gStyle.SetStatX(1.0);
@@ -224,12 +224,17 @@ def stackPlot(data,signal,background,histograms,watermark,function,additionalSig
         samples["Data"][2].Draw("pe same")
         samples["Data"][2].Draw("sameaxis")
         
-        #pad1.SetLogy()
+        yScale = 1.5
+        yLowScale = 0.0
+        if ("reco_mass" in i) or ("mass_jj" in i):
+            yLowScale = 0.01
+            yScale = 15
+            pad1.SetLogy()
         
         s=samples["Data"][2].GetXaxis().GetBinLowEdge(1)
         e=samples["Data"][2].GetXaxis().GetBinUpEdge(samples["Data"][2].GetNbinsX())
         
-        if "reco_mass" in i:
+        if "reco_mass" in i and blindPlot:
             s=66
             e=116
         s = round(s,3)
@@ -237,7 +242,7 @@ def stackPlot(data,signal,background,histograms,watermark,function,additionalSig
 
         s = function(s,i)
 
-        samples["Data"][2].GetYaxis().SetRangeUser(0.1 ,1.3*samples["Data"][2].GetBinContent(samples["Data"][2].GetMaximumBin()))
+        samples["Data"][2].GetYaxis().SetRangeUser(yLowScale ,yScale*samples["Data"][2].GetBinContent(samples["Data"][2].GetMaximumBin()))
         samples["Data"][2].GetXaxis().SetRangeUser(s,e)
     
         if len(histograms[i])>2:
@@ -509,14 +514,25 @@ def stackPlotNoData(signal,background,histograms,watermark,additionalSignal=[],s
         samples["Signal"][2].Draw("pe same")
         samples["Signal"][2].Draw("sameaxis")
         
-        #pad1.SetLogy()
+        yScale = 1.5
+        yLowScale = 0.0
+        if ("reco_mass" in i) or ("mass_jj" in i):
+            yLowScale = 0.01
+            yScale = 15
+            pad1.SetLogy()
         
         s=samples["Signal"][2].GetXaxis().GetBinLowEdge(1)
         e=samples["Signal"][2].GetXaxis().GetBinUpEdge(samples["Signal"][2].GetNbinsX())
+        ## Round to 2 decimal places to prevent floating point errors
+        s=round(s,2)
+        e=round(e,2)
         
-        samples["Signal"][2].GetYaxis().SetRangeUser(0.01 ,1.6*hs.GetMaximum())
+        samples["Signal"][2].GetYaxis().SetRangeUser(yLowScale ,yScale*hs.GetMaximum())
         samples["Signal"][2].GetXaxis().SetRangeUser(s,e)
         samples["Signal"][2].GetXaxis().SetRangeUser(s,e)
+
+
+        print("X axis range = ",s,e)
         if len(histograms[i])>2:
             samples["Signal"][2].GetYaxis().SetTitle("Events/"+str(histograms[i][2])+" GeV")
         legend = r . TLegend (0.45 ,0.80 ,0.85 ,0.95)
@@ -916,16 +932,16 @@ histogramsVeryLowStatsZtautau = {
 #"met_basic_dphi_drap_btag_iso_rnn_ptl_j1pt_j2pt_ptbal_mjj_nji_zcen_omega_mreco_tpt":[[100],[20,100],20,'MET(#mu,#tau)'],
 "delta_y":[[6.0],[2.0,4.0],2.0,'#Deltay_{jj}'],
 "omega":[[-0.2,0.0,0.6,1.4],[1.4,0.2,0.3,0.39999,1.6],0.2,'#Omega'],
-"rnn_score_1p":[[0.25],[0.25,0.25],0.25,'jetRNN Score 1p'],
-"rnn_score_3p":[[0.4],[0.2,0.1999],0.2,'jetRNN Score 3p'],
+"rnn_score_1p":[[0.15,0.25,0.4],[0.15,0.10,0.15,0.3],0.10,'jetRNN Score 1p'],
+"rnn_score_3p":[[0.25,0.55,0.8],[0.25,0.15,0.25,0.20],0.15,'jetRNN Score 3p'],
 "ljet0_pt":[[75,375,625],[75,100,225,375],75,'pT(j_{1})'],
 "ljet1_pt":[[70,370,630],[70,100,230,370],70,'pT(j_{2})'],
 "pt_bal":[[0.15],[0.03,0.75],0.03,'pT balance'],
 "Z_centrality":[[0.2,0.5],[0.2,0.3,4.5],0.2,'#xi(Z)'],
 "mass_jj":[[1000,2500],[250,750,1250],250,'m_{jj}'],
-"reco_mass_i":[[66,81,101,116,150,250],[66,15,20,15,17,50,250],15,'m_{#tau,l}(i)'],
-"reco_mass_o":[[66,81,101,116,150,250],[66,15,20,15,17,50,250],15,'m_{#tau,l}(o)'],
-"reco_mass_":[[66,81,101,116,150,250],[66,15,20,15,17,50,250],15,'m_{#tau,l}'],
+"reco_mass_i":[[66,81,101,116,160,250,500],[66,15,10,15,11,30,125,250],10,'m_{#tau,l}(i)'],
+"reco_mass_o":[[66,81,101,116,160,250,500],[66,15,10,15,11,30,125,250],10,'m_{#tau,l}(o)'],
+"reco_mass_":[[66,81,101,116,160,250,500],[66,15,10,15,11,30,125,250],10,'m_{#tau,l}'],
 "Z_pt_reco_i_basic_all":[[300],[50,100],50,'pT(Z)'],
 "Z_pt_reco_o_basic_all":[[300],[50,100],50],
 "ratio_zpt_sumjetpt_basic_all":[[1.5],[0.1,0.5],0.1,'pT(ll)/pT(j_{1}+j_{2})'],
@@ -944,11 +960,12 @@ histogramsVeryLowStatsZtautau = {
 "nuPtAssummetry_basic_all":[[0.0],[0.1,0.1],0.1,'pT(#nu_{l}-#nu_{#tau})/(#nu_{l}+#nu_{#tau})'],
 "bdtScore":[[0.0,0.3,0.4],[0.2,0.15,0.1,0.2],0.2,"BDT score"],
 "lepNuPt":[[30,100],[15,35,100],15,'pT(#nu_{l})'],
-"pTsymmetry":[[0.4],[0.35,0.3],0.3,"pT(#tau - l)/(#tau + l)"],
+"pTsymmetry":[[0.4],[0.2,0.2],0.2,"pT(#tau - l)/(#tau + l)"],
 "lepTransMass_basic_all":[[100,200],[20,50,50],20,'m_{T}(l)'],
 "tauTransMass_basic_all":[[100,200],[20,50,50],20,'m_{T}(#tau)'],
 "signedCentrality_basic_all":[[0.0],[0.1,0.1],0.1,"Signed #xi(Z)"],
 "visibleMass_basic_all":[[40,100,150,250],[40,20,25,50,250],20,'m(vis)_{#tau,l}'],
+"recoVisibleMassRatio_basic_all":[[1.0,2.0],[0.2,0.5,1.0],0.2,'m(reco)_{#tau,l}/m(vis)_{#tau,l}']
 }
 
 # Tau(lep)Tau(lep)
