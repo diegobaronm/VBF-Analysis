@@ -21,6 +21,7 @@ try :
 		os.system('hadd -j 10 '+channel_dir+'MC/out/Zee_Sherpa.root NOMINAL/Zee_sherpa*.root')
 		#os.system('hadd '+channel_dir+'MC/out/Zee_PoPy.root NOMINAL/Zee_201*.root')
 		os.system('hadd -j 10 '+channel_dir+'MC/out/Zee_MGNLO.root NOMINAL/Zee_MGNLO*.root')
+		os.system('hadd -j 10 '+channel_dir+'MC/out/Zee_MG.root NOMINAL/Zee_MG[!NLO]*.root')
 		os.system('hadd -j 10 '+channel_dir+'MC/out/Zee_SherpaNLO.root NOMINAL/Zee_SherpaNLO*.root')
 		os.system('hadd -j 10 '+channel_dir+'MC/out/Signal_old.root NOMINAL/VBF_Zee_old_201*.root')
 		os.system('hadd -j 10 '+channel_dir+'MC/out/Signal_Sherpa.root NOMINAL/VBF_Zee_sherpa_201*.root')
@@ -32,7 +33,6 @@ try :
 		os.system('hadd -j 10 '+channel_dir+'MC/out/singletop.root NOMINAL/st_schan_top_*.root NOMINAL/st_schan_atop_*.root NOMINAL/st_tchan_top_*.root NOMINAL/st_tchan_atop_*.root NOMINAL/st_wt_top_*.root NOMINAL/st_wt_atop_*.root')
 		os.system('hadd -j 10 '+channel_dir+'MC/out/ttbar.root NOMINAL/ttbar_*.root')
 		os.system('hadd -j 10 '+channel_dir+'DATA/out/Data.root NOMINAL/data_*.root')
-		print('hadd -j 10 '+channel_dir+'MC/out/Zee_MG.root NOMINAL/Zee_MG!(*NLO*).root')
 
 	elif type_of_run==2:
 		for d in os.listdir():

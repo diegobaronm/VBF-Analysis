@@ -20,6 +20,7 @@ histogramContainer metContainer{"met","Missing Transverse momentum",500,0,500,cu
 histogramContainer moreCentralJetContainer{"moreCentralJet","More central tagging jet",140,-7.0,7.0,notFull};
 histogramContainer lessCentralJetContainer{"lessCentralJet","Less central tagging jet",140,-7.0,7.0,notFull};
 histogramContainer delta_phijjContainer{"delta_phijj","Delta phi between tagging jets",32,0,3.2,notFull};
+histogramContainer signedCentralityContainer{"signedCentrality","Z boson signed centrality",400,-2,2,notFull};
 
 histogramContainer lep1_phiContainer{"lep1_phi","Lep1 phi angle",64,-3.2,3.2,notFull};
 histogramContainer lep2_phiContainer{"lep2_phi","Lep2 phi angle",64,-3.2,3.2,notFull};

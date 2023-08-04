@@ -151,6 +151,7 @@ void CLoop::Fill(double weight, int z_sample) {
         double lepton_xi=((*elec_0_p4)+(*elec_1_p4)).Rapidity();
         double dijet_xi=ljet_0_p4->Rapidity()+ljet_1_p4->Rapidity();
         double z_centrality=abs(lepton_xi-0.5*dijet_xi)/delta_y;
+        double signed_z_centrality = (lepton_xi-0.5*dijet_xi)/(ljet_0_p4->Rapidity()-ljet_1_p4->Rapidity());
 
         //pT gap jet
         double pt_gap_jet{};
@@ -186,7 +187,7 @@ void CLoop::Fill(double weight, int z_sample) {
         if(mjj>=1000){cuts[9]=1;}
         if(n_jets_interval==0){cuts[10]=1;}
         if(z_centrality < 0.5){cuts[11]=1;}
-        if (inv_mass < 101 && inv_mass > 81){cuts[12]=1;} // Z-peak mass range 81 < m < 101 GeV.
+        if (inv_mass >= 160){cuts[12]=1;} // Z-peak mass range 81 < m < 101 GeV. // Mid Range inv_mass < 160 && inv_mass >= 101 
         if (event_number%2==0){
           if(elec_0_p4->Pt()>=(a+0)){cuts[13]=1;}
         } else {
@@ -244,7 +245,7 @@ void CLoop::Fill(double weight, int z_sample) {
         moreCentralJetContainer.Fill(etaMoreCentral,weight,notFullCutsVector);
         lessCentralJetContainer.Fill(etaLessCentral,weight,notFullCutsVector);
         delta_phijjContainer.Fill(anglejj,weight,notFullCutsVector);
-
+        signedCentralityContainer.Fill(signed_z_centrality,weight,notFullCutsVector);
       }
     }
   }
@@ -269,6 +270,7 @@ void CLoop::Style(double lumFactor) {
   vec_sum_pt_jetsContainer.Write();
   ratio_zpt_sumjetptContainer.Write();
   gap_jet_ptContainer.Write();
+  signedCentralityContainer.Write();
 
   moreCentralJetContainer.Write();
   lessCentralJetContainer.Write();
