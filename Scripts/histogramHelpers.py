@@ -177,6 +177,7 @@ def stackPlot(data,signal,background,histograms,watermark,function,additionalSig
         statUncer.SetLineColor(r.kBlack)
         statUncer.SetFillColor(r.kGray+2)
         statUncer.SetFillStyle(3145)
+
         ############### DEFINING RATIOS ###############
 
         ratio = r.TGraphAsymmErrors()
@@ -226,7 +227,7 @@ def stackPlot(data,signal,background,histograms,watermark,function,additionalSig
         
         yScale = 1.5
         yLowScale = 0.0
-        if ("reco_mass" in i) or ("mass_jj" in i):
+        if ("reco_mass" in i) or ("mass_jj" in i) or ("inv_mass" in i):
             yLowScale = 0.01
             yScale = 15
             pad1.SetLogy()
@@ -244,7 +245,7 @@ def stackPlot(data,signal,background,histograms,watermark,function,additionalSig
 
         samples["Data"][2].GetYaxis().SetRangeUser(yLowScale ,yScale*samples["Data"][2].GetBinContent(samples["Data"][2].GetMaximumBin()))
         samples["Data"][2].GetXaxis().SetRangeUser(s,e)
-    
+        
         if len(histograms[i])>2:
             samples["Data"][2].GetYaxis().SetTitle("Events/"+str(histograms[i][2])+" GeV")
         legend = r . TLegend (0.45 ,0.80 ,0.85 ,0.95)
@@ -304,7 +305,7 @@ def stackPlot(data,signal,background,histograms,watermark,function,additionalSig
         mc.SetTitle("")
         mc.SetStats(0)
         mc . GetYaxis (). SetRangeUser (min_ratio ,max_ratio)
-        mc . GetXaxis (). SetRangeUser (s ,e)
+        mc . GetXaxis (). SetRangeUser(s,e)
         mc . GetYaxis (). SetTitle ("MC/DATA")
         mc . GetYaxis (). SetTitleSize (0.15)
         mc . GetYaxis (). SetTitleOffset (0.25)
@@ -353,7 +354,7 @@ def stackPlot(data,signal,background,histograms,watermark,function,additionalSig
         pad3.cd ()
         ratio_sg_mc.SetStats(0)
         ratio_sg_mc . GetYaxis (). SetRangeUser (0.0 ,1.02)
-        ratio_sg_mc . GetXaxis (). SetRangeUser (s ,e)
+        ratio_sg_mc . GetXaxis (). SetRangeUser(s,e)
         ratio_sg_mc . GetYaxis (). SetTitle ("SIGNAL/MC")
         ratio_sg_mc . GetYaxis (). SetTitleSize (0.15)
         ratio_sg_mc . GetYaxis (). SetTitleOffset (0.25)
@@ -965,7 +966,7 @@ histogramsVeryLowStatsZtautau = {
 "tauTransMass_basic_all":[[100,200],[20,50,50],20,'m_{T}(#tau)'],
 "signedCentrality_basic_all":[[0.0],[0.1,0.1],0.1,"Signed #xi(Z)"],
 "visibleMass_basic_all":[[40,100,150,250],[40,20,25,50,250],20,'m(vis)_{#tau,l}'],
-"recoVisibleMassRatio_basic_all":[[1.0,2.0],[0.2,0.5,1.0],0.2,'m(reco)_{#tau,l}/m(vis)_{#tau,l}']
+"recoVisibleMassRatio":[[1.0,2.0],[0.2,0.5,1.0],0.2,'m(reco)_{#tau,l}/m(vis)_{#tau,l}']
 }
 
 # Tau(lep)Tau(lep)
@@ -1059,7 +1060,7 @@ histogramsLowStatsZll = {
 "pt_bal":[[0.15,0.3],[0.0499,0.15,0.7],0.15,'pT balance'],
 "Z_centrality":[[0.5],[0.1,0.5],0.1,'#xi(Z)'],
 "delta_y":[[2.0,6.0],[2.0,0.5,4.0],1.0,'#Deltay_{jj}'],
-"inv_mass":[[70,100,150,250],[70,10,25,50,250],10,'m_{ll}'],
+"inv_mass":[[70,100,160,250,500],[70,6,15,30,50,250],6,'m_{ll}'],
 "mass_jj":[[1500,3000],[250,500,1000],250,'m_{jj}'],
 #"Z_pt_reco_basic_all":[[300,600],[20,50,200],20,'pT(Z)'],
 #"vec_sum_pt_jets_basic_all":[[300],[20,50],20],

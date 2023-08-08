@@ -2,7 +2,7 @@
 #define Header
 
 double pi=TMath::Pi();
-std::vector<std::string> cutNames{"basic","dphi","drap","btag","iso","rnn","ptl","j1pt","j2pt","ptbal","mjj","nji","zcen","omega","mlt","ebdt","mreco","tpt","mva","lepnupt","ptsym","taunupt"};
+std::vector<std::string> cutNames{"basic","dphi","drap","btag","iso","rnn","ptl","j1pt","j2pt","ptbal","mjj","nji","zcen","omega","mlt","ebdt","mreco","tpt","mva","lepnupt","ptsym","taunupt","rvr"};
 std::vector<std::string> notFull{"basic","all"};
 
 #define NOMINAL // NOMINAL , SHAPESYSTEMATICS, WEIGHTSYSTEMATICS
@@ -57,7 +57,7 @@ histogramContainer tau_matched_3pNotFullContainer{"tau_matched_3p","Tau truth ma
 histogramContainer Z_pt_truth_iNotFullContainer{"Z_pt_truth_i","Truth ZpT in between events",1000,0,1000,notFull};
 histogramContainer Z_pt_truth_oNotFullContainer{"Z_pt_truth_o","Truth ZpT outside events",1000,0,1000,notFull};
 
-histogramContainer recoVisibleMassRatioContainer{"recoVisibleMassRatio","reco-visible mass ratio",100,0,10,notFull};
+histogramContainer recoVisibleMassRatioContainer{"recoVisibleMassRatio","reco-visible mass ratio",100,0,10,cutNames,"rvr"};
 histogramContainer visibleMassContainer{"visibleMass","Visible mass tau-lep",1000,0,1000,notFull};
 histogramContainer taunuptContainer{"nuTauPt","Neutrino tau side pT",200,0,200,cutNames,"taunupt"};
 histogramContainer lepnuptContainer{"lepNuPt","Lepton neutrino pT",200,0,200,cutNames,"lepnupt"};
