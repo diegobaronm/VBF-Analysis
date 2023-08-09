@@ -269,35 +269,23 @@ void CLoop::Fill(double weight, int z_sample) {
         }
         //PT BALANCE
         double pt_bal{0};
-        if(inside){
-          TLorentzVector nu_muon_p4(pt_muon_nu*cos(muon_0_p4->Phi()),pt_muon_nu*sin(muon_0_p4->Phi()),0,0);
-          TLorentzVector nu_elec_p4(pt_elec_nu*cos(elec_0_p4->Phi()),pt_elec_nu*sin(elec_0_p4->Phi()),0,0);
-          if (n_jets_interval==0){
-            pt_bal=(((*muon_0_p4)+(*elec_0_p4)+(*ljet_0_p4)+(*ljet_1_p4)+nu_muon_p4+nu_elec_p4)).Pt()/(muon_0_p4->Pt()+elec_0_p4->Pt()+ljet_0_p4->Pt()+ljet_1_p4->Pt()+nu_muon_p4.Pt()+nu_elec_p4.Pt());
-          } else {
-            pt_bal=(((*muon_0_p4)+(*elec_0_p4)+(*ljet_0_p4)+(*ljet_1_p4)+(*ljet_2_p4)+nu_muon_p4+nu_elec_p4)).Pt()/(muon_0_p4->Pt()+elec_0_p4->Pt()+ljet_0_p4->Pt()+ljet_1_p4->Pt()+ljet_2_p4->Pt()+nu_muon_p4.Pt()+nu_elec_p4.Pt());
-          }
-
-
-        } else {
-          if (outside_elec){
-            TLorentzVector nu_p4(pt_elec_nu*cos(elec_0_p4->Phi()),pt_elec_nu*sin(elec_0_p4->Phi()),0,0);
-            if (n_jets_interval==0){
-              pt_bal=(((*muon_0_p4)+(*elec_0_p4)+(*ljet_0_p4)+(*ljet_1_p4)+nu_p4)).Pt()/(muon_0_p4->Pt()+elec_0_p4->Pt()+ljet_0_p4->Pt()+ljet_1_p4->Pt()+nu_p4.Pt());
-            } else {
-              pt_bal=(((*muon_0_p4)+(*elec_0_p4)+(*ljet_0_p4)+(*ljet_1_p4)+(*ljet_2_p4)+nu_p4)).Pt()/(muon_0_p4->Pt()+elec_0_p4->Pt()+ljet_0_p4->Pt()+ljet_1_p4->Pt()+ljet_2_p4->Pt()+nu_p4.Pt());
-            }
-          } else{
-            if(outside_muon){
-              TLorentzVector nu_p4(pt_muon_nu*cos(muon_0_p4->Phi()),pt_muon_nu*sin(muon_0_p4->Phi()),0,0);
-              if (n_jets_interval==0){
-                pt_bal=(((*muon_0_p4)+(*elec_0_p4)+(*ljet_0_p4)+(*ljet_1_p4)+nu_p4)).Pt()/(muon_0_p4->Pt()+elec_0_p4->Pt()+ljet_0_p4->Pt()+ljet_1_p4->Pt()+nu_p4.Pt());
-              } else {
-                pt_bal=(((*muon_0_p4)+(*elec_0_p4)+(*ljet_0_p4)+(*ljet_1_p4)+(*ljet_2_p4)+nu_p4)).Pt()/(muon_0_p4->Pt()+elec_0_p4->Pt()+ljet_0_p4->Pt()+ljet_1_p4->Pt()+ljet_2_p4->Pt()+nu_p4.Pt());
-              }
-            }
-          }
+        double scalarSum = elec_0_p4->Pt()+muon_0_p4->Pt()+ljet_0_p4->Pt()+ljet_1_p4->Pt();
+        TLorentzVector vectorSum = (*elec_0_p4)+(*muon_0_p4)+(*ljet_0_p4)+(*ljet_1_p4);
+        if (n_jets_interval==1){
+          scalarSum+= ljet_2_p4->Pt();
+          vectorSum+= (*ljet_2_p4);
         }
+        TLorentzVector nu_muon_p4(0,0,0,0);
+        TLorentzVector nu_elec_p4(0,0,0,0);
+        if(inside){
+          nu_muon_p4 = TLorentzVector(pt_muon_nu*cos(muon_0_p4->Phi()),pt_muon_nu*sin(muon_0_p4->Phi()),0,0);
+          nu_elec_p4 = TLorentzVector(pt_elec_nu*cos(elec_0_p4->Phi()),pt_elec_nu*sin(elec_0_p4->Phi()),0,0);
+        } else {
+          if(outside_elec) nu_elec_p4 = TLorentzVector(neutrino_pt*cos(elec_0_p4->Phi()),neutrino_pt*sin(elec_0_p4->Phi()),0,0);
+          else if(outside_muon) nu_muon_p4 = TLorentzVector (neutrino_pt*cos(muon_0_p4->Phi()),neutrino_pt*sin(muon_0_p4->Phi()),0,0);
+        }
+        pt_bal= (vectorSum+nu_muon_p4+nu_elec_p4).Pt()/(scalarSum+nu_muon_p4.Pt()+nu_elec_p4.Pt());
+        
         // Z BOSON CENTRALITY
         double electon_xi=((*muon_0_p4)+(*elec_0_p4)).Rapidity();
         double dijet_xi=ljet_0_p4->Rapidity()+ljet_1_p4->Rapidity();
