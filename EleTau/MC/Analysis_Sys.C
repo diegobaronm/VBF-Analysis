@@ -134,7 +134,7 @@ void CLoop::Book(double lumFactor) {
   h_reco_mass = new TH1F("reco_mass_","Reconstructed mass all events",240,0,240);
 }
 
-void CLoop::Fill(double weight, int z_sample) {
+void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
   double pi=TMath::Pi();
   //Charges and lepton ID
   float ql=elec_0_q;
@@ -255,37 +255,26 @@ void CLoop::Fill(double weight, int z_sample) {
         if(n_ljets>2){
           n_jets_interval=n_jets_interval+is_inside_jets(ljet_2_p4,ljet_0_p4,ljet_1_p4);
         }
+
         //PT BALANCE
         double pt_bal{0};
-        if(inside){
-          TLorentzVector nu_tau_p4(pt_tau_nu*cos(tau_0_p4->Phi()),pt_tau_nu*sin(tau_0_p4->Phi()),0,0);
-          TLorentzVector nu_lep_p4(pt_lep_nu*cos(elec_0_p4->Phi()),pt_lep_nu*sin(elec_0_p4->Phi()),0,0);
-          if (n_jets_interval==0){
-            pt_bal=(((*tau_0_p4)+(*elec_0_p4)+(*ljet_0_p4)+(*ljet_1_p4)+nu_tau_p4+nu_lep_p4)).Pt()/(tau_0_p4->Pt()+elec_0_p4->Pt()+ljet_0_p4->Pt()+ljet_1_p4->Pt()+nu_tau_p4.Pt()+nu_lep_p4.Pt());
-          } else {
-            pt_bal=(((*tau_0_p4)+(*elec_0_p4)+(*ljet_0_p4)+(*ljet_1_p4)+(*ljet_2_p4)+nu_tau_p4+nu_lep_p4)).Pt()/(tau_0_p4->Pt()+elec_0_p4->Pt()+ljet_0_p4->Pt()+ljet_1_p4->Pt()+ljet_2_p4->Pt()+nu_tau_p4.Pt()+nu_lep_p4.Pt());
-          }
-
-
-        } else {
-          if (outside_lep){
-            TLorentzVector nu_p4(pt_lep_nu*cos(elec_0_p4->Phi()),pt_lep_nu*sin(elec_0_p4->Phi()),0,0);
-            if (n_jets_interval==0){
-              pt_bal=(((*tau_0_p4)+(*elec_0_p4)+(*ljet_0_p4)+(*ljet_1_p4)+nu_p4)).Pt()/(tau_0_p4->Pt()+elec_0_p4->Pt()+ljet_0_p4->Pt()+ljet_1_p4->Pt()+nu_p4.Pt());
-            } else {
-              pt_bal=(((*tau_0_p4)+(*elec_0_p4)+(*ljet_0_p4)+(*ljet_1_p4)+(*ljet_2_p4)+nu_p4)).Pt()/(tau_0_p4->Pt()+elec_0_p4->Pt()+ljet_0_p4->Pt()+ljet_1_p4->Pt()+ljet_2_p4->Pt()+nu_p4.Pt());
-            }
-          } else{
-            if(outside_tau){
-              TLorentzVector nu_p4(pt_tau_nu*cos(tau_0_p4->Phi()),pt_tau_nu*sin(tau_0_p4->Phi()),0,0);
-              if (n_jets_interval==0){
-                pt_bal=(((*tau_0_p4)+(*elec_0_p4)+(*ljet_0_p4)+(*ljet_1_p4)+nu_p4)).Pt()/(tau_0_p4->Pt()+elec_0_p4->Pt()+ljet_0_p4->Pt()+ljet_1_p4->Pt()+nu_p4.Pt());
-              } else {
-                pt_bal=(((*tau_0_p4)+(*elec_0_p4)+(*ljet_0_p4)+(*ljet_1_p4)+(*ljet_2_p4)+nu_p4)).Pt()/(tau_0_p4->Pt()+elec_0_p4->Pt()+ljet_0_p4->Pt()+ljet_1_p4->Pt()+ljet_2_p4->Pt()+nu_p4.Pt());
-              }
-            }
-          }
+        double scalarSum = tau_0_p4->Pt()+elec_0_p4->Pt()+ljet_0_p4->Pt()+ljet_1_p4->Pt();
+        TLorentzVector vectorSum = (*tau_0_p4)+(*elec_0_p4)+(*ljet_0_p4)+(*ljet_1_p4);
+        if (n_jets_interval==1){
+          scalarSum+= ljet_2_p4->Pt();
+          vectorSum+= (*ljet_2_p4);
         }
+        TLorentzVector nu_tau_p4(0,0,0,0);
+        TLorentzVector nu_lep_p4(0,0,0,0);
+        if(inside){
+          nu_tau_p4 = TLorentzVector(pt_tau_nu*cos(tau_0_p4->Phi()),pt_tau_nu*sin(tau_0_p4->Phi()),0,0);
+          nu_lep_p4 = TLorentzVector(pt_lep_nu*cos(elec_0_p4->Phi()),pt_lep_nu*sin(elec_0_p4->Phi()),0,0);
+        } else {
+          if(outside_lep) nu_lep_p4 = TLorentzVector(neutrino_pt*cos(elec_0_p4->Phi()),neutrino_pt*sin(elec_0_p4->Phi()),0,0);
+          else if(outside_tau) nu_tau_p4 = TLorentzVector (neutrino_pt*cos(tau_0_p4->Phi()),neutrino_pt*sin(tau_0_p4->Phi()),0,0);
+        }
+        pt_bal= (vectorSum+nu_tau_p4+nu_lep_p4).Pt()/(scalarSum+nu_tau_p4.Pt()+nu_lep_p4.Pt());
+
         // Z BOSON CENTRALITY
         double lepton_xi=((*tau_0_p4)+(*elec_0_p4)).Rapidity();
         double dijet_xi=ljet_0_p4->Rapidity()+ljet_1_p4->Rapidity();

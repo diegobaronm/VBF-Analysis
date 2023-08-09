@@ -959,7 +959,7 @@ histogramsVeryLowStatsZtautau = {
 #"nuLepPt_basic_all":[[30,100],[15,35,100],15,'pT(#nu_{l})'],
 "nuTauPt":[[30,100],[15,35,100],15,'pT(#nu_{#tau})'],
 "nuPtAssummetry_basic_all":[[0.0],[0.1,0.1],0.1,'pT(#nu_{l}-#nu_{#tau})/(#nu_{l}+#nu_{#tau})'],
-"bdtScore":[[0.0,0.3,0.4],[0.2,0.15,0.1,0.2],0.2,"BDT score"],
+"bdtScore":[[-0.4,0.1,0.5],[0.1999,0.25,0.2,0.25],0.2,"VBF-BDT score"],
 "lepNuPt":[[30,100],[15,35,100],15,'pT(#nu_{l})'],
 "pTsymmetry":[[0.4],[0.2,0.2],0.2,"pT(#tau - l)/(#tau + l)"],
 "lepTransMass_basic_all":[[100,200],[20,50,50],20,'m_{T}(l)'],

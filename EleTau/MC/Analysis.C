@@ -1,3 +1,8 @@
+// Analysis.py
+// Skeleton code in python provided for you
+// In place of this comment you should write [your name] -- [the date] and update it as you go!
+// Make sure to make backups and comment as you go along :)
+
 // Header guard to ensure file is imported properly
 #ifndef Analysis
 #define Analysis
@@ -6,7 +11,6 @@
 #include "backend/CLoop.h"
 #include <iostream>
 #include <vector>
-#include <TMVA/Reader.h>
 //#include <bits/stdc++.h>
 #include <utility>
 
@@ -57,29 +61,78 @@ double min_deltaR(TLorentzVector* test_particle, std::vector<UInt_t> bool_vector
 }
 
 void CLoop::Book(double lumFactor) {
+  double pi=TMath::Pi();
 
+  #ifdef WEIGHTSYSTEMATICS
+
+    h_mass_jj_elec_0_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_offline_TightLLH_d0z0_v13 = new TH1F("mass_jj_elec_0_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_offline_TightLLH_d0z0_v13","Invariant mass di-jet system",5000,0,5000);
+    h_mass_jj_elec_0_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_offline_TightLLH_d0z0_v13 = new TH1F("mass_jj_elec_0_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_offline_TightLLH_d0z0_v13","Invariant mass di-jet system",5000,0,5000);
+    h_mass_jj_elec_0_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight = new TH1F("mass_jj_elec_0_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight","Invariant mass di-jet system",5000,0,5000);
+    h_mass_jj_elec_0_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight = new TH1F("mass_jj_elec_0_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight","Invariant mass di-jet system",5000,0,5000);
+    h_mass_jj_elec_0_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_offline_RecoTrk = new TH1F("mass_jj_elec_0_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_offline_RecoTrk","Invariant mass di-jet system",5000,0,5000);
+    h_mass_jj_elec_0_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_offline_RecoTrk = new TH1F("mass_jj_elec_0_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_offline_RecoTrk","Invariant mass di-jet system",5000,0,5000);
+    h_mass_jj_elec_0_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight = new TH1F("mass_jj_elec_0_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight","Invariant mass di-jet system",5000,0,5000);
+    h_mass_jj_elec_0_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight = new TH1F("mass_jj_elec_0_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight","Invariant mass di-jet system",5000,0,5000);
+    h_mass_jj_PRW_DATASF_1down_pileup_combined_weight = new TH1F("mass_jj_PRW_DATASF_1down_pileup_combined_weight","Invariant mass di-jet system",5000,0,5000);
+    h_mass_jj_PRW_DATASF_1up_pileup_combined_weight = new TH1F("mass_jj_PRW_DATASF_1up_pileup_combined_weight","Invariant mass di-jet system",5000,0,5000);
+    h_mass_jj_jet_JET_JvtEfficiency_1down_central_jets_global_effSF_JVT = new TH1F("mass_jj_jet_JET_JvtEfficiency_1down_central_jets_global_effSF_JVT","Invariant mass di-jet system",5000,0,5000);
+    h_mass_jj_jet_JET_JvtEfficiency_1down_central_jets_global_ineffSF_JVT = new TH1F("mass_jj_jet_JET_JvtEfficiency_1down_central_jets_global_ineffSF_JVT","Invariant mass di-jet system",5000,0,5000);
+    h_mass_jj_jet_JET_JvtEfficiency_1up_central_jets_global_effSF_JVT = new TH1F("mass_jj_jet_JET_JvtEfficiency_1up_central_jets_global_effSF_JVT","Invariant mass di-jet system",5000,0,5000);
+    h_mass_jj_jet_JET_JvtEfficiency_1up_central_jets_global_ineffSF_JVT = new TH1F("mass_jj_jet_JET_JvtEfficiency_1up_central_jets_global_ineffSF_JVT","Invariant mass di-jet system",5000,0,5000);
+    h_mass_jj_jet_JET_fJvtEfficiency_1down_forward_jets_global_effSF_JVT = new TH1F("mass_jj_jet_JET_fJvtEfficiency_1down_forward_jets_global_effSF_JVT","Invariant mass di-jet system",5000,0,5000);
+    h_mass_jj_jet_JET_fJvtEfficiency_1down_forward_jets_global_ineffSF_JVT = new TH1F("mass_jj_jet_JET_fJvtEfficiency_1down_forward_jets_global_ineffSF_JVT","Invariant mass di-jet system",5000,0,5000);
+    h_mass_jj_jet_JET_fJvtEfficiency_1up_forward_jets_global_effSF_JVT = new TH1F("mass_jj_jet_JET_fJvtEfficiency_1up_forward_jets_global_effSF_JVT","Invariant mass di-jet system",5000,0,5000);
+    h_mass_jj_jet_JET_fJvtEfficiency_1up_forward_jets_global_ineffSF_JVT = new TH1F("mass_jj_jet_JET_fJvtEfficiency_1up_forward_jets_global_ineffSF_JVT","Invariant mass di-jet system",5000,0,5000);
+    h_mass_jj_tau_0_TAUS_TRUEELECTRON_EFF_ELEBDT_STAT_1down_TauEffSF_LooseEleBDT_electron = new TH1F("mass_jj_tau_0_TAUS_TRUEELECTRON_EFF_ELEBDT_STAT_1down_TauEffSF_LooseEleBDT_electron","Invariant mass di-jet system",5000,0,5000);
+    h_mass_jj_tau_0_TAUS_TRUEELECTRON_EFF_ELEBDT_STAT_1up_TauEffSF_LooseEleBDT_electron = new TH1F("mass_jj_tau_0_TAUS_TRUEELECTRON_EFF_ELEBDT_STAT_1up_TauEffSF_LooseEleBDT_electron","Invariant mass di-jet system",5000,0,5000);
+    h_mass_jj_tau_0_TAUS_TRUEELECTRON_EFF_ELEBDT_SYST_1down_TauEffSF_LooseEleBDT_electron = new TH1F("mass_jj_tau_0_TAUS_TRUEELECTRON_EFF_ELEBDT_SYST_1down_TauEffSF_LooseEleBDT_electron","Invariant mass di-jet system",5000,0,5000);
+    h_mass_jj_tau_0_TAUS_TRUEELECTRON_EFF_ELEBDT_SYST_1up_TauEffSF_LooseEleBDT_electron = new TH1F("mass_jj_tau_0_TAUS_TRUEELECTRON_EFF_ELEBDT_SYST_1up_TauEffSF_LooseEleBDT_electron","Invariant mass di-jet system",5000,0,5000);
+    h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RECO_TOTAL_1down_TauEffSF_reco = new TH1F("mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RECO_TOTAL_1down_TauEffSF_reco","Invariant mass di-jet system",5000,0,5000);
+    h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RECO_TOTAL_1up_TauEffSF_reco = new TH1F("mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RECO_TOTAL_1up_TauEffSF_reco","Invariant mass di-jet system",5000,0,5000);
+    h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_1PRONGSTATSYSTPT2025_1down_TauEffSF_JetRNNmedium = new TH1F("mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_1PRONGSTATSYSTPT2025_1down_TauEffSF_JetRNNmedium","Invariant mass di-jet system",5000,0,5000);
+    h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_1PRONGSTATSYSTPT2025_1up_TauEffSF_JetRNNmedium = new TH1F("mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_1PRONGSTATSYSTPT2025_1up_TauEffSF_JetRNNmedium","Invariant mass di-jet system",5000,0,5000);
+    h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_1PRONGSTATSYSTPT2530_1down_TauEffSF_JetRNNmedium = new TH1F("mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_1PRONGSTATSYSTPT2530_1down_TauEffSF_JetRNNmedium","Invariant mass di-jet system",5000,0,5000);
+    h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_1PRONGSTATSYSTPT2530_1up_TauEffSF_JetRNNmedium = new TH1F("mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_1PRONGSTATSYSTPT2530_1up_TauEffSF_JetRNNmedium","Invariant mass di-jet system",5000,0,5000);
+    h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_1PRONGSTATSYSTPT3040_1down_TauEffSF_JetRNNmedium = new TH1F("mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_1PRONGSTATSYSTPT3040_1down_TauEffSF_JetRNNmedium","Invariant mass di-jet system",5000,0,5000);
+    h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_1PRONGSTATSYSTPT3040_1up_TauEffSF_JetRNNmedium = new TH1F("mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_1PRONGSTATSYSTPT3040_1up_TauEffSF_JetRNNmedium","Invariant mass di-jet system",5000,0,5000);
+    h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_1PRONGSTATSYSTPTGE40_1down_TauEffSF_JetRNNmedium = new TH1F("mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_1PRONGSTATSYSTPTGE40_1down_TauEffSF_JetRNNmedium","Invariant mass di-jet system",5000,0,5000);
+    h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_1PRONGSTATSYSTPTGE40_1up_TauEffSF_JetRNNmedium = new TH1F("mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_1PRONGSTATSYSTPTGE40_1up_TauEffSF_JetRNNmedium","Invariant mass di-jet system",5000,0,5000);
+    h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_3PRONGSTATSYSTPT2025_1down_TauEffSF_JetRNNmedium = new TH1F("mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_3PRONGSTATSYSTPT2025_1down_TauEffSF_JetRNNmedium","Invariant mass di-jet system",5000,0,5000);
+    h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_3PRONGSTATSYSTPT2025_1up_TauEffSF_JetRNNmedium = new TH1F("mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_3PRONGSTATSYSTPT2025_1up_TauEffSF_JetRNNmedium","Invariant mass di-jet system",5000,0,5000);
+    h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_3PRONGSTATSYSTPT2530_1down_TauEffSF_JetRNNmedium = new TH1F("mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_3PRONGSTATSYSTPT2530_1down_TauEffSF_JetRNNmedium","Invariant mass di-jet system",5000,0,5000);
+    h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_3PRONGSTATSYSTPT2530_1up_TauEffSF_JetRNNmedium = new TH1F("mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_3PRONGSTATSYSTPT2530_1up_TauEffSF_JetRNNmedium","Invariant mass di-jet system",5000,0,5000);
+    h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_3PRONGSTATSYSTPT3040_1down_TauEffSF_JetRNNmedium = new TH1F("mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_3PRONGSTATSYSTPT3040_1down_TauEffSF_JetRNNmedium","Invariant mass di-jet system",5000,0,5000);
+    h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_3PRONGSTATSYSTPT3040_1up_TauEffSF_JetRNNmedium = new TH1F("mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_3PRONGSTATSYSTPT3040_1up_TauEffSF_JetRNNmedium","Invariant mass di-jet system",5000,0,5000);
+    h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_3PRONGSTATSYSTPTGE40_1down_TauEffSF_JetRNNmedium = new TH1F("mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_3PRONGSTATSYSTPTGE40_1down_TauEffSF_JetRNNmedium","Invariant mass di-jet system",5000,0,5000);
+    h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_3PRONGSTATSYSTPTGE40_1up_TauEffSF_JetRNNmedium = new TH1F("mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_3PRONGSTATSYSTPTGE40_1up_TauEffSF_JetRNNmedium","Invariant mass di-jet system",5000,0,5000);
+    h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_HIGHPT_1down_TauEffSF_JetRNNmedium = new TH1F("mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_HIGHPT_1down_TauEffSF_JetRNNmedium","Invariant mass di-jet system",5000,0,5000);
+    h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_HIGHPT_1up_TauEffSF_JetRNNmedium = new TH1F("mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_HIGHPT_1up_TauEffSF_JetRNNmedium","Invariant mass di-jet system",5000,0,5000);
+    h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_SYST_1down_TauEffSF_JetRNNmedium = new TH1F("mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_SYST_1down_TauEffSF_JetRNNmedium","Invariant mass di-jet system",5000,0,5000);
+    h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_SYST_1up_TauEffSF_JetRNNmedium = new TH1F("mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_SYST_1up_TauEffSF_JetRNNmedium","Invariant mass di-jet system",5000,0,5000);
   
-}
+  #endif 
 
-extern TMVA::Reader* reader;
-extern float bdt_mjj;
-extern float bdt_drap;
-extern float bdt_dphi;
-extern float bdt_jetRNN;
-extern float bdt_ptbal;
-extern float bdt_zcen;
-extern float bdt_omega;
-extern float bdt_recomass;
-extern float bdt_lepnupt;
-extern float bdt_transmasslep;
-extern float bdt_masstaul;
-extern float bdt_nljet;
-extern float bdt_taupt;
-extern float bdt_leppt;
-extern float bdt_jet0pt;
-extern float bdt_jet1pt;
-extern float bdt_met;
-extern float bdt_eventNumber;
+  h_delta_phi = new TH1F("delta_phi","Delta phi between tau and lep",32,0,3.2);
+  h_delta_y = new TH1F("delta_y","Delta Rapidity",100,0,10);
+  h_n_bjets = new TH1F("n_bjets","Number of b_jets",5,0,5);
+  h_lepiso = new TH1F("lepiso","Lep Isolation",2,0,2);
+  h_rnn_score_1p = new TH1F("rnn_score_1p","RNN Score 1 prong taus",100,0,1);
+  h_rnn_score_3p = new TH1F("rnn_score_3p","RNN Score 3 prong taus",100,0,1);
+  h_lep_pt = new TH1F("lep_pt","Lep pT",500,0,500);
+  h_tau_pt = new TH1F("tau_pt","Tau pT",500,0,500);
+  h_ljet0_pt = new TH1F("ljet0_pt","Light jet0 pT",1000,0,1000);
+  h_ljet1_pt = new TH1F("ljet1_pt","Light jet1 pT",1000,0,1000);
+  h_pt_bal = new TH1F("pt_bal","pT Balance",100,0,1);
+  h_mass_jj = new TH1F("mass_jj","Invariant mass di_jet system",5000,0,5000);
+  h_n_jets_interval = new TH1F("n_jets_interval","N jets between rapidity interval",10,0,10);
+  h_Z_centrality = new TH1F("Z_centrality","Z boson centrality",500,0,5);
+  h_omega = new TH1F("omega","Omega variable",60,-3.0,3.0);
+  h_leptau_mass = new TH1F("leptau_mass","Invariant mass lepton tau system",200,0,200);
+  h_eBDT = new TH1F("eBDT","eBDT Score",100,0,1);
+  h_reco_mass_i = new TH1F("reco_mass_i","Reconstructed mass in between events",240,0,240);
+  h_reco_mass_o = new TH1F("reco_mass_o","Reconstructed mass outside events",240,0,240);
+  h_reco_mass = new TH1F("reco_mass_","Reconstructed mass all events",240,0,240);
+}
 
 void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
   double pi=TMath::Pi();
@@ -88,8 +141,8 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
   float qtau=tau_0_q;
   bool lepton_id=elec_0_id_tight;
   size_t n_ljets=n_jets-n_bjets_MV2c10_FixedCutBEff_85;
-
-  if (ql!=qtau && n_electrons==1 && n_taus_rnn_loose>=1 && lepton_id && n_ljets>=2 && n_ljets<=3){
+  
+  if (ql!=qtau && n_electrons==1 && n_taus_rnn_loose>=1 && lepton_id && n_ljets>=2 && n_ljets<=3 && useEvent==1){
     //angles
     double angle_l_MET=del_phi(elec_0_p4->Phi(),met_reco_p4->Phi());
     double angle_tau_MET=del_phi(tau_0_p4->Phi(),met_reco_p4->Phi());
@@ -112,6 +165,7 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
       bool outside_lep= angle_l_MET<angle_tau_MET && abs(angle-(angle_l_MET+angle_tau_MET)) > 0.00001 && cos(angle_l_MET)>0;
       bool outside_tau= angle_l_MET>angle_tau_MET && abs(angle-(angle_l_MET+angle_tau_MET)) > 0.00001 && cos(angle_tau_MET)>0;
       bool signal_events = inside || outside_lep || outside_tau;
+
       if (signal_events){
         // RECO mass AND neutrino momentum
         double cot_lep=1.0/tan(elec_0_p4->Phi());
@@ -125,15 +179,16 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
         }
 
         double neutrino_pt=0;
+        double reco_mass_outside=0;
         if (outside_lep) {
           neutrino_pt=met_reco_p4->Pt()*cos(angle_l_MET);
-          reco_mass = 5+sqrt(2*(elec_0_p4->Pt()*tau_0_p4->Pt()*(cosh(elec_0_p4->Eta()-tau_0_p4->Eta())-cos(elec_0_p4->Phi()-tau_0_p4->Phi()))+tau_0_p4->Pt()*neutrino_pt*(cosh(elec_0_p4->Eta()-tau_0_p4->Eta())-cos(elec_0_p4->Phi()-tau_0_p4->Phi()))));
+          reco_mass_outside=5+sqrt(2*(elec_0_p4->Pt()*tau_0_p4->Pt()*(cosh(elec_0_p4->Eta()-tau_0_p4->Eta())-cos(elec_0_p4->Phi()-tau_0_p4->Phi()))+tau_0_p4->Pt()*neutrino_pt*(cosh(elec_0_p4->Eta()-tau_0_p4->Eta())-cos(elec_0_p4->Phi()-tau_0_p4->Phi()))));
         }
         if (outside_tau) {
           neutrino_pt=met_reco_p4->Pt()*cos(angle_tau_MET);
-          reco_mass = 5+sqrt(2*(elec_0_p4->Pt()*tau_0_p4->Pt()*(cosh(elec_0_p4->Eta()-tau_0_p4->Eta())-cos(elec_0_p4->Phi()-tau_0_p4->Phi()))+elec_0_p4->Pt()*neutrino_pt*(cosh(elec_0_p4->Eta()-tau_0_p4->Eta())-cos(elec_0_p4->Phi()-tau_0_p4->Phi()))));
+          reco_mass_outside=5+sqrt(2*(elec_0_p4->Pt()*tau_0_p4->Pt()*(cosh(elec_0_p4->Eta()-tau_0_p4->Eta())-cos(elec_0_p4->Phi()-tau_0_p4->Phi()))+elec_0_p4->Pt()*neutrino_pt*(cosh(elec_0_p4->Eta()-tau_0_p4->Eta())-cos(elec_0_p4->Phi()-tau_0_p4->Phi()))));
         }
-        
+
         // ZpT calculations
         double Z_pt_x=0;
         double Z_pt_y=0;
@@ -168,7 +223,8 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
           }
         }
 
-        // LEP-TAU INVARIANT MASS
+        // LEPTON TRANSVERSE MASS AND LEP-TAU INVARIANT MASS
+        double lepmet_mass=sqrt(2*elec_0_p4->Pt()*met_reco_p4->Pt()*(1-cos(elec_0_p4->Phi()-met_reco_p4->Phi())));
         double inv_taulep=sqrt((2*elec_0_p4->Pt()*tau_0_p4->Pt())*(cosh(elec_0_p4->Eta()-tau_0_p4->Eta())-cos(elec_0_p4->Phi()-tau_0_p4->Phi())));
         // Vector sum pT of the jets
         double jet_pt_sum= (*ljet_0_p4 + *ljet_1_p4).Pt();
@@ -223,533 +279,6 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
         double lepton_xi=((*tau_0_p4)+(*elec_0_p4)).Rapidity();
         double dijet_xi=ljet_0_p4->Rapidity()+ljet_1_p4->Rapidity();
         double z_centrality=abs(lepton_xi-0.5*dijet_xi)/delta_y;
-        double signed_z_centrality = (lepton_xi-0.5*dijet_xi)/(ljet_0_p4->Rapidity()-ljet_1_p4->Rapidity());
-
-        //pT gap jet
-        double pt_gap_jet{};
-        if (is_inside_jets(ljet_2_p4,ljet_0_p4,ljet_1_p4)){pt_gap_jet=ljet_2_p4->Pt();}
-
-        // Minimum DeltaR between lepton and jets
-        std::vector<UInt_t> is_jet_present{ljet_0,ljet_1,ljet_2};
-        std::vector<TLorentzVector*> jet_container{ljet_0_p4,ljet_1_p4,ljet_2_p4};
-
-        double min_dR_tau = min_deltaR(tau_0_p4,is_jet_present,jet_container);
-        double min_dR_lep = min_deltaR(elec_0_p4,is_jet_present,jet_container);
-
-        // More kinamatic variables
-        double etaMoreCentral = abs(ljet_0_p4->Eta())>=abs(ljet_1_p4->Eta()) ? ljet_1_p4->Eta() : ljet_0_p4->Eta();
-        double etaLessCentral = abs(ljet_0_p4->Eta())<abs(ljet_1_p4->Eta()) ? ljet_1_p4->Eta() : ljet_0_p4->Eta();
-        double normPtDifference = (tau_0_p4->Pt()-elec_0_p4->Pt())/(tau_0_p4->Pt()+elec_0_p4->Pt());
-        double anglejj = del_phi(ljet_0_p4->Phi(),ljet_1_p4->Phi());
-        double metToDilepnuRatio = 0.0;
-        double metToDilepRatio = met_reco_p4->Pt()/(tau_0_p4->Pt()+elec_0_p4->Pt());
-        if (inside)
-        {
-          metToDilepnuRatio = met_reco_p4->Pt()/(tau_0_p4->Pt()+pt_tau_nu+elec_0_p4->Pt()+pt_lep_nu);
-        }
-        if (outside_lep || outside_tau)
-        {
-          metToDilepnuRatio = met_reco_p4->Pt()/(tau_0_p4->Pt()+elec_0_p4->Pt()+neutrino_pt);
-        }
-
-        double massTauCloserJet{0.0};
-        double massLepClosestJet{0.0};
-        double massTauFurthestJet{0.0};
-        bool j0CloserToTau = tau_0_p4->DeltaR(*ljet_0_p4) <= tau_0_p4->DeltaR(*ljet_1_p4);
-        if (j0CloserToTau)
-        {
-          massTauCloserJet = sqrt(2*(tau_0_p4->Dot(*ljet_0_p4)));
-          massTauFurthestJet = sqrt(2*(tau_0_p4->Dot(*ljet_1_p4)));
-          massLepClosestJet = sqrt(2*(elec_0_p4->Dot(*ljet_1_p4)));
-        }
-        else
-        {
-          massTauCloserJet = sqrt(2*(tau_0_p4->Dot(*ljet_1_p4)));
-          massTauFurthestJet = sqrt(2*(tau_0_p4->Dot(*ljet_0_p4)));
-          massLepClosestJet = sqrt(2*(elec_0_p4->Dot(*ljet_0_p4)));
-        }
-
-        // Neutrino cuts
-        bool taunuPtPass = true;
-        bool lepnuPtPass = true;
-        if (inside) 
-        {
-          taunuPtPass = pt_tau_nu>=15;
-          lepnuPtPass = pt_lep_nu>=30;
-        } else {
-          if (outside_lep) lepnuPtPass = neutrino_pt>=30;
-          if (outside_tau) taunuPtPass = neutrino_pt>=15;
-        }
-
-        // Transverse mass
-        double transverseMassLep = sqrt(2*elec_0_p4->Pt()*met_reco_p4->Pt()*(1-cos(elec_0_p4->Phi()-met_reco_p4->Phi())));
-        double transverseMassTau = sqrt(2*tau_0_p4->Pt()*met_reco_p4->Pt()*(1-cos(tau_0_p4->Phi()-met_reco_p4->Phi())));
-        double transverseMassSum = transverseMassTau + transverseMassLep;
-        double transverseMassRatio = (transverseMassTau - transverseMassLep)/transverseMassSum;
-        // Handiling external BDT
-        bdt_mjj = mjj;
-        bdt_drap = delta_y;
-        bdt_dphi = angle;
-        bdt_jetRNN = tau_0_jet_rnn_score_trans;
-        bdt_ptbal = pt_bal;
-        bdt_zcen = z_centrality;
-        bdt_omega = omega;
-        bdt_recomass = reco_mass;
-        if (inside) bdt_lepnupt = pt_lep_nu;
-        if (outside_lep) bdt_lepnupt = neutrino_pt;
-        if (outside_tau) bdt_lepnupt = 0.0;
-        bdt_transmasslep = transverseMassLep;
-        bdt_masstaul = inv_taulep;
-        bdt_nljet = (float)n_ljets;
-        bdt_taupt = tau_0_p4->Pt();
-        bdt_leppt = elec_0_p4->Pt();
-        bdt_jet0pt = ljet_0_p4->Pt();
-        bdt_jet1pt = ljet_1_p4->Pt();
-        bdt_met = met_reco_p4->Pt();
-        bdt_eventNumber = event_number;
-        double VBFBDT_score = reader->EvaluateMVA("VBF_BDT");
-
-        // Definition of the superCR = CR(a+b+c)
-        bool CRa = z_centrality < 0.5 && n_jets_interval == 1;
-        bool CRb = z_centrality>=0.5 && z_centrality <=1 && n_jets_interval == 1;
-        bool CRc = z_centrality>=0.5 && z_centrality <=1 && n_jets_interval == 0;
-        bool superCR = CRa || CRb || CRc;
-
-        // ONLY SUPER CR
-        //if (!superCR) return;
-        // Blind H-M region
-        //if (sampleName.substr(0,4)=="data" && reco_mass >= 160) return;
-
-        // Cuts vector
-        vector<int> cuts={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-        // CUTS
-        if (angle<=3.2){cuts[0]=1;}
-        if(delta_y>=2.0){cuts[1]=1;}
-        if(n_bjets_MV2c10_FixedCutBEff_85==0){cuts[2]=1;}
-        if(elec_0_iso_FCTight==1){cuts[3]=1;}
-        if(tau_0_n_charged_tracks==1 && tau_0_jet_rnn_score_trans >= 0.25){cuts[4]=1;}
-        if(tau_0_n_charged_tracks==3 && tau_0_jet_rnn_score_trans >= 0.40){cuts[4]=1;}
-        if(elec_0_p4->Pt()>=27){cuts[5]=1;}
-        if(ljet_0_p4->Pt()>=75){cuts[6]=1;}
-        if(ljet_1_p4->Pt()>=70){cuts[7]=1;}
-        if(pt_bal<=0.15){cuts[8]=1;}
-        if(mjj>=750){cuts[9]=1;} // High-mass mjj>= 750
-        if(n_jets_interval==0){cuts[10]=1;}
-        if(z_centrality < 0.5){cuts[11]=1;} // SR -> z_centrality < 0.5
-        if (omega> -0.2 && omega <1.4){cuts[12]=1;} // Z-peak omega> -0.2 && omega <1.6 // High-mass omega> -0.2 && omega <1.4
-        if(inv_taulep<=80 || inv_taulep>=100){cuts[13]=1;} // High-mass || inv_taulep>=100
-        if (tau_0_ele_bdt_score_trans_retuned>=0.05){cuts[14]=1;}
-        bool diLeptonMassRequirement = reco_mass >= 160;
-        if (diLeptonMassRequirement){cuts[15]=1;} // Z-peak reco_mass<116 && reco_mass>66 // Higgs reco_mass >= 116 && reco_mass < 160
-        if (tau_0_p4->Pt()>=25){cuts[16]=1;}
-        if (VBFBDT_score > 0.3){cuts[17]=1;} // High-mass VBFBDT_score > 0.3
-        if (lepnuPtPass){cuts[18]=1;} // High-mass lepnuPtPass>=30 GeV.
-        if (normPtDifference > -0.3){cuts[19]=1;} // High-mass normPtDifference > -0.3
-        if (taunuPtPass){cuts[20]=1;} // High-mass taunuPtPass >= 15 GeV Higgs NO CUT
-        if (reco_mass/inv_taulep < 4.0){cuts[21]=1;} // High-mas reco_mass/inv_taulep < 4.0
-
-        // SUM OF THE VECTOR STORING IF CUTS PASS OR NOT
-        size_t sum{0};
-        for(auto &j : cuts){sum=sum+j;}
-
-        std::vector<int> cutsVector{1};
-        cutsVector.insert(cutsVector.end(),cuts.begin(),cuts.end());
-        bool passedAllCuts = (sum+1==cutsVector.size());
-        std::vector<int> notFullCutsVector{1,static_cast<int>(passedAllCuts)};
-
-        bool testCuts = transverseMassLep <= 65 && massTauCloserJet >= 90;
-
-        if (true){
-        // HISTOGRAM FILLING 
-        lep_ptContainer.Fill(elec_0_p4->Pt(),weight,cutsVector);
-        tau_ptContainer.Fill(tau_0_p4->Pt(),weight,cutsVector);
-        omegaContainer.Fill(omega,weight,cutsVector);
-        n_bjetsContainer.Fill(n_bjets_MV2c10_FixedCutBEff_85,weight,cutsVector);
-        lepisoContainer.Fill(elec_0_iso_FCTight,weight,cutsVector);
-        delta_phiContainer.Fill(angle,weight,cutsVector);
-        delta_yContainer.Fill(delta_y,weight,cutsVector);
-        Z_centralityContainer.Fill(z_centrality,weight,cutsVector);
-        pt_balContainer.Fill(pt_bal,weight,cutsVector);
-        mass_jjContainer.Fill(mjj,weight,cutsVector);
-        n_jets_intervalContainer.Fill(n_jets_interval,weight,cutsVector);
-        ljet0_ptContainer.Fill(ljet_0_p4->Pt(),weight,cutsVector);
-        ljet1_ptContainer.Fill(ljet_1_p4->Pt(),weight,cutsVector);
-        leptau_massContainer.Fill(inv_taulep,weight,cutsVector);
-        eBDTContainer.Fill(tau_0_ele_bdt_score_trans_retuned,weight,cutsVector);
-        reco_massContainer.Fill(reco_mass,weight,cutsVector);
-        bdtContainer.Fill(VBFBDT_score,weight,cutsVector);
-        ptsymContainer.Fill(normPtDifference,weight,cutsVector);
-        elecPdgIDContainer.Fill(elec_0_matched_pdgId,weight,notFullCutsVector);
-        tauPdgIDContainer.Fill(tau_0_truth_pdgId,weight,notFullCutsVector);
-        signedCentralityContainer.Fill(signed_z_centrality,weight,notFullCutsVector);
-        visibleMassContainer.Fill(inv_taulep,weight,notFullCutsVector);
-        recoVisibleMassRatioContainer.Fill(reco_mass/inv_taulep,weight,cutsVector);
-
-        lepTransMassContainer.Fill(transverseMassLep,weight,notFullCutsVector);
-        tauTransMassContainer.Fill(transverseMassTau,weight,notFullCutsVector);
-        transMassSumContainer.Fill(transverseMassSum,weight,notFullCutsVector);
-        transMassRatioContainer.Fill(transverseMassRatio,weight,notFullCutsVector);
-
-        if (tau_0_n_charged_tracks==1){
-          rnn_score_1pContainer.Fill(tau_0_jet_rnn_score_trans,weight,cutsVector);
-        }
-        if (tau_0_n_charged_tracks==3){
-          rnn_score_3pContainer.Fill(tau_0_jet_rnn_score_trans,weight,cutsVector);
-        }
-        if (inside) {
-          lepnuptContainer.Fill(pt_lep_nu,weight,cutsVector);
-          reco_mass_iContainer.Fill(reco_mass,weight,cutsVector);
-          taunuptContainer.Fill(pt_tau_nu,weight,cutsVector);
-          nuPtAssummetryContainer.Fill((pt_lep_nu-pt_tau_nu)/(pt_lep_nu+pt_tau_nu),weight,notFullCutsVector);
-        }
-        if (outside_lep) {
-          lepnuptContainer.Fill(neutrino_pt,weight,cutsVector);
-          reco_mass_oContainer.Fill(reco_mass,weight,cutsVector);
-          nuPtAssummetryContainer.Fill(1.0,weight,notFullCutsVector);
-        }
-        if (outside_tau) {
-          reco_mass_oContainer.Fill(reco_mass,weight,cutsVector);
-          taunuptContainer.Fill(neutrino_pt,weight,cutsVector);
-          nuPtAssummetryContainer.Fill(-1.0,weight,notFullCutsVector);
-        }
-      
-
-        if (inside){
-          lepnu_ptContainer.Fill(elec_0_p4->Pt()+pt_lep_nu,weight,cutsVector);
-          taunu_ptContainer.Fill(tau_0_p4->Pt()+pt_tau_nu,weight,cutsVector);
-          sum_ptContainer.Fill(elec_0_p4->Pt()+pt_lep_nu+tau_0_p4->Pt()+pt_tau_nu,weight,cutsVector);
-          Z_pt_reco_iNotFullContainer.Fill(Z_pt,weight,notFullCutsVector);
-        } else {
-          lepnu_ptContainer.Fill(elec_0_p4->Pt()+neutrino_pt,weight,cutsVector);
-          taunu_ptContainer.Fill(tau_0_p4->Pt()+neutrino_pt,weight,cutsVector);
-          sum_ptContainer.Fill(elec_0_p4->Pt()+tau_0_p4->Pt()+neutrino_pt,weight,cutsVector);
-          Z_pt_reco_oNotFullContainer.Fill(Z_pt,weight,notFullCutsVector);
-        }
-        lep_etaContainer.Fill(elec_0_p4->Eta(),weight,cutsVector);
-        tau_etaContainer.Fill(tau_0_p4->Eta(),weight,cutsVector);
-        delta_R_taulepContainer.Fill(tau_0_p4->DeltaR(*elec_0_p4),weight,cutsVector);
-        delta_R_lepjetContainer.Fill(min_dR_lep,weight,cutsVector);
-        delta_R_taujetContainer.Fill(min_dR_tau,weight,cutsVector);
-        metContainer.Fill(met_reco_p4->Pt(),weight,notFullCutsVector);
-
-        if (weight!=1){
-          if(inside){Z_pt_truth_iNotFullContainer.Fill(truth_z_pt,weight,notFullCutsVector);}
-          if(outside_lep || outside_tau){Z_pt_truth_oNotFullContainer.Fill(truth_z_pt,weight,notFullCutsVector);}
-          if (tau_0_n_charged_tracks==1){
-            tau_matched_1pNotFullContainer.Fill(tau_0_truth_isHadTau,weight,notFullCutsVector);
-          }
-          if (tau_0_n_charged_tracks==3){
-            tau_matched_3pNotFullContainer.Fill(tau_0_truth_isHadTau,weight,notFullCutsVector);
-          }
-        }
-        if(n_jets_interval==1){gap_jet_ptNotFullContainer.Fill(pt_gap_jet,weight,notFullCutsVector);}
-        lep_phiNotFullContainer.Fill(elec_0_p4->Phi(),weight,notFullCutsVector);
-        tau_phiNotFullContainer.Fill(tau_0_p4->Phi(),weight,notFullCutsVector);
-        tau_nprongsNotFullContainer.Fill(tau_0_n_charged_tracks,weight,notFullCutsVector);
-        jet_nNotFullContainer.Fill(n_jets,weight,notFullCutsVector);
-        n_fake_tracksNotFullContainer.Fill(tau_0_n_fake_tracks,weight,notFullCutsVector);
-        n_core_tracksNotFullContainer.Fill(tau_0_n_core_tracks,weight,notFullCutsVector);
-        n_iso_tracksNotFullContainer.Fill(tau_0_n_isolation_tracks,weight,notFullCutsVector);
-        n_tracksNotFullContainer.Fill(tau_0_n_all_tracks,weight,notFullCutsVector);
-        ljet2_ptNotFullContainer.Fill(ljet_2_p4->Pt(),weight,notFullCutsVector);
-        ljet3_ptNotFullContainer.Fill(ljet_3_p4->Pt(),weight,notFullCutsVector);
-        ljet0_etaNotFullContainer.Fill(ljet_0_p4->Eta(),weight,notFullCutsVector);
-        ljet1_etaNotFullContainer.Fill(ljet_1_p4->Eta(),weight,notFullCutsVector);
-        ljet2_etaNotFullContainer.Fill(ljet_2_p4->Eta(),weight,notFullCutsVector);
-        vec_sum_pt_jetsNotFullContainer.Fill(jet_pt_sum,weight,notFullCutsVector);
-        ratio_zpt_sumjetptNotFullContainer.Fill(ratio_zpt_sumjetpt,weight,notFullCutsVector);
-        nLightJetsContainer.Fill(n_ljets,weight,notFullCutsVector);        
-        
-        moreCentralJetContainer.Fill(etaMoreCentral,weight,notFullCutsVector);
-        lessCentralJetContainer.Fill(etaLessCentral,weight,notFullCutsVector);
-        normPtDifferenceContainer.Fill(normPtDifference,weight,notFullCutsVector);
-        metToDilepnuRatioContainer.Fill(metToDilepnuRatio,weight,notFullCutsVector);
-        metToDilepRatioContainer.Fill(metToDilepRatio,weight,notFullCutsVector);
-        delta_phijjContainer.Fill(anglejj,weight,notFullCutsVector);
-        massTauClosestJetContainer.Fill(massTauCloserJet,weight,notFullCutsVector);
-        massTauFurthestJetContainer.Fill(massTauFurthestJet,weight,notFullCutsVector);
-        massLepClosestJetContainer.Fill(massLepClosestJet,weight,notFullCutsVector);
-        flavourJet1Container.Fill(ljet_0_matched_pdgId,weight,notFullCutsVector);
-        flavourJet2Container.Fill(ljet_1_matched_pdgId,weight,notFullCutsVector);}
-      }
-  }
-}
-}
-
-void CLoop::Style(double lumFactor) {
-  lep_ptContainer.Write();
-  tau_ptContainer.Write();
-  omegaContainer.Write();
-  n_bjetsContainer.Write();
-  lepisoContainer.Write();
-  delta_phiContainer.Write();
-  delta_yContainer.Write();
-  Z_centralityContainer.Write();
-  pt_balContainer.Write();
-  mass_jjContainer.Write();
-  n_jets_intervalContainer.Write();
-  ljet0_ptContainer.Write();
-  ljet1_ptContainer.Write();
-  rnn_score_1pContainer.Write();
-  rnn_score_3pContainer.Write();
-  leptau_massContainer.Write();
-  eBDTContainer.Write();
-  reco_mass_iContainer.Write();
-  reco_massContainer.Write();
-  reco_mass_oContainer.Write();
-  bdtContainer.Write();
-  lepnuptContainer.Write();
-  ptsymContainer.Write();
-  elecPdgIDContainer.Write();
-  tauPdgIDContainer.Write();
-  signedCentralityContainer.Write();  
-  visibleMassContainer.Write();
-  recoVisibleMassRatioContainer.Write();
-
-  lepTransMassContainer.Write();
-  tauTransMassContainer.Write();
-  transMassSumContainer.Write();
-  transMassRatioContainer.Write();
-
-  lepnu_ptContainer.Write();
-  taunu_ptContainer.Write();
-  sum_ptContainer.Write();
-  Z_pt_reco_iNotFullContainer.Write();
-  Z_pt_reco_oNotFullContainer.Write();
-
-  lep_etaContainer.Write();
-  tau_etaContainer.Write();
-  delta_R_taulepContainer.Write();
-  delta_R_lepjetContainer.Write();
-  delta_R_taujetContainer.Write();
-  metContainer.Write();
-
-  gap_jet_ptNotFullContainer.Write();
-  lep_phiNotFullContainer.Write();
-  tau_phiNotFullContainer.Write();
-  tau_nprongsNotFullContainer.Write();
-  jet_nNotFullContainer.Write();
-  n_fake_tracksNotFullContainer.Write();
-  n_core_tracksNotFullContainer.Write();
-  n_iso_tracksNotFullContainer.Write();
-  n_tracksNotFullContainer.Write();
-  ljet2_ptNotFullContainer.Write();
-  ljet3_ptNotFullContainer.Write();
-  ljet0_etaNotFullContainer.Write();
-  ljet1_etaNotFullContainer.Write();
-  ljet2_etaNotFullContainer.Write();
-  vec_sum_pt_jetsNotFullContainer.Write();
-  ratio_zpt_sumjetptNotFullContainer.Write();
-  nLightJetsContainer.Write();
-
-  moreCentralJetContainer.Write();
-  lessCentralJetContainer.Write();
-  normPtDifferenceContainer.Write();
-  metToDilepnuRatioContainer.Write();
-  metToDilepRatioContainer.Write();
-  delta_phijjContainer.Write();
-  massTauClosestJetContainer.Write();
-  massLepClosestJetContainer.Write();
-  massTauFurthestJetContainer.Write();
-  taunuptContainer.Write();
-  nuPtAssummetryContainer.Write();
-  flavourJet1Container.Write();
-  flavourJet2Container.Write();
-
-  if (lumFactor!=1){
-    Z_pt_truth_iNotFullContainer.Write();
-    Z_pt_truth_oNotFullContainer.Write();
-    tau_matched_1pNotFullContainer.Write();
-    tau_matched_3pNotFullContainer.Write();
-  }
-}
-
-// Tree variables 
-// Signal tree
-extern double SigTree_mcWeight;
-extern double SigTree_mjj;
-extern double SigTree_deltaRapidity;
-extern double SigTree_deltaPhiLT;
-extern double SigTree_deltaPhiJJ;
-extern double SigTree_jetRNNScore;
-extern double SigTree_ptBalance;
-extern double SigTree_zCentrality;
-extern double SigTree_omega;
-extern double SigTree_reco_mass;
-extern double SigTree_lepNuPt;
-extern double SigTree_transverseMassLep;
-extern double SigTree_massTauLep;
-extern int SigTree_nLightJets;
-extern double SigTree_tau_pT;
-extern double SigTree_lep_pT;
-extern double SigTree_jet0_pT;
-extern double SigTree_jet1_pT;
-extern double SigTree_met_pT;
-extern double SigTree_event_number;
-// Background tree
-extern double BgTree_mcWeight;
-extern double BgTree_mjj;
-extern double BgTree_deltaRapidity;
-extern double BgTree_deltaPhiLT;
-extern double BgTree_deltaPhiJJ;
-extern double BgTree_jetRNNScore;
-extern double BgTree_ptBalance;
-extern double BgTree_zCentrality;
-extern double BgTree_omega;
-extern double BgTree_reco_mass;
-extern double BgTree_lepNuPt;
-extern double BgTree_transverseMassLep;
-extern double BgTree_massTauLep;
-extern int BgTree_nLightJets;
-extern double BgTree_tau_pT;
-extern double BgTree_lep_pT;
-extern double BgTree_jet0_pT;
-extern double BgTree_jet1_pT;
-extern double BgTree_met_pT;
-extern double BgTree_event_number;
-
-void CLoop::FillTree(double weight, int z_sample, const std::string& sampleName, TTree* stree, TTree* btree) {
-  double pi=TMath::Pi();
-  //Charges and lepton ID
-  float ql=elec_0_q;
-  float qtau=tau_0_q;
-  bool lepton_id=elec_0_id_tight;
-  size_t n_ljets=n_jets-n_bjets_MV2c10_FixedCutBEff_85;
-
-  if (ql!=qtau && n_electrons==1 && n_taus_rnn_loose>=1 && lepton_id && n_ljets>=2 && n_ljets<=3 && NOMINAL_pileup_combined_weight > -1){
-    //angles
-    double angle_l_MET=del_phi(elec_0_p4->Phi(),met_reco_p4->Phi());
-    double angle_tau_MET=del_phi(tau_0_p4->Phi(),met_reco_p4->Phi());
-    double angle=del_phi(tau_0_p4->Phi(),elec_0_p4->Phi());
-    //trigger decision
-    bool trigger_decision= false;
-    bool trigger_match= false;
-    if (run_number>= 276262 && run_number<=284484){
-        trigger_decision=bool(HLT_e120_lhloose | HLT_e140_lhloose_nod0 | HLT_e24_lhmedium_L1EM20VH | HLT_e60_lhmedium | HLT_e60_lhmedium_nod0);
-        trigger_match=bool(eleTrigMatch_0_HLT_e120_lhloose | eleTrigMatch_0_HLT_e140_lhloose_nod0 | eleTrigMatch_0_HLT_e24_lhmedium_L1EM20VH | eleTrigMatch_0_HLT_e60_lhmedium | eleTrigMatch_0_HLT_e60_lhmedium_nod0);
-    } else {
-        trigger_decision=bool(HLT_e120_lhloose | HLT_e140_lhloose_nod0 | HLT_e26_lhtight_nod0_ivarloose | HLT_e60_lhmedium | HLT_e60_lhmedium_nod0);
-        trigger_match=bool(eleTrigMatch_0_HLT_e120_lhloose | eleTrigMatch_0_HLT_e140_lhloose_nod0 | eleTrigMatch_0_HLT_e26_lhtight_nod0_ivarloose | eleTrigMatch_0_HLT_e60_lhmedium | eleTrigMatch_0_HLT_e60_lhmedium_nod0);
-    }
-    // INVARIANT MASS 2-JETS
-    double mjj=sqrt(2*(ljet_0_p4->Dot(*ljet_1_p4)));
-    if (mjj>=250 && trigger_decision && trigger_match) {
-      //topology
-      bool inside= abs(angle-(angle_l_MET+angle_tau_MET))< 0.00001; //ANGLE BEING USED pi/2 AND 2.0943
-      bool outside_lep= angle_l_MET<angle_tau_MET && abs(angle-(angle_l_MET+angle_tau_MET)) > 0.00001 && cos(angle_l_MET)>0;
-      bool outside_tau= angle_l_MET>angle_tau_MET && abs(angle-(angle_l_MET+angle_tau_MET)) > 0.00001 && cos(angle_tau_MET)>0;
-      bool signal_events = inside || outside_lep || outside_tau;
-
-      if (signal_events){
-        // RECO mass AND neutrino momentum
-        double cot_lep=1.0/tan(elec_0_p4->Phi());
-        double cot_tau=1.0/tan(tau_0_p4->Phi());
-        double pt_tau_nu=(met_reco_p4->Pt()*cos(met_reco_p4->Phi())-met_reco_p4->Pt()*sin(met_reco_p4->Phi())*cot_lep)/(cos(tau_0_p4->Phi())-sin(tau_0_p4->Phi())*cot_lep);
-        double pt_lep_nu=(met_reco_p4->Pt()*cos(met_reco_p4->Phi())-met_reco_p4->Pt()*sin(met_reco_p4->Phi())*cot_tau)/(cos(elec_0_p4->Phi())-sin(elec_0_p4->Phi())*cot_tau);
-
-        double reco_mass{};
-        if(inside){
-          reco_mass=sqrt(2*elec_0_p4->Pt()*tau_0_p4->Pt()*(cosh(elec_0_p4->Eta()-tau_0_p4->Eta())-cos(elec_0_p4->Phi()-tau_0_p4->Phi()))+2*elec_0_p4->Pt()*pt_tau_nu*(cosh(elec_0_p4->Eta()-tau_0_p4->Eta())-cos(elec_0_p4->Phi()-tau_0_p4->Phi()))+2*tau_0_p4->Pt()*pt_lep_nu*(cosh(tau_0_p4->Eta()-elec_0_p4->Eta())-cos(tau_0_p4->Phi()-elec_0_p4->Phi()))+2*pt_lep_nu*pt_tau_nu*(cosh(elec_0_p4->Eta()-tau_0_p4->Eta())-cos(elec_0_p4->Phi()-tau_0_p4->Phi())));
-        }
-
-        double neutrino_pt=0;
-        if (outside_lep) {
-          neutrino_pt=met_reco_p4->Pt()*cos(angle_l_MET);
-          reco_mass = 5+sqrt(2*(elec_0_p4->Pt()*tau_0_p4->Pt()*(cosh(elec_0_p4->Eta()-tau_0_p4->Eta())-cos(elec_0_p4->Phi()-tau_0_p4->Phi()))+tau_0_p4->Pt()*neutrino_pt*(cosh(elec_0_p4->Eta()-tau_0_p4->Eta())-cos(elec_0_p4->Phi()-tau_0_p4->Phi()))));
-        }
-        if (outside_tau) {
-          neutrino_pt=met_reco_p4->Pt()*cos(angle_tau_MET);
-          reco_mass = 5+sqrt(2*(elec_0_p4->Pt()*tau_0_p4->Pt()*(cosh(elec_0_p4->Eta()-tau_0_p4->Eta())-cos(elec_0_p4->Phi()-tau_0_p4->Phi()))+elec_0_p4->Pt()*neutrino_pt*(cosh(elec_0_p4->Eta()-tau_0_p4->Eta())-cos(elec_0_p4->Phi()-tau_0_p4->Phi()))));
-        }
-        
-        // ZpT calculations
-        double Z_pt_x=0;
-        double Z_pt_y=0;
-        double Z_pt=0;
-        double truth_z_pt=0.0;
-        if (z_sample==1 || z_sample==2)
-        {
-          truth_z_pt=truth_Z_p4->Pt()/1000;
-        }
-        if (inside) {
-          Z_pt_x=tau_0_p4->Pt()*cos(tau_0_p4->Phi())+elec_0_p4->Pt()*cos(elec_0_p4->Phi())+pt_tau_nu*cos(tau_0_p4->Phi())+pt_lep_nu*cos(elec_0_p4->Phi());
-          Z_pt_y=tau_0_p4->Pt()*sin(tau_0_p4->Phi())+elec_0_p4->Pt()*sin(elec_0_p4->Phi())+pt_tau_nu*sin(tau_0_p4->Phi())+pt_lep_nu*sin(elec_0_p4->Phi());
-          Z_pt=sqrt(Z_pt_x*Z_pt_x+Z_pt_y*Z_pt_y);
-          if (z_sample==0){
-            truth_z_pt=Z_pt;
-          }
-        }
-        if (outside_tau) {
-          Z_pt_x=tau_0_p4->Pt()*cos(tau_0_p4->Phi())+elec_0_p4->Pt()*cos(elec_0_p4->Phi())+neutrino_pt*cos(tau_0_p4->Phi());
-          Z_pt_y=tau_0_p4->Pt()*sin(tau_0_p4->Phi())+elec_0_p4->Pt()*sin(elec_0_p4->Phi())+neutrino_pt*sin(tau_0_p4->Phi());
-          Z_pt=sqrt(Z_pt_x*Z_pt_x+Z_pt_y*Z_pt_y);
-          if (z_sample==0){
-            truth_z_pt=Z_pt;
-          }
-        }
-        if (outside_lep) {
-          Z_pt_x=tau_0_p4->Pt()*cos(tau_0_p4->Phi())+elec_0_p4->Pt()*cos(elec_0_p4->Phi())+neutrino_pt*cos(elec_0_p4->Phi());
-          Z_pt_y=tau_0_p4->Pt()*sin(tau_0_p4->Phi())+elec_0_p4->Pt()*sin(elec_0_p4->Phi())+neutrino_pt*sin(elec_0_p4->Phi());
-          Z_pt=sqrt(Z_pt_x*Z_pt_x+Z_pt_y*Z_pt_y);
-          if (z_sample==0){
-            truth_z_pt=Z_pt;
-          }
-        }
-
-        // LEP-TAU INVARIANT MASS
-        double inv_taulep=sqrt((2*elec_0_p4->Pt()*tau_0_p4->Pt())*(cosh(elec_0_p4->Eta()-tau_0_p4->Eta())-cos(elec_0_p4->Phi()-tau_0_p4->Phi())));
-        // Vector sum pT of the jets
-        double jet_pt_sum= (*ljet_0_p4 + *ljet_1_p4).Pt();
-        // Ratio ZpT/jet_pt_sum
-        double ratio_zpt_sumjetpt = Z_pt/jet_pt_sum;
-
-
-        // ANGULAR VARIABLE DEFINITION
-        double omega=0.0;
-        if (inside && (angle_l_MET<angle_tau_MET)) {
-          omega=1.0-(angle_l_MET)/(angle);
-        }
-        if (inside && (angle_l_MET>angle_tau_MET)) {
-          omega=(angle_tau_MET)/(angle);
-        }
-        if (outside_lep) {
-          omega=1.0+(angle_l_MET)/(angle);
-        }
-        if (outside_tau) {
-          omega=-1.0*(angle_tau_MET)/(angle);
-        }
-
-        // VBF variables
-        // DELTA RAPIDITY 2-JETS
-        double delta_y = abs(ljet_0_p4->Rapidity()-ljet_1_p4->Rapidity());
-        // NUMBER OF JETS INTERVAL
-        int n_jets_interval{};
-        if(n_ljets>2){
-          n_jets_interval=n_jets_interval+is_inside_jets(ljet_2_p4,ljet_0_p4,ljet_1_p4);
-        }
-        //PT BALANCE
-        double pt_bal{0};
-        double scalarSum = tau_0_p4->Pt()+elec_0_p4->Pt()+ljet_0_p4->Pt()+ljet_1_p4->Pt();
-        TLorentzVector vectorSum = (*tau_0_p4)+(*elec_0_p4)+(*ljet_0_p4)+(*ljet_1_p4);
-        if (n_jets_interval==1){
-          scalarSum+= ljet_2_p4->Pt();
-          vectorSum+= (*ljet_2_p4);
-        }
-        TLorentzVector nu_tau_p4(0,0,0,0);
-        TLorentzVector nu_lep_p4(0,0,0,0);
-        if(inside){
-          nu_tau_p4 = TLorentzVector(pt_tau_nu*cos(tau_0_p4->Phi()),pt_tau_nu*sin(tau_0_p4->Phi()),0,0);
-          nu_lep_p4 = TLorentzVector(pt_lep_nu*cos(elec_0_p4->Phi()),pt_lep_nu*sin(elec_0_p4->Phi()),0,0);
-        } else {
-          if(outside_lep) nu_lep_p4 = TLorentzVector(neutrino_pt*cos(elec_0_p4->Phi()),neutrino_pt*sin(elec_0_p4->Phi()),0,0);
-          else if(outside_tau) nu_tau_p4 = TLorentzVector (neutrino_pt*cos(tau_0_p4->Phi()),neutrino_pt*sin(tau_0_p4->Phi()),0,0);
-        }
-        pt_bal= (vectorSum+nu_tau_p4+nu_lep_p4).Pt()/(scalarSum+nu_tau_p4.Pt()+nu_lep_p4.Pt());
-
-        // Z BOSON CENTRALITY
-        double lepton_xi=((*tau_0_p4)+(*elec_0_p4)).Rapidity();
-        double dijet_xi=ljet_0_p4->Rapidity()+ljet_1_p4->Rapidity();
-        double z_centrality=abs(lepton_xi-0.5*dijet_xi)/delta_y;
 
         //pT gap jet
         double pt_gap_jet{};
@@ -767,157 +296,234 @@ void CLoop::FillTree(double weight, int z_sample, const std::string& sampleName,
         bool CRb = z_centrality>=0.5 && z_centrality <=1 && n_jets_interval == 1;
         bool CRc = z_centrality>=0.5 && z_centrality <=1 && n_jets_interval == 0;
         bool superCR = CRa || CRb || CRc;
-
-        // ONLY SUPER CR
-        //if (!superCR) return;
 
         // Cuts vector
         vector<int> cuts={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
         // CUTS
         if (angle<=3.2){cuts[0]=1;}
         if(delta_y>=2.0){cuts[1]=1;}
-        if(n_bjets_MV2c10_FixedCutBEff_85==1){cuts[2]=1;}
+        if(n_bjets_MV2c10_FixedCutBEff_85==0){cuts[2]=1;}
         if(elec_0_iso_FCTight==1){cuts[3]=1;}
-        if(tau_0_n_charged_tracks==1 && tau_0_jet_rnn_score_trans >= 0.25){cuts[4]=1;}
-        if(tau_0_n_charged_tracks==3 && tau_0_jet_rnn_score_trans >= 0.40){cuts[4]=1;}
+        if(tau_0_n_charged_tracks==1 && tau_0_jet_rnn_score_trans>=0.25){cuts[4]=1;}
+        if(tau_0_n_charged_tracks==3 && tau_0_jet_rnn_score_trans>=0.40){cuts[4]=1;}
         if(elec_0_p4->Pt()>=27){cuts[5]=1;}
         if(ljet_0_p4->Pt()>=75){cuts[6]=1;}
-        if(ljet_1_p4->Pt()>=65){cuts[7]=1;}
+        if(ljet_1_p4->Pt()>=70){cuts[7]=1;}
         if(pt_bal<=0.15){cuts[8]=1;}
-        if(mjj>=750){cuts[9]=1;}
+        if(mjj>=1000){cuts[9]=1;}
         if(n_jets_interval==0){cuts[10]=1;}
         if(z_centrality<0.5){cuts[11]=1;} // SR -> z_centrality < 0.5
-        if (omega> -0.2 && omega <1.4){cuts[12]=1;} // Z-peak omega> -0.2 && omega <1.6
-        if(inv_taulep<=80 || inv_taulep>=100){cuts[13]=1;}
+        if (omega> -0.2 && omega <1.6){cuts[12]=1;}
+        if(inv_taulep<=80){cuts[13]=1;}
         if (tau_0_ele_bdt_score_trans_retuned>=0.05){cuts[14]=1;}
-        bool diLeptonMassRequirement = reco_mass>120;
-        if (diLeptonMassRequirement){cuts[15]=1;} // Z-peak reco_mass<116 && reco_mass>66 // Higgs reco_mass >= 116 && reco_mass < 150
+        if (inside) {
+          if (reco_mass<116 && reco_mass>66){cuts[15]=1;}
+        }
+        if (outside_lep) {
+          if (reco_mass_outside<116 && reco_mass_outside>66){cuts[15]=1;}
+        }
+        if (outside_tau) {
+          if (reco_mass_outside<116 && reco_mass_outside>66){cuts[15]=1;}
+        }
         if (tau_0_p4->Pt()>=25){cuts[16]=1;}
 
         // SUM OF THE VECTOR STORING IF CUTS PASS OR NOT
-        size_t sum{0};
+        int sum{};
         for(auto &j : cuts){sum=sum+j;}
 
-        std::vector<int> cutsVector{1};
-        cutsVector.insert(cutsVector.end(),cuts.begin(),cuts.end());
-        bool passedAllCuts = (sum+1==cutsVector.size());
-        std::vector<int> notFullCutsVector{1,static_cast<int>(passedAllCuts)};
+        // FILLING CUTS HISTOGRAMS
+        if ((sum-cuts[0])==16) {
+          h_delta_phi->Fill(angle,weight);
+        }
+        if ((sum-cuts[1])==16) {
+          h_delta_y->Fill(delta_y,weight);
+        }
+        if ((sum-cuts[2])==16) {
+          h_n_bjets->Fill(n_bjets_MV2c10_FixedCutBEff_85,weight);
+        }
+        if ((sum-cuts[3])==16) {
+          h_lepiso->Fill(elec_0_iso_FCTight,weight);
+        }
+        if ((sum-cuts[4])==16) {
+          if (tau_0_n_charged_tracks==1){
+            h_rnn_score_1p->Fill(tau_0_jet_rnn_score_trans,weight);
+          }
+          if (tau_0_n_charged_tracks==3){
+            h_rnn_score_3p->Fill(tau_0_jet_rnn_score_trans,weight);
+          }
+        }
+        if ((sum-cuts[5])==16) {
+          h_lep_pt->Fill(elec_0_p4->Pt(),weight);
+        }
+        if ((sum-cuts[6])==16) {
+          h_ljet0_pt->Fill(ljet_0_p4->Pt(),weight);
+        }
+        if ((sum-cuts[7])==16) {
+          h_ljet1_pt->Fill(ljet_1_p4->Pt(),weight);
+        }
+        if ((sum-cuts[8])==16) {
+          h_pt_bal->Fill(pt_bal,weight);
+        }
+        if ((sum-cuts[9])==16) {
+          h_mass_jj->Fill(mjj,weight);
 
-        double etaMoreCentral = abs(ljet_0_p4->Eta())>=abs(ljet_1_p4->Eta()) ? ljet_1_p4->Eta() : ljet_0_p4->Eta();
-        double etaLessCentral = abs(ljet_0_p4->Eta())<abs(ljet_1_p4->Eta()) ? ljet_1_p4->Eta() : ljet_0_p4->Eta();
-        double normPtDifference = (tau_0_p4->Pt()-elec_0_p4->Pt())/(tau_0_p4->Pt()+elec_0_p4->Pt());
-        double anglejj = del_phi(ljet_0_p4->Phi(),ljet_1_p4->Phi());
-        double metToDilepnuRatio = 0.0;
-        double metToDilepRatio = met_reco_p4->Pt()/(tau_0_p4->Pt()+elec_0_p4->Pt());
-        if (inside)
-        {
-          metToDilepnuRatio = met_reco_p4->Pt()/(tau_0_p4->Pt()+pt_tau_nu+elec_0_p4->Pt()+pt_lep_nu);
+          #ifdef WEIGHTSYSTEMATICS
+          h_mass_jj_elec_0_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_offline_TightLLH_d0z0_v13->Fill(mjj,weight*elec_0_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_offline_TightLLH_d0z0_v13/elec_0_NOMINAL_EleEffSF_offline_TightLLH_d0z0_v13);
+          h_mass_jj_elec_0_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_offline_TightLLH_d0z0_v13->Fill(mjj,weight*elec_0_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_offline_TightLLH_d0z0_v13/elec_0_NOMINAL_EleEffSF_offline_TightLLH_d0z0_v13);
+          h_mass_jj_elec_0_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight->Fill(mjj,weight*elec_0_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight/elec_0_NOMINAL_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight);
+          h_mass_jj_elec_0_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight->Fill(mjj,weight*elec_0_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight/elec_0_NOMINAL_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight);
+          h_mass_jj_elec_0_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_offline_RecoTrk->Fill(mjj,weight*elec_0_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_offline_RecoTrk/elec_0_NOMINAL_EleEffSF_offline_RecoTrk);
+          h_mass_jj_elec_0_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_offline_RecoTrk->Fill(mjj,weight*elec_0_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_offline_RecoTrk/elec_0_NOMINAL_EleEffSF_offline_RecoTrk);
+          h_mass_jj_elec_0_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight->Fill(mjj,weight*elec_0_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight/elec_0_NOMINAL_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight);
+          h_mass_jj_elec_0_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight->Fill(mjj,weight*elec_0_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight/elec_0_NOMINAL_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight);
+          h_mass_jj_PRW_DATASF_1down_pileup_combined_weight->Fill(mjj,weight*PRW_DATASF_1down_pileup_combined_weight/NOMINAL_pileup_combined_weight);
+          h_mass_jj_PRW_DATASF_1up_pileup_combined_weight->Fill(mjj,weight*PRW_DATASF_1up_pileup_combined_weight/NOMINAL_pileup_combined_weight);
+          h_mass_jj_jet_JET_JvtEfficiency_1down_central_jets_global_effSF_JVT->Fill(mjj,weight*jet_JET_JvtEfficiency_1down_central_jets_global_effSF_JVT/jet_NOMINAL_central_jets_global_effSF_JVT);
+          h_mass_jj_jet_JET_JvtEfficiency_1down_central_jets_global_ineffSF_JVT->Fill(mjj,weight*jet_JET_JvtEfficiency_1down_central_jets_global_ineffSF_JVT/jet_NOMINAL_central_jets_global_ineffSF_JVT);
+          h_mass_jj_jet_JET_JvtEfficiency_1up_central_jets_global_effSF_JVT->Fill(mjj,weight*jet_JET_JvtEfficiency_1up_central_jets_global_effSF_JVT/jet_NOMINAL_central_jets_global_effSF_JVT);
+          h_mass_jj_jet_JET_JvtEfficiency_1up_central_jets_global_ineffSF_JVT->Fill(mjj,weight*jet_JET_JvtEfficiency_1up_central_jets_global_ineffSF_JVT/jet_NOMINAL_central_jets_global_ineffSF_JVT);
+          h_mass_jj_jet_JET_fJvtEfficiency_1down_forward_jets_global_effSF_JVT->Fill(mjj,weight*jet_JET_fJvtEfficiency_1down_forward_jets_global_effSF_JVT/jet_NOMINAL_forward_jets_global_effSF_JVT);
+          h_mass_jj_jet_JET_fJvtEfficiency_1down_forward_jets_global_ineffSF_JVT->Fill(mjj,weight*jet_JET_fJvtEfficiency_1down_forward_jets_global_ineffSF_JVT/jet_NOMINAL_forward_jets_global_ineffSF_JVT);
+          h_mass_jj_jet_JET_fJvtEfficiency_1up_forward_jets_global_effSF_JVT->Fill(mjj,weight*jet_JET_fJvtEfficiency_1up_forward_jets_global_effSF_JVT/jet_NOMINAL_forward_jets_global_effSF_JVT);
+          h_mass_jj_jet_JET_fJvtEfficiency_1up_forward_jets_global_ineffSF_JVT->Fill(mjj,weight*jet_JET_fJvtEfficiency_1up_forward_jets_global_ineffSF_JVT/jet_NOMINAL_forward_jets_global_ineffSF_JVT);
+          h_mass_jj_tau_0_TAUS_TRUEELECTRON_EFF_ELEBDT_STAT_1down_TauEffSF_LooseEleBDT_electron->Fill(mjj,weight*tau_0_TAUS_TRUEELECTRON_EFF_ELEBDT_STAT_1down_TauEffSF_LooseEleBDT_electron/tau_0_NOMINAL_TauEffSF_LooseEleBDT_electron);
+          h_mass_jj_tau_0_TAUS_TRUEELECTRON_EFF_ELEBDT_STAT_1up_TauEffSF_LooseEleBDT_electron->Fill(mjj,weight*tau_0_TAUS_TRUEELECTRON_EFF_ELEBDT_STAT_1up_TauEffSF_LooseEleBDT_electron/tau_0_NOMINAL_TauEffSF_LooseEleBDT_electron);
+          h_mass_jj_tau_0_TAUS_TRUEELECTRON_EFF_ELEBDT_SYST_1down_TauEffSF_LooseEleBDT_electron->Fill(mjj,weight*tau_0_TAUS_TRUEELECTRON_EFF_ELEBDT_SYST_1down_TauEffSF_LooseEleBDT_electron/tau_0_NOMINAL_TauEffSF_LooseEleBDT_electron);
+          h_mass_jj_tau_0_TAUS_TRUEELECTRON_EFF_ELEBDT_SYST_1up_TauEffSF_LooseEleBDT_electron->Fill(mjj,weight*tau_0_TAUS_TRUEELECTRON_EFF_ELEBDT_SYST_1up_TauEffSF_LooseEleBDT_electron/tau_0_NOMINAL_TauEffSF_LooseEleBDT_electron);
+          h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RECO_TOTAL_1down_TauEffSF_reco->Fill(mjj,weight*tau_0_TAUS_TRUEHADTAU_EFF_RECO_TOTAL_1down_TauEffSF_reco/tau_0_NOMINAL_TauEffSF_reco);
+          h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RECO_TOTAL_1up_TauEffSF_reco->Fill(mjj,weight*tau_0_TAUS_TRUEHADTAU_EFF_RECO_TOTAL_1up_TauEffSF_reco/tau_0_NOMINAL_TauEffSF_reco);
+          h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_1PRONGSTATSYSTPT2025_1down_TauEffSF_JetRNNmedium->Fill(mjj,weight*tau_0_TAUS_TRUEHADTAU_EFF_RNNID_1PRONGSTATSYSTPT2025_1down_TauEffSF_JetRNNmedium/tau_0_NOMINAL_TauEffSF_JetRNNmedium);
+          h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_1PRONGSTATSYSTPT2025_1up_TauEffSF_JetRNNmedium->Fill(mjj,weight*tau_0_TAUS_TRUEHADTAU_EFF_RNNID_1PRONGSTATSYSTPT2025_1up_TauEffSF_JetRNNmedium/tau_0_NOMINAL_TauEffSF_JetRNNmedium);
+          h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_1PRONGSTATSYSTPT2530_1down_TauEffSF_JetRNNmedium->Fill(mjj,weight*tau_0_TAUS_TRUEHADTAU_EFF_RNNID_1PRONGSTATSYSTPT2530_1down_TauEffSF_JetRNNmedium/tau_0_NOMINAL_TauEffSF_JetRNNmedium);
+          h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_1PRONGSTATSYSTPT2530_1up_TauEffSF_JetRNNmedium->Fill(mjj,weight*tau_0_TAUS_TRUEHADTAU_EFF_RNNID_1PRONGSTATSYSTPT2530_1up_TauEffSF_JetRNNmedium/tau_0_NOMINAL_TauEffSF_JetRNNmedium);
+          h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_1PRONGSTATSYSTPT3040_1down_TauEffSF_JetRNNmedium->Fill(mjj,weight*tau_0_TAUS_TRUEHADTAU_EFF_RNNID_1PRONGSTATSYSTPT3040_1down_TauEffSF_JetRNNmedium/tau_0_NOMINAL_TauEffSF_JetRNNmedium);
+          h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_1PRONGSTATSYSTPT3040_1up_TauEffSF_JetRNNmedium->Fill(mjj,weight*tau_0_TAUS_TRUEHADTAU_EFF_RNNID_1PRONGSTATSYSTPT3040_1up_TauEffSF_JetRNNmedium/tau_0_NOMINAL_TauEffSF_JetRNNmedium);
+          h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_1PRONGSTATSYSTPTGE40_1down_TauEffSF_JetRNNmedium->Fill(mjj,weight*tau_0_TAUS_TRUEHADTAU_EFF_RNNID_1PRONGSTATSYSTPTGE40_1down_TauEffSF_JetRNNmedium/tau_0_NOMINAL_TauEffSF_JetRNNmedium);
+          h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_1PRONGSTATSYSTPTGE40_1up_TauEffSF_JetRNNmedium->Fill(mjj,weight*tau_0_TAUS_TRUEHADTAU_EFF_RNNID_1PRONGSTATSYSTPTGE40_1up_TauEffSF_JetRNNmedium/tau_0_NOMINAL_TauEffSF_JetRNNmedium);
+          h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_3PRONGSTATSYSTPT2025_1down_TauEffSF_JetRNNmedium->Fill(mjj,weight*tau_0_TAUS_TRUEHADTAU_EFF_RNNID_3PRONGSTATSYSTPT2025_1down_TauEffSF_JetRNNmedium/tau_0_NOMINAL_TauEffSF_JetRNNmedium);
+          h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_3PRONGSTATSYSTPT2025_1up_TauEffSF_JetRNNmedium->Fill(mjj,weight*tau_0_TAUS_TRUEHADTAU_EFF_RNNID_3PRONGSTATSYSTPT2025_1up_TauEffSF_JetRNNmedium/tau_0_NOMINAL_TauEffSF_JetRNNmedium);
+          h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_3PRONGSTATSYSTPT2530_1down_TauEffSF_JetRNNmedium->Fill(mjj,weight*tau_0_TAUS_TRUEHADTAU_EFF_RNNID_3PRONGSTATSYSTPT2530_1down_TauEffSF_JetRNNmedium/tau_0_NOMINAL_TauEffSF_JetRNNmedium);
+          h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_3PRONGSTATSYSTPT2530_1up_TauEffSF_JetRNNmedium->Fill(mjj,weight*tau_0_TAUS_TRUEHADTAU_EFF_RNNID_3PRONGSTATSYSTPT2530_1up_TauEffSF_JetRNNmedium/tau_0_NOMINAL_TauEffSF_JetRNNmedium);
+          h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_3PRONGSTATSYSTPT3040_1down_TauEffSF_JetRNNmedium->Fill(mjj,weight*tau_0_TAUS_TRUEHADTAU_EFF_RNNID_3PRONGSTATSYSTPT3040_1down_TauEffSF_JetRNNmedium/tau_0_NOMINAL_TauEffSF_JetRNNmedium);
+          h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_3PRONGSTATSYSTPT3040_1up_TauEffSF_JetRNNmedium->Fill(mjj,weight*tau_0_TAUS_TRUEHADTAU_EFF_RNNID_3PRONGSTATSYSTPT3040_1up_TauEffSF_JetRNNmedium/tau_0_NOMINAL_TauEffSF_JetRNNmedium);
+          h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_3PRONGSTATSYSTPTGE40_1down_TauEffSF_JetRNNmedium->Fill(mjj,weight*tau_0_TAUS_TRUEHADTAU_EFF_RNNID_3PRONGSTATSYSTPTGE40_1down_TauEffSF_JetRNNmedium/tau_0_NOMINAL_TauEffSF_JetRNNmedium);
+          h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_3PRONGSTATSYSTPTGE40_1up_TauEffSF_JetRNNmedium->Fill(mjj,weight*tau_0_TAUS_TRUEHADTAU_EFF_RNNID_3PRONGSTATSYSTPTGE40_1up_TauEffSF_JetRNNmedium/tau_0_NOMINAL_TauEffSF_JetRNNmedium);
+          h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_HIGHPT_1down_TauEffSF_JetRNNmedium->Fill(mjj,weight*tau_0_TAUS_TRUEHADTAU_EFF_RNNID_HIGHPT_1down_TauEffSF_JetRNNmedium/tau_0_NOMINAL_TauEffSF_JetRNNmedium);
+          h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_HIGHPT_1up_TauEffSF_JetRNNmedium->Fill(mjj,weight*tau_0_TAUS_TRUEHADTAU_EFF_RNNID_HIGHPT_1up_TauEffSF_JetRNNmedium/tau_0_NOMINAL_TauEffSF_JetRNNmedium);
+          h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_SYST_1down_TauEffSF_JetRNNmedium->Fill(mjj,weight*tau_0_TAUS_TRUEHADTAU_EFF_RNNID_SYST_1down_TauEffSF_JetRNNmedium/tau_0_NOMINAL_TauEffSF_JetRNNmedium);
+          h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_SYST_1up_TauEffSF_JetRNNmedium->Fill(mjj,weight*tau_0_TAUS_TRUEHADTAU_EFF_RNNID_SYST_1up_TauEffSF_JetRNNmedium/tau_0_NOMINAL_TauEffSF_JetRNNmedium);
+          #endif
         }
-        if (outside_lep || outside_tau)
-        {
-          metToDilepnuRatio = met_reco_p4->Pt()/(tau_0_p4->Pt()+elec_0_p4->Pt()+neutrino_pt);
+        if ((sum-cuts[10])==16) {
+          h_n_jets_interval->Fill(n_jets_interval,weight);
         }
-
-        double massTauCloserJet{0.0};
-        double massLepClosestJet{0.0};
-        double massTauFurthestJet{0.0};
-        bool j0CloserToTau = tau_0_p4->DeltaR(*ljet_0_p4) <= tau_0_p4->DeltaR(*ljet_1_p4);
-        if (j0CloserToTau)
-        {
-          massTauCloserJet = sqrt(2*(tau_0_p4->Dot(*ljet_0_p4)));
-          massTauFurthestJet = sqrt(2*(tau_0_p4->Dot(*ljet_1_p4)));
-          massLepClosestJet = sqrt(2*(elec_0_p4->Dot(*ljet_1_p4)));
+        if ((sum-cuts[11])==16) {
+          h_Z_centrality->Fill(z_centrality,weight);
         }
-        else
-        {
-          massTauCloserJet = sqrt(2*(tau_0_p4->Dot(*ljet_1_p4)));
-          massTauFurthestJet = sqrt(2*(tau_0_p4->Dot(*ljet_0_p4)));
-          massLepClosestJet = sqrt(2*(elec_0_p4->Dot(*ljet_0_p4)));
+        if ((sum-cuts[12])==16) {
+          h_omega->Fill(omega,weight);
         }
-
-        // Neutrino cuts
-        bool taunuPtPass = true;
-        bool lepnuPtPass = true;
-        if (inside) 
-        {
-          taunuPtPass = pt_tau_nu>=15;
-          lepnuPtPass = pt_tau_nu>=30;
-        } else {
-          if (outside_lep) lepnuPtPass = neutrino_pt>=30;
-          if (outside_tau) taunuPtPass = neutrino_pt>=15;
+        if ((sum-cuts[13])==16) {
+          h_leptau_mass->Fill(inv_taulep,weight);
         }
-
-        // Transverse mass
-        double transverseMassLep = sqrt(2*elec_0_p4->Pt()*met_reco_p4->Pt()*(1-cos(elec_0_p4->Phi()-met_reco_p4->Phi())));
-        double transverseMassTau = sqrt(2*tau_0_p4->Pt()*met_reco_p4->Pt()*(1-cos(tau_0_p4->Phi()-met_reco_p4->Phi())));
-        double transverseMassSum = transverseMassTau + transverseMassLep;
-        double transverseMassRatio = (transverseMassTau - transverseMassLep)/transverseMassSum;
-
-        bool testCuts = transverseMassLep <= 65 && massTauCloserJet >= 90;
-        if (passedAllCuts){
-          // FILLING TTree
-        // Check if sample is VBF Ztautau
-        bool isVBFZtautau = sampleName.find("VBF") != std::string::npos && sampleName.find("Ztautau") != std::string::npos && sampleName.find("old") == std::string::npos;
-        bool isVBFHiggs = sampleName.find("H") != std::string::npos && sampleName.find("VBF") != std::string::npos;
-        if (isVBFZtautau || isVBFHiggs) {
-          SigTree_mcWeight = weight;
-          SigTree_mjj = mjj;
-          SigTree_deltaRapidity = delta_y;
-          SigTree_mjj = mjj;
-          SigTree_deltaRapidity = delta_y;
-          SigTree_deltaPhiLT = angle;
-          SigTree_deltaPhiJJ = anglejj;
-          SigTree_jetRNNScore = tau_0_jet_rnn_score_trans;
-          SigTree_ptBalance = pt_bal;
-          SigTree_zCentrality = z_centrality;
-          SigTree_omega = omega;
-          SigTree_reco_mass = reco_mass;
-          if (inside) SigTree_lepNuPt = pt_lep_nu;
-          if (outside_lep) SigTree_lepNuPt = neutrino_pt;
-          if (outside_tau) SigTree_lepNuPt = 0.0;
-          SigTree_transverseMassLep = transverseMassLep;
-          SigTree_massTauLep = inv_taulep;
-          SigTree_nLightJets = n_ljets;
-          SigTree_tau_pT = tau_0_p4->Pt();
-          SigTree_lep_pT = elec_0_p4->Pt();
-          SigTree_jet0_pT = ljet_0_p4->Pt();
-          SigTree_jet1_pT = ljet_1_p4->Pt();
-          SigTree_met_pT = met_reco_p4->Pt();
-          SigTree_event_number = event_number;
-          // Fill tree
-          stree->Fill();
-        } else {
-          BgTree_mcWeight = weight;
-          BgTree_mjj = mjj;
-          BgTree_deltaRapidity = delta_y;
-          BgTree_mjj = mjj;
-          BgTree_deltaRapidity = delta_y;
-          BgTree_deltaPhiLT = angle;
-          BgTree_deltaPhiJJ = anglejj;
-          BgTree_jetRNNScore = tau_0_jet_rnn_score_trans;
-          BgTree_ptBalance = pt_bal;
-          BgTree_zCentrality = z_centrality;
-          BgTree_omega = omega;
-          BgTree_reco_mass = reco_mass;
-          if (inside) BgTree_lepNuPt = pt_lep_nu;
-          if (outside_lep) BgTree_lepNuPt = neutrino_pt;
-          if (outside_tau) BgTree_lepNuPt = 0.0;
-          BgTree_transverseMassLep = transverseMassLep;
-          BgTree_massTauLep = inv_taulep;
-          BgTree_nLightJets = n_ljets;
-          BgTree_tau_pT = tau_0_p4->Pt();
-          BgTree_lep_pT = elec_0_p4->Pt();
-          BgTree_jet0_pT = ljet_0_p4->Pt();
-          BgTree_jet1_pT = ljet_1_p4->Pt();
-          BgTree_met_pT = met_reco_p4->Pt();
-          BgTree_event_number = event_number;
-          // Fill tree
-          btree->Fill();
+        if ((sum-cuts[14])==16) {
+          h_eBDT->Fill(tau_0_ele_bdt_score_trans_retuned,weight);
         }
+        if (inside) {
+          if ((sum-cuts[15])==16) {
+            h_reco_mass_i->Fill(reco_mass,weight);
+            h_reco_mass->Fill(reco_mass,weight);
+          }
+        }
+        if (outside_lep) {
+          if ((sum-cuts[15])==16) {
+            h_reco_mass_o->Fill(reco_mass_outside,weight);
+            h_reco_mass->Fill(reco_mass_outside,weight);
+          }
+        }
+        if (outside_tau) {
+          if ((sum-cuts[15])==16) {
+            h_reco_mass_o->Fill(reco_mass_outside,weight);
+            h_reco_mass->Fill(reco_mass_outside,weight);
+          }
+        }
+        if ((sum-cuts[16])==16) {
+          h_tau_pt->Fill(tau_0_p4->Pt(),weight);
         }
       }
+    }
   }
 }
+
+void CLoop::Style(double lumFactor) {
+  #ifdef WEIGHTSYSTEMATICS
+  h_mass_jj_elec_0_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_offline_TightLLH_d0z0_v13->Write();
+  h_mass_jj_elec_0_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_offline_TightLLH_d0z0_v13->Write();
+  h_mass_jj_elec_0_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight->Write();
+  h_mass_jj_elec_0_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight->Write();
+  h_mass_jj_elec_0_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_offline_RecoTrk->Write();
+  h_mass_jj_elec_0_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_offline_RecoTrk->Write();
+  h_mass_jj_elec_0_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight->Write();
+  h_mass_jj_elec_0_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight->Write();
+  h_mass_jj_PRW_DATASF_1down_pileup_combined_weight->Write();
+  h_mass_jj_PRW_DATASF_1up_pileup_combined_weight->Write();
+  h_mass_jj_jet_JET_JvtEfficiency_1down_central_jets_global_effSF_JVT->Write();
+  h_mass_jj_jet_JET_JvtEfficiency_1down_central_jets_global_ineffSF_JVT->Write();
+  h_mass_jj_jet_JET_JvtEfficiency_1up_central_jets_global_effSF_JVT->Write();
+  h_mass_jj_jet_JET_JvtEfficiency_1up_central_jets_global_ineffSF_JVT->Write();
+  h_mass_jj_jet_JET_fJvtEfficiency_1down_forward_jets_global_effSF_JVT->Write();
+  h_mass_jj_jet_JET_fJvtEfficiency_1down_forward_jets_global_ineffSF_JVT->Write();
+  h_mass_jj_jet_JET_fJvtEfficiency_1up_forward_jets_global_effSF_JVT->Write();
+  h_mass_jj_jet_JET_fJvtEfficiency_1up_forward_jets_global_ineffSF_JVT->Write();
+  h_mass_jj_tau_0_TAUS_TRUEELECTRON_EFF_ELEBDT_STAT_1down_TauEffSF_LooseEleBDT_electron->Write();
+  h_mass_jj_tau_0_TAUS_TRUEELECTRON_EFF_ELEBDT_STAT_1up_TauEffSF_LooseEleBDT_electron->Write();
+  h_mass_jj_tau_0_TAUS_TRUEELECTRON_EFF_ELEBDT_SYST_1down_TauEffSF_LooseEleBDT_electron->Write();
+  h_mass_jj_tau_0_TAUS_TRUEELECTRON_EFF_ELEBDT_SYST_1up_TauEffSF_LooseEleBDT_electron->Write();
+  h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RECO_TOTAL_1down_TauEffSF_reco->Write();
+  h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RECO_TOTAL_1up_TauEffSF_reco->Write();
+  h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_1PRONGSTATSYSTPT2025_1down_TauEffSF_JetRNNmedium->Write();
+  h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_1PRONGSTATSYSTPT2025_1up_TauEffSF_JetRNNmedium->Write();
+  h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_1PRONGSTATSYSTPT2530_1down_TauEffSF_JetRNNmedium->Write();
+  h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_1PRONGSTATSYSTPT2530_1up_TauEffSF_JetRNNmedium->Write();
+  h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_1PRONGSTATSYSTPT3040_1down_TauEffSF_JetRNNmedium->Write();
+  h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_1PRONGSTATSYSTPT3040_1up_TauEffSF_JetRNNmedium->Write();
+  h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_1PRONGSTATSYSTPTGE40_1down_TauEffSF_JetRNNmedium->Write();
+  h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_1PRONGSTATSYSTPTGE40_1up_TauEffSF_JetRNNmedium->Write();
+  h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_3PRONGSTATSYSTPT2025_1down_TauEffSF_JetRNNmedium->Write();
+  h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_3PRONGSTATSYSTPT2025_1up_TauEffSF_JetRNNmedium->Write();
+  h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_3PRONGSTATSYSTPT2530_1down_TauEffSF_JetRNNmedium->Write();
+  h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_3PRONGSTATSYSTPT2530_1up_TauEffSF_JetRNNmedium->Write();
+  h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_3PRONGSTATSYSTPT3040_1down_TauEffSF_JetRNNmedium->Write();
+  h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_3PRONGSTATSYSTPT3040_1up_TauEffSF_JetRNNmedium->Write();
+  h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_3PRONGSTATSYSTPTGE40_1down_TauEffSF_JetRNNmedium->Write();
+  h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_3PRONGSTATSYSTPTGE40_1up_TauEffSF_JetRNNmedium->Write();
+  h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_HIGHPT_1down_TauEffSF_JetRNNmedium->Write();
+  h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_HIGHPT_1up_TauEffSF_JetRNNmedium->Write();
+  h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_SYST_1down_TauEffSF_JetRNNmedium->Write();
+  h_mass_jj_tau_0_TAUS_TRUEHADTAU_EFF_RNNID_SYST_1up_TauEffSF_JetRNNmedium->Write();
+  #endif
+
+  h_delta_phi->Write();
+  h_delta_y->Write();
+  h_n_bjets->Write();
+  h_lepiso->Write();
+  h_rnn_score_1p->Write();
+  h_rnn_score_3p->Write();
+  h_lep_pt->Write();
+  h_ljet0_pt->Write();
+  h_ljet1_pt->Write();
+  h_pt_bal->Write();
+  h_mass_jj->Write();
+  h_n_jets_interval->Write();
+  h_Z_centrality->Write();
+  h_omega->Write();
+  h_leptau_mass->Write();
+  h_eBDT->Write();
+  h_reco_mass_i->Write();
+  h_reco_mass_o->Write();
+  h_reco_mass->Write();
+  h_tau_pt->Write();
 }
+
 
 #endif // End header guard
