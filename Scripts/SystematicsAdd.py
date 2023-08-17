@@ -29,9 +29,9 @@ def getSystematicsName(path, histogramName):
 if __name__ == "__main__":
     r.TH1.AddDirectory(False)
     # Define paths of the two input channels
-    path1 = "/Users/diegomac/Documents/HEP/VBF-Analysis/TauTau/TauhadTaulep/AnalysisCrosscheck/Systematics/"
-    path2 = "/Users/diegomac/Documents/HEP/VBF-Analysis/MuEle/Plots/AnalysisCrossCheck/Systematics/"
-    targetPath = "/Users/diegomac/Documents/HEP/VBF-Analysis/TauTau/AnalysisCrosscheck/Systematics/"
+    path1 = "/Users/diegomac/Documents/HEP/VBF-Analysis/TauTau/TauhadTaulep/Z-Peak/Systematics/"
+    path2 = "/Users/diegomac/Documents/HEP/VBF-Analysis/MuEle/Plots/Systematics/"
+    targetPath = "/Users/diegomac/Documents/HEP/VBF-Analysis/TauTau/Z-Peak/Systematics/"
 
     systematics1 = getSystematicsName(path1, "mass_jj")
     systematics2 = getSystematicsName(path2, "mass_jj")

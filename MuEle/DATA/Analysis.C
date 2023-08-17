@@ -269,8 +269,8 @@ void CLoop::Fill(double weight, int z_sample) {
         if(ljet_1_p4->Pt()>=70){cuts[6]=1;} //80
         if(pt_bal<=0.15){cuts[7]=1;} //0.4
         if(mjj>=1000){cuts[8]=1;} // 1000
-        if(n_jets_interval==0){cuts[9]=1;}
-        if(z_centrality < 0.5){cuts[10]=1;} // SR -> z_centrality < 0.5
+        if(n_jets_interval==0 || n_jets_interval==1){cuts[9]=1;}
+        if(z_centrality <= 1.0){cuts[10]=1;} // SR -> z_centrality < 0.5
         if (omega> -0.4 && omega <1.4){cuts[11]=1;}
         bool diLeptonMassRequirement = reco_mass<116 && reco_mass>66;
         if (diLeptonMassRequirement){cuts[12]=1;} // Z-peak reco_mass<116 && reco_mass>66 // Higgs reco_mass >= 116 && reco_mass < 150

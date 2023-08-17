@@ -5,6 +5,7 @@
 #include <TMVA/Reader.h>
 #include "../../../AnalysisCommons/rewightingTools.h"
 
+#ifdef NOMINAL
 // Tree variables 
 // Signal tree
 double SigTree_mcWeight;
@@ -54,6 +55,7 @@ TMVA::Reader* reader = new TMVA::Reader();
 float bdt_mjj, bdt_drap, bdt_dphi, bdt_jetRNN, bdt_ptbal, bdt_zcen, bdt_omega, bdt_recomass, bdt_lepnupt, bdt_transmasslep, bdt_masstaul;
 float bdt_nljet;
 float bdt_taupt, bdt_leppt, bdt_jet0pt, bdt_jet1pt, bdt_met, bdt_eventNumber;
+#endif
 
 void CLoop::Loop(double lumFactor, int z_sample, std::string key)
 {
@@ -297,8 +299,9 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
     // open output file
     TFile outfile(name_root,"recreate");
     // Create TTree
-    bool saveEvents = false;
     bool saveHistograms = true;
+    #ifdef NOMINAL
+    bool saveEvents = false;
     TTree* signalTree = new TTree("SIGNAL", "Signal TTree");
     TTree* bgTree = new TTree("BG", "Background TTree");
 
@@ -365,6 +368,7 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
     reader->AddSpectator("eventNumber", &bdt_eventNumber); // For deterministic split
     reader->BookMVA("VBF_BDT", "/Users/diegomac/Documents/HEP/MVA-Analysis/dataset/weights/validateBDT_BDT-HM-10Folds.weights.xml");
     }
+    #endif
     // loop over number of entries
     for (Long64_t jentry=0; jentry<nLoop;jentry++) {
         Long64_t ientry = LoadTree(jentry);
@@ -395,7 +399,7 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
         double mjj_w = 1.0;
 
         // mjj reweighting
-        bool reweight_mjj = true;
+        bool reweight_mjj = false;
         if (reweight_mjj){
             MC mcSample = static_cast<MC>(z_sample);
             if(mcSample == MC::PowHegPythia){
@@ -490,19 +494,23 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
         // fill histograms
         //cout << eventWeight;
         if (saveHistograms) Fill(eventWeight, z_sample, key);
+        #ifdef NOMINAL
         if (saveEvents) FillTree(eventWeight, z_sample, key, signalTree, bgTree);
         // end filling
+        #endif
     }
     // end style and writing
-    if (saveHistograms) Style(lumFactor);   
+    if (saveHistograms) Style(lumFactor);
+    #ifdef NOMINAL   
     if (saveEvents) {
         outfile.WriteObject(signalTree,"SIGNAL");
         outfile.WriteObject(bgTree,"BACKGROUND");
     }
     delete signalTree;
     delete bgTree;
-    outfile.Close();
     delete reader;
+    #endif
+    outfile.Close();
     clock_t endTime = clock(); // get end time
     // calculate time taken and print it
     double time_spent = (endTime - startTime) / CLOCKS_PER_SEC;

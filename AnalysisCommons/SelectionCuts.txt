@@ -36,7 +36,7 @@ reco_mass >= 116 && reco_mass < 160
 mjj>=750
 omega> -0.2 && omega <1.4
 inv_taulep<=80 || inv_taulep>=100
-reco_mass > 160
+reco_mass >= 160
 VBFBDT_score > 0.3
 lepnuPtPass >=30 GeV
 normPtDifference > -0.3
