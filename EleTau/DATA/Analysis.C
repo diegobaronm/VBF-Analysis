@@ -309,6 +309,16 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
         bdt_eventNumber = event_number;
         double VBFBDT_score = reader->EvaluateMVA("VBF_BDT");
 
+        // Truth studies
+        TLorentzVector truth_lep_p4{};
+        double trueMass{};
+        double recoTrueMassRatio{};
+        if (sampleName.find("truth")!=std::string::npos){
+          truth_lep_p4 = (*taulep_0_truth_invis_p4)+(*taulep_0_truth_vis_p4);
+          trueMass = sqrt(2*(truth_lep_p4*(*tau_0_truth_total_p4)));
+          recoTrueMassRatio = trueMass==0.0 ? 0.0 : reco_mass/trueMass;
+        }
+
         // Definition of the superCR = CR(a+b+c)
         bool CRa = z_centrality < 0.5 && n_jets_interval == 1;
         bool CRb = z_centrality>=0.5 && z_centrality <=1 && n_jets_interval == 1;
@@ -317,8 +327,6 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
 
         // ONLY SUPER CR
         //if (!superCR) return;
-        // Blind H-M region
-        //if (sampleName.substr(0,4)=="data" && reco_mass >= 160) return;
 
         // Cuts vector
         vector<int> cuts={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
@@ -333,20 +341,20 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
         if(ljet_0_p4->Pt()>=75){cuts[6]=1;}
         if(ljet_1_p4->Pt()>=70){cuts[7]=1;}
         if(pt_bal<=0.15){cuts[8]=1;}
-        if(mjj>=1000){cuts[9]=1;} // High-mass mjj>= 750
-        if(n_jets_interval==0 || n_jets_interval==1){cuts[10]=1;}
-        if(z_centrality <= 1.0){cuts[11]=1;} // SR -> z_centrality < 0.5
-        if (omega> -0.2 && omega <1.6){cuts[12]=1;} // Z-peak omega> -0.2 && omega <1.6 // High-mass omega> -0.2 && omega <1.4
-        if(inv_taulep<=80 /*|| inv_taulep>=100*/){cuts[13]=1;} // High-mass || inv_taulep>=100
+        if(mjj>=750){cuts[9]=1;} // High-mass mjj>= 750
+        if(n_jets_interval==0){cuts[10]=1;}
+        if(z_centrality < 0.5){cuts[11]=1;} // SR -> z_centrality < 0.5
+        if (omega> -0.2 && omega <1.4){cuts[12]=1;} // Z-peak omega> -0.2 && omega <1.6 // High-mass omega> -0.2 && omega <1.4
+        if(inv_taulep<=80 || inv_taulep>=100){cuts[13]=1;} // High-mass || inv_taulep>=100
         if (tau_0_ele_bdt_score_trans_retuned>=0.05){cuts[14]=1;}
-        bool diLeptonMassRequirement = reco_mass<116 && reco_mass>66;
+        bool diLeptonMassRequirement = reco_mass>=160;
         if (diLeptonMassRequirement){cuts[15]=1;} // Z-peak reco_mass<116 && reco_mass>66 // Higgs reco_mass >= 116 && reco_mass < 160
         if (tau_0_p4->Pt()>=25){cuts[16]=1;}
-        if (true){cuts[17]=1;} // High-mass VBFBDT_score > 0.3
-        if (true){cuts[18]=1;} // High-mass lepnuPtPass>=30 GeV.
-        if (true){cuts[19]=1;} // High-mass normPtDifference > -0.3
-        if (true){cuts[20]=1;} // High-mass taunuPtPass >= 15 GeV Higgs NO CUT
-        if (true){cuts[21]=1;} // High-mas reco_mass/inv_taulep < 4.0
+        if (VBFBDT_score > 0.3){cuts[17]=1;} // High-mass VBFBDT_score > 0.3
+        if (lepnuPtPass){cuts[18]=1;} // High-mass lepnuPtPass>=30 GeV.
+        if (normPtDifference > -0.3){cuts[19]=1;} // High-mass normPtDifference > -0.3
+        if (taunuPtPass){cuts[20]=1;} // High-mass taunuPtPass >= 15 GeV Higgs NO CUT
+        if (reco_mass/inv_taulep < 4.0){cuts[21]=1;} // High-mas reco_mass/inv_taulep < 4.0
 
         // SUM OF THE VECTOR STORING IF CUTS PASS OR NOT
         size_t sum{0};
@@ -356,11 +364,15 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
         cutsVector.insert(cutsVector.end(),cuts.begin(),cuts.end());
         bool passedAllCuts = (sum+1==cutsVector.size());
         std::vector<int> notFullCutsVector{1,static_cast<int>(passedAllCuts)};
+        // Blind H-M region
+        if (sampleName.substr(0,4)=="data" && passedAllCuts) return;
 
         //if (passedAllCuts) return;
 
         bool testCuts = transverseMassLep <= 65 && massTauCloserJet >= 90;
         bool MJCR = (tau_0_n_charged_tracks==1 && tau_0_jet_rnn_score_trans < 0.25) || (tau_0_n_charged_tracks==3 && tau_0_jet_rnn_score_trans < 0.40) || (elec_0_iso_FCTight==0);
+        bool failedMVA = (VBFBDT_score <= 0.3) || (!lepnuPtPass) || (!taunuPtPass) || (normPtDifference <= -0.3) || (reco_mass/inv_taulep >= 4.0);
+        //if (sampleName.substr(0,4)=="data" && !MJCR) return;
 
         if (true){
         // HISTOGRAM FILLING 
@@ -387,6 +399,8 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
         signedCentralityContainer.Fill(signed_z_centrality,weight,notFullCutsVector);
         visibleMassContainer.Fill(inv_taulep,weight,notFullCutsVector);
         recoVisibleMassRatioContainer.Fill(reco_mass/inv_taulep,weight,cutsVector);
+        recoTrueMassRatioContainer.Fill(recoTrueMassRatio,weight,notFullCutsVector);
+        trueMassContainer.Fill(trueMass,weight,notFullCutsVector);
 
         lepTransMassContainer.Fill(transverseMassLep,weight,notFullCutsVector);
         tauTransMassContainer.Fill(transverseMassTau,weight,notFullCutsVector);
@@ -508,6 +522,8 @@ void CLoop::Style(double lumFactor) {
   signedCentralityContainer.Write();  
   visibleMassContainer.Write();
   recoVisibleMassRatioContainer.Write();
+  trueMassContainer.Write();
+  recoTrueMassRatioContainer.Write();
 
   lepTransMassContainer.Write();
   tauTransMassContainer.Write();
@@ -619,7 +635,7 @@ void CLoop::FillTree(double weight, int z_sample, const std::string& sampleName,
   bool lepton_id=elec_0_id_tight;
   size_t n_ljets=n_jets-n_bjets_MV2c10_FixedCutBEff_85;
 
-  if (ql!=qtau && n_electrons==1 && n_taus_rnn_loose>=1 && lepton_id && n_ljets>=2 && n_ljets<=3 && NOMINAL_pileup_combined_weight > -1){
+  if (ql==qtau && n_electrons==1 && n_taus_rnn_loose>=1 && lepton_id && n_ljets>=2 && n_ljets<=3 ){
     //angles
     double angle_l_MET=del_phi(elec_0_p4->Phi(),met_reco_p4->Phi());
     double angle_tau_MET=del_phi(tau_0_p4->Phi(),met_reco_p4->Phi());

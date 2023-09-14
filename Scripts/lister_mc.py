@@ -10,6 +10,8 @@ Ztaulep_sys = ["/eos/user/w/wyatt/data/v26-sys-vbf/"]
 Zmumu_sys = ["/eos/user/d/dbaronmo/v26-mm-sys-vbf/"]
 Zee_sys = ['/eos/user/d/dbaronmo/v26-ee-sys-vbf-p1/','/eos/user/w/wyatt/data/v26-ee-sys-vbf-p2/']
 
+Ztaulep_truth=["/Users/diegomac/Documents/HEP/v26-truth/",]
+
 mc_taulep={'Ztautau_2017'  :  ['user.dbaronmo.v26.mc.361108.PoPy8_Ztt.M4.e3601_s3126_r10201_p4512.sv1_Le', '361108', 1901.2, 1.026, 1.0] ,
 'Ztautau_2018'  :  ['user.dbaronmo.v26.mc.361108.PoPy8_Ztt.M4.e3601_s3126_r10724_p4512.sv1_Le', '361108', 1901.2, 1.026, 1.0] ,
 'Ztautau_2015'  :  ['user.dbaronmo.v26.mc.361108.PoPy8_Ztt.M4.e3601_s3126_r9364_p4512.sv1_Le', '361108', 1901.2, 1.026, 1.0] ,
@@ -280,6 +282,27 @@ mc_taulep={'Ztautau_2017'  :  ['user.dbaronmo.v26.mc.361108.PoPy8_Ztt.M4.e3601_s
 'VV_EWK8_2018'  :  ['user.dbaronmo.v26.mc16_13TeV.700588.Sh_2212_lllvjj.M4.e8433_s3126_r10724_p4512.sv1_Ta', '700588', 0.048453, 1.0, 1.0] ,
 'VV_EWK8_2015'  :  ['user.dbaronmo.v26.mc16_13TeV.700588.Sh_2212_lllvjj.M4.e8433_s3126_r9364_p4512.sv1_Ta', '700588', 0.048453, 1.0, 1.0] ,
 'VV_EWK8_2017'  :  ['user.dbaronmo.v26.mc16_13TeV.700588.Sh_2212_lllvjj.M4.e8433_s3126_r10201_p4512.sv1_Ta', '700588', 0.048453, 1.0, 1.0] ,
+'VV_EWK_SemiLep1_2015'  :  ['user.dbaronmo.v26.mc16_13TeV.364853.MGPy8EvtGen_NNPDF30NLO_ZZjj_vvqq_EW6.M4.e7827_s3126_r9364_p4512.sv1_Ta', '364853', 0.032235, 1.0, 1.0] ,
+'VV_EWK_SemiLep1_2018'  :  ['user.dbaronmo.v26.mc16_13TeV.364853.MGPy8EvtGen_NNPDF30NLO_ZZjj_vvqq_EW6.M4.e7827_s3126_r10724_p4512.sv1_Ta', '364853', 0.032235, 1.0, 1.0] ,
+'VV_EWK_SemiLep1_2017'  :  ['user.dbaronmo.v26.mc16_13TeV.364853.MGPy8EvtGen_NNPDF30NLO_ZZjj_vvqq_EW6.M4.e7827_s3126_r10201_p4512.sv1_Ta', '364853', 0.032235, 1.0, 1.0] ,
+'VV_EWK_SemiLep2_2018'  :  ['user.dbaronmo.v26.mc16_13TeV.364854.MGPy8EvtGen_NNPDF30NLO_ZZjj_llqq_EW6.M4.e7827_s3126_r10724_p4512.sv1_Ta', '364854', 0.0096573, 1.0, 1.0] ,
+'VV_EWK_SemiLep2_2015'  :  ['user.dbaronmo.v26.mc16_13TeV.364854.MGPy8EvtGen_NNPDF30NLO_ZZjj_llqq_EW6.M4.e7827_s3126_r9364_p4512.sv1_Ta', '364854', 0.0096573, 1.0, 1.0] ,
+'VV_EWK_SemiLep2_2017'  :  ['user.dbaronmo.v26.mc16_13TeV.364854.MGPy8EvtGen_NNPDF30NLO_ZZjj_llqq_EW6.M4.e7827_s3126_r10201_p4512.sv1_Ta', '364854', 0.0096573, 1.0, 1.0] ,
+'VV_EWK_SemiLep3_2015'  :  ['user.dbaronmo.v26.mc16_13TeV.364852.MGPy8EvtGen_NNPDF30NLO_WZjj_llqq_EW6.M4.e7827_s3126_r9364_p4512.sv1_Ta', '364852', 0.045605, 1.0, 1.0] ,
+'VV_EWK_SemiLep3_2018'  :  ['user.dbaronmo.v26.mc16_13TeV.364852.MGPy8EvtGen_NNPDF30NLO_WZjj_llqq_EW6.M4.e7827_s3126_r10724_p4512.sv1_Ta', '364852', 0.045605, 1.0, 1.0] ,
+'VV_EWK_SemiLep3_2017'  :  ['user.dbaronmo.v26.mc16_13TeV.364852.MGPy8EvtGen_NNPDF30NLO_WZjj_llqq_EW6.M4.e7827_s3126_r10201_p4512.sv1_Ta', '364852', 0.045605, 1.0, 1.0] ,
+'VV_EWK_SemiLep4_2018'  :  ['user.dbaronmo.v26.mc16_13TeV.364849.MGPy8EvtGen_NNPDF30NLO_WWjj_lvqq_EW6_BF.M4.e7827_s3126_r10724_p4512.sv1_Ta', '364849', 1.9778, 1.0, 0.831] ,
+'VV_EWK_SemiLep4_2017'  :  ['user.dbaronmo.v26.mc16_13TeV.364849.MGPy8EvtGen_NNPDF30NLO_WWjj_lvqq_EW6_BF.M4.e7827_s3126_r10201_p4512.sv1_Ta', '364849', 1.9778, 1.0, 0.831] ,
+'VV_EWK_SemiLep4_2015'  :  ['user.dbaronmo.v26.mc16_13TeV.364849.MGPy8EvtGen_NNPDF30NLO_WWjj_lvqq_EW6_BF.M4.e7827_s3126_r9364_p4512.sv1_Ta', '364849', 1.9778, 1.0, 0.831] ,
+'VV_EWK_SemiLep5_2015'  :  ['user.dbaronmo.v26.mc16_13TeV.364848.MGPy8EvtGen_NNPDF30NLO_WWjj_lvqq_EW6_BVeto.M4.e7827_s3126_r9364_p4512.sv1_Ta', '364848', 1.9993, 1.0, 0.175] ,
+'VV_EWK_SemiLep5_2017'  :  ['user.dbaronmo.v26.mc16_13TeV.364848.MGPy8EvtGen_NNPDF30NLO_WWjj_lvqq_EW6_BVeto.M4.e7827_s3126_r10201_p4512.sv1_Ta', '364848', 1.9993, 1.0, 0.175] ,
+'VV_EWK_SemiLep5_2018'  :  ['user.dbaronmo.v26.mc16_13TeV.364848.MGPy8EvtGen_NNPDF30NLO_WWjj_lvqq_EW6_BVeto.M4.e7827_s3126_r10724_p4512.sv1_Ta', '364848', 1.9993, 1.0, 0.175] ,
+'VV_EWK_SemiLep6_2017'  :  ['user.dbaronmo.v26.mc16_13TeV.364851.MGPy8EvtGen_NNPDF30NLO_WZjj_vvqq_EW6.M4.e7827_s3126_r10201_p4512.sv1_Ta', '364851', 0.15533, 1.0, 1.0] ,
+'VV_EWK_SemiLep6_2018'  :  ['user.dbaronmo.v26.mc16_13TeV.364851.MGPy8EvtGen_NNPDF30NLO_WZjj_vvqq_EW6.M4.e7827_s3126_r10724_p4512.sv1_Ta', '364851', 0.15533, 1.0, 1.0] ,
+'VV_EWK_SemiLep6_2015'  :  ['user.dbaronmo.v26.mc16_13TeV.364851.MGPy8EvtGen_NNPDF30NLO_WZjj_vvqq_EW6.M4.e7827_s3126_r9364_p4512.sv1_Ta', '364851', 0.15533, 1.0, 1.0] ,
+'VV_EWK_SemiLep7_2017'  :  ['user.dbaronmo.v26.mc16_13TeV.364850.MGPy8EvtGen_NNPDF30NLO_WZjj_lvqq_EW6.M4.e7827_s3126_r10201_p4512.sv1_Ta', '364850', 0.2571, 1.0, 1.0] ,
+'VV_EWK_SemiLep7_2015'  :  ['user.dbaronmo.v26.mc16_13TeV.364850.MGPy8EvtGen_NNPDF30NLO_WZjj_lvqq_EW6.M4.e7827_s3126_r9364_p4512.sv1_Ta', '364850', 0.2571, 1.0, 1.0] ,
+'VV_EWK_SemiLep7_2018'  :  ['user.dbaronmo.v26.mc16_13TeV.364850.MGPy8EvtGen_NNPDF30NLO_WZjj_lvqq_EW6.M4.e7827_s3126_r10724_p4512.sv1_Ta', '364850', 0.2571, 1.0, 1.0] ,
 }
 
 mc_mumu={'Ztautau_2017'  :  ['user.dbaronmo.v26-mm.mc.361108.PoPy8_Ztt.M4.e3601_s3126_r10201_p4512.sv1_Le', '361108', 1901.2, 1.026, 1.0] ,
@@ -1047,8 +1070,26 @@ mc_ee_sys = {
 'VBF_Zee_sherpa_2015_sys'  :  ['user.dbaronmo.v26-ee-sys-vbf.mc16_13TeV.700358.Sh_2211_Zee2jets_Min_N_TChannel.M4.e8357_s3126_r9364_p4512.sv1_Ta', '700358', 0.77943, 1.0, 1.0] ,
 }
 
-mc=mc_mumu # IT CAN BE mc_taulep, mc_ee, mc_mumu and _sys appended for the systematics
-ntuples_type=Zmumu # IT CAN BE Zee,Zmumu,Ztaulep and _sys appended for the systematics
+mc_taulep_truth = {
+'VBF_Ztautau_truth_2018'  :  ['user.dbaronmo.v26-truth.mc16_13TeV.600939.PhPy8_VBF_Ztt.M4.e8373_s3126_r10724_p4512.sv1_Ta', '600939', 0.64977, 1.0, 1.0] ,
+'VBF_Ztautau_truth_2015'  :  ['user.dbaronmo.v26-truth.mc16_13TeV.600939.PhPy8_VBF_Ztt.M4.e8373_s3126_r9364_p4512.sv1_Ta', '600939', 0.64977, 1.0, 1.0] ,
+'VBF_Ztautau_truth_2017'  :  ['user.dbaronmo.v26-truth.mc16_13TeV.600939.PhPy8_VBF_Ztt.M4.e8373_s3126_r10201_p4512.sv1_Ta', '600939', 0.64977, 1.0, 1.0] ,
+'VBF_Ztautau_sherpa_truth_2018'  :  ['user.dbaronmo.v26-truth.mc16_13TeV.700360.Sh_2211_Ztt2jets_Min_N_TChannel.M4.e8357_s3126_r10724_p4512.sv1_Ta', '700360', 0.77916, 1.0, 1.0] ,
+'VBF_Ztautau_sherpa_truth_2017'  :  ['user.dbaronmo.v26-truth.mc16_13TeV.700360.Sh_2211_Ztt2jets_Min_N_TChannel.M4.e8357_s3126_r10201_p4512.sv1_Ta', '700360', 0.77916, 1.0, 1.0] ,
+'VBF_Ztautau_sherpa_truth_2015'  :  ['user.dbaronmo.v26-truth.mc16_13TeV.700360.Sh_2211_Ztt2jets_Min_N_TChannel.M4.e8357_s3126_r9364_p4512.sv1_Ta', '700360', 0.77916, 1.0, 1.0] ,
+'VBFHttlm15hp20_truth_2015'  :  ['user.dbaronmo.v26-truth.mc16_13TeV.346191.PoPy8_NNPDF30_VBFH125_ttlm15hp20.M4.e7259_s3126_r9364_p4512.sv1_Ta', '346191', 0.23721, 2.0, 0.040323] ,
+'VBFHttlm15hp20_truth_2018'  :  ['user.dbaronmo.v26-truth.mc16_13TeV.346191.PoPy8_NNPDF30_VBFH125_ttlm15hp20.M4.e7259_s3126_r10724_p4512.sv1_Ta', '346191', 0.23721, 2.0, 0.040323] ,
+'VBFHttlm15hp20_truth_2017'  :  ['user.dbaronmo.v26-truth.mc16_13TeV.346191.PoPy8_NNPDF30_VBFH125_ttlm15hp20.M4.e7259_s3126_r10201_p4512.sv1_Ta', '346191', 0.23721, 2.0, 0.040323] ,
+'VBFHttlp15hm20_truth_2018'  :  ['user.dbaronmo.v26-truth.mc16_13TeV.346192.PoPy8_NNPDF30_VBFH125_ttlp15hm20.M4.e7259_s3126_r10724_p4512.sv1_Ta', '346192', 0.23721, 2.0, 0.040323] ,
+'VBFHttlp15hm20_truth_2017'  :  ['user.dbaronmo.v26-truth.mc16_13TeV.346192.PoPy8_NNPDF30_VBFH125_ttlp15hm20.M4.e7259_s3126_r10201_p4512.sv1_Ta', '346192', 0.23721, 2.0, 0.040323] ,
+'VBFHttlp15hm20_truth_2015'  :  ['user.dbaronmo.v26-truth.mc16_13TeV.346192.PoPy8_NNPDF30_VBFH125_ttlp15hm20.M4.e7259_s3126_r9364_p4512.sv1_Ta', '346192', 0.23721, 2.0, 0.040323] ,
+'Ztautau_SherpaNLO_truth_2018'  :  ['user.dbaronmo.v26-truth.mc16_13TeV.700360.Sh_2211_Ztt2jets_Min_N_TChannel.M4.e8357_s3126_r10724_p4512.sv1_Ta', '700360', 0.77916, 1.0, 1.0] ,
+'Ztautau_SherpaNLO_truth_2017'  :  ['user.dbaronmo.v26-truth.mc16_13TeV.700360.Sh_2211_Ztt2jets_Min_N_TChannel.M4.e8357_s3126_r10201_p4512.sv1_Ta', '700360', 0.77916, 1.0, 1.0] ,
+'Ztautau_SherpaNLO_truth_2015'  :  ['user.dbaronmo.v26-truth.mc16_13TeV.700360.Sh_2211_Ztt2jets_Min_N_TChannel.M4.e8357_s3126_r9364_p4512.sv1_Ta', '700360', 0.77916, 1.0, 1.0] ,
+}
+
+mc=mc_taulep_truth # IT CAN BE mc_taulep, mc_ee, mc_mumu and _sys appended for the systematics
+ntuples_type=Ztaulep_truth # IT CAN BE Zee,Zmumu,Ztaulep and _sys appended for the systematics
 
 
 for x in mc.keys():

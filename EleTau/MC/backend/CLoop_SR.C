@@ -215,6 +215,9 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
     fChain->SetBranchStatus("event_number",1);
     fChain->SetBranchStatus("tau_0_truth_pdgId",1);
     fChain->SetBranchStatus("elec_0_matched_pdgId",1);
+    fChain->SetBranchStatus("taulep_0_truth_vis_p4",1);
+    fChain->SetBranchStatus("taulep_0_truth_invis_p4",1);
+    fChain->SetBranchStatus("tau_0_truth_total_p4",1);
     } else {
     fChain->SetBranchStatus("*",0);
     fChain->SetBranchStatus("HLT_e120_lhloose",1);
@@ -357,7 +360,7 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
     reader->AddVariable("omega",&bdt_omega);
     //reader->AddVariable("reco_mass",&bdt_recomass);
     //reader->AddVariable("lepNuPt",&bdt_lepnupt);
-    reader->AddVariable("transverseMassLep",&bdt_transmasslep);
+    //reader->AddVariable("transverseMassLep",&bdt_transmasslep);
     //reader->AddVariable("massTauLep",&bdt_masstaul);
     //reader->AddVariable("nLightJets",&bdt_nljet);
     //reader->AddVariable("tau_p4->Pt()",&bdt_taupt);
@@ -366,7 +369,7 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
     //reader->AddVariable("jet1_p4->Pt()",&bdt_jet1pt);
     //reader->AddVariable("met_p4->Pt()",&bdt_met);
     reader->AddSpectator("eventNumber", &bdt_eventNumber); // For deterministic split
-    reader->BookMVA("VBF_BDT", "/Users/diegomac/Documents/HEP/MVA-Analysis/dataset/weights/validateBDT_BDT-HM-10Folds.weights.xml");
+    reader->BookMVA("VBF_BDT", "/Users/diegomac/Documents/HEP/MVA-Analysis/dataset/weights/validateBDTNOmT_BDT-HM-NOmT-10Folds.weights.xml");
     }
     #endif
     // loop over number of entries
@@ -399,7 +402,7 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
         double mjj_w = 1.0;
 
         // mjj reweighting
-        bool reweight_mjj = false;
+        bool reweight_mjj = true;
         if (reweight_mjj){
             MC mcSample = static_cast<MC>(z_sample);
             if(mcSample == MC::PowHegPythia){

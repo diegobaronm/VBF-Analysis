@@ -422,6 +422,9 @@ public :
    TLorentzVector  *truth_Z_p4;
    Double_t        weight_mc;
    vector<float>   *weight_mc_v;
+   TLorentzVector  *taulep_0_truth_invis_p4;   //!
+   TLorentzVector  *taulep_0_truth_vis_p4;   //!
+   TLorentzVector  *tau_0_truth_total_p4;   //!
    #endif 
 
    #if defined(WEIGHTSYSTEMATICS) || defined(SHAPESYSTEMATICS)
@@ -1340,6 +1343,9 @@ public :
    TBranch        *b_truth_Z_p4;   //!
    TBranch        *b_weight_mc;   //!
    TBranch        *b_weight_mc_v;   //!
+   TBranch        *b_taulep_0_truth_invis_p4;   //!
+   TBranch        *b_taulep_0_truth_vis_p4;   //!
+   TBranch        *b_tau_0_truth_total_p4;   //!
    #endif
 
    #if defined(WEIGHTSYSTEMATICS) || defined(SHAPESYSTEMATICS)
@@ -1968,6 +1974,9 @@ void CLoop::Init(TTree *tree,std::string sample_name)
    tau_0_truth_productionVertex_v = 0;
    truth_Z_p4 = 0;
    weight_mc_v = 0;
+   taulep_0_truth_vis_p4 = 0;
+   taulep_0_truth_invis_p4 = 0;
+   tau_0_truth_total_p4 = 0;
    // Set branch addresses and branch pointers
    if (!tree) return;
    fChain = tree;
@@ -2192,6 +2201,9 @@ void CLoop::Init(TTree *tree,std::string sample_name)
    fChain->SetBranchAddress("tau_0_p4", &tau_0_p4, &b_tau_0_p4);
    fChain->SetBranchAddress("tau_0_q", &tau_0_q, &b_tau_0_q);
    fChain->SetBranchAddress("tau_0_type", &tau_0_type, &b_tau_0_type);
+   fChain->SetBranchAddress("taulep_0_truth_vis_p4", &taulep_0_truth_vis_p4, &b_taulep_0_truth_vis_p4);
+   fChain->SetBranchAddress("taulep_0_truth_invis_p4", &taulep_0_truth_invis_p4, &b_taulep_0_truth_invis_p4);
+   fChain->SetBranchAddress("tau_0_truth_total_p4", &tau_0_truth_total_p4, &b_tau_0_truth_total_p4);
    } else {
    fChain->SetBranchAddress("HLT_e120_lhloose", &HLT_e120_lhloose, &b_HLT_e120_lhloose);
    fChain->SetBranchAddress("HLT_e140_lhloose_nod0", &HLT_e140_lhloose_nod0, &b_HLT_e140_lhloose_nod0);
@@ -2574,6 +2586,9 @@ void CLoop::Init(TTree *tree,std::string sample_name)
    fChain->SetBranchAddress("truth_Z_p4", &truth_Z_p4, &b_truth_Z_p4);
    fChain->SetBranchAddress("weight_mc", &weight_mc, &b_weight_mc);
    fChain->SetBranchAddress("weight_mc_v", &weight_mc_v, &b_weight_mc_v);
+   fChain->SetBranchAddress("taulep_0_truth_vis_p4", &taulep_0_truth_vis_p4, &b_taulep_0_truth_vis_p4);
+   fChain->SetBranchAddress("taulep_0_truth_invis_p4", &taulep_0_truth_invis_p4, &b_taulep_0_truth_invis_p4);
+   fChain->SetBranchAddress("tau_0_truth_total_p4", &tau_0_truth_total_p4, &b_tau_0_truth_total_p4);
    }
    #endif
 

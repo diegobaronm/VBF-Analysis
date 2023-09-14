@@ -171,7 +171,7 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
         double mjj_w = 1.0;
 
         // mjj reweighting
-        bool reweight_mjj = false;
+        bool reweight_mjj = true;
         if (reweight_mjj){
             MC mcSample = static_cast<MC>(z_sample);
             if(mcSample == MC::PowHegPythia){
@@ -265,7 +265,7 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
 
         // fill histograms
         //cout << eventWeight;
-        Fill(eventWeight, z_sample);
+        Fill(eventWeight, z_sample, key);
         // end filling
     }
     key = key+".root";

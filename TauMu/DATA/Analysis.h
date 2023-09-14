@@ -57,6 +57,8 @@ histogramContainer tau_matched_3pNotFullContainer{"tau_matched_3p","Tau truth ma
 histogramContainer Z_pt_truth_iNotFullContainer{"Z_pt_truth_i","Truth ZpT in between events",1000,0,1000,notFull};
 histogramContainer Z_pt_truth_oNotFullContainer{"Z_pt_truth_o","Truth ZpT outside events",1000,0,1000,notFull};
 
+histogramContainer trueMassContainer{"true_mass","True mass tau-tau",1000,0,1000,notFull};
+histogramContainer recoTrueMassRatioContainer{"recoTrueMassRatio","reco-true mass ratio",100,0,10,notFull};
 histogramContainer recoVisibleMassRatioContainer{"recoVisibleMassRatio","reco-visible mass ratio",100,0,10,cutNames,"rvr"};
 histogramContainer visibleMassContainer{"visibleMass","Visible mass tau-lep",1000,0,1000,notFull};
 histogramContainer taunuptContainer{"nuTauPt","Neutrino tau side pT",200,0,200,cutNames,"taunupt"};
@@ -85,6 +87,7 @@ histogramContainer lepTransMassContainer{"lepTransMass","Transverse mass lepton"
 histogramContainer tauTransMassContainer{"tauTransMass","Transverse mass tau",500,0,500,notFull};
 histogramContainer transMassSumContainer{"transMassSum","Transverse mass sum",1000,0,1000,notFull};
 histogramContainer transMassRatioContainer{"transMassRatio","Transverse mass ratio",200,-1.0,1.0,notFull};
+
 
 #endif
 

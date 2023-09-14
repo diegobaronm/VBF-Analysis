@@ -97,7 +97,7 @@ dict_of_samples={"Ztautau":"361108_PoPy","Zmumu":"mumu_PoPy","Zee":"Zee_PoPy","W
 "Zee_MGNLO":"MGPy8_Zee_3jets","Zmumu_MGNLO":"MGPy8_Zmumu_3jets","Ztautau_MGNLO":"MGPy8_Ztt_3jets",
 "Zee_SherpaNLO":"Sh_2211_Zee","Zmumu_SherpaNLO":"Sh_2211_Zmumu","Ztautau_SherpaNLO":"Sh_2211_Ztt",
 "W_EWK_PoPy":"PhPy8_VBF_W","W_EWK_sherpa":"Sh_2211_W_2jets",
-"VV_EWK":"Sh_2212_jj"
+"VV_EWK":"Sh_2212_jj","VV_EWK_SemiLep":"MGPy8EvtGen_jj_qq"
 }
 
 
