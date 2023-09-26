@@ -298,7 +298,8 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
         if (inside) bdt_lepnupt = pt_lep_nu;
         if (outside_lep) bdt_lepnupt = neutrino_pt;
         if (outside_tau) bdt_lepnupt = 0.0;
-        bdt_transmasslep = transverseMassLep;
+        // bdt_transmasslep = transverseMassLep;
+        bdt_transmasslep = transverseMassLep/reco_mass; // for transverse-reco mass ratio
         bdt_masstaul = inv_taulep;
         bdt_nljet = (float)n_ljets;
         bdt_taupt = tau_0_p4->Pt();
@@ -329,7 +330,7 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
         //if (!superCR) return;
 
         // Cuts vector
-        vector<int> cuts={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+        vector<int> cuts={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
         // CUTS
         if (angle<=3.2){cuts[0]=1;}
         if(delta_y>=2.0){cuts[1]=1;}
@@ -347,14 +348,15 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
         if (omega> -0.2 && omega <1.4){cuts[12]=1;} // Z-peak omega> -0.2 && omega <1.6 // High-mass omega> -0.2 && omega <1.4
         if(inv_taulep<=80 || inv_taulep>=100){cuts[13]=1;} // High-mass || inv_taulep>=100
         if (tau_0_ele_bdt_score_trans_retuned>=0.05){cuts[14]=1;}
-        bool diLeptonMassRequirement = reco_mass>=160;
+        bool diLeptonMassRequirement = reco_mass>=66;
         if (diLeptonMassRequirement){cuts[15]=1;} // Z-peak reco_mass<116 && reco_mass>66 // Higgs reco_mass >= 116 && reco_mass < 160
         if (tau_0_p4->Pt()>=25){cuts[16]=1;}
-        if (VBFBDT_score > 0.3){cuts[17]=1;} // High-mass VBFBDT_score > 0.3
-        if (lepnuPtPass){cuts[18]=1;} // High-mass lepnuPtPass>=30 GeV.
-        if (normPtDifference > -0.3){cuts[19]=1;} // High-mass normPtDifference > -0.3
-        if (taunuPtPass){cuts[20]=1;} // High-mass taunuPtPass >= 15 GeV Higgs NO CUT
-        if (reco_mass/inv_taulep < 4.0){cuts[21]=1;} // High-mas reco_mass/inv_taulep < 4.0
+        if (true){cuts[17]=1;} // High-mass VBFBDT_score > 0.3
+        if (true){cuts[18]=1;} // High-mass lepnuPtPass>=30 GeV.
+        if (true){cuts[19]=1;} // High-mass normPtDifference > -0.3
+        if (true){cuts[20]=1;} // High-mass taunuPtPass >= 15 GeV Higgs NO CUT
+        if (true){cuts[21]=1;} // High-mas reco_mass/inv_taulep < 4.0
+        if (true){cuts[22]=1;} // High-mas transverseMassLep <= 60.0
 
         // SUM OF THE VECTOR STORING IF CUTS PASS OR NOT
         size_t sum{0};
@@ -365,17 +367,19 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
         bool passedAllCuts = (sum+1==cutsVector.size());
         std::vector<int> notFullCutsVector{1,static_cast<int>(passedAllCuts)};
         // Blind H-M region
-        if (sampleName.substr(0,4)=="data" && passedAllCuts) return;
+        //if (sampleName.substr(0,4)=="data" && passedAllCuts) return;
 
         //if (passedAllCuts) return;
 
         bool testCuts = transverseMassLep <= 65 && massTauCloserJet >= 90;
         bool MJCR = (tau_0_n_charged_tracks==1 && tau_0_jet_rnn_score_trans < 0.25) || (tau_0_n_charged_tracks==3 && tau_0_jet_rnn_score_trans < 0.40) || (elec_0_iso_FCTight==0);
         bool failedMVA = (VBFBDT_score <= 0.3) || (!lepnuPtPass) || (!taunuPtPass) || (normPtDifference <= -0.3) || (reco_mass/inv_taulep >= 4.0);
-        //if (sampleName.substr(0,4)=="data" && !MJCR) return;
+        if (sampleName.substr(0,4)=="data" && !MJCR) return;
 
         if (true){
         // HISTOGRAM FILLING 
+        if (passedAllCuts) trueMass_2D_lepTransMass_basic_all->Fill(trueMass,transverseMassLep,weight);
+        if (passedAllCuts) trueMass_2D_transverseRecoMassRatio_basic_all->Fill(trueMass,transverseMassLep/reco_mass,weight);
         lep_ptContainer.Fill(elec_0_p4->Pt(),weight,cutsVector);
         tau_ptContainer.Fill(tau_0_p4->Pt(),weight,cutsVector);
         omegaContainer.Fill(omega,weight,cutsVector);
@@ -402,10 +406,15 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
         recoTrueMassRatioContainer.Fill(recoTrueMassRatio,weight,notFullCutsVector);
         trueMassContainer.Fill(trueMass,weight,notFullCutsVector);
 
-        lepTransMassContainer.Fill(transverseMassLep,weight,notFullCutsVector);
+        lepTransMassContainer.Fill(transverseMassLep,weight,cutsVector);
         tauTransMassContainer.Fill(transverseMassTau,weight,notFullCutsVector);
         transMassSumContainer.Fill(transverseMassSum,weight,notFullCutsVector);
         transMassRatioContainer.Fill(transverseMassRatio,weight,notFullCutsVector);
+        transMassRecoMassRatioContainer.Fill(transverseMassLep/reco_mass,weight,notFullCutsVector);
+        if (reco_mass>=400) transMassRecoMassRatio400toContainer.Fill(transverseMassLep/reco_mass,weight,notFullCutsVector);
+        else if (reco_mass>=160) transMassRecoMassRatio160to400Container.Fill(transverseMassLep/reco_mass,weight,notFullCutsVector);
+        else if (reco_mass>=116) transMassRecoMassRatio116to160Container.Fill(transverseMassLep/reco_mass,weight,notFullCutsVector);
+        else transMassRecoMassRatio66to116Container.Fill(transverseMassLep/reco_mass,weight,notFullCutsVector);
 
         if (tau_0_n_charged_tracks==1){
           rnn_score_1pContainer.Fill(tau_0_jet_rnn_score_trans,weight,cutsVector);
@@ -494,6 +503,8 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
 }
 
 void CLoop::Style(double lumFactor) {
+  trueMass_2D_lepTransMass_basic_all->Write();
+  trueMass_2D_transverseRecoMassRatio_basic_all->Write();
   lep_ptContainer.Write();
   tau_ptContainer.Write();
   omegaContainer.Write();
@@ -524,6 +535,11 @@ void CLoop::Style(double lumFactor) {
   recoVisibleMassRatioContainer.Write();
   trueMassContainer.Write();
   recoTrueMassRatioContainer.Write();
+  transMassRecoMassRatioContainer.Write();
+  transMassRecoMassRatio66to116Container.Write();
+  transMassRecoMassRatio116to160Container.Write();
+  transMassRecoMassRatio160to400Container.Write();
+  transMassRecoMassRatio400toContainer.Write();
 
   lepTransMassContainer.Write();
   tauTransMassContainer.Write();

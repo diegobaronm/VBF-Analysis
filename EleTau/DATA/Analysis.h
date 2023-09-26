@@ -2,11 +2,13 @@
 #define Header
 
 double pi=TMath::Pi();
-std::vector<std::string> cutNames{"basic","dphi","drap","btag","iso","rnn","ptl","j1pt","j2pt","ptbal","mjj","nji","zcen","omega","mlt","ebdt","mreco","tpt","mva","lepnupt","ptsym","taunupt","rvr"};
+std::vector<std::string> cutNames{"basic","dphi","drap","btag","iso","rnn","ptl","j1pt","j2pt","ptbal","mjj","nji","zcen","omega","mlt","ebdt","mreco","tpt","mva","lepnupt","ptsym","taunupt","rvr","mtl"};
 std::vector<std::string> notFull{"basic","all"};
 
 #define NOMINAL // NOMINAL , SHAPESYSTEMATICS, WEIGHTSYSTEMATICS
 #ifdef NOMINAL
+TH2F* trueMass_2D_lepTransMass_basic_all = new TH2F("trueMass_2D_lepTransMass_basic_all","trueMass Vs lepton transverse mass",1000,0,1000,50,0,500);
+TH2F* trueMass_2D_transverseRecoMassRatio_basic_all = new TH2F("trueMass_2D_transverseRecoMassRatio_basic_all","trueMass Vs transverse-reco mass ratio",1000,0,1000,200,0.0,2.0);
 histogramContainer lepnu_ptContainer{"lepnu_pt","Lep + Neutrino pT",500,0,500,cutNames};
 histogramContainer taunu_ptContainer{"taunu_pt","Tau pT",500,0,500,cutNames};
 histogramContainer lep_etaContainer{"lep_eta","Lep eta",50,-2.5,2.5,cutNames};
@@ -85,11 +87,15 @@ histogramContainer eBDTContainer{"eBDT","eBDT Score",100,0,1,cutNames,"ebdt"};
 histogramContainer reco_mass_iContainer{"reco_mass_i","Reconstructed mass in between events",1000,0,1000,cutNames,"mreco"};
 histogramContainer reco_mass_oContainer{"reco_mass_o","Reconstructed mass outside events",1000,0,1000,cutNames,"mreco"};
 histogramContainer reco_massContainer{"reco_mass_","Reconstructed mass all events",1000,0,1000,cutNames,"mreco"};
-histogramContainer lepTransMassContainer{"lepTransMass","Transverse mass lepton",500,0,500,notFull};
+histogramContainer lepTransMassContainer{"lepTransMass","Transverse mass lepton",500,0,500,cutNames,"mtl"};
 histogramContainer tauTransMassContainer{"tauTransMass","Transverse mass tau",500,0,500,notFull};
 histogramContainer transMassSumContainer{"transMassSum","Transverse mass sum",1000,0,1000,notFull};
 histogramContainer transMassRatioContainer{"transMassRatio","Transverse mass ratio",200,-1.0,1.0,notFull};
-
+histogramContainer transMassRecoMassRatioContainer{"transMassRecoMassRatio","Transverse mass - reco mass ratio",200,0.0,2.0,notFull};
+histogramContainer transMassRecoMassRatio66to116Container{"transMassRecoMassRatio66to116","Transverse mass - reco mass ratio 66 to 116 GeV",200,0.0,2.0,notFull};
+histogramContainer transMassRecoMassRatio116to160Container{"transMassRecoMassRatio116to160","Transverse mass - reco mass ratio 116 to 160 GeV",200,0.0,2.0,notFull};
+histogramContainer transMassRecoMassRatio160to400Container{"transMassRecoMassRatio160to400","Transverse mass - reco mass ratio 160 to 400 GeV",200,0.0,2.0,notFull};
+histogramContainer transMassRecoMassRatio400toContainer{"transMassRecoMassRatio400to","Transverse mass - reco mass ratio 400 up GeV",200,0.0,2.0,notFull};
 
 #endif
 
