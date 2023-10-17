@@ -20,6 +20,7 @@ double SigTree_omega;
 double SigTree_reco_mass;
 double SigTree_lepNuPt;
 double SigTree_transverseMassLep;
+double SigTree_transverseRecoMassVariable;
 double SigTree_massTauLep;
 int SigTree_nLightJets;
 double SigTree_tau_pT;
@@ -41,6 +42,7 @@ double BgTree_omega;
 double BgTree_reco_mass;
 double BgTree_lepNuPt;
 double BgTree_transverseMassLep;
+double BgTree_transverseRecoMassVariable;
 double BgTree_massTauLep;
 int BgTree_nLightJets;
 double BgTree_tau_pT;
@@ -288,9 +290,9 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
     // open output file
     TFile outfile(name_root,"recreate");
     // Create TTree
-    bool saveHistograms = true;
+    bool saveHistograms = false;
     #ifdef NOMINAL
-    bool saveEvents = false;
+    bool saveEvents = true;
     TTree* signalTree = new TTree("SIGNAL", "Signal TTree");
     TTree* bgTree = new TTree("BG", "Background TTree");
 
@@ -307,6 +309,7 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
     signalTree->Branch("reco_mass",&SigTree_reco_mass);
     signalTree->Branch("lepNuPt",&SigTree_lepNuPt);
     signalTree->Branch("transverseMassLep",&SigTree_transverseMassLep);
+    signalTree->Branch("transverseRecoMassVariable",&SigTree_transverseRecoMassVariable);
     signalTree->Branch("massTauLep",&SigTree_massTauLep);
     signalTree->Branch("nLightJets",&SigTree_nLightJets);
     signalTree->Branch("tau_p4", &SigTree_tau_pT);
@@ -328,6 +331,7 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
     bgTree->Branch("reco_mass",&BgTree_reco_mass);
     bgTree->Branch("lepNuPt",&BgTree_lepNuPt);
     bgTree->Branch("transverseMassLep",&BgTree_transverseMassLep);
+    bgTree->Branch("transverseRecoMassVariable",&BgTree_transverseRecoMassVariable);
     bgTree->Branch("massTauLep",&BgTree_massTauLep);
     bgTree->Branch("nLightJets",&BgTree_nLightJets);
     bgTree->Branch("tau_p4", &BgTree_tau_pT);
@@ -347,7 +351,7 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
     //reader->AddVariable("reco_mass",&bdt_recomass);
     //reader->AddVariable("lepNuPt",&bdt_lepnupt);
     //reader->AddVariable("transverseMassLep",&bdt_transmasslep);
-    reader->AddVariable("transverseMassLep/reco_mass",&bdt_transmasslep); // For transverse-reco mass ratio
+    reader->AddVariable("transverseMassLep/pow(reco_mass,0.3)",&bdt_transmasslep); // For transverse-reco mass ratio
     //reader->AddVariable("massTauLep",&bdt_masstaul);
     //reader->AddVariable("nLightJets",&bdt_nljet);
     //reader->AddVariable("tau_p4->Pt()",&bdt_taupt);
@@ -356,7 +360,7 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
     //reader->AddVariable("jet1_p4->Pt()",&bdt_jet1pt);
     //reader->AddVariable("met_p4->Pt()",&bdt_met);
     reader->AddSpectator("eventNumber", &bdt_eventNumber); // For deterministic split
-    reader->BookMVA("VBF_BDT", "/Users/diegomac/Documents/HEP/MVA-Analysis/dataset/weights/validateBDTNOmTCut_BDT-HM-NOmTCut-10Folds.weights.xml");
+    reader->BookMVA("VBF_BDT", "/Users/diegomac/Documents/HEP/MVA-Analysis/dataset/weights/validateBDT_Test_BDT-HM-10Folds.weights.xml");
     }
     #endif
     // loop over number of entries
