@@ -315,7 +315,7 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
         if (outside_lep) bdt_lepnupt = neutrino_pt;
         if (outside_tau) bdt_lepnupt = 0.0;
         // bdt_transmasslep = transverseMassLep;
-        bdt_transmasslep = transverseMassLep/reco_mass; // for transverse-reco mass ratio
+        bdt_transmasslep = transverseMassLep/pow(reco_mass,0.3); // for transverse-reco mass ratio
         double inv_taulep=sqrt((2*muon_0_p4->Pt()*tau_0_p4->Pt())*(cosh(muon_0_p4->Eta()-tau_0_p4->Eta())-cos(muon_0_p4->Phi()-tau_0_p4->Phi())));
         bdt_masstaul = inv_taulep;
         bdt_nljet = (float)n_ljets;
@@ -363,14 +363,14 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
         if(n_jets_interval==0){cuts[10]=1;}
         if(z_centrality < 0.5){cuts[11]=1;} // SR -> z_centrality < 0.5
         if (omega> -0.2 && omega <1.4){cuts[12]=1;} // Z-peak omega> -0.2 && omega <1.6 // High-mass omega> -0.2 && omega <1.4
-        bool diLeptonMassRequirement = reco_mass>=66;
+        bool diLeptonMassRequirement = reco_mass>=160;
         if (diLeptonMassRequirement){cuts[13]=1;} // Z-peak reco_mass<116 && reco_mass>66 // Higgs reco_mass >= 116 && reco_mass < 160
         if (tau_0_p4->Pt()>=25){cuts[14]=1;}
-        if (true){cuts[15]=1;} // High-mass VBFBDT_score > 0.3
-        if (true){cuts[16]=1;} // High-mass lepnuPtPass>=30 GeV.
-        if (true){cuts[17]=1;} // High-mass normPtDifference > -0.3
-        if (true){cuts[18]=1;} // High-mass taunuPtPass >= 15 GeV Higgs NO CUT
-        if (true){cuts[19]=1;} // High-mas reco_mass/inv_taulep < 4.0
+        if (VBFBDT_score > 0.3){cuts[15]=1;} // High-mass VBFBDT_score > 0.3
+        if (lepnuPtPass){cuts[16]=1;} // High-mass lepnuPtPass>=30 GeV.
+        if (normPtDifference > -0.3){cuts[17]=1;} // High-mass normPtDifference > -0.3
+        if (taunuPtPass){cuts[18]=1;} // High-mass taunuPtPass >= 15 GeV Higgs NO CUT
+        if (reco_mass/inv_taulep < 4.0){cuts[19]=1;} // High-mas reco_mass/inv_taulep < 4.0
         if (true){cuts[20]=1;} // High-mas transverseMassLep <= 60.0
 
         // SUM OF THE VECTOR STORING IF CUTS PASS OR NOT
@@ -382,7 +382,7 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
         bool passedAllCuts = (sum+1==cutsVector.size());
         std::vector<int> notFullCutsVector{1,static_cast<int>(passedAllCuts)};
         // Blind H-M region
-        if (sampleName.substr(0,4)=="data" && passedAllCuts) return;
+        //if (sampleName.substr(0,4)=="data" && passedAllCuts) return;
 
         //if (passedAllCuts) return;
 
@@ -624,6 +624,7 @@ extern double SigTree_omega;
 extern double SigTree_reco_mass;
 extern double SigTree_lepNuPt;
 extern double SigTree_transverseMassLep;
+extern double SigTree_transverseRecoMassVariable;
 extern double SigTree_massTauLep;
 extern int SigTree_nLightJets;
 extern double SigTree_tau_pT;
@@ -645,6 +646,7 @@ extern double BgTree_omega;
 extern double BgTree_reco_mass;
 extern double BgTree_lepNuPt;
 extern double BgTree_transverseMassLep;
+extern double BgTree_transverseRecoMassVariable;
 extern double BgTree_massTauLep;
 extern int BgTree_nLightJets;
 extern double BgTree_tau_pT;
@@ -896,8 +898,8 @@ void CLoop::FillTree(double weight, int z_sample, const std::string& sampleName,
         // Transverse mass
         double transverseMassLep = sqrt(2*muon_0_p4->Pt()*met_reco_p4->Pt()*(1-cos(muon_0_p4->Phi()-met_reco_p4->Phi())));
         double transverseMassTau = sqrt(2*tau_0_p4->Pt()*met_reco_p4->Pt()*(1-cos(tau_0_p4->Phi()-met_reco_p4->Phi())));
-        double transverseMassSum = transverseMassTau + transverseMassLep;
-        double transverseMassRatio = (transverseMassTau - transverseMassLep)/transverseMassSum;
+        double transverseRecoMassRatio = reco_mass > 200 ? transverseMassLep/std::pow(reco_mass,0.3) : transverseMassLep/std::pow(200,0.3);
+        
 
         bool testCuts = transverseMassLep <= 65 && massTauCloserJet >= 90;
         if (passedAllCuts){
@@ -924,6 +926,7 @@ void CLoop::FillTree(double weight, int z_sample, const std::string& sampleName,
           if (outside_lep) SigTree_lepNuPt = neutrino_pt;
           if (outside_tau) SigTree_lepNuPt = 0.0;
           SigTree_transverseMassLep = transverseMassLep;
+          SigTree_transverseRecoMassVariable = transverseRecoMassRatio;
           SigTree_massTauLep = inv_taulep;
           SigTree_nLightJets = n_ljets;
           SigTree_tau_pT = tau_0_p4->Pt();
@@ -951,6 +954,7 @@ void CLoop::FillTree(double weight, int z_sample, const std::string& sampleName,
           if (outside_lep) BgTree_lepNuPt = neutrino_pt;
           if (outside_tau) BgTree_lepNuPt = 0.0;
           BgTree_transverseMassLep = transverseMassLep;
+          BgTree_transverseRecoMassVariable = transverseRecoMassRatio;
           BgTree_massTauLep = inv_taulep;
           BgTree_nLightJets = n_ljets;
           BgTree_tau_pT = tau_0_p4->Pt();
