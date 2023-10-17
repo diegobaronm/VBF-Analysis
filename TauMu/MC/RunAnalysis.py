@@ -11,6 +11,7 @@
 
 import sys
 sys.path.insert(0, "backend") # allow code to be imported from subdirectory
+sys.path.insert(1,'../../AnalysisCommons/')
 
 import ROOT as r
 import os

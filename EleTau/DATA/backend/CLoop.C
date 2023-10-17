@@ -370,7 +370,7 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
     //reader->AddVariable("jet1_p4->Pt()",&bdt_jet1pt);
     //reader->AddVariable("met_p4->Pt()",&bdt_met);
     reader->AddSpectator("eventNumber", &bdt_eventNumber); // For deterministic split
-    reader->BookMVA("VBF_BDT", "/Users/diegomac/Documents/HEP/MVA-Analysis/dataset/weights/validateBDTNOmTCut_BDT-HM-NOmTCut-10Folds.weights.xml");
+    reader->BookMVA("VBF_BDT", "/Users/user/Documents/HEP/MVA-Analysis/dataset/weights/validateBDTNOmTCut_BDT-HM-NOmTCut-10Folds.weights.xml");
     }
     #endif
     // loop over number of entries
