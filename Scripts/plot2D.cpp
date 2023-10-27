@@ -31,7 +31,7 @@ void plot2D(){
     h4->Scale(1.0/h4->Integral(1,-1));
     h4->Draw("same");
 
-    h1->GetXaxis()->SetTitle("m_{true}(#tau,#tau)");
+    h1->GetXaxis()->SetTitle("m_{T}(l)");
     h1->GetYaxis()->SetTitle("Events/25 GeV");
     h1->GetXaxis()->SetTitleSize(0.05);
     h1->GetYaxis()->SetTitleSize(0.05);

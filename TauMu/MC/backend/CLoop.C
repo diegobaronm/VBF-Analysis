@@ -89,7 +89,7 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
     if (fChain == 0) return;
 
     // book histograms
-    Book(lumFactor);
+    Book();
     // end booking
 
     Long64_t nentries = fChain->GetEntriesFast();
@@ -290,9 +290,9 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
     // open output file
     TFile outfile(name_root,"recreate");
     // Create TTree
-    bool saveHistograms = false;
+    bool saveHistograms = true;
     #ifdef NOMINAL
-    bool saveEvents = true;
+    bool saveEvents = false;
     TTree* signalTree = new TTree("SIGNAL", "Signal TTree");
     TTree* bgTree = new TTree("BG", "Background TTree");
 
@@ -351,7 +351,7 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
     //reader->AddVariable("reco_mass",&bdt_recomass);
     //reader->AddVariable("lepNuPt",&bdt_lepnupt);
     //reader->AddVariable("transverseMassLep",&bdt_transmasslep);
-    reader->AddVariable("transverseMassLep/pow(reco_mass,0.3)",&bdt_transmasslep); // For transverse-reco mass ratio
+    reader->AddVariable("transverseRecoMassVariable",&bdt_transmasslep); // For transverse-reco mass ratio
     //reader->AddVariable("massTauLep",&bdt_masstaul);
     //reader->AddVariable("nLightJets",&bdt_nljet);
     //reader->AddVariable("tau_p4->Pt()",&bdt_taupt);
@@ -360,7 +360,7 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
     //reader->AddVariable("jet1_p4->Pt()",&bdt_jet1pt);
     //reader->AddVariable("met_p4->Pt()",&bdt_met);
     reader->AddSpectator("eventNumber", &bdt_eventNumber); // For deterministic split
-    reader->BookMVA("VBF_BDT", "/Users/user/Documents/HEP/MVA-Analysis/dataset/weights/validateBDTNOmTCut_BDT-HM-NOmTCut-10Folds.weights.xml");
+    reader->BookMVA("VBF_BDT", "/Users/user/Documents/HEP/MVA-Analysis/dataset/weights/validateBDT_Test_BDT-HM-10Folds.weights.xml");
     }
     #endif
     // loop over number of entries

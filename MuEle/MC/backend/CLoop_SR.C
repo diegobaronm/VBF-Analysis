@@ -36,7 +36,7 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
 
 
     // book histograms
-    Book(lumFactor);
+    Book();
     // end booking
 
     Long64_t nentries = fChain->GetEntriesFast();

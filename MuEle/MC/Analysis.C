@@ -69,7 +69,7 @@ double min_deltaR(TLorentzVector* test_particle, std::vector<UInt_t> bool_vector
   return min_dR;
 }
 
-void CLoop::Book(double lumFactor) {
+void CLoop::Book() {
 
 }
 
@@ -285,7 +285,7 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
         bool passedAllCuts = (sum+1==cutsVector.size());
         std::vector<int> notFullCutsVector{1,static_cast<int>(passedAllCuts)};
 
-        if (sampleName.substr(0,4)=="data" && passedAllCuts) return;
+        //if (sampleName.substr(0,4)=="data" && passedAllCuts) return;
 
         double etaMoreCentral = abs(ljet_0_p4->Eta())>=abs(ljet_1_p4->Eta()) ? ljet_1_p4->Eta() : ljet_0_p4->Eta();
         double etaLessCentral = abs(ljet_0_p4->Eta())<abs(ljet_1_p4->Eta()) ? ljet_1_p4->Eta() : ljet_0_p4->Eta();

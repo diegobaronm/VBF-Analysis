@@ -70,10 +70,10 @@ double min_deltaR(TLorentzVector* test_particle, std::vector<UInt_t> bool_vector
   return min_dR;
 }
 
-void CLoop::Book(double lumFactor) {
+void CLoop::Book() {
   
-
 }
+
 extern TMVA::Reader* reader;
 extern float bdt_mjj;
 extern float bdt_drap;
@@ -102,7 +102,7 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
   bool lepton_id=muon_0_id_medium;
   size_t n_ljets=n_jets-n_bjets_MV2c10_FixedCutBEff_85;
 
-  if (ql!=qtau && n_muons==1 && n_taus_rnn_loose>=1 && weight > -190 && lepton_id && n_ljets>=2 && n_ljets<=3){
+  if (ql==qtau && n_muons==1 && n_taus_rnn_loose>=1 && weight > -190 && lepton_id && n_ljets>=2 && n_ljets<=3){
     
     //angles
     double angle_l_MET=del_phi(muon_0_p4->Phi(),met_reco_p4->Phi());
@@ -315,7 +315,7 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
         if (outside_lep) bdt_lepnupt = neutrino_pt;
         if (outside_tau) bdt_lepnupt = 0.0;
         // bdt_transmasslep = transverseMassLep;
-        bdt_transmasslep = transverseMassLep/pow(reco_mass,0.3); // for transverse-reco mass ratio
+        bdt_transmasslep = reco_mass > 200 ? transverseMassLep/std::pow(reco_mass,0.3) : transverseMassLep/std::pow(200,0.3); // for transverse-reco mass ratio
         double inv_taulep=sqrt((2*muon_0_p4->Pt()*tau_0_p4->Pt())*(cosh(muon_0_p4->Eta()-tau_0_p4->Eta())-cos(muon_0_p4->Phi()-tau_0_p4->Phi())));
         bdt_masstaul = inv_taulep;
         bdt_nljet = (float)n_ljets;
@@ -779,8 +779,8 @@ void CLoop::FillTree(double weight, int z_sample, const std::string& sampleName,
         }
         //PT BALANCE
         double pt_bal{0};
-        double scalarSum = tau_0_p4->Pt()+muon_0_p4->Pt()+ljet_0_p4->Pt()+ljet_1_p4->Pt();
-        TLorentzVector vectorSum = (*tau_0_p4)+(*muon_0_p4)+(*ljet_0_p4)+(*ljet_1_p4);
+        double scalarSum = tau_0_p4->Pt()+muon_0_p4->Pt()+ljet_0_p4->Pt()+ljet_1_p4->Pt()+bjet_0_p4->Pt();
+        TLorentzVector vectorSum = (*tau_0_p4)+(*muon_0_p4)+(*ljet_0_p4)+(*ljet_1_p4)+(*bjet_0_p4);
         if (n_jets_interval==1){
           scalarSum+= ljet_2_p4->Pt();
           vectorSum+= (*ljet_2_p4);
