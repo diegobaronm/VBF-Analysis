@@ -82,7 +82,7 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
   bool elec_id=elec_0_id_tight;
   size_t n_ljets=n_jets-n_bjets_MV2c10_FixedCutBEff_85;
 
-  if (qelec!=qmuon && n_muons==1 && n_electrons==1 && weight > -190 && elec_id && muon_id && n_ljets>=2 && n_ljets<=3){
+  if (qelec==qmuon && n_muons==1 && n_electrons==1 && weight > -190 && elec_id && muon_id && n_ljets>=2 && n_ljets<=3){
     
     //angles
     double angle_elec_MET=del_phi(elec_0_p4->Phi(),met_reco_p4->Phi());
@@ -338,12 +338,12 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
             nuPtAssummetryContainer.Fill((pt_elec_nu+pt_muon_nu)/(elec_0_p4->Pt()+muon_0_p4->Pt()),weight,notFullCutsVector);
         }
         if (outside_elec) {
-            reco_mass_oContainer.Fill(reco_mass_outside,weight,cutsVector);
+            reco_mass_oContainer.Fill(reco_mass,weight,cutsVector);
             nuElecPtContainer.Fill(pt_elec_nu,weight,notFullCutsVector);
             nuPtAssummetryContainer.Fill((neutrino_pt)/(elec_0_p4->Pt()+muon_0_p4->Pt()),weight,notFullCutsVector);
         }
         if (outside_muon) {
-            reco_mass_oContainer.Fill(reco_mass_outside,weight,cutsVector);
+            reco_mass_oContainer.Fill(reco_mass,weight,cutsVector);
             nuMuonPtContainer.Fill(pt_muon_nu,weight,notFullCutsVector);
             nuPtAssummetryContainer.Fill((neutrino_pt)/(elec_0_p4->Pt()+muon_0_p4->Pt()),weight,notFullCutsVector);
         }

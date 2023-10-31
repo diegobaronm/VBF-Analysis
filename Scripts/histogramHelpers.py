@@ -113,6 +113,85 @@ def dataSubtract(histoName,histogramsPath,dataFileName,sampleFilesToSubtract,his
 
 ############################################################################################################
 
+# This function calculates the ratio = (Data-BG)/Signal and returns the x and y values of the ratio with the uncertainty as a multiple return value
+def ratioDataMinusBG(path_to_samples=os.getcwd(),signal_name="Signal",data_name="Data",bg_names=[],histogram_info=None,SFs={}):
+    
+    # Open the files
+    Data = r.TFile.Open(path_to_samples+"/"+data_name+".root","READ")
+    Signal = r.TFile.Open(path_to_samples+"/"+signal_name+".root","READ")
+    bg_files_list=[]
+    for i in bg_names: # Open all the background files
+        bg_files_list.append(r.TFile.Open(path_to_samples+"/"+i+".root","READ"))
+    
+    # Get the histograms
+    histogram_name = list(histogram_info.keys())[0]
+    data=Data.Get(histogram_name)
+    signal=Signal.Get(histogram_name)
+    bg_histograms_list = [i.Get(histogram_name) for i in bg_files_list]
+    
+    
+    signal.SetDirectory(0)
+    data.SetDirectory(0)
+    for i in bg_histograms_list:
+        i=i.SetDirectory(0)
+    
+    Signal.Close()
+    Data.Close()
+    [i.Close() for i in bg_files_list]
+    
+    # Rebin the histograms
+    s=data.GetXaxis().GetBinLowEdge(1)
+    e=data.GetXaxis().GetBinUpEdge(data.GetNbinsX())
+    rebining=biner(histogram_info[histogram_name][0],histogram_info[histogram_name][1],data)
+    nb=len(rebining)-1
+    signal=signal.Rebin(nb,"signal",rebining)
+    data=data.Rebin(nb,"data",rebining)
+    for i in range(0,len(bg_histograms_list)):
+        bg_histograms_list[i]=bg_histograms_list[i].Rebin(nb,bg_names[i],rebining)
+
+    # Scale the samples by the scale factors given in the dictionary
+    for i in bg_histograms_list:
+        try :
+            sampleName = i.GetName()
+            i.Scale(SFs[sampleName])
+        except KeyError:
+            print("No scale factor for sample: "+sampleName)
+            continue
+
+
+
+    # Normalise the histograms
+    if len(histogram_info[histogram_name])>0:
+        hist_list=[signal,data]+bg_histograms_list
+        normalization(hist_list,histogram_info[histogram_name][2])
+
+    # Subtract the backgrounds from the data    
+    data_subtracted=data.Clone()
+    for i in bg_histograms_list:
+        data_subtracted.Add(i,-1)
+        
+    # Divide the data minus background by the signal    
+    ratio=data_subtracted.Clone()
+    ratio.Divide(signal)
+
+    # Initialise return values
+    x_values = []
+    y_values = []
+    y_uncern = []
+
+    # Fill the return values
+    for i in range(1,ratio.GetNbinsX()+1):
+        if ratio.GetBinContent(i)>0 or i==1:
+            x_values.append(ratio.GetBinCenter(i))
+            y_values.append(round(ratio.GetBinContent(i),3))
+            y_uncern.append(ratio.GetBinError(i))
+        else : # Do not fill the return values if the ratio is negative or zero ?
+            break
+    
+    return np.array(x_values),np.array(y_values),np.array(y_uncern)
+
+############################################################################################################
+
 # Function to make the negative bins of a histogram equal to zero. 
 def makeNegativeBinsZero(histogram):
     for i in range(1,histogram.GetNbinsX()+1):
@@ -176,6 +255,8 @@ def makeSRBinsConsistentWithNOMJ(histogram,cutLeft,cutRight,totalMJ,totalMJUncer
         binMidPoint = SRhistogram.GetBinCenter(i)
         if isSRBin(binMidPoint,cutLeft,cutRight):
             integral += SRhistogram.GetBinContent(i)
+    if integral == 0.0:
+        return
     
     print("Integral in SR bins: "+str(integral))
     # Spread the MJ in the SR bins
@@ -564,15 +645,15 @@ def stackPlot(data,signal,background,histograms,watermark,function,additionalSig
 ############################################################################################################
 
 
-def stackPlotNoData(signal,background,histograms,watermark,cutLines,additionalSignal=[],signalMu = 1.0, backgroundMu = 1.0,average=False,after_fit=False,final_state="Z#rightarrow #mu#mu"):
+def stackPlotNoData(signal,background,histograms,watermark,additionalSignal=[],signalMu = 1.0, backgroundMu = 1.0,average=False,after_fit=False,final_state="Z#rightarrow #mu#mu"):
     samples = background.copy()
     samples.update(signal)
 
     for i in histograms:
-        print("HISTOGRAM = ",i)
+        print("HISTOGRAM = ",i.m_name)
         for s in samples:
             file = r.TFile.Open(samples[s][0],"READ")
-            hist = file.Get(i)
+            hist = file.Get(i.m_name)
             hist.SetDirectory(0)
             samples[s].append
             samples[s][2]=hist # add histogram (TH1F) to list of samples
@@ -583,8 +664,8 @@ def stackPlotNoData(signal,background,histograms,watermark,cutLines,additionalSi
                 watermark = "Average_AfterFit"
             
         ###### REBIN AND NORMALISE ######
-        if len(histograms[i])>2:
-            rebining=biner(histograms[i][0],histograms[i][1],samples["Signal"][2])
+        if i.needsRebin():
+            rebining=biner(i.m_binEdges,i.m_binSteps,samples["Signal"][2])
             print("Using following bins... ",rebining)
             nb=len(rebining)-1
             for s in samples:
@@ -594,7 +675,7 @@ def stackPlotNoData(signal,background,histograms,watermark,cutLines,additionalSi
                 else :    
                     samples[s][2]=samples[s][2].Rebin(nb,s,rebining)
             hist_list=[samples[s][2] for s in samples if 'Average' not in samples[s][0]]
-            normalization(hist_list,histograms[i][2])
+            normalization(hist_list,i.m_binNorm)
 
         ###### SETTING THE COLOURS ######
 
@@ -606,7 +687,7 @@ def stackPlotNoData(signal,background,histograms,watermark,cutLines,additionalSi
 
         if after_fit:
             samples["Signal"][2].Scale(signalMu)
-            samples["QCD Z"][2].Scale(backgroundMu)
+            samples["QCDjj"][2].Scale(backgroundMu)
                 
         ####################### CREATING MC AND STACK HISTOGRAM ########################        
         
@@ -630,6 +711,9 @@ def stackPlotNoData(signal,background,histograms,watermark,cutLines,additionalSi
             ratio_sg_mc.Add(samples[additionalS][2])
         ratio_sg_mc.Divide(mc)
         ratio_sg_mc.SetLineColor(r.kBlack)
+
+        ########## SCALE RATIO BY SOME AMOUNT ##########
+        ratio_sg_mc.Scale(5)
 
 
         ##### DRAWING TOP PAD, SETTING MARGINS #######
@@ -671,9 +755,11 @@ def stackPlotNoData(signal,background,histograms,watermark,cutLines,additionalSi
         textBox.AddText(str(round(statUncer.GetBinContent(statUncer.GetNbinsX()+1),2))+"#pm"+str(round(statUncer.GetBinError(statUncer.GetNbinsX()+1),2)))
         textBox.Draw("same")
         
+         ###### SETTING Y AXIS RANGE ######
+        
         yScale = 1.5
         yLowScale = 0.0
-        if ("reco_mass" in i) or ("mass_jj" in i):
+        if i.m_logScale:
             yLowScale = 0.01
             yScale = 15
             pad1.SetLogy()
@@ -689,9 +775,7 @@ def stackPlotNoData(signal,background,histograms,watermark,cutLines,additionalSi
         samples["Signal"][2].GetXaxis().SetRangeUser(s,e)
 
 
-        print("X axis range = ",s,e)
-        if len(histograms[i])>2:
-            samples["Signal"][2].GetYaxis().SetTitle("Events/"+str(histograms[i][2])+" GeV")
+        ###### DRAWING LEGEND ######
         legend = r . TLegend (0.45 ,0.80 ,0.85 ,0.95)
         for sample in samples:
             legend.AddEntry(samples[sample][2],sample,"f")
@@ -699,6 +783,7 @@ def stackPlotNoData(signal,background,histograms,watermark,cutLines,additionalSi
         legend.SetNColumns(3)
         r.gStyle.SetLegendBorderSize(0)
         legend . SetLineWidth (0)
+        r.gStyle.SetLegendTextSize(0.045)
         legend . Draw ()
 
         samples["Signal"][2].SetTitle("")
@@ -718,16 +803,16 @@ def stackPlotNoData(signal,background,histograms,watermark,cutLines,additionalSi
             min_ratio = 0.5
         if min_ratio < 0.7:
             min_ratio = 0.2
-        
+
 
         ###### DRAWING CUT LINES ######
-        if cutLines[i][0]!=cutLines[i][1]:
-            cut1 = r. TLine (cutLines[i][0],yLowScale ,cutLines[i][0],yScale*hs.GetMaximum())
+        if i.m_leftCut!=i.m_rightCut:
+            cut1 = r. TLine (i.m_leftCut, yLowScale ,i.m_leftCut, yScale*hs.GetMaximum())
             cut1 . SetLineColor ( r. kRed+1 )
             cut1 . SetLineWidth (2)
             cut1.SetLineStyle(2)
             
-            cut2 = r. TLine (cutLines[i][1],yLowScale ,cutLines[i][1],yScale*hs.GetMaximum())
+            cut2 = r. TLine (i.m_rightCut, yLowScale ,i.m_rightCut, yScale*hs.GetMaximum())
             cut2 . SetLineColor ( r. kRed+1 )
             cut2 . SetLineWidth (2)
             cut2.SetLineStyle(2)
@@ -800,28 +885,15 @@ def stackPlotNoData(signal,background,histograms,watermark,cutLines,additionalSi
         ratio_sg_mc.SetStats(0)
         ratio_sg_mc . GetYaxis (). SetRangeUser (0.0 ,1.02)
         ratio_sg_mc . GetXaxis (). SetRangeUser (s ,e)
-        ratio_sg_mc . GetYaxis (). SetTitle ("SIGNAL/MC")
+        ratio_sg_mc . GetYaxis (). SetTitle ("5 x SIGNAL/MC")
         ratio_sg_mc . GetYaxis (). SetTitleSize (0.15)
         ratio_sg_mc . GetYaxis (). SetTitleOffset (0.25)
         ############ X AXIS TITLE #################
-        axisTitle='hola'
-        if len(histograms[i])>2:
-            try :
-                axisTitle=histograms[i][3]    
-            except :
-                pass
-        else :
-            try :
-                axisTitle=histograms[i][0]    
-            except :
-                pass
-        ##########################################
-        ratio_sg_mc.SetXTitle(axisTitle)
-        ratio_sg_mc.SetTitleSize(0.17,"X")
-        ratio_sg_mc.SetTitleOffset(0.9,"X")
-        ratio_sg_mc.GetYaxis().SetLabelSize(0.09)
-        ratio_sg_mc.GetXaxis().SetLabelSize(0.6)
-        ratio_sg_mc.GetXaxis().SetLabelOffset(0.1)
+        ratio_sg_mc.SetXTitle(i.m_xTitle+"  "+str(i.m_units))
+        ratio_sg_mc.SetTitleSize(0.22,"X")
+        ratio_sg_mc.SetTitleOffset(0.8,"X")
+        ratio_sg_mc.GetYaxis().SetLabelSize(0.14)
+        ratio_sg_mc.GetXaxis().SetLabelSize(0.24)
         ratio_sg_mc.SetMarkerStyle(8)
         ratio_sg_mc.SetMarkerSize(0.6)
 
@@ -853,9 +925,9 @@ def stackPlotNoData(signal,background,histograms,watermark,cutLines,additionalSi
         line13 . Draw (" same ")
         line14 . Draw (" same ")
         
-        file_name = i+"_"+watermark+"NODATA.pdf"
-        #canvas.Update()
-        canvas.Print(file_name)        
+        file_name = i.m_name+"_"+watermark+".pdf"
+        canvas.Update()
+        canvas.Print(file_name)     
 
 
 ############################################################################################################
@@ -973,8 +1045,8 @@ HistogramInfo('delta_phijj_basic_all', [3.0], [0.3, 0.2], 0.3, '#Delta#phi(j_{1}
 HistogramInfo('nuElecPt_basic_all', [50, 150], [10, 20, 50], 10, 'pT(#nu_{e})',0,0,''),
 HistogramInfo('nuMuonPt_basic_all', [50, 150], [10, 20, 50], 10, 'pT(#nu_{#mu})',0,0,''),
 HistogramInfo('nuPtAssummetry_basic_all', [1.0], [0.1, 0.1], 0.1, 'pT(#nu_{e}+#nu_{#mu})/(e+#mu)',0,0,''),
-HistogramInfo('massMuonClosestJet_basic_all', [100, 200, 500], [20, 20, 50, 500], 20, 'm_{#mu,j_{closest}}',0,0,''),
-HistogramInfo('massElecClosestJet_basic_all', [100, 200, 500], [20, 20, 50, 500], 20, 'm_{e,j_{closest}}',0,0,''),
+HistogramInfo('massMuonClosestJet_basic_all', [100,400,650, 500], [100,50,250, 350, 1000], 50, 'm_{#mu,j_{closest}}',0,0,'GeV'),
+HistogramInfo('massElecClosestJet_basic_all', [100,400,650, 500], [100,50,250, 350, 1000], 50, 'm_{e,j_{closest}}',0,0,'GeV'),
 ]
 
 # Dictionaries for Z->ll
@@ -1000,6 +1072,8 @@ HistogramInfo('inv_mass', [70, 110, 140, 300], [70, 5, 10, 80, 700], 5, 'm_{#mu#
 HistogramInfo('mass_jj', [1500], [250, 500], 250, 'm_{jj}',1000,5000,'GeV',True),
 HistogramInfo('met_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl', [50], [10, 50], 10, 'MET',0,0,'GeV'),
 ]
+
+# Dictionaries for Z->tau tau (Z-peak)
 
 tautauZpeakHistograms = [
 HistogramInfo('n_bjets', [], [], 1.0, 'n_bjets',0,1,''),
@@ -1041,7 +1115,8 @@ HistogramInfo('nuPtAssummetry_basic_all', [0.0], [0.1, 0.1], 0.1, 'pT(#nu_{l}-#n
 HistogramInfo('bdtScore', [-0.4, 0.1, 0.5], [0.1999, 0.25, 0.2, 0.25], 0.2, 'VBF-BDT score',0,0,''),
 HistogramInfo('lepNuPt', [30, 100], [15, 35, 100], 15, 'pT(#nu_{l})',0,0,'GeV'),
 HistogramInfo('pTsymmetry', [0.4], [0.2, 0.2], 0.2, 'pT(#tau - l)/(#tau + l)',0,0,''),
-HistogramInfo('lepTransMass_basic_all', [100, 200], [20, 50, 50], 20, 'm_{T}(l)',0,0,'GeV'),
+#HistogramInfo('lepTransMass_basic_all', [100, 200], [20, 50, 50], 20, 'm_{T}(l)',0,0,'GeV'),
+HistogramInfo('lepTransMass', [60, 100, 200], [30, 40, 100, 250], 30, 'm_{T}(l)',0,0,'GeV'),
 HistogramInfo('tauTransMass_basic_all', [100, 200], [20, 50, 50], 20, 'm_{T}(#tau)',0,0,'GeV'),
 HistogramInfo('signedCentrality_basic_all', [0.0], [0.1, 0.1], 0.1, 'Signed #xi(Z)',0,0,''),
 HistogramInfo('visibleMass_basic_all', [40, 100, 150, 250], [40, 20, 25, 50, 250], 20, 'm(vis)_{#tau,l}',0,0,'GeV'),
