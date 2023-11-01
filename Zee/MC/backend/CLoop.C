@@ -2,41 +2,7 @@
 
 #include "../Analysis.C"
 #include <cmath>
-#include <map>
-
-double mjj_rw_quadratic(double mjj, double a, double b, double c){
-    double rw = a*mjj*mjj+b*mjj+c;
-    if (rw<0){
-        return 0.0;
-    } else {
-        return rw;
-    }
-}
-
-double mjj_rw_linear(double mjj, double slope, double level){
-    double rw = slope*mjj+level;
-    if (rw<0){
-        return 0.0;
-    } else {
-        return rw;
-    } 
-}
-
-enum class MC
-{
-    PowHegPythia = 1,
-    SHERPA,
-    MadGraph
-};
-
-enum class Region
-{
-    DefaultNoRW,
-    SR,
-    CRa,
-    CRb,
-    CRc
-};
+#include "../../../AnalysisCommons/rewightingTools.h"
 
 void CLoop::Loop(double lumFactor, int z_sample, std::string key)
 {
@@ -204,57 +170,36 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
         else if ((z_centrality>=0.5 && z_centrality<=1) && n_jets_interval==1){region = Region::CRb;}
         else if ((z_centrality>=0.5 && z_centrality<=1) && n_jets_interval==0){region = Region::CRc;}
 
-        std::map<Region,std::vector<double>> parametersSHERPA = {
-            {Region::DefaultNoRW,{0.0,0.0,1.0}},
-            {Region::SR,{1.40E-07,-7.16E-04,1.51E+00}},
-            {Region::CRa,{5.61E-08,-4.20E-04,1.25E+00}},
-            {Region::CRb,{4.12E-08,-3.64E-04,1.08E+00}},
-            {Region::CRc,{1.09E-07,-6.10E-04,1.30E+00}}
-        };
-
-        std::map<Region,std::vector<double>> parametersMadGraph = {
-            {Region::DefaultNoRW,{0.0,0.0,1.0}},
-            {Region::SR,{1.30E-07,-5.29E-04,9.82E-01}},
-            {Region::CRa,{1.53E-07,-5.42E-04,1.10E+00}},
-            {Region::CRb,{6.24E-08,-2.97E-04,9.72E-01}},
-            {Region::CRc,{5.95E-08,-3.32E-04,8.78E-01}}
-        };
-
+        double mjj=sqrt(2*(ljet_0_p4->Dot(*ljet_1_p4)));
         double mjj_w=1;
+        
         // mjj reweighting
-        MC mcSample = static_cast<MC>(z_sample);
-        if(mcSample == MC::PowHegPythia){
-            mjj_w = 1.0;
-        } else if (mcSample == MC::SHERPA){
-            double a = parametersSHERPA[region].at(0);
-            double b = parametersSHERPA[region].at(1);
-            double c = parametersSHERPA[region].at(2);
-            double mjj=sqrt(2*(ljet_0_p4->Dot(*ljet_1_p4)));
-            mjj_w = mjj_rw_quadratic(mjj,a,b,c);
-        } else if (mcSample == MC::MadGraph){ 
-            double a = parametersMadGraph[region].at(0);
-            double b = parametersMadGraph[region].at(1);
-            double c = parametersMadGraph[region].at(2);
-            double mjj=sqrt(2*(ljet_0_p4->Dot(*ljet_1_p4)));
-            mjj_w = mjj_rw_quadratic(mjj,a,b,c);
+        bool reweight_mjj = true;
+        if (reweight_mjj){
+            MC mcSample = static_cast<MC>(z_sample);
+            if(mcSample == MC::PowHegPythia){
+                mjj_w = 1.0;
+            } else if (mcSample == MC::SHERPA){
+                mjj_w = mjj_rw(mjj,parametersSHERPA[region]); 
+            } else if (mcSample == MC::MadGraph){ 
+                mjj_w = mjj_rw(mjj,parametersMadGraph[region]);
+            } else if (mcSample == MC::SHERPANLO){ 
+                mjj_w = mjj_rw(mjj,parametersSHERPANLO[region]);
+            } else if (mcSample == MC::MadGraphNLO){ 
+                mjj_w = mjj_rw(mjj,parametersMadGraphNLO[region]);
+            } 
         }
 				
         // ZpT reweighting
-
         double z_w=1;
         double zpt_weight=1/z_w;
 
-
         // calculate event weight
         double eventWeight = 1;
-        double weight_total{0};
-        if(!(key.substr(0,4)=="data")){
-            weight_total= weight_mc*NOMINAL_pileup_combined_weight;
-        }
         // check if event is from real data
         if (!(key.substr(0,4)=="data")) {
             // take product of all scale factors
-            eventWeight = weight_total*lumFactor*zpt_weight*mjj_w
+            eventWeight = weight_mc*NOMINAL_pileup_combined_weight*lumFactor*zpt_weight*mjj_w
             *elec_0_NOMINAL_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight*elec_0_NOMINAL_EleEffSF_offline_TightLLH_d0z0_v13*elec_0_NOMINAL_EleEffSF_offline_RecoTrk
             *jet_NOMINAL_central_jets_global_effSF_JVT*jet_NOMINAL_central_jets_global_ineffSF_JVT*jet_NOMINAL_forward_jets_global_effSF_JVT
             *jet_NOMINAL_forward_jets_global_ineffSF_JVT*jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85*jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85

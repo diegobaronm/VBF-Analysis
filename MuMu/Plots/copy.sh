@@ -1,8 +1,11 @@
 #!/bin/bash
 cp ../DATA/out/Data.root Data.root
 cp ../MC/out/VV.root .
+cp ../MC/out/VV_EWK.root .
 cp ../MC/out/singletop.root .
 cp ../MC/out/Wjets.root .
+cp ../MC/out/W_EWK_Sherpa.root .
+cp ../MC/out/W_EWK_PoPy.root .
 cp ../MC/out/Signal_old.root .
 cp ../MC/out/Signal_Sherpa.root .
 cp ../MC/out/Signal_PoPy.root .

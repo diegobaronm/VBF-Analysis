@@ -11,6 +11,7 @@
 
 import sys
 sys.path.insert(0, "backend") # allow code to be imported from subdirectory
+sys.path.insert(1,'../../AnalysisCommons/')
 
 import ROOT as r
 import os
@@ -28,7 +29,7 @@ def luminosity(key):
     else :
         return 36.2369
 
-def runAnalysis(key, remote):
+def runAnalysis(key):
     """
     Function to know if Z boson process
     """
@@ -69,9 +70,9 @@ def runAnalysis(key, remote):
         lumStr = "%.5E" % (lumWeight)
 
     # launch the analysis script for the given data set
-    tree_name=sys.argv[3]
+    tree_name=sys.argv[2]
 
-    DrawC(filename,lumStr,remote,z_sample,key,sys.argv[3])
+    DrawC(filename,lumStr,z_sample,key,tree_name)
 
     # move the output to a different directory
     if sys.argv[0]=="condor_exec.exe":
@@ -94,18 +95,6 @@ while (not chainsValid):
     chains, chainsValid = getInput()
     print()
 
-# if all decay chains are valid loop over series
-# detect whether the user wants to run in 'fast' mode for only 1% of data
-answered = False
-while (not answered):
-    #print("Would you like to run in fast mode to only analyse 1% of data? (yes/no)")
-    Remote = sys.argv[2]
-    if Remote in "yes":
-        answered = True
-        remote_mode = True
-    elif Remote in "no":
-        answered = True
-        remote_mode = False
 
 # iterate over sums of chains from user input
 for i in range(len(chains)):
@@ -121,8 +110,8 @@ for i in range(len(chains)):
         if (chain in dataCombos.keys()):
             for subChain in dataCombos[chain]:
                 print(subChain)
-                runAnalysis(subChain,remote_mode)
+                runAnalysis(subChain)
 
         # otherwise run the analysis for the single file
         else:
-            runAnalysis(chain,remote_mode)
+            runAnalysis(chain)

@@ -1,32 +1,23 @@
 # file to hold variables with info about the data
 import sys
 import os
+from DatasetsPaths import v26_ee_Paths
 # total luminosity of the real data in inverse femtobarns
 
 totRealLum = 57.6164
 # Name of host
-try :
-        remote = sys.argv[2]=="yes"
-except:
-        remote = False
+username = os.environ['USER']
 
-# list of directories to check for .root files
-if remote:
-        pathsToSamplesList =['/eos/user/t/twyatt/data/diego/v26-ee/','/eos/user/d/dbaronmo/v26-ee/']
-        samples=[]
-        dirs = []
-        for path in pathsToSamplesList:
-                samples += os.listdir(path)
-                dirs+= [path+i+'/' for i in os.listdir(path) if 'mc' in i]
-
-else :
-        try :
-                path_to_samples='/home/diegol/DATA/v26/'
-                samples=os.listdir(path_to_samples)
-                dirs=[path_to_samples+i+'/' for i in samples if 'mc' in i]
-        except FileNotFoundError:
-                samples=[]
-                print("Invalid directory of samples..." )
+try:
+  pathsToSamplesList = v26_ee_Paths[username]
+  samples = []
+  dirs = []
+  for path in pathsToSamplesList:
+    samples += os.listdir(path)
+    dirs += [path+i+'/' for i in os.listdir(path) if 'mc' in i]
+except FileNotFoundError:
+  samples=[]
+  print("Invalid directory of samples..." )
 
 realList=[]
 # inputted by the user

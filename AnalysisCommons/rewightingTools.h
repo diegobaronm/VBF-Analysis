@@ -61,7 +61,8 @@ enum class Region
 std::map<Region,std::vector<double>> parametersSHERPA = {
     {Region::DefaultNoRW,{0.0,0.0,1.0}},
     //{Region::SR,{1.40E-07,-7.16E-04,1.51E+00}}, // Default
-    {Region::SR,{1.40E-07,-7.16E-04,1.51E+00,2750.0,0.586}}, // Alternative
+    //{Region::SR,{1.40E-07,-7.16E-04,1.51E+00,2750.0,0.586}}, // Flat tail using Sherpa for EWjj
+    {Region::SR,{1.26E-07,-6.95E-04,1.50E+00,2750.0,0.538}}, // Flat tail using PoPy for EWjj
     {Region::CRa,{5.61E-08,-4.20E-04,1.25E+00}},
     {Region::CRb,{4.12E-08,-3.64E-04,1.08E+00}},
     {Region::CRc,{1.09E-07,-6.10E-04,1.30E+00}}
@@ -70,7 +71,8 @@ std::map<Region,std::vector<double>> parametersSHERPA = {
 std::map<Region,std::vector<double>> parametersMadGraph = {
     {Region::DefaultNoRW,{0.0,0.0,1.0}},
     //{Region::SR,{1.30E-07,-5.29E-04,9.82E-01}}, // Default
-    {Region::SR,{1.30E-07,-5.29E-04,9.82E-01,2750.0,0.503}}, // Alternative
+    //{Region::SR,{1.30E-07,-5.29E-04,9.82E-01,2750.0,0.503}}, // Flat tail using Sherpa for EWjj
+    {Region::SR,{1.23E-07,-5.24E-04,9.85E-01,2750.0,0.465}}, // Flat tail using PoPy for EWjj
     {Region::CRa,{1.53E-07,-5.42E-04,1.10E+00}},
     {Region::CRb,{6.24E-08,-2.97E-04,9.72E-01}},
     {Region::CRc,{5.95E-08,-3.32E-04,8.78E-01}}

@@ -1,2 +1,0 @@
-data_2018_94 yes NOMINAL
-data_2015_265 yes NOMINAL

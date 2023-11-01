@@ -3,7 +3,7 @@ from os import listdir
 from dataSets import dirs
 import sys
 
-def DrawC(filename,lumStr,remote,z_sample,key_pop,tree):
+def DrawC(filename,lumStr,z_sample,key_pop,tree):
     """
     Function to load in the C++ code and run it for a given data set
     """

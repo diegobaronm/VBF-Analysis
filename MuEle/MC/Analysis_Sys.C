@@ -192,11 +192,11 @@ void CLoop::Fill(double weight, int z_sample) {
         double reco_mass_outside=0;
         if (outside_elec) {
           neutrino_pt=met_reco_p4->Pt()*cos(angle_elec_MET);
-          reco_mass_outside=5+sqrt(2*(muon_0_p4->Pt()*elec_0_p4->Pt()*(cosh(muon_0_p4->Eta()-elec_0_p4->Eta())-cos(muon_0_p4->Phi()-elec_0_p4->Phi()))+muon_0_p4->Pt()*neutrino_pt*(cosh(muon_0_p4->Eta()-elec_0_p4->Eta())-cos(muon_0_p4->Phi()-elec_0_p4->Phi()))));
+          reco_mass=5+sqrt(2*(muon_0_p4->Pt()*elec_0_p4->Pt()*(cosh(muon_0_p4->Eta()-elec_0_p4->Eta())-cos(muon_0_p4->Phi()-elec_0_p4->Phi()))+muon_0_p4->Pt()*neutrino_pt*(cosh(muon_0_p4->Eta()-elec_0_p4->Eta())-cos(muon_0_p4->Phi()-elec_0_p4->Phi()))));
         }
         if (outside_muon) {
           neutrino_pt=met_reco_p4->Pt()*cos(angle_muon_MET);
-          reco_mass_outside=5+sqrt(2*(elec_0_p4->Pt()*muon_0_p4->Pt()*(cosh(elec_0_p4->Eta()-muon_0_p4->Eta())-cos(elec_0_p4->Phi()-muon_0_p4->Phi()))+elec_0_p4->Pt()*neutrino_pt*(cosh(elec_0_p4->Eta()-muon_0_p4->Eta())-cos(elec_0_p4->Phi()-muon_0_p4->Phi()))));
+          reco_mass=5+sqrt(2*(elec_0_p4->Pt()*muon_0_p4->Pt()*(cosh(elec_0_p4->Eta()-muon_0_p4->Eta())-cos(elec_0_p4->Phi()-muon_0_p4->Phi()))+elec_0_p4->Pt()*neutrino_pt*(cosh(elec_0_p4->Eta()-muon_0_p4->Eta())-cos(elec_0_p4->Phi()-muon_0_p4->Phi()))));
         }
 
         // ZpT calculations
@@ -323,15 +323,8 @@ void CLoop::Fill(double weight, int z_sample) {
         if(n_jets_interval==0){cuts[9]=1;}
         if(z_centrality<0.5){cuts[10]=1;} // SR -> z_centrality < 0.5
         if (omega> -0.4 && omega <1.4){cuts[11]=1;}
-        if (inside) {
-          if (reco_mass<116 && reco_mass>66){cuts[12]=1;} // Z-peak reco_mass<116 && reco_mass>66
-        }
-        if (outside_elec) {
-          if (reco_mass<116 && reco_mass>66){cuts[12]=1;}
-        }
-        if (outside_muon) {
-          if (reco_mass<116 && reco_mass>66){cuts[12]=1;}
-        }
+        bool diLeptonMassRequirement = reco_mass<116 && reco_mass>66;
+        if (diLeptonMassRequirement){cuts[12]=1;}
         if (muon_0_p4->Pt()>=27){cuts[13]=1;}
 
         // SUM OF THE VECTOR STORING IF CUTS PASS OR NOT
@@ -421,14 +414,14 @@ void CLoop::Fill(double weight, int z_sample) {
         }
         if (outside_elec) {
           if ((sum-cuts[12])==13) {
-            h_reco_mass_o->Fill(reco_mass_outside,weight);
-            h_reco_mass->Fill(reco_mass_outside,weight);
+            h_reco_mass_o->Fill(reco_mass,weight);
+            h_reco_mass->Fill(reco_mass,weight);
           }
         }
         if (outside_muon) {
           if ((sum-cuts[12])==13) {
-            h_reco_mass_o->Fill(reco_mass_outside,weight);
-            h_reco_mass->Fill(reco_mass_outside,weight);
+            h_reco_mass_o->Fill(reco_mass,weight);
+            h_reco_mass->Fill(reco_mass,weight);
           }
         }
         if ((sum-cuts[13])==13) {

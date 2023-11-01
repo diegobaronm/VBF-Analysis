@@ -70,7 +70,7 @@ void CLoop::Fill(double weight, int z_sample) {
     float q_mu1=muon_1_q;
     size_t n_ljets=n_jets-n_bjets_MV2c10_FixedCutBEff_85;
 
-    if (n_muons==2 && q_mu0!=q_mu1 && muon_id && n_ljets>=2 && n_ljets<=3){
+    if (n_muons==2 && q_mu0!=q_mu1 && muon_id && n_ljets>=2 && n_ljets<=3 && NOMINAL_pileup_combined_weight > -10){
       //angles
       double angle_l_MET=del_phi(muon_0_p4->Phi(),met_reco_p4->Phi());
       double angle_tau_MET=del_phi(muon_1_p4->Phi(),met_reco_p4->Phi());
@@ -174,6 +174,9 @@ void CLoop::Fill(double weight, int z_sample) {
         bool CRc = z_centrality>=0.5 && z_centrality <=1 && n_jets_interval == 0;
         bool superCR = CRa || CRb || CRc;
 
+        // ONLY SUPER CR
+        if (!superCR) return;
+
         // Cuts vector
         vector<int> cuts={0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 
@@ -189,9 +192,9 @@ void CLoop::Fill(double weight, int z_sample) {
         if(ljet_1_p4->Pt()>=70){cuts[7]=1;}
         if(pt_bal<=0.15){cuts[8]=1;}
         if(mjj>=1000){cuts[9]=1;}
-        if(n_jets_interval==0){cuts[10]=1;}
+        if(n_jets_interval == 0){cuts[10]=1;}
         if(z_centrality < 0.5){cuts[11]=1;}
-        if (inv_mass >= 160){cuts[12]=1;} // Z-peak mass range 81 < m < 101 GeV. // Mid Range inv_mass < 160 && inv_mass >= 101 
+        if (inv_mass < 101 && inv_mass > 81){cuts[12]=1;} // Z-peak mass range 81 < inv_mass < 101 GeV. // Mid Range inv_mass < 160 && inv_mass >= 101 
         if (event_number%2==0){
           if(muon_0_p4->Pt()>=(a+0)){cuts[13]=1;}
         } else {
