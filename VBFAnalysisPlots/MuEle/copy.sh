@@ -1,20 +1,21 @@
 #!/bin/bash
-cp ../DATA/out/data.root Data.root
-cp ../MC/out/VV.root .
-cp ../MC/out/singletop.root .
-cp ../MC/out/Wjets.root .
-cp ../MC/out/Zjets.root .
-cp ../MC/out/ttbar.root ttbar.root
-cp ../MC/out/Ztautau_Sherpa.root .
-cp ../MC/out/Ztautau_SherpaNLO.root .
-cp ../MC/out/Ztautau_PoPy.root .
-cp ../MC/out/Ztautau_MG.root .
-cp ../MC/out/Ztautau_MGNLO.root .
-cp ../MC/out/Higgs.root .
-cp ../MC/out/Signal_PoPy.root .
-cp ../MC/out/Signal_Sherpa.root .
-cp ../MC/out/W_EWK_Sherpa.root .
-cp ../MC/out/W_EWK_PoPy.root .
-cp ../MC/out/VV_EWK.root .
+parentDirectory="MuEle"
+cp ../../$parentDirectory/DATA/out/data.root Data.root
+cp ../../$parentDirectory/MC/out/VV.root .
+cp ../../$parentDirectory/MC/out/singletop.root .
+cp ../../$parentDirectory/MC/out/Wjets.root .
+cp ../../$parentDirectory/MC/out/Zjets.root .
+cp ../../$parentDirectory/MC/out/ttbar.root ttbar.root
+cp ../../$parentDirectory/MC/out/Ztautau_Sherpa.root .
+cp ../../$parentDirectory/MC/out/Ztautau_SherpaNLO.root .
+cp ../../$parentDirectory/MC/out/Ztautau_PoPy.root .
+cp ../../$parentDirectory/MC/out/Ztautau_MG.root .
+cp ../../$parentDirectory/MC/out/Ztautau_MGNLO.root .
+cp ../../$parentDirectory/MC/out/Higgs.root .
+cp ../../$parentDirectory/MC/out/Signal_PoPy.root .
+cp ../../$parentDirectory/MC/out/Signal_Sherpa.root .
+cp ../../$parentDirectory/MC/out/W_EWK_Sherpa.root .
+cp ../../$parentDirectory/MC/out/W_EWK_PoPy.root .
+cp ../../$parentDirectory/MC/out/VV_EWK.root .
 hadd BG.root VV.root singletop.root Wjets.root Zjets.root ttbar.root Ztautau_Sherpa.root Higgs.root
 hadd MC.root BG.root Signal_Sherpa.root

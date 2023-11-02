@@ -69,7 +69,7 @@ WJets/DATA/log/*
 
 VBFAnalysisPlots/*/*
 !VBFAnalysisPlots/*/*.sh
-#!VBFAnalysisPlots/**/*.ipynb
+!VBFAnalysisPlots/*/*.ipynb
 
 Scripts/Plots/*
 Scripts/results/*
