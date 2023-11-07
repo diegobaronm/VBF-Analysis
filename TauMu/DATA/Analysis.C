@@ -102,7 +102,7 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
   bool lepton_id=muon_0_id_medium;
   size_t n_ljets=n_jets-n_bjets_MV2c10_FixedCutBEff_85;
 
-  if (ql==qtau && n_muons==1 && n_taus_rnn_loose>=1 && weight > -190 && lepton_id && n_ljets>=2 && n_ljets<=3){
+  if (ql!=qtau && n_muons==1 && n_taus_rnn_loose>=1 && weight > -190 && lepton_id && n_ljets>=2 && n_ljets<=3){
     
     //angles
     double angle_l_MET=del_phi(muon_0_p4->Phi(),met_reco_p4->Phi());

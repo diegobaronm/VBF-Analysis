@@ -130,6 +130,7 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
         double pt_elec_nu=(met_reco_p4->Pt()*cos(met_reco_p4->Phi())-met_reco_p4->Pt()*sin(met_reco_p4->Phi())*cot_muon)/(cos(elec_0_p4->Phi())-sin(elec_0_p4->Phi())*cot_muon);
 
         double reco_mass{};
+        double massMuonElec = sqrt(2*(muon_0_p4->Dot(*elec_0_p4)));
         if(inside){
             reco_mass=sqrt(2*muon_0_p4->Pt()*elec_0_p4->Pt()*(cosh(muon_0_p4->Eta()-elec_0_p4->Eta())-cos(muon_0_p4->Phi()-elec_0_p4->Phi()))+2*elec_0_p4->Pt()*pt_muon_nu*(cosh(elec_0_p4->Eta()-muon_0_p4->Eta())-cos(elec_0_p4->Phi()-muon_0_p4->Phi()))+2*muon_0_p4->Pt()*pt_elec_nu*(cosh(muon_0_p4->Eta()-elec_0_p4->Eta())-cos(muon_0_p4->Phi()-elec_0_p4->Phi()))+2*pt_elec_nu*pt_muon_nu*(cosh(elec_0_p4->Eta()-muon_0_p4->Eta())-cos(elec_0_p4->Phi()-muon_0_p4->Phi())));
         }
@@ -304,16 +305,22 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
 
         double massMuonClosestJet{0.0};
         double massElecClosestJet{0.0};
+        double massMuonFurthestJet{0.0};
+        double massElecFurthestJet{0.0};
         bool j0CloserToMuon = muon_0_p4->DeltaR(*ljet_0_p4) <= muon_0_p4->DeltaR(*ljet_1_p4);
         if (j0CloserToMuon)
         {
           massMuonClosestJet = sqrt(2*(muon_0_p4->Dot(*ljet_0_p4)));
           massElecClosestJet = sqrt(2*(elec_0_p4->Dot(*ljet_1_p4)));
+          massMuonFurthestJet = sqrt(2*(muon_0_p4->Dot(*ljet_1_p4)));
+          massElecFurthestJet = sqrt(2*(elec_0_p4->Dot(*ljet_0_p4)));
         }
         else
         {
           massMuonClosestJet = sqrt(2*(muon_0_p4->Dot(*ljet_1_p4)));
           massElecClosestJet = sqrt(2*(elec_0_p4->Dot(*ljet_0_p4)));
+          massMuonFurthestJet = sqrt(2*(muon_0_p4->Dot(*ljet_0_p4)));
+          massElecFurthestJet = sqrt(2*(elec_0_p4->Dot(*ljet_1_p4)));
         }
         
         // FILLING CUTS HISTOGRAMS
@@ -331,6 +338,7 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
         omegaContainer.Fill(omega,weight,cutsVector);
         muon_ptContainer.Fill(muon_0_p4->Pt(),weight,cutsVector);
         reco_massContainer.Fill(reco_mass,weight,cutsVector);
+        recoVisibleMassRatioContainer.Fill(reco_mass/massMuonElec,weight,cutsVector);
         if (inside) {
             reco_mass_iContainer.Fill(reco_mass,weight,cutsVector);
             nuElecPtContainer.Fill(pt_elec_nu,weight,notFullCutsVector);
@@ -338,12 +346,12 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
             nuPtAssummetryContainer.Fill((pt_elec_nu+pt_muon_nu)/(elec_0_p4->Pt()+muon_0_p4->Pt()),weight,notFullCutsVector);
         }
         if (outside_elec) {
-            reco_mass_oContainer.Fill(reco_mass_outside,weight,cutsVector);
+            reco_mass_oContainer.Fill(reco_mass,weight,cutsVector);
             nuElecPtContainer.Fill(pt_elec_nu,weight,notFullCutsVector);
             nuPtAssummetryContainer.Fill((neutrino_pt)/(elec_0_p4->Pt()+muon_0_p4->Pt()),weight,notFullCutsVector);
         }
         if (outside_muon) {
-            reco_mass_oContainer.Fill(reco_mass_outside,weight,cutsVector);
+            reco_mass_oContainer.Fill(reco_mass,weight,cutsVector);
             nuMuonPtContainer.Fill(pt_muon_nu,weight,notFullCutsVector);
             nuPtAssummetryContainer.Fill((neutrino_pt)/(elec_0_p4->Pt()+muon_0_p4->Pt()),weight,notFullCutsVector);
         }
@@ -395,6 +403,8 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
         delta_phijjContainer.Fill(anglejj,weight,notFullCutsVector);
         massMuonClosestJetContainer.Fill(massMuonClosestJet,weight,notFullCutsVector);
         massElecClosestJetContainer.Fill(massElecClosestJet,weight,notFullCutsVector);
+        massMuonFurthestJetContainer.Fill(massMuonFurthestJet,weight,notFullCutsVector);
+        massElecFurthestJetContainer.Fill(massElecFurthestJet,weight,notFullCutsVector);
         flavourJet1Container.Fill(ljet_0_matched_pdgId,weight,notFullCutsVector);
         flavourJet2Container.Fill(ljet_1_matched_pdgId,weight,notFullCutsVector);
       }
@@ -456,8 +466,11 @@ void CLoop::Style(double lumFactor) {
   nuPtAssummetryContainer.Write();
   massMuonClosestJetContainer.Write();
   massElecClosestJetContainer.Write();
+  massMuonFurthestJetContainer.Write();
+  massElecFurthestJetContainer.Write();
   flavourJet1Container.Write();
   flavourJet2Container.Write();
+  recoVisibleMassRatioContainer.Write();
 
   if (lumFactor!=1){
     Z_pt_truth_iNotFullContainer.Write();

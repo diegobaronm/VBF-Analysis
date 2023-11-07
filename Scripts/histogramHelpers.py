@@ -1047,6 +1047,10 @@ HistogramInfo('nuMuonPt_basic_all', [50, 150], [10, 20, 50], 10, 'pT(#nu_{#mu})'
 HistogramInfo('nuPtAssummetry_basic_all', [1.0], [0.1, 0.1], 0.1, 'pT(#nu_{e}+#nu_{#mu})/(e+#mu)',0,0,''),
 HistogramInfo('massMuonClosestJet_basic_all', [100,400,650, 500], [100,50,250, 350, 1000], 50, 'm_{#mu,j_{closest}}',0,0,'GeV'),
 HistogramInfo('massElecClosestJet_basic_all', [100,400,650, 500], [100,50,250, 350, 1000], 50, 'm_{e,j_{closest}}',0,0,'GeV'),
+HistogramInfo('massMuonFurthestJet_basic_all', [100,400,650, 500], [100,50,250, 350, 1000], 50, 'm_{#mu,j_{furthest}}',0,0,'GeV'),
+HistogramInfo('massElecFurthestJet_basic_all', [100,400,650, 500], [100,50,250, 350, 1000], 50, 'm_{e,j_{furthest}}',0,0,'GeV'),
+HistogramInfo('recoVisibleMassRatio_basic_all', [1.0, 2.0,4.0], [0.2, 0.5, 1.0,2.0], 0.2, 'm(reco)_{e,#mu}/m(vis)_{e,#mu}',0,4.0,''),
+HistogramInfo('nLightJets_basic_all', [], [], 1.0, 'nLightJets_basic_all',0,0,''),
 ]
 
 # Dictionaries for Z->ll

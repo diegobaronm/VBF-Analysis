@@ -27,6 +27,8 @@ histogramContainer nuMuonPtContainer{"nuMuonPt","Neutrino muon side pT",200,0,20
 histogramContainer nuPtAssummetryContainer{"nuPtAssummetry","Neutrinos pT difference over sum",40,-1,1,notFull};
 histogramContainer massElecClosestJetContainer{"massElecClosestJet","Mass of electron and closest jet",2000,0,2000,notFull};
 histogramContainer massMuonClosestJetContainer{"massMuonClosestJet","Mass of muon and closest jet",2000,0,2000,notFull};
+histogramContainer massElecFurthestJetContainer{"massElecFurthestJet","Mass of electron and furthest jet",2000,0,2000,notFull};
+histogramContainer massMuonFurthestJetContainer{"massMuonFurthestJet","Mass of muon and furthest jet",2000,0,2000,notFull};
 histogramContainer flavourJet1Container{"flavourJet1","Jet1 truth flavour",50,-25,25,notFull};
 histogramContainer flavourJet2Container{"flavourJet2","Jet2 truth flavour",50,-25,25,notFull};
 histogramContainer nLightJetsContainer{"nLightJets","Number of light jets",4,0,4,notFull};
@@ -66,6 +68,8 @@ histogramContainer omegaContainer{"omega","Omega variable",60,-3.0,3.0,cutNames,
 histogramContainer reco_mass_iContainer{"reco_mass_i","Reconstructed mass in between events",1000,0,1000,cutNames,"mreco"};
 histogramContainer reco_mass_oContainer{"reco_mass_o","Reconstructed mass outside events",1000,0,1000,cutNames,"mreco"};
 histogramContainer reco_massContainer{"reco_mass_","Reconstructed mass all events",1000,0,1000,cutNames,"mreco"};
+histogramContainer recoVisibleMassRatioContainer{"recoVisibleMassRatio","reco-visible mass ratio",100,0,10,notFull};
+
 
 #endif
 
