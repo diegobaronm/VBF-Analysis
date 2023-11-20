@@ -2,6 +2,44 @@
 #define rewightingTools_h
 #include <map>
 
+double zpT_rw_popy(double zpt){
+    double z_w = 1.0;
+    if(zpt>=40 & zpt<46){
+        z_w=0.995;
+    }else if(zpt>=46 & zpt<48){
+        z_w=0.99;
+    }else if(zpt>=48 & zpt<51){
+        z_w=0.983;
+    }else if(zpt>=51 & zpt<54){
+        z_w=0.974;
+    }else if(zpt>=54 & zpt<58){
+        z_w=0.978;
+    }else if(zpt>=58 & zpt<60){
+        z_w=0.969;
+    }else if(zpt>=60 & zpt<65){
+        z_w=0.95;
+    }else if(zpt>=65 & zpt<70){
+        z_w=0.949;
+    }else if(zpt>=70 & zpt<75){
+        z_w=0.942;
+    }else if(zpt>=75 & zpt<80){
+        z_w=0.937;
+    }else if(zpt>=80 & zpt<85){
+        z_w=0.92;
+    }else if(zpt>=85 & zpt<95){
+        z_w=0.9;
+    }else if(zpt>=95 & zpt<108){
+        z_w=0.891;
+    }else if(zpt>=108 & zpt<130){
+        z_w=0.863;
+    }else if(zpt>=130 & zpt<151){
+        z_w=0.84;
+    }else if(zpt>=151){
+        z_w=0.8;
+    }
+    return z_w;
+}
+
 double mjj_rw_quadratic(double mjj, double a, double b, double c){
     double rw = a*mjj*mjj+b*mjj+c;
     if (rw<0){
@@ -92,6 +130,14 @@ std::map<Region,std::vector<double>> parametersMadGraphNLO = {
     {Region::CRa,{1.69E-07,-2.58E-04,9.68E-01}},
     {Region::CRb,{-3.62E-08,1.19E-04,7.73E-01}},
     {Region::CRc,{-8.28E-08,1.61E-04,9.65E-01,2250.0,0.947}}
+};
+
+std::map<Region,std::vector<double>> parametersPowHegPythia = {
+    {Region::DefaultNoRW,{0.0,0.0,1.0}},
+    {Region::SR,{1.18E-08,-1.19E-04,1.21E+00,2750.0,0.970}},
+    {Region::CRa,{-8.97E-08,2.26E-04,2.19E+00,2750.0,2.200}},
+    {Region::CRb,{-2.06E-07,5.32E-04,2.41E+00,2750.0,2.400}},
+    {Region::CRc,{-3.79E-08,-2.00E-06,1.35E+00,2250.0,1.000}}
 };
 
 #endif
