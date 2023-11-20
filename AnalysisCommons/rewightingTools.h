@@ -126,9 +126,9 @@ std::map<Region,std::vector<double>> parametersSHERPANLO = {
 
 std::map<Region,std::vector<double>> parametersMadGraphNLO = {
     {Region::DefaultNoRW,{0.0,0.0,1.0}},
-    {Region::SR,{1.26E-07,-2.35E-04,1.19E+00,2750.0,1.453}},
-    {Region::CRa,{1.69E-07,-2.58E-04,9.68E-01}},
-    {Region::CRb,{-3.62E-08,1.19E-04,7.73E-01}},
+    {Region::SR,{1.31E-07,-2.44E-04,1.19E+00,2250.0,1.317}},
+    {Region::CRa,{1.69E-07,-2.58E-04,9.68E-01,2750.0,1.34}},
+    {Region::CRb,{-3.62E-08,1.19E-04,7.73E-01,2250.0,0.882}},
     {Region::CRc,{-8.28E-08,1.61E-04,9.65E-01,2250.0,0.947}}
 };
 
