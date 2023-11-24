@@ -19,6 +19,7 @@ def menu(question,options):
 def tag_checker(dir,request,avoid,branches,remote):
     os.chdir(dir)
     sys.path.append('backend')
+    sys.path.append('../../AnalysisCommons/')
     print(os.getcwd())
     from dataSets import dataCombos
     samples=[]
@@ -80,9 +81,7 @@ def sample_file_generator(type_of_ntuples,rem):
 if __name__ == "__main__":
 
     ntuples_type=menu("Nominal or systematics?",["Nominal","Systematics"])
-    remote=sys.argv[1]=="yes"
-    if remote:
-        sys.argv.append("yes")
+    remote = os.environ['USER']=="dbaronmo"
     sample_file_generator(ntuples_type,remote)
 
 

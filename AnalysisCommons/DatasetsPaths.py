@@ -9,12 +9,12 @@ v26Paths = {
 
 # Z->mumu
 v26_mm_Paths = {
-"dbaronmo": ['/eos/user/t/twyatt/data/diego/v26-mm/','/eos/user/d/dbaronmo/v26-mm/'], # Remote
+"dbaronmo": ['/eos/user/d/dbaronmo/v26-mm/','/eos/user/t/twyatt/data/diego/v26-mm/'], # Remote
 }
 
 # Z->ee
 v26_ee_Paths = {
-"dbaronmo": ['/eos/user/t/twyatt/data/diego/v26-ee/','/eos/user/d/dbaronmo/v26-ee/'], # Remote
+"dbaronmo": ['/eos/user/d/dbaronmo/v26-ee/','/eos/user/t/twyatt/data/diego/v26-ee/'], # Remote
 }
 
 if __name__ == "__main__":

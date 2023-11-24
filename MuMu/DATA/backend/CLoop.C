@@ -163,10 +163,10 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
 
         // mjj reweighting
         bool reweight_mjj = true;
+        MC mcSample = static_cast<MC>(z_sample);
         if (reweight_mjj){
-            MC mcSample = static_cast<MC>(z_sample);
             if(mcSample == MC::PowHegPythia){
-                mjj_w = 1.0;
+                mjj_w = mjj_rw(mjj,parametersPowHegPythia[region]);
             } else if (mcSample == MC::SHERPA){
                 mjj_w = mjj_rw(mjj,parametersSHERPA[region]); 
             } else if (mcSample == MC::MadGraph){ 
@@ -180,6 +180,10 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
 
         // ZpT reweighting		
         double z_w=1;
+        if(mcSample == MC::PowHegPythia){
+            double zpt=truth_Z_p4->Pt()/1000;
+            z_w = zpT_rw_popy(zpt);
+        }
         double zpt_weight=1/z_w;
 
         // calculate event weight
