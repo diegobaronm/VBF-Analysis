@@ -1,13 +1,14 @@
 import ROOT as r
 import os
 import numpy as np
+import math
 
 r.TH1.AddDirectory(False)
 
 ############################################################################################################
 # Storage class for histogram information
 class HistogramInfo:
-    def __init__(self, name, binEdges=[], binSteps=[], binNorm=1.0, xTitle="", leftCut=0, rightCut=0, units="",logScale=False):
+    def __init__(self, name, binEdges=[], binSteps=[], binNorm=1.0, xTitle="", leftCut=0, rightCut=0, units="",logScale=False,xRange=[0.0,0.0],isIntegerPlot=False):
         self.m_name = name
         self.m_binEdges = binEdges
         self.m_binSteps = binSteps
@@ -17,12 +18,19 @@ class HistogramInfo:
         self.m_rightCut = rightCut
         self.m_units = units
         self.m_logScale = logScale
+        self.m_xRange = xRange
+        self.m_isIntegerPlot = isIntegerPlot
 
     def __str__(self):
         return f"Name: {self.m_name}, Bin Edges: {self.m_binEdges}, Bin Steps: {self.m_binSteps}, Bin Norm: {self.m_binNorm}, xTitle: {self.m_xTitle}, Left Cut: {self.m_leftCut}, Right Cut: {self.m_rightCut}, Units: {self.m_units}"
     
     def needsRebin(self):
         return len(self.m_binEdges)!=0
+    
+    def xRangeIsCustom(self):
+        if self.m_xRange[0] > self.m_xRange[1]:
+            print('WARNING: X range is inverted!\n')
+        return self.m_xRange[0] != self.m_xRange[1]
 
 ############################################################################################################
 # Function that returns the list of bin edges used by ROOT to rebin a histogram
@@ -290,7 +298,7 @@ def blindHistogram(dataHistogram,purityHistogram,unblindPurityLimit):
 ############################################################################################################
 
 # Function to plot a histogram stack of MC with data
-def stackPlot(data,signal,background,histograms,watermark,function,additionalSignal=[],signalMu = 1.0, backgroundMu = 1.0,average=False,after_fit=False,final_state="Z#rightarrow #mu#mu",blindPlot=True,unblindPurityLimit=0.0,printVersion=False,printOverflows=False):
+def stackPlot(data,signal,background,histograms,watermark,function,additionalSignal=[],signalMu = 1.0, backgroundMu = 1.0,average=False,after_fit=False,final_state="Z#rightarrow #mu#mu",blindPlot=True,unblindPurityLimit=0.0,printVersion=False,printOverflows=False, purityMultiplier=1.0):
     samples = data.copy()
     samples.update(background)
     samples.update(signal)
@@ -370,6 +378,10 @@ def stackPlot(data,signal,background,histograms,watermark,function,additionalSig
         ratio_sg_mc.Divide(mc)
         ratio_sg_mc.SetLineColor(r.kBlack)
 
+        ###### SCALING PURITY IF NEEDED ######
+        if purityMultiplier!=1.0:
+            ratio_sg_mc.Scale(purityMultiplier)
+
         ############## UNBLINDING BINS WITH BELOW PURITY LIMIT AND DEFINING Data/MC RATIO ################
 
         blindHistogram(samples["Data"][2],ratio_sg_mc,unblindPurityLimit)
@@ -380,7 +392,7 @@ def stackPlot(data,signal,background,histograms,watermark,function,additionalSig
         
         r.gStyle.SetOptStat(1111111)
 
-        if "reco_masth" in i.m_name and blindPlot: # Blind the data
+        if "reco_mass" in i.m_name and blindPlot: # Blind the data
             r.gStyle.SetOptStat(0)
         r.gStyle.SetStatY(0.97);                
         r.gStyle.SetStatX(1.0);
@@ -390,9 +402,9 @@ def stackPlot(data,signal,background,histograms,watermark,function,additionalSig
         canvas = r.TCanvas("canvas2")
         canvas.cd()
 
-        pad1 = r . TPad (" pad1 "," pad1 " ,0 ,0.38 ,1 ,1)
-        pad1.SetTopMargin(0.03)
-        pad1.SetRightMargin(0.03)
+        pad1 = r . TPad (" pad1 "," pad1 " ,0 ,0.40 ,1 ,1)
+        pad1.SetTopMargin(0.07)
+        pad1.SetRightMargin(0.04)
         pad1.SetLeftMargin(0.08)
         pad1.SetBottomMargin(0.0)
         pad1.Draw ()
@@ -422,7 +434,7 @@ def stackPlot(data,signal,background,histograms,watermark,function,additionalSig
         ###### DRAWING OVERFLOW CONTENTS ######
 
         if printOverflows:
-            textBox = r.TPaveText(.75,.60,.95,.75,"NDC")
+            textBox = r.TPaveText(.75,.55,.95,.70,"NDC")
             tittleStr = textBox.AddText("Overflow contents: ")
             mcStr = textBox.AddText("MC = "+str(round(statUncer.GetBinContent(statUncer.GetNbinsX()+1),2))+"#pm"+str(round(statUncer.GetBinError(statUncer.GetNbinsX()+1),2)))
             dataStr = textBox.AddText("Data = "+str(round(samples["Data"][2].GetBinContent(samples["Data"][2].GetNbinsX()+1),2))+"#pm"+str(round(samples["Data"][2].GetBinError(samples["Data"][2].GetNbinsX()+1),2)))
@@ -436,7 +448,13 @@ def stackPlot(data,signal,background,histograms,watermark,function,additionalSig
         yScale = 1.5
         yLowScale = 0.0
         if i.m_logScale:
-            yLowScale = 0.01
+            maxValueFirstInStack = hs.GetHists().At(0).GetMaximum()
+            it = 0
+            while maxValueFirstInStack == 0: #or maxValueFirstInStack == samples["W+jets"][2].GetMaximum() or maxValueFirstInStack == samples["W+jets EWK"][2].GetMaximum():
+                it = it + 1
+                maxValueFirstInStack = hs.GetHists().At(it).GetMaximum()
+            closestLowerPowerOf10 = 10**math.floor(math.log10(maxValueFirstInStack))
+            yLowScale = 0.1#closestLowerPowerOf10/10.0
             yScale = 15
             pad1.SetLogy()
         
@@ -448,10 +466,13 @@ def stackPlot(data,signal,background,histograms,watermark,function,additionalSig
         samples["Data"][2].GetYaxis().SetTitleSize(0.08)
         samples["Data"][2].GetYaxis().SetTitleOffset(0.48)
         samples["Data"][2].GetYaxis().SetTitle("Events/"+str(i.m_binNorm)+" "+i.m_units)
-        
+        samples["Data"][2].GetYaxis().ChangeLabel(1,-1,0.)
+
+        ###### SETTING MAX NUMBER OF DIGITS IN Y/X AXIS ######
+        samples["Data"][2].GetYaxis().SetMaxDigits(3)
 
         
-        if "reco_masasds" in i.m_name and blindPlot:
+        if "reco_mass" in i.m_name and blindPlot:
             s=66
             e=116
         s = round(s,2)
@@ -459,13 +480,18 @@ def stackPlot(data,signal,background,histograms,watermark,function,additionalSig
 
         s = function(s,i.m_name)
 
+        ###### SETTING X AXIS RANGE WHEN GIVEN A CUSTOM RANGE ######
+        if i.xRangeIsCustom():
+            s=i.m_xRange[0]
+            e=i.m_xRange[1]
+
         yRange = yScale*max(hs.GetMaximum(),samples["Data"][2].GetMaximum())
 
         samples["Data"][2].GetYaxis().SetRangeUser(yLowScale, yRange)
         samples["Data"][2].GetXaxis().SetRangeUser(s,e)
         
         ###### DRAWING LEGEND ######
-        legend = r . TLegend (0.45 ,0.80 ,0.85 ,0.95)
+        legend = r . TLegend (0.45 ,0.75 ,0.85 ,0.90)
         for sample in samples:
             legend.AddEntry(samples[sample][2],sample,"f")
         legend.AddEntry(statUncer,"MC Stat. Uncer.")
@@ -481,13 +507,13 @@ def stackPlot(data,signal,background,histograms,watermark,function,additionalSig
         l.SetNDC ()
         if printVersion:
             r.gStyle.SetOptStat(0)
-            l.DrawLatex(0.87,0.90,final_state)
-            vbfNormText = r.TText(.9,.85,"VBF = "+str(round(signalMu,3)))
-            qcdNormText = r.TText(.9,.80,"QCD = "+str(round(backgroundMu,3)))
+            l.DrawLatex(0.87,0.85,final_state)
+            vbfNormText = r.TText(.9,.80,"VBF = "+str(round(signalMu,3)))
+            qcdNormText = r.TText(.9,.75,"QCD = "+str(round(backgroundMu,3)))
         else :
-            l.DrawLatex(0.9,0.7,final_state)
-            vbfNormText = r.TText(.9,.65,"VBF = "+str(round(signalMu,3)))
-            qcdNormText = r.TText(.9,.60,"QCD = "+str(round(backgroundMu,3)))
+            l.DrawLatex(0.9,0.65,final_state)
+            vbfNormText = r.TText(.9,.60,"VBF = "+str(round(signalMu,3)))
+            qcdNormText = r.TText(.9,.55,"QCD = "+str(round(backgroundMu,3)))
 
 
         # Draw normalisation factors used in this plot
@@ -532,8 +558,8 @@ def stackPlot(data,signal,background,histograms,watermark,function,additionalSig
             cut2.Draw("same")
 
         canvas.cd()
-        pad2 = r . TPad (" pad2 "," pad2 " ,0 ,0.22 ,1 ,0.38)
-        pad2.SetRightMargin(0.03)
+        pad2 = r . TPad (" pad2 "," pad2 " ,0 ,0.24 ,1 ,0.40)
+        pad2.SetRightMargin(0.04)
         pad2.SetLeftMargin(0.08)
         pad2.SetTopMargin(0)
         pad2.SetBottomMargin(0.0)
@@ -548,15 +574,14 @@ def stackPlot(data,signal,background,histograms,watermark,function,additionalSig
         mc . GetYaxis (). SetRangeUser (min_ratio ,max_ratio)
         mc . GetXaxis (). SetRangeUser(s,e)
         mc . GetYaxis (). SetTitle ("MC/Data")
-        mc . GetYaxis (). SetTitleSize (0.20)
-        mc . GetYaxis (). SetTitleOffset (0.20)
+        mc . GetYaxis (). SetTitleSize (0.24)
+        mc . GetYaxis (). SetTitleOffset (0.16)
         mc . GetXaxis (). SetTitleSize (0.09)
+        mc.GetYaxis().ChangeLabel(-1,-1,0.)
         mc.GetXaxis().SetLabelSize(0.10)
         mc.GetYaxis().SetLabelSize(0.18)
         ratio.SetMarkerStyle(8)
-        ratio.SetMarkerSize(0.6)
-
-        
+        ratio.SetMarkerSize(0.6)        
 
 
         ###### SETTING ALL THE HORIZONTAL DASHED LINES #######
@@ -587,11 +612,11 @@ def stackPlot(data,signal,background,histograms,watermark,function,additionalSig
             separ.Draw("same")
     
         canvas.cd()
-        pad3 = r . TPad (" pad3","pad3" ,0.0 ,0.0 ,1 ,0.22)
-        pad3.SetRightMargin(0.03)
+        pad3 = r . TPad (" pad3","pad3" ,0.0 ,0.0 ,1 ,0.24)
+        pad3.SetRightMargin(0.04)
         pad3.SetLeftMargin(0.08)
         pad3.SetTopMargin(0)
-        pad3.SetBottomMargin(0.4)
+        pad3.SetBottomMargin(0.5)
         pad3.Draw ()
         pad3.cd ()
         ratio_sg_mc.SetStats(0)
@@ -600,12 +625,33 @@ def stackPlot(data,signal,background,histograms,watermark,function,additionalSig
         ratio_sg_mc . GetYaxis (). SetTitle ("Signal/MC")
         ratio_sg_mc . GetYaxis (). SetTitleSize (0.18)
         ratio_sg_mc . GetYaxis (). SetTitleOffset (0.20)
+        ratio_sg_mc.GetYaxis().ChangeLabel(1,-1,0.)
+        ratio_sg_mc.GetYaxis().ChangeLabel(-1,-1,0.)
         ratio_sg_mc.SetTitle("")
+
+        ###### SCALING PURITY IF NEEDED ######
+        if purityMultiplier!=1.0:
+            ratio_sg_mc . GetYaxis (). SetTitle ("Signal/MC(#times"+str(purityMultiplier)+")")
+            ratio_sg_mc . GetYaxis (). SetRangeUser (0.0 ,1.0)
+            ratio_sg_mc . GetYaxis (). SetTitleSize (0.16)
+            ratio_sg_mc . GetYaxis (). SetTitleOffset (0.22)
+            ratio_sg_mc.GetYaxis().SetNdivisions(405, r.kFALSE);
+
+        if i.m_isIntegerPlot:
+            nDivisions = int(e-s)
+            samples["Data"][2].GetXaxis().SetNdivisions(nDivisions)
+            mc.GetXaxis().SetNdivisions(nDivisions)
+            ratio_sg_mc.GetXaxis().SetNdivisions(nDivisions)
+            ratio_sg_mc.GetXaxis().CenterLabels()
+            
         
         ############ X AXIS TITLE #################
-        ratio_sg_mc.SetXTitle(i.m_xTitle+"  "+str(i.m_units))
+        unitsString = ''
+        if str(i.m_units) != '': # If there are units, put them in brackets.
+            unitsString = '['+str(i.m_units)+']'   
+        ratio_sg_mc.SetXTitle(i.m_xTitle+"  "+unitsString)
         ratio_sg_mc.SetTitleSize(0.22,"X")
-        ratio_sg_mc.SetTitleOffset(0.8,"X")
+        ratio_sg_mc.SetTitleOffset(1.0,"X")
         ratio_sg_mc.GetYaxis().SetLabelSize(0.14)
         ratio_sg_mc.GetXaxis().SetLabelSize(0.24)
         ratio_sg_mc.SetMarkerStyle(8)
@@ -640,7 +686,8 @@ def stackPlot(data,signal,background,histograms,watermark,function,additionalSig
         line14 . Draw (" same ")
         file_name = i.m_name+"_"+watermark+".pdf"
         canvas.Update()
-        canvas.Print(file_name)        
+        canvas.Print(file_name)    
+        canvas.Destructor()    
 
 ############################################################################################################
 
@@ -939,7 +986,7 @@ def stackPlotNoData(signal,background,histograms,watermark,additionalSignal=[],s
 eeZpeakHistograms = [
 HistogramInfo('n_bjets', [], [], 1.0, 'n_bjets',0,1,''),
 HistogramInfo('lepiso', [], [], 1.0, 'lepiso',1,2,''),
-HistogramInfo('n_jets_interval', [], [], 1.0, 'N gap jets',0,1,''),
+HistogramInfo('n_jets_interval', [], [], 1.0, 'N gap jets',0,1,'',xRange=[0,2],isIntegerPlot=True),
 HistogramInfo('delta_R_leplep_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl', [], [], 1.0, 'delta_R_leplep_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl',0,0,''),
 HistogramInfo('delta_R_lep1jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl', [], [], 1.0, 'delta_R_lep1jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl',0,0,''),
 HistogramInfo('delta_R_lep2jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl', [], [], 1.0, 'delta_R_lep2jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl',0,0,''),
@@ -951,7 +998,7 @@ HistogramInfo('lep2_pt', [100, 200, 300], [20, 50, 100, 350], 20, 'pT(#mu_{2})',
 HistogramInfo('ljet0_pt', [75, 215, 365, 500], [15, 35, 50, 135, 500], 15, 'pT(j_{1})',75,1000,'GeV'),
 HistogramInfo('ljet1_pt', [70, 210, 360, 495], [35, 35, 50, 135, 505], 35, 'pT(j_{2})',70,1000,'GeV'),
 HistogramInfo('pt_bal', [0.15, 0.3], [0.03, 0.05, 0.7], 0.15, 'pT balance',0,0.15,''),
-HistogramInfo('Z_centrality', [0.5], [0.1, 0.5], 0.1, '#xi(Z)',0,0.5,''),
+HistogramInfo('Z_centrality', [0.5], [0.1, 0.5], 0.1, '#xi(Z)',0,0.5,'',xRange=[0,2]),
 HistogramInfo('delta_y', [2.0, 6.0], [1.0, 0.5, 1.0], 1.0, '#Deltay_{jj}',2.0,10.0,''),
 HistogramInfo('inv_mass', [70, 110, 140, 300], [70, 5, 10, 80, 700], 5, 'm_{ee}',81,101,'GeV',True),
 HistogramInfo('mass_jj', [1500], [250, 500], 250, 'm_{jj}',1000,5000,'GeV',True),
@@ -961,7 +1008,7 @@ HistogramInfo('met_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen
 llQCDCRHistograms = [ 
 HistogramInfo('n_bjets', [], [], 1.0, 'n_bjets',0,1,''),
 HistogramInfo('lepiso', [], [], 1.0, 'lepiso',1,2,''),
-HistogramInfo('n_jets_interval', [], [], 1.0, 'n_jets_interval',0,1,''),
+HistogramInfo('n_jets_interval', [], [], 1.0, 'N gap jets',0,1,'',xRange=[0,2],isIntegerPlot=True),
 HistogramInfo('lep1_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl', [0.1], [0.2, 0.199], 0.2, '#eta(e_{1})',0,0,''),
 HistogramInfo('lep2_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl', [0.1], [0.2, 0.199], 0.2, '#eta(e_{2})',0,0,''),
 HistogramInfo('delta_R_leplep_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl', [0.2], [0.2, 0.199], 0.2, '#DeltaR(e_{1},e_{2})',0,0,''),
@@ -973,7 +1020,7 @@ HistogramInfo('lep2_pt', [300], [20, 50], 20, 'pT(e_{2})',40,500,''),
 HistogramInfo('ljet0_pt', [75, 460], [15, 35, 54], 15, 'pT(j_{1})',75,1000,''),
 HistogramInfo('ljet1_pt', [70, 440], [10, 37, 56], 10, 'pT(j_{2})',70,1000,''),
 HistogramInfo('pt_bal', [0.15, 0.3], [0.0499, 0.15, 0.7], 0.15, 'pT balance',0,0.15,''),
-HistogramInfo('Z_centrality', [0.5], [0.1, 0.5], 0.1, '#xi(Z)',0,0.5,''),
+HistogramInfo('Z_centrality', [0.5], [0.1, 0.5], 0.1, '#xi(Z)',0,0.5,'',xRange=[0,2]),
 HistogramInfo('delta_y', [2.0, 6.0], [1.0, 0.5, 1.0], 1.0, '#Deltay_{jj}',2.0,10.0,''),
 HistogramInfo('inv_mass', [70, 100, 150, 250], [70, 10, 25, 50, 250], 10, 'm_{ee}',81,101,''),
 HistogramInfo('mass_jj', [1500, 3000], [250, 500, 1000], 250, 'm_{jj}',750,5000,''),
@@ -988,7 +1035,7 @@ HistogramInfo('met_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen
 mumuZpeakHistograms = [
 HistogramInfo('n_bjets', [], [], 1.0, 'n_bjets',0,1,''),
 HistogramInfo('lepiso', [], [], 1.0, 'lepiso',1,2,''),
-HistogramInfo('n_jets_interval', [], [], 1.0, 'N gap jets',0,1,''),
+HistogramInfo('n_jets_interval', [], [], 1.0, 'N gap jets',0,1,'',xRange=[0,2],isIntegerPlot=True),
 HistogramInfo('delta_R_leplep_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl', [], [], 1.0, 'delta_R_leplep_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl',0,0,''),
 HistogramInfo('delta_R_lep1jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl', [], [], 1.0, 'delta_R_lep1jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl',0,0,''),
 HistogramInfo('delta_R_lep2jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl', [], [], 1.0, 'delta_R_lep2jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl',0,0,''),
@@ -1000,7 +1047,7 @@ HistogramInfo('lep2_pt', [100, 200, 300], [20, 50, 100, 350], 20, 'pT(#mu_{2})',
 HistogramInfo('ljet0_pt', [75, 215, 365, 500], [15, 35, 50, 135, 500], 15, 'pT(j_{1})',75,1000,'GeV'),
 HistogramInfo('ljet1_pt', [70, 210, 360, 495], [35, 35, 50, 135, 505], 35, 'pT(j_{2})',70,1000,'GeV'),
 HistogramInfo('pt_bal', [0.15, 0.3], [0.03, 0.05, 0.7], 0.15, 'pT balance',0,0.15,''),
-HistogramInfo('Z_centrality', [0.5], [0.1, 0.5], 0.1, '#xi(Z)',0,0.5,''),
+HistogramInfo('Z_centrality', [0.5], [0.1, 0.5], 0.1, '#xi(Z)',0,0.5,'',xRange=[0,2]),
 HistogramInfo('delta_y', [2.0, 6.0], [1.0, 0.5, 1.0], 1.0, '#Deltay_{jj}',2.0,10.0,''),
 HistogramInfo('inv_mass', [70, 110, 140, 300], [70, 5, 10, 80, 700], 5, 'm_{#mu#mu}',81,101,'GeV',True),
 HistogramInfo('mass_jj', [1500], [250, 500], 250, 'm_{jj}',1000,5000,'GeV',True),
@@ -1012,7 +1059,7 @@ HistogramInfo('met_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen
 emuHighMassHistograms = [
 HistogramInfo('n_bjets', [], [], 1.0, 'n_bjets',0,1,''),
 HistogramInfo('iso', [], [], 1.0, 'iso',1,2,''),
-HistogramInfo('n_jets_interval', [], [], 1.0, 'N gap jets',0,1,''),
+HistogramInfo('n_jets_interval', [], [], 1.0, 'N gap jets',0,1,'',xRange=[0,2],isIntegerPlot=True),
 HistogramInfo('flavourJet1_basic_all', [], [], 1.0, 'flavourJet1_basic_all',0,0,''),
 HistogramInfo('flavourJet2_basic_all', [], [], 1.0, 'flavourJet2_basic_all',0,0,''),
 HistogramInfo('elec_pt', [27, 102, 150], [27, 25, 48, 350], 20, 'pT(e)',27,1000,'GeV'),
@@ -1027,7 +1074,7 @@ HistogramInfo('omega', [-0.2, 0.0, 0.6, 1.4], [1.4, 0.2, 0.3, 0.39999, 1.6], 0.2
 HistogramInfo('ljet0_pt', [75, 375, 625], [75, 100, 225, 375], 75, 'pT(j_{1})',75,1000,'GeV'),
 HistogramInfo('ljet1_pt', [70, 370, 630], [70, 100, 230, 370], 70, 'pT(j_{2})',70,1000,'GeV'),
 HistogramInfo('pt_bal', [0.15], [0.03, 0.75], 0.03, 'pT balance',0,0.15,''),
-HistogramInfo('Z_centrality', [0.5], [0.1, 0.5], 0.1, '#xi(Z)',0,0.5,''),
+HistogramInfo('Z_centrality', [0.5], [0.1, 0.5], 0.1, '#xi(Z)',0,0.5,'',xRange=[0,2]),
 HistogramInfo('mass_jj', [1500, 3000], [250, 500, 1000], 250, 'm_{jj}',1000,5000,'GeV',True),
 HistogramInfo('reco_mass_i', [66, 81, 101, 116, 160, 250, 500], [66, 15, 10, 15, 11, 30, 125, 250], 10, 'm_{e,#mu}(i)',160,1000,'GeV'),
 HistogramInfo('reco_mass_o', [66, 81, 101, 116, 160, 250, 500], [66, 15, 10, 15, 11, 30, 125, 250], 10, 'm_{e,#mu}(o)',160,1000,'GeV'),
@@ -1058,7 +1105,7 @@ HistogramInfo('nLightJets_basic_all', [], [], 1.0, 'nLightJets_basic_all',0,0,''
 llZpeakHistograms = [
 HistogramInfo('n_bjets', [], [], 1.0, 'n_bjets',0,1,''),
 HistogramInfo('lepiso', [], [], 1.0, 'lepiso',1,2,''),
-HistogramInfo('n_jets_interval', [], [], 1.0, 'N gap jets',0,1,''),
+HistogramInfo('n_jets_interval', [], [], 1.0, 'N gap jets',0,1,'',xRange=[0,2],isIntegerPlot=True),
 HistogramInfo('delta_R_leplep_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl', [], [], 1.0, 'delta_R_leplep_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl',0,0,''),
 HistogramInfo('delta_R_lep1jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl', [], [], 1.0, 'delta_R_lep1jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl',0,0,''),
 HistogramInfo('delta_R_lep2jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl', [], [], 1.0, 'delta_R_lep2jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl',0,0,''),
@@ -1070,7 +1117,7 @@ HistogramInfo('lep2_pt', [100, 200, 300], [20, 50, 100, 350], 20, 'pT(#mu_{2})',
 HistogramInfo('ljet0_pt', [75, 215, 365, 500], [15, 35, 50, 135, 500], 15, 'pT(j_{1})',75,1000,'GeV'),
 HistogramInfo('ljet1_pt', [70, 210, 360, 495], [35, 35, 50, 135, 505], 35, 'pT(j_{2})',70,1000,'GeV'),
 HistogramInfo('pt_bal', [0.15, 0.3], [0.03, 0.05, 0.7], 0.15, 'pT balance',0,0.15,''),
-HistogramInfo('Z_centrality', [0.5], [0.1, 0.5], 0.1, '#xi(Z)',0,0.5,''),
+HistogramInfo('Z_centrality', [0.5], [0.1, 0.5], 0.1, '#xi(Z)',0,0.5,'',xRange=[0,2]),
 HistogramInfo('delta_y', [2.0, 6.0], [1.0, 0.5, 1.0], 1.0, '#Deltay_{jj}',2.0,10.0,''),
 HistogramInfo('inv_mass', [70, 110, 140, 300], [70, 5, 10, 80, 700], 5, 'm_{#mu#mu}',81,101,'GeV',True),
 HistogramInfo('mass_jj', [1500], [250, 500], 250, 'm_{jj}',1000,5000,'GeV',True),
@@ -1082,7 +1129,7 @@ HistogramInfo('met_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen
 tautauZpeakHistograms = [
 HistogramInfo('n_bjets', [], [], 1.0, 'n_bjets',0,1,''),
 HistogramInfo('lepiso', [], [], 1.0, 'lepiso',1,2,''),
-HistogramInfo('n_jets_interval', [], [], 1.0, 'N gap jets',0,1,''),
+HistogramInfo('n_jets_interval', [], [], 1.0, 'N gap jets',0,1,'',xRange=[0,2],isIntegerPlot=True),
 HistogramInfo('flavourJet1_basic_all', [], [], 1.0, 'flavourJet1_basic_all',0,0,''),
 HistogramInfo('flavourJet2_basic_all', [], [], 1.0, 'flavourJet2_basic_all',0,0,''),
 HistogramInfo('elecPdgID_basic_all', [], [], 1.0, 'elecPdgID_basic_all',0,0,''),
@@ -1099,7 +1146,7 @@ HistogramInfo('rnn_score_3p', [0.25, 0.55, 0.8], [0.25, 0.15, 0.25, 0.2], 0.15, 
 HistogramInfo('ljet0_pt', [75, 375, 625], [75, 100, 225, 375], 75, 'pT(j_{1})',75,1000,'GeV'),
 HistogramInfo('ljet1_pt', [70, 370, 630], [70, 100, 230, 370], 70, 'pT(j_{2})',70,1000,'GeV'),
 HistogramInfo('pt_bal', [0.15], [0.03, 0.75], 0.03, 'pT balance',0,0.15,''),
-HistogramInfo('Z_centrality', [0.5,0.7,1.0, 2.0], [0.1, 0.19999, 0.3, 1.0, 3.0], 0.1, '#xi(Z)',0,0.5,''),
+HistogramInfo('Z_centrality', [0.5,0.7,1.0, 2.0], [0.1, 0.19999, 0.3, 1.0, 3.0], 0.1, '#xi(Z)',0,0.5,'',xRange=[0,2]),
 HistogramInfo('mass_jj', [1000, 2500], [250, 750, 1250], 250, 'm_{jj}',1000,5000,'GeV',True),
 HistogramInfo('reco_mass_i', [66, 81, 101, 116, 160, 250, 500], [66, 15, 10, 15, 11, 30, 125, 250], 10, 'm_{#tau,l}(i)',66,116,'GeV',True),
 HistogramInfo('reco_mass_o', [66, 81, 101, 116, 160, 250, 500], [66, 15, 10, 15, 11, 30, 125, 250], 10, 'm_{#tau,l}(o)',66,116,'GeV',True),
@@ -1116,7 +1163,7 @@ HistogramInfo('massLepClosestJet_basic_all', [200, 500], [100, 100, 500], 100, '
 HistogramInfo('massTauFurthestJet_basic_all', [200, 500], [100, 100, 500], 100, 'm_{#tau,j_{furthest}}',0,0,'GeV'),
 HistogramInfo('nuTauPt', [30, 100], [15, 35, 100], 15, 'pT(#nu_{#tau})',0,0,'GeV'),
 HistogramInfo('nuPtAssummetry_basic_all', [0.0], [0.1, 0.1], 0.1, 'pT(#nu_{l}-#nu_{#tau})/(#nu_{l}+#nu_{#tau})',0,0,''),
-HistogramInfo('bdtScore', [-0.4, 0.1, 0.5], [0.1999, 0.25, 0.2, 0.25], 0.2, 'VBF-BDT score',0,0,''),
+HistogramInfo('bdtScore', [-0.4, 0.1, 0.5], [0.1999, 0.25, 0.2, 0.25], 0.2, 'VBF-BDT score',0,0,'',xRange=[-1,1]),
 HistogramInfo('lepNuPt', [30, 100], [15, 35, 100], 15, 'pT(#nu_{l})',0,0,'GeV'),
 HistogramInfo('pTsymmetry', [0.4], [0.2, 0.2], 0.2, 'pT(#tau - l)/(#tau + l)',0,0,''),
 #HistogramInfo('lepTransMass_basic_all', [100, 200], [20, 50, 50], 20, 'm_{T}(l)',0,0,'GeV'),
@@ -1130,14 +1177,14 @@ HistogramInfo('recoVisibleMassRatio', [1.0, 2.0], [0.2, 0.5, 1.0], 0.2, 'm(reco)
 llMidRangeHistograms = [
 HistogramInfo('n_bjets', [], [], 1.0, 'n_bjets',0,1,''),
 HistogramInfo('lepiso', [], [], 1.0, 'lepiso',1,2,''),
-HistogramInfo('n_jets_interval', [], [], 1.0, 'N gap jets',0,1,''),
+HistogramInfo('n_jets_interval', [], [], 1.0, 'N gap jets',0,1,'',xRange=[0,2],isIntegerPlot=True),
 HistogramInfo('delta_phi', [2.0], [0.2, 0.8], 0.2, '#Delta#phi(l_{1},l_{2})',0,0,''),
 HistogramInfo('lep1_pt', [100, 220, 300], [20, 40, 80, 200], 20, 'pT(l_{1})',50,500,'GeV'),
 HistogramInfo('lep2_pt', [100, 220, 300], [20, 40, 80, 200], 20, 'pT(l_{2})',40,500,'GeV'),
 HistogramInfo('ljet0_pt', [75, 200, 300, 500], [75, 25, 50, 100, 500], 25, 'pT(j_{1})',75,1000,'GeV'),
 HistogramInfo('ljet1_pt', [70, 195, 295, 495], [70, 25, 50, 100, 505], 25, 'pT(j_{2})',70,1000,'GeV'),
 HistogramInfo('pt_bal', [0.15, 0.3], [0.0499, 0.15, 0.7], 0.15, 'pT balance',0,0.15,''),
-HistogramInfo('Z_centrality', [0.5], [0.1, 0.5], 0.1, '#xi(Z)',0,0.5,''),
+HistogramInfo('Z_centrality', [0.5], [0.1, 0.5], 0.1, '#xi(Z)',0,0.5,'',xRange=[0,2]),
 HistogramInfo('delta_y', [2.0, 6.0], [2.0, 0.5, 4.0], 1.0, '#Deltay_{jj}',2.0,10.0,''),
 HistogramInfo('inv_mass', [70, 100, 160, 250, 500], [70, 6, 15, 30, 50, 250], 6, 'm_{ll}',101,160,'GeV',True),
 HistogramInfo('mass_jj', [1500, 3000], [250, 500, 1000], 250, 'm_{jj}',1000,5000,'GeV',True),
@@ -1147,14 +1194,14 @@ HistogramInfo('met_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen
 llHighRangeHistograms = [
 HistogramInfo('n_bjets', [], [], 1.0, 'n_bjets',0,1,''),
 HistogramInfo('lepiso', [], [], 1.0, 'lepiso',1,2,''),
-HistogramInfo('n_jets_interval', [], [], 1.0, 'N gap jets',0,1,''),
+HistogramInfo('n_jets_interval', [], [], 1.0, 'N gap jets',0,1,'',xRange=[0,2],isIntegerPlot=True),
 HistogramInfo('delta_phi', [2.0], [0.2, 0.8], 0.2, '#Delta#phi(l_{1},l_{2})',0,0,''),
 HistogramInfo('lep1_pt', [100, 220, 300], [20, 40, 80, 200], 20, 'pT(l_{1})',50,500,'GeV'),
 HistogramInfo('lep2_pt', [100, 220, 300], [20, 40, 80, 200], 20, 'pT(l_{2})',40,500,'GeV'),
 HistogramInfo('ljet0_pt', [75, 200, 300, 500], [75, 25, 50, 100, 500], 25, 'pT(j_{1})',75,1000,'GeV'),
 HistogramInfo('ljet1_pt', [70, 195, 295, 495], [70, 25, 50, 100, 505], 25, 'pT(j_{2})',70,1000,'GeV'),
 HistogramInfo('pt_bal', [0.15, 0.3], [0.0499, 0.15, 0.7], 0.15, 'pT balance',0,0.15,''),
-HistogramInfo('Z_centrality', [0.5], [0.1, 0.5], 0.1, '#xi(Z)',0,0.5,''),
+HistogramInfo('Z_centrality', [0.5], [0.1, 0.5], 0.1, '#xi(Z)',0,0.5,'',xRange=[0,2]),
 HistogramInfo('delta_y', [2.0, 6.0], [2.0, 0.5, 4.0], 1.0, '#Deltay_{jj}',2.0,10.0,''),
 HistogramInfo('inv_mass', [70, 100, 160, 250, 500], [70, 6, 15, 30, 50, 250], 6, 'm_{ll}',160,1000,'GeV',True),
 HistogramInfo('mass_jj', [1500, 3000], [250, 500, 1000], 250, 'm_{jj}',1000,5000,'GeV',True),
@@ -1164,14 +1211,14 @@ HistogramInfo('met_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen
 llQCDCRHistograms = [
 HistogramInfo('n_bjets', [], [], 1.0, 'n_bjets',0,1,''),
 HistogramInfo('lepiso', [], [], 1.0, 'lepiso',1,2,''),
-HistogramInfo('n_jets_interval', [], [], 1.0, 'n_jets_interval',0,2,''),
+HistogramInfo('n_jets_interval', [], [], 1.0, 'N gap jets',0,2,'',xRange=[0,2],isIntegerPlot=True),
 HistogramInfo('delta_phi', [2.0], [0.2, 0.8], 0.2, '#Delta#phi(l_{1},l_{2})',0,0,''),
 HistogramInfo('lep1_pt', [100, 220, 300], [20, 40, 80, 200], 20, 'pT(l_{1})',50,500,'GeV'),
 HistogramInfo('lep2_pt', [100, 220, 300], [20, 40, 80, 200], 20, 'pT(l_{2})',40,500,'GeV'),
 HistogramInfo('ljet0_pt', [75, 200, 300, 500], [75, 25, 50, 100, 500], 25, 'pT(j_{1})',75,1000,'GeV'),
 HistogramInfo('ljet1_pt', [70, 195, 295, 495], [70, 25, 50, 100, 505], 25, 'pT(j_{2})',70,1000,'GeV'),
 HistogramInfo('pt_bal', [0.15, 0.3], [0.0499, 0.15, 0.7], 0.15, 'pT balance',0,0.15,''),
-HistogramInfo('Z_centrality', [0.5], [0.1, 0.5], 0.1, '#xi(Z)',0,0,''),
+HistogramInfo('Z_centrality', [0.5], [0.1, 0.5], 0.1, '#xi(Z)',0,0,'',xRange=[0,2]),
 HistogramInfo('delta_y', [2.0, 6.0], [2.0, 0.5, 4.0], 1.0, '#Deltay_{jj}',2.0,10.0,''),
 HistogramInfo('inv_mass', [70, 100, 160, 250, 500], [70, 6, 15, 30, 50, 250], 6, 'm_{ll}',101,1000,'GeV',True),
 HistogramInfo('mass_jj', [1500, 3000], [250, 500, 1000], 250, 'm_{jj}',1000,5000,'GeV',True),
@@ -1182,7 +1229,7 @@ HistogramInfo('met_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen
 tautauInclusiveHistograms = [
 HistogramInfo('n_bjets', [], [], 1.0, 'n_bjets',0,1,''),
 HistogramInfo('lepiso', [], [], 1.0, 'lepiso',1,2,''),
-HistogramInfo('n_jets_interval', [], [], 1.0, 'N gap jets',0,0,''),
+HistogramInfo('n_jets_interval', [], [], 1.0, 'N gap jets',0,0,'',xRange=[0,2],isIntegerPlot=True),
 HistogramInfo('flavourJet1_basic_all', [], [], 1.0, 'flavourJet1_basic_all',0,0,''),
 HistogramInfo('flavourJet2_basic_all', [], [], 1.0, 'flavourJet2_basic_all',0,0,''),
 HistogramInfo('nLightJets_basic_all', [], [], 1.0, 'nLightJets_basic_all',0,0,''),
@@ -1197,7 +1244,7 @@ HistogramInfo('rnn_score_3p', [0.4], [0.2, 0.1999], 0.2, 'jetRNN Score 3p',0.4,1
 HistogramInfo('ljet0_pt', [75, 400, 600], [75, 65, 100, 400], 50, 'pT(j_{1})',75,1000,'GeV'),
 HistogramInfo('ljet1_pt', [70, 150, 350], [70, 40, 100, 650], 50, 'pT(j_{2})',70,1000,'GeV'),
 HistogramInfo('pt_bal', [0.15], [0.03, 0.75], 0.03, 'pT balance',0,0.15,''),
-HistogramInfo('Z_centrality', [0.5], [0.1, 0.5], 0.1, '#xi(Z)',0,0,''),
+HistogramInfo('Z_centrality', [0.5], [0.1, 0.5], 0.1, '#xi(Z)',0,0,'',xRange=[0,2]),
 HistogramInfo('mass_jj', [1500, 3000], [250, 500, 1000], 250, 'm_{jj}',1000,5000,'GeV',True),
 HistogramInfo('reco_mass_i', [66, 81, 101, 116, 150, 250], [66, 15, 20, 15, 17, 50, 250], 15, 'm_{#tau,l}(i)',160,1000,'GeV'),
 HistogramInfo('reco_mass_o', [66, 81, 101, 116, 150, 250], [66, 15, 20, 15, 17, 50, 250], 15, 'm_{#tau,l}(o)',160,1000,'GeV'),
@@ -1225,7 +1272,7 @@ HistogramInfo('tauTransMass_basic_all', [100, 200], [20, 50, 50], 20, 'm_{T}(#ta
 tautauHighMassHistograms = [
 HistogramInfo('n_bjets', [], [], 1.0, 'n_bjets',0,1,''),
 HistogramInfo('lepiso', [], [], 1.0, 'lepiso',1,2,''),
-HistogramInfo('n_jets_interval', [], [], 1.0, 'N gap jets',0,1,''),
+HistogramInfo('n_jets_interval', [], [], 1.0, 'N gap jets',0,1,'',xRange=[0,2],isIntegerPlot=True),
 HistogramInfo('flavourJet1_basic_all', [], [], 1.0, 'flavourJet1_basic_all',0,0,''),
 HistogramInfo('flavourJet2_basic_all', [], [], 1.0, 'flavourJet2_basic_all',0,0,''),
 HistogramInfo('elecPdgID_basic_all', [], [], 1.0, 'elecPdgID_basic_all',0,0,''),
@@ -1242,7 +1289,7 @@ HistogramInfo('rnn_score_3p', [0.25, 0.55, 0.8], [0.25, 0.15, 0.25, 0.2], 0.15, 
 HistogramInfo('ljet0_pt', [75, 375, 625], [75, 100, 225, 375], 75, 'pT(j_{1})',75,1000,'GeV',True),
 HistogramInfo('ljet1_pt', [70, 370, 630], [70, 100, 230, 370], 70, 'pT(j_{2})',70,1000,'GeV',True),
 HistogramInfo('pt_bal', [0.15], [0.03, 0.75], 0.03, 'pT balance',0,0.15,''),
-HistogramInfo('Z_centrality', [0.2, 0.5], [0.2, 0.3, 4.5], 0.2, '#xi(Z)',0,0.5,''),
+HistogramInfo('Z_centrality', [0.2, 0.5, 2.0], [0.2, 0.3, 1.5, 3.0], 0.2, '#xi(Z)',0,0.5,'',xRange=[0,2]),
 HistogramInfo('mass_jj', [1000, 2500], [250, 750, 1250], 250, 'm_{jj}',750,5000,'GeV',True),
 HistogramInfo('reco_mass_i', [66, 81, 101, 116, 160, 250, 500], [66, 15, 10, 15, 11, 30, 125, 250], 10, 'm_{#tau,l}(i)',160,1000,'',True),
 HistogramInfo('reco_mass_o', [66, 81, 101, 116, 160, 250, 500], [66, 15, 10, 15, 11, 30, 125, 250], 10, 'm_{#tau,l}(o)',160,1000,'',True),
@@ -1262,7 +1309,7 @@ HistogramInfo('nuPtAssummetry_basic_all', [0.0], [0.1, 0.1], 0.1, 'pT(#nu_{l}-#n
 HistogramInfo('bdtScore', [-0.4, 0.1, 0.5], [0.1999, 0.25, 0.2, 0.25], 0.2, 'VBF-BDT score',0.3,1.0,''),
 HistogramInfo('lepNuPt', [30, 100], [15, 35, 100], 15, 'pT(#nu_{l})',30,1000,'GeV'),
 HistogramInfo('pTsymmetry', [0.4], [0.2, 0.2], 0.2, 'p_{T} asymmetry',-0.3,1.0,''),
-#HistogramInfo('lepTransMass_basic_all', [60, 100, 200], [30, 40, 100, 250], 30, 'm_{T}(l)',0,0,'GeV'),
+HistogramInfo('lepTransMass_basic_all', [60, 100, 200], [30, 40, 100, 250], 30, 'm_{T}(l)',0,0,'GeV'),
 HistogramInfo('tauTransMass_basic_all', [100, 200], [20, 50, 50], 20, 'm_{T}(#tau)',0,0,''),
 HistogramInfo('signedCentrality_basic_all', [0.0], [0.1, 0.1], 0.1, 'Signed #xi(Z)',0,0,''),
 HistogramInfo('visibleMass_basic_all', [40, 100, 150, 250], [40, 20, 25, 50, 250], 20, 'm(vis)_{#tau,l}',0,0,''),
@@ -1278,7 +1325,7 @@ HistogramInfo('transMassRecoMassRatio400to_basic_all', [1.0], [0.1, 0.25], 0.1, 
 tautauHighMassMJHistograms = [
 HistogramInfo('n_bjets', [], [], 1.0, 'n_bjets',0,1,''),
 HistogramInfo('lepiso', [], [], 1.0, 'lepiso',1,2,''),
-HistogramInfo('n_jets_interval', [], [], 1.0, 'N gap jets',0,1,''),
+HistogramInfo('n_jets_interval', [], [], 1.0, 'N gap jets',0,1,'',xRange=[0,2],isIntegerPlot=True),
 HistogramInfo('flavourJet1_basic_all', [], [], 1.0, 'flavourJet1_basic_all',0,0,''),
 HistogramInfo('flavourJet2_basic_all', [], [], 1.0, 'flavourJet2_basic_all',0,0,''),
 HistogramInfo('elecPdgID_basic_all', [], [], 1.0, 'elecPdgID_basic_all',0,0,''),
@@ -1295,7 +1342,7 @@ HistogramInfo('rnn_score_3p', [0.25, 0.55, 0.8], [0.25, 0.15, 0.25, 0.2], 0.15, 
 HistogramInfo('ljet0_pt', [75, 375, 625], [75, 100, 225, 375], 75, 'pT(j_{1})',75,1000,'GeV',True),
 HistogramInfo('ljet1_pt', [70, 370, 630], [70, 100, 230, 370], 70, 'pT(j_{2})',70,1000,'GeV',True),
 HistogramInfo('pt_bal', [0.15], [0.049999, 0.75], 0.05, 'pT balance',0,0.15,''),
-HistogramInfo('Z_centrality', [0.2, 0.5], [0.2, 0.3, 4.5], 0.2, '#xi(Z)',0,0.5,''),
+HistogramInfo('Z_centrality', [0.2, 0.5, 2.0], [0.2, 0.3, 1.5, 3.0], 0.2, '#xi(Z)',0,0.5,'',xRange=[0,2]),
 HistogramInfo('mass_jj', [1000, 1750, 3000], [250, 750, 1250, 2000], 250, 'm_{jj}',750,5000,'GeV',True),
 HistogramInfo('reco_mass_i', [66, 81, 101, 116, 160, 250, 500], [66, 15, 20, 15, 22, 45, 125, 250], 20, 'm_{#tau,l}(i)',160,1000,'',True),
 HistogramInfo('reco_mass_o', [66, 81, 101, 116, 160, 250, 500], [66, 15, 20, 15, 22, 45, 125, 250], 20, 'm_{#tau,l}(o)',160,1000,'',True),
@@ -1325,7 +1372,7 @@ HistogramInfo('recoVisibleMassRatio', [4.0], [1.0, 3.0], 1.0, 'm(reco)_{#tau,l}/
 tautauHiggsHistograms = [
 HistogramInfo('n_bjets', [], [], 1.0, 'n_bjets',0,1,''),
 HistogramInfo('lepiso', [], [], 1.0, 'lepiso',1,2,''),
-HistogramInfo('n_jets_interval', [], [], 1.0, 'N gap jets',0,1,''),
+HistogramInfo('n_jets_interval', [], [], 1.0, 'N gap jets',0,1,'',xRange=[0,2],isIntegerPlot=True),
 HistogramInfo('flavourJet1_basic_all', [], [], 1.0, 'flavourJet1_basic_all',0,0,''),
 HistogramInfo('flavourJet2_basic_all', [], [], 1.0, 'flavourJet2_basic_all',0,0,''),
 HistogramInfo('elecPdgID_basic_all', [], [], 1.0, 'elecPdgID_basic_all',0,0,''),
@@ -1342,7 +1389,7 @@ HistogramInfo('rnn_score_3p', [0.25, 0.55, 0.8], [0.25, 0.15, 0.25, 0.2], 0.15, 
 HistogramInfo('ljet0_pt', [75, 375, 625], [75, 100, 225, 375], 75, 'pT(j_{1})',75,1000,''),
 HistogramInfo('ljet1_pt', [70, 370, 630], [70, 100, 230, 370], 70, 'pT(j_{2})',70,1000,''),
 HistogramInfo('pt_bal', [0.15], [0.03, 0.75], 0.03, 'pT balance',0,0.15,''),
-HistogramInfo('Z_centrality', [0.2, 0.5], [0.2, 0.3, 4.5], 0.2, '#xi(Z)',0,0.5,''),
+HistogramInfo('Z_centrality', [0.2, 0.5, 2.0], [0.2, 0.3, 1.5, 3.0], 0.2, '#xi(Z)',0,0.5,'',xRange=[0,2]),
 HistogramInfo('mass_jj', [1000, 2500], [250, 750, 1250], 250, 'm_{jj}',1000,5000,'GeV',True),
 HistogramInfo('reco_mass_i', [66, 81, 101, 116, 160, 250, 500], [66, 15, 10, 15, 11, 30, 125, 250], 10, 'm_{#tau,l}(i)',116,160,'',True),
 HistogramInfo('reco_mass_o', [66, 81, 101, 116, 160, 250, 500], [66, 15, 10, 15, 11, 30, 125, 250], 10, 'm_{#tau,l}(o)',116,160,'',True),
@@ -1373,7 +1420,7 @@ HistogramInfo('recoVisibleMassRatio', [1.0, 2.0], [0.2, 0.5, 1.0], 0.2, 'm(reco)
 tautauHiggsBDTHistograms = [
 HistogramInfo('n_bjets', [], [], 1.0, 'n_bjets',0,1,''),
 HistogramInfo('lepiso', [], [], 1.0, 'lepiso',1,2,''),
-HistogramInfo('n_jets_interval', [], [], 1.0, 'N gap jets',0,1,''),
+HistogramInfo('n_jets_interval', [], [], 1.0, 'N gap jets',0,1,'',xRange=[0,2],isIntegerPlot=True),
 HistogramInfo('flavourJet1_basic_all', [], [], 1.0, 'flavourJet1_basic_all',0,0,''),
 HistogramInfo('flavourJet2_basic_all', [], [], 1.0, 'flavourJet2_basic_all',0,0,''),
 HistogramInfo('elecPdgID_basic_all', [], [], 1.0, 'elecPdgID_basic_all',0,0,''),
@@ -1390,7 +1437,7 @@ HistogramInfo('rnn_score_3p', [0.25, 0.55, 0.8], [0.25, 0.15, 0.25, 0.2], 0.15, 
 HistogramInfo('ljet0_pt', [75, 375, 625], [75, 100, 225, 375], 75, 'pT(j_{1})',75,1000,''),
 HistogramInfo('ljet1_pt', [70, 370, 630], [70, 100, 230, 370], 70, 'pT(j_{2})',70,1000,''),
 HistogramInfo('pt_bal', [0.15], [0.03, 0.75], 0.03, 'pT balance',0,0.15,''),
-HistogramInfo('Z_centrality', [0.2, 0.5], [0.2, 0.3, 4.5], 0.2, '#xi(Z)',0,0.5,''),
+HistogramInfo('Z_centrality', [0.2, 0.5, 2.0], [0.2, 0.3, 1.5, 3.0], 0.2, '#xi(Z)',0,0.5,'',xRange=[0,2]),
 HistogramInfo('mass_jj', [1000, 2500], [250, 750, 1250], 250, 'm_{jj}',750,5000,'GeV',True),
 HistogramInfo('reco_mass_i', [66, 81, 101, 116, 160, 250, 500], [66, 15, 10, 15, 11, 30, 125, 250], 10, 'm_{#tau,l}(i)',116,160,'',True),
 HistogramInfo('reco_mass_o', [66, 81, 101, 116, 160, 250, 500], [66, 15, 10, 15, 11, 30, 125, 250], 10, 'm_{#tau,l}(o)',116,160,'',True),
@@ -1410,8 +1457,8 @@ HistogramInfo('nuPtAssummetry_basic_all', [0.0], [0.1, 0.1], 0.1, 'pT(#nu_{l}-#n
 HistogramInfo('bdtScore', [-0.4, 0.1, 0.5], [0.1999, 0.25, 0.2, 0.25], 0.2, 'VBF-BDT score',0.3,1.0,''),
 HistogramInfo('lepNuPt', [30, 100], [15, 35, 100], 15, 'pT(#nu_{l})',30,1000,''),
 HistogramInfo('pTsymmetry', [0.4], [0.2, 0.2], 0.2, 'pT(#tau - l)/(#tau + l)',-0.3,1.0,''),
-#HistogramInfo('lepTransMass_basic_all', [100, 200], [20, 50, 50], 20, 'm_{T}(l)',0,0,''),
-HistogramInfo('lepTransMass', [60, 100, 200], [30, 40, 100, 250], 30, 'm_{T}(l)',0,0,'GeV'),
+HistogramInfo('lepTransMass_basic_all', [100, 200], [20, 50, 50], 20, 'm_{T}(l)',0,0,''),
+#HistogramInfo('lepTransMass', [60, 100, 200], [30, 40, 100, 250], 30, 'm_{T}(l)',0,0,'GeV'),
 HistogramInfo('tauTransMass_basic_all', [100, 200], [20, 50, 50], 20, 'm_{T}(#tau)',0,0,''),
 HistogramInfo('signedCentrality_basic_all', [0.0], [0.1, 0.1], 0.1, 'Signed #xi(Z)',0,0,''),
 HistogramInfo('visibleMass_basic_all', [40, 100, 150, 250], [40, 20, 25, 50, 250], 20, 'm(vis)_{#tau,l}',0,0,''),

@@ -82,7 +82,7 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
   bool elec_id=elec_0_id_tight;
   size_t n_ljets=n_jets-n_bjets_MV2c10_FixedCutBEff_85;
 
-  if (qelec==qmuon && n_muons==1 && n_electrons==1 && weight > -190 && elec_id && muon_id && n_ljets>=2 && n_ljets<=3){
+  if (qelec!=qmuon && n_muons==1 && n_electrons==1 && weight > -190 && elec_id && muon_id && n_ljets>=2 && n_ljets<=3){
     
     //angles
     double angle_elec_MET=del_phi(elec_0_p4->Phi(),met_reco_p4->Phi());
@@ -273,7 +273,7 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
         if(n_jets_interval==0){cuts[9]=1;}
         if(z_centrality < 0.5){cuts[10]=1;} // SR -> z_centrality < 0.5
         if (omega> -0.4 && omega <1.4){cuts[11]=1;}
-        bool diLeptonMassRequirement = reco_mass>=160;
+        bool diLeptonMassRequirement = reco_mass<116 && reco_mass>66;
         if (diLeptonMassRequirement){cuts[12]=1;} // Z-peak reco_mass<116 && reco_mass>66 // Higgs reco_mass >= 116 && reco_mass < 150
         if (muon_0_p4->Pt()>=27){cuts[13]=1;}
 
