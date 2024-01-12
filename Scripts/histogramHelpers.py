@@ -1005,30 +1005,6 @@ HistogramInfo('mass_jj', [1500], [250, 500], 250, 'm_{jj}',1000,5000,'GeV',True)
 HistogramInfo('met_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl', [50], [10, 50], 10, 'MET',0,0,'GeV'),
 ]
 
-llQCDCRHistograms = [ 
-HistogramInfo('n_bjets', [], [], 1.0, 'n_bjets',0,1,''),
-HistogramInfo('lepiso', [], [], 1.0, 'lepiso',1,2,''),
-HistogramInfo('n_jets_interval', [], [], 1.0, 'N gap jets',0,1,'',xRange=[0,2],isIntegerPlot=True),
-HistogramInfo('lep1_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl', [0.1], [0.2, 0.199], 0.2, '#eta(e_{1})',0,0,''),
-HistogramInfo('lep2_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl', [0.1], [0.2, 0.199], 0.2, '#eta(e_{2})',0,0,''),
-HistogramInfo('delta_R_leplep_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl', [0.2], [0.2, 0.199], 0.2, '#DeltaR(e_{1},e_{2})',0,0,''),
-HistogramInfo('delta_R_lep1jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl', [0.2], [0.2, 0.199], 0.2, '#DeltaR(e_{1},j)',0,0,''),
-HistogramInfo('delta_R_lep2jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl', [0.2], [0.2, 0.199], 0.2, '#DeltaR(e_{2},j)',0,0,''),
-HistogramInfo('delta_phi', [2.0], [0.2, 0.8], 0.2, '#Delta#phi(e_{1},e_{2})',0,0,''),
-HistogramInfo('lep1_pt', [300], [20, 50], 20, 'pT(e_{1})',50,500,''),
-HistogramInfo('lep2_pt', [300], [20, 50], 20, 'pT(e_{2})',40,500,''),
-HistogramInfo('ljet0_pt', [75, 460], [15, 35, 54], 15, 'pT(j_{1})',75,1000,''),
-HistogramInfo('ljet1_pt', [70, 440], [10, 37, 56], 10, 'pT(j_{2})',70,1000,''),
-HistogramInfo('pt_bal', [0.15, 0.3], [0.0499, 0.15, 0.7], 0.15, 'pT balance',0,0.15,''),
-HistogramInfo('Z_centrality', [0.5], [0.1, 0.5], 0.1, '#xi(Z)',0,0.5,'',xRange=[0,2]),
-HistogramInfo('delta_y', [2.0, 6.0], [1.0, 0.5, 1.0], 1.0, '#Deltay_{jj}',2.0,10.0,''),
-HistogramInfo('inv_mass', [70, 100, 150, 250], [70, 10, 25, 50, 250], 10, 'm_{ee}',81,101,''),
-HistogramInfo('mass_jj', [1500, 3000], [250, 500, 1000], 250, 'm_{jj}',750,5000,''),
-HistogramInfo('Z_pt_reco_basic_cuts_ptl', [300, 600], [20, 50, 200], 20, 'pT(Z)',0,0,''),
-HistogramInfo('vec_sum_pt_jets_basic_cuts_ptl', [300], [20, 50], 20, '',0,0,''),
-HistogramInfo('ratio_zpt_sumjetpt_basic_cuts_ptl', [0.75, 1.25], [0.25, 0.1, 0.25], 0.1, '',0,0,''),
-HistogramInfo('met_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl', [50], [10, 50], 10, 'MET',0,0,''),
-]
 
 # Dictionaries for Z->mumu
 
@@ -1216,7 +1192,7 @@ HistogramInfo('delta_phi', [2.0], [0.2, 0.8], 0.2, '#Delta#phi(l_{1},l_{2})',0,0
 HistogramInfo('lep1_pt', [100, 220, 300], [20, 40, 80, 200], 20, 'pT(l_{1})',50,500,'GeV'),
 HistogramInfo('lep2_pt', [100, 220, 300], [20, 40, 80, 200], 20, 'pT(l_{2})',40,500,'GeV'),
 HistogramInfo('ljet0_pt', [75, 200, 300, 500], [75, 25, 50, 100, 500], 25, 'pT(j_{1})',75,1000,'GeV'),
-HistogramInfo('ljet1_pt', [70, 195, 295, 495], [70, 25, 50, 100, 505], 25, 'pT(j_{2})',70,1000,'GeV'),
+HistogramInfo('ljet1_pt', [50,70, 195, 295, 495], [25, 20, 25, 50, 100, 505], 25, 'pT(j_{2})',70,1000,'GeV'),
 HistogramInfo('pt_bal', [0.15, 0.3], [0.0499, 0.15, 0.7], 0.15, 'pT balance',0,0.15,''),
 HistogramInfo('Z_centrality', [0.5], [0.1, 0.5], 0.1, '#xi(Z)',0,0,'',xRange=[0,2]),
 HistogramInfo('delta_y', [2.0, 6.0], [2.0, 0.5, 4.0], 1.0, '#Deltay_{jj}',2.0,10.0,''),
