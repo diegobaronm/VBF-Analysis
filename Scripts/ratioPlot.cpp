@@ -56,7 +56,7 @@ void plotRatio(TCanvas *canvas, const char* fileName1, const char* histogramName
     canvas->cd();
     canvas->SetTitle("HOLA");
     h1->GetXaxis()->SetRange(1,h1->GetNbinsX()+1); //Draw overflow bin
-    h1->GetYaxis()->SetRangeUser(0.5,1.5);
+    h1->GetYaxis()->SetRangeUser(0.0,2.5);
     h1->Draw(drawingOptions);
     h1->GetXaxis()->SetTitle(g_title);
     std::string ytitle = std::string("Events/")+std::to_string(g_binNormalisation)+g_units;
@@ -100,6 +100,7 @@ void ratioPlot(){
     const char* MGZmumu = "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/MuMu/Z-peak/SR/Zmumu_MGRW.root";
     // QCDjj MCs Z->ll
     const char* SherpaZll = "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/Zll/Z-peak/SR/Zll_SherpaRW.root";
+    const char* SherpaNLOZll = "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/Zll/Z-peak/SR/Zll_SherpaNLORW.root";
     const char* MGNLOZll = "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/Zll/Z-peak/SR/Zll_MGNLORW2.root";
     const char* MGZll = "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/Zll/Z-peak/SR/Zll_MGRW.root";
     // QCDjj MCs Z->tautau
@@ -107,11 +108,19 @@ void ratioPlot(){
     const char* MGNLOZtautau = "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/TauTau/Z-peak/SR/Ztautau_MGNLORW2.root";
     const char* MGZtautau = "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/TauTau/Z-peak/SR/Ztautau_MGRW.root";
     
-    const char* referenceSample = "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/TauTau/Z-peak/SR/Ztautau_SherpaRW.root";
-    plotRatio(c1, EWjjTauTauSherpa, histogram, EWjjZllSherpa, histogram, "Sherpa-EWjj",kBlack, "SAME E1 X0 L P");
-    plotRatio(c1, EWjjTauTauSherpa, histogram, EWjjZllSherpa, histogram, "Sherpa-EWjj",kBlack, "SAME HIST C");
-    plotRatio(c1, EWjjTauTauPoPy, histogram, EWjjZllPoPy, histogram, "PoPy-EWjj",kBlue, "SAME E1 X0 L P");
-    plotRatio(c1, EWjjTauTauPoPy, histogram, EWjjZllPoPy, histogram, "PoPy-EWjj",kBlue, "SAME HIST C");
+    const char* referenceSample = "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/Zll/Z-peak/SR/Zll_SherpaRW.root";
+    plotRatio(c1, referenceSample, histogram, referenceSample, histogram, "Sherpa-RW",kBlack, "SAME E1 X0 L P");
+    plotRatio(c1, referenceSample, histogram, referenceSample, histogram, "Sherpa-RW",kBlack, "SAME HIST C");
+    plotRatio(c1, MGZll, histogram, referenceSample, histogram, "MG-RW",kBlue, "SAME E1 X0 L P");
+    plotRatio(c1, MGZll, histogram, referenceSample, histogram, "MG-RW",kBlue, "SAME HIST C");
+    //plotRatio(c1, MGNLO, histogram, referenceSample, histogram, "MGNLO-RW",kGreen, "SAME E1 X0 L P");
+    //plotRatio(c1, MGNLO, histogram, referenceSample, histogram, "MGNLO-RW",kGreen, "SAME HIST C");
+    plotRatio(c1, MGNLOZll, histogram, referenceSample, histogram, "MGNLO-RW",kPink, "SAME E1 X0 L P");
+    plotRatio(c1, MGNLOZll, histogram, referenceSample, histogram, "MGNLO-RW",kPink, "SAME HIST C");
+    plotRatio(c1, SherpaNLOZll, histogram, referenceSample, histogram, "Sherpa2.2.11-RW",kGreen, "SAME E1 X0 L P");
+    plotRatio(c1, SherpaNLOZll, histogram, referenceSample, histogram, "Sherpa2.2.11--RW",kGreen, "SAME HIST C");
+    //plotRatio(c1, SherpaNLO, histogram, referenceSample, histogram, "SherpaNLORW",kYellow, "SAME E1 X0 L P");
+    //plotRatio(c1, SherpaNLO, histogram, referenceSample, histogram, "SherpaNLORW",kYellow, "SAME HIST C");
 
     gPad->BuildLegend();
     
@@ -148,4 +157,12 @@ void ratioPlot(){
     plotRatio(c1, MGNLOZmumu, histogram, MGNLOZee, histogram, "MGNLO-RW",kRed, "SAME E1 X0 L P");
     plotRatio(c1, MGNLOZmumu, histogram, MGNLOZee, histogram, "MGNLO-RW",kRed, "SAME HIST C");
     */
+
+   // Comparing EWjj shapes between Z->ll and Z->tautau
+   /*
+   plotRatio(c1, EWjjTauTauSherpa, histogram, EWjjZllSherpa, histogram, "Sherpa-EWjj",kBlack, "SAME E1 X0 L P");
+   plotRatio(c1, EWjjTauTauSherpa, histogram, EWjjZllSherpa, histogram, "Sherpa-EWjj",kBlack, "SAME HIST C");
+   plotRatio(c1, EWjjTauTauPoPy, histogram, EWjjZllPoPy, histogram, "PoPy-EWjj",kBlue, "SAME E1 X0 L P");
+   plotRatio(c1, EWjjTauTauPoPy, histogram, EWjjZllPoPy, histogram, "PoPy-EWjj",kBlue, "SAME HIST C");
+   */
 }

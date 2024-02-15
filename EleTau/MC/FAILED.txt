@@ -18,3 +18,8 @@ Ztautau_2018_0 yes NOMINAL
 Ztautau_2017_1 yes NOMINAL
 Ztautau_2018_2 yes NOMINAL
 Ztautau_2018_1 yes NOMINAL
+Ztautau_2018_2 yes NOMINAL
+Ztautau_2018_0 yes NOMINAL
+Ztautau_2017_0 yes NOMINAL
+Ztautau_2018_1 yes NOMINAL
+Ztautau_2017_1 yes NOMINAL

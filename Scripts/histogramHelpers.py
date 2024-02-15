@@ -297,6 +297,31 @@ def blindHistogram(dataHistogram,purityHistogram,unblindPurityLimit):
 
 ############################################################################################################
 
+# Function to return a histogram that covers all the blinded bins
+def setupShadeHistogram(baseHistogram,highYRange,lowXRange,highXRange,purityHistogram,unblindPurityLimit):
+    # Create a histogram with the same binning as the base histogram
+    blindHistogram = baseHistogram.Clone()
+    # Set the bin content and error to the upper range of the plot
+    for i in range(1,blindHistogram.GetNbinsX()+2):
+        inBlindingRange = blindHistogram.GetBinCenter(i)>lowXRange and blindHistogram.GetBinCenter(i)<highXRange
+        abovePuretyLimit = 100.0*purityHistogram.GetBinContent(i)>unblindPurityLimit
+        if inBlindingRange or abovePuretyLimit: # Blind the bins that are above the purity limit or in the blinding range
+            blindHistogram.SetBinContent(i,highYRange)
+            blindHistogram.SetBinError(i,highYRange)
+        else:
+            blindHistogram.SetBinContent(i,0.0)
+            blindHistogram.SetBinError(i,0.0)
+        # Change style to a shaded histogram
+        blindHistogram.SetLineWidth(0);
+        blindHistogram.SetLineColor(r.kGray);
+        blindHistogram.SetFillColor(r.kGray);
+        blindHistogram.SetFillStyle(3345);
+    # return the built histograms
+    return blindHistogram
+    
+
+############################################################################################################
+
 # Function to plot a histogram stack of MC with data
 def stackPlot(data,signal,background,histograms,watermark,function,additionalSignal=[],signalMu = 1.0, backgroundMu = 1.0,average=False,after_fit=False,final_state="Z#rightarrow #mu#mu",blindPlot=True,unblindPurityLimit=0.0,printVersion=False,printOverflows=False, purityMultiplier=1.0):
     samples = data.copy()
@@ -373,20 +398,23 @@ def stackPlot(data,signal,background,histograms,watermark,function,additionalSig
         ############### DEFINING Signal/MC RATIO ###############
         
         ratio_sg_mc=samples["Signal"][2].Clone()
+        #ratio_mj_mc=samples["MJ"][2].Clone()
         for additionalS in additionalSignal:
             ratio_sg_mc.Add(samples[additionalS][2])
         ratio_sg_mc.Divide(mc)
+        #ratio_mj_mc.Divide(mc)
         ratio_sg_mc.SetLineColor(r.kBlack)
+        #ratio_mj_mc.SetLineColor(r.kRed)
 
-        ###### SCALING PURITY IF NEEDED ######
-        if purityMultiplier!=1.0:
-            ratio_sg_mc.Scale(purityMultiplier)
-
-        ############## UNBLINDING BINS WITH BELOW PURITY LIMIT AND DEFINING Data/MC RATIO ################
+        ############## BLINDING BINS WITH ABOVE THE PURITY LIMIT AND DEFINING Data/MC RATIO ################
 
         blindHistogram(samples["Data"][2],ratio_sg_mc,unblindPurityLimit)
         ratio = r.TGraphAsymmErrors()
         ratio.Divide(mc,samples["Data"][2],"pois")
+
+        ###### SCALING PURITY IF NEEDED ######
+        if purityMultiplier!=1.0:
+            ratio_sg_mc.Scale(purityMultiplier)
 
         ##### DRAWING TOP PAD, SETTING MARGINS #######
         
@@ -402,7 +430,7 @@ def stackPlot(data,signal,background,histograms,watermark,function,additionalSig
         canvas = r.TCanvas("canvas2")
         canvas.cd()
 
-        pad1 = r . TPad (" pad1 "," pad1 " ,0 ,0.40 ,1 ,1)
+        pad1 = r.TPad (" pad1 "," pad1 " ,0 ,0.40 ,1 ,1)
         pad1.SetTopMargin(0.07)
         pad1.SetRightMargin(0.04)
         pad1.SetLeftMargin(0.08)
@@ -454,7 +482,7 @@ def stackPlot(data,signal,background,histograms,watermark,function,additionalSig
                 it = it + 1
                 maxValueFirstInStack = hs.GetHists().At(it).GetMaximum()
             closestLowerPowerOf10 = 10**math.floor(math.log10(maxValueFirstInStack))
-            yLowScale = 0.1#closestLowerPowerOf10/10.0
+            yLowScale = closestLowerPowerOf10/10.0
             yScale = 15
             pad1.SetLogy()
         
@@ -489,17 +517,21 @@ def stackPlot(data,signal,background,histograms,watermark,function,additionalSig
 
         samples["Data"][2].GetYaxis().SetRangeUser(yLowScale, yRange)
         samples["Data"][2].GetXaxis().SetRangeUser(s,e)
-        
+
+        ###### SET UP BLINDING HISTOGRAM ######
+        shadeHistogram = setupShadeHistogram(samples["Signal"][2], yRange,i.m_leftCut,i.m_rightCut,ratio_sg_mc,unblindPurityLimit)
+        shadeHistogram.Draw("hist same")
+
         ###### DRAWING LEGEND ######
-        legend = r . TLegend (0.45 ,0.75 ,0.85 ,0.90)
+        legend = r.TLegend (0.45 ,0.75 ,0.85 ,0.90)
         for sample in samples:
             legend.AddEntry(samples[sample][2],sample,"f")
         legend.AddEntry(statUncer,"MC Stat. Uncer.")
         legend.SetNColumns(3)
         r.gStyle.SetLegendBorderSize(0)
-        legend . SetLineWidth (0)
+        legend.SetLineWidth (0)
         r.gStyle.SetLegendTextSize(0.045)
-        legend . Draw ()
+        legend.Draw ()
 
         ###### DRAWING PRINT VERSION ######
         samples["Data"][2].SetTitle("")
@@ -532,7 +564,7 @@ def stackPlot(data,signal,background,histograms,watermark,function,additionalSig
         
         max_ratio = 4
         if max_ratio > 3.5:
-            max_ratio = 2.5
+            max_ratio = 2.5 # 1.4
         if max_ratio < 1.5:
             max_ratio = 1.5
 
@@ -540,25 +572,25 @@ def stackPlot(data,signal,background,histograms,watermark,function,additionalSig
         if min_ratio > 0.7:
             min_ratio = 0.5
         if min_ratio < 0.7:
-            min_ratio = 0.2
+            min_ratio = 0.2 # 0.8
 
         ###### DRAWING CUT LINES ######
         if i.m_leftCut!=i.m_rightCut:
             cut1 = r. TLine (i.m_leftCut, yLowScale ,i.m_leftCut, yScale*hs.GetMaximum())
-            cut1 . SetLineColor ( r. kRed+1 )
-            cut1 . SetLineWidth (2)
+            cut1.SetLineColor ( r. kRed+1 )
+            cut1.SetLineWidth (2)
             cut1.SetLineStyle(2)
             
             cut2 = r. TLine (i.m_rightCut, yLowScale ,i.m_rightCut, yScale*hs.GetMaximum())
-            cut2 . SetLineColor ( r. kRed+1 )
-            cut2 . SetLineWidth (2)
+            cut2.SetLineColor ( r. kRed+1 )
+            cut2.SetLineWidth (2)
             cut2.SetLineStyle(2)
             
             cut1.Draw("same")
             cut2.Draw("same")
 
         canvas.cd()
-        pad2 = r . TPad (" pad2 "," pad2 " ,0 ,0.24 ,1 ,0.40)
+        pad2 = r.TPad (" pad2 "," pad2 " ,0 ,0.24 ,1 ,0.40)
         pad2.SetRightMargin(0.04)
         pad2.SetLeftMargin(0.08)
         pad2.SetTopMargin(0)
@@ -569,14 +601,15 @@ def stackPlot(data,signal,background,histograms,watermark,function,additionalSig
         mc.Divide(mc) # NECESSARY TRICK BECAUSE ALL PLOT PARAMETERS GET ATTACHED TO THE FIRST HISTOGRAM
         mc.Draw("hist p")
         ratio.Draw("P E0 E2 same")
+        shadeHistogram.Draw("hist same")
         mc.SetTitle("")
         mc.SetStats(0)
-        mc . GetYaxis (). SetRangeUser (min_ratio ,max_ratio)
-        mc . GetXaxis (). SetRangeUser(s,e)
-        mc . GetYaxis (). SetTitle ("MC/Data")
-        mc . GetYaxis (). SetTitleSize (0.24)
-        mc . GetYaxis (). SetTitleOffset (0.16)
-        mc . GetXaxis (). SetTitleSize (0.09)
+        mc.GetYaxis (). SetRangeUser (min_ratio ,max_ratio)
+        mc.GetXaxis (). SetRangeUser(s,e)
+        mc.GetYaxis (). SetTitle ("MC/Data")
+        mc.GetYaxis (). SetTitleSize (0.24)
+        mc.GetYaxis (). SetTitleOffset (0.16)
+        mc.GetXaxis (). SetTitleSize (0.09)
         mc.GetYaxis().ChangeLabel(-1,-1,0.)
         mc.GetXaxis().SetLabelSize(0.10)
         mc.GetYaxis().SetLabelSize(0.18)
@@ -586,9 +619,9 @@ def stackPlot(data,signal,background,histograms,watermark,function,additionalSig
 
         ###### SETTING ALL THE HORIZONTAL DASHED LINES #######
 
-        line = r . TLine (s ,1 ,e,1)
-        line . SetLineColor ( r . kBlack )
-        line . SetLineWidth (2)
+        line = r.TLine (s ,1 ,e,1)
+        line.SetLineColor ( r.kBlack )
+        line.SetLineWidth (2)
 
         separators = []
         resolution = 10 # In percentage
@@ -607,12 +640,12 @@ def stackPlot(data,signal,background,histograms,watermark,function,additionalSig
             sep.SetLineStyle(2)
             separators.append(sep)
 
-        line . Draw (" same ")   
+        line.Draw (" same ")   
         for separ in separators:
             separ.Draw("same")
     
         canvas.cd()
-        pad3 = r . TPad (" pad3","pad3" ,0.0 ,0.0 ,1 ,0.24)
+        pad3 = r.TPad (" pad3","pad3" ,0.0 ,0.0 ,1 ,0.24)
         pad3.SetRightMargin(0.04)
         pad3.SetLeftMargin(0.08)
         pad3.SetTopMargin(0)
@@ -620,21 +653,21 @@ def stackPlot(data,signal,background,histograms,watermark,function,additionalSig
         pad3.Draw ()
         pad3.cd ()
         ratio_sg_mc.SetStats(0)
-        ratio_sg_mc . GetYaxis (). SetRangeUser (0.0 ,1.02)
-        ratio_sg_mc . GetXaxis (). SetRangeUser(s,e)
-        ratio_sg_mc . GetYaxis (). SetTitle ("Signal/MC")
-        ratio_sg_mc . GetYaxis (). SetTitleSize (0.18)
-        ratio_sg_mc . GetYaxis (). SetTitleOffset (0.20)
+        ratio_sg_mc.GetYaxis (). SetRangeUser (0.0 ,1.02)
+        ratio_sg_mc.GetXaxis (). SetRangeUser(s,e)
+        ratio_sg_mc.GetYaxis (). SetTitle ("Signal/MC")
+        ratio_sg_mc.GetYaxis (). SetTitleSize (0.18)
+        ratio_sg_mc.GetYaxis (). SetTitleOffset (0.20)
         ratio_sg_mc.GetYaxis().ChangeLabel(1,-1,0.)
         ratio_sg_mc.GetYaxis().ChangeLabel(-1,-1,0.)
         ratio_sg_mc.SetTitle("")
 
         ###### SCALING PURITY IF NEEDED ######
         if purityMultiplier!=1.0:
-            ratio_sg_mc . GetYaxis (). SetTitle ("Signal/MC(#times"+str(purityMultiplier)+")")
-            ratio_sg_mc . GetYaxis (). SetRangeUser (0.0 ,1.0)
-            ratio_sg_mc . GetYaxis (). SetTitleSize (0.16)
-            ratio_sg_mc . GetYaxis (). SetTitleOffset (0.22)
+            ratio_sg_mc.GetYaxis (). SetTitle ("Signal/MC(#times"+str(purityMultiplier)+")")
+            ratio_sg_mc.GetYaxis (). SetRangeUser (0.0 ,1.0)
+            ratio_sg_mc.GetYaxis (). SetTitleSize (0.16)
+            ratio_sg_mc.GetYaxis (). SetTitleOffset (0.22)
             ratio_sg_mc.GetYaxis().SetNdivisions(405, r.kFALSE);
 
         if i.m_isIntegerPlot:
@@ -658,32 +691,36 @@ def stackPlot(data,signal,background,histograms,watermark,function,additionalSig
         ratio_sg_mc.SetMarkerSize(0.6)
 
         ratio_sg_mc.Draw ("hist p E1 X0")
+        #ratio_mj_mc.Draw ("hist p E1 X0 same")
+        #ratio_mj_mc.SetMarkerStyle(8)
+        #ratio_mj_mc.SetMarkerSize(0.6)
+        #ratio_mj_mc.SetMarkerColor(r.kRed)
         ###### SETTING ALL THE HORIZONTAL DASHED LINES #######
 
-        line11 = r . TLine (s ,0.80 ,e,0.80)
-        line11 . SetLineColor ( r . kBlack )
-        line11 . SetLineWidth (1)
-        line11 . SetLineStyle(2)
-        line12 = r . TLine (s ,0.60 ,e,0.60)
-        line12 . SetLineColor ( r . kBlack )
-        line12 . SetLineWidth (1)
-        line12 . SetLineStyle(2)
-        line13 = r . TLine (s ,0.40 ,e,0.40)
-        line13 . SetLineColor ( r . kBlack )
-        line13 . SetLineWidth (1)
-        line13 . SetLineStyle(2)
-        line14 = r . TLine (s ,0.20 ,e,0.20)
-        line14 . SetLineColor ( r . kBlack )
-        line14 . SetLineWidth (1)
-        line14 . SetLineStyle(2)
-        sline = r . TLine (s ,1 ,e,1)
-        sline . SetLineColor ( r . kBlack )
-        sline . SetLineWidth (2)
+        line11 = r.TLine (s ,0.80 ,e,0.80)
+        line11.SetLineColor ( r.kBlack )
+        line11.SetLineWidth (1)
+        line11.SetLineStyle(2)
+        line12 = r.TLine (s ,0.60 ,e,0.60)
+        line12.SetLineColor ( r.kBlack )
+        line12.SetLineWidth (1)
+        line12.SetLineStyle(2)
+        line13 = r.TLine (s ,0.40 ,e,0.40)
+        line13.SetLineColor ( r.kBlack )
+        line13.SetLineWidth (1)
+        line13.SetLineStyle(2)
+        line14 = r.TLine (s ,0.20 ,e,0.20)
+        line14.SetLineColor ( r.kBlack )
+        line14.SetLineWidth (1)
+        line14.SetLineStyle(2)
+        sline = r.TLine (s ,1 ,e,1)
+        sline.SetLineColor ( r.kBlack )
+        sline.SetLineWidth (2)
         sline.Draw("same")
-        line11 . Draw (" same ")
-        line12 . Draw (" same ")
-        line13 . Draw (" same ")
-        line14 . Draw (" same ")
+        line11.Draw (" same ")
+        line12.Draw (" same ")
+        line13.Draw (" same ")
+        line14.Draw (" same ")
         file_name = i.m_name+"_"+watermark+".pdf"
         canvas.Update()
         canvas.Print(file_name)    
@@ -774,7 +811,7 @@ def stackPlotNoData(signal,background,histograms,watermark,additionalSignal=[],s
         canvas = r.TCanvas("canvas2")
         canvas.cd()
 
-        pad1 = r . TPad (" pad1 "," pad1 " ,0 ,0.35 ,1 ,1)
+        pad1 = r.TPad (" pad1 "," pad1 " ,0 ,0.35 ,1 ,1)
         pad1.SetTopMargin(0.03)
         pad1.SetRightMargin(0.03)
         pad1.SetLeftMargin(0.08)
@@ -823,15 +860,15 @@ def stackPlotNoData(signal,background,histograms,watermark,additionalSignal=[],s
 
 
         ###### DRAWING LEGEND ######
-        legend = r . TLegend (0.45 ,0.80 ,0.85 ,0.95)
+        legend = r.TLegend (0.45 ,0.80 ,0.85 ,0.95)
         for sample in samples:
             legend.AddEntry(samples[sample][2],sample,"f")
         legend.AddEntry(statUncer,"MC Stat. Uncer.")
         legend.SetNColumns(3)
         r.gStyle.SetLegendBorderSize(0)
-        legend . SetLineWidth (0)
+        legend.SetLineWidth (0)
         r.gStyle.SetLegendTextSize(0.045)
-        legend . Draw ()
+        legend.Draw ()
 
         samples["Signal"][2].SetTitle("")
         l=r.TLatex()
@@ -855,20 +892,20 @@ def stackPlotNoData(signal,background,histograms,watermark,additionalSignal=[],s
         ###### DRAWING CUT LINES ######
         if i.m_leftCut!=i.m_rightCut:
             cut1 = r. TLine (i.m_leftCut, yLowScale ,i.m_leftCut, yScale*hs.GetMaximum())
-            cut1 . SetLineColor ( r. kRed+1 )
-            cut1 . SetLineWidth (2)
+            cut1.SetLineColor ( r. kRed+1 )
+            cut1.SetLineWidth (2)
             cut1.SetLineStyle(2)
             
             cut2 = r. TLine (i.m_rightCut, yLowScale ,i.m_rightCut, yScale*hs.GetMaximum())
-            cut2 . SetLineColor ( r. kRed+1 )
-            cut2 . SetLineWidth (2)
+            cut2.SetLineColor ( r. kRed+1 )
+            cut2.SetLineWidth (2)
             cut2.SetLineStyle(2)
             
             cut1.Draw("same")
             cut2.Draw("same")
 
         canvas.cd()
-        pad2 = r . TPad (" pad2 "," pad2 " ,0 ,0.17 ,1 ,0.35)
+        pad2 = r.TPad (" pad2 "," pad2 " ,0 ,0.17 ,1 ,0.35)
         pad2.SetRightMargin(0.03)
         pad2.SetLeftMargin(0.08)
         pad2.SetTopMargin(0)
@@ -881,12 +918,12 @@ def stackPlotNoData(signal,background,histograms,watermark,additionalSignal=[],s
         ratio.Draw("P E2 same")
         mc.SetTitle("")
         mc.SetStats(0)
-        mc . GetYaxis (). SetRangeUser (min_ratio ,max_ratio)
-        mc . GetXaxis (). SetRangeUser (s ,e)
-        mc . GetYaxis (). SetTitle ("MC/DATA")
-        mc . GetYaxis (). SetTitleSize (0.15)
-        mc . GetYaxis (). SetTitleOffset (0.25)
-        mc . GetXaxis (). SetTitleSize (0.09)
+        mc.GetYaxis (). SetRangeUser (min_ratio ,max_ratio)
+        mc.GetXaxis (). SetRangeUser (s ,e)
+        mc.GetYaxis (). SetTitle ("MC/DATA")
+        mc.GetYaxis (). SetTitleSize (0.15)
+        mc.GetYaxis (). SetTitleOffset (0.25)
+        mc.GetXaxis (). SetTitleSize (0.09)
         mc.GetXaxis().SetLabelSize(0.10)
         mc.GetYaxis().SetLabelSize(0.08)
         ratio.SetMarkerStyle(8)
@@ -896,9 +933,9 @@ def stackPlotNoData(signal,background,histograms,watermark,additionalSignal=[],s
 
         ###### SETTING ALL THE HORIZONTAL DASHED LINES #######
 
-        line = r . TLine (s ,1 ,e,1)
-        line . SetLineColor ( r . kBlack )
-        line . SetLineWidth (2)
+        line = r.TLine (s ,1 ,e,1)
+        line.SetLineColor ( r.kBlack )
+        line.SetLineWidth (2)
 
         separators = []
         resolution = 10 # In percentage
@@ -917,12 +954,12 @@ def stackPlotNoData(signal,background,histograms,watermark,additionalSignal=[],s
             sep.SetLineStyle(2)
             separators.append(sep)
 
-        line . Draw (" same ")   
+        line.Draw (" same ")   
         for separ in separators:
             separ.Draw("same")
     
         canvas.cd()
-        pad3 = r . TPad (" pad3","pad3" ,0.0 ,0.0 ,1 ,0.17)
+        pad3 = r.TPad (" pad3","pad3" ,0.0 ,0.0 ,1 ,0.17)
         pad3.SetRightMargin(0.03)
         pad3.SetLeftMargin(0.08)
         pad3.SetTopMargin(0)
@@ -930,11 +967,11 @@ def stackPlotNoData(signal,background,histograms,watermark,additionalSignal=[],s
         pad3.Draw ()
         pad3.cd ()
         ratio_sg_mc.SetStats(0)
-        ratio_sg_mc . GetYaxis (). SetRangeUser (0.0 ,1.02)
-        ratio_sg_mc . GetXaxis (). SetRangeUser (s ,e)
-        ratio_sg_mc . GetYaxis (). SetTitle ("5 x SIGNAL/MC")
-        ratio_sg_mc . GetYaxis (). SetTitleSize (0.15)
-        ratio_sg_mc . GetYaxis (). SetTitleOffset (0.25)
+        ratio_sg_mc.GetYaxis (). SetRangeUser (0.0 ,1.02)
+        ratio_sg_mc.GetXaxis (). SetRangeUser (s ,e)
+        ratio_sg_mc.GetYaxis (). SetTitle ("5 x SIGNAL/MC")
+        ratio_sg_mc.GetYaxis (). SetTitleSize (0.15)
+        ratio_sg_mc.GetYaxis (). SetTitleOffset (0.25)
         ############ X AXIS TITLE #################
         ratio_sg_mc.SetXTitle(i.m_xTitle+"  "+str(i.m_units))
         ratio_sg_mc.SetTitleSize(0.22,"X")
@@ -947,30 +984,30 @@ def stackPlotNoData(signal,background,histograms,watermark,additionalSignal=[],s
         ratio_sg_mc.Draw ("hist p E1 X0")
         ###### SETTING ALL THE HORIZONTAL DASHED LINES #######
 
-        line11 = r . TLine (s ,0.80 ,e,0.80)
-        line11 . SetLineColor ( r . kBlack )
-        line11 . SetLineWidth (1)
-        line11 . SetLineStyle(2)
-        line12 = r . TLine (s ,0.60 ,e,0.60)
-        line12 . SetLineColor ( r . kBlack )
-        line12 . SetLineWidth (1)
-        line12 . SetLineStyle(2)
-        line13 = r . TLine (s ,0.40 ,e,0.40)
-        line13 . SetLineColor ( r . kBlack )
-        line13 . SetLineWidth (1)
-        line13 . SetLineStyle(2)
-        line14 = r . TLine (s ,0.20 ,e,0.20)
-        line14 . SetLineColor ( r . kBlack )
-        line14 . SetLineWidth (1)
-        line14 . SetLineStyle(2)
-        sline = r . TLine (s ,1 ,e,1)
-        sline . SetLineColor ( r . kBlack )
-        sline . SetLineWidth (2)
+        line11 = r.TLine (s ,0.80 ,e,0.80)
+        line11.SetLineColor ( r.kBlack )
+        line11.SetLineWidth (1)
+        line11.SetLineStyle(2)
+        line12 = r.TLine (s ,0.60 ,e,0.60)
+        line12.SetLineColor ( r.kBlack )
+        line12.SetLineWidth (1)
+        line12.SetLineStyle(2)
+        line13 = r.TLine (s ,0.40 ,e,0.40)
+        line13.SetLineColor ( r.kBlack )
+        line13.SetLineWidth (1)
+        line13.SetLineStyle(2)
+        line14 = r.TLine (s ,0.20 ,e,0.20)
+        line14.SetLineColor ( r.kBlack )
+        line14.SetLineWidth (1)
+        line14.SetLineStyle(2)
+        sline = r.TLine (s ,1 ,e,1)
+        sline.SetLineColor ( r.kBlack )
+        sline.SetLineWidth (2)
         sline.Draw("same")
-        line11 . Draw (" same ")
-        line12 . Draw (" same ")
-        line13 . Draw (" same ")
-        line14 . Draw (" same ")
+        line11.Draw (" same ")
+        line12.Draw (" same ")
+        line13.Draw (" same ")
+        line14.Draw (" same ")
         
         file_name = i.m_name+"_"+watermark+".pdf"
         canvas.Update()
@@ -1123,7 +1160,7 @@ HistogramInfo('ljet0_pt', [75, 375, 625], [75, 100, 225, 375], 75, 'pT(j_{1})',7
 HistogramInfo('ljet1_pt', [70, 370, 630], [70, 100, 230, 370], 70, 'pT(j_{2})',70,1000,'GeV'),
 HistogramInfo('pt_bal', [0.15], [0.03, 0.75], 0.03, 'pT balance',0,0.15,''),
 HistogramInfo('Z_centrality', [0.5,0.7,1.0, 2.0], [0.1, 0.19999, 0.3, 1.0, 3.0], 0.1, '#xi(Z)',0,0.5,'',xRange=[0,2]),
-HistogramInfo('mass_jj', [1000, 2500], [250, 750, 1250], 250, 'm_{jj}',1000,5000,'GeV',True),
+HistogramInfo('mass_jj', [1000, 2500], [250, 750, 1250.0], 250, 'm_{jj}',1000,5000,'GeV',True),
 HistogramInfo('reco_mass_i', [66, 81, 101, 116, 160, 250, 500], [66, 15, 10, 15, 11, 30, 125, 250], 10, 'm_{#tau,l}(i)',66,116,'GeV',True),
 HistogramInfo('reco_mass_o', [66, 81, 101, 116, 160, 250, 500], [66, 15, 10, 15, 11, 30, 125, 250], 10, 'm_{#tau,l}(o)',66,116,'GeV',True),
 HistogramInfo('reco_mass_', [66, 81, 101, 116, 160, 250, 500], [66, 15, 10, 15, 11, 30, 125, 250], 10, 'm_{#tau,l}',66,116,'GeV',True),
@@ -1285,7 +1322,7 @@ HistogramInfo('nuPtAssummetry_basic_all', [0.0], [0.1, 0.1], 0.1, 'pT(#nu_{l}-#n
 HistogramInfo('bdtScore', [-0.4, 0.1, 0.5], [0.1999, 0.25, 0.2, 0.25], 0.2, 'VBF-BDT score',0.3,1.0,''),
 HistogramInfo('lepNuPt', [30, 100], [15, 35, 100], 15, 'pT(#nu_{l})',30,1000,'GeV'),
 HistogramInfo('pTsymmetry', [0.4], [0.2, 0.2], 0.2, 'p_{T} asymmetry',-0.3,1.0,''),
-HistogramInfo('lepTransMass_basic_all', [60, 100, 200], [30, 40, 100, 250], 30, 'm_{T}(l)',0,0,'GeV'),
+#HistogramInfo('lepTransMass_basic_all', [60, 100, 200], [30, 40, 100, 250], 30, 'm_{T}(l)',0,0,'GeV'),
 HistogramInfo('tauTransMass_basic_all', [100, 200], [20, 50, 50], 20, 'm_{T}(#tau)',0,0,''),
 HistogramInfo('signedCentrality_basic_all', [0.0], [0.1, 0.1], 0.1, 'Signed #xi(Z)',0,0,''),
 HistogramInfo('visibleMass_basic_all', [40, 100, 150, 250], [40, 20, 25, 50, 250], 20, 'm(vis)_{#tau,l}',0,0,''),
