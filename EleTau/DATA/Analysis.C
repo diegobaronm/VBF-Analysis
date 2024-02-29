@@ -41,7 +41,7 @@ int is_inside_jets(TLorentzVector * test_jet,TLorentzVector * j1, TLorentzVector
   else{return 1;}
 }
 
-double min_deltaR(TLorentzVector* test_particle, std::vector<UInt_t> bool_vector_container, std::vector<TLorentzVector*> jet_container){
+double min_deltaR(TLorentzVector* test_particle, std::vector<UInt_t>& bool_vector_container,const std::vector<TLorentzVector*>& jet_container){
 
   std::vector<double> delta_Rs{};
 
@@ -351,12 +351,12 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
         bool diLeptonMassRequirement = reco_mass>=160;
         if (diLeptonMassRequirement){cuts[15]=1;} // Z-peak reco_mass<116 && reco_mass>66 // Higgs reco_mass >= 116 && reco_mass < 160
         if (tau_0_p4->Pt()>=25){cuts[16]=1;}
-        if (true){cuts[17]=1;} // High-mass VBFBDT_score > 0.3
+        if (VBFBDT_score > 0.3){cuts[17]=1;} // High-mass VBFBDT_score > 0.3
         if (true){cuts[18]=1;} // High-mass lepnuPtPass>=30 GeV.
-        if (true){cuts[19]=1;} // High-mass normPtDifference > -0.3
+        if (normPtDifference > -0.3){cuts[19]=1;} // High-mass normPtDifference > -0.3
         if (true){cuts[20]=1;} // High-mass taunuPtPass >= 15 GeV Higgs NO CUT
-        if (true){cuts[21]=1;} // High-mas reco_mass/inv_taulep < 4.0
-        if (true){cuts[22]=1;} // High-mas transverseMassLep <= 60.0
+        if (reco_mass/inv_taulep < 4.0){cuts[21]=1;} // High-mas reco_mass/inv_taulep < 4.0
+        if (met_reco_p4->Pt() >= 40){cuts[22]=1;} // High-mass MET >= 40 GeV
 
         // SUM OF THE VECTOR STORING IF CUTS PASS OR NOT
         size_t sum{0};
@@ -370,7 +370,7 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
         bool signalRegion = angle<=3.2 && delta_y>=2.0 && n_bjets_MV2c10_FixedCutBEff_85==0 && (oneProngId || threeProngId) &&
         elec_0_p4->Pt()>=27 && ljet_0_p4->Pt()>=75 && ljet_1_p4->Pt()>=70 && pt_bal<=0.15 && mjj>=750 && 
         n_jets_interval == 0 && z_centrality < 0.5 && omega> -0.2 && omega <1.4 && reco_mass>=160 && tau_0_p4->Pt()>=25 &&
-        VBFBDT_score > 0.3 && lepnuPtPass && normPtDifference > -0.3 && taunuPtPass && reco_mass/inv_taulep < 4.0 &&
+        VBFBDT_score > 0.3 && normPtDifference > -0.3 && reco_mass/inv_taulep < 4.0 && met_reco_p4->Pt() >= 40 &&
         tau_0_ele_bdt_score_trans_retuned>=0.05 && (inv_taulep<=80 || inv_taulep>=100);
 
         if (sampleName.substr(0,4)=="data" && signalRegion && ql!=qtau) return;
@@ -461,7 +461,7 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
         delta_R_taulepContainer.Fill(tau_0_p4->DeltaR(*elec_0_p4),weight,cutsVector);
         delta_R_lepjetContainer.Fill(min_dR_lep,weight,cutsVector);
         delta_R_taujetContainer.Fill(min_dR_tau,weight,cutsVector);
-        metContainer.Fill(met_reco_p4->Pt(),weight,notFullCutsVector);
+        metContainer.Fill(met_reco_p4->Pt(),weight,cutsVector);
 
         if (weight!=1){
           if(inside){Z_pt_truth_iNotFullContainer.Fill(truth_z_pt,weight,notFullCutsVector);}

@@ -1,3 +1,5 @@
+#include <iomanip>
+#include <sstream>
 
 std::vector<double> g_binEdgesTrueMass = {0, 66, 76, 86, 96, 106, 116, 127, 138, 149, 160, 180, 200, 250, 300, 400, 500, 750, 1000};
 const char* g_titleTrueMass = "m_{true}(#tau,#tau) [GeV]";
@@ -12,9 +14,10 @@ bool g_rebin = true;
 bool g_plotDensity = true;
 bool g_simpleBinning = false;
 int g_nbins = g_binEdges.size()-1;
-float g_binNormalisation = 250.0;
+float g_binNormalisation = 250.0f;
 std::string g_units = " [GeV]";
 const char* g_title = g_titleMassJJ;
+const float g_firstBinValue = 1.0f;
 
 TCanvas *c1 = new TCanvas("c1", "c1", 600, 600);
 
@@ -53,13 +56,19 @@ void plotRatio(TCanvas *canvas, const char* fileName1, const char* histogramName
 
     h1->SetTitle(title);
 
+    h1->SetBinContent(1,g_firstBinValue);
+
     canvas->cd();
     canvas->SetTitle("HOLA");
     h1->GetXaxis()->SetRange(1,h1->GetNbinsX()+1); //Draw overflow bin
-    h1->GetYaxis()->SetRangeUser(0.0,2.5);
+    h1->GetYaxis()->SetRangeUser(0.5,2.0);
     h1->Draw(drawingOptions);
     h1->GetXaxis()->SetTitle(g_title);
-    std::string ytitle = std::string("Events/")+std::to_string(g_binNormalisation)+g_units;
+    std::stringstream stream;
+    stream << std::fixed << std::setprecision(1) << g_binNormalisation;
+    std::string normString = stream.str();
+    std::string units = " "+g_units.substr(2,g_units.size()-3);
+    std::string ytitle = std::string("Events/")+normString+units;
     h1->GetYaxis()->SetTitle(ytitle.c_str());
     h1->GetXaxis()->SetTitleSize(0.056);
     h1->GetYaxis()->SetTitleSize(0.056);
@@ -109,8 +118,16 @@ void ratioPlot(){
     const char* MGZtautau = "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/TauTau/Z-peak/SR/Ztautau_MGRW.root";
     
     const char* referenceSample = "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/Zll/Z-peak/SR/Zll_SherpaRW.root";
-    plotRatio(c1, referenceSample, histogram, referenceSample, histogram, "Sherpa-RW",kBlack, "SAME E1 X0 L P");
-    plotRatio(c1, referenceSample, histogram, referenceSample, histogram, "Sherpa-RW",kBlack, "SAME HIST C");
+    plotRatio(c1, EWjjZllPoPy, histogram, EWjjZllSherpa, histogram, "PowPy/Sherpa2.2.11",kBlue, "SAME E1 X0 L P");
+    plotRatio(c1, EWjjZllPoPy, histogram, EWjjZllSherpa, histogram, "PowPy/Sherpa2.2.11",kBlue, "SAME HIST C");
+
+    gPad->BuildLegend();
+    
+    /*
+    // Comparing different QCD shapes
+    const char* referenceSample = "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/Zll/Z-peak/SR/Zll_SherpaRW.root";
+    plotRatio(c1, referenceSample, histogram, referenceSample, histogram, "Sherpa-RW",kBlack, "SAME HIST L0 P");
+    plotRatio(c1, referenceSample, histogram, referenceSample, histogram, "Sherpa-RW",kBlack, "SAME HIST C0");
     plotRatio(c1, MGZll, histogram, referenceSample, histogram, "MG-RW",kBlue, "SAME E1 X0 L P");
     plotRatio(c1, MGZll, histogram, referenceSample, histogram, "MG-RW",kBlue, "SAME HIST C");
     //plotRatio(c1, MGNLO, histogram, referenceSample, histogram, "MGNLO-RW",kGreen, "SAME E1 X0 L P");
@@ -118,34 +135,21 @@ void ratioPlot(){
     plotRatio(c1, MGNLOZll, histogram, referenceSample, histogram, "MGNLO-RW",kPink, "SAME E1 X0 L P");
     plotRatio(c1, MGNLOZll, histogram, referenceSample, histogram, "MGNLO-RW",kPink, "SAME HIST C");
     plotRatio(c1, SherpaNLOZll, histogram, referenceSample, histogram, "Sherpa2.2.11-RW",kGreen, "SAME E1 X0 L P");
-    plotRatio(c1, SherpaNLOZll, histogram, referenceSample, histogram, "Sherpa2.2.11--RW",kGreen, "SAME HIST C");
+    plotRatio(c1, SherpaNLOZll, histogram, referenceSample, histogram, "Sherpa2.2.11-RW",kGreen, "SAME HIST C");
     //plotRatio(c1, SherpaNLO, histogram, referenceSample, histogram, "SherpaNLORW",kYellow, "SAME E1 X0 L P");
     //plotRatio(c1, SherpaNLO, histogram, referenceSample, histogram, "SherpaNLORW",kYellow, "SAME HIST C");
+    */
 
-    gPad->BuildLegend();
-    
-    /*
-    // Comparing different QCD shapes
-    const char* histogram = "mass_jj";
-    const char* referenceSample = "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/TauTau/Z-peak/SR/Ztautau_SherpaRW.root"; // Sherpa RW Flat
-    const char* MGFlat = "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/TauTau/Z-peak/SR/Ztautau_MGRW.root";
-    //const char* MGNLO = "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/MuMu/Z-peak/SR/Zmumu_MGNLORW.root";
-    const char* MGNLOFlat = "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/TauTau/Z-peak/SR/Ztautau_MGNLORW2.root";
-    //const char* SherpaNLO = "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/MuMu/Z-peak/SR/Zmumu_SherpaNLORW.root";
-
-    plotRatio(c1, referenceSample, histogram, referenceSample, histogram, "Sherpa-FlatRW",kBlack, "SAME E1 X0 L P");
-    plotRatio(c1, referenceSample, histogram, referenceSample, histogram, "Sherpa-FlatRW",kBlack, "SAME HIST C");
-    plotRatio(c1, MGFlat, histogram, referenceSample, histogram, "MG-FlatRW",kBlue, "SAME E1 X0 L P");
-    plotRatio(c1, MGFlat, histogram, referenceSample, histogram, "MG-FlatRW",kBlue, "SAME HIST C");
+    // Comparing QCDjj shapes between Z->ee and Z->mumu
+    /* 
+    plotRatio(c1, MGZee, histogram, MGZmumu, histogram, "MG-RW",kBlue, "SAME E1 X0 L P");
+    plotRatio(c1, MGZee, histogram, MGZmumu, histogram, "MG-RW",kBlue, "SAME HIST C");
     //plotRatio(c1, MGNLO, histogram, referenceSample, histogram, "MGNLO-RW",kGreen, "SAME E1 X0 L P");
     //plotRatio(c1, MGNLO, histogram, referenceSample, histogram, "MGNLO-RW",kGreen, "SAME HIST C");
-    plotRatio(c1, MGNLOFlat, histogram, referenceSample, histogram, "MGNLO-FlatRW",kPink, "SAME E1 X0 L P");
-    plotRatio(c1, MGNLOFlat, histogram, referenceSample, histogram, "MGNLO-FlatRW",kPink, "SAME HIST C");
-    //plotRatio(c1, SherpaNLO, histogram, referenceSample, histogram, "SherpaNLORW",kYellow, "SAME E1 X0 L P");
-    //plotRatio(c1, SherpaNLO, histogram, referenceSample, histogram, "SherpaNLORW",kYellow, "SAME HIST C");
-    
-    //plotRatio(c1, MGNLOFlat, histogram, MGNLO, histogram, "MGNLOFlat/Quadratic",kRed, "SAME E1 X0 L P");
-    //plotRatio(c1, MGNLOFlat, histogram, MGNLO, histogram, "MGNLOFlat/Quadratic",kRed, "SAME HIST C");
+    plotRatio(c1, MGNLOZee, histogram, MGNLOZmumu, histogram, "MGNLO-RW",kRed, "SAME E1 X0 L P");
+    plotRatio(c1, MGNLOZee, histogram, MGNLOZmumu, histogram, "MGNLO-RW",kRed, "SAME HIST C");
+    plotRatio(c1, SherpaZee, histogram, SherpaZmumu, histogram, "Sherpa2.2.1-RW",kBlack, "SAME E1 X0 L P");
+    plotRatio(c1, SherpaZee, histogram, SherpaZmumu, histogram, "Sherpa2.2.1-RW",kBlack, "SAME HIST C");
     */
 
     // Comparing Z->ll and Z->tautau QCDjj shapes

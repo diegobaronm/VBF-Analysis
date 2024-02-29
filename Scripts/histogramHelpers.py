@@ -323,7 +323,24 @@ def setupShadeHistogram(baseHistogram,highYRange,lowXRange,highXRange,purityHist
 ############################################################################################################
 
 # Function to plot a histogram stack of MC with data
-def stackPlot(data,signal,background,histograms,watermark,function,additionalSignal=[],signalMu = 1.0, backgroundMu = 1.0,average=False,after_fit=False,final_state="Z#rightarrow #mu#mu",blindPlot=True,unblindPurityLimit=0.0,printVersion=False,printOverflows=False, purityMultiplier=1.0):
+def stackPlot(data,signal,background,histograms,watermark,function,additionalSignal=[],signalMu = 1.0, backgroundMu = 1.0,average=False,after_fit=False,final_state="Z#rightarrow #mu#mu",regionLabel="",blind=True,blindMass=True,unblindPurityLimit=0.0,printVersion=False,printOverflows=False, purityMultiplier=1.0):
+
+    ###### INTERNAL DICTIONARY STORING THE QCD and EW SAMPLE NAMES ######
+    ###### ALSO A FUNCTION TO GET THE CORRECT NAME ######
+    qcdLabels = {"MG":"MadGraphLO","MGNLO":"MadGraphNLO","Sherpa":"Sherpa2.2.1","SherpaNLO":"Sherpa2.2.11","PoPy":"PowHeg+Pythia8"}
+    vbfLabels = {"Sherpa":"Sherpa2.2.11","PoPy":"PowHeg+Pythia"}
+
+    sampleNames = {"vbfName" : signal["Signal"][0], "qcdName" :background["QCDjj"][0]}
+    for sample in sampleNames:
+        sampleType = sampleNames[sample].split("_")[1]
+        sampleType = sampleType.replace(".root","") # Remove the .root extension
+        sampleType = sampleType.replace("RW","") # Remove the RW extension
+        sampleType = sampleType.replace("2","") # Some samples have a 2 at the end
+        sampleType = sampleType.replace("Flat","") # Some samples have a "Flat" attached at the end
+        # Asign the processed name to the dictionary
+        sampleNames[sample] = sampleType
+
+
     samples = data.copy()
     samples.update(background)
     samples.update(signal)
@@ -391,9 +408,9 @@ def stackPlot(data,signal,background,histograms,watermark,function,additionalSig
                 if s not in ["Signal"]:
                     mc.Add(samples[s][2],1)
         statUncer = mc.Clone()
-        statUncer.SetLineColor(r.kBlack)
-        statUncer.SetFillColor(r.kGray+2)
-        statUncer.SetFillStyle(3145)
+        statUncer.SetLineColor(r.kBlue)
+        statUncer.SetFillColor(r.kBlue-4)
+        statUncer.SetFillStyle(3354)
 
         ############### DEFINING Signal/MC RATIO ###############
         
@@ -407,8 +424,8 @@ def stackPlot(data,signal,background,histograms,watermark,function,additionalSig
         #ratio_mj_mc.SetLineColor(r.kRed)
 
         ############## BLINDING BINS WITH ABOVE THE PURITY LIMIT AND DEFINING Data/MC RATIO ################
-
-        blindHistogram(samples["Data"][2],ratio_sg_mc,unblindPurityLimit)
+        if blind:
+            blindHistogram(samples["Data"][2],ratio_sg_mc,unblindPurityLimit)
         ratio = r.TGraphAsymmErrors()
         ratio.Divide(mc,samples["Data"][2],"pois")
 
@@ -420,7 +437,7 @@ def stackPlot(data,signal,background,histograms,watermark,function,additionalSig
         
         r.gStyle.SetOptStat(1111111)
 
-        if "reco_mass" in i.m_name and blindPlot: # Blind the data
+        if "reco_mass" in i.m_name and blind: # Blind the reco_mass plot
             r.gStyle.SetOptStat(0)
         r.gStyle.SetStatY(0.97);                
         r.gStyle.SetStatX(1.0);
@@ -500,7 +517,7 @@ def stackPlot(data,signal,background,histograms,watermark,function,additionalSig
         samples["Data"][2].GetYaxis().SetMaxDigits(3)
 
         
-        if "reco_mass" in i.m_name and blindPlot:
+        if "reco_mass" in i.m_name and blindMass:
             s=66
             e=116
         s = round(s,2)
@@ -519,15 +536,19 @@ def stackPlot(data,signal,background,histograms,watermark,function,additionalSig
         samples["Data"][2].GetXaxis().SetRangeUser(s,e)
 
         ###### SET UP BLINDING HISTOGRAM ######
-        shadeHistogram = setupShadeHistogram(samples["Signal"][2], yRange,i.m_leftCut,i.m_rightCut,ratio_sg_mc,unblindPurityLimit)
-        shadeHistogram.Draw("hist same")
+        if blind:
+            shadeHistogram = setupShadeHistogram(samples["Signal"][2], yRange,i.m_leftCut,i.m_rightCut,ratio_sg_mc,unblindPurityLimit)
+            shadeHistogram.Draw("hist same")
 
         ###### DRAWING LEGEND ######
-        legend = r.TLegend (0.45 ,0.75 ,0.85 ,0.90)
+        legend = r.TLegend (0.45 ,0.65 ,0.75 ,0.90)
         for sample in samples:
-            legend.AddEntry(samples[sample][2],sample,"f")
+            if sample!="Data":
+                legend.AddEntry(samples[sample][2],sample,"f")
+            else:
+                legend.AddEntry(samples[sample][2],sample,"lep")
         legend.AddEntry(statUncer,"MC Stat. Uncer.")
-        legend.SetNColumns(3)
+        legend.SetNColumns(2)
         r.gStyle.SetLegendBorderSize(0)
         legend.SetLineWidth (0)
         r.gStyle.SetLegendTextSize(0.045)
@@ -539,40 +560,67 @@ def stackPlot(data,signal,background,histograms,watermark,function,additionalSig
         l.SetNDC ()
         if printVersion:
             r.gStyle.SetOptStat(0)
-            l.DrawLatex(0.87,0.85,final_state)
-            vbfNormText = r.TText(.9,.80,"VBF = "+str(round(signalMu,3)))
-            qcdNormText = r.TText(.9,.75,"QCD = "+str(round(backgroundMu,3)))
+            l.DrawLatex(0.825,0.88,final_state)
+            regionText = r.TText(.5,.97,regionLabel)
+            vbfNormText = r.TText(.85,.85,"VBF = "+str(round(signalMu,3)))
+            vbfSampleText = r.TText(.85,.80,vbfLabels[sampleNames["vbfName"]])
+            qcdNormText = r.TText(.85,.75,"QCD = "+str(round(backgroundMu,3)))
+            qcdSampleText = r.TText(.85,.70,qcdLabels[sampleNames["qcdName"]])
         else :
-            l.DrawLatex(0.9,0.65,final_state)
-            vbfNormText = r.TText(.9,.60,"VBF = "+str(round(signalMu,3)))
-            qcdNormText = r.TText(.9,.55,"QCD = "+str(round(backgroundMu,3)))
+            l.DrawLatex(0.8,0.65,final_state)
+            regionText = r.TText(.5,.99,regionLabel)
+            vbfNormText = r.TText(.8,.60,"VBF = "+str(round(signalMu,3)))
+            vbfSampleText = r.TText(.8,.55,vbfLabels[sampleNames["vbfName"]])
+            qcdNormText = r.TText(.8,.50,"QCD = "+str(round(backgroundMu,3)))
+            qcdSampleText = r.TText(.8,.45,qcdLabels[sampleNames["qcdName"]])
 
 
-        # Draw normalisation factors used in this plot
+        # Draw normalisation factors AND samples used in this plot
+        regionText.SetNDC()
+        regionText.SetTextAlign(22)
+        regionText.SetTextFont(43)
+        regionText.SetTextSize(17)
+        regionText.Draw("same")    
+
         vbfNormText.SetNDC ()
         vbfNormText.SetTextAlign(22)
         vbfNormText.SetTextFont(43)
         vbfNormText.SetTextSize(14)
         vbfNormText.Draw("same")
 
-        
         qcdNormText.SetNDC ()
         qcdNormText.SetTextAlign(22)
         qcdNormText.SetTextFont(43)
         qcdNormText.SetTextSize(14)
         qcdNormText.Draw("same")
-        
-        max_ratio = 4
-        if max_ratio > 3.5:
-            max_ratio = 2.5 # 1.4
-        if max_ratio < 1.5:
-            max_ratio = 1.5
 
-        min_ratio = -1
-        if min_ratio > 0.7:
-            min_ratio = 0.5
-        if min_ratio < 0.7:
-            min_ratio = 0.2 # 0.8
+        vbfSampleText.SetNDC()
+        vbfSampleText.SetTextAlign(22)
+        vbfSampleText.SetTextFont(43)
+        vbfSampleText.SetTextSize(14)
+        vbfSampleText.Draw("same")
+
+        qcdSampleText.SetNDC()
+        qcdSampleText.SetTextAlign(22)
+        qcdSampleText.SetTextFont(43)
+        qcdSampleText.SetTextSize(14)
+        qcdSampleText.Draw("same")
+        
+        ###### DRAWING THE RANGE FOR THE RATIO HISTOGRAM ######
+
+        max_ratio = 1.4
+        min_ratio = 0.8 
+
+        tmpHisto = mc.Clone()
+        tmpHisto.Divide(samples["Data"][2])
+        maxFromRatioHist = tmpHisto.GetMaximum(2.0) # Get maximum value 
+        minFromRatioHist = tmpHisto.GetMinimum(0.0) # Get minumum value greater than 0
+
+        if maxFromRatioHist > max_ratio:
+            max_ratio = 2.2
+        if minFromRatioHist < min_ratio:
+            min_ratio = 0.3
+
 
         ###### DRAWING CUT LINES ######
         if i.m_leftCut!=i.m_rightCut:
@@ -601,7 +649,8 @@ def stackPlot(data,signal,background,histograms,watermark,function,additionalSig
         mc.Divide(mc) # NECESSARY TRICK BECAUSE ALL PLOT PARAMETERS GET ATTACHED TO THE FIRST HISTOGRAM
         mc.Draw("hist p")
         ratio.Draw("P E0 E2 same")
-        shadeHistogram.Draw("hist same")
+        if blind:
+            shadeHistogram.Draw("hist same")
         mc.SetTitle("")
         mc.SetStats(0)
         mc.GetYaxis (). SetRangeUser (min_ratio ,max_ratio)
@@ -610,12 +659,21 @@ def stackPlot(data,signal,background,histograms,watermark,function,additionalSig
         mc.GetYaxis (). SetTitleSize (0.24)
         mc.GetYaxis (). SetTitleOffset (0.16)
         mc.GetXaxis (). SetTitleSize (0.09)
-        mc.GetYaxis().ChangeLabel(-1,-1,0.)
         mc.GetXaxis().SetLabelSize(0.10)
         mc.GetYaxis().SetLabelSize(0.18)
         ratio.SetMarkerStyle(8)
-        ratio.SetMarkerSize(0.6)        
-
+        ratio.SetMarkerSize(0.6)       
+        mc.GetYaxis().ChangeLabel(-1,-1,0.)
+        # Now do some adjustments depending on the range.
+        # Posible ranges are min = 0.6, 1.1, 1.4, max = 1.9
+        ratioRange = max_ratio - min_ratio
+        if abs(ratioRange - 0.6) < 0.01: 
+            mc.GetYaxis().ChangeLabel(1,-1,0.)
+        # if abs(ratioRange - 1.1) < 0.01: NOTHING TO DO FOR THIS RANGE  
+        if abs(ratioRange - 1.4) < 0.01:
+            mc.GetYaxis().ChangeLabel(1,-1,0.)
+        if abs(ratioRange - 1.9) < 0.01:
+            mc.GetYaxis().SetLabelSize(0.14)
 
         ###### SETTING ALL THE HORIZONTAL DASHED LINES #######
 
@@ -1280,6 +1338,7 @@ HistogramInfo('lepNuPt', [30, 100], [15, 35, 100], 15, 'pT(#nu_{l})',30,1000,'Ge
 HistogramInfo('pTsymmetry', [0.4], [0.35, 0.3], 0.3, 'pT(#tau - l)/(#tau + l)',-0.3,1.0,''),
 HistogramInfo('lepTransMass_basic_all', [100, 200], [20, 50, 50], 20, 'm_{T}(l)',0,0,'GeV'),
 HistogramInfo('tauTransMass_basic_all', [100, 200], [20, 50, 50], 20, 'm_{T}(#tau)',0,0,'GeV'),
+HistogramInfo('met_basic_all',[100,250],[20,50,250],20,'MET',0,0,'GeV'),
 ]
 
 tautauHighMassHistograms = [
@@ -1317,22 +1376,24 @@ HistogramInfo('delta_phijj_basic_all', [1.8], [0.9, 0.7], 0.7, '#Delta#phi(j_{1}
 HistogramInfo('massTauClosestJet_basic_all', [200, 500], [100, 100, 500], 100, 'm_{#tau,j_{closest}}',0,0,''),
 HistogramInfo('massLepClosestJet_basic_all', [200, 500], [100, 100, 500], 100, 'm_{l,j_{closest}}',0,0,''),
 HistogramInfo('massTauFurthestJet_basic_all', [200, 500], [100, 100, 500], 100, 'm_{#tau,j_{furthest}}',0,0,''),
-HistogramInfo('nuTauPt', [30, 100], [15, 35, 100], 15, 'pT(#nu_{#tau})',15,1000,'GeV'),
+HistogramInfo('nuTauPt', [30, 100], [15, 35, 100], 15, 'pT(#nu_{#tau})',0,1000,'GeV'),
 HistogramInfo('nuPtAssummetry_basic_all', [0.0], [0.1, 0.1], 0.1, 'pT(#nu_{l}-#nu_{#tau})/(#nu_{l}+#nu_{#tau})',0,0,''),
 HistogramInfo('bdtScore', [-0.4, 0.1, 0.5], [0.1999, 0.25, 0.2, 0.25], 0.2, 'VBF-BDT score',0.3,1.0,''),
-HistogramInfo('lepNuPt', [30, 100], [15, 35, 100], 15, 'pT(#nu_{l})',30,1000,'GeV'),
+HistogramInfo('lepNuPt', [30, 100], [15, 35, 100], 15, 'pT(#nu_{l})',0,1000,'GeV'),
 HistogramInfo('pTsymmetry', [0.4], [0.2, 0.2], 0.2, 'p_{T} asymmetry',-0.3,1.0,''),
-#HistogramInfo('lepTransMass_basic_all', [60, 100, 200], [30, 40, 100, 250], 30, 'm_{T}(l)',0,0,'GeV'),
+HistogramInfo('lepTransMass_basic_all', [60, 100, 200], [30, 40, 100, 250], 30, 'm_{T}(l)',0,0,'GeV'),
 HistogramInfo('tauTransMass_basic_all', [100, 200], [20, 50, 50], 20, 'm_{T}(#tau)',0,0,''),
 HistogramInfo('signedCentrality_basic_all', [0.0], [0.1, 0.1], 0.1, 'Signed #xi(Z)',0,0,''),
 HistogramInfo('visibleMass_basic_all', [40, 100, 150, 250], [40, 20, 25, 50, 250], 20, 'm(vis)_{#tau,l}',0,0,''),
 HistogramInfo('recoVisibleMassRatio', [1.0, 2.0,4.0], [0.2, 0.5, 1.0,2.0], 0.2, 'm(reco)_{#tau,l}/m(vis)_{#tau,l}',0,4.0,''),
-HistogramInfo('lepTransMass', [60, 100, 200], [30, 40, 100, 250], 30, 'm_{T}(l)',0,0,'GeV'),
+#HistogramInfo('lepTransMass', [60, 100, 200], [30, 40, 100, 250], 30, 'm_{T}(l)',0,0,'GeV'),
 HistogramInfo('transMassRecoMassRatio_basic_all', [1.0], [0.1, 0.25], 0.1, 'mT_{l}/m(reco)_{#tau,l}',0,2.0,''),
 HistogramInfo('transMassRecoMassRatio66to116_basic_all', [1.0], [0.1, 0.25], 0.1, 'mT_{l}/m(reco)_{#tau,l}',0,2.0,''),
 HistogramInfo('transMassRecoMassRatio116to160_basic_all', [1.0], [0.1, 0.25], 0.1, 'mT_{l}/m(reco)_{#tau,l}',0,2.0,''),
-HistogramInfo('transMassRecoMassRatio160to400_basic_all', [1.0], [0.1, 0.25], 0.1, 'mT_{l}/m(reco)_{#tau,l}',0,2.0,''),
 HistogramInfo('transMassRecoMassRatio400to_basic_all', [1.0], [0.1, 0.25], 0.1, 'mT_{l}/m(reco)_{#tau,l}',0,2.0,''),
+HistogramInfo('transMassRecoMassRatio160to400_basic_all', [1.0], [0.1, 0.25], 0.1, 'mT_{l}/m(reco)_{#tau,l}',0,2.0,''),
+#HistogramInfo('met_basic_all',[20,40,100,200],[20,10,30,100,150],20,'MET',0,0,'GeV'),
+HistogramInfo('met',[20,40,100,200],[20,10,30,100,150],20,'MET',40,500,'GeV'),
 ]
 
 tautauHighMassMJHistograms = [

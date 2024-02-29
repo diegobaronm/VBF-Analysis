@@ -2,7 +2,7 @@
 #define Header
 
 double pi=TMath::Pi();
-std::vector<std::string> cutNames{"basic","dphi","drap","btag","iso","rnn","ptl","j1pt","j2pt","ptbal","mjj","nji","zcen","omega","mreco","tpt","mva","lepnupt","ptsym","taunupt","rvr","mtl"};
+std::vector<std::string> cutNames{"basic","dphi","drap","btag","iso","rnn","ptl","j1pt","j2pt","ptbal","mjj","nji","zcen","omega","mreco","tpt","mva","lepnupt","ptsym","taunupt","rvr","met"};
 std::vector<std::string> notFull{"basic","all"};
 
 #define NOMINAL // NOMINAL , SHAPESYSTEMATICS, WEIGHTSYSTEMATICS
@@ -17,7 +17,6 @@ histogramContainer delta_R_taulepContainer{"delta_R_taulep","Delta R tau-lep",60
 histogramContainer delta_R_lepjetContainer{"delta_R_lepjet","Delta R lep-jet",60,0,6,cutNames};
 histogramContainer delta_R_taujetContainer{"delta_R_taujet","Delta R tau-jet",60,0,6,cutNames};
 histogramContainer sum_ptContainer{"sum_pt","Sum of lepton and tau pT",800,0,800,cutNames};
-histogramContainer metContainer{"met","Missing Transverse momentum",500,0,500,notFull};
 histogramContainer moreCentralJetContainer{"moreCentralJet","More central tagging jet",140,-7.0,7.0,notFull};
 histogramContainer lessCentralJetContainer{"lessCentralJet","Less central tagging jet",140,-7.0,7.0,notFull};
 histogramContainer normPtDifferenceContainer{"normPtDifference"," (tau-mu)/(tau+mu) pT ",200,-1.0,1.0,notFull};
@@ -85,7 +84,8 @@ histogramContainer omegaContainer{"omega","Omega variable",60,-3.0,3.0,cutNames,
 histogramContainer reco_mass_iContainer{"reco_mass_i","Reconstructed mass in between events",1000,0,1000,cutNames,"mreco"};
 histogramContainer reco_mass_oContainer{"reco_mass_o","Reconstructed mass outside events",1000,0,1000,cutNames,"mreco"};
 histogramContainer reco_massContainer{"reco_mass_","Reconstructed mass all events",1000,0,1000,cutNames,"mreco"};
-histogramContainer lepTransMassContainer{"lepTransMass","Transverse mass lepton",500,0,500,cutNames,"mtl"};
+histogramContainer metContainer{"met","Missing Transverse momentum",500,0,500,cutNames,"met"};
+histogramContainer lepTransMassContainer{"lepTransMass","Transverse mass lepton",500,0,500,notFull};
 histogramContainer tauTransMassContainer{"tauTransMass","Transverse mass tau",500,0,500,notFull};
 histogramContainer transMassSumContainer{"transMassSum","Transverse mass sum",1000,0,1000,notFull};
 histogramContainer transMassRatioContainer{"transMassRatio","Transverse mass ratio",200,-1.0,1.0,notFull};

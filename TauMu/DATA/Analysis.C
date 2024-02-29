@@ -55,7 +55,7 @@ int is_inside_jets(TLorentzVector * test_jet,TLorentzVector * j1, TLorentzVector
   else{return 1;}
 }
 
-double min_deltaR(TLorentzVector* test_particle, std::vector<UInt_t> bool_vector_container, std::vector<TLorentzVector*> jet_container){
+double min_deltaR(TLorentzVector* test_particle, std::vector<UInt_t>& bool_vector_container,const std::vector<TLorentzVector*>& jet_container){
 
   std::vector<double> delta_Rs{};
 
@@ -367,12 +367,12 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
         bool diLeptonMassRequirement =  reco_mass>=160;
         if (diLeptonMassRequirement){cuts[13]=1;} // Z-peak reco_mass<116 && reco_mass>66 // Higgs reco_mass >= 116 && reco_mass < 160
         if (tau_0_p4->Pt()>=25){cuts[14]=1;}
-        if (true){cuts[15]=1;} // High-mass VBFBDT_score > 0.3
+        if (VBFBDT_score > 0.3){cuts[15]=1;} // High-mass VBFBDT_score > 0.3
         if (true){cuts[16]=1;} // High-mass lepnuPtPass>=30 GeV.
-        if (true){cuts[17]=1;} // High-mass normPtDifference > -0.3
+        if (normPtDifference > -0.3){cuts[17]=1;} // High-mass normPtDifference > -0.3
         if (true){cuts[18]=1;} // High-mass taunuPtPass >= 15 GeV Higgs NO CUT
-        if (true){cuts[19]=1;} // High-mas reco_mass/inv_taulep < 4.0
-        if (true){cuts[20]=1;} // High-mas transverseMassLep <= 60.0
+        if (reco_mass/inv_taulep < 4.0){cuts[19]=1;} // High-mas reco_mass/inv_taulep < 4.0
+        if (met_reco_p4->Pt() >= 40){cuts[20]=1;} // High-mass MET >= 40 GeV
 
         // SUM OF THE VECTOR STORING IF CUTS PASS OR NOT
         size_t sum{0};
@@ -386,7 +386,7 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
         bool signalRegion = angle<=3.2 && delta_y>=2.0 && n_bjets_MV2c10_FixedCutBEff_85==0 && (oneProngId || threeProngId) &&
         muon_0_p4->Pt()>=27 && ljet_0_p4->Pt()>=75 && ljet_1_p4->Pt()>=70 && pt_bal<=0.15 && mjj>=750 && 
         n_jets_interval == 0 && z_centrality < 0.5 && omega> -0.2 && omega <1.4 && reco_mass>=160 && tau_0_p4->Pt()>=25 &&
-        VBFBDT_score > 0.3 && lepnuPtPass && normPtDifference > -0.3 && taunuPtPass && reco_mass/inv_taulep < 4.0;
+        VBFBDT_score > 0.3 && normPtDifference > -0.3 && reco_mass/inv_taulep < 4.0 && met_reco_p4->Pt() >= 40;
 
         if (sampleName.substr(0,4)=="data" && signalRegion && ql!=qtau) return;
 
@@ -474,7 +474,7 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
         delta_R_taulepContainer.Fill(tau_0_p4->DeltaR(*muon_0_p4),weight,cutsVector);
         delta_R_lepjetContainer.Fill(min_dR_lep,weight,cutsVector);
         delta_R_taujetContainer.Fill(min_dR_tau,weight,cutsVector);
-        metContainer.Fill(met_reco_p4->Pt(),weight,notFullCutsVector);
+        metContainer.Fill(met_reco_p4->Pt(),weight,cutsVector);
 
         if (weight!=1){
           if(inside){Z_pt_truth_iNotFullContainer.Fill(truth_z_pt,weight,notFullCutsVector);}
@@ -978,40 +978,3 @@ void CLoop::FillTree(double weight, int z_sample, const std::string& sampleName,
 }
 
 #endif // End header guard
-
-/*
-Dear Rebecca and Kevin,
-
-Thank you for the offer. I am very interested in the role and in the company!
-
-In previous conversations with Atif, he presented the salary bracket typical for an Associated Physics Programmer.
-
-Through the interview process, I demonstrated all the skills and the pluses required for the Physics Programmer role.
-I am happy that the interview panel recognised these and offered me the Physics Programmer role. 
-However, I would like to have the opportunity to discuss the salary range for this position and my expectations.
-
-I am thrilled to join Rockstar North, but after a family discussion and some research on the living costs in Edinburgh, I would like to ask for a base salary of £48.500. 
-
-I am happy with the other benefits offered which I think make for a very good package.
-
-I look forward to discussing my reasoning over the phone. Please do not hesitate to contact me if you have any questions.
-
-I would like to thank you once again for the offer and the very prompt recruiting process. 
-
-I look forward to joining the team!
-
-Kind regards,
-
-Diego 
-
-
-
-
-
-
-
-
-
-
-
-*/

@@ -12,6 +12,7 @@
 
 .vscode/
 .ipynb_checkpoints/
+*/__pycache__/*
 
 TauMu/MC/out/*
 TauMu/MC/output/*
