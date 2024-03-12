@@ -560,6 +560,9 @@ def stackPlot(data,signal,background,histograms,watermark,function,additionalSig
         if blind:
             shadeHistogram = setupShadeHistogram(samples["Signal"][2], yRange,i.m_leftCut,i.m_rightCut,ratio_sg_mc_for_blinding,unblindPurityLimit,i.m_name)
             shadeHistogram.Draw("hist same")
+        elif "reco_mass" in i.m_name :
+            shadeHistogram = setupShadeHistogram(samples["Signal"][2], yRange,160,1000,ratio_sg_mc_for_blinding,unblindPurityLimit,i.m_name)
+            shadeHistogram.Draw("hist same")    
 
         ###### DRAWING LEGEND ######
         legend = r.TLegend (0.45 ,0.65 ,0.75 ,0.90)
@@ -1463,6 +1466,62 @@ HistogramInfo('transMassRecoMassRatio160to400_basic_all', [1.0], [0.1, 0.25], 0.
 #HistogramInfo('met_basic_all',[20,40,100,200],[20,10,30,100,150],20,'MET',0,0,'GeV'),
 HistogramInfo('met',[20,40,100,200],[20,10,30,100,150],20,'MET',40,500,'GeV'),
 ]
+
+tautauHighMassTightTauHistograms = [
+HistogramInfo('n_bjets', [], [], 1.0, 'n_bjets',0,1,''),
+HistogramInfo('lepiso', [], [], 1.0, 'lepiso',1,2,''),
+HistogramInfo('n_jets_interval', [], [], 1.0, 'N gap jets',0,1,'',xRange=[0,2],isIntegerPlot=True),
+HistogramInfo('flavourJet1_basic_all', [], [], 1.0, 'flavourJet1_basic_all',0,0,''),
+HistogramInfo('flavourJet2_basic_all', [], [], 1.0, 'flavourJet2_basic_all',0,0,''),
+HistogramInfo('elecPdgID_basic_all', [], [], 1.0, 'elecPdgID_basic_all',0,0,''),
+HistogramInfo('muonPdgID_basic_all', [], [], 1.0, 'muonPdgID_basic_all',0,0,''),
+HistogramInfo('tauPdgID_basic_all', [], [], 1.0, 'tauPdgID_basic_all',0,0,''),
+HistogramInfo('nLightJets_basic_all', [], [], 1.0, 'nLightJets_basic_all',0,0,''),
+HistogramInfo('tau_pt', [25.0, 125.0, 150.0], [25.0, 20.0, 125.0, 350.0], 25.0, 'pT(#tau)',25,1000,'GeV'),
+HistogramInfo('lep_pt', [27, 97, 297], [27, 35, 100, 203], 27, 'pT(l)',27,1000,'GeV'),
+HistogramInfo('delta_phi', [1.8], [0.9, 0.7], 0.7, '#Delta#phi(#tau,l)',0,0,''),
+HistogramInfo('delta_y', [6.0], [2.0, 4.0], 2.0, '#Deltay_{jj}',2.0,10.0,''),
+HistogramInfo('omega', [-0.2, 0.0, 0.6, 1.4], [1.4, 0.2, 0.3, 0.39999, 1.6], 0.2, '#Omega',-0.2,1.4,''),
+HistogramInfo('rnn_score_1p', [0.15, 0.25, 0.4], [0.15, 0.1, 0.15, 0.3], 0.1, 'jetRNN Score 1p',0.40,1.0,''),
+HistogramInfo('rnn_score_3p', [0.25, 0.55, 0.8], [0.25, 0.15, 0.25, 0.2], 0.15, 'jetRNN Score 3p',0.55,1.0,''),
+HistogramInfo('ljet0_pt', [75, 375, 625], [75, 100, 225, 375], 75, 'pT(j_{1})',75,1000,'GeV',True),
+HistogramInfo('ljet1_pt', [70, 370, 630], [70, 100, 230, 370], 70, 'pT(j_{2})',70,1000,'GeV',True),
+HistogramInfo('pt_bal', [0.15], [0.03, 0.75], 0.03, 'pT balance',0,0.15,''),
+HistogramInfo('Z_centrality', [0.2, 0.5, 2.0], [0.2, 0.3, 1.5, 3.0], 0.2, '#xi(Z)',0,0.5,'',xRange=[0,2]),
+HistogramInfo('mass_jj', [1000, 2500], [250, 750, 1250], 250, 'm_{jj}',750,5000,'GeV',True),
+HistogramInfo('reco_mass_i', [66, 81, 101, 116, 160, 250, 500], [66, 15, 10, 15, 11, 30, 125, 250], 10, 'm_{#tau,l}(i)',160,1000,'',True),
+HistogramInfo('reco_mass_o', [66, 81, 101, 116, 160, 250, 500], [66, 15, 10, 15, 11, 30, 125, 250], 10, 'm_{#tau,l}(o)',160,1000,'',True),
+HistogramInfo('reco_mass_', [66, 81, 101, 116, 160, 250, 500], [66, 15, 10, 15, 11, 30, 125, 250], 10, 'm_{#tau,l}',160,1000,'GeV',True),
+HistogramInfo('Z_pt_reco_i_basic_all', [300], [50, 100], 50, 'pT(Z)',0,0,''),
+HistogramInfo('Z_pt_reco_o_basic_all', [300], [50, 100], 50, 'pT(Z)',0,0,''),
+HistogramInfo('ratio_zpt_sumjetpt_basic_all', [1.5], [0.1, 0.5], 0.1, 'pT(ll)/pT(j_{1}+j_{2})',0,0,''),
+HistogramInfo('vec_sum_pt_jets_basic_all', [100, 250], [20, 50, 250], 20, 'Vec Sum pT(j_{1}+j_{2})',0,0,''),
+HistogramInfo('moreCentralJet_basic_all', [0.0], [0.2, 0.2], 0.2, 'more central jet rapidity',0,0,''),
+HistogramInfo('lessCentralJet_basic_all', [0.0], [0.2, 0.2], 0.2, 'less central jet rapidity',0,0,''),
+HistogramInfo('delta_phijj_basic_all', [1.8], [0.9, 0.7], 0.7, '#Delta#phi(j_{1},j_{2})',0,0,''),
+HistogramInfo('massTauClosestJet_basic_all', [200, 500], [100, 100, 500], 100, 'm_{#tau,j_{closest}}',0,0,''),
+HistogramInfo('massLepClosestJet_basic_all', [200, 500], [100, 100, 500], 100, 'm_{l,j_{closest}}',0,0,''),
+HistogramInfo('massTauFurthestJet_basic_all', [200, 500], [100, 100, 500], 100, 'm_{#tau,j_{furthest}}',0,0,''),
+HistogramInfo('nuTauPt', [30, 100], [15, 35, 100], 15, 'pT(#nu_{#tau})',0,1000,'GeV'),
+HistogramInfo('nuPtAssummetry_basic_all', [0.0], [0.1, 0.1], 0.1, 'pT(#nu_{l}-#nu_{#tau})/(#nu_{l}+#nu_{#tau})',0,0,''),
+HistogramInfo('bdtScore', [-0.4, 0.1, 0.5], [0.1999, 0.25, 0.2, 0.25], 0.2, 'VBF-BDT score',0.3,1.0,''),
+HistogramInfo('lepNuPt', [30, 100], [15, 35, 100], 15, 'pT(#nu_{l})',0,1000,'GeV'),
+HistogramInfo('pTsymmetry', [0.4], [0.2, 0.2], 0.2, 'p_{T} asymmetry',-0.3,1.0,''),
+HistogramInfo('lepTransMass_basic_all', [60, 100, 200], [30, 40, 100, 250], 30, 'm_{T}(l)',0,0,'GeV'),
+HistogramInfo('tauTransMass_basic_all', [100, 200], [20, 50, 50], 20, 'm_{T}(#tau)',0,0,''),
+HistogramInfo('signedCentrality_basic_all', [0.0], [0.1, 0.1], 0.1, 'Signed #xi(Z)',0,0,''),
+HistogramInfo('visibleMass_basic_all', [40, 100, 150, 250], [40, 20, 25, 50, 250], 20, 'm(vis)_{#tau,l}',0,0,''),
+HistogramInfo('recoVisibleMassRatio', [1.0, 2.0,4.0], [0.2, 0.5, 1.0,2.0], 0.2, 'm(reco)_{#tau,l}/m(vis)_{#tau,l}',0,4.0,''),
+#HistogramInfo('lepTransMass', [60, 100, 200], [30, 40, 100, 250], 30, 'm_{T}(l)',0,0,'GeV'),
+HistogramInfo('transMassRecoMassRatio_basic_all', [1.0], [0.1, 0.25], 0.1, 'mT_{l}/m(reco)_{#tau,l}',0,2.0,''),
+HistogramInfo('transMassRecoMassRatio66to116_basic_all', [1.0], [0.1, 0.25], 0.1, 'mT_{l}/m(reco)_{#tau,l}',0,2.0,''),
+HistogramInfo('transMassRecoMassRatio116to160_basic_all', [1.0], [0.1, 0.25], 0.1, 'mT_{l}/m(reco)_{#tau,l}',0,2.0,''),
+HistogramInfo('transMassRecoMassRatio400to_basic_all', [1.0], [0.1, 0.25], 0.1, 'mT_{l}/m(reco)_{#tau,l}',0,2.0,''),
+HistogramInfo('transMassRecoMassRatio160to400_basic_all', [1.0], [0.1, 0.25], 0.1, 'mT_{l}/m(reco)_{#tau,l}',0,2.0,''),
+#HistogramInfo('met_basic_all',[20,40,100,200],[20,10,30,100,150],20,'MET',0,0,'GeV'),
+HistogramInfo('met',[20,40,100,200],[20,10,30,100,150],20,'MET',40,500,'GeV'),
+]
+
 
 tautauHighMassMJHistograms = [
 HistogramInfo('n_bjets', [], [], 1.0, 'n_bjets',0,1,''),

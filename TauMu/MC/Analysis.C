@@ -3,76 +3,15 @@
 #define Analysis
 
 // Include the file that lets the program know about the data
-#include "backend/CLoop.h"
-#include <iostream>
+#include"backend/CLoop.h"
+#include"../../AnalysisCommons/Tools.h" 
 #include <vector>
 #include <TMVA/Reader.h>
 #include <algorithm>
 //#include <bits/stdc++.h>
 #include <utility>
 
-const int run2015Begin = 276262;
-const int run2015End   = 284484;
-
-const int run2016Begin = 297730;
-const int run2016End   = 311481;
-
-const int run2017Begin = 323427;
-const int run2017End   = 341649;
-
-const int run2018Begin = 341649;
-const int run2018End   = 364292;
-
-
-double del_phi(double phi_1, double phi_2){
-    double pi=TMath::Pi();
-    double phi_1_norm, phi_2_norm;
-    if (phi_1<0.0){
-        phi_1_norm=phi_1+2*pi;
-    }else {
-        phi_1_norm=phi_1;
-    }
-
-    if (phi_2<0.0){
-        phi_2_norm=phi_2+2*pi;
-    }else {
-        phi_2_norm=phi_2;
-    }
-    double delta=std::abs(phi_1_norm-phi_2_norm);
-    if (delta>pi){
-        delta=2*pi-delta;
-        delta=std::abs(delta);
-    }
-
-    return delta;
-}
-
-int is_inside_jets(TLorentzVector * test_jet,TLorentzVector * j1, TLorentzVector * j2){
-  double delta_y_j1j2=abs(j1->Rapidity()-j2->Rapidity());
-  double delta_y_j1test=abs(j1->Rapidity()-test_jet->Rapidity());
-  double delta_y_j2test=abs(j2->Rapidity()-test_jet->Rapidity());
-  if(delta_y_j1test>delta_y_j1j2 || delta_y_j2test>delta_y_j1j2){return 0;}
-  else{return 1;}
-}
-
-double min_deltaR(TLorentzVector* test_particle, std::vector<UInt_t>& bool_vector_container,const std::vector<TLorentzVector*>& jet_container){
-
-  std::vector<double> delta_Rs{};
-
-  for (size_t index{0};index<jet_container.size();index++){
-    if (bool_vector_container[index]!=0){
-      delta_Rs.push_back(jet_container[index]->DeltaR(*test_particle));
-    }
-    else {break;}
-  }
-
-  double min_dR=*std::min_element(delta_Rs.begin(),delta_Rs.end());
-  return min_dR;
-}
-
-void CLoop::Book() {
-  
-}
+void CLoop::Book() {}
 
 extern TMVA::Reader* reader;
 extern float bdt_mjj;
@@ -352,19 +291,19 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
         if (angle<=3.2){cuts[0]=1;}
         if(delta_y>=2.0){cuts[1]=1;}
         if(n_bjets_MV2c10_FixedCutBEff_85==0){cuts[2]=1;}
-        if(muon_0_iso_TightTrackOnly_FixedRad==1){cuts[3]=1;}
-        bool oneProngId = tau_0_n_charged_tracks==1 && tau_0_jet_rnn_score_trans >= 0.25;
-        bool threeProngId = tau_0_n_charged_tracks==3 && tau_0_jet_rnn_score_trans >= 0.40;
+        if(muon_0_iso_TightTrackOnly_FixedRad==1){cuts[3]=1;} // muon_0_iso_TightTrackOnly_FixedRad==1
+        bool oneProngId = tau_0_n_charged_tracks==1 && tau_0_jet_rnn_score_trans >= 0.40;
+        bool threeProngId = tau_0_n_charged_tracks==3 && tau_0_jet_rnn_score_trans >= 0.55;
         if(oneProngId || threeProngId){cuts[4]=1;}
         if(muon_0_p4->Pt()>=27){cuts[5]=1;}
-        if(ljet_0_p4->Pt()>=60){cuts[6]=1;}
-        if(ljet_1_p4->Pt()>=55){cuts[7]=1;}
+        if(ljet_0_p4->Pt()>=75){cuts[6]=1;}
+        if(ljet_1_p4->Pt()>=70){cuts[7]=1;}
         if(pt_bal<=0.15){cuts[8]=1;}
-        if(mjj>=400){cuts[9]=1;} // High-mass mjj>= 750
-        if(n_jets_interval == 0){cuts[10]=1;}
+        if(mjj>=750){cuts[9]=1;} // High-mass mjj>= 750
+        if(n_jets_interval==0){cuts[10]=1;}
         if(z_centrality < 0.5){cuts[11]=1;} // SR -> z_centrality < 0.5
         if (omega> -0.2 && omega <1.4){cuts[12]=1;} // Z-peak omega> -0.2 && omega <1.6 // High-mass omega> -0.2 && omega <1.4
-        bool diLeptonMassRequirement =  reco_mass>=160;
+        bool diLeptonMassRequirement =  reco_mass >= 160;
         if (diLeptonMassRequirement){cuts[13]=1;} // Z-peak reco_mass<116 && reco_mass>66 // Higgs reco_mass >= 116 && reco_mass < 160
         if (tau_0_p4->Pt()>=25){cuts[14]=1;}
         if (VBFBDT_score > 0.3){cuts[15]=1;} // High-mass VBFBDT_score > 0.3
@@ -372,7 +311,7 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
         if (normPtDifference > -0.3){cuts[17]=1;} // High-mass normPtDifference > -0.3
         if (true){cuts[18]=1;} // High-mass taunuPtPass >= 15 GeV Higgs NO CUT
         if (reco_mass/inv_taulep < 4.0){cuts[19]=1;} // High-mas reco_mass/inv_taulep < 4.0
-        if (met_reco_p4->Pt() >= 40){cuts[20]=1;} // High-mass MET >= 40 GeV
+        if (true){cuts[20]=1;} // High-mass met_reco_p4->Pt() >= 40 GeV
 
         // SUM OF THE VECTOR STORING IF CUTS PASS OR NOT
         size_t sum{0};
@@ -382,11 +321,13 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
         cutsVector.insert(cutsVector.end(),cuts.begin(),cuts.end());
         bool passedAllCuts = (sum+1==cutsVector.size());
         std::vector<int> notFullCutsVector{1,static_cast<int>(passedAllCuts)};
+
         // Blind H-M region
-        bool signalRegion = angle<=3.2 && delta_y>=2.0 && n_bjets_MV2c10_FixedCutBEff_85==0 && (oneProngId || threeProngId) &&
-        muon_0_p4->Pt()>=27 && ljet_0_p4->Pt()>=75 && ljet_1_p4->Pt()>=70 && pt_bal<=0.15 && mjj>=750 && 
+        bool signalRegion = angle<=3.2 && delta_y>=2.0 && n_bjets_MV2c10_FixedCutBEff_85==0 &&
+        (tau_0_n_charged_tracks==1 && tau_0_jet_rnn_score_trans >= 0.40 || tau_0_n_charged_tracks==3 && tau_0_jet_rnn_score_trans >= 0.55) &&
+        muon_0_iso_TightTrackOnly_FixedRad==1 && muon_0_p4->Pt()>=27 && ljet_0_p4->Pt()>=75 && ljet_1_p4->Pt()>=70 && pt_bal<=0.15 && mjj>=750 && 
         n_jets_interval == 0 && z_centrality < 0.5 && omega> -0.2 && omega <1.4 && reco_mass>=160 && tau_0_p4->Pt()>=25 &&
-        VBFBDT_score > 0.3 && normPtDifference > -0.3 && reco_mass/inv_taulep < 4.0 && met_reco_p4->Pt() >= 40;
+        VBFBDT_score > 0.3 && normPtDifference > -0.3 && reco_mass/inv_taulep < 4.0;
 
         if (sampleName.substr(0,4)=="data" && signalRegion && ql!=qtau) return;
 
@@ -476,7 +417,7 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
         delta_R_taujetContainer.Fill(min_dR_tau,weight,cutsVector);
         metContainer.Fill(met_reco_p4->Pt(),weight,cutsVector);
 
-        if (weight!=1){
+        if (sampleName.substr(0,4)!="data"){
           if(inside){Z_pt_truth_iNotFullContainer.Fill(truth_z_pt,weight,notFullCutsVector);}
           if(outside_lep || outside_tau){Z_pt_truth_oNotFullContainer.Fill(truth_z_pt,weight,notFullCutsVector);}
           if (tau_0_n_charged_tracks==1){

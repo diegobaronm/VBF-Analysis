@@ -1,6 +1,6 @@
 #!/bin/bash
 parentDirectory="EleTau"
-cp ../../$parentDirectory/DATA/out/data.root Data.root
+cp ../../$parentDirectory/MC/out/data.root Data.root
 cp ../../$parentDirectory/MC/out/VV.root .
 cp ../../$parentDirectory/MC/out/singletop.root .
 cp ../../$parentDirectory/MC/out/Wjets.root .
