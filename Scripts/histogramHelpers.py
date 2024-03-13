@@ -280,7 +280,7 @@ def makeSRBinsConsistentWithNOMJ(histogram,cutLeft,cutRight,totalMJ,totalMJUncer
 ############################################################################################################
 
 # Function to blind the histogram bins that have a purity above a given limit
-def blindHistogram(dataHistogram,purityHistogram,unblindPurityLimit,histogramName):
+def blindHistogram(dataHistogram,purityHistogram,unblindPurityLimit,histogramName,lowXRange,highXRange):
     blinded = False
     # Check if the histogram is the reco_mass
     isRecoMass = False
@@ -292,8 +292,11 @@ def blindHistogram(dataHistogram,purityHistogram,unblindPurityLimit,histogramNam
     for i in range(-1,dataHistogram.GetNbinsX()+2):
         # Get the purity in this bin
         purity = 100.0*purityHistogram.GetBinContent(i)
+        abovePuretyLimit = purity>unblindPurityLimit
+        inBlindingRange = dataHistogram.GetBinCenter(i)>lowXRange and dataHistogram.GetBinCenter(i)<highXRange
+        isNotCut = lowXRange==highXRange
         # If the purity is above the limit, set the data bin content and error to zero
-        if purity>unblindPurityLimit and not isRecoMass:
+        if (inBlindingRange or abovePuretyLimit or isNotCut) and not isRecoMass:
             dataHistogram.SetBinContent(i,0.0)
             dataHistogram.SetBinError(i,0.0)
             blinded = True
@@ -448,9 +451,9 @@ def stackPlot(data,signal,background,histograms,watermark,function,additionalSig
         if purityMultiplier!=1.0:
             ratio_sg_mc.Scale(purityMultiplier)
 
-        ############## BLINDING BINS WITH ABOVE THE PURITY LIMIT AND DEFINING Data/MC RATIO ################
+        ############## BLINDING BINS WITH ABOVE THE PURITY LIMIT OR IN THE SELECTED REGION AND DEFINING Data/MC RATIO ################
         if blind:
-            blindHistogram(samples["Data"][2],ratio_sg_mc_for_blinding,unblindPurityLimit,i.m_name)
+            blindHistogram(samples["Data"][2],ratio_sg_mc_for_blinding,unblindPurityLimit,i.m_name,i.m_leftCut,i.m_rightCut)
         ratio = r.TGraphAsymmErrors()
         ratio.Divide(mc,samples["Data"][2],"pois")
 
@@ -496,18 +499,6 @@ def stackPlot(data,signal,background,histograms,watermark,function,additionalSig
             print(statUncer.GetBinError(1))
             print(samples["Signal"][2].GetBinContent(1))
             print(samples["Signal"][2].GetBinError(1))
-
-        ###### DRAWING OVERFLOW CONTENTS ######
-
-        if printOverflows:
-            textBox = r.TPaveText(.75,.55,.95,.70,"NDC")
-            tittleStr = textBox.AddText("Overflow contents: ")
-            mcStr = textBox.AddText("MC = "+str(round(statUncer.GetBinContent(statUncer.GetNbinsX()+1),2))+"#pm"+str(round(statUncer.GetBinError(statUncer.GetNbinsX()+1),2)))
-            dataStr = textBox.AddText("Data = "+str(round(samples["Data"][2].GetBinContent(samples["Data"][2].GetNbinsX()+1),2))+"#pm"+str(round(samples["Data"][2].GetBinError(samples["Data"][2].GetNbinsX()+1),2)))
-            tittleStr.SetTextSize(0.05)
-            mcStr.SetTextSize(0.05)
-            dataStr.SetTextSize(0.05)
-            textBox.Draw("same")
 
         ###### SETTING Y AXIS RANGE ######
         
@@ -563,6 +554,19 @@ def stackPlot(data,signal,background,histograms,watermark,function,additionalSig
         elif "reco_mass" in i.m_name :
             shadeHistogram = setupShadeHistogram(samples["Signal"][2], yRange,160,1000,ratio_sg_mc_for_blinding,unblindPurityLimit,i.m_name)
             shadeHistogram.Draw("hist same")    
+
+        ###### DRAWING OVERFLOW CONTENTS ######
+
+        if printOverflows:
+            textBox = r.TPaveText(.75,.50,.95,.65,"NDC")
+            tittleStr = textBox.AddText("Overflow contents: ")
+            mcStr = textBox.AddText("MC = "+str(round(statUncer.GetBinContent(statUncer.GetNbinsX()+1),2))+"#pm"+str(round(statUncer.GetBinError(statUncer.GetNbinsX()+1),2)))
+            dataStr = textBox.AddText("Data = "+str(round(samples["Data"][2].GetBinContent(samples["Data"][2].GetNbinsX()+1),2))+"#pm"+str(round(samples["Data"][2].GetBinError(samples["Data"][2].GetNbinsX()+1),2)))
+            tittleStr.SetTextSize(0.05)
+            mcStr.SetTextSize(0.05)
+            dataStr.SetTextSize(0.05)
+            textBox.Draw("same")
+
 
         ###### DRAWING LEGEND ######
         legend = r.TLegend (0.45 ,0.65 ,0.75 ,0.90)
@@ -746,7 +750,7 @@ def stackPlot(data,signal,background,histograms,watermark,function,additionalSig
 
         ###### SCALING PURITY IF NEEDED ######
         if purityMultiplier!=1.0:
-            ratio_sg_mc.GetYaxis (). SetTitle ("Signal/MC(#times"+str(purityMultiplier)+")")
+            ratio_sg_mc.GetYaxis (). SetTitle ("Signal/MC(#times"+str(int(purityMultiplier))+")")
             ratio_sg_mc.GetYaxis (). SetRangeUser (0.0 ,1.0)
             ratio_sg_mc.GetYaxis (). SetTitleSize (0.16)
             ratio_sg_mc.GetYaxis (). SetTitleOffset (0.22)
@@ -1519,7 +1523,7 @@ HistogramInfo('transMassRecoMassRatio116to160_basic_all', [1.0], [0.1, 0.25], 0.
 HistogramInfo('transMassRecoMassRatio400to_basic_all', [1.0], [0.1, 0.25], 0.1, 'mT_{l}/m(reco)_{#tau,l}',0,2.0,''),
 HistogramInfo('transMassRecoMassRatio160to400_basic_all', [1.0], [0.1, 0.25], 0.1, 'mT_{l}/m(reco)_{#tau,l}',0,2.0,''),
 #HistogramInfo('met_basic_all',[20,40,100,200],[20,10,30,100,150],20,'MET',0,0,'GeV'),
-HistogramInfo('met',[20,40,100,200],[20,10,30,100,150],20,'MET',40,500,'GeV'),
+HistogramInfo('met',[20,40,100,200],[20,10,30,100,150],20,'MET',0,0,'GeV'),
 ]
 
 

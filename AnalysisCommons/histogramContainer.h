@@ -1,6 +1,9 @@
 #ifndef histogramContainer_h
 #define histogramContainer_h
 
+#include"Tools.h"
+#include<iostream>
+
 // Struct to store a set of histograms for a given variable. It stores histograms for sequential cutflows.
 // cutBit option allows to store a histogram for a specific cut that is satisfied or not while all the others are.
 struct histogramContainer
@@ -42,6 +45,13 @@ struct histogramContainer
     // Filling function : it feels all the histograms all at once taking into account the results passed by a vector of bits.
     void Fill(double value, double weight, const std::vector<int>& cutBits)
     {   
+        //First check that the size of the passed cutBits is consistent with the number of cutLabels.
+        if (cutBits.size() != m_cutLabels.size())
+        {
+            std::cout << g_ERROR_MESSAGE << "The size of the cuts vector passed is not consistent with the definition in Analysis.h" << std::endl;
+            std::cout << "Bad histogram: " << m_baseName << std::endl;
+            exit(1);
+        }
         bool relevantCut = !m_cutBit.empty();
         int numberPassedCuts{cutBits[0]};
         if (!relevantCut)

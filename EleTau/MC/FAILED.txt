@@ -28,3 +28,13 @@ Ztautau_2017_1 yes NOMINAL
 Ztautau_2018_0 yes NOMINAL
 Ztautau_2017_0 yes NOMINAL
 Ztautau_2018_2 yes NOMINAL
+data_2018_4 yes NOMINAL
+data_2018_2 yes NOMINAL
+data_2018_1 yes NOMINAL
+data_2018_0 yes NOMINAL
+data_2018_3 yes NOMINAL
+data_2018_7 yes NOMINAL
+data_2018_9 yes NOMINAL
+data_2018_5 yes NOMINAL
+data_2018_6 yes NOMINAL
+data_2018_8 yes NOMINAL

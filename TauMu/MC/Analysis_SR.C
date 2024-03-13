@@ -41,7 +41,7 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
   bool lepton_id=muon_0_id_medium;
   size_t n_ljets=n_jets-n_bjets_MV2c10_FixedCutBEff_85;
 
-  if (ql==qtau && n_muons==1 && n_taus_rnn_loose>=1 && weight > -190 && lepton_id && n_ljets>=2 && n_ljets<=3){
+  if (ql!=qtau && n_muons==1 && n_taus_rnn_loose>=1 && weight > -190 && lepton_id && n_ljets>=2 && n_ljets<=3){
     
     //angles
     double angle_l_MET=del_phi(muon_0_p4->Phi(),met_reco_p4->Phi());
@@ -306,11 +306,11 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
         bool diLeptonMassRequirement =  reco_mass >= 160;
         if (diLeptonMassRequirement){cuts[13]=1;} // Z-peak reco_mass<116 && reco_mass>66 // Higgs reco_mass >= 116 && reco_mass < 160
         if (tau_0_p4->Pt()>=25){cuts[14]=1;}
-        if (VBFBDT_score > 0.3){cuts[15]=1;} // High-mass VBFBDT_score > 0.3
+        if (true){cuts[15]=1;} // High-mass VBFBDT_score > 0.3
         if (true){cuts[16]=1;} // High-mass lepnuPtPass>=30 GeV.
-        if (normPtDifference > -0.3){cuts[17]=1;} // High-mass normPtDifference > -0.3
+        if (true){cuts[17]=1;} // High-mass normPtDifference > -0.3
         if (true){cuts[18]=1;} // High-mass taunuPtPass >= 15 GeV Higgs NO CUT
-        if (reco_mass/inv_taulep < 4.0){cuts[19]=1;} // High-mas reco_mass/inv_taulep < 4.0
+        if (true){cuts[19]=1;} // High-mas reco_mass/inv_taulep < 4.0
         if (true){cuts[20]=1;} // High-mass met_reco_p4->Pt() >= 40 GeV
 
         // SUM OF THE VECTOR STORING IF CUTS PASS OR NOT
@@ -334,10 +334,10 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
         // Cut testing
         bool testCuts = transverseMassLep <= 65 && massTauCloserJet >= 90;
         bool MJCR = (tau_0_n_charged_tracks==1 && tau_0_jet_rnn_score_trans < 0.25) || (tau_0_n_charged_tracks==3 && tau_0_jet_rnn_score_trans < 0.40) || (muon_0_iso_TightTrackOnly_FixedRad==0);
-        bool failedMVA = (VBFBDT_score <= 0.3) || (!lepnuPtPass) || (!taunuPtPass) || (normPtDifference <= -0.3) || (reco_mass/inv_taulep >= 4.0);
+        bool failedMVA = (VBFBDT_score <= 0.3) || (normPtDifference <= -0.3) || (reco_mass/inv_taulep >= 4.0) || (!oneProngId || !threeProngId);
         //if (sampleName.substr(0,4)=="data" && !MJCR) return;
 
-        if (true){
+        if (failedMVA){
         // FILLING HISTOGRAMS
         if (passedAllCuts) trueMass_2D_lepTransMass_basic_all->Fill(trueMass,transverseMassLep,weight);
         if (passedAllCuts) trueMass_2D_transverseRecoMassRatio_basic_all->Fill(trueMass,transverseMassLep/reco_mass,weight);
@@ -365,7 +365,7 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
         recoTrueMassRatioContainer.Fill(recoTrueMassRatio,weight,notFullCutsVector);
         trueMassContainer.Fill(trueMass,weight,notFullCutsVector);
         
-        lepTransMassContainer.Fill(transverseMassLep,weight,cutsVector);
+        lepTransMassContainer.Fill(transverseMassLep,weight,notFullCutsVector);
         tauTransMassContainer.Fill(transverseMassTau,weight,notFullCutsVector);
         transMassSumContainer.Fill(transverseMassSum,weight,notFullCutsVector);
         transMassRatioContainer.Fill(transverseMassRatio,weight,notFullCutsVector);

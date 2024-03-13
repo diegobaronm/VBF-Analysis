@@ -1,14 +1,14 @@
 ,LatexFormat
-Data,$266.0 \pm 16.31$
-Signal_Sherpa,$87.754 \pm 1.481$
-Signal_PoPy,$98.993 \pm 1.039$
-Zll_MGRW,$N/A \pm N/A$
-Zll_SherpaRW,$N/A \pm N/A$
-Higgs,$10.086 \pm 0.186$
-ttbar,$5.822 \pm 0.897$
-singletop,$0.903 \pm 0.33$
-VV,$4.456 \pm 0.343$
+Data,$0.0 \pm 0.0$
+Signal_Sherpa,$3.044 \pm 0.281$
+Signal_PoPy,$3.704 \pm 0.205$
+Ztautau_MGRW,$1.848 \pm 1.403$
+Ztautau_SherpaRW,$0.63 \pm 0.531$
+Higgs,$0.972 \pm 0.056$
+ttbar,$1.341 \pm 0.459$
+singletop,$0.158 \pm 0.158$
+VV,$0.841 \pm 0.09$
 Wjets,$0.0 \pm 0.0$
-Zjets,$0.542 \pm 0.384$
-MJ,$3.776 \pm 3.862$
-VV_EWK,$10.981 \pm 1.12$
+Zjets,$0.0 \pm 0.0$
+MJ,$0.767 \pm 2.052$
+VV_EWK,$2.816 \pm 0.477$

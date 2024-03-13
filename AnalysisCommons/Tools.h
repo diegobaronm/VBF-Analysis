@@ -1,6 +1,22 @@
 // Header file with common tools used in analysis.
 #pragma once
 #include <vector>
+#include <sstream>
+#include <string>
+// Error message with colors!
+const char* g_ERROR_MESSAGE = "\033[1;31mERROR:\033[0m";
+
+// Function to split a string by a delimiter and return a vector of strings.
+// Like Python's split function.
+std::vector<std::string> split(const std::string& s, char delimiter) {
+    std::vector<std::string> tokens;
+    std::string token;
+    std::istringstream tokenStream(s);
+    while (std::getline(tokenStream, token, delimiter)) {
+        tokens.push_back(token);
+    }
+    return tokens;
+}
 
 // Run numbers
 const int run2015Begin = 276262;

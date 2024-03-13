@@ -3,7 +3,9 @@
 #include "../Analysis.C"
 #include <cmath>
 #include <TMVA/Reader.h>
+#include <TMacro.h>
 #include "../../../AnalysisCommons/rewightingTools.h"
+#include"../../../AnalysisCommons/Tools.h" 
 
 #ifdef NOMINAL
 // Tree variables 
@@ -90,7 +92,6 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
 
     // book histograms
     Book();
-    // end booking
 
     Long64_t nentries = fChain->GetEntriesFast();
 
@@ -499,6 +500,14 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
     if (saveEvents) {
         outfile.WriteObject(signalTree,"SIGNAL");
         outfile.WriteObject(bgTree,"BACKGROUND");
+    }
+    // Add the code to the file if it is the first sample of the kind
+    std::vector<std::string> tokens = split(key,'_');
+    std::string lastToken = tokens[tokens.size()-1];
+    bool isFirstSample = lastToken=="0NOMINAL.root";
+    if (isFirstSample) {
+        TMacro sourceCode("Analysis.C");
+        sourceCode.Write();
     }
     delete signalTree;
     delete bgTree;
