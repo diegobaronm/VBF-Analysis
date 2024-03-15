@@ -1,6 +1,0 @@
-executable              = RunAnalysis.py
-output                  = output/$(ClusterId).$(ProcId).out
-error                   = error/$(ClusterId).$(ProcId).err
-log                     = log/$(ClusterId).log
-transfer_input_files    = Analysis.C,Analysis.h,backend/
-+JobFlavour = "microcentury"

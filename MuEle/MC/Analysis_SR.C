@@ -4,74 +4,14 @@
 
 // Include the file that lets the program know about the data
 #include "backend/CLoop.h"
+#include"../../AnalysisCommons/Tools.h" 
 #include <iostream>
 #include <vector>
 #include <algorithm>
 //#include <bits/stdc++.h>
 #include <utility>
 
-const int run2015Begin = 276262;
-const int run2015End   = 284484;
-
-const int run2016Begin = 297730;
-const int run2016End   = 311481;
-
-const int run2017Begin = 323427;
-const int run2017End   = 341649;
-
-const int run2018Begin = 341649;
-const int run2018End   = 364292;
-
-
-double del_phi(double phi_1, double phi_2){
-    double pi=TMath::Pi();
-    double phi_1_norm, phi_2_norm;
-    if (phi_1<0.0){
-        phi_1_norm=phi_1+2*pi;
-    }else {
-        phi_1_norm=phi_1;
-    }
-
-    if (phi_2<0.0){
-        phi_2_norm=phi_2+2*pi;
-    }else {
-        phi_2_norm=phi_2;
-    }
-    double delta=std::abs(phi_1_norm-phi_2_norm);
-    if (delta>pi){
-        delta=2*pi-delta;
-        delta=std::abs(delta);
-    }
-
-    return delta;
-}
-
-int is_inside_jets(TLorentzVector * test_jet,TLorentzVector * j1, TLorentzVector * j2){
-  double delta_y_j1j2=abs(j1->Rapidity()-j2->Rapidity());
-  double delta_y_j1test=abs(j1->Rapidity()-test_jet->Rapidity());
-  double delta_y_j2test=abs(j2->Rapidity()-test_jet->Rapidity());
-  if(delta_y_j1test>delta_y_j1j2 || delta_y_j2test>delta_y_j1j2){return 0;}
-  else{return 1;}
-}
-
-double min_deltaR(TLorentzVector* test_particle, std::vector<UInt_t> bool_vector_container, std::vector<TLorentzVector*> jet_container){
-
-  std::vector<double> delta_Rs{};
-
-  for (size_t index{0};index<jet_container.size();index++){
-    if (bool_vector_container[index]!=0){
-      delta_Rs.push_back(jet_container[index]->DeltaR(*test_particle));
-    }
-    else {break;}
-  }
-
-  double min_dR=*std::min_element(delta_Rs.begin(),delta_Rs.end());
-  return min_dR;
-}
-
-void CLoop::Book() {
-
-}
+void CLoop::Book() {}
 
 void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
   double pi=TMath::Pi();
@@ -338,7 +278,7 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
         omegaContainer.Fill(omega,weight,cutsVector);
         muon_ptContainer.Fill(muon_0_p4->Pt(),weight,cutsVector);
         reco_massContainer.Fill(reco_mass,weight,cutsVector);
-        recoVisibleMassRatioContainer.Fill(reco_mass/massMuonElec,weight,cutsVector);
+        recoVisibleMassRatioContainer.Fill(reco_mass/massMuonElec,weight,notFullCutsVector);
         if (inside) {
             reco_mass_iContainer.Fill(reco_mass,weight,cutsVector);
             nuElecPtContainer.Fill(pt_elec_nu,weight,notFullCutsVector);
@@ -357,7 +297,7 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
         }
         
         // HISTOGRAM FILLING STARTING IN BASIC SELECTION
-        if (weight!=1){
+        if (sampleName.substr(0,4)!="data"){
           if(inside){Z_pt_truth_iNotFullContainer.Fill(truth_z_pt,weight,notFullCutsVector);}
           if(outside_elec || outside_muon){Z_pt_truth_oNotFullContainer.Fill(truth_z_pt,weight,notFullCutsVector);}
         }

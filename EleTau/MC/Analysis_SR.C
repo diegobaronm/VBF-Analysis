@@ -304,11 +304,11 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
         bool diLeptonMassRequirement = reco_mass >= 160;
         if (diLeptonMassRequirement){cuts[15]=1;} // Z-peak reco_mass<116 && reco_mass>66 // Higgs reco_mass >= 116 && reco_mass < 160
         if (tau_0_p4->Pt()>=25){cuts[16]=1;}
-        if (true){cuts[17]=1;} // High-mass VBFBDT_score > 0.3
+        if (VBFBDT_score > 0.3){cuts[17]=1;} // High-mass VBFBDT_score > 0.3
         if (true){cuts[18]=1;} // High-mass lepnuPtPass>=30 GeV.
-        if (true){cuts[19]=1;} // High-mass normPtDifference > -0.3
+        if (normPtDifference > -0.3){cuts[19]=1;} // High-mass normPtDifference > -0.3
         if (true){cuts[20]=1;} // High-mass taunuPtPass >= 15 GeV Higgs NO CUT
-        if (true){cuts[21]=1;} // High-mas reco_mass/inv_taulep < 4.0
+        if (reco_mass/inv_taulep < 4.0){cuts[21]=1;} // High-mas reco_mass/inv_taulep < 4.0
         if (true){cuts[22]=1;} // High-mass met_reco_p4->Pt() >= 40 GeV
 
         // SUM OF THE VECTOR STORING IF CUTS PASS OR NOT
@@ -336,7 +336,7 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
         bool failedMVA = (VBFBDT_score <= 0.3) || (normPtDifference <= -0.3) || (reco_mass/inv_taulep >= 4.0) || (!oneProngId || !threeProngId);
         //if (sampleName.substr(0,4)=="data" && !MJCR) return;
 
-        if (failedMVA){
+        if (true){
         // HISTOGRAM FILLING 
         if (passedAllCuts) trueMass_2D_lepTransMass_basic_all->Fill(trueMass,transverseMassLep,weight);
         if (passedAllCuts) trueMass_2D_transverseRecoMassRatio_basic_all->Fill(trueMass,transverseMassLep/reco_mass,weight);

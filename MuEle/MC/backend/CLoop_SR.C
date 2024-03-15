@@ -2,7 +2,9 @@
 
 #include "../Analysis.C"
 #include <cmath>
+#include <TMacro.h>
 #include "../../../AnalysisCommons/rewightingTools.h"
+#include"../../../AnalysisCommons/Tools.h" 
 
 void CLoop::Loop(double lumFactor, int z_sample, std::string key)
 {
@@ -274,8 +276,14 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
     // open output file
     TFile outfile(name_root,"recreate");
     Style(lumFactor);
-    // end style and writing
-    //
+    // Add the code to the file if it is the first sample of the kind
+    std::vector<std::string> tokens = split(key,'_');
+    std::string lastToken = tokens[tokens.size()-1];
+    bool isFirstSample = lastToken=="0NOMINAL.root";
+    if (isFirstSample) {
+        TMacro sourceCode("Analysis.C");
+        sourceCode.Write();
+    }
     outfile.Close();
 
     clock_t endTime = clock(); // get end time

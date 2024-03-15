@@ -7,7 +7,6 @@ clean=menu("Clean the output directories?",["No","Yes"])
 
 if clean:
 	os.system("rm MC/out/*.root")
-	os.system("rm DATA/out/*.root")
 
 channel_dir=os.getcwd()+'/'
 
@@ -34,7 +33,7 @@ try :
 		os.system('hadd -j 4 '+channel_dir+'MC/out/W_EWK_Sherpa.root NOMINAL/W_EWK_sherpa*.root')
 		os.system('hadd -j 4 '+channel_dir+'MC/out/W_EWK_PoPy.root NOMINAL/W_EWK_PoPy*.root')
 		os.system('hadd -j 4 '+channel_dir+'MC/out/VV_EWK.root NOMINAL/VV_EWK*.root')
-		os.system('hadd '+channel_dir+'DATA/out/data.root NOMINAL/data_*.root')
+		os.system('hadd '+channel_dir+'MC/out/data.root NOMINAL/data_*.root')
 
 	elif type_of_run==2:
 		for d in os.listdir():
