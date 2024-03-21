@@ -24,6 +24,7 @@
 // Header file for the classes stored in the TTree if any.
 #include "TLorentzVector.h"
 #include "../../../AnalysisCommons/histogramContainer.h"
+#include "../../../AnalysisCommons/Tools.h"
 
 class CLoop {
   void Style(double lumFactor);
@@ -32,6 +33,7 @@ class CLoop {
   void FillTree(double weight, int z_sample, const std::string& sampleName, TTree* stree, TTree* btree);
 
   #include "../Analysis.h"
+  VBFBDT m_vbfBDT = VBFBDT("/Users/user/Documents/HEP/MVA-Analysis/dataset/weights/10Folds_BDT-0.3.weights.xml");
 
 public :
    TTree          *fChain;   //!pointer to the analyzed TTree or TChain

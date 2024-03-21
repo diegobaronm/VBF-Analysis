@@ -13,26 +13,6 @@
 
 void CLoop::Book() {}
 
-extern TMVA::Reader* reader;
-extern float bdt_mjj;
-extern float bdt_drap;
-extern float bdt_dphi;
-extern float bdt_jetRNN;
-extern float bdt_ptbal;
-extern float bdt_zcen;
-extern float bdt_omega;
-extern float bdt_recomass;
-extern float bdt_lepnupt;
-extern float bdt_transmasslep;
-extern float bdt_masstaul;
-extern float bdt_nljet;
-extern float bdt_taupt;
-extern float bdt_leppt;
-extern float bdt_jet0pt;
-extern float bdt_jet1pt;
-extern float bdt_met;
-extern float bdt_eventNumber;
-
 void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
   double pi=TMath::Pi();
   //Charges and lepton ID
@@ -126,6 +106,8 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
           }
         }
 
+        // LEP-TAU INVARIANT MASS
+        double inv_taulep=sqrt((2*muon_0_p4->Pt()*tau_0_p4->Pt())*(cosh(muon_0_p4->Eta()-tau_0_p4->Eta())-cos(muon_0_p4->Phi()-tau_0_p4->Phi())));
         // Vector sum pT of the jets
         double jet_pt_sum= (*ljet_0_p4 + *ljet_1_p4).Pt();
         // Ratio ZpT/jet_pt_sum
@@ -241,30 +223,10 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
         double transverseMassSum = transverseMassTau + transverseMassLep;
         double transverseMassRatio = (transverseMassTau - transverseMassLep)/transverseMassSum;
 
-        // Handiling external BDT
-        bdt_mjj = mjj;
-        bdt_drap = delta_y;
-        bdt_dphi = angle;
-        bdt_jetRNN = tau_0_jet_rnn_score_trans;
-        bdt_ptbal = pt_bal;
-        bdt_zcen = z_centrality;
-        bdt_omega = omega;
-        bdt_recomass = reco_mass;
-        if (inside) bdt_lepnupt = pt_lep_nu;
-        if (outside_lep) bdt_lepnupt = neutrino_pt;
-        if (outside_tau) bdt_lepnupt = 0.0;
-        // bdt_transmasslep = transverseMassLep;
-        bdt_transmasslep = reco_mass > 200 ? transverseMassLep/std::pow(reco_mass,0.3) : transverseMassLep/std::pow(200,0.3); // for transverse-reco mass ratio
-        double inv_taulep=sqrt((2*muon_0_p4->Pt()*tau_0_p4->Pt())*(cosh(muon_0_p4->Eta()-tau_0_p4->Eta())-cos(muon_0_p4->Phi()-tau_0_p4->Phi())));
-        bdt_masstaul = inv_taulep;
-        bdt_nljet = (float)n_ljets;
-        bdt_taupt = tau_0_p4->Pt();
-        bdt_leppt = muon_0_p4->Pt();
-        bdt_jet0pt = ljet_0_p4->Pt();
-        bdt_jet1pt = ljet_1_p4->Pt();
-        bdt_met = met_reco_p4->Pt();
-        bdt_eventNumber = event_number;
-        double VBFBDT_score = reader->EvaluateMVA("VBF_BDT");
+        // Handling BDT
+        float bdt_transmasslep = reco_mass > 200 ? transverseMassLep/std::pow(reco_mass,0.3) : transverseMassLep/std::pow(200,0.3); // for transverse-reco mass ratio
+        m_vbfBDT.update(mjj, delta_y, pt_bal, z_centrality, omega, bdt_transmasslep, event_number);
+        double VBFBDT_score = m_vbfBDT.evaluate();
 
         // Truth studies
         TLorentzVector truth_lep_p4{};

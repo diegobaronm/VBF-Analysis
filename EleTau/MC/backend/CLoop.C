@@ -54,11 +54,6 @@ double BgTree_jet1_pT;
 double BgTree_met_pT;
 double BgTree_event_number;
 
-// Handling external BDT
-TMVA::Reader* reader = new TMVA::Reader();
-float bdt_mjj, bdt_drap, bdt_dphi, bdt_jetRNN, bdt_ptbal, bdt_zcen, bdt_omega, bdt_recomass, bdt_lepnupt, bdt_transmasslep, bdt_masstaul;
-float bdt_nljet;
-float bdt_taupt, bdt_leppt, bdt_jet0pt, bdt_jet1pt, bdt_met, bdt_eventNumber;
 #endif
 
 void CLoop::Loop(double lumFactor, int z_sample, std::string key)
@@ -355,28 +350,6 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
     bgTree->Branch("jet1_p4", &BgTree_jet1_pT);
     bgTree->Branch("met_p4", &BgTree_met_pT);
     bgTree->Branch("eventNumber", &BgTree_event_number);
-    if(saveHistograms){
-    reader->AddVariable("mjj",&bdt_mjj);
-    reader->AddVariable("deltaRapidity",&bdt_drap);
-    //reader->AddVariable("deltaPhiLT",&bdt_dphi);
-    //reader->AddVariable("jetRNNScore",&bdt_jetRNN);
-    reader->AddVariable("ptBalance",&bdt_ptbal);
-    reader->AddVariable("zCentrality",&bdt_zcen);
-    reader->AddVariable("omega",&bdt_omega);
-    //reader->AddVariable("reco_mass",&bdt_recomass);
-    //reader->AddVariable("lepNuPt",&bdt_lepnupt);
-    //reader->AddVariable("transverseMassLep",&bdt_transmasslep);
-    reader->AddVariable("transverseRecoMassVariable",&bdt_transmasslep); // For transverse-reco mass ratio
-    //reader->AddVariable("massTauLep",&bdt_masstaul);
-    //reader->AddVariable("nLightJets",&bdt_nljet);
-    //reader->AddVariable("tau_p4->Pt()",&bdt_taupt);
-    //reader->AddVariable("lep_p4->Pt()",&bdt_leppt);
-    //reader->AddVariable("jet0_p4->Pt()",&bdt_jet0pt);
-    //reader->AddVariable("jet1_p4->Pt()",&bdt_jet1pt);
-    //reader->AddVariable("met_p4->Pt()",&bdt_met);
-    reader->AddSpectator("eventNumber", &bdt_eventNumber); // For deterministic split
-    reader->BookMVA("VBF_BDT", "/Users/user/Documents/HEP/MVA-Analysis/dataset/weights/validateBDT_Test_BDT-HM-10Folds.weights.xml");
-    }
     #endif
     // loop over number of entries
     for (Long64_t jentry=0; jentry<nLoop;jentry++) {
@@ -525,7 +498,6 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
     }
     delete signalTree;
     delete bgTree;
-    delete reader;
     #endif
     outfile.Close();
     clock_t endTime = clock(); // get end time
