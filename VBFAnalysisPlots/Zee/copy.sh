@@ -1,6 +1,6 @@
 #!/bin/bash
 parentDirectory="Zee"
-cp ../../$parentDirectory/DATA/out/Data.root Data.root
+cp ../../$parentDirectory/MC/out/Data.root Data.root
 cp ../../$parentDirectory/MC/out/VV.root .
 cp ../../$parentDirectory/MC/out/VV_EWK.root .
 cp ../../$parentDirectory/MC/out/singletop.root .

@@ -4,6 +4,7 @@
 
 // Include the file that lets the program know about the data
 #include "backend/CLoop.h"
+#include"../../AnalysisCommons/Tools.h" 
 #include <stdlib.h>
 #include <iostream>
 #include <vector>
@@ -11,58 +12,9 @@
 //#include <bits/stdc++.h>
 #include <utility>
 
+void CLoop::Book() {}
 
-double del_phi(double phi_1, double phi_2){
-    double pi=TMath::Pi();
-    double phi_1_norm, phi_2_norm;
-    if (phi_1<0.0){
-        phi_1_norm=phi_1+2*pi;
-    }else {
-        phi_1_norm=phi_1;
-    }
-
-    if (phi_2<0.0){
-        phi_2_norm=phi_2+2*pi;
-    }else {
-        phi_2_norm=phi_2;
-    }
-    double delta=std::abs(phi_1_norm-phi_2_norm);
-    if (delta>pi){
-        delta=2*pi-delta;
-        delta=std::abs(delta);
-    }
-
-    return delta;
-}
-
-int is_inside_jets(TLorentzVector * test_jet,TLorentzVector * j1, TLorentzVector * j2){
-  double delta_y_j1j2=abs(j1->Rapidity()-j2->Rapidity());
-  double delta_y_j1test=abs(j1->Rapidity()-test_jet->Rapidity());
-  double delta_y_j2test=abs(j2->Rapidity()-test_jet->Rapidity());
-  if(delta_y_j1test>delta_y_j1j2 || delta_y_j2test>delta_y_j1j2){return 0;}
-  else{return 1;}
-}
-
-double min_deltaR(TLorentzVector* test_particle, std::vector<UInt_t> bool_vector_container, std::vector<TLorentzVector*> jet_container){
-
-  std::vector<double> delta_Rs{};
-
-  for (size_t index{0};index<jet_container.size();index++){
-    if (bool_vector_container[index]!=0){
-      delta_Rs.push_back(jet_container[index]->DeltaR(*test_particle));
-    }
-    else {break;}
-  }
-
-  double min_dR=*std::min_element(delta_Rs.begin(),delta_Rs.end());
-  return min_dR;
-}
-
-void CLoop::Book(double lumFactor) {
-  
-}
-
-void CLoop::Fill(double weight, int z_sample) {
+void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
     double pi=TMath::Pi();
     //Charges and lepton ID
     bool muon_id=muon_0_id_medium && muon_1_id_medium;
@@ -86,7 +38,7 @@ void CLoop::Fill(double weight, int z_sample) {
         trigger_match_1 = bool((muTrigMatch_0_HLT_mu20_iloose_L1MU15 | muTrigMatch_0_HLT_mu50) && !(muTrigMatch_1_HLT_mu20_iloose_L1MU15 | muTrigMatch_1_HLT_mu50));
         trigger_match_2 = bool(!(muTrigMatch_0_HLT_mu20_iloose_L1MU15 | muTrigMatch_0_HLT_mu50) && (muTrigMatch_1_HLT_mu20_iloose_L1MU15 | muTrigMatch_1_HLT_mu50));
         trigger_match_12 = bool((muTrigMatch_0_HLT_mu20_iloose_L1MU15 | muTrigMatch_0_HLT_mu50) && (muTrigMatch_1_HLT_mu20_iloose_L1MU15 | muTrigMatch_1_HLT_mu50));
-        if(weight!=1){
+        if(sampleName.substr(0,4)!="data"){
           if (trigger_match_1){weight=weight*muon_0_NOMINAL_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium;}
           if (trigger_match_2){weight=weight*muon_1_NOMINAL_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium;}
         }
@@ -96,7 +48,7 @@ void CLoop::Fill(double weight, int z_sample) {
         trigger_match_1 = bool((muTrigMatch_0_HLT_mu26_ivarmedium | muTrigMatch_0_HLT_mu50) && !(muTrigMatch_1_HLT_mu26_ivarmedium | muTrigMatch_1_HLT_mu50));
         trigger_match_2 = bool(!(muTrigMatch_0_HLT_mu26_ivarmedium | muTrigMatch_0_HLT_mu50) && (muTrigMatch_1_HLT_mu26_ivarmedium | muTrigMatch_1_HLT_mu50));
         trigger_match_12 = bool((muTrigMatch_0_HLT_mu26_ivarmedium | muTrigMatch_0_HLT_mu50) && (muTrigMatch_1_HLT_mu26_ivarmedium | muTrigMatch_1_HLT_mu50));
-        if(weight!=1){
+        if(sampleName.substr(0,4)!="data"){
           if (trigger_match_1){weight=weight*muon_0_NOMINAL_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium;}
           if (trigger_match_2){weight=weight*muon_1_NOMINAL_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium;}
         }
@@ -235,7 +187,7 @@ void CLoop::Fill(double weight, int z_sample) {
         metContainer.Fill(met_reco_p4->Pt(),weight,cutsVector);
         lep1_phiContainer.Fill(muon_0_p4->Phi(),weight,notFullCutsVector);
         lep2_phiContainer.Fill(muon_1_p4->Phi(),weight,notFullCutsVector);
-        if(weight!=1){Z_pt_truthContainer.Fill(truth_z_pt,weight,notFullCutsVector);}
+        if(sampleName.substr(0,4)!="data"){Z_pt_truthContainer.Fill(truth_z_pt,weight,notFullCutsVector);}
         if(n_jets_interval==1){gap_jet_ptContainer.Fill(pt_gap_jet,weight,notFullCutsVector);}
         jet_nContainer.Fill(n_jets,weight,notFullCutsVector);
         Z_pt_recoContainer.Fill(Z_pt,weight,notFullCutsVector);

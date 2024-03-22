@@ -36,7 +36,7 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
 
 
     // book histograms
-    Book(lumFactor);
+    Book();
     // end booking
 
     Long64_t nentries = fChain->GetEntriesFast();
@@ -200,7 +200,7 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
 
         // fill histograms
         //cout << eventWeight;
-        Fill(eventWeight, z_sample);
+        Fill(eventWeight, z_sample, key);
         // end filling
     }
     key = key+".root";

@@ -7,7 +7,6 @@ clean=menu("Clean the output directories?",["No","Yes"])
 
 if clean:
 	os.system("rm MC/out/*.root")
-	os.system("rm DATA/out/*.root")
 
 channel_dir=os.getcwd()+'/'
 
@@ -32,7 +31,7 @@ try :
 		os.system('hadd -j 10 '+channel_dir+'MC/out/Wjets.root NOMINAL/Wplusenu_*.root NOMINAL/Wminusenu_*.root NOMINAL/Wplusmunu_*.root NOMINAL/Wminusmunu_*.root NOMINAL/Wplustaunu_*.root NOMINAL/Wminustaunu_*.root')
 		os.system('hadd -j 10 '+channel_dir+'MC/out/singletop.root NOMINAL/st_schan_top_*.root NOMINAL/st_schan_atop_*.root NOMINAL/st_tchan_top_*.root NOMINAL/st_tchan_atop_*.root NOMINAL/st_wt_top_*.root NOMINAL/st_wt_atop_*.root')
 		os.system('hadd -j 10 '+channel_dir+'MC/out/ttbar.root NOMINAL/ttbar_*.root')				
-		os.system('hadd -j 10 '+channel_dir+'DATA/out/Data.root NOMINAL/data_*.root')
+		os.system('hadd -j 10 '+channel_dir+'MC/out/Data.root NOMINAL/data_*.root')
 		os.system('hadd -j 10 '+channel_dir+'MC/out/VV_EWK.root NOMINAL/VV_EWK*.root')		
 		os.system('hadd -j 10 '+channel_dir+'MC/out/W_EWK_Sherpa.root NOMINAL/W_EWK_sherpa*.root')
 		os.system('hadd -j 10 '+channel_dir+'MC/out/W_EWK_PoPy.root NOMINAL/W_EWK_PoPy*.root')
