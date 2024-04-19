@@ -250,27 +250,27 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
         if(delta_y>=2.0){cuts[1]=1;}
         if(n_bjets_MV2c10_FixedCutBEff_85==0){cuts[2]=1;}
         if(elec_0_iso_FCTight==1){cuts[3]=1;} // elec_0_iso_FCTight==1
-        bool oneProngId = tau_0_n_charged_tracks==1 && tau_0_jet_rnn_score_trans >= 0.40;
-        bool threeProngId = tau_0_n_charged_tracks==3 && tau_0_jet_rnn_score_trans >= 0.55;
+        bool oneProngId = tau_0_n_charged_tracks==1 && tau_0_jet_rnn_score_trans >= 0.25; // Medium = shift by 0.15
+        bool threeProngId = tau_0_n_charged_tracks==3 && tau_0_jet_rnn_score_trans >= 0.40;
         if(oneProngId || threeProngId){cuts[4]=1;}
         if(elec_0_p4->Pt()>=27){cuts[5]=1;}
         if(ljet_0_p4->Pt()>=75){cuts[6]=1;}
         if(ljet_1_p4->Pt()>=70){cuts[7]=1;}
         if(pt_bal<=0.15){cuts[8]=1;}
-        if(mjj>=750){cuts[9]=1;} // High-mass mjj>= 750
+        if(mjj>=1000){cuts[9]=1;} // High-mass mjj>= 750
         if(n_jets_interval==0){cuts[10]=1;}
         if(z_centrality < 0.5){cuts[11]=1;} // SR -> z_centrality < 0.5
-        if (omega> -0.2 && omega <1.4){cuts[12]=1;} // Z-peak omega> -0.2 && omega <1.6 // High-mass omega> -0.2 && omega <1.4
-        if(inv_taulep<=80 || inv_taulep>=100){cuts[13]=1;} // High-mass || inv_taulep>=100
+        if (omega> -0.2 && omega <1.6){cuts[12]=1;} // Z-peak omega> -0.2 && omega <1.6 // High-mass omega> -0.2 && omega <1.4
+        if(inv_taulep<=80 /*|| inv_taulep>=100*/){cuts[13]=1;} // High-mass || inv_taulep>=100
         if (tau_0_ele_bdt_score_trans_retuned>=0.05){cuts[14]=1;}
-        bool diLeptonMassRequirement = reco_mass >= 160;
+        bool diLeptonMassRequirement = reco_mass<116 && reco_mass>66;
         if (diLeptonMassRequirement){cuts[15]=1;} // Z-peak reco_mass<116 && reco_mass>66 // Higgs reco_mass >= 116 && reco_mass < 160
         if (tau_0_p4->Pt()>=25){cuts[16]=1;}
-        if (VBFBDT_score > 0.3){cuts[17]=1;} // High-mass VBFBDT_score > 0.3
+        if (true){cuts[17]=1;} // High-mass VBFBDT_score > 0.3
         if (true){cuts[18]=1;} // High-mass lepnuPtPass>=30 GeV.
-        if (normPtDifference > -0.3){cuts[19]=1;} // High-mass normPtDifference > -0.3
+        if (true){cuts[19]=1;} // High-mass normPtDifference > -0.3
         if (true){cuts[20]=1;} // High-mass taunuPtPass >= 15 GeV Higgs NO CUT
-        if (reco_mass/inv_taulep < 4.0){cuts[21]=1;} // High-mas reco_mass/inv_taulep < 4.0
+        if (true){cuts[21]=1;} // High-mas reco_mass/inv_taulep < 4.0
         if (true){cuts[22]=1;} // High-mass met_reco_p4->Pt() >= 40 GeV
 
         // SUM OF THE VECTOR STORING IF CUTS PASS OR NOT
