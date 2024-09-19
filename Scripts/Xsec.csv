@@ -34,8 +34,23 @@ SampleID,category,xsectioninpb,kfactor,filterefficiency,xsecunc
 600937,PhPy8EG_A14NNPDF23_VBF_Zee,0.64977,1,1,1
 600938,PhPy8EG_A14NNPDF23_VBF_Zmumu,0.64977,1,1,1
 600939,PhPy8EG_A14NNPDF23_VBF_Ztautau,0.64977,1,1,1
+545882,MGPy8EG_SM_lowMass_eejj,1.0198,1,1,1
+545884,MGPy8EG_SM_lowMass_mumujj,1.0198,1,1,1
+545886,MGPy8EG_SM_lowMass_tautaujj,1.0718,1,1,1
+545883,MGPy8EG_SM_highMass_eejj,0.037388,1,1,1
+545885,MGPy8EG_SM_highMass_mumujj,0.037388,1,1,1
+545887,MGPy8EG_SM_highMass_tautaujj,0.037449,1,1,1
 ,,,,,
+################################################################################################################,,,,,
+# VBF Z prime,,,,,
 ,,,,,
+545888,MGPy8EG_Zp200_tautaujj_U1X,0.052713,4,1,1
+545889,MGPy8EG_Zp250_tautaujj_U1X,0.019435,4,1,1
+545890,MGPy8EG_Zp300_tautaujj_U1X,0.0092938,4,1,1
+545891,MGPy8EG_Zp350_tautaujj_U1X,0.0051522,4,1,1
+545892,MGPy8EG_Zp400_tautaujj_U1X,0.0031486,4,1,1
+545893,MGPy8EG_Zp450_tautaujj_U1X,0.002058,4,1,1
+545894,MGPy8EG_Zp500_tautaujj_U1X,0.0014064,4,1,1
 ,,,,,
 ################################################################################################################,,,,,
 ,,,,,

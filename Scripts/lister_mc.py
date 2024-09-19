@@ -10,7 +10,7 @@ Ztaulep_sys = ["/eos/user/w/wyatt/data/v26-sys-vbf/"]
 Zmumu_sys = ["/eos/user/d/dbaronmo/v26-mm-sys-vbf/"]
 Zee_sys = ['/eos/user/d/dbaronmo/v26-ee-sys-vbf-p1/','/eos/user/w/wyatt/data/v26-ee-sys-vbf-p2/']
 
-Ztaulep_truth=["/Users/diegomac/Documents/HEP/v26-truth/",]
+Ztaulep_truth=["/Users/user/Documents/HEP/v26-truth/",]
 
 mc_taulep={'Ztautau_2017'  :  ['user.dbaronmo.v26.mc.361108.PoPy8_Ztt.M4.e3601_s3126_r10201_p4512.sv1_Le', '361108', 1901.2, 1.026, 1.0] ,
 'Ztautau_2018'  :  ['user.dbaronmo.v26.mc.361108.PoPy8_Ztt.M4.e3601_s3126_r10724_p4512.sv1_Le', '361108', 1901.2, 1.026, 1.0] ,
@@ -1086,10 +1086,37 @@ mc_taulep_truth = {
 'Ztautau_SherpaNLO_truth_2018'  :  ['user.dbaronmo.v26-truth.mc16_13TeV.700360.Sh_2211_Ztt2jets_Min_N_TChannel.M4.e8357_s3126_r10724_p4512.sv1_Ta', '700360', 0.77916, 1.0, 1.0] ,
 'Ztautau_SherpaNLO_truth_2017'  :  ['user.dbaronmo.v26-truth.mc16_13TeV.700360.Sh_2211_Ztt2jets_Min_N_TChannel.M4.e8357_s3126_r10201_p4512.sv1_Ta', '700360', 0.77916, 1.0, 1.0] ,
 'Ztautau_SherpaNLO_truth_2015'  :  ['user.dbaronmo.v26-truth.mc16_13TeV.700360.Sh_2211_Ztt2jets_Min_N_TChannel.M4.e8357_s3126_r9364_p4512.sv1_Ta', '700360', 0.77916, 1.0, 1.0] ,
+'VBF_Ztautau_MG_LM_truth_2017'  :  ['user.dbaronmo.v26-truth.mc16_13TeV.545886.MGPy8_SM_lowMass_ttjj.M4.e8574_s3126_r10201_p4512.sv3_Ta', '545886', 1.0718, 1.0, 1.0] ,
+'VBF_Ztautau_MG_LM_truth_2018'  :  ['user.dbaronmo.v26-truth.mc16_13TeV.545886.MGPy8_SM_lowMass_ttjj.M4.e8574_s3126_r10724_p4512.sv3_Ta', '545886', 1.0718, 1.0, 1.0] ,
+'VBF_Ztautau_MG_LM_truth_2015'  :  ['user.dbaronmo.v26-truth.mc16_13TeV.545886.MGPy8_SM_lowMass_ttjj.M4.e8574_s3126_r9364_p4512.sv3_Ta', '545886', 1.0718, 1.0, 1.0] ,
+'VBF_Ztautau_MG_HM_truth_2015'  :  ['user.dbaronmo.v26-truth.mc16_13TeV.545887.MGPy8_SM_highMass_ttjj.M4.e8574_s3126_r9364_p4512.sv3_Ta', '545887', 0.037449, 1.0, 1.0] ,
+'VBF_Ztautau_MG_HM_truth_2018'  :  ['user.dbaronmo.v26-truth.mc16_13TeV.545887.MGPy8_SM_highMass_ttjj.M4.e8574_s3126_r10724_p4512.sv3_Ta', '545887', 0.037449, 1.0, 1.0] ,
+'VBF_Ztautau_MG_HM_truth_2017'  :  ['user.dbaronmo.v26-truth.mc16_13TeV.545887.MGPy8_SM_highMass_ttjj.M4.e8574_s3126_r10201_p4512.sv3_Ta', '545887', 0.037449, 1.0, 1.0] ,
+'VBF_Zprime_200_truth_2018'  :  ['user.dbaronmo.v26-truth.mc16_13TeV.545888.MGPy8_Zp200_ttjj_U1X.M4.e8574_s3126_r10724_p4512.sv3_Ta', '545888', 0.052713, 4.0, 1.0] ,
+'VBF_Zprime_200_truth_2017'  :  ['user.dbaronmo.v26-truth.mc16_13TeV.545888.MGPy8_Zp200_ttjj_U1X.M4.e8574_s3126_r10201_p4512.sv3_Ta', '545888', 0.052713, 4.0, 1.0] ,
+'VBF_Zprime_200_truth_2015'  :  ['user.dbaronmo.v26-truth.mc16_13TeV.545888.MGPy8_Zp200_ttjj_U1X.M4.e8574_s3126_r9364_p4512.sv3_Ta', '545888', 0.052713, 4.0, 1.0] ,
+'VBF_Zprime_250_truth_2018'  :  ['user.dbaronmo.v26-truth.mc16_13TeV.545889.MGPy8_Zp250_ttjj_U1X.M4.e8574_s3126_r10724_p4512.sv3_Ta', '545889', 0.019435, 4.0, 1.0] ,
+'VBF_Zprime_250_truth_2017'  :  ['user.dbaronmo.v26-truth.mc16_13TeV.545889.MGPy8_Zp250_ttjj_U1X.M4.e8574_s3126_r10201_p4512.sv3_Ta', '545889', 0.019435, 4.0, 1.0] ,
+'VBF_Zprime_250_truth_2015'  :  ['user.dbaronmo.v26-truth.mc16_13TeV.545889.MGPy8_Zp250_ttjj_U1X.M4.e8574_s3126_r9364_p4512.sv3_Ta', '545889', 0.019435, 4.0, 1.0] ,
+'VBF_Zprime_300_truth_2015'  :  ['user.dbaronmo.v26-truth.mc16_13TeV.545890.MGPy8_Zp300_ttjj_U1X.M4.e8574_s3126_r9364_p4512.sv3_Ta', '545890', 0.0092938, 4.0, 1.0] ,
+'VBF_Zprime_300_truth_2018'  :  ['user.dbaronmo.v26-truth.mc16_13TeV.545890.MGPy8_Zp300_ttjj_U1X.M4.e8574_s3126_r10724_p4512.sv3_Ta', '545890', 0.0092938, 4.0, 1.0] ,
+'VBF_Zprime_300_truth_2017'  :  ['user.dbaronmo.v26-truth.mc16_13TeV.545890.MGPy8_Zp300_ttjj_U1X.M4.e8574_s3126_r10201_p4512.sv3_Ta', '545890', 0.0092938, 4.0, 1.0] ,
+'VBF_Zprime_350_truth_2015'  :  ['user.dbaronmo.v26-truth.mc16_13TeV.545891.MGPy8_Zp350_ttjj_U1X.M4.e8574_s3126_r9364_p4512.sv3_Ta', '545891', 0.0051522, 4.0, 1.0] ,
+'VBF_Zprime_350_truth_2018'  :  ['user.dbaronmo.v26-truth.mc16_13TeV.545891.MGPy8_Zp350_ttjj_U1X.M4.e8574_s3126_r10724_p4512.sv3_Ta', '545891', 0.0051522, 4.0, 1.0] ,
+'VBF_Zprime_350_truth_2017'  :  ['user.dbaronmo.v26-truth.mc16_13TeV.545891.MGPy8_Zp350_ttjj_U1X.M4.e8574_s3126_r10201_p4512.sv3_Ta', '545891', 0.0051522, 4.0, 1.0] ,
+'VBF_Zprime_400_truth_2017'  :  ['user.dbaronmo.v26-truth.mc16_13TeV.545892.MGPy8_Zp400_ttjj_U1X.M4.e8574_s3126_r10201_p4512.sv3_Ta', '545892', 0.0031486, 4.0, 1.0] ,
+'VBF_Zprime_400_truth_2018'  :  ['user.dbaronmo.v26-truth.mc16_13TeV.545892.MGPy8_Zp400_ttjj_U1X.M4.e8574_s3126_r10724_p4512.sv3_Ta', '545892', 0.0031486, 4.0, 1.0] ,
+'VBF_Zprime_400_truth_2015'  :  ['user.dbaronmo.v26-truth.mc16_13TeV.545892.MGPy8_Zp400_ttjj_U1X.M4.e8574_s3126_r9364_p4512.sv3_Ta', '545892', 0.0031486, 4.0, 1.0] ,
+'VBF_Zprime_450_truth_2017'  :  ['user.dbaronmo.v26-truth.mc16_13TeV.545893.MGPy8_Zp450_ttjj_U1X.M4.e8574_s3126_r10201_p4512.sv3_Ta', '545893', 0.002058, 4.0, 1.0] ,
+'VBF_Zprime_450_truth_2018'  :  ['user.dbaronmo.v26-truth.mc16_13TeV.545893.MGPy8_Zp450_ttjj_U1X.M4.e8574_s3126_r10724_p4512.sv3_Ta', '545893', 0.002058, 4.0, 1.0] ,
+'VBF_Zprime_450_truth_2015'  :  ['user.dbaronmo.v26-truth.mc16_13TeV.545893.MGPy8_Zp450_ttjj_U1X.M4.e8574_s3126_r9364_p4512.sv3_Ta', '545893', 0.002058, 4.0, 1.0] ,
+'VBF_Zprime_500_truth_2017'  :  ['user.dbaronmo.v26-truth.mc16_13TeV.545894.MGPy8_Zp500_ttjj_U1X.M4.e8574_s3126_r10201_p4512.sv3_Ta', '545894', 0.0014064, 4.0, 1.0] ,
+'VBF_Zprime_500_truth_2015'  :  ['user.dbaronmo.v26-truth.mc16_13TeV.545894.MGPy8_Zp500_ttjj_U1X.M4.e8574_s3126_r9364_p4512.sv3_Ta', '545894', 0.0014064, 4.0, 1.0] ,
+'VBF_Zprime_500_truth_2018'  :  ['user.dbaronmo.v26-truth.mc16_13TeV.545894.MGPy8_Zp500_ttjj_U1X.M4.e8574_s3126_r10724_p4512.sv3_Ta', '545894', 0.0014064, 4.0, 1.0] ,
 }
 
-mc=mc_ee # IT CAN BE mc_taulep, mc_ee, mc_mumu and _sys appended for the systematics
-ntuples_type=Zee # IT CAN BE Zee,Zmumu,Ztaulep and _sys appended for the systematics
+mc=mc_taulep_truth # IT CAN BE mc_taulep, mc_ee, mc_mumu and _sys appended for the systematics
+ntuples_type=Ztaulep_truth # IT CAN BE Zee,Zmumu,Ztaulep and _sys appended for the systematics
 
 
 for x in mc.keys():
