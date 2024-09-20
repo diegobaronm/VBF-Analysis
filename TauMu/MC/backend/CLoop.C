@@ -447,6 +447,20 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
         double zpt_weight=1/z_w;
 
         double eventWeight = 1;
+        g_LOG(LogLevel::INFO, "HELLO I AM A LOGGER");
+        g_LOG(LogLevel::DEBUG, "HELLO I SHOULD NOT BE PRINTED");
+        g_LOG(LogLevel::INFO,"Initial event w = ");
+        g_LOG(LogLevel::INFO , eventWeight );
+        cout << "MC w = "<< weight_mc << std::endl;
+        cout << "Mjj w = "<< mjj_w << std::endl;
+        cout << "Lumfactor w = "<< lumFactor << std::endl;
+        cout << "PU w = "<< NOMINAL_pileup_combined_weight << std::endl;
+        cout << "Muon SFs = "<< muon_0_NOMINAL_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium*muon_0_NOMINAL_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium
+            *muon_0_NOMINAL_MuEffSF_IsoTightTrackOnly_FixedRad*muon_0_NOMINAL_MuEffSF_Reco_QualMedium << std::endl;
+        cout << "Jet SFs = "<< jet_NOMINAL_central_jets_global_effSF_JVT*jet_NOMINAL_central_jets_global_ineffSF_JVT*jet_NOMINAL_forward_jets_global_effSF_JVT
+            *jet_NOMINAL_forward_jets_global_ineffSF_JVT*jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85*jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85 << std::endl;
+        cout << "Tau SFs = "<< tau_0_NOMINAL_TauEffSF_reco*tau_0_NOMINAL_TauEffSF_JetRNNmedium << std::endl;
+
         // check if event is from real data
         if (!(key.substr(0,4)=="data")) {
             if (!(NOMINAL_pileup_combined_weight > -1)) continue; // TO AVOID FILLING HUGE WEIGHTS IN EWK Sample
@@ -460,7 +474,7 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
         }
 
         // fill histograms
-        //cout << eventWeight;
+        cout << "Final event w = "<< eventWeight << std::endl;
         if (saveHistograms) Fill(eventWeight, z_sample, key);
         #ifdef NOMINAL
         if (saveEvents) FillTree(eventWeight, z_sample, key, signalTree, bgTree);

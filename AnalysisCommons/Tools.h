@@ -6,6 +6,60 @@
 #include <string>
 // Error message with colors!
 const char* g_ERROR_MESSAGE = "\033[1;31mERROR:\033[0m";
+const char* g_DEBUG_MESSAGE = "\033[1;94mDEBUG:\033[0m";
+const char* g_INFO_MESSAGE = "\033[1;92mINFO:\033[0m";
+
+// Enum for log levels.
+enum LogLevel {
+    ERROR = 1,
+    INFO,
+    DEBUG,
+};
+
+// Class for a logger object.
+class Logger {
+    public: 
+        // Constructor
+        Logger(LogLevel level) {
+            m_logLevel = level;
+            // Set the other parameters.
+            setLogMessage(level);
+        }
+
+        // Destructor
+        ~Logger() {}
+
+        void setLogMessage(LogLevel level){
+            if (level == LogLevel::INFO) {
+                m_logMessage = g_INFO_MESSAGE;
+            } else if (level == LogLevel::DEBUG) {
+                m_logMessage = g_DEBUG_MESSAGE;
+            } else if (level == LogLevel::ERROR) {
+                m_logMessage = g_ERROR_MESSAGE;
+            }
+        }
+
+        std::string getLogMessage() {
+            return m_logMessage;
+        }
+
+        LogLevel getLogLevel() {
+            return m_logLevel;
+        }
+
+        // Function to print the log message.
+        template <typename T>
+        void operator () (LogLevel level, const T& message) {
+            if (level <= getLogLevel()) std::cout << getLogMessage() << " " << message <<std::endl;
+        }
+
+    private:
+        LogLevel m_logLevel = LogLevel::ERROR;
+        const char* m_logMessage = "";
+};
+
+
+Logger g_LOG = Logger(LogLevel::INFO);
 
 // Function to split a string by a delimiter and return a vector of strings.
 // Like Python's split function.
