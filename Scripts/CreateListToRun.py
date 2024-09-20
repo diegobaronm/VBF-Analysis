@@ -1,5 +1,6 @@
 import os
 import sys
+import Configure # This allows all the project modules to be imported
 
 def menu(question,options):
     incorrect_answer=True
@@ -17,15 +18,22 @@ def menu(question,options):
     return int(answer)
 
 def tag_checker(channel,include_tags,exclude_tags,branches,remote):
-    
     # Got to the channel directory and add the relevant things to the path
     channelPath = '../'+channel
     os.chdir(channelPath)
-    sys.path.append(channelPath+'/MC/backend')
-    sys.path.append('../AnalysisCommons')
 
-    # Now import all the combos
-    from dataSets import dataCombos_Data, dataCombos_MC
+    # Now import the relevant combinations
+    valid_channels = ["TauMu","EleTau","MuEle","Zee","MuMu"]
+    if channel in valid_channels[:3]: # Tau channels
+        from AnalysisCommons.Metadata.datasetsTauTau import dataCombos_Data, dataCombos_MC
+    elif channel in valid_channels[3]: # Zee
+        from AnalysisCommons.Metadata.datasetsZee import dataCombos_Data, dataCombos_MC
+    elif channel in valid_channels[4]: # Zmumu
+        from AnalysisCommons.Metadata.datasetsZmumu import dataCombos_Data, dataCombos_MC
+    else :
+        print("Channel not found")
+        exit(1)
+
     # Add the two dictionaries together
     dataCombos = dataCombos_MC.copy()
     dataCombos.update(dataCombos_Data)
@@ -74,7 +82,7 @@ def tag_checker(channel,include_tags,exclude_tags,branches,remote):
 
 def sample_file_generator(type_of_ntuples,rem):
     # Ask one more question to the user
-    valid_channels = ["TauMu","EleTau","Zee","MuMu"]
+    valid_channels = ["TauMu","EleTau","MuEle","Zee","MuMu"]
     channelIndex = menu("Select a channel:",valid_channels)
     channel = valid_channels[channelIndex-1]
 
@@ -90,5 +98,4 @@ if __name__ == "__main__":
     running_machine = menu("Wher are you running?",["Local","Lxplus"])
 
     sample_file_generator(ntuples_type, running_machine==2)
-
-
+    

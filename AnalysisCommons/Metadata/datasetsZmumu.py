@@ -1,7 +1,7 @@
 # file to hold variables with info about the data
 import sys
 import os
-from DatasetsPaths import v26_mm_Paths
+from .DatasetsPaths import v26_mm_Paths
 # total luminosity of the real data in inverse femtobarns
 
 totRealLum = 57.6164

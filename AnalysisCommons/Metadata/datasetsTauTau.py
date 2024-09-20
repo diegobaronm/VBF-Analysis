@@ -1,7 +1,7 @@
 # file to hold variables with info about the data
 import sys
 import os
-from DatasetsPaths import v26Paths
+from .DatasetsPaths import v26Paths
 # total luminosity of the real data in inverse femtobarns
 
 totRealLum = 57.6164
@@ -3587,3 +3587,6 @@ dataSets_MC = {
 # Add the two dictionaries together
 dataSets = dataSets_MC.copy()
 dataSets.update(dataSets_Data)
+
+if __name__ == "__main__":
+    print("This file is not meant to be executed --- it is a library of paths for the analysis datasets.")
