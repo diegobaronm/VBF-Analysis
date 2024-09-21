@@ -22,40 +22,40 @@ class Logger {
         // Constructor
         Logger(LogLevel level) {
             m_logLevel = level;
-            // Set the other parameters.
-            setLogMessage(level);
         }
 
         // Destructor
         ~Logger() {}
 
-        void setLogMessage(LogLevel level){
+        static const char* getLogMessage(LogLevel level){
+            const char* logMessage = nullptr;
             if (level == LogLevel::INFO) {
-                m_logMessage = g_INFO_MESSAGE;
+                logMessage = g_INFO_MESSAGE;
             } else if (level == LogLevel::DEBUG) {
-                m_logMessage = g_DEBUG_MESSAGE;
+                logMessage = g_DEBUG_MESSAGE;
             } else if (level == LogLevel::ERROR) {
-                m_logMessage = g_ERROR_MESSAGE;
+                logMessage = g_ERROR_MESSAGE;
             }
-        }
-
-        std::string getLogMessage() {
-            return m_logMessage;
+            return logMessage;
         }
 
         LogLevel getLogLevel() {
             return m_logLevel;
         }
 
-        // Function to print the log message.
+        // Functions to print the log message.
         template <typename T>
         void operator () (LogLevel level, const T& message) {
-            if (level <= getLogLevel()) std::cout << getLogMessage() << " " << message <<std::endl;
+            if (level <= getLogLevel()) std::cout << getLogMessage(level) << " " << message << std::endl;
+        }
+
+        template <typename T, typename V>
+        void operator () (LogLevel level, const T& message1, const V& message2) {
+            if (level <= getLogLevel()) std::cout << getLogMessage(level) << " " << message1 << message2 << std::endl;
         }
 
     private:
         LogLevel m_logLevel = LogLevel::ERROR;
-        const char* m_logMessage = "";
 };
 
 

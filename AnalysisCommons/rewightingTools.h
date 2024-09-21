@@ -1,6 +1,7 @@
 #ifndef rewightingTools_h
 #define rewightingTools_h
 #include <map>
+#include "Tools.h"
 
 double zpT_rw_popy(double zpt){
     double z_w = 1.0;
@@ -73,7 +74,7 @@ double mjj_rw(double mjj, const std::vector<double>& parameters){
         return mjj_rw_quadratic_and_constant(mjj, parameters[0],parameters[1],parameters[2],parameters[3],parameters[4]);
     }
     else {
-        std::cout << "ERROR: Wrong number of parameters for mjj_rw" << std::endl;
+        g_LOG(LogLevel::ERROR, "Wrong number of parameters for mjj_rw function.");
         return 1.0;
     }
 }

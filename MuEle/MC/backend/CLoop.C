@@ -46,7 +46,7 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
     // if in fast mode only loop over 1% of the entries
     Long64_t nLoop = nentries;
 
-    std::cout<<"Analysing "<<nLoop<<" Events!"<<std::endl;
+    g_LOG(LogLevel::INFO,"Number of events to analyse = ", nLoop);
 
     Long64_t nbytes = 0, nb = 0;
     #ifdef NOMINAL
@@ -144,6 +144,9 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
     #endif 
     // loop over number of entries
     for (Long64_t jentry=0; jentry<nLoop;jentry++) {
+        g_LOG(LogLevel::DEBUG," ");
+        g_LOG(LogLevel::DEBUG,"New Event n = ", jentry);
+
         Long64_t ientry = LoadTree(jentry);
         if (ientry < 0) break;
         nb = fChain->GetEntry(jentry);    nbytes += nb;
@@ -253,6 +256,16 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
         double zpt_weight=1/z_w;
 
         double eventWeight = 1;
+        g_LOG(LogLevel::DEBUG,"Initial event w = ", eventWeight);
+        g_LOG(LogLevel::DEBUG,"MC w = ", weight_mc);
+        g_LOG(LogLevel::DEBUG,"Mjj w = ", mjj_w);
+        g_LOG(LogLevel::DEBUG,"Lumfactor w = ", lumFactor);
+        g_LOG(LogLevel::DEBUG,"PU w = ", NOMINAL_pileup_combined_weight);
+        g_LOG(LogLevel::DEBUG,"Electron SFs = ", elec_0_NOMINAL_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight*elec_0_NOMINAL_EleEffSF_offline_TightLLH_d0z0_v13*elec_0_NOMINAL_EleEffSF_offline_RecoTrk
+            *elec_0_NOMINAL_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight);
+        g_LOG(LogLevel::DEBUG,"Muon SFs = ", muon_0_NOMINAL_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium*muon_0_NOMINAL_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium
+            *muon_0_NOMINAL_MuEffSF_IsoTightTrackOnly_FixedRad*muon_0_NOMINAL_MuEffSF_Reco_QualMedium);
+        g_LOG(LogLevel::DEBUG,"Jet SFs = ", jet_NOMINAL_central_jets_global_effSF_JVT*jet_NOMINAL_central_jets_global_ineffSF_JVT*jet_NOMINAL_forward_jets_global_effSF_JVT);
         // check if event is from real data
         if (!(key.substr(0,4)=="data")) {
             // take product of all scale factors
@@ -266,7 +279,7 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
         }
 
         // fill histograms
-        //cout << eventWeight;
+        g_LOG(LogLevel::DEBUG,"Final event w = ", eventWeight);
         Fill(eventWeight, z_sample, key);
         // end filling
     }
@@ -289,5 +302,5 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
     clock_t endTime = clock(); // get end time
     // calculate time taken and print it
     double time_spent = (endTime - startTime) / CLOCKS_PER_SEC;
-    cout << time_spent << std::endl;
+    g_LOG(LogLevel::INFO,"Time processing == ", time_spent);
 }

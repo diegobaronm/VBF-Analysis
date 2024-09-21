@@ -48,8 +48,8 @@ struct histogramContainer
         //First check that the size of the passed cutBits is consistent with the number of cutLabels.
         if (cutBits.size() != m_cutLabels.size())
         {
-            std::cout << g_ERROR_MESSAGE << "The size of the cuts vector passed is not consistent with the definition in Analysis.h" << std::endl;
-            std::cout << "Bad histogram: " << m_baseName << std::endl;
+            g_LOG(LogLevel::ERROR, "The size of the cuts vector passed is not consistent with the definition in Analysis.h");
+            g_LOG(LogLevel::ERROR, "Bad histogram: " , m_baseName);
             exit(1);
         }
         bool relevantCut = !m_cutBit.empty();
