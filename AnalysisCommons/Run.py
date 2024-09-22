@@ -121,7 +121,7 @@ def isRunningRemote(Remote):
         exit(1)
     return remote_mode
     
-def DrawC(filename,lumStr,remote,z_sample,key_pop,tree, dirs):
+def DrawC(filename,lumStr,remote,z_sample,key_pop,tree,region, dirs):
     """
     Function to load in the C++ code and run it for a given data set
     """
@@ -148,7 +148,7 @@ def DrawC(filename,lumStr,remote,z_sample,key_pop,tree, dirs):
     r.gROOT.ProcessLine("f->GetObject(\""+tree+"\",minTree)")
 
     # create new instance of CLoop and loop over events
-    r.gROOT.ProcessLine("CLoop* t = new CLoop(minTree"+","+'"'+key_pop+'"'+")")
+    r.gROOT.ProcessLine('CLoop* t = new CLoop(minTree, "%s", "%s")' % (key_pop, region))
     r.gROOT.ProcessLine("t->Loop("+lumStr+","+str(z_sample)+","+'"'+key_pop+tree+'"'+")")
     r.gROOT.ProcessLine("f->Close("R")")
 

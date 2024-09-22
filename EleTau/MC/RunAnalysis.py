@@ -35,9 +35,10 @@ def runAnalysis(key, remote):
     lumStr = getEventWeight(key,realList,infos,totRealLum)
 
     # launch the analysis script for the given data set
-    tree_name=sys.argv[3]
+    tree_name = sys.argv[3]
+    region = sys.argv[4]
 
-    DrawC(filename,lumStr,remote,z_sample,key,sys.argv[3], dirs)
+    DrawC(filename,lumStr,remote,z_sample,key,tree_name, region, dirs)
 
     # move the output to a different directory
     if sys.argv[0]=="condor_exec.exe":
