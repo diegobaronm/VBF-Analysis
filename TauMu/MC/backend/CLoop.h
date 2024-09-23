@@ -25,13 +25,19 @@
 #include "TLorentzVector.h"
 #include "../../../AnalysisCommons/histogramContainer.h"
 #include "../../../AnalysisCommons/Tools.h"
+#include "../../../AnalysisCommons/Kinematics.h"
 
 class CLoop {
   void Style(double lumFactor);
   void Book();
   void Fill(double weight, int z_sample, const std::string& sampleName);
   void FillTree(double weight, int z_sample, const std::string& sampleName, TTree* stree, TTree* btree);
+  std::vector<int> ApplySelection(const std::string& selectionName, const Kinematics::VariablesForCutflow& vars);
+  std::vector<std::string> InitCutNames(const std::string& selectionName);
 
+  std::string m_region; 
+  std::vector<std::string> notFull{"basic","all"};
+  std::vector<std::string> m_cutNames;
   #include "../Analysis.h"
   VBFBDT m_vbfBDT = VBFBDT("/Users/user/Documents/HEP/MVA-Analysis/dataset/weights/10Folds_BDT-0.3.weights.xml");
 
@@ -1883,7 +1889,7 @@ public :
 
 
 
-   CLoop(TTree *tree=0,std::string sample_name="");
+   CLoop(TTree *tree=0,std::string sample_name="", const std::string& region = "");
    virtual ~CLoop();
    virtual Int_t    Cut(/*Long64_t entry*/);
    virtual Int_t    GetEntry(Long64_t entry);
@@ -1897,7 +1903,7 @@ public :
 #endif
 
 #ifdef CLoop_cxx
-CLoop::CLoop(TTree *tree,std::string sample_name) : fChain(0)
+CLoop::CLoop(TTree *tree,std::string sample_name, const std::string& region) : fChain(0)
 {
 // if parameter tree is not specified (or zero), connect the file
 // used to generate this class and read the Tree.
@@ -1909,6 +1915,7 @@ CLoop::CLoop(TTree *tree,std::string sample_name) : fChain(0)
       f->GetObject("NOMINAL",tree);
 
    }
+   m_region = region;
    Init(tree,sample_name);
 }
 

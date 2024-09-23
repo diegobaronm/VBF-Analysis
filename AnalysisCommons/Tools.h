@@ -144,3 +144,20 @@ class VBFBDT {
     float m_bdt_eventNumber;
 
 };
+
+namespace Tools {
+
+bool passedAllCuts(const std::vector<int>& cuts){
+    size_t sum{0};
+    for(auto &j : cuts){
+        if (j >1 || j < 0){
+            g_LOG(LogLevel::ERROR, "The cuts vector contains values different from 0 or 1.");
+            exit(1);
+        }
+        sum=sum+j;
+    }
+    bool passedAllCuts = (sum == cuts.size());
+    return passedAllCuts;
+}
+
+} // End of namespace Tools

@@ -84,6 +84,29 @@ double Mass(const std::vector<const TLorentzVector*>& particles)
 }
 
 /**
+ * @brief This function returns true if the charge of the particles is consistent with the region name.
+ * @param q1
+ * @param q2
+ * @param regionName
+ */
+bool isChargeCorrect(const std::string& regionName, float q1, float q2){
+    if (regionName.size() < 2){
+        g_LOG(LogLevel::ERROR, "Region name is not valid.");
+        exit(1);
+    }
+
+    bool isOS = regionName.find("OS") != std::string::npos;
+    bool isSS = regionName.find("SS") != std::string::npos;
+
+    if (isOS) return q1!=q2;
+    if (isSS) return q1==q2;
+    else {
+        g_LOG(LogLevel::ERROR, "Region name is not valid. The region should end with OS or SS.");
+        exit(1);
+    }
+}
+
+/**
  * @brief This function calculates the transverse mass of a particle.
  * @param particle The particle to calculate the transverse mass for.
  * @param MET The missing transverse energy.

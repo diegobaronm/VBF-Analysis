@@ -17,7 +17,7 @@ std::vector<std::string> CLoop::InitCutNames(const std::string& selectionName){
     std::vector<std::string> cutNames{};
 
     if (selName == "Zpeak"){
-        cutNames = {"basic","dphi","drap","btag","iso","rnn","ptl","j1pt","j2pt","ptbal","mjj","nji","zcen","omega","mlt","ebdt","mreco","tpt"}; 
+        cutNames = {"basic","dphi","drap","btag","iso","rnn","ptl","j1pt","j2pt","ptbal","mjj","nji","zcen","omega","mreco","tpt"};
     } else {
         g_LOG(LogLevel::ERROR, "Selection name not found!");
         exit(1);
@@ -51,8 +51,6 @@ std::vector<int> CLoop::ApplySelection(const std::string& selectionName, const K
         cuts.push_back( vars.nJetsInGap == 0 );
         cuts.push_back( vars.centrality < 0.5 );
         cuts.push_back( vars.omega > -0.2 && vars.omega < 1.6 );
-        cuts.push_back( vars.massTauLepton <= 80 );
-        cuts.push_back( vars.eBDTScore >= 0.05 );
         cuts.push_back( vars.recoMass < 116 && vars.recoMass > 66 );
         cuts.push_back( vars.taupT >= 25 );
     }
@@ -76,8 +74,6 @@ std::vector<int> CLoop::ApplySelection(const std::string& selectionName, const K
         cuts.push_back( vars.nJetsInGap == 0 );
         cuts.push_back( vars.centrality < 0.5 );
         cuts.push_back( vars.omega > -0.2 && vars.omega < 1.4 );
-        cuts.push_back( vars.massTauLepton <= 80 || vars.massTauLepton >= 100);
-        cuts.push_back( vars.eBDTScore >= 0.05 );
         cuts.push_back( vars.recoMass >= 160);
         cuts.push_back( vars.taupT >= 25 );
         cuts.push_back( vars.vbfBDTScore > 0.3 );

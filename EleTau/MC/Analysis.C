@@ -111,8 +111,7 @@ void CLoop::Book() {
 void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
   double pi=TMath::Pi();
   // Charges and lepton ID
-  float ql=elec_0_q;
-  float qtau=tau_0_q;
+  bool correctCharge = Kinematics::isChargeCorrect(m_region,elec_0_q,tau_0_q);
   bool lepton_id=elec_0_id_tight;
   size_t n_ljets=n_jets-n_bjets_MV2c10_FixedCutBEff_85;
 
@@ -127,10 +126,10 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
       trigger_match=bool(eleTrigMatch_0_HLT_e120_lhloose | eleTrigMatch_0_HLT_e140_lhloose_nod0 | eleTrigMatch_0_HLT_e26_lhtight_nod0_ivarloose | eleTrigMatch_0_HLT_e60_lhmedium | eleTrigMatch_0_HLT_e60_lhmedium_nod0);
   }
 
-  // INVARIANT MASS 2-JETS
+  // 0) Invariant mass of tagging jets.
   double mjj = Kinematics::Mass({ljet_0_p4, ljet_1_p4});
 
-  if (ql!=qtau && n_electrons==1 && n_taus_rnn_loose>=1 && lepton_id && n_ljets>=2 && n_ljets<=3 && mjj>=250 && trigger_decision && trigger_match){
+  if (correctCharge && n_electrons==1 && n_taus_rnn_loose>=1 && lepton_id && n_ljets>=2 && n_ljets<=3 && mjj>=250 && trigger_decision && trigger_match){
 
     // Build the kinematic variables needed for the selections.
     
@@ -196,9 +195,8 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
     double etaLessCentral = abs(ljet_0_p4->Eta())<abs(ljet_1_p4->Eta()) ? ljet_1_p4->Eta() : ljet_0_p4->Eta();
     double normPtDifference = (tau_0_p4->Pt()-elec_0_p4->Pt())/(tau_0_p4->Pt()+elec_0_p4->Pt());
     double anglejj = Kinematics::del_phi(ljet_0_p4->Phi(),ljet_1_p4->Phi());
-    double metToDilepnuRatio = 0.0;
     double metToDilepRatio = met_reco_p4->Pt()/(tau_0_p4->Pt()+elec_0_p4->Pt());
-    metToDilepnuRatio = met_reco_p4->Pt()/(tau_0_p4->Pt()+nu_tau_p4.Pt()+elec_0_p4->Pt()+nu_lep_p4.Pt());
+    double metToDilepnuRatio = met_reco_p4->Pt()/(tau_0_p4->Pt()+nu_tau_p4.Pt()+elec_0_p4->Pt()+nu_lep_p4.Pt());
 
 
     double massTauCloserJet{0.0};
@@ -273,35 +271,29 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
     cutVars.recoVisibleMassRatio = reco_mass/inv_taulep;
     
     // Apply cuts 
-    vector<int> cuts = ApplySelection(m_region, cutVars);
-    
-    // SUM OF THE VECTOR STORING IF CUTS PASS OR NOT
-    size_t sum{0};
-    for(auto &j : cuts){sum=sum+j;}
+    std::vector<int> cuts = ApplySelection(m_region, cutVars);
+    if ((m_cutNames.size() - 1) != cuts.size()){
+        g_LOG(LogLevel::ERROR, "The number of cuts is not consistent with the number of cut names.");
+        exit(1);
+    }
 
+    // Calculate if the event passed all cuts
     std::vector<int> cutsVector{1};
     cutsVector.insert(cutsVector.end(),cuts.begin(),cuts.end());
-    bool passedAllCuts = (sum+1==cutsVector.size());
+    bool passedAllCuts = Tools::passedAllCuts(cutsVector);
     std::vector<int> notFullCutsVector{1,static_cast<int>(passedAllCuts)};
 
     // Blind H-M region
-    bool signalRegion = angle<=3.2 && delta_y>=2.0 && n_bjets_MV2c10_FixedCutBEff_85==0 &&
-    (tau_0_n_charged_tracks==1 && tau_0_jet_rnn_score_trans >= 0.40 || tau_0_n_charged_tracks==3 && tau_0_jet_rnn_score_trans >= 0.55) &&
-    elec_0_iso_FCTight==1 && elec_0_p4->Pt()>=27 && ljet_0_p4->Pt()>=75 && ljet_1_p4->Pt()>=70 && pt_bal<=0.15 && mjj>=750 && 
-    n_jets_interval == 0 && z_centrality < 0.5 && omega> -0.2 && omega <1.4 && reco_mass>=160 && tau_0_p4->Pt()>=25 &&
-    VBFBDT_score > 0.3 && normPtDifference > -0.3 && reco_mass/inv_taulep < 4.0 &&
-    tau_0_ele_bdt_score_trans_retuned>=0.05 && (inv_taulep<=80 || inv_taulep>=100);
+    std::vector<int> cutsSignalRegion = ApplySelection("HighMass", cutVars);
+    bool signalRegion = Tools::passedAllCuts(cutsSignalRegion);
 
-    if (sampleName.substr(0,4)=="data" && signalRegion && ql!=qtau) return;
+    if (sampleName.substr(0,4)=="data" && signalRegion && Kinematics::isChargeCorrect("OS",elec_0_q,tau_0_q)) return;
 
-    // Cut testing
-    bool testCuts = transverseMassLep <= 65 && massTauCloserJet >= 90;
     bool MJCR = (tau_0_n_charged_tracks==1 && tau_0_jet_rnn_score_trans < 0.25) || (tau_0_n_charged_tracks==3 && tau_0_jet_rnn_score_trans < 0.40) || (elec_0_iso_FCTight==0);
     bool failedMVA = (VBFBDT_score <= 0.3) || (normPtDifference <= -0.3) || (reco_mass/inv_taulep >= 4.0) || (tau_0_n_charged_tracks==1 && tau_0_jet_rnn_score_trans < 0.25) || (tau_0_n_charged_tracks==3 && tau_0_jet_rnn_score_trans < 0.40);
     //if (sampleName.substr(0,4)=="data" && !MJCR) return;
 
-    if (true){
-    // HISTOGRAM FILLING 
+    // Fill the histograms
     if (passedAllCuts) trueMass_2D_lepTransMass_basic_all->Fill(trueMass,transverseMassLep,weight);
     if (passedAllCuts) trueMass_2D_transverseRecoMassRatio_basic_all->Fill(trueMass,transverseMassLep/reco_mass,weight);
     lep_ptContainer.Fill(elec_0_p4->Pt(),weight,cutsVector);
@@ -421,7 +413,6 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
     massLepClosestJetContainer.Fill(massLepClosestJet,weight,notFullCutsVector);
     flavourJet1Container.Fill(ljet_0_matched_pdgId,weight,notFullCutsVector);
     flavourJet2Container.Fill(ljet_1_matched_pdgId,weight,notFullCutsVector);}
-  }
 }
 
 void CLoop::Style(double lumFactor) {
