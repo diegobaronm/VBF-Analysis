@@ -139,7 +139,7 @@ int is_inside_jets(TLorentzVector* test_jet,TLorentzVector* j1, TLorentzVector* 
  * @param bool_vector_container: container of booleans to select particles.
  * @param @param jet_container: container of particles to test against.
  */
-double min_deltaR(TLorentzVector* test_particle, std::vector<UInt_t>& bool_vector_container,const std::vector<TLorentzVector*>& jet_container){
+double min_deltaR(TLorentzVector* test_particle, const std::vector<UInt_t>& bool_vector_container,const std::vector<TLorentzVector*>& jet_container){
 
   std::vector<double> delta_Rs{};
 

@@ -6,7 +6,7 @@
 #include "../../../AnalysisCommons/rewightingTools.h"
 #include"../../../AnalysisCommons/Kinematics.h"
 
-void CLoop::Loop(double lumFactor, int z_sample, std::string key)
+void CLoop::Loop(double lumFactor, int z_sample, const std::string& key)
 {
 //    In a ROOT session, you can do:
 //        root> .L CLoop.C
@@ -207,8 +207,8 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
         Fill(eventWeight, z_sample, key);
         // end filling
     }
-    key = key+".root";
-    const char*  name_root = key.c_str();
+    std::string keyRoot = key+".root";
+    const char*  name_root = keyRoot.c_str();
     // set style of histograms and write to output file
     // open output file
     TFile outfile(name_root,"recreate");

@@ -1,9 +1,3 @@
-VBF_Ztautau_MG_LM_truth_2017_0
-VBF_Ztautau_MG_LM_truth_2018_0
-VBF_Ztautau_MG_LM_truth_2015_0
-VBF_Ztautau_MG_HM_truth_2015_0
-VBF_Ztautau_MG_HM_truth_2018_0
-VBF_Ztautau_MG_HM_truth_2017_0
 VBF_Zprime_200_truth_2018_0
 VBF_Zprime_200_truth_2017_0
 VBF_Zprime_200_truth_2015_0

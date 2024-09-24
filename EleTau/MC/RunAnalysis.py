@@ -38,7 +38,7 @@ def runAnalysis(key, remote):
     tree_name = sys.argv[3]
     region = sys.argv[4]
 
-    DrawC(filename,lumStr,remote,z_sample,key,tree_name, region, dirs)
+    DrawC(filename,lumStr,z_sample,key,tree_name, region, dirs)
 
     # move the output to a different directory
     if sys.argv[0]=="condor_exec.exe":

@@ -29,7 +29,7 @@ INFO = Logger("INFO",bcolors.OKGREEN)
 ERROR = Logger("ERROR",bcolors.FAIL)
 DEBUG = Logger("DEBUG",bcolors.OKBLUE)
 
-LOGLEVEL = 3
+LOGLEVEL = 2
 
 def getInput(dataCombo):
     """
@@ -121,7 +121,7 @@ def isRunningRemote(Remote):
         exit(1)
     return remote_mode
     
-def DrawC(filename,lumStr,remote,z_sample,key_pop,tree,region, dirs):
+def DrawC(filename,lumStr,z_sample,key_pop,tree,region, dirs):
     """
     Function to load in the C++ code and run it for a given data set
     """
@@ -143,13 +143,13 @@ def DrawC(filename,lumStr,remote,z_sample,key_pop,tree,region, dirs):
         r.gSystem.Load("backend/CLoop_C")
 
     # load in tree from file
-    r.gROOT.ProcessLine("TFile* f = new TFile(\""+fullPath+"\")")
+    r.gROOT.ProcessLine('TFile* f = new TFile("%s")' % (fullPath))
     r.gROOT.ProcessLine("TTree * minTree = new TTree")
-    r.gROOT.ProcessLine("f->GetObject(\""+tree+"\",minTree)")
+    r.gROOT.ProcessLine('f->GetObject("%s", minTree)' % (tree))
 
     # create new instance of CLoop and loop over events
     r.gROOT.ProcessLine('CLoop* t = new CLoop(minTree, "%s", "%s")' % (key_pop, region))
-    r.gROOT.ProcessLine("t->Loop("+lumStr+","+str(z_sample)+","+'"'+key_pop+tree+'"'+")")
+    r.gROOT.ProcessLine('t->Loop(%s, %s, "%s")' % (lumStr, z_sample, key_pop+tree))
     r.gROOT.ProcessLine("f->Close("R")")
 
 if __name__ == "__main__":
