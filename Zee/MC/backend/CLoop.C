@@ -1,8 +1,10 @@
 #define CLoop_cxx
 
 #include "../Analysis.C"
+#include "../Selections.C"
 #include <cmath>
 #include "../../../AnalysisCommons/rewightingTools.h"
+#include"../../../AnalysisCommons/Kinematics.h"
 
 void CLoop::Loop(double lumFactor, int z_sample, std::string key)
 {
@@ -45,7 +47,7 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
     Long64_t nLoop = nentries;
     Long64_t nLoop_five_percent = nentries/20;
 
-    std::cout<<"Analysing "<<nLoop<<" Events!"<<std::endl;
+    g_LOG(LogLevel::INFO,"Number of events to analyse = ", nLoop);
 
     Long64_t nbytes = 0, nb = 0;
     #ifdef NOMINAL
@@ -141,13 +143,15 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
     #endif
     // loop over number of entries
     for (Long64_t jentry=0; jentry<nLoop;jentry++) {
+        g_LOG(LogLevel::DEBUG," ");
+        g_LOG(LogLevel::DEBUG,"New Event n = ", jentry);
         Long64_t ientry = LoadTree(jentry);
         if (ientry < 0) break;
         nb = fChain->GetEntry(jentry,0);    nbytes += nb;
         // if (Cut(ientry) < 0) continue;
 
         if (nLoop >= 1000000 && jentry % nLoop_five_percent ==0 && jentry>0 ) {
-            std::cout<<"Analysed... "<<100*double(jentry)/nLoop<<"% of events!"<<std::endl;
+            g_LOG(LogLevel::INFO, 100*double(jentry)/nLoop, "% Analysed.");
         }
 
         // Variables defining regions
@@ -157,7 +161,7 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
         size_t n_ljets=n_jets-n_bjets_MV2c10_FixedCutBEff_85;
         int n_jets_interval{};
         if(n_ljets>2){
-          n_jets_interval=n_jets_interval+is_inside_jets(ljet_2_p4,ljet_0_p4,ljet_1_p4);
+          n_jets_interval=n_jets_interval+Kinematics::is_inside_jets(ljet_2_p4,ljet_0_p4,ljet_1_p4);
         }
         // Z BOSON CENTRALITY
         double lepton_xi=((*elec_0_p4)+(*elec_1_p4)).Rapidity();
@@ -228,5 +232,5 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
     clock_t endTime = clock(); // get end time
     // calculate time taken and print it
     double time_spent = (endTime - startTime) / CLOCKS_PER_SEC;
-    cout << time_spent << std::endl;
+    g_LOG(LogLevel::INFO,"Time processing == ", time_spent);
 }
