@@ -1,10 +1,12 @@
 #define CLoop_cxx
 
 #include "../Analysis.C"
+#include "../Selections.C"
 #include <cmath>
 #include <TMacro.h>
 #include "../../../AnalysisCommons/rewightingTools.h"
-#include"../../../AnalysisCommons/Tools.h" 
+#include"../../../AnalysisCommons/Tools.h"
+#include"../../../AnalysisCommons/Kinematics.h"
 
 void CLoop::Loop(double lumFactor, int z_sample, std::string key)
 {
@@ -159,7 +161,7 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
         size_t n_ljets=n_jets-n_bjets_MV2c10_FixedCutBEff_85;
         int n_jets_interval{};
         if(n_ljets>2){
-          n_jets_interval=n_jets_interval+is_inside_jets(ljet_2_p4,ljet_0_p4,ljet_1_p4);
+          n_jets_interval=n_jets_interval+Kinematics::is_inside_jets(ljet_2_p4,ljet_0_p4,ljet_1_p4);
         }
         // Z BOSON CENTRALITY
         double lepton_xi=((*elec_0_p4)+(*muon_0_p4)).Rapidity();
@@ -194,65 +196,6 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
         
         // ZpT reweighting
         double z_w=1;
-        // SHERPA REWEIGHTING
-        /*if (z_sample==2){
-            double zpt=truth_Z_p4->Pt()/1000;
-            if (zpt>30 & zpt<80){
-                z_w=((0.95-0.98)/(log10(80)-log10(30)))*(log10(zpt)-log10(30))+0.98;
-            }
-            if (zpt>80){
-                z_w=((1-0.95)/(log10(400)-log10(80)))*(log10(zpt)-log10(80))+0.95;
-            }
-        }*/
-        // PYTHIA REWEIGHTING
-        /*if(z_sample==1){
-            double zpt=truth_Z_p4->Pt()/1000;
-            if(zpt>=40 & zpt<46){
-                z_w=0.995;
-            }else if(zpt>=46 & zpt<48){
-                z_w=0.99;
-            }else if(zpt>=48 & zpt<51){
-                z_w=0.983;
-            }else if(zpt>=51 & zpt<54){
-                z_w=0.974;
-            }else if(zpt>=54 & zpt<58){
-                z_w=0.978;
-            }else if(zpt>=58 & zpt<60){
-                z_w=0.969;
-            }else if(zpt>=60 & zpt<65){
-                z_w=0.95;
-            }else if(zpt>=65 & zpt<70){
-                z_w=0.949;
-            }else if(zpt>=70 & zpt<75){
-                z_w=0.942;
-            }else if(zpt>=75 & zpt<80){
-                z_w=0.937;
-            }else if(zpt>=80 & zpt<85){
-                z_w=0.92;
-            }else if(zpt>=85 & zpt<95){
-                z_w=0.9;
-            }else if(zpt>=95 & zpt<108){
-                z_w=0.891;
-            }else if(zpt>=108 & zpt<130){
-                z_w=0.863;
-            }else if(zpt>=130 & zpt<151){
-                z_w=0.84;
-            }else if(zpt>=151){
-                z_w=0.8;
-            }
-        }*/
-        /*if (z_sample==1){
-            double zpt=truth_Z_p4->Pt()/1000;
-            if (zpt>40 & zpt<80){
-                z_w=((0.93-1)/(log10(80)-log10(40)))*(log10(zpt)-log10(40))+1;
-            }
-            if (zpt>=80 & zpt<151){
-                z_w=((0.8-0.93)/(log10(151)-log10(80)))*(log10(zpt)-log10(80))+0.93;
-            }
-            if (zpt>=151){
-                z_w=0.80;
-            }
-        }*/
         double zpt_weight=1/z_w;
 
         double eventWeight = 1;

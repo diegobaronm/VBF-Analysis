@@ -159,9 +159,11 @@ double min_deltaR(TLorentzVector* test_particle, std::vector<UInt_t>& bool_vecto
  */
 enum TauTauTopology {
     INSIDE = 1,
-    OUTSIDE_LEP,
-    OUTSIDE_TAU,
-    NOT_VALID,
+    OUTSIDE_LEP = 2,
+    OUTSIDE_ELEC = 2,
+    OUTSIDE_TAU = 3,
+    OUTSIDE_MUON = 3,
+    NOT_VALID = 4,
 };
 
 /**
