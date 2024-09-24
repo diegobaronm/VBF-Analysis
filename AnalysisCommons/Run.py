@@ -137,10 +137,7 @@ def DrawC(filename,lumStr,z_sample,key_pop,tree,region, dirs):
     fullPath = correctPath + filename
 
     # load in CLoop.C
-    if sys.argv[0]=="condor_exec.exe":
-        r.gSystem.Load("CLoop_C")
-    else :
-        r.gSystem.Load("backend/CLoop_C")
+    r.gSystem.Load("backend/CLoop_C")
 
     # load in tree from file
     r.gROOT.ProcessLine('TFile* f = new TFile("%s")' % (fullPath))

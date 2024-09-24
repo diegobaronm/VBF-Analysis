@@ -5,5 +5,7 @@ log                     = log/$(ClusterId).log
 on_exit_remove   = (ExitBySignal == False) && (ExitCode == 0)
 max_retries      = 3
 requirements     = Machine =!= LastRemoteHost
-transfer_input_files    = Analysis.C,Analysis.h,backend/,../../AnalysisCommons/
+preserve_relative_paths = True
+initialdir = /afs/cern.ch/work/d/dbaronmo/private/VBF-Analysis/
+transfer_input_files    = AnalysisCommons/,MuMu/
 +JobFlavour = "microcentury"
