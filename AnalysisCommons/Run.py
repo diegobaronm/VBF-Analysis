@@ -1,6 +1,6 @@
 import sys
 import ROOT as r
-from os import listdir
+import os
 import sys
 
 # Define  colours for the output
@@ -128,7 +128,7 @@ def DrawC(filename,lumStr,z_sample,key_pop,tree,region, dirs):
 
     # search through several directories to find where the input file is located
     for path in dirs:
-        if filename in listdir(path):
+        if filename in os.listdir(path):
             correctPath = path
             break
 
@@ -137,7 +137,14 @@ def DrawC(filename,lumStr,z_sample,key_pop,tree,region, dirs):
     fullPath = correctPath + filename
 
     # load in CLoop.C
-    r.gSystem.Load("backend/CLoop_C")
+    try:
+        r.gSystem.Load("backccend/CLoop_C")
+    except:
+        print(os.cwd())
+        print(os.listdir())
+        for i in os.listdir():
+            print(os.listdir(i))
+        exit(1)
 
     # load in tree from file
     r.gROOT.ProcessLine('TFile* f = new TFile("%s")' % (fullPath))
