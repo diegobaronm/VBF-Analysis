@@ -33,6 +33,7 @@ struct VariablesForCutflow {
     double vbfBDTScore{-10};
     double lepPtAssymetry{-2};
     double recoVisibleMassRatio{-1};
+    unsigned long eventNumber{0};
 };
 
 /**

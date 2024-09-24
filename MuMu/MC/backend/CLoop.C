@@ -1,8 +1,10 @@
 #define CLoop_cxx
 
 #include "../Analysis.C"
+#include "../Selections.C"
 #include <cmath>
 #include "../../../AnalysisCommons/rewightingTools.h"
+#include"../../../AnalysisCommons/Kinematics.h"
 
 void CLoop::Loop(double lumFactor, int z_sample, std::string key)
 {
@@ -145,7 +147,7 @@ void CLoop::Loop(double lumFactor, int z_sample, std::string key)
         size_t n_ljets=n_jets-n_bjets_MV2c10_FixedCutBEff_85;
         int n_jets_interval{};
         if(n_ljets>2){
-          n_jets_interval=n_jets_interval+is_inside_jets(ljet_2_p4,ljet_0_p4,ljet_1_p4);
+          n_jets_interval=n_jets_interval+Kinematics::is_inside_jets(ljet_2_p4,ljet_0_p4,ljet_1_p4);
         }
         // Z BOSON CENTRALITY
         double lepton_xi=((*muon_0_p4)+(*muon_1_p4)).Rapidity();

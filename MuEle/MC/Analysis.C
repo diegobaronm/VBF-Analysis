@@ -125,6 +125,7 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) { /
     // 2) Get the topology of the tau-tau system.
     Kinematics::TauTauTopology tauTauTopology = Kinematics::getTauTauTopology(angle_elec_MET, angle_muon_MET, angle);
     if (tauTauTopology == Kinematics::TauTauTopology::NOT_VALID) return;
+    g_LOG(LogLevel::DEBUG, "This event passes the basic selection cuts.");
 
     // 3) Neutrino momentum
     TLorentzVector nu_muon_p4 = Kinematics::getTauNeutrino(tauTauTopology,met_reco_p4,muon_0_p4,elec_0_p4);
