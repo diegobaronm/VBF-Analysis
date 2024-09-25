@@ -17,7 +17,7 @@ def menu(question,options):
             print("Select a correct option!")
     return int(answer)
 
-def tag_checker(channel,include_tags,exclude_tags,branches,remote):
+def tag_checker(channel,include_tags,exclude_tags,branches,remote,region):
     # Got to the channel directory and add the relevant things to the path
     channelPath = '../'+channel
     os.chdir(channelPath)
@@ -63,7 +63,7 @@ def tag_checker(channel,include_tags,exclude_tags,branches,remote):
         if ".txt" not in branches:
             for j in samples:
                 if remote:
-                    file.write(j+" yes "+branches)
+                    file.write("%s yes %s %s" % (j,branches,region))
                     file.write('\n')
                 else :
                     file.write(j)
@@ -80,7 +80,7 @@ def tag_checker(channel,include_tags,exclude_tags,branches,remote):
                         file.write(j)
                         file.write('\n')
 
-def sample_file_generator(type_of_ntuples,rem):
+def sample_file_generator(type_of_ntuples, rem, region):
     # Ask one more question to the user
     valid_channels = ["TauMu","EleTau","MuEle","Zee","MuMu"]
     channelIndex = menu("Select a channel:",valid_channels)
@@ -88,14 +88,15 @@ def sample_file_generator(type_of_ntuples,rem):
 
     # NOMINAL
     if type_of_ntuples==1 :
-        tag_checker(channel,[],["sys"],"NOMINAL",rem)
+        tag_checker(channel,[],["sys"],"NOMINAL",rem, region)
     elif type_of_ntuples==2 :
-        tag_checker(channel,["sys"],[],"sysTrees.txt",rem)
+        tag_checker(channel,["sys"],[],"sysTrees.txt",rem, region)
 
 if __name__ == "__main__":
     # Ask questions to the user
     ntuples_type = menu("Nominal or systematics?",["Nominal","Systematics"])
     running_machine = menu("Wher are you running?",["Local","Lxplus"])
+    region = input("Which region are you running? ")
 
-    sample_file_generator(ntuples_type, running_machine==2)
+    sample_file_generator(ntuples_type, running_machine==2, region)
     

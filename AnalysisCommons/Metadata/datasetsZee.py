@@ -738,6 +738,18 @@ dataCombos_MC = {
 "VV_EWK8_2018":['VV_EWK8_2018_0',],
 #VV_EWK8_2015
 "VV_EWK8_2015":['VV_EWK8_2015_0',],
+#VBF_Zee_MG_LM_2017
+"VBF_Zee_MG_LM_2017":['VBF_Zee_MG_LM_2017_0',],
+#VBF_Zee_MG_LM_2018
+"VBF_Zee_MG_LM_2018":['VBF_Zee_MG_LM_2018_0',],
+#VBF_Zee_MG_LM_2015
+"VBF_Zee_MG_LM_2015":['VBF_Zee_MG_LM_2015_0',],
+#VBF_Zee_MG_HM_2017
+"VBF_Zee_MG_HM_2017":['VBF_Zee_MG_HM_2017_0',],
+#VBF_Zee_MG_HM_2018
+"VBF_Zee_MG_HM_2018":['VBF_Zee_MG_HM_2018_0',],
+#VBF_Zee_MG_HM_2015
+"VBF_Zee_MG_HM_2015":['VBF_Zee_MG_HM_2015_0',],
 }
 
 # Add the two dictionaries together
@@ -4526,6 +4538,18 @@ dataSets_MC = {
 'VV_EWK8_2018_0':'user.dbaronmo.34337377._000001.TauID_Zll.root',
 #VV_EWK8_2015
 'VV_EWK8_2015_0':'user.dbaronmo.34337379._000001.TauID_Zll.root',
+#VBF_Zee_MG_LM_2017
+'VBF_Zee_MG_LM_2017_0':'user.dbaronmo.41392594._000001.TauID_Zll.root',
+#VBF_Zee_MG_LM_2018
+'VBF_Zee_MG_LM_2018_0':'user.dbaronmo.41392596._000001.TauID_Zll.root',
+#VBF_Zee_MG_LM_2015
+'VBF_Zee_MG_LM_2015_0':'user.dbaronmo.41392598._000001.TauID_Zll.root',
+#VBF_Zee_MG_HM_2017
+'VBF_Zee_MG_HM_2017_0':'user.dbaronmo.41392599._000001.TauID_Zll.root',
+#VBF_Zee_MG_HM_2018
+'VBF_Zee_MG_HM_2018_0':'user.dbaronmo.41392604._000001.TauID_Zll.root',
+#VBF_Zee_MG_HM_2015
+'VBF_Zee_MG_HM_2015_0':'user.dbaronmo.41392606._000001.TauID_Zll.root',
 }
 
 # Add the two dictionaries together

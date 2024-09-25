@@ -2866,5 +2866,17 @@ infos = {
 'VV_EWK8_2018_0': {'DSID'    : 700594,'events'  : 1089034.408310,'red_eff' :1,'sumw'    :1089034.408310,'xsec'    :0.003338,'kfac'    :1.000000,'fil_eff'    :1.000000},
 #VV_EWK8_2015
 'VV_EWK8_2015_0': {'DSID'    : 700594,'events'  : 705897.552582,'red_eff' :1,'sumw'    :705897.552582,'xsec'    :0.003338,'kfac'    :1.000000,'fil_eff'    :1.000000},
-
+#VBF_Zmumu_MG_LM_2017
+'VBF_Zmumu_MG_LM_2017_0': {'DSID'    : 545884,'events'  : 1318749.310286,'red_eff' :1,'sumw'    :1318749.310286,'xsec'    :1.019800,'kfac'    :1.000000,'fil_eff'    :1.000000},
+#VBF_Zmumu_MG_LM_2018
+'VBF_Zmumu_MG_LM_2018_0': {'DSID'    : 545884,'events'  : 1727578.110122,'red_eff' :1,'sumw'    :1727578.110122,'xsec'    :1.019800,'kfac'    :1.000000,'fil_eff'    :1.000000},
+#VBF_Zmumu_MG_LM_2015
+'VBF_Zmumu_MG_LM_2015_0': {'DSID'    : 545884,'events'  : 1016620.950493,'red_eff' :1,'sumw'    :1016620.950493,'xsec'    :1.019800,'kfac'    :1.000000,'fil_eff'    :1.000000},
+#VBF_Zmumu_MG_HM_2017
+'VBF_Zmumu_MG_HM_2017_0': {'DSID'    : 545885,'events'  : 12334.626963,'red_eff' :1,'sumw'    :12334.626963,'xsec'    :0.037388,'kfac'    :1.000000,'fil_eff'    :1.000000},
+#VBF_Zmumu_MG_HM_2018
+'VBF_Zmumu_MG_HM_2018_0': {'DSID'    : 545885,'events'  : 15558.633004,'red_eff' :1,'sumw'    :15558.633004,'xsec'    :0.037388,'kfac'    :1.000000,'fil_eff'    :1.000000},
+'VBF_Zmumu_MG_HM_2018_1': {'DSID'    : 545885,'events'  : 15558.633004,'red_eff' :1,'sumw'    :15558.633004,'xsec'    :0.037388,'kfac'    :1.000000,'fil_eff'    :1.000000},
+#VBF_Zmumu_MG_HM_2015
+'VBF_Zmumu_MG_HM_2015_0': {'DSID'    : 545885,'events'  : 9270.336348,'red_eff' :1,'sumw'    :9270.336348,'xsec'    :0.037388,'kfac'    :1.000000,'fil_eff'    :1.000000},
 }

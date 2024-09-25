@@ -100,9 +100,9 @@ def getZllSampleKey(key):
         if "VBF" in key:
             z_sample=0
     if z_sample!=0:
-        INFO.log("This sample is eligible for reweighting.")
+        INFO.log("This sample CAN be reweighted.")
     else:
-        INFO.log("This sample is not eligible for reweighting.")
+        INFO.log("This sample CANNOT be reweighted.")
 
     return z_sample
 

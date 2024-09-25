@@ -187,15 +187,28 @@ void CLoop::Loop(double lumFactor, int z_sample, const std::string& key)
         if(mcSample == MC::PowHegPythia){
             double zpt=truth_Z_p4->Pt()/1000;
             z_w = zpT_rw_popy(zpt);
+            g_LOG(LogLevel::DEBUG,"Reweighting ZpT = ", z_w);
         }
         double zpt_weight=1/z_w;
-
         // calculate event weight
         double eventWeight = 1;
+
+        g_LOG(LogLevel::DEBUG,"Initial event w = ", eventWeight);
+        g_LOG(LogLevel::DEBUG,"MC w = ", weight_mc);
+        g_LOG(LogLevel::DEBUG,"Mjj w = ", mjj_w);
+        g_LOG(LogLevel::DEBUG,"Lumfactor w = ", lumFactor);
+        g_LOG(LogLevel::DEBUG,"PU w = ", NOMINAL_pileup_combined_weight);
+        g_LOG(LogLevel::DEBUG,"Muon 1 SFs = ", muon_0_NOMINAL_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium*muon_0_NOMINAL_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium
+            *muon_0_NOMINAL_MuEffSF_IsoTightTrackOnly_FixedRad*muon_0_NOMINAL_MuEffSF_Reco_QualMedium);
+        g_LOG(LogLevel::DEBUG,"Muon 2 SFs = ", muon_1_NOMINAL_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium*muon_1_NOMINAL_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium
+            *muon_1_NOMINAL_MuEffSF_IsoTightTrackOnly_FixedRad*muon_1_NOMINAL_MuEffSF_Reco_QualMedium);
+        g_LOG(LogLevel::DEBUG,"Jet SFs = ", jet_NOMINAL_central_jets_global_effSF_JVT*jet_NOMINAL_central_jets_global_ineffSF_JVT*jet_NOMINAL_forward_jets_global_effSF_JVT*
+        jet_NOMINAL_forward_jets_global_ineffSF_JVT*jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85*jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85);
+        
         // check if event is from real data
         if (!(key.substr(0,4)=="data")) {
             // take product of all scale factors
-            eventWeight = weight_mc*NOMINAL_pileup_combined_weight*lumFactor*zpt_weight*mjj_w
+            eventWeight = weight_mc/*NOMINAL_pileup_combined_weight*/*lumFactor*zpt_weight*mjj_w
             *muon_0_NOMINAL_MuEffSF_IsoTightTrackOnly_FixedRad*muon_0_NOMINAL_MuEffSF_Reco_QualMedium/*muon_0_NOMINAL_MuEffSF_TTVA*/
             *jet_NOMINAL_central_jets_global_effSF_JVT*jet_NOMINAL_central_jets_global_ineffSF_JVT*jet_NOMINAL_forward_jets_global_effSF_JVT
             *jet_NOMINAL_forward_jets_global_ineffSF_JVT*jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85*jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85

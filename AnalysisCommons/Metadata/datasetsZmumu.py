@@ -748,6 +748,18 @@ dataCombos_MC = {
 "VV_EWK8_2018":['VV_EWK8_2018_0',],
 #VV_EWK8_2015
 "VV_EWK8_2015":['VV_EWK8_2015_0',],
+#VBF_Zmumu_MG_LM_2017
+"VBF_Zmumu_MG_LM_2017":['VBF_Zmumu_MG_LM_2017_0',],
+#VBF_Zmumu_MG_LM_2018
+"VBF_Zmumu_MG_LM_2018":['VBF_Zmumu_MG_LM_2018_0',],
+#VBF_Zmumu_MG_LM_2015
+"VBF_Zmumu_MG_LM_2015":['VBF_Zmumu_MG_LM_2015_0',],
+#VBF_Zmumu_MG_HM_2017
+"VBF_Zmumu_MG_HM_2017":['VBF_Zmumu_MG_HM_2017_0',],
+#VBF_Zmumu_MG_HM_2018
+"VBF_Zmumu_MG_HM_2018":['VBF_Zmumu_MG_HM_2018_0','VBF_Zmumu_MG_HM_2018_1',],
+#VBF_Zmumu_MG_HM_2015
+"VBF_Zmumu_MG_HM_2015":['VBF_Zmumu_MG_HM_2015_0',],
 }
 
 # Add the two dictionaries together
@@ -4483,6 +4495,19 @@ dataSets_MC = {
 'VV_EWK8_2018_0':'user.dbaronmo.34337498._000001.TauID_Zll.root',
 #VV_EWK8_2015
 'VV_EWK8_2015_0':'user.dbaronmo.34337500._000001.TauID_Zll.root',
+#VBF_Zmumu_MG_LM_2017
+'VBF_Zmumu_MG_LM_2017_0':'user.dbaronmo.41392637._000001.TauID_Zll.root',
+#VBF_Zmumu_MG_LM_2018
+'VBF_Zmumu_MG_LM_2018_0':'user.dbaronmo.41392640._000001.TauID_Zll.root',
+#VBF_Zmumu_MG_LM_2015
+'VBF_Zmumu_MG_LM_2015_0':'user.dbaronmo.41392642._000001.TauID_Zll.root',
+#VBF_Zmumu_MG_HM_2017
+'VBF_Zmumu_MG_HM_2017_0':'user.dbaronmo.41392644._000001.TauID_Zll.root',
+#VBF_Zmumu_MG_HM_2018
+'VBF_Zmumu_MG_HM_2018_0':'user.dbaronmo.41392647._000001.TauID_Zll.root',
+'VBF_Zmumu_MG_HM_2018_1':'user.dbaronmo.41392647._000002.TauID_Zll.root',
+#VBF_Zmumu_MG_HM_2015
+'VBF_Zmumu_MG_HM_2015_0':'user.dbaronmo.41392649._000001.TauID_Zll.root',
 }
 
 # Add the two dictionaries together
