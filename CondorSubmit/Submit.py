@@ -45,6 +45,44 @@ def get_list_of_inputs(selected_channel):
 
     return inputs
 
+def change_region_for_input_file(selected_input_path):
+    with open(selected_input_path, 'r') as f:
+        lines = f.readlines()
+
+    first_line = lines[0]
+    tokens = first_line.split(' ')
+    region = ''
+    if len(tokens) < 3:
+        print('Error: Your input file does not have the correct format. Exiting...')
+        exit(1)
+    elif len(tokens) == 3:
+        print('Warning: Your input file does not contain a region. Please define one...')
+    elif len(tokens) == 4:
+        region = tokens[3].replace('\n', '')
+    else: 
+        print('Error: Your input file does not have the correct format. Exiting...')
+        exit(1)
+
+    if region != '':
+        change_region = menu("Your current region is : %s \n Do you want to change it? " % (region), ["no", "yes"]) == 2
+    
+    if change_region or region == '':
+        region = input("Please enter the new region: ")
+
+    # Now change the actual file
+    # Build the lines
+    new_lines = []
+    for line in lines:
+        line = line.replace('\n', '')
+        tokens = line.split(' ')
+        line = '%s %s %s %s\n' % (tokens[0], tokens[1], tokens[2], region.replace('\n', ''))
+        new_lines.append(line)
+
+    # Remove the old file and write the new one
+    os.remove(selected_input_path)
+    with open(selected_input_path, 'w') as f:
+        for new_line in new_lines:
+            f.write(new_line)
 
 def main():
     # First get the channel
@@ -62,10 +100,13 @@ def main():
     selected_input = inputs[menu("Please select an input file: ", inputs) - 1]
     selected_input_path = '../%s/MC/InputDatasets/%s' % (selected_channel, selected_input)
 
+    # Read the region from the input file and let the user choose the region name
+    change_region_for_input_file(selected_input_path)
+
     # Submit the jobs
     cmd = 'condor_submit Condor.sub -queue arguments from %s' % (selected_input_path)
     print('Submitting jobs... with command: %s' % (cmd))
-    os.system(cmd)  
+    #os.system(cmd)  
 
 if __name__ == "__main__":
     main()
