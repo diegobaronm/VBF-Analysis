@@ -41,7 +41,7 @@ def runAnalysis(key, remote):
     DrawC(filename,lumStr,z_sample,key,tree_name, region, dirs)
 
     # move the output to a different directory
-    if sys.argv[0]=="condor_exec.exe":
+    if remote:
         output=os.system("mv "+key+tree_name+".root "+"/afs/cern.ch/work/d/dbaronmo/private/Outputs/Zmm/"+tree_name+"/"+key+tree_name+".root")
         if (output!=0):
             os.system("echo "+key+" yes "+tree_name+"   >> "+"/afs/cern.ch/work/d/dbaronmo/private/Outputs/FAILED_Zmm.txt")

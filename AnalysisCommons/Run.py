@@ -137,14 +137,7 @@ def DrawC(filename,lumStr,z_sample,key_pop,tree,region, dirs):
     fullPath = correctPath + filename
 
     # load in CLoop.C
-    try:
-        r.gSystem.Load("backccend/CLoop_C")
-    except:
-        print(os.cwd())
-        print(os.listdir())
-        for i in os.listdir():
-            print(os.listdir(i))
-        exit(1)
+    r.gSystem.Load("backend/CLoop_C")
 
     # load in tree from file
     r.gROOT.ProcessLine('TFile* f = new TFile("%s")' % (fullPath))

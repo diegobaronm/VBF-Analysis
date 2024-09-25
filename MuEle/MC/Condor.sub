@@ -1,8 +1,0 @@
-executable              = RunAnalysis.py
-output                  = output/$(ClusterId).$(ProcId).out
-error                   = error/$(ClusterId).$(ProcId).err
-log                     = log/$(ClusterId).log
-preserve_relative_paths = True
-initialdir = /afs/cern.ch/work/d/dbaronmo/private/VBF-Analysis/
-transfer_input_files    = AnalysisCommons/,MuEle/
-+JobFlavour = "microcentury"

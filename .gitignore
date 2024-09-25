@@ -74,3 +74,8 @@ VBFAnalysisPlots/*/*
 
 Scripts/Plots/*
 Scripts/results/*
+
+# Condor logs
+error/*
+output/*
+log/*
