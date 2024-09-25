@@ -1,6 +1,6 @@
 import ROOT as r
 from histogramHelpers import normalization, biner, HistogramInfo
-from histogramHelpers import tautauZpeakHistograms as REGION
+from histogramHelpers import mumuZpeakHistograms as REGION
 
 ### Plot one histogram given:
 #  A Canvas
@@ -11,12 +11,12 @@ from histogramHelpers import tautauZpeakHistograms as REGION
 #  Colour
 #  Drawing options
 #  Region with the histogram parameters.
-def plot(canvas, fileName, histogramName, compareDensity, title, colour, drawingOptions, region : list[HistogramInfo]):
+def plot(canvas, fileName, histogramName, postfix, compareDensity, title, colour, drawingOptions, region : list[HistogramInfo]):
     # Get hisogram from file
     f1 = r.TFile(fileName)
-    h1 = f1.Get(histogramName)
+    h1 = f1.Get(histogramName+postfix)
     if not h1:
-        print("Histogram ", histogramName, " not found in file ", fileName)
+        print("Histogram ", histogramName+postfix, " not found in file ", fileName)
         return
     
     # Check if the histograms belongs to the region
@@ -76,7 +76,7 @@ def plot(canvas, fileName, histogramName, compareDensity, title, colour, drawing
     # Close the file
     f1.Close();
 
-def compareShapesFromDifferentFiles(histogramName, dictOfFiles, useDensity):
+def compareShapesFromDifferentFiles(histogramName, postfix,dictOfFiles, useDensity):
     # Check input
     if (len(dictOfFiles) == 0):
         print("No files to compare!")
@@ -95,30 +95,30 @@ def compareShapesFromDifferentFiles(histogramName, dictOfFiles, useDensity):
     c = r.TCanvas("c","c",800,800);
     # Plot histograms
     for i in range(len(dictOfFiles)):
-        plot(c, dictOfFiles[i]["path"], histogramName, useDensity, dictOfFiles[i]["title"], colours[i], "HIST E1 same", REGION)
+        plot(c, dictOfFiles[i]["path"], histogramName, postfix,useDensity, dictOfFiles[i]["title"], colours[i], "HIST E1 same", REGION)
 
     # Add legend
     c.BuildLegend(0.7,0.7,0.9,0.9);
 
     # Save the plot
-    c.SaveAs("ShapeComparisonAllZpeakCutsApplied_"+histogramName+".pdf");
-
-
+    c.SaveAs("ShapeComparison_%s%s.pdf" % (histogramName, postfix));
 
 def main():
     # List of histograms to compare
-    histoNames = ["mass_jj","ljet0_pt","ljet1_pt","lep_pt","tau_pt","omega",
-                                            "n_bjets","delta_y","pt_bal","delta_phi","Z_centrality","n_jets_interval","reco_mass_"];
+    histoNames = ["mass_jj","ljet0_pt","ljet1_pt","lep1_pt","lep2_pt",
+                                            "n_bjets","delta_y","pt_bal","delta_phi","Z_centrality","n_jets_interval","inv_mass"];
     
     # List of files to compare
     FILE_DICT = [
-        {"path" : "/Users/user/Documents/HEP/VBF-Analysis/TauMu/MC/out/Signal_Sherpa.root", "title" : "EWKjj-Sherpa"},
-        {"path" : "/Users/user/Documents/HEP/VBF-Analysis/TauMu/MC/out/Signal_PoPy.root", "title" : "EWKjj-PoPy"},
-        {"path" : "/Users/user/Documents/HEP/VBF-Analysis/TauMu/MC/out/Signal_MG.root", "title" : "EWKjj-MadGraph"},
+        {"path" : "/Users/user/Documents/HEP/VBF-Analysis/Zee/MC/out/Signal_Sherpa.root", "title" : "EWKjj-Sherpa"},
+        {"path" : "/Users/user/Documents/HEP/VBF-Analysis/Zee/MC/out/Signal_PoPy.root", "title" : "EWKjj-PoPy"},
+        {"path" : "/Users/user/Documents/HEP/VBF-Analysis/Zee/MC/out/Signal_MG.root", "title" : "EWKjj-MadGraph"},
     ]
     
+    POSTFIX = '_basic'
+
     for histoName in histoNames:
-        compareShapesFromDifferentFiles(histoName, FILE_DICT, True)
+        compareShapesFromDifferentFiles(histoName, POSTFIX, FILE_DICT, True)
     
 if __name__ == "__main__":
     main()
