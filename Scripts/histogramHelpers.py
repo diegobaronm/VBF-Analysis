@@ -351,7 +351,7 @@ def stackPlot(data,signal,background,histograms,watermark,function,additionalSig
     ###### INTERNAL DICTIONARY STORING THE QCD and EW SAMPLE NAMES ######
     ###### ALSO A FUNCTION TO GET THE CORRECT NAME ######
     qcdLabels = {"MG":"MadGraphLO","MGNLO":"MadGraphNLO","Sherpa":"Sherpa2.2.1","SherpaNLO":"Sherpa2.2.11","PoPy":"PowHeg+Pythia8"}
-    vbfLabels = {"Sherpa":"Sherpa2.2.11","PoPy":"PowHeg+Pythia"}
+    vbfLabels = {"Sherpa":"Sherpa2.2.11","PoPy":"PowHeg+Pythia", "MG":"MadGraphLO"}
 
     sampleNames = {"vbfName" : signal["Signal"][0], "qcdName" :background["QCDjj"][0]}
     for sample in sampleNames:
@@ -1208,17 +1208,17 @@ HistogramInfo('n_jets_interval', [], [], 1.0, 'N gap jets',0,1,'',xRange=[0,2],i
 HistogramInfo('delta_R_leplep_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl', [], [], 1.0, 'delta_R_leplep_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl',0,0,''),
 HistogramInfo('delta_R_lep1jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl', [], [], 1.0, 'delta_R_lep1jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl',0,0,''),
 HistogramInfo('delta_R_lep2jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl', [], [], 1.0, 'delta_R_lep2jet_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl',0,0,''),
-HistogramInfo('delta_phi', [2.0], [0.2, 0.8], 0.2, '#Delta#phi(#mu_{1},#mu_{2})',0,0,''),
-HistogramInfo('lep1_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl', [0.1], [0.2, 0.199], 0.2, '#eta(#mu_{1})',0,0,''),
-HistogramInfo('lep2_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl', [0.1], [0.2, 0.199], 0.2, '#eta(#mu_{2})',0,0,''),
-HistogramInfo('lep1_pt', [100, 200, 300], [20, 50, 100, 350], 20, 'pT(#mu_{1})',50,500,'GeV'),
-HistogramInfo('lep2_pt', [100, 200, 300], [20, 50, 100, 350], 20, 'pT(#mu_{2})',40,500,'GeV'),
+HistogramInfo('delta_phi', [2.0], [0.2, 0.8], 0.2, '#Delta#phi(l_{1},l_{2})',0,0,''),
+HistogramInfo('lep1_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl', [0.1], [0.2, 0.199], 0.2, '#eta(l_{1})',0,0,''),
+HistogramInfo('lep2_eta_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl', [0.1], [0.2, 0.199], 0.2, '#eta(l_{2})',0,0,''),
+HistogramInfo('lep1_pt', [100, 200, 300], [20, 50, 100, 350], 20, 'pT(l_{1})',50,500,'GeV'),
+HistogramInfo('lep2_pt', [100, 200, 300], [20, 50, 100, 350], 20, 'pT(l_{2})',40,500,'GeV'),
 HistogramInfo('ljet0_pt', [75, 215, 365, 500], [15, 35, 50, 135, 500], 15, 'pT(j_{1})',75,1000,'GeV'),
 HistogramInfo('ljet1_pt', [70, 210, 360, 495], [35, 35, 50, 135, 505], 35, 'pT(j_{2})',70,1000,'GeV'),
 HistogramInfo('pt_bal', [0.15, 0.3], [0.03, 0.05, 0.7], 0.15, 'pT balance',0,0.15,''),
 HistogramInfo('Z_centrality', [0.5], [0.1, 0.5], 0.1, '#xi(Z)',0,0.5,'',xRange=[0,2]),
 HistogramInfo('delta_y', [2.0, 6.0], [1.0, 0.5, 1.0], 1.0, '#Deltay_{jj}',2.0,10.0,''),
-HistogramInfo('inv_mass', [70, 110, 140, 300], [70, 5, 10, 80, 700], 5, 'm_{#mu#mu}',81,101,'GeV',True),
+HistogramInfo('inv_mass', [70, 110, 140, 300], [70, 5, 10, 80, 700], 5, 'm_{ll}',81,101,'GeV',True),
 HistogramInfo('mass_jj', [1500], [250, 500], 250, 'm_{jj}',1000,5000,'GeV',True),
 HistogramInfo('met_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl', [50], [10, 50], 10, 'MET',0,0,'GeV'),
 ]
