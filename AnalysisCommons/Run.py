@@ -19,17 +19,18 @@ class Logger:
     def __init__(self,level, colour):
         self.m_level = level
         self.m_colour = colour
-        self.s_LOG_LEVELS = {"ERROR":1,"INFO":2,"DEBUG":3}
-    def log(self,message):
-        if  self.s_LOG_LEVELS[self.m_level] <= LOGLEVEL:
+        self.s_LOG_LEVELS = {"ERROR":1,"WARNING":2, "INFO":3, "DEBUG":4}
+    def log(self,message, variable = ""):
+        if self.s_LOG_LEVELS[self.m_level] <= LOGLEVEL:
             message = self.m_colour+self.m_level+': '+bcolors.ENDC+message
-            print(message)
+            print(message, variable)
 
 INFO = Logger("INFO",bcolors.OKGREEN)
+WARNING = Logger("WARNING",bcolors.WARNING)
 ERROR = Logger("ERROR",bcolors.FAIL)
 DEBUG = Logger("DEBUG",bcolors.OKBLUE)
 
-LOGLEVEL = 2
+LOGLEVEL = 3
 
 def getInput(dataCombo):
     """

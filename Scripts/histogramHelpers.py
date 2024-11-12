@@ -3,6 +3,10 @@ import os
 import numpy as np
 import math
 
+from AnalysisCommons.Run import INFO, WARNING, ERROR, DEBUG, LOGLEVEL
+LOGLEVEL = 2
+
+
 r.TH1.AddDirectory(False)
 
 ############################################################################################################
@@ -346,8 +350,42 @@ def setupShadeHistogram(baseHistogram,highYRange,lowXRange,highXRange,purityHist
 ############################################################################################################
 
 # Function to plot a histogram stack of MC with data
-def stackPlot(data,signal,background,histograms,watermark,function,additionalSignal=[],signalMu = 1.0, backgroundMu = 1.0,average=False,after_fit=False,final_state="Z#rightarrow #mu#mu",regionLabel="",blind=True,blindMass=True,unblindPurityLimit=0.0,printVersion=False,printOverflows=False, purityMultiplier=1.0):
+def setupZprimeHistograms(histogram_objet : HistogramInfo, Zprime_pack):
+    INFO.log("Setting up Z prime histograms.")
+    for s in Zprime_pack:
+        file = r.TFile.Open(Zprime_pack[s][0],"READ")
+        hist = file.Get(histogram_objet.m_name)
+        if hist == None:
+            WARNING.log("Z prime histogram not found in file: ",Zprime_pack[s][0])
+            continue
+        hist.SetDirectory(0)
+        Zprime_pack[s][2] = hist
+        file.Close()
+    
+    ###### REBIN AND NORMALISE ######
+    if histogram_objet.needsRebin():
+        rebining=biner(histogram_objet.m_binEdges,histogram_objet.m_binSteps,Zprime_pack["Zp_200"][2])
+        INFO.log("Using bin edges = ",rebining)
+        nb=len(rebining)-1
+        for s in Zprime_pack:
+            Zprime_pack[s][2]=Zprime_pack[s][2].Rebin(nb,s,rebining)
+        hist_list=[Zprime_pack[s][2] for s in Zprime_pack]
+        normalization(hist_list,histogram_objet.m_binNorm)
 
+    ###### SETTING THE STYLE ######
+    for s in Zprime_pack:
+        Zprime_pack[s][2].SetLineWidth(3)
+        Zprime_pack[s][2].SetLineColor(Zprime_pack[s][1])
+        Zprime_pack[s][2].SetFillColorAlpha(0,0.0)
+        
+
+    return Zprime_pack
+
+############################################################################################################
+
+# Function to plot a histogram stack of MC with data
+def stackPlot(data,signal,background,histograms,watermark,function,Zprime_pack=None,additionalSignal=[],signalMu = 1.0, backgroundMu = 1.0,average=False,after_fit=False,final_state="Z#rightarrow #mu#mu",regionLabel="",blind=True,blindMass=True,unblindPurityLimit=0.0,printVersion=False,printOverflows=False, purityMultiplier=1.0):
+    
     ###### INTERNAL DICTIONARY STORING THE QCD and EW SAMPLE NAMES ######
     ###### ALSO A FUNCTION TO GET THE CORRECT NAME ######
     qcdLabels = {"MG":"MadGraphLO","MGNLO":"MadGraphNLO","Sherpa":"Sherpa2.2.1","SherpaNLO":"Sherpa2.2.11","PoPy":"PowHeg+Pythia8"}
@@ -369,19 +407,20 @@ def stackPlot(data,signal,background,histograms,watermark,function,additionalSig
     samples.update(signal)
 
     for i in histograms:
-        print("HISTOGRAM = ",i.m_name)
+        INFO.log("========================================================")
+        INFO.log("Histogram = " + i.m_name)
         for s in samples:
             file = r.TFile.Open(samples[s][0],"READ")
             hist = file.Get(i.m_name)
             if hist == None:
-                print("Histogram not found in file: ",samples[s][0])
+                WARNING.log("Histogram not found in file: ",samples[s][0])
                 continue
             hist.SetDirectory(0)
             samples[s].append
             samples[s][2]=hist # add histogram (TH1F) to list of samples
             file.Close()
         if hist == None:
-                print("Skipping histogram!!! ")
+                INFO.log("Skipping histogram!!! ")
                 continue
         if average:
             watermark = "Average"
@@ -391,7 +430,7 @@ def stackPlot(data,signal,background,histograms,watermark,function,additionalSig
         ###### REBIN AND NORMALISE ######
         if i.needsRebin():
             rebining=biner(i.m_binEdges,i.m_binSteps,samples["Data"][2])
-            print("Using following bins... ",rebining)
+            INFO.log("Using bin edges = ",rebining)
             nb=len(rebining)-1
             for s in samples:
                 if 'Average' in samples[s][0]:
@@ -414,7 +453,10 @@ def stackPlot(data,signal,background,histograms,watermark,function,additionalSig
                     #samples[s][2].SetLineWidth(0)
                 samples[s][2].SetFillColor(samples[s][1])
                 samples[s][2].SetLineColor(samples[s][1])
-
+        
+        #################### DO Z PRIME SAMPLES ####################
+        if Zprime_pack != None:
+            setupZprimeHistograms(i,Zprime_pack)
         #################### SCALING FACTORS FROM FIT ####################
 
         if after_fit:
@@ -493,12 +535,15 @@ def stackPlot(data,signal,background,histograms,watermark,function,additionalSig
         statUncer.Draw("E2 same")
         samples["Data"][2].Draw("pe same")
         samples["Data"][2].Draw("sameaxis")
+        if Zprime_pack != None:
+            for s in Zprime_pack:
+                Zprime_pack[s][2].Draw("hist same")
 
         if i.m_name=="n_jets_interval":
-            print(statUncer.GetBinContent(1))
-            print(statUncer.GetBinError(1))
-            print(samples["Signal"][2].GetBinContent(1))
-            print(samples["Signal"][2].GetBinError(1))
+            INFO.log("Total MC = "+str(statUncer.GetBinContent(1)))
+            INFO.log("Total sigma(MC) = "+str(statUncer.GetBinError(1)))
+            INFO.log("Total SM VBF = "+str(samples["Signal"][2].GetBinContent(1)))
+            INFO.log("Total sigma(SM VBF) = "+str(samples["Signal"][2].GetBinError(1)))
 
         ###### SETTING Y AXIS RANGE ######
         
@@ -543,6 +588,8 @@ def stackPlot(data,signal,background,histograms,watermark,function,additionalSig
             e=i.m_xRange[1]
 
         yRange = yScale*max(hs.GetMaximum(),samples["Data"][2].GetMaximum())
+        if Zprime_pack != None:
+            yRange = yScale*max(yRange,Zprime_pack["Zp_200"][2].GetMaximum())
 
         samples["Data"][2].GetYaxis().SetRangeUser(yLowScale, yRange)
         samples["Data"][2].GetXaxis().SetRangeUser(s,e)
@@ -576,6 +623,10 @@ def stackPlot(data,signal,background,histograms,watermark,function,additionalSig
             else:
                 legend.AddEntry(samples[sample][2],sample,"lep")
         legend.AddEntry(statUncer,"MC Stat. Uncer.")
+        if Zprime_pack != None:
+            for zp in Zprime_pack:
+                legend.AddEntry(Zprime_pack[zp][2],zp)
+
         legend.SetNColumns(2)
         r.gStyle.SetLegendBorderSize(0)
         legend.SetLineWidth (0)

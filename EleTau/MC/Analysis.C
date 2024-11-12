@@ -285,9 +285,10 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
     std::vector<int> notFullCutsVector{1,static_cast<int>(passedAllCuts)};
 
     // Blind H-M region
-    std::vector<int> cutsSignalRegion = ApplySelection("HighMass", cutVars);
+    std::vector<int> cutsSignalRegion = ApplySelection("HighMassOS", cutVars);
     bool signalRegion = Tools::passedAllCuts(cutsSignalRegion);
-
+    std::string passAllHMString = signalRegion ? "Yes" : "No";
+    g_LOG(LogLevel::DEBUG, "Passes all signal region cuts:", passAllHMString);
     if (sampleName.substr(0,4)=="data" && signalRegion && Kinematics::isChargeCorrect("OS",elec_0_q,tau_0_q)) return;
 
     bool MJCR = (tau_0_n_charged_tracks==1 && tau_0_jet_rnn_score_trans < 0.25) || (tau_0_n_charged_tracks==3 && tau_0_jet_rnn_score_trans < 0.40) || (elec_0_iso_FCTight==0);
