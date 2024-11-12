@@ -1,6 +1,5 @@
 import os
 import sys
-import Configure # This allows all the project modules to be imported
 
 def menu(question,options):
     incorrect_answer=True

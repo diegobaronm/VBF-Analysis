@@ -2,6 +2,18 @@ import ROOT as r
 from histogramHelpers import normalization, biner, HistogramInfo
 from histogramHelpers import mumuZpeakHistograms as REGION
 
+REGION += [HistogramInfo('Z_pt_reco', [400], [10.0, 50.0], 10.0, 'Z_{p_T}','GeV'),]
+
+def get_scale_factors(histogram):
+    scale_factors = []
+    for i in range(1, histogram.GetNbinsX() + 1 + 1):
+        bin_content = histogram.GetBinContent(i)
+        sf = 1.0 / bin_content if bin_content != 0 else 1.0
+        print("Bin ", i, " scale factor: ", sf)
+        scale_factors.append(sf)
+
+    return scale_factors
+
 ### Plot the ratio of two histogram given:
 #  A Canvas
 #  File path
@@ -11,7 +23,7 @@ from histogramHelpers import mumuZpeakHistograms as REGION
 #  Colour
 #  Drawing options
 #  Region with the histogram parameters.
-def plotIndividualRatio(canvas, fileAndHistogramNameDict, postfix, compareDensity, colour, drawingOptions, region : list[HistogramInfo]):
+def plotIndividualRatio(canvas, fileAndHistogramNameDict, postfix, compareDensity, colour, drawingOptions, region : list[HistogramInfo], apply_scale_factors):
 
     # Extract the relevant information
     file1Path = fileAndHistogramNameDict["path1"]
@@ -70,10 +82,19 @@ def plotIndividualRatio(canvas, fileAndHistogramNameDict, postfix, compareDensit
     # Set the histogram style
     h2.SetTitle(title2);
 
+    # Get the ratio factors
+    scale_factors = get_scale_factors(h2)
+    print("Scale factors to take %s to %s: " % (title2, title1), scale_factors)
+
+    # Apply the scale factors if needed
+    if apply_scale_factors:
+        for i in range(1, h2.GetNbinsX() + 1 + 1):
+            h2.SetBinContent(i, h2.GetBinContent(i) * scale_factors[i-1])
+
     canvas.cd();
     canvas.SetTitle("HOLA");
     h2.GetXaxis().SetRange(1,h2.GetNbinsX()+1); 
-    h2.GetYaxis().SetRangeUser(0.5,2.0);
+    h2.GetYaxis().SetRangeUser(0.05,6.0);
     h2.Draw(drawingOptions);
     h2.GetXaxis().SetTitle(histogramInfo.m_xTitle);
     h2.GetYaxis().SetTitle(title2);
@@ -81,8 +102,8 @@ def plotIndividualRatio(canvas, fileAndHistogramNameDict, postfix, compareDensit
     h2.GetYaxis().SetTitleSize(0.056);
     h2.GetXaxis().SetLabelSize(0.056);
     h2.GetYaxis().SetLabelSize(0.056);
-    h2.GetYaxis().SetTitleOffset(0.8);
-    h2.GetXaxis().SetTitleOffset(0.95);
+    h2.GetYaxis().SetTitleOffset(1.45);
+    h2.GetXaxis().SetTitleOffset(1.00);
 
     h2.SetMarkerStyle(20);
     h2.SetMarkerColor(colour);
@@ -91,7 +112,7 @@ def plotIndividualRatio(canvas, fileAndHistogramNameDict, postfix, compareDensit
     r.gStyle.SetOptStat(0);
 
 
-def plotRatio(pairsPacket, histoName, postfix, useDensity):
+def plotRatio(pairsPacket, histoName, postfix, useDensity, apply_scale_factors):
     # Check input
     if (len(pairsPacket) == 0):
         print("No rations to plotompare!")
@@ -107,10 +128,11 @@ def plotRatio(pairsPacket, histoName, postfix, useDensity):
     colours = [r.kBlack, r.kRed, r.kBlue, r.kGreen, r.kOrange]
     
     # Create canvas
-    c = r.TCanvas("c","c",800,800);
+    c = r.TCanvas("c","c",800,800)
+    c.SetMargin(0.16,0.05,0.13,0.08)
     # Plot histograms
     for i in range(0,len(pairsPacket)):
-        plotIndividualRatio(c, pairsPacket[i], postfix, useDensity, colours[i], "SAME HIST", REGION)
+        plotIndividualRatio(c, pairsPacket[i], postfix, useDensity, colours[i], "SAME HIST", REGION, apply_scale_factors)
 
     # Add legend
     c.BuildLegend(0.7,0.7,0.9,0.9);
@@ -132,7 +154,7 @@ def generate_plot_input(filePath1, file2Path, histogramName1, histogramName2, ti
 def main():
     # List of histograms to compare
     histoNames = ["mass_jj","ljet0_pt","ljet1_pt","lep1_pt","lep2_pt",
-                  "n_bjets","delta_y","pt_bal","delta_phi","Z_centrality","n_jets_interval","inv_mass"];
+                  "n_bjets","delta_y","pt_bal","delta_phi","Z_centrality","n_jets_interval","inv_mass","Z_pt_reco"];
     
     # List of files to compare
     commonPath = '/Users/user/Documents/HEP/VBF-Analysis/MuMu/MC/out/'
@@ -143,7 +165,9 @@ def main():
         {"path" : commonPath+'Signal_MG.root', "title" : "EWKjj-MadGraph"},
     ]
 
-    POSTFIX = ''
+    POSTFIX = '_basic'
+    APPLY_SCALE_FACTORS = False
+    COMPARE_DENSITY = True
 
     for histoName in histoNames:
 
@@ -154,7 +178,7 @@ def main():
         for i in range(1, len(samplesToComparePaths)):
             pairs_packet.append(generate_plot_input(samplesToComparePaths[0]["path"], samplesToComparePaths[i]["path"], histoName, histoName, samplesToComparePaths[0]["title"], samplesToComparePaths[i]["title"]))
 
-        plotRatio(pairs_packet, histoName, POSTFIX, True)
+        plotRatio(pairs_packet, histoName, POSTFIX, COMPARE_DENSITY, APPLY_SCALE_FACTORS)
 
 
 if __name__ == "__main__":
