@@ -85,6 +85,13 @@ def change_region_for_input_file(selected_input_path):
             f.write(new_line)
 
 def main():
+    # Ask the user if they want to clean the logs
+    clean = menu("Do you want to clean the logs?", ["no", "yes"]) == 2
+    if clean:
+        os.system('rm -rf ../log/*')
+        os.system('rm -rf ../output/*')
+        os.system('rm -rf ../error/*')
+
     # First get the channel
     valid_channels = ["MuMu","Zee","EleTau","TauMu","MuEle"]
     selected_channel = valid_channels[menu("Please select a channel: ", valid_channels) - 1]
@@ -106,7 +113,7 @@ def main():
     # Submit the jobs
     cmd = 'condor_submit Condor.sub -queue arguments from %s' % (selected_input_path)
     print('Submitting jobs... with command: %s' % (cmd))
-    #os.system(cmd)  
+    os.system(cmd)  
 
 if __name__ == "__main__":
     main()
