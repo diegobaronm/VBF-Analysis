@@ -95,8 +95,9 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
 
   // 0) Invariant mass of tagging jets.
   double mjj = Kinematics::Mass({ljet_0_p4, ljet_1_p4});
+  double mll = Kinematics::Mass({elec_0_p4, elec_1_p4});
 
-  if (correctCharge && n_electrons==2 && elec_id  && n_ljets>=2 && n_ljets<=3 && NOMINAL_pileup_combined_weight > -10 && mjj>=250 && trigger_decision && trigger_match){
+  if (correctCharge && n_electrons==2 && elec_id  && n_ljets>=2 && n_ljets<=3 && NOMINAL_pileup_combined_weight > -10 && mjj>=500 && mll >=40 && trigger_decision && trigger_match){
     g_LOG(LogLevel::DEBUG, "This event passes the basic selection cuts.");
     // Build the kinematic variables needed for the selections.
 
