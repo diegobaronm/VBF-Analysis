@@ -3,8 +3,8 @@ import os
 import numpy as np
 import math
 
-from AnalysisCommons.Run import INFO, WARNING, ERROR, DEBUG, LOGLEVEL
-LOGLEVEL = 2
+from AnalysisCommons.Run import INFO, WARNING, ERROR, DEBUG, Logger
+Logger.LOGLEVEL = 4
 
 
 r.TH1.AddDirectory(False)
@@ -341,7 +341,7 @@ def setupShadeHistogram(baseHistogram,highYRange,lowXRange,highXRange,purityHist
         # Change style to a shaded histogram
         blindHistogram.SetLineWidth(0);
         blindHistogram.SetLineColor(r.kGray);
-        blindHistogram.SetFillColor(r.kGray);
+        blindHistogram.SetFillColorAlpha(r.kGray,0.35);
         blindHistogram.SetFillStyle(3345);
     # return the built histograms
     return blindHistogram
@@ -384,7 +384,21 @@ def setupZprimeHistograms(histogram_objet : HistogramInfo, Zprime_pack):
 ############################################################################################################
 
 # Function to plot a histogram stack of MC with data
-def stackPlot(data,signal,background,histograms,watermark,function,Zprime_pack=None,additionalSignal=[],signalMu = 1.0, backgroundMu = 1.0,average=False,after_fit=False,final_state="Z#rightarrow #mu#mu",regionLabel="",blind=True,blindMass=True,unblindPurityLimit=0.0,printVersion=False,printOverflows=False, purityMultiplier=1.0):
+def stackPlot(data,signal,background,histograms,watermark,
+              Zprime_pack = None,
+              additionalSignal = [],
+              signalMu = 1.0,
+              backgroundMu = 1.0,
+              average = False,
+              after_fit = False,
+              final_state = "Z#rightarrow #mu#mu",
+              regionLabel = "",
+              blind = True,
+              blindMass = True,
+              unblindPurityLimit = 0.0,
+              printVersion = False,
+              printOverflows = False,
+              purityMultiplier = 1.0):
     
     ###### INTERNAL DICTIONARY STORING THE QCD and EW SAMPLE NAMES ######
     ###### ALSO A FUNCTION TO GET THE CORRECT NAME ######
@@ -513,12 +527,22 @@ def stackPlot(data,signal,background,histograms,watermark,function,Zprime_pack=N
         canvas = r.TCanvas("canvas2")
         canvas.cd()
 
-        pad1 = r.TPad (" pad1 "," pad1 " ,0 ,0.40 ,1 ,1)
+        pad1 = r.TPad (" pad1 "," pad1 " ,0 ,0.40 ,0.85 ,1)
         pad1.SetTopMargin(0.07)
-        pad1.SetRightMargin(0.04)
+        pad1.SetRightMargin(0.01)
         pad1.SetLeftMargin(0.08)
         pad1.SetBottomMargin(0.0)
         pad1.Draw ()
+        pad1.cd ()
+
+        ###### DRAWING INFO PAD ######
+        canvas.cd()
+        InfoPad = r.TPad (" InfoPad "," InfoPad " ,0.85 ,0.1 ,1.0 ,0.9)
+        InfoPad.SetTopMargin(0.05)
+        InfoPad.SetRightMargin(0.01)
+        InfoPad.SetLeftMargin(0.01)
+        InfoPad.SetBottomMargin(0.0)
+        InfoPad.Draw ()
         pad1.cd ()
 
         ###### SETTING STATS BOX POSITION ######
@@ -529,7 +553,6 @@ def stackPlot(data,signal,background,histograms,watermark,function,Zprime_pack=N
         r.gStyle.SetStatH(0.1);
         
         ###### DRAWING HISTOGRAMS ######
-        
         samples["Data"][2].Draw("pe same")
         hs.Draw("hist same")
         statUncer.Draw("E2 same")
@@ -538,6 +561,7 @@ def stackPlot(data,signal,background,histograms,watermark,function,Zprime_pack=N
         if Zprime_pack != None:
             for s in Zprime_pack:
                 Zprime_pack[s][2].Draw("hist same")
+                Zprime_pack[s][2].Draw("pe same")
 
         if i.m_name=="n_jets_interval":
             INFO.log("Total MC = "+str(statUncer.GetBinContent(1)))
@@ -560,8 +584,7 @@ def stackPlot(data,signal,background,histograms,watermark,function,Zprime_pack=N
             yScale = 15
             pad1.SetLogy()
         
-        s=samples["Data"][2].GetXaxis().GetBinLowEdge(1)
-        e=samples["Data"][2].GetXaxis().GetBinUpEdge(samples["Data"][2].GetNbinsX())
+        
 
         ###### CHANGING SIZE OF TICKS AND LABELS ######
         samples["Data"][2].GetYaxis().SetLabelSize(0.06)
@@ -573,26 +596,28 @@ def stackPlot(data,signal,background,histograms,watermark,function,Zprime_pack=N
         ###### SETTING MAX NUMBER OF DIGITS IN Y/X AXIS ######
         samples["Data"][2].GetYaxis().SetMaxDigits(3)
 
-        
-        if "reco_mass" in i.m_name and blindMass:
-            s=66
-            e=116
-        s = round(s,2)
-        e = round(e,2)
-
-        s = function(s,i.m_name)
-
-        ###### SETTING X AXIS RANGE WHEN GIVEN A CUSTOM RANGE ######
+        ###### SETTING X AXIS RANGE ######
         if i.xRangeIsCustom():
             s=i.m_xRange[0]
             e=i.m_xRange[1]
-
+        else:
+            s=samples["Data"][2].GetXaxis().GetBinLowEdge(1)
+            e=samples["Data"][2].GetXaxis().GetBinUpEdge(samples["Data"][2].GetNbinsX())
+        if "reco_mass" in i.m_name and blindMass:
+            s=66
+            e=116
+        
         yRange = yScale*max(hs.GetMaximum(),samples["Data"][2].GetMaximum())
         if Zprime_pack != None:
             yRange = yScale*max(yRange,Zprime_pack["Zp_200"][2].GetMaximum())
 
         samples["Data"][2].GetYaxis().SetRangeUser(yLowScale, yRange)
         samples["Data"][2].GetXaxis().SetRangeUser(s,e)
+        DEBUG.log("Setting Y axis range to: "+str(yLowScale)+" - "+str(yRange))
+        DEBUG.log("Setting X axis range to: "+str(s)+" - "+str(e))
+        DEBUG.log("Number of bins: ",samples["Data"][2].GetXaxis().GetNbins())
+        for b_ in samples["Data"][2].GetXaxis().GetXbins():
+            DEBUG.log("Bin: ", b_)
 
         ###### SET UP BLINDING HISTOGRAM ######
         if blind:
@@ -605,33 +630,37 @@ def stackPlot(data,signal,background,histograms,watermark,function,Zprime_pack=N
         ###### DRAWING OVERFLOW CONTENTS ######
 
         if printOverflows:
-            textBox = r.TPaveText(.75,.50,.95,.65,"NDC")
-            tittleStr = textBox.AddText("Overflow contents: ")
+            textBox = r.TPaveText(0.0,0.1,.95,0.4,"NDC")
+            tittleStr = textBox.AddText("Overflow:")
             mcStr = textBox.AddText("MC = "+str(round(statUncer.GetBinContent(statUncer.GetNbinsX()+1),2))+"#pm"+str(round(statUncer.GetBinError(statUncer.GetNbinsX()+1),2)))
             dataStr = textBox.AddText("Data = "+str(round(samples["Data"][2].GetBinContent(samples["Data"][2].GetNbinsX()+1),2))+"#pm"+str(round(samples["Data"][2].GetBinError(samples["Data"][2].GetNbinsX()+1),2)))
-            tittleStr.SetTextSize(0.05)
-            mcStr.SetTextSize(0.05)
-            dataStr.SetTextSize(0.05)
+            tittleStr.SetTextSize(0.12)
+            mcStr.SetTextSize(0.12)
+            dataStr.SetTextSize(0.12)
+            InfoPad.cd()
             textBox.Draw("same")
+            pad1.cd()
 
 
         ###### DRAWING LEGEND ######
-        legend = r.TLegend (0.45 ,0.65 ,0.75 ,0.90)
+        legend = r.TLegend (0.0 ,0.45 ,1.0 ,1.0)
         for sample in samples:
             if sample!="Data":
                 legend.AddEntry(samples[sample][2],sample,"f")
             else:
                 legend.AddEntry(samples[sample][2],sample,"lep")
-        legend.AddEntry(statUncer,"MC Stat. Uncer.")
+        legend.AddEntry(statUncer,"MC Stat.")
         if Zprime_pack != None:
             for zp in Zprime_pack:
                 legend.AddEntry(Zprime_pack[zp][2],zp)
 
-        legend.SetNColumns(2)
+        legend.SetNColumns(1)
         r.gStyle.SetLegendBorderSize(0)
         legend.SetLineWidth (0)
-        r.gStyle.SetLegendTextSize(0.045)
-        legend.Draw ()
+        r.gStyle.SetLegendTextSize(0.12)
+        InfoPad.cd()
+        legend.Draw()
+        pad1.cd()
 
         ###### DRAWING PRINT VERSION ######
         samples["Data"][2].SetTitle("")
@@ -717,8 +746,8 @@ def stackPlot(data,signal,background,histograms,watermark,function,Zprime_pack=N
             cut2.Draw("same")
 
         canvas.cd()
-        pad2 = r.TPad (" pad2 "," pad2 " ,0 ,0.24 ,1 ,0.40)
-        pad2.SetRightMargin(0.04)
+        pad2 = r.TPad (" pad2 "," pad2 " ,0 ,0.24 ,0.85 ,0.40)
+        pad2.SetRightMargin(0.01)
         pad2.SetLeftMargin(0.08)
         pad2.SetTopMargin(0)
         pad2.SetBottomMargin(0.0)
@@ -782,8 +811,8 @@ def stackPlot(data,signal,background,histograms,watermark,function,Zprime_pack=N
             separ.Draw("same")
     
         canvas.cd()
-        pad3 = r.TPad (" pad3","pad3" ,0.0 ,0.0 ,1 ,0.24)
-        pad3.SetRightMargin(0.04)
+        pad3 = r.TPad (" pad3","pad3" ,0.0 ,0.0 ,0.85 ,0.24)
+        pad3.SetRightMargin(0.01)
         pad3.SetLeftMargin(0.08)
         pad3.SetTopMargin(0)
         pad3.SetBottomMargin(0.5)
@@ -792,7 +821,7 @@ def stackPlot(data,signal,background,histograms,watermark,function,Zprime_pack=N
         ratio_sg_mc.SetStats(0)
         ratio_sg_mc.GetYaxis (). SetRangeUser (0.0 ,1.02)
         ratio_sg_mc.GetXaxis (). SetRangeUser(s,e)
-        ratio_sg_mc.GetYaxis (). SetTitle ("Signal/MC")
+        ratio_sg_mc.GetYaxis (). SetTitle ("SM-VBF/MC")
         ratio_sg_mc.GetYaxis (). SetTitleSize (0.18)
         ratio_sg_mc.GetYaxis (). SetTitleOffset (0.20)
         ratio_sg_mc.GetYaxis().ChangeLabel(1,-1,0.)
@@ -860,296 +889,9 @@ def stackPlot(data,signal,background,histograms,watermark,function,Zprime_pack=N
         line14.Draw (" same ")
         file_name = i.m_name+"_"+watermark+".pdf"
         canvas.Update()
+        canvas.RedrawAxis()
         canvas.Print(file_name)    
         canvas.Destructor()    
-
-############################################################################################################
-
-
-def stackPlotNoData(signal,background,histograms,watermark,additionalSignal=[],signalMu = 1.0, backgroundMu = 1.0,average=False,after_fit=False,final_state="Z#rightarrow #mu#mu"):
-    samples = background.copy()
-    samples.update(signal)
-
-    for i in histograms:
-        print("HISTOGRAM = ",i.m_name)
-        for s in samples:
-            file = r.TFile.Open(samples[s][0],"READ")
-            hist = file.Get(i.m_name)
-            hist.SetDirectory(0)
-            samples[s].append
-            samples[s][2]=hist # add histogram (TH1F) to list of samples
-            file.Close()
-        if average:
-            watermark = "Average"
-            if after_fit:
-                watermark = "Average_AfterFit"
-            
-        ###### REBIN AND NORMALISE ######
-        if i.needsRebin():
-            rebining=biner(i.m_binEdges,i.m_binSteps,samples["Signal"][2])
-            print("Using following bins... ",rebining)
-            nb=len(rebining)-1
-            for s in samples:
-                if 'Average' in samples[s][0]:
-                    print(s,samples[s])
-                    continue
-                else :    
-                    samples[s][2]=samples[s][2].Rebin(nb,s,rebining)
-            hist_list=[samples[s][2] for s in samples if 'Average' not in samples[s][0]]
-            normalization(hist_list,i.m_binNorm)
-
-        ###### SETTING THE COLOURS ######
-
-        for s in samples:
-            samples[s][2].SetFillColor(samples[s][1])
-            samples[s][2].SetLineColor(samples[s][1])
-
-        #################### SCALING FACTORS FROM FIT ####################
-
-        if after_fit:
-            samples["Signal"][2].Scale(signalMu)
-            samples["QCDjj"][2].Scale(backgroundMu)
-                
-        ####################### CREATING MC AND STACK HISTOGRAM ########################        
-        
-        hs = r.THStack("hs","")
-        mc = samples["Signal"][2].Clone()
-        for s in samples:
-            hs.Add(samples[s][2])
-            if s!="Signal":
-                mc.Add(samples[s][2],1)
-        statUncer = mc.Clone()
-        statUncer.SetLineColor(r.kBlack)
-        statUncer.SetFillColor(r.kGray+2)
-        statUncer.SetFillStyle(3145)
-        ############### DEFINING RATIOS ###############
-
-        ratio = r.TGraphAsymmErrors()
-        ratio.Divide(mc,mc,"pois")
-    
-        ratio_sg_mc=samples["Signal"][2].Clone()
-        for additionalS in additionalSignal:
-            ratio_sg_mc.Add(samples[additionalS][2])
-        ratio_sg_mc.Divide(mc)
-        ratio_sg_mc.SetLineColor(r.kBlack)
-
-        ########## SCALE RATIO BY SOME AMOUNT ##########
-        ratio_sg_mc.Scale(5)
-
-
-        ##### DRAWING TOP PAD, SETTING MARGINS #######
-        
-        r.gStyle.SetOptStat(1111111)
-        r.gStyle.SetStatY(0.97);                
-        r.gStyle.SetStatX(1.0);
-        r.gStyle.SetStatW(0.12);                
-        r.gStyle.SetStatH(0.12);
-
-        canvas = r.TCanvas("canvas2")
-        canvas.cd()
-
-        pad1 = r.TPad (" pad1 "," pad1 " ,0 ,0.35 ,1 ,1)
-        pad1.SetTopMargin(0.03)
-        pad1.SetRightMargin(0.03)
-        pad1.SetLeftMargin(0.08)
-        pad1.SetBottomMargin(0.0)
-        pad1.Draw ()
-        pad1.cd ()
-
-        ###### SETTING STATS BOX POSITION ######
-        
-        r.gStyle.SetStatY(0.95);                
-        r.gStyle.SetStatX(0.96);
-        r.gStyle.SetStatW(0.1);                
-        r.gStyle.SetStatH(0.1);
-
-        
-        samples["Signal"][2].Draw("pe")
-        hs.Draw("HIST same")
-        statUncer.Draw("E2 same")
-        samples["Signal"][2].Draw("pe same")
-        samples["Signal"][2].Draw("sameaxis")
-
-        ###### DRAWING OVERFLOW CONTENTS ######
-        textBox = r.TPaveText(.20,.85,.35,.95,"NDC")
-        textBox.AddText("Overflow contents: ")
-        textBox.AddText(str(round(statUncer.GetBinContent(statUncer.GetNbinsX()+1),2))+"#pm"+str(round(statUncer.GetBinError(statUncer.GetNbinsX()+1),2)))
-        textBox.Draw("same")
-        
-         ###### SETTING Y AXIS RANGE ######
-        
-        yScale = 1.5
-        yLowScale = 0.0
-        if i.m_logScale:
-            yLowScale = 0.01
-            yScale = 15
-            pad1.SetLogy()
-        
-        s=samples["Signal"][2].GetXaxis().GetBinLowEdge(1)
-        e=samples["Signal"][2].GetXaxis().GetBinUpEdge(samples["Signal"][2].GetNbinsX())
-        ## Round to 2 decimal places to prevent floating point errors
-        s=round(s,2)
-        e=round(e,2)
-
-        samples["Signal"][2].GetYaxis().SetRangeUser(yLowScale ,yScale*hs.GetMaximum())
-        samples["Signal"][2].GetXaxis().SetRangeUser(s,e)
-        samples["Signal"][2].GetXaxis().SetRangeUser(s,e)
-
-
-        ###### DRAWING LEGEND ######
-        legend = r.TLegend (0.45 ,0.80 ,0.85 ,0.95)
-        for sample in samples:
-            legend.AddEntry(samples[sample][2],sample,"f")
-        legend.AddEntry(statUncer,"MC Stat. Uncer.")
-        legend.SetNColumns(3)
-        r.gStyle.SetLegendBorderSize(0)
-        legend.SetLineWidth (0)
-        r.gStyle.SetLegendTextSize(0.045)
-        legend.Draw ()
-
-        samples["Signal"][2].SetTitle("")
-        l=r.TLatex()
-        l.SetNDC ()
-        l.DrawLatex(0.9,0.7,final_state)
-        
-        max_ratio = 4
-        print(max_ratio)
-        if max_ratio > 3.5:
-            max_ratio = 2.5
-        if max_ratio < 1.5:
-            max_ratio = 1.5
-
-        min_ratio = -1
-        if min_ratio > 0.7:
-            min_ratio = 0.5
-        if min_ratio < 0.7:
-            min_ratio = 0.2
-
-
-        ###### DRAWING CUT LINES ######
-        if i.m_leftCut!=i.m_rightCut:
-            cut1 = r. TLine (i.m_leftCut, yLowScale ,i.m_leftCut, yScale*hs.GetMaximum())
-            cut1.SetLineColor ( r. kRed+1 )
-            cut1.SetLineWidth (2)
-            cut1.SetLineStyle(2)
-            
-            cut2 = r. TLine (i.m_rightCut, yLowScale ,i.m_rightCut, yScale*hs.GetMaximum())
-            cut2.SetLineColor ( r. kRed+1 )
-            cut2.SetLineWidth (2)
-            cut2.SetLineStyle(2)
-            
-            cut1.Draw("same")
-            cut2.Draw("same")
-
-        canvas.cd()
-        pad2 = r.TPad (" pad2 "," pad2 " ,0 ,0.17 ,1 ,0.35)
-        pad2.SetRightMargin(0.03)
-        pad2.SetLeftMargin(0.08)
-        pad2.SetTopMargin(0)
-        pad2.SetBottomMargin(0.0)
-        pad2.Draw ()
-        pad2.cd ()
-        ratio.SetFillColorAlpha(r.kGray,0.95)
-        mc.Divide(mc) # NECESSARY TRICK BECAUSE ALL PLOT PARAMETERS GET ATTACHED TO THE FIRST HISTOGRAM
-        mc.Draw("hist p")
-        ratio.Draw("P E2 same")
-        mc.SetTitle("")
-        mc.SetStats(0)
-        mc.GetYaxis (). SetRangeUser (min_ratio ,max_ratio)
-        mc.GetXaxis (). SetRangeUser (s ,e)
-        mc.GetYaxis (). SetTitle ("MC/DATA")
-        mc.GetYaxis (). SetTitleSize (0.15)
-        mc.GetYaxis (). SetTitleOffset (0.25)
-        mc.GetXaxis (). SetTitleSize (0.09)
-        mc.GetXaxis().SetLabelSize(0.10)
-        mc.GetYaxis().SetLabelSize(0.08)
-        ratio.SetMarkerStyle(8)
-        ratio.SetMarkerSize(0.6)
-        
-
-
-        ###### SETTING ALL THE HORIZONTAL DASHED LINES #######
-
-        line = r.TLine (s ,1 ,e,1)
-        line.SetLineColor ( r.kBlack )
-        line.SetLineWidth (2)
-
-        separators = []
-        resolution = 10 # In percentage
-        j=0
-        range_sep = []
-        while j < (int(max_ratio)+1):
-            step = resolution/100
-            if j > min_ratio:
-                range_sep.append(j)
-            j = j + step
-
-        for k in range (len(range_sep)):
-            sep = r.TLine(s ,range_sep[k],e,range_sep[k])
-            sep.SetLineColor(r.kBlack)
-            sep.SetLineWidth(1)
-            sep.SetLineStyle(2)
-            separators.append(sep)
-
-        line.Draw (" same ")   
-        for separ in separators:
-            separ.Draw("same")
-    
-        canvas.cd()
-        pad3 = r.TPad (" pad3","pad3" ,0.0 ,0.0 ,1 ,0.17)
-        pad3.SetRightMargin(0.03)
-        pad3.SetLeftMargin(0.08)
-        pad3.SetTopMargin(0)
-        pad3.SetBottomMargin(0.4)
-        pad3.Draw ()
-        pad3.cd ()
-        ratio_sg_mc.SetStats(0)
-        ratio_sg_mc.GetYaxis (). SetRangeUser (0.0 ,1.02)
-        ratio_sg_mc.GetXaxis (). SetRangeUser (s ,e)
-        ratio_sg_mc.GetYaxis (). SetTitle ("5 x SIGNAL/MC")
-        ratio_sg_mc.GetYaxis (). SetTitleSize (0.15)
-        ratio_sg_mc.GetYaxis (). SetTitleOffset (0.25)
-        ############ X AXIS TITLE #################
-        ratio_sg_mc.SetXTitle(i.m_xTitle+"  "+str(i.m_units))
-        ratio_sg_mc.SetTitleSize(0.22,"X")
-        ratio_sg_mc.SetTitleOffset(0.8,"X")
-        ratio_sg_mc.GetYaxis().SetLabelSize(0.14)
-        ratio_sg_mc.GetXaxis().SetLabelSize(0.24)
-        ratio_sg_mc.SetMarkerStyle(8)
-        ratio_sg_mc.SetMarkerSize(0.6)
-
-        ratio_sg_mc.Draw ("hist p E1 X0")
-        ###### SETTING ALL THE HORIZONTAL DASHED LINES #######
-
-        line11 = r.TLine (s ,0.80 ,e,0.80)
-        line11.SetLineColor ( r.kBlack )
-        line11.SetLineWidth (1)
-        line11.SetLineStyle(2)
-        line12 = r.TLine (s ,0.60 ,e,0.60)
-        line12.SetLineColor ( r.kBlack )
-        line12.SetLineWidth (1)
-        line12.SetLineStyle(2)
-        line13 = r.TLine (s ,0.40 ,e,0.40)
-        line13.SetLineColor ( r.kBlack )
-        line13.SetLineWidth (1)
-        line13.SetLineStyle(2)
-        line14 = r.TLine (s ,0.20 ,e,0.20)
-        line14.SetLineColor ( r.kBlack )
-        line14.SetLineWidth (1)
-        line14.SetLineStyle(2)
-        sline = r.TLine (s ,1 ,e,1)
-        sline.SetLineColor ( r.kBlack )
-        sline.SetLineWidth (2)
-        sline.Draw("same")
-        line11.Draw (" same ")
-        line12.Draw (" same ")
-        line13.Draw (" same ")
-        line14.Draw (" same ")
-        
-        file_name = i.m_name+"_"+watermark+".pdf"
-        canvas.Update()
-        canvas.Print(file_name)     
-
 
 ############################################################################################################
 
@@ -1559,7 +1301,7 @@ HistogramInfo('massLepClosestJet_basic_all', [200, 500], [100, 100, 500], 100, '
 HistogramInfo('massTauFurthestJet_basic_all', [200, 500], [100, 100, 500], 100, 'm_{#tau,j_{furthest}}',0,0,''),
 HistogramInfo('nuTauPt', [30, 100], [15, 35, 100], 15, 'pT(#nu_{#tau})',0,1000,'GeV'),
 HistogramInfo('nuPtAssummetry_basic_all', [0.0], [0.1, 0.1], 0.1, 'pT(#nu_{l}-#nu_{#tau})/(#nu_{l}+#nu_{#tau})',0,0,''),
-HistogramInfo('bdtScore', [-0.4, 0.1, 0.5], [0.1999, 0.25, 0.2, 0.25], 0.2, 'VBF-BDT score',0.3,1.0,''),
+HistogramInfo('bdtScore', [-0.4, 0.1, 0.5], [0.1999, 0.25, 0.2, 0.25], 0.2, 'VBF-BDT score',0.3,1.0,'',xRange=[-1.0,0.99999]),
 HistogramInfo('lepNuPt', [30, 100], [15, 35, 100], 15, 'pT(#nu_{l})',0,1000,'GeV'),
 HistogramInfo('pTsymmetry', [0.4], [0.2, 0.2], 0.2, 'p_{T} asymmetry',-0.3,1.0,''),
 HistogramInfo('lepTransMass_basic_all', [60, 100, 200], [30, 40, 100, 250], 30, 'm_{T}(l)',0,0,'GeV'),
