@@ -72,7 +72,8 @@ struct histogramContainer
                 if (i != m_numberHistos-1){name = name +"_" + cutLabels[i];}
                 
             } else { // If it is not a relevant cut, then the histograms are created in a sequential way.
-                name = name +"_" + cutLabels[i];
+                if (i == m_numberHistos-1) name = m_baseName + "_" + cutLabels[0] + "_all"; // Last cut will always be named histogramName_basic_all
+                else name = name +"_" + cutLabels[i];
                 m_histos.emplace_back(TH1F(name.c_str(),m_description.c_str(),m_nBins,m_xMin,m_xMax));
             }
             

@@ -292,8 +292,6 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
     if (sampleName.substr(0,4)=="data" && signalRegion && Kinematics::isChargeCorrect("OS",elec_0_q,tau_0_q)) return;
 
     bool MJCR = (tau_0_n_charged_tracks==1 && tau_0_jet_rnn_score_trans < 0.25) || (tau_0_n_charged_tracks==3 && tau_0_jet_rnn_score_trans < 0.40) || (elec_0_iso_FCTight==0);
-    bool failedMVA = (VBFBDT_score <= 0.3) || (normPtDifference <= -0.3) || (reco_mass/inv_taulep >= 4.0) || (tau_0_n_charged_tracks==1 && tau_0_jet_rnn_score_trans < 0.25) || (tau_0_n_charged_tracks==3 && tau_0_jet_rnn_score_trans < 0.40);
-    //if (sampleName.substr(0,4)=="data" && !MJCR) return;
 
     // Fill the histograms
     if (passedAllCuts) trueMass_2D_lepTransMass_basic_all->Fill(trueMass,transverseMassLep,weight);

@@ -4,7 +4,7 @@ import numpy as np
 import math
 
 from AnalysisCommons.Run import INFO, WARNING, ERROR, DEBUG, Logger
-Logger.LOGLEVEL = 4
+Logger.LOGLEVEL = 3
 
 
 r.TH1.AddDirectory(False)
@@ -356,15 +356,18 @@ def setupZprimeHistograms(histogram_objet : HistogramInfo, Zprime_pack):
         file = r.TFile.Open(Zprime_pack[s][0],"READ")
         hist = file.Get(histogram_objet.m_name)
         if hist == None:
-            WARNING.log("Z prime histogram not found in file: ",Zprime_pack[s][0])
-            continue
+            hist = file.Get(histogram_objet.m_name + "_basic_all") # If the histogram is not found, try with the basic_all suffix
+            if hist == None:
+                WARNING.log("Histogram not found in file: ",samples[s][0])
+                continue
         hist.SetDirectory(0)
         Zprime_pack[s][2] = hist
         file.Close()
     
     ###### REBIN AND NORMALISE ######
+    first_zp_key = list(Zprime_pack.keys())[0]
     if histogram_objet.needsRebin():
-        rebining=biner(histogram_objet.m_binEdges,histogram_objet.m_binSteps,Zprime_pack["Zp_200"][2])
+        rebining=biner(histogram_objet.m_binEdges,histogram_objet.m_binSteps,Zprime_pack[first_zp_key][2])
         INFO.log("Using bin edges = ",rebining)
         nb=len(rebining)-1
         for s in Zprime_pack:
@@ -423,12 +426,39 @@ def stackPlot(data,signal,background,histograms,watermark,
     for i in histograms:
         INFO.log("========================================================")
         INFO.log("Histogram = " + i.m_name)
+
+        if "reco_mass_" == i.m_name and Zprime_pack != None and len(Zprime_pack)>1:
+            INFO.log("Doing sub-histograms for Z prime samples")
+            histogram = [i]
+            for zp_sample in Zprime_pack:
+                single_zp_pack = {zp_sample : Zprime_pack[zp_sample]}
+                watermark_zp = watermark + "_" +zp_sample
+                INFO.log("================================")
+                stackPlot(data,signal,background,histogram,watermark_zp,
+                single_zp_pack ,
+                additionalSignal ,
+                signalMu ,
+                backgroundMu ,
+                average ,
+                after_fit ,
+                final_state ,
+                regionLabel ,
+                blind ,
+                blindMass ,
+                unblindPurityLimit ,
+                printVersion ,
+                printOverflows ,
+                purityMultiplier )
+
         for s in samples:
             file = r.TFile.Open(samples[s][0],"READ")
             hist = file.Get(i.m_name)
             if hist == None:
-                WARNING.log("Histogram not found in file: ",samples[s][0])
-                continue
+                WARNING.log("Histogram not found in file: " + samples[s][0] + "... trying with basic_all suffix")
+                hist = file.Get(i.m_name + "_basic_all") # If the histogram is not found, try with the basic_all suffix
+                if hist == None:
+                    WARNING.log("Histogram not found in file: ",samples[s][0])
+                    continue
             hist.SetDirectory(0)
             samples[s].append
             samples[s][2]=hist # add histogram (TH1F) to list of samples
@@ -609,7 +639,8 @@ def stackPlot(data,signal,background,histograms,watermark,
         
         yRange = yScale*max(hs.GetMaximum(),samples["Data"][2].GetMaximum())
         if Zprime_pack != None:
-            yRange = yScale*max(yRange,Zprime_pack["Zp_200"][2].GetMaximum())
+            first_zp_key = list(Zprime_pack.keys())[0]
+            yRange = yScale*max(yRange,Zprime_pack[first_zp_key][2].GetMaximum())
 
         samples["Data"][2].GetYaxis().SetRangeUser(yLowScale, yRange)
         samples["Data"][2].GetXaxis().SetRangeUser(s,e)
