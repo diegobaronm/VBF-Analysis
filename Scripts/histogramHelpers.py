@@ -41,24 +41,53 @@ class HistogramInfo:
 def biner(edges,bin_widths,histogram):
     # Check that the number of internal edges is one less than the number of bin widths
     if (len(edges)+1!=len(bin_widths)):
-        print("Check edges and bin widths array sizes!")
+        ERROR.log("Check edges and bin widths array sizes!")
         return
     
     # Get the first and last bin edges of the histogram
     bins=[]
     first_bin = histogram.GetXaxis().GetBinLowEdge(1)
     last_bin = histogram.GetXaxis().GetBinUpEdge(histogram.GetNbinsX())
+    edges_with_borders = [first_bin] + edges + [last_bin]
 
+    number_of_homogeneous_spaces = len(edges_with_borders)-1
 
-    for i in range(0,len(edges)):
-        n_spaces = int((edges[i] - first_bin)/bin_widths[i])
-        bins = np.concatenate((bins,np.linspace(first_bin,edges[i],n_spaces,endpoint=False)))
-        first_bin = edges[i]
-        if edges[i]==edges[-1]:
-            n_spaces = int((last_bin - edges[i])/bin_widths[i+1])
-            bins = np.concatenate((bins,np.linspace(edges[i],last_bin,n_spaces,endpoint=False)))
-            bins = np.concatenate((bins,[last_bin]))
-    return bins
+    bin_edges = np.array([])
+    for iterator in range(0,number_of_homogeneous_spaces):
+        low_edge = edges_with_borders[iterator]
+        high_edge = edges_with_borders[iterator+1]
+        bin_width = bin_widths[iterator]
+        number_of_bins = round((high_edge-low_edge)/bin_width)
+
+        # Check that this binning makes sense
+        if abs( number_of_bins - (high_edge-low_edge)/bin_width ) > 0.0001:
+            ERROR.log("The binning is not consistent with the bin width! You provided the following bins:")
+            ERROR.log("Low edge: ",low_edge)
+            ERROR.log("High edge: ",high_edge)
+            ERROR.log("Bin width: ",bin_width)
+            ERROR.log("This is not consistent! Check...")
+            exit(1)
+
+        # Construct the bins...
+        if number_of_bins == 0:
+            ERROR.log("The bin with is zero! Check the binning...")
+            exit(1)
+        else :
+            bin_edges = np.concatenate((bin_edges , np.linspace(low_edge,high_edge,number_of_bins,endpoint=False)))
+
+    bin_edges = np.concatenate((bin_edges,[last_bin]))
+    # Perform some checks before returning the bin edges
+    # 1. Check that the last and first bin edges are the same as the histogram
+    if first_bin not in bin_edges or last_bin not in bin_edges:
+        ERROR.log("The first or last bin is not in the bin objects! Check the code!")
+        exit(1)
+    # 2. Check that there are no repeated bin edges
+    if len(bin_edges) != len(np.unique(bin_edges)):
+        ERROR.log("There are repeated bin edges! Check the code!")
+        exit(1)
+
+    INFO.log("Using bin edges = ",bin_edges)
+    return bin_edges
 
 ############################################################################################################
 
@@ -474,7 +503,6 @@ def stackPlot(data,signal,background,histograms,watermark,
         ###### REBIN AND NORMALISE ######
         if i.needsRebin():
             rebining=biner(i.m_binEdges,i.m_binSteps,samples["Data"][2])
-            INFO.log("Using bin edges = ",rebining)
             nb=len(rebining)-1
             for s in samples:
                 if 'Average' in samples[s][0]:
@@ -1259,7 +1287,7 @@ HistogramInfo('rnn_score_1p', [0.15, 0.25, 0.4], [0.15, 0.1, 0.15, 0.3], 0.1, 'j
 HistogramInfo('rnn_score_3p', [0.25, 0.55, 0.8], [0.25, 0.15, 0.25, 0.2], 0.15, 'jetRNN Score 3p',0.4,1.0,''),
 HistogramInfo('ljet0_pt', [75, 375, 625], [75, 100, 225, 375], 75, 'pT(j_{1})',75,1000,'GeV',True),
 HistogramInfo('ljet1_pt', [70, 370, 630], [70, 100, 230, 370], 70, 'pT(j_{2})',70,1000,'GeV',True),
-HistogramInfo('pt_bal', [0.15], [0.03, 0.75], 0.03, 'pT balance',0,0.15,''),
+HistogramInfo('pt_bal', [0.15], [0.03, 0.85], 0.03, 'pT balance',0,0.15,''),
 HistogramInfo('Z_centrality', [0.2, 0.5, 2.0], [0.2, 0.3, 1.5, 3.0], 0.2, '#xi(Z)',0,0.5,'',xRange=[0,2]),
 HistogramInfo('mass_jj', [1000, 2500], [250, 750, 1250], 250, 'm_{jj}',750,5000,'GeV',True),
 HistogramInfo('reco_mass_i', [66, 81, 101, 116, 160, 250, 500], [66, 15, 10, 15, 11, 30, 125, 250], 10, 'm_{#tau,l}(i)',160,1000,'',True),
@@ -1305,16 +1333,16 @@ HistogramInfo('elecPdgID_basic_all', [], [], 1.0, 'elecPdgID_basic_all',0,0,''),
 HistogramInfo('muonPdgID_basic_all', [], [], 1.0, 'muonPdgID_basic_all',0,0,''),
 HistogramInfo('tauPdgID_basic_all', [], [], 1.0, 'tauPdgID_basic_all',0,0,''),
 HistogramInfo('nLightJets_basic_all', [], [], 1.0, 'nLightJets_basic_all',0,0,''),
-HistogramInfo('tau_pt', [25.0, 125.0, 150.0], [25.0, 20.0, 125.0, 350.0], 25.0, 'pT(#tau)',25,1000,'GeV'),
+HistogramInfo('tau_pt', [25.0, 125.0, 150.0], [25.0, 20.0, 25.0, 350.0], 25.0, 'pT(#tau)',25,1000,'GeV'),
 HistogramInfo('lep_pt', [27, 97, 297], [27, 35, 100, 203], 27, 'pT(l)',27,1000,'GeV'),
 HistogramInfo('delta_phi', [1.8], [0.9, 0.7], 0.7, '#Delta#phi(#tau,l)',0,0,''),
 HistogramInfo('delta_y', [6.0], [2.0, 4.0], 2.0, '#Deltay_{jj}',2.0,10.0,''),
 HistogramInfo('omega', [-0.2, 0.0, 0.6, 1.4], [1.4, 0.2, 0.3, 0.39999, 1.6], 0.2, '#Omega',-0.2,1.4,''),
 HistogramInfo('rnn_score_1p', [0.15, 0.25, 0.4], [0.15, 0.1, 0.15, 0.3], 0.1, 'jetRNN Score 1p',0.40,1.0,''),
 HistogramInfo('rnn_score_3p', [0.25, 0.55, 0.8], [0.25, 0.15, 0.25, 0.2], 0.15, 'jetRNN Score 3p',0.55,1.0,''),
-HistogramInfo('ljet0_pt', [75, 375, 625], [75, 100, 225, 375], 75, 'pT(j_{1})',75,1000,'GeV',True),
-HistogramInfo('ljet1_pt', [70, 370, 630], [70, 100, 230, 370], 70, 'pT(j_{2})',70,1000,'GeV',True),
-HistogramInfo('pt_bal', [0.15], [0.03, 0.75], 0.03, 'pT balance',0,0.15,''),
+HistogramInfo('ljet0_pt', [75, 375, 625], [75, 100, 125, 375], 75, 'pT(j_{1})',75,1000,'GeV',True),
+HistogramInfo('ljet1_pt', [70, 370, 630], [70, 100, 130, 370], 70, 'pT(j_{2})',70,1000,'GeV',True),
+HistogramInfo('pt_bal', [0.15], [0.03, 0.85], 0.03, 'pT balance',0,0.15,''),
 HistogramInfo('Z_centrality', [0.2, 0.5, 2.0], [0.2, 0.3, 1.5, 3.0], 0.2, '#xi(Z)',0,0.5,'',xRange=[0,2]),
 HistogramInfo('mass_jj', [1000, 2500], [250, 750, 1250], 250, 'm_{jj}',750,5000,'GeV',True),
 HistogramInfo('reco_mass_i', [66, 81, 101, 116, 160, 250, 500], [66, 15, 10, 15, 11, 30, 125, 250], 10, 'm_{#tau,l}(i)',160,1000,'',True),
@@ -1332,10 +1360,10 @@ HistogramInfo('massLepClosestJet_basic_all', [200, 500], [100, 100, 500], 100, '
 HistogramInfo('massTauFurthestJet_basic_all', [200, 500], [100, 100, 500], 100, 'm_{#tau,j_{furthest}}',0,0,''),
 HistogramInfo('nuTauPt', [30, 100], [15, 35, 100], 15, 'pT(#nu_{#tau})',0,1000,'GeV'),
 HistogramInfo('nuPtAssummetry_basic_all', [0.0], [0.1, 0.1], 0.1, 'pT(#nu_{l}-#nu_{#tau})/(#nu_{l}+#nu_{#tau})',0,0,''),
-HistogramInfo('bdtScore', [-0.4, 0.1, 0.5], [0.1999, 0.25, 0.2, 0.25], 0.2, 'VBF-BDT score',0.3,1.0,'',xRange=[-1.0,0.99999]),
+HistogramInfo('bdtScore', [-0.4, 0.1, 0.5], [0.2, 0.25, 0.2, 0.25], 0.2, 'VBF-BDT score',0.3,1.0,'',xRange=[-1.0,0.99999]),
 HistogramInfo('lepNuPt', [30, 100], [15, 35, 100], 15, 'pT(#nu_{l})',0,1000,'GeV'),
 HistogramInfo('pTsymmetry', [0.4], [0.2, 0.2], 0.2, 'p_{T} asymmetry',-0.3,1.0,''),
-HistogramInfo('lepTransMass_basic_all', [60, 100, 200], [30, 40, 100, 250], 30, 'm_{T}(l)',0,0,'GeV'),
+HistogramInfo('lepTransMass_basic_all', [60, 100, 200], [30, 40, 100, 150], 30, 'm_{T}(l)',0,0,'GeV'),
 HistogramInfo('tauTransMass_basic_all', [100, 200], [20, 50, 50], 20, 'm_{T}(#tau)',0,0,''),
 HistogramInfo('signedCentrality_basic_all', [0.0], [0.1, 0.1], 0.1, 'Signed #xi(Z)',0,0,''),
 HistogramInfo('visibleMass_basic_all', [40, 100, 150, 250], [40, 20, 25, 50, 250], 20, 'm(vis)_{#tau,l}',0,0,''),

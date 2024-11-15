@@ -6,6 +6,7 @@ import os
 from histogramHelpers import tautauInclusiveHistograms,tautauHighMassHistograms,tautauHighMassMJHistograms,emuHighMassHistograms,tautauZpeakHistograms,tautauHiggsBDTHistograms,tautauHiggsHistograms, tautauHighMassCutBasedHistograms, tautauHighMassTightTauHistograms
 from histogramHelpers import dataSubtract, makeNegativeBinsZero, mcAdd, makeSRBinsConsistentWithNOMJ, scaleUncertainty
 from AnalysisCommons.Run import INFO, WARNING, ERROR, DEBUG, Logger
+from CreateListToRun import menu
 Logger.LOGLEVEL = 3
 
 def errorAoverB (histoA,histoB):
@@ -25,6 +26,34 @@ def errorAoverB (histoA,histoB,binRange):
     
     return (A/B)*np.sqrt((AError/A)**2+(BError/B)**2)
 
+def check_histograms_exist(histogram_name : str, samples : list[str], path_to_check : str) -> str:
+    """
+    Function to check if the histograms exist in the path.
+    Returns histogram_name if histogram is found by the original name in all samples.
+    Returns histogram_name+"_basic_all" if the histogram is found by this name in all samples.
+    Returns "" if no histogram is found in any of the samples.
+    """
+    found_in_all = True
+    found_in_all_basic = True
+    for sample in samples:
+        file = r.TFile.Open(path_to_check + sample + ".root")
+        histo = file.Get(histogram_name)
+        if histo == None:
+            found_in_all = False
+            histo = file.Get(histogram_name + "_basic_all")
+            if histo == None:
+                found_in_all_basic = False
+
+    if found_in_all:
+        DEBUG.log("Histogram " + histogram_name + " found in all samples.")
+        return histogram_name
+    elif found_in_all_basic:
+        DEBUG.log("Histogram " + histogram_name + "_basic_all found in all samples.")
+        return histogram_name + "_basic_all"
+    else:
+        WARNING.log("Histogram " + histogram_name + " not found in any sample.")
+        return ""
+
 def main(base_path, SR_name, CR_name, histogram_dictionary):
     # Define the path to the channel and the directories for the regions.
     channelPath = base_path
@@ -37,8 +66,10 @@ def main(base_path, SR_name, CR_name, histogram_dictionary):
     EWjj = "Signal_Sherpa"
     QCDjj = "Ztautau_SherpaRW"
 
-    RQCDwithCRs = False
-    CalculateRQCD = False
+    CalculateRQCD = menu("Calculate RQCD from n_bjets histogram?",["Yes","No"]) == 1
+    ProduceMJFile = menu("Produce MJ.root file?",["Yes","No"]) == 1
+    if ProduceMJFile:
+        RQCDwithCRs = menu("Calculate RQCD for each histogram from the CRs?",["Yes","No"]) == 1
 
     # Remove previous MJ.root file if it exists
     samples=[i for i in os.listdir(channelPath+SR) if ('.root' in i and 'Wjets' not in i)]
@@ -88,62 +119,70 @@ def main(base_path, SR_name, CR_name, histogram_dictionary):
         makeNegativeBinsZero(dataSubtractedHistoCRSS)
         RQCD = dataSubtractedHistoCR.Integral(binRange[0],binRange[1])/dataSubtractedHistoCRSS.Integral(binRange[0],binRange[1])
         RQCDError = errorAoverB(dataSubtractedHistoCR,dataSubtractedHistoCRSS,binRange)
-        
         INFO.log("RQCD = " + str(RQCD) + " +- " + str(RQCDError))
 
 
-    # Open target file
-    multiJetFile = r.TFile.Open(channelPath+SR+"MJ.root", "RECREATE")
-    INFO.log("Creating MJ.root file in: ", channelPath+SR)
-    for hist in histos:
-        INFO.log("========================================================")
-        INFO.log("Histogram = " + hist.m_name)
-
-        # Determine if histogram needs to be rebined
-        rebinHistogram = hist.needsRebin()
-        INFO.log("Rebinning = ", rebinHistogram)
-        
-        # Calculate RQCD in MJCRs
-        if RQCDwithCRs:
-            # Calculate RQCD
-            dataSubtractedHistoCR = dataSubtract(hist.m_name,channelPath+CR,"Data",mcSamples,hist,rebin=rebinHistogram)
-            dataSubtractedHistoCRSS = dataSubtract(hist.m_name,channelPath+CRSS,"Data",mcSamples,hist,rebin=rebinHistogram)
-            makeNegativeBinsZero(dataSubtractedHistoCR)
-            makeNegativeBinsZero(dataSubtractedHistoCRSS)
-            RQCD = dataSubtractedHistoCR.Integral(1,-1)/dataSubtractedHistoCRSS.Integral(1,-1)
-        # If not, use input value
-        else:
-            INFO.log("Using provided (not calculated) RQCD value.")
-            # RQCD =  1.26  +-  0.25 -> High mass region enhanced in MJ and loose jet cuts.
-            # RQCD = 1.3 +- 0.25 -> Standard used in thesis version of the analysis.
-            RQCD = 1.26#1.3*0.12
-            UncerRQCD = 0.25#1.2*0.25
-            INFO.log("RQCD = " + str(RQCD) + " +- " + str(UncerRQCD))
-        
-        # Calculate the MJ Background shape
-        dataSubtractedHistoSRSS = dataSubtract(hist.m_name,channelPath+SRSS,"Data",mcSamples,hist,rebin=rebinHistogram)
-        dataSubtractedHistoSRSS.Scale(RQCD)
-        makeNegativeBinsZero(dataSubtractedHistoSRSS)
-        MJ = dataSubtractedHistoSRSS.Clone()
-        
-        # If no MJ Evidence fix the bins that are in the final selection
-        if totalMJisZero:
-            SRhisto = mcAdd(hist.m_name,channelPath+SR,backgroundSamples,hist,rebin=rebinHistogram)
-            cutLeft = hist.m_leftCut
-            cutRight = hist.m_rightCut
-            makeSRBinsConsistentWithNOMJ(MJ,cutLeft,cutRight,totalMJ,totalMJUncertainty,SRhisto)
-            MJ.Scale(RQCD)
+    if ProduceMJFile:
+        # Open target file
+        multiJetFile = r.TFile.Open(channelPath+SR+"MJ.root", "RECREATE")
+        INFO.log("Creating MJ.root file in: ", channelPath+SR)
+        for hist in histos:
+            INFO.log("========================================================")
+            INFO.log("Histogram = " + hist.m_name)
+            # Determine if histogram needs to be rebined
+            rebinHistogram = hist.needsRebin()
+            INFO.log("Rebinning = ", rebinHistogram)
             
-        # Take into account the uncertainty in RQCD
-        scaleUncertainty(MJ,UncerRQCD/RQCD)
-        
-        # Save histogram in MJ.root file
-        multiJetFile.WriteObject(MJ,hist.m_name)
-        
-    multiJetFile.Close()
+            histogram_name_sr = check_histograms_exist(hist.m_name, mcSamples, channelPath+SR)
+            if histogram_name_sr == "":
+                WARNING.log("Histogram " + hist.m_name + " not found in any sample. Skipping.")
+                continue
+
+            # Calculate RQCD in MJCRs
+            if RQCDwithCRs:
+                INFO.log("Calculating individual RQCD value for this histogram.")
+                histogram_name_cr = check_histograms_exist(hist.m_name, mcSamples, channelPath+CR)
+                if histogram_name_cr == "":
+                    WARNING.log("Histogram " + hist.m_name + " not found in any sample. Skipping.")
+                    continue
+                dataSubtractedHistoCR = dataSubtract(histogram_name_cr,channelPath+CR,"Data",mcSamples,hist,rebin=rebinHistogram)
+                dataSubtractedHistoCRSS = dataSubtract(histogram_name_cr,channelPath+CRSS,"Data",mcSamples,hist,rebin=rebinHistogram)
+                makeNegativeBinsZero(dataSubtractedHistoCR)
+                makeNegativeBinsZero(dataSubtractedHistoCRSS)
+                RQCD = dataSubtractedHistoCR.Integral(1,-1)/dataSubtractedHistoCRSS.Integral(1,-1)
+            # If not, use input value
+            else:
+                INFO.log("Using provided (not calculated) RQCD value.")
+                # RQCD = 1.3 +- 0.25 -> Standard used in thesis version of the analysis.
+                # RQCD = 1.26 +- 0.25 -> Latest ANA.
+                RQCD = 1.36
+                UncerRQCD = 0.24
+                INFO.log("RQCD = " + str(RQCD) + " +- " + str(UncerRQCD))
+            
+            # Calculate the MJ Background shape
+            dataSubtractedHistoSRSS = dataSubtract(histogram_name_sr,channelPath+SRSS,"Data",mcSamples,hist,rebin=rebinHistogram)
+            dataSubtractedHistoSRSS.Scale(RQCD)
+            makeNegativeBinsZero(dataSubtractedHistoSRSS)
+            MJ = dataSubtractedHistoSRSS.Clone()
+            
+            # If no MJ Evidence fix the bins that are in the final selection
+            if totalMJisZero:
+                SRhisto = mcAdd(histogram_name_sr,channelPath+SR,backgroundSamples,hist,rebin=rebinHistogram)
+                cutLeft = hist.m_leftCut
+                cutRight = hist.m_rightCut
+                makeSRBinsConsistentWithNOMJ(MJ,cutLeft,cutRight,totalMJ,totalMJUncertainty,SRhisto)
+                MJ.Scale(RQCD)
+                
+            # Take into account the uncertainty in RQCD
+            scaleUncertainty(MJ,UncerRQCD/RQCD)
+            
+            # Save histogram in MJ.root file
+            multiJetFile.WriteObject(MJ,histogram_name_sr)
+            
+        multiJetFile.Close()
 
 if __name__ == "__main__":
     main(base_path = "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/TauTau/TauhadTaulep/High-Mass/",
-         SR_name = "FailedAnyHM",
-         CR_name = "FailedAnyHM",
+         SR_name = "MJValidation",
+         CR_name = "MJCR",
          histogram_dictionary = tautauHighMassTightTauHistograms )
