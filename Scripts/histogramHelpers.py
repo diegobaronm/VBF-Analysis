@@ -86,6 +86,8 @@ def biner(edges,bin_widths,histogram):
         ERROR.log("There are repeated bin edges! Check the code!")
         exit(1)
 
+    # Round the bin edges to 3 decimal places
+    bin_edges = np.round(bin_edges,3)
     INFO.log("Using bin edges = ",bin_edges)
     return bin_edges
 
@@ -552,13 +554,17 @@ def stackPlot(data,signal,background,histograms,watermark,
         ############### DEFINING Signal/MC RATIO ###############
         
         ratio_sg_mc=samples["Signal"][2].Clone()
-        #ratio_mj_mc=samples["MJ"][2].Clone()
         for additionalS in additionalSignal:
             ratio_sg_mc.Add(samples[additionalS][2])
         ratio_sg_mc.Divide(mc)
-        #ratio_mj_mc.Divide(mc)
         ratio_sg_mc.SetLineColor(r.kBlack)
-        #ratio_mj_mc.SetLineColor(r.kRed)
+
+        if Zprime_pack != None:
+            first_zp_key = list(Zprime_pack.keys())[0]
+            ratio_Zp_SM = Zprime_pack[first_zp_key][2].Clone()
+            mc_plus_Zp = mc.Clone()
+            mc_plus_Zp.Add(Zprime_pack[first_zp_key][2])
+            ratio_Zp_SM.Divide(mc_plus_Zp)
 
         ###### SCALING PURITY IF NEEDED ######
         ratio_sg_mc_for_blinding = ratio_sg_mc.Clone()
@@ -667,7 +673,6 @@ def stackPlot(data,signal,background,histograms,watermark,
         
         yRange = yScale*max(hs.GetMaximum(),samples["Data"][2].GetMaximum())
         if Zprime_pack != None:
-            first_zp_key = list(Zprime_pack.keys())[0]
             yRange = yScale*max(yRange,Zprime_pack[first_zp_key][2].GetMaximum())
 
         samples["Data"][2].GetYaxis().SetRangeUser(yLowScale, yRange)
@@ -889,7 +894,7 @@ def stackPlot(data,signal,background,histograms,watermark,
 
         ###### SCALING PURITY IF NEEDED ######
         if purityMultiplier!=1.0:
-            ratio_sg_mc.GetYaxis (). SetTitle ("Signal/MC(#times"+str(int(purityMultiplier))+")")
+            ratio_sg_mc.GetYaxis (). SetTitle ("Purity(#times"+str(int(purityMultiplier))+")")
             ratio_sg_mc.GetYaxis (). SetRangeUser (0.0 ,1.0)
             ratio_sg_mc.GetYaxis (). SetTitleSize (0.16)
             ratio_sg_mc.GetYaxis (). SetTitleOffset (0.22)
@@ -916,10 +921,7 @@ def stackPlot(data,signal,background,histograms,watermark,
         ratio_sg_mc.SetMarkerSize(0.6)
 
         ratio_sg_mc.Draw ("hist p E1 X0")
-        #ratio_mj_mc.Draw ("hist p E1 X0 same")
-        #ratio_mj_mc.SetMarkerStyle(8)
-        #ratio_mj_mc.SetMarkerSize(0.6)
-        #ratio_mj_mc.SetMarkerColor(r.kRed)
+        ratio_Zp_SM.Draw("hist p E1 X0 same")
         ###### SETTING ALL THE HORIZONTAL DASHED LINES #######
 
         line11 = r.TLine (s ,0.80 ,e,0.80)
@@ -1337,7 +1339,7 @@ HistogramInfo('tau_pt', [25.0, 125.0, 150.0], [25.0, 20.0, 25.0, 350.0], 25.0, '
 HistogramInfo('lep_pt', [27, 97, 297], [27, 35, 100, 203], 27, 'pT(l)',27,1000,'GeV'),
 HistogramInfo('delta_phi', [1.8], [0.9, 0.7], 0.7, '#Delta#phi(#tau,l)',0,0,''),
 HistogramInfo('delta_y', [6.0], [2.0, 4.0], 2.0, '#Deltay_{jj}',2.0,10.0,''),
-HistogramInfo('omega', [-0.2, 0.0, 0.6, 1.4], [1.4, 0.2, 0.3, 0.39999, 1.6], 0.2, '#Omega',-0.2,1.4,''),
+HistogramInfo('omega', [-0.2, 0.0, 0.6, 1.4], [1.4, 0.2, 0.3, 0.4, 1.6], 0.2, '#Omega',-0.2,1.4,''),
 HistogramInfo('rnn_score_1p', [0.15, 0.25, 0.4], [0.15, 0.1, 0.15, 0.3], 0.1, 'jetRNN Score 1p',0.40,1.0,''),
 HistogramInfo('rnn_score_3p', [0.25, 0.55, 0.8], [0.25, 0.15, 0.25, 0.2], 0.15, 'jetRNN Score 3p',0.55,1.0,''),
 HistogramInfo('ljet0_pt', [75, 375, 625], [75, 100, 125, 375], 75, 'pT(j_{1})',75,1000,'GeV',True),

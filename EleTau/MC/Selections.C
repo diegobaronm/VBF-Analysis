@@ -133,6 +133,7 @@ std::vector<int> CLoop::ApplySelection(const std::string& selectionName, const K
         cuts.push_back( vars.lepPtAssymetry > -0.3 );
         cuts.push_back( vars.recoVisibleMassRatio < 4.0 );
         cuts.push_back( vars.lep1IsolationTight == 0 || (vars.nTauProngs == 1 && vars.tauJetRNNScore < 0.4) || (vars.nTauProngs == 3 && vars.tauJetRNNScore < 0.55) );
+
     } else if (selName == "MJValidation"){
         cuts.push_back( vars.deltaPhiLepLep <= 3.2 );
         cuts.push_back( vars.deltaRapidityTaggingJets >= 2.0 );
@@ -140,7 +141,7 @@ std::vector<int> CLoop::ApplySelection(const std::string& selectionName, const K
         cuts.push_back( vars.lep1IsolationTight == 1 );
 
         bool oneProngId = vars.nTauProngs == 1 && vars.tauJetRNNScore < 0.25;
-        bool threeProngId = vars.nTauProngs == 3 && vars.tauJetRNNScore >= 0.40;
+        bool threeProngId = vars.nTauProngs == 3 && vars.tauJetRNNScore < 0.40;
         cuts.push_back( oneProngId || threeProngId );
 
         cuts.push_back( vars.lep1pT >= 27 );
