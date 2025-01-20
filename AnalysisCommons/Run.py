@@ -2,6 +2,7 @@ import sys
 import ROOT as r
 import os
 import sys
+import argparse
 
 # Define  colours for the output
 class bcolors:
@@ -149,6 +150,41 @@ def DrawC(filename,lumStr,z_sample,key_pop,tree,region, dirs):
     r.gROOT.ProcessLine('CLoop* t = new CLoop(minTree, "%s", "%s")' % (key_pop, region))
     r.gROOT.ProcessLine('t->Loop(%s, %s, "%s")' % (lumStr, z_sample, key_pop+tree))
     r.gROOT.ProcessLine("f->Close("R")")
+
+def createParser():
+    # Create parser
+    parser = argparse.ArgumentParser(description="Run VBF Analysis!")
+
+    # Add positional arguments
+    parser.add_argument("sample", help="The name of the sample from the ones on the metadata.", type=str)
+    parser.add_argument("remote", help="Is the code running remotely? (yes/no)", type=str, choices=["yes", "no"])
+    parser.add_argument("tree", help="Tree to run over. Usually NOMINAL.", type=str,)
+    parser.add_argument("region", help="Region to run over. Should contain OS or SS in the name.", type=str)
+
+    # Parse arguments
+    args = parser.parse_args()
+
+    # Check a couple of things...
+    if args.region.find("OS") == -1 and args.region.find("SS") == -1:
+        ERROR.log("Region should contain OS or SS in the name.")
+        exit(1)
+
+    return args
+
+def RunAnalysis(analysis_function, dataCombos):
+    # create parser
+    parser = createParser()
+
+    # get input from user
+    chains = getInput(dataCombos)
+
+    # see if the code is executed in remote mode
+    remote_mode = isRunningRemote(parser.remote)
+
+    # iterate over chains from user input
+    for sample in chains:
+        INFO.log("Running analysis for: "+sample)
+        analysis_function(sample,remote_mode, parser)
 
 if __name__ == "__main__":
     print("This script is not meant to be run directly.")

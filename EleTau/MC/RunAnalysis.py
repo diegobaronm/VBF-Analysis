@@ -15,9 +15,9 @@ sys.path.append('../../') # allow code to be imported from main directory
 
 from AnalysisCommons.Metadata.infofileTauTau import infos
 from AnalysisCommons.Metadata.datasetsTauTau import dataSets, realList, dataCombos, dirs
-from AnalysisCommons.Run import getInput, luminosity, isRunningRemote, getEventWeight, DrawC, getZllSampleKey, INFO, DEBUG, ERROR
+from AnalysisCommons.Run import luminosity, getEventWeight, DrawC, getZllSampleKey, RunAnalysis, INFO, DEBUG, ERROR
 
-def runAnalysis(key, remote):
+def runAnalysis(key, remote, args):
     """
     Function to run the analysis for a given decay chain labelled 'key'
     """
@@ -35,8 +35,8 @@ def runAnalysis(key, remote):
     lumStr = getEventWeight(key,realList,infos,totRealLum)
 
     # launch the analysis script for the given data set
-    tree_name = sys.argv[3]
-    region = sys.argv[4]
+    tree_name = args.tree
+    region = args.region
 
     DrawC(filename,lumStr,z_sample,key,tree_name, region, dirs)
 
@@ -52,16 +52,7 @@ def runAnalysis(key, remote):
 
 
 def main():
-    # get input from user
-    chains = getInput(dataCombos)
-
-    # see if the code is executed in remote mode
-    remote_mode = isRunningRemote(sys.argv[2])
-
-    # iterate over chains from user input
-    for sample in chains:
-        INFO.log("Running analysis for: "+sample)
-        runAnalysis(sample,remote_mode)
+    RunAnalysis(runAnalysis, dataCombos)
 
 if __name__ == "__main__":
     main()
