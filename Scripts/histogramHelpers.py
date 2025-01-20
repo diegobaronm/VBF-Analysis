@@ -315,8 +315,16 @@ def makeSRBinsConsistentWithNOMJ(histogram,cutLeft,cutRight,totalMJ,totalMJUncer
 ############################################################################################################
 
 # Function to blind the histogram bins that have a purity above a given limit
-def blindHistogram(dataHistogram,purityHistogram,unblindPurityLimit,histogramName,lowXRange,highXRange):
-    blinded = False
+# Returns a list of booleans that indicate if the bin was blinded. Includes underflow and overflow.
+def blindHistogram(dataHistogram,
+                   purityHistogram,             # For criterion 1
+                   purityLimit,                 # For criterion 1
+                   signalHistogram,             # For criterion 2
+                   totalUncertaintyHistogram,    # For criterion 2
+                   histogramName,
+                   lowXRange,
+                   highXRange):
+    blindedBins = []
     # Check if the histogram is the reco_mass
     isRecoMass = False
     if "reco_mass" in histogramName:
@@ -324,51 +332,73 @@ def blindHistogram(dataHistogram,purityHistogram,unblindPurityLimit,histogramNam
         isRecoMass = True
 
     # Loop over all bins including underflow and overflow
-    for i in range(-1,dataHistogram.GetNbinsX()+2):
-        # Get the purity in this bin
-        purity = 100.0*purityHistogram.GetBinContent(i)
-        abovePuretyLimit = purity>unblindPurityLimit
-        inBlindingRange = dataHistogram.GetBinCenter(i)>lowXRange and dataHistogram.GetBinCenter(i)<highXRange
-        isNotCut = lowXRange==highXRange
-        # If the purity is above the limit, set the data bin content and error to zero
-        if (inBlindingRange or abovePuretyLimit or isNotCut) and not isRecoMass:
-            dataHistogram.SetBinContent(i,0.0)
-            dataHistogram.SetBinError(i,0.0)
-            blinded = True
+    for i in range(0,dataHistogram.GetNbinsX()+2):
+        blindBin = False
+        # 1) ALWAYS Blind the high-mass reco_mass bins 
         if isRecoMass and dataHistogram.GetBinCenter(i)>=160:
             dataHistogram.SetBinContent(i,0.0)
             dataHistogram.SetBinError(i,0.0)
-            blinded = True
+            blindBin = True
+
+        # 2) Criterion 1: Blind according to purity
+        criterion1 = False
+        purity = 100.0*purityHistogram.GetBinContent(i) # Get the purity in this bin
+        abovePuretyLimit = purity > purityLimit
+        inBlindingRange = dataHistogram.GetBinCenter(i) > lowXRange and dataHistogram.GetBinCenter(i) < highXRange
+        isNotCut = lowXRange == highXRange
+        isSignalRegion = inBlindingRange or isNotCut
+        if (abovePuretyLimit or isSignalRegion) and not isRecoMass:
+            criterion1 = True
+
+        # 3) Criterion 2: Blind according to signal yield and total uncertainty
+        criterion2 = False
+        signal = signalHistogram.GetBinContent(i)
+        totalUncertainty = totalUncertaintyHistogram.GetBinError(i)
+        # If the signal is larger than the total uncertainty, blind the bin
+        if signal >= totalUncertainty:
+            criterion2 = True
+
+        # Here you make the decision... if any of the criteria is met, blind the bin
+        if criterion2:
+            blindBin = True
+            DEBUG.log("Blinding bin: "+str(i)+" because of criterion 2")
+        if criterion1 and not criterion2:
+            blindBin = True
+            DEBUG.log("Blinding bin: "+str(i)+" because of criterion 1")
+
+        # Blind   
+        if blindBin:
+            dataHistogram.SetBinContent(i,0.0)
+            dataHistogram.SetBinError(i,0.0)
+        
+        # Append the blinded status to the list
+        blindedBins.append(blindBin)
+        
     # Reset stats after modification
-    if blinded:
+    if any(blindedBins):
         dataHistogram.ResetStats()
+
+    return blindedBins
 
 ############################################################################################################
 
 # Function to return a histogram that covers all the blinded bins
-def setupShadeHistogram(baseHistogram,highYRange,lowXRange,highXRange,purityHistogram,unblindPurityLimit,histogramName):
-    isRecoMass = False
-    if "reco_mass" in histogramName:
-        print("Blinding reco_mass histogram")
-        isRecoMass = True
+def setupShadeHistogram(baseHistogram, blindedBins,highYRange):
+    # Sanity check
+    if (baseHistogram.GetNbinsX()+2) != len(blindedBins):
+        ERROR.log("The blinded bins list does not have the same number of bins as the histogram!")
+        exit(1)
+
     # Create a histogram with the same binning as the base histogram
     blindHistogram = baseHistogram.Clone()
     # Set the bin content and error to the upper range of the plot
-    for i in range(1,blindHistogram.GetNbinsX()+2):
-        # Blinding criterions
-        inBlindingRange = blindHistogram.GetBinCenter(i)>lowXRange and blindHistogram.GetBinCenter(i)<highXRange
-        abovePuretyLimit = 100.0*purityHistogram.GetBinContent(i)>unblindPurityLimit
-        isNotCut = lowXRange==highXRange
-        if (inBlindingRange or abovePuretyLimit or isNotCut) and not isRecoMass: # Blind the bins that are above the purity limit or in the blinding range
+    for i in range(0,blindHistogram.GetNbinsX()+2):
+        if blindedBins[i]:
             blindHistogram.SetBinContent(i,highYRange)
             blindHistogram.SetBinError(i,highYRange)
         else:
-            if isRecoMass and blindHistogram.GetBinCenter(i)>=160:
-                blindHistogram.SetBinContent(i,highYRange)
-                blindHistogram.SetBinError(i,highYRange)
-            else:
-                blindHistogram.SetBinContent(i,0.0)
-                blindHistogram.SetBinError(i,0.0)
+            blindHistogram.SetBinContent(i,0.0)
+            blindHistogram.SetBinError(i,0.0)
         # Change style to a shaded histogram
         blindHistogram.SetLineWidth(0);
         blindHistogram.SetLineColor(r.kGray);
@@ -561,6 +591,8 @@ def stackPlot(data,signal,background,histograms,watermark,
 
         if Zprime_pack != None:
             first_zp_key = list(Zprime_pack.keys())[0]
+            if "200" not in first_zp_key:
+                ERROR.log("Z prime reference sample is not the 200 GeV mass point!")
             ratio_Zp_SM = Zprime_pack[first_zp_key][2].Clone()
             mc_plus_Zp = mc.Clone()
             mc_plus_Zp.Add(Zprime_pack[first_zp_key][2])
@@ -573,7 +605,7 @@ def stackPlot(data,signal,background,histograms,watermark,
 
         ############## BLINDING BINS WITH ABOVE THE PURITY LIMIT OR IN THE SELECTED REGION AND DEFINING Data/MC RATIO ################
         if blind:
-            blindHistogram(samples["Data"][2],ratio_sg_mc_for_blinding,unblindPurityLimit,i.m_name,i.m_leftCut,i.m_rightCut)
+            blindedBins = blindHistogram(samples["Data"][2],ratio_Zp_SM,unblindPurityLimit, Zprime_pack[first_zp_key][2], statUncer,i.m_name,i.m_leftCut,i.m_rightCut)
         ratio = r.TGraphAsymmErrors()
         ratio.Divide(mc,samples["Data"][2],"pois")
 
@@ -685,11 +717,8 @@ def stackPlot(data,signal,background,histograms,watermark,
 
         ###### SET UP BLINDING HISTOGRAM ######
         if blind:
-            shadeHistogram = setupShadeHistogram(samples["Signal"][2], yRange,i.m_leftCut,i.m_rightCut,ratio_sg_mc_for_blinding,unblindPurityLimit,i.m_name)
+            shadeHistogram = setupShadeHistogram(samples["Signal"][2], blindedBins, yRange)
             shadeHistogram.Draw("hist same")
-        elif "reco_mass" in i.m_name :
-            shadeHistogram = setupShadeHistogram(samples["Signal"][2], yRange,160,1000,ratio_sg_mc_for_blinding,unblindPurityLimit,i.m_name)
-            shadeHistogram.Draw("hist same")    
 
         ###### DRAWING OVERFLOW CONTENTS ######
 
