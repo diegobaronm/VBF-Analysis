@@ -10,7 +10,7 @@ Ztaulep_sys = ["/eos/user/w/wyatt/data/v26-sys-vbf/"]
 Zmumu_sys = ["/eos/user/d/dbaronmo/v26-mm-sys-vbf/"]
 Zee_sys = ['/eos/user/d/dbaronmo/v26-ee-sys-vbf-p1/','/eos/user/w/wyatt/data/v26-ee-sys-vbf-p2/']
 
-Ztaulep_truth=["/Users/user/Documents/HEP/v26-truth/",]
+Ztaulep_truth=["/Users/user/Documents/HEP/v26-truth/"]
 
 mc_taulep={'Ztautau_2017'  :  ['user.dbaronmo.v26.mc.361108.PoPy8_Ztt.M4.e3601_s3126_r10201_p4512.sv1_Le', '361108', 1901.2, 1.026, 1.0] ,
 'Ztautau_2018'  :  ['user.dbaronmo.v26.mc.361108.PoPy8_Ztt.M4.e3601_s3126_r10724_p4512.sv1_Le', '361108', 1901.2, 1.026, 1.0] ,
@@ -614,12 +614,18 @@ mc_mumu={'Ztautau_2017'  :  ['user.dbaronmo.v26-mm.mc.361108.PoPy8_Ztt.M4.e3601_
 'VV_EWK8_2017'  :  ['user.dbaronmo.v26-mm.mc16_13TeV.700594.Sh_2212_llvvjj_ss_Int.M4.e8433_s3126_r10201_p4512.sv1_Ta', '700594', 0.0033375, 1.0, 1.0] ,
 'VV_EWK8_2018'  :  ['user.dbaronmo.v26-mm.mc16_13TeV.700594.Sh_2212_llvvjj_ss_Int.M4.e8433_s3126_r10724_p4512.sv1_Ta', '700594', 0.0033375, 1.0, 1.0] ,
 'VV_EWK8_2015'  :  ['user.dbaronmo.v26-mm.mc16_13TeV.700594.Sh_2212_llvvjj_ss_Int.M4.e8433_s3126_r9364_p4512.sv1_Ta', '700594', 0.0033375, 1.0, 1.0] ,
-'VBF_Zmumu_MG_LM_2017'  :  ['user.dbaronmo.v26-mm.mc16_13TeV.545884.MGPy8_SM_lowMass_mumujj.M4.e8574_s3126_r10201_p4512.sv1_Ta', '545884', 1.0198, 1.0, 1.0] ,
-'VBF_Zmumu_MG_LM_2018'  :  ['user.dbaronmo.v26-mm.mc16_13TeV.545884.MGPy8_SM_lowMass_mumujj.M4.e8574_s3126_r10724_p4512.sv1_Ta', '545884', 1.0198, 1.0, 1.0] ,
-'VBF_Zmumu_MG_LM_2015'  :  ['user.dbaronmo.v26-mm.mc16_13TeV.545884.MGPy8_SM_lowMass_mumujj.M4.e8574_s3126_r9364_p4512.sv1_Ta', '545884', 1.0198, 1.0, 1.0] ,
-'VBF_Zmumu_MG_HM_2017'  :  ['user.dbaronmo.v26-mm.mc16_13TeV.545885.MGPy8_SM_highMass_mumujj.M4.e8574_s3126_r10201_p4512.sv1_Ta', '545885', 0.037388, 1.0, 1.0] ,
-'VBF_Zmumu_MG_HM_2018'  :  ['user.dbaronmo.v26-mm.mc16_13TeV.545885.MGPy8_SM_highMass_mumujj.M4.e8574_s3126_r10724_p4512.sv1_Ta', '545885', 0.037388, 1.0, 1.0] ,
-'VBF_Zmumu_MG_HM_2015'  :  ['user.dbaronmo.v26-mm.mc16_13TeV.545885.MGPy8_SM_highMass_mumujj.M4.e8574_s3126_r9364_p4512.sv1_Ta', '545885', 0.037388, 1.0, 1.0] ,
+'VBF_Zmumu_MG_bug_LM_2017'  :  ['user.dbaronmo.v26-mm.mc16_13TeV.545884.MGPy8_SM_lowMass_mumujj.M4.e8574_s3126_r10201_p4512.sv1_Ta', '545884', 1.0198, 1.0, 1.0] ,
+'VBF_Zmumu_MG_bug_LM_2018'  :  ['user.dbaronmo.v26-mm.mc16_13TeV.545884.MGPy8_SM_lowMass_mumujj.M4.e8574_s3126_r10724_p4512.sv1_Ta', '545884', 1.0198, 1.0, 1.0] ,
+'VBF_Zmumu_MG_bug_LM_2015'  :  ['user.dbaronmo.v26-mm.mc16_13TeV.545884.MGPy8_SM_lowMass_mumujj.M4.e8574_s3126_r9364_p4512.sv1_Ta', '545884', 1.0198, 1.0, 1.0] ,
+'VBF_Zmumu_MG_bug_HM_2017'  :  ['user.dbaronmo.v26-mm.mc16_13TeV.545885.MGPy8_SM_highMass_mumujj.M4.e8574_s3126_r10201_p4512.sv1_Ta', '545885', 0.037388, 1.0, 1.0] ,
+'VBF_Zmumu_MG_bug_HM_2018'  :  ['user.dbaronmo.v26-mm.mc16_13TeV.545885.MGPy8_SM_highMass_mumujj.M4.e8574_s3126_r10724_p4512.sv1_Ta', '545885', 0.037388, 1.0, 1.0] ,
+'VBF_Zmumu_MG_bug_HM_2015'  :  ['user.dbaronmo.v26-mm.mc16_13TeV.545885.MGPy8_SM_highMass_mumujj.M4.e8574_s3126_r9364_p4512.sv1_Ta', '545885', 0.037388, 1.0, 1.0] ,
+'VBF_Zmumu_MG_LM_2017'  :  ['user.dbaronmo.v26-mm.mc16_13TeV.558311.MGPy8_SM_lowMass_mumujj_v2.M4.e8557_s3889_r10201_p4512.sv2_Ta', '558311', 0.20308, 1.0, 1.0] ,
+'VBF_Zmumu_MG_LM_2018'  :  ['user.dbaronmo.v26-mm.mc16_13TeV.558311.MGPy8_SM_lowMass_mumujj_v2.M4.e8557_s3889_r10724_p4512.sv2_Ta', '558311', 0.20308, 1.0, 1.0] ,
+'VBF_Zmumu_MG_LM_2015'  :  ['user.dbaronmo.v26-mm.mc16_13TeV.558311.MGPy8_SM_lowMass_mumujj_v2.M4.e8557_s3889_r9364_p4512.sv2_Ta', '558311', 0.20308, 1.0, 1.0] ,
+'VBF_Zmumu_MG_HM_2017'  :  ['user.dbaronmo.v26-mm.mc16_13TeV.558312.MGPy8_SM_highMass_mumujj_v2.M4.e8557_s3889_r10201_p4512.sv2_Ta', '558312', 0.007385, 1.0, 1.0] ,
+'VBF_Zmumu_MG_HM_2018'  :  ['user.dbaronmo.v26-mm.mc16_13TeV.558312.MGPy8_SM_highMass_mumujj_v2.M4.e8557_s3889_r10724_p4512.sv2_Ta', '558312', 0.007385, 1.0, 1.0] ,
+'VBF_Zmumu_MG_HM_2015'  :  ['user.dbaronmo.v26-mm.mc16_13TeV.558312.MGPy8_SM_highMass_mumujj_v2.M4.e8557_s3889_r9364_p4512.sv2_Ta', '558312', 0.007385, 1.0, 1.0] ,
 }
 
 mc_ee={'Ztautau_2017'  :  ['user.dbaronmo.v26-ee.mc.361108.PoPy8_Ztt.M4.e3601_s3126_r10201_p4512.sv1_Le', '361108', 1901.2, 1.026, 1.0] ,
@@ -931,12 +937,18 @@ mc_ee={'Ztautau_2017'  :  ['user.dbaronmo.v26-ee.mc.361108.PoPy8_Ztt.M4.e3601_s3
 'VV_EWK8_2017'  :  ['user.dbaronmo.v26-ee.mc16_13TeV.700594.Sh_2212_llvvjj_ss_Int.M4.e8433_s3126_r10201_p4512.sv1_Ta', '700594', 0.0033375, 1.0, 1.0] ,
 'VV_EWK8_2018'  :  ['user.dbaronmo.v26-ee.mc16_13TeV.700594.Sh_2212_llvvjj_ss_Int.M4.e8433_s3126_r10724_p4512.sv1_Ta', '700594', 0.0033375, 1.0, 1.0] ,
 'VV_EWK8_2015'  :  ['user.dbaronmo.v26-ee.mc16_13TeV.700594.Sh_2212_llvvjj_ss_Int.M4.e8433_s3126_r9364_p4512.sv1_Ta', '700594', 0.0033375, 1.0, 1.0] ,
-'VBF_Zee_MG_LM_2017'  :  ['user.dbaronmo.v26-ee.mc16_13TeV.545882.MGPy8_SM_lowMass_eejj.M4.e8574_s3126_r10201_p4512.sv1_Ta', '545882', 1.0198, 1.0, 1.0] ,
-'VBF_Zee_MG_LM_2018'  :  ['user.dbaronmo.v26-ee.mc16_13TeV.545882.MGPy8_SM_lowMass_eejj.M4.e8574_s3126_r10724_p4512.sv1_Ta', '545882', 1.0198, 1.0, 1.0] ,
-'VBF_Zee_MG_LM_2015'  :  ['user.dbaronmo.v26-ee.mc16_13TeV.545882.MGPy8_SM_lowMass_eejj.M4.e8574_s3126_r9364_p4512.sv1_Ta', '545882', 1.0198, 1.0, 1.0] ,
-'VBF_Zee_MG_HM_2017'  :  ['user.dbaronmo.v26-ee.mc16_13TeV.545883.MGPy8_SM_highMass_eejj.M4.e8574_s3126_r10201_p4512.sv1_Ta', '545883', 0.037388, 1.0, 1.0] ,
-'VBF_Zee_MG_HM_2018'  :  ['user.dbaronmo.v26-ee.mc16_13TeV.545883.MGPy8_SM_highMass_eejj.M4.e8574_s3126_r10724_p4512.sv1_Ta', '545883', 0.037388, 1.0, 1.0] ,
-'VBF_Zee_MG_HM_2015'  :  ['user.dbaronmo.v26-ee.mc16_13TeV.545883.MGPy8_SM_highMass_eejj.M4.e8574_s3126_r9364_p4512.sv1_Ta', '545883', 0.037388, 1.0, 1.0] ,
+'VBF_Zee_MG_bug_LM_2017'  :  ['user.dbaronmo.v26-ee.mc16_13TeV.545882.MGPy8_SM_lowMass_eejj.M4.e8574_s3126_r10201_p4512.sv1_Ta', '545882', 1.0198, 1.0, 1.0] ,
+'VBF_Zee_MG_bug_LM_2018'  :  ['user.dbaronmo.v26-ee.mc16_13TeV.545882.MGPy8_SM_lowMass_eejj.M4.e8574_s3126_r10724_p4512.sv1_Ta', '545882', 1.0198, 1.0, 1.0] ,
+'VBF_Zee_MG_bug_LM_2015'  :  ['user.dbaronmo.v26-ee.mc16_13TeV.545882.MGPy8_SM_lowMass_eejj.M4.e8574_s3126_r9364_p4512.sv1_Ta', '545882', 1.0198, 1.0, 1.0] ,
+'VBF_Zee_MG_bug_HM_2017'  :  ['user.dbaronmo.v26-ee.mc16_13TeV.545883.MGPy8_SM_highMass_eejj.M4.e8574_s3126_r10201_p4512.sv1_Ta', '545883', 0.037388, 1.0, 1.0] ,
+'VBF_Zee_MG_bug_HM_2018'  :  ['user.dbaronmo.v26-ee.mc16_13TeV.545883.MGPy8_SM_highMass_eejj.M4.e8574_s3126_r10724_p4512.sv1_Ta', '545883', 0.037388, 1.0, 1.0] ,
+'VBF_Zee_MG_bug_HM_2015'  :  ['user.dbaronmo.v26-ee.mc16_13TeV.545883.MGPy8_SM_highMass_eejj.M4.e8574_s3126_r9364_p4512.sv1_Ta', '545883', 0.037388, 1.0, 1.0] ,
+'VBF_Zee_MG_LM_2017'  :  ['user.dbaronmo.v26-ee.mc16_13TeV.558309.MGPy8_SM_lowMass_eejj_v2.M4.e8557_s3889_r10201_p4512.sv2_Ta', '558309', 0.20308, 1.0, 1.0] ,
+'VBF_Zee_MG_LM_2018'  :  ['user.dbaronmo.v26-ee.mc16_13TeV.558309.MGPy8_SM_lowMass_eejj_v2.M4.e8557_s3889_r10724_p4512.sv2_Ta', '558309', 0.20308, 1.0, 1.0] ,
+'VBF_Zee_MG_LM_2015'  :  ['user.dbaronmo.v26-ee.mc16_13TeV.558309.MGPy8_SM_lowMass_eejj_v2.M4.e8557_s3889_r9364_p4512.sv2_Ta', '558309', 0.20308, 1.0, 1.0] ,
+'VBF_Zee_MG_HM_2017'  :  ['user.dbaronmo.v26-ee.mc16_13TeV.558310.MGPy8_SM_highMass_eejj_v2.M4.e8557_s3889_r10201_p4512.sv2_Ta', '558310', 0.007385, 1.0, 1.0] ,
+'VBF_Zee_MG_HM_2018'  :  ['user.dbaronmo.v26-ee.mc16_13TeV.558310.MGPy8_SM_highMass_eejj_v2.M4.e8557_s3889_r10724_p4512.sv2_Ta', '558310', 0.007385, 1.0, 1.0] ,
+'VBF_Zee_MG_HM_2015'  :  ['user.dbaronmo.v26-ee.mc16_13TeV.558310.MGPy8_SM_highMass_eejj_v2.M4.e8557_s3889_r9364_p4512.sv2_Ta', '558310', 0.007385, 1.0, 1.0] ,
 }
 
 mc_taulep_sys = {'Ztautau_sherpa1_2017_sys'  :  ['user.dbaronmo.v26-sys-vbf.mc16_13TeV.364128.Sh221_PDF30_Ztt_MV0_70_CVBV.M4.e5307_s3126_r10201_p4512.sv1_Ta', '364128', 1981.7, 0.9751, 0.82142] ,
@@ -1098,12 +1110,18 @@ mc_taulep_truth = {
 'Ztautau_SherpaNLO_truth_2018'  :  ['user.dbaronmo.v26-truth.mc16_13TeV.700360.Sh_2211_Ztt2jets_Min_N_TChannel.M4.e8357_s3126_r10724_p4512.sv1_Ta', '700360', 0.77916, 1.0, 1.0] ,
 'Ztautau_SherpaNLO_truth_2017'  :  ['user.dbaronmo.v26-truth.mc16_13TeV.700360.Sh_2211_Ztt2jets_Min_N_TChannel.M4.e8357_s3126_r10201_p4512.sv1_Ta', '700360', 0.77916, 1.0, 1.0] ,
 'Ztautau_SherpaNLO_truth_2015'  :  ['user.dbaronmo.v26-truth.mc16_13TeV.700360.Sh_2211_Ztt2jets_Min_N_TChannel.M4.e8357_s3126_r9364_p4512.sv1_Ta', '700360', 0.77916, 1.0, 1.0] ,
-'VBF_Ztautau_MG_LM_truth_2017'  :  ['user.dbaronmo.v26-truth.mc16_13TeV.545886.MGPy8_SM_lowMass_ttjj.M4.e8574_s3126_r10201_p4512.sv3_Ta', '545886', 1.0718, 1.0, 1.0] ,
-'VBF_Ztautau_MG_LM_truth_2018'  :  ['user.dbaronmo.v26-truth.mc16_13TeV.545886.MGPy8_SM_lowMass_ttjj.M4.e8574_s3126_r10724_p4512.sv3_Ta', '545886', 1.0718, 1.0, 1.0] ,
-'VBF_Ztautau_MG_LM_truth_2015'  :  ['user.dbaronmo.v26-truth.mc16_13TeV.545886.MGPy8_SM_lowMass_ttjj.M4.e8574_s3126_r9364_p4512.sv3_Ta', '545886', 1.0718, 1.0, 1.0] ,
-'VBF_Ztautau_MG_HM_truth_2015'  :  ['user.dbaronmo.v26-truth.mc16_13TeV.545887.MGPy8_SM_highMass_ttjj.M4.e8574_s3126_r9364_p4512.sv3_Ta', '545887', 0.037449, 1.0, 1.0] ,
-'VBF_Ztautau_MG_HM_truth_2018'  :  ['user.dbaronmo.v26-truth.mc16_13TeV.545887.MGPy8_SM_highMass_ttjj.M4.e8574_s3126_r10724_p4512.sv3_Ta', '545887', 0.037449, 1.0, 1.0] ,
-'VBF_Ztautau_MG_HM_truth_2017'  :  ['user.dbaronmo.v26-truth.mc16_13TeV.545887.MGPy8_SM_highMass_ttjj.M4.e8574_s3126_r10201_p4512.sv3_Ta', '545887', 0.037449, 1.0, 1.0] ,
+'VBF_Ztautau_MG_bug_LM_truth_2017'  :  ['user.dbaronmo.v26-truth.mc16_13TeV.545886.MGPy8_SM_lowMass_ttjj.M4.e8574_s3126_r10201_p4512.sv3_Ta', '545886', 1.0718, 1.0, 1.0] ,
+'VBF_Ztautau_MG_bug_LM_truth_2018'  :  ['user.dbaronmo.v26-truth.mc16_13TeV.545886.MGPy8_SM_lowMass_ttjj.M4.e8574_s3126_r10724_p4512.sv3_Ta', '545886', 1.0718, 1.0, 1.0] ,
+'VBF_Ztautau_MG_bug_LM_truth_2015'  :  ['user.dbaronmo.v26-truth.mc16_13TeV.545886.MGPy8_SM_lowMass_ttjj.M4.e8574_s3126_r9364_p4512.sv3_Ta', '545886', 1.0718, 1.0, 1.0] ,
+'VBF_Ztautau_MG_bug_HM_truth_2015'  :  ['user.dbaronmo.v26-truth.mc16_13TeV.545887.MGPy8_SM_highMass_ttjj.M4.e8574_s3126_r9364_p4512.sv3_Ta', '545887', 0.037449, 1.0, 1.0] ,
+'VBF_Ztautau_MG_bug_HM_truth_2018'  :  ['user.dbaronmo.v26-truth.mc16_13TeV.545887.MGPy8_SM_highMass_ttjj.M4.e8574_s3126_r10724_p4512.sv3_Ta', '545887', 0.037449, 1.0, 1.0] ,
+'VBF_Ztautau_MG_bug_HM_truth_2017'  :  ['user.dbaronmo.v26-truth.mc16_13TeV.545887.MGPy8_SM_highMass_ttjj.M4.e8574_s3126_r10201_p4512.sv3_Ta', '545887', 0.037449, 1.0, 1.0] ,
+'VBF_Ztautau_MG_LM_truth_2017'  :  ['user.dbaronmo.v26.mc16_13TeV.558313.MGPy8_SM_lowMass_ttjj_v2.M4.e8557_s3889_r10201_p4512.sv2_Ta', '558313', 0.25826, 1.0, 1.0] ,
+'VBF_Ztautau_MG_LM_truth_2018'  :  ['user.dbaronmo.v26.mc16_13TeV.558313.MGPy8_SM_lowMass_ttjj_v2.M4.e8557_s3889_r10724_p4512.sv2_Ta', '558313', 0.25826, 1.0, 1.0] ,
+'VBF_Ztautau_MG_LM_truth_2015'  :  ['user.dbaronmo.v26.mc16_13TeV.558313.MGPy8_SM_lowMass_ttjj_v2.M4.e8557_s3889_r9364_p4512.sv2_Ta', '558313', 0.25826, 1.0, 1.0] ,
+'VBF_Ztautau_MG_HM_truth_2017'  :  ['user.dbaronmo.v26.mc16_13TeV.558314.MGPy8_SM_highMass_ttjj_v2.M4.e8557_s3889_r10201_p4512.sv2_Ta', '558314', 0.0073938, 1.0, 1.0] ,
+'VBF_Ztautau_MG_HM_truth_2018'  :  ['user.dbaronmo.v26.mc16_13TeV.558314.MGPy8_SM_highMass_ttjj_v2.M4.e8557_s3889_r10724_p4512.sv2_Ta', '558314', 0.0073938, 1.0, 1.0] ,
+'VBF_Ztautau_MG_HM_truth_2015'  :  ['user.dbaronmo.v26.mc16_13TeV.558314.MGPy8_SM_highMass_ttjj_v2.M4.e8557_s3889_r9364_p4512.sv2_Ta', '558314', 0.0073938, 1.0, 1.0] ,
 'VBF_Zprime_200_truth_2018'  :  ['user.dbaronmo.v26-truth.mc16_13TeV.545888.MGPy8_Zp200_ttjj_U1X.M4.e8574_s3126_r10724_p4512.sv3_Ta', '545888', 0.052713, 4.0, 1.0] ,
 'VBF_Zprime_200_truth_2017'  :  ['user.dbaronmo.v26-truth.mc16_13TeV.545888.MGPy8_Zp200_ttjj_U1X.M4.e8574_s3126_r10201_p4512.sv3_Ta', '545888', 0.052713, 4.0, 1.0] ,
 'VBF_Zprime_200_truth_2015'  :  ['user.dbaronmo.v26-truth.mc16_13TeV.545888.MGPy8_Zp200_ttjj_U1X.M4.e8574_s3126_r9364_p4512.sv3_Ta', '545888', 0.052713, 4.0, 1.0] ,
@@ -1127,8 +1145,8 @@ mc_taulep_truth = {
 'VBF_Zprime_500_truth_2018'  :  ['user.dbaronmo.v26-truth.mc16_13TeV.545894.MGPy8_Zp500_ttjj_U1X.M4.e8574_s3126_r10724_p4512.sv3_Ta', '545894', 0.0014064, 4.0, 1.0] ,
 }
 
-mc=mc_mumu # IT CAN BE mc_taulep, mc_ee, mc_mumu and _sys appended for the systematics
-ntuples_type=Zmumu # IT CAN BE Zee,Zmumu,Ztaulep and _sys appended for the systematics
+mc=mc_taulep_truth # IT CAN BE mc_taulep, mc_ee, mc_mumu and _truth/_sys appended for the systematics
+ntuples_type=Ztaulep_truth # IT CAN BE Zee,Zmumu,Ztaulep and _sys appended for the systematics
 
 
 for x in mc.keys():
@@ -1187,20 +1205,20 @@ def info_file(name,directory,DSID,XSEC,KFAC,FIL_EFF,home):
     return strin
 
 for sample in mc:
+    if "VBF" in sample and "MG" in sample:
 
-    files=open('files.txt','a+')
-    files.write('#%s\n'%(sample))
-    files.write(list(sample,mc[sample][0],pwd))
-    files.close()
+        files=open('files.txt','a+')
+        files.write('#%s\n'%(sample))
+        files.write(list(sample,mc[sample][0],pwd))
+        files.close()
 
-    combos=open('combos.txt','a+')
-    combos.write('#%s\n'%(sample))
-    combos.write(data_combo(sample,mc[sample][0],pwd))
-    combos.close()
+        combos=open('combos.txt','a+')
+        combos.write('#%s\n'%(sample))
+        combos.write(data_combo(sample,mc[sample][0],pwd))
+        combos.close()
 
-    f=open('info.txt','a+')
-    f.write('#%s\n'%(sample))
-    print(sample)
-    f.write(info_file(sample,mc[sample][0],mc[sample][1],mc[sample][2],mc[sample][3],mc[sample][4],pwd))
-    f.close()
-
+        f=open('info.txt','a+')
+        f.write('#%s\n'%(sample))
+        print(sample)
+        f.write(info_file(sample,mc[sample][0],mc[sample][1],mc[sample][2],mc[sample][3],mc[sample][4],pwd))
+        f.close()

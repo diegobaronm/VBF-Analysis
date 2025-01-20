@@ -40,6 +40,12 @@ SampleID,category,xsectioninpb,kfactor,filterefficiency,xsecunc
 545883,MGPy8EG_SM_highMass_eejj,0.037388,1,1,1
 545885,MGPy8EG_SM_highMass_mumujj,0.037388,1,1,1
 545887,MGPy8EG_SM_highMass_tautaujj,0.037449,1,1,1
+558309,MGPy8EG_SM_lowMass_eejj_v2,0.20308,1.0,1.000000E+00
+558310,MGPy8EG_SM_highMass_eejj_v2,0.007385,1.0,1.000000E+00
+558311,MGPy8EG_SM_lowMass_mumujj_v2,0.20308,1.0,1.000000E+00
+558312,MGPy8EG_SM_highMass_mumujj_v2,0.007385,1.0,1.000000E+00
+558313,MGPy8EG_SM_lowMass_tautaujj_v2,0.25826,1.0,1.000000E+00
+558314,MGPy8EG_SM_highMass_tautaujj_v2,0.0073938,1.0,1.000000E+00
 ,,,,,
 ################################################################################################################,,,,,
 # VBF Z prime,,,,,

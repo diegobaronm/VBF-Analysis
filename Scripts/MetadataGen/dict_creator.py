@@ -98,13 +98,15 @@ dict_of_samples={"Ztautau":"361108_PoPy","Zmumu":"mumu_PoPy","Zee":"Zee_PoPy","W
 "Zee_SherpaNLO":"Sh_2211_Zee","Zmumu_SherpaNLO":"Sh_2211_Zmumu","Ztautau_SherpaNLO":"Sh_2211_Ztt",
 "W_EWK_PoPy":"PhPy8_VBF_W","W_EWK_sherpa":"Sh_2211_W_2jets",
 "VV_EWK":"Sh_2212_jj","VV_EWK_SemiLep":"MGPy8EvtGen_jj_qq",
-"VBF_Zee_MG_LM":"545882", "VBF_Zee_MG_HM":"545883", 
-"VBF_Zmumu_MG_LM":"545884", "VBF_Zmumu_MG_HM":"545885", 
-"VBF_Ztautau_MG_LM":"545886", "VBF_Ztautau_MG_HM":"545887",  
+"VBF_Zee_MG_bug_LM":"545882", "VBF_Zee_MG_bug_HM":"545883", 
+"VBF_Zmumu_MG_bug_LM":"545884", "VBF_Zmumu_MG_bug_HM":"545885", 
+"VBF_Ztautau_MG_bug_LM":"545886", "VBF_Ztautau_MG_bug_HM":"545887",
+"VBF_Zee_MG_LM":"558309", "VBF_Zee_MG_HM":"558310", 
+"VBF_Zmumu_MG_LM":"558311", "VBF_Zmumu_MG_HM":"558312", 
+"VBF_Ztautau_MG_LM":"558313", "VBF_Ztautau_MG_HM":"558314", 
 "VBF_Zprime_200": "545888", "VBF_Zprime_250": "545889", "VBF_Zprime_300": "545890", "VBF_Zprime_350": "545891", "VBF_Zprime_400": "545892",  "VBF_Zprime_450": "545893",  "VBF_Zprime_500": "545894",  
 }
 
 
 for i in dict_of_samples:
     create_dict(i,dict_of_samples[i])
-
