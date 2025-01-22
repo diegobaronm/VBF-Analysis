@@ -219,8 +219,12 @@ void CLoop::Loop(double lumFactor, int z_sample, const std::string& key)
 
         // check if event is from real data
         if (!(key.substr(0,4)=="data")) {
+            // Do not apply pileup reweighting to VBF MadGraph samples
+            float puWeight = NOMINAL_pileup_combined_weight;
+            if (key.find("VBF") != std::string::npos && key.find("MG") != std::string::npos)
+                puWeight = 1.0;
             // take product of all scale factors
-            eventWeight = weight_mc/*NOMINAL_pileup_combined_weight*/*lumFactor*zpt_weight*mjj_w
+            eventWeight = weight_mc*puWeight*lumFactor*zpt_weight*mjj_w
             *elec_0_NOMINAL_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight*elec_0_NOMINAL_EleEffSF_offline_TightLLH_d0z0_v13*elec_0_NOMINAL_EleEffSF_offline_RecoTrk
             *jet_NOMINAL_central_jets_global_effSF_JVT*jet_NOMINAL_central_jets_global_ineffSF_JVT*jet_NOMINAL_forward_jets_global_effSF_JVT
             *jet_NOMINAL_forward_jets_global_ineffSF_JVT*jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85*jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85
