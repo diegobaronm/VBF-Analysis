@@ -1,0 +1,17 @@
+signal_sample: Signal_Sherpa.root
+qcd_sample: Ztautau_SherpaRW.root
+average_mode : False
+is_CR : False
+is_post_fit : True
+vbf_scale: 1.2
+qcd_scale: 1.3
+histograms: llQCDCRHistograms
+final_state: Z#rightarrow ll
+region: Z-peak
+background:
+    - name: VV
+      file: VV.root
+      color: kViolet-1
+    - name: QCDjj
+      file: QCDjj.root
+      color: kViolet-4

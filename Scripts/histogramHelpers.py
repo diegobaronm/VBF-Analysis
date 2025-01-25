@@ -449,12 +449,11 @@ def setupZprimeHistograms(histogram_objet : HistogramInfo, Zprime_pack):
 
 # Function to plot a histogram stack of MC with data
 def stackPlot(data,signal,background,histograms,watermark,
-              Zprime_pack = None,
+              Zprime_pack : dict = None,
               additionalSignal = [],
               signalMu = 1.0,
               backgroundMu = 1.0,
               average = False,
-              after_fit = False,
               final_state = "Z#rightarrow #mu#mu",
               regionLabel = "",
               blind = True,
@@ -501,7 +500,6 @@ def stackPlot(data,signal,background,histograms,watermark,
                 signalMu ,
                 backgroundMu ,
                 average ,
-                after_fit ,
                 final_state ,
                 regionLabel ,
                 blind ,
@@ -529,8 +527,6 @@ def stackPlot(data,signal,background,histograms,watermark,
                 continue
         if average:
             watermark = "Average"
-            if after_fit:
-                watermark = "Average_AfterFit"
 
         ###### REBIN AND NORMALISE ######
         if i.needsRebin():
@@ -561,11 +557,10 @@ def stackPlot(data,signal,background,histograms,watermark,
         #################### DO Z PRIME SAMPLES ####################
         if Zprime_pack != None:
             setupZprimeHistograms(i,Zprime_pack)
-        #################### SCALING FACTORS FROM FIT ####################
 
-        if after_fit:
-            samples["Signal"][2].Scale(signalMu)
-            samples["QCDjj"][2].Scale(backgroundMu)
+        #################### SCALING FACTORS FROM FIT ####################
+        samples["Signal"][2].Scale(signalMu)
+        samples["QCDjj"][2].Scale(backgroundMu)
                 
         ####################### CREATING MC AND STACK HISTOGRAM ########################        
         
@@ -950,7 +945,8 @@ def stackPlot(data,signal,background,histograms,watermark,
         ratio_sg_mc.SetMarkerSize(0.6)
 
         ratio_sg_mc.Draw ("hist p E1 X0")
-        ratio_Zp_SM.Draw("hist p E1 X0 same")
+        if Zprime_pack != None:
+            ratio_Zp_SM.Draw("hist p E1 X0 same")
         ###### SETTING ALL THE HORIZONTAL DASHED LINES #######
 
         line11 = r.TLine (s ,0.80 ,e,0.80)
@@ -1199,7 +1195,7 @@ HistogramInfo('lep1_pt', [100, 220, 300], [20, 40, 80, 200], 20, 'pT(l_{1})',50,
 HistogramInfo('lep2_pt', [100, 220, 300], [20, 40, 80, 200], 20, 'pT(l_{2})',40,500,'GeV'),
 HistogramInfo('ljet0_pt', [75, 200, 300, 500], [75, 25, 50, 100, 500], 25, 'pT(j_{1})',75,1000,'GeV'),
 HistogramInfo('ljet1_pt', [50,70, 195, 295, 495], [25, 20, 25, 50, 100, 505], 25, 'pT(j_{2})',70,1000,'GeV'),
-HistogramInfo('pt_bal', [0.15, 0.3], [0.0499, 0.15, 0.7], 0.15, 'pT balance',0,0.15,''),
+HistogramInfo('pt_bal', [0.15, 0.3], [0.05, 0.15, 0.7], 0.15, 'pT balance',0,0.15,''),
 HistogramInfo('Z_centrality', [0.5], [0.1, 0.5], 0.1, '#xi(Z)',0,0,'',xRange=[0,2]),
 HistogramInfo('delta_y', [2.0, 6.0], [2.0, 0.5, 4.0], 1.0, '#Deltay_{jj}',2.0,10.0,''),
 HistogramInfo('inv_mass', [70, 100, 160, 250, 500], [70, 6, 15, 30, 50, 250], 6, 'm_{ll}',101,1000,'GeV',True),
@@ -1553,6 +1549,22 @@ HistogramInfo('visibleMass_basic_all', [40, 100, 150, 250], [40, 20, 25, 50, 250
 HistogramInfo('recoVisibleMassRatio', [1.0, 2.0], [0.2, 0.5, 1.0], 0.2, 'm(reco)_{#tau,l}/m(vis)_{#tau,l}',0,4.0,''),
 ]
 
+templatesDict = {
+    'eeZpeakHistograms' : eeZpeakHistograms,
+    'mumuZpeakHistograms' : mumuZpeakHistograms,
+    'llZpeakHistograms' : llZpeakHistograms,
+    'tautauZpeakHistograms' : tautauZpeakHistograms,
+    'llMidRangeHistograms' : llMidRangeHistograms,
+    'llHighRangeHistograms' : llHighRangeHistograms,
+    'llQCDCRHistograms' : llQCDCRHistograms,
+    'tautauInclusiveHistograms' : tautauInclusiveHistograms,
+    'tautauHighMassCutBasedHistograms' : tautauHighMassCutBasedHistograms,
+    'tautauHighMassHistograms' : tautauHighMassHistograms,
+    'tautauHighMassTightTauHistograms' : tautauHighMassTightTauHistograms,
+    'tautauHighMassMJHistograms' : tautauHighMassMJHistograms,
+    'tautauHiggsHistograms' : tautauHiggsHistograms,
+    'tautauHiggsBDTHistograms' : tautauHiggsBDTHistograms,
+}
 
 if __name__ == "__main__":
     print("This is a module with histogram helpers. Import it to use it!")
