@@ -1,8 +1,8 @@
 import yaml
 import os
+import argparse
 import ROOT
 from AnalysisCommons.Run import INFO, WARNING, ERROR, DEBUG, Logger
-Logger.LOGLEVEL = 3
 
 from histogramHelpers import stackPlot, templatesDict
 
@@ -25,15 +25,15 @@ def load_config(config_file : str):
         config = yaml.load(file, Loader=yaml.FullLoader)
     return config
 
-def print_config(config):
+def print_config(config, indent = ''):
     for key, value in config.items():
         if type(value) == list:
             INFO.log(key+' ----> ')
             for i in value:
-                print_config(i)
-                INFO.log('-------------------')
+                print_config(i,indent+'  ')
+                INFO.log('-------------------------------')
         else:
-            INFO.log(str(key) + '  ----> ' + str(value))
+            INFO.log(indent+str(key) + '  ----> ' + str(value))
 
 def verify():
     print('')
@@ -101,8 +101,8 @@ def color_to_ROOT(color_input : str):
     # Calculate the color.
     return root_color + calculate_color_operations(color_operations)
 
-def build_background(background_samples : list, qcd_sample : str):
-    background = {}
+def build_background(background_samples : list, qcd_sample : str):    
+    background = {'QCDjj' : [qcd_sample,ROOT.kViolet-4,0]}
     for sample_dict in background_samples:
         try:
             sample_name = sample_dict['name']
@@ -114,32 +114,65 @@ def build_background(background_samples : list, qcd_sample : str):
             else:
                 ERROR.log('Key % s not found in background sample: %s' % (e, sample_name))
             exit(1)
-        if sample_name == 'QCDjj':
-            background[sample_name] = [qcd_sample, sample_color, 1]
-        else:
-            background[sample_name] = [sample_file, sample_color, 0]
+
+        background[sample_name] = [sample_file, sample_color, 0]
 
     return background
 
-def generate_watermark():
-    return 'ATLAS Preliminary'
+def build_zprime_pack(zprime_pack : dict):
+    if zprime_pack is None:
+        return None
+    
+    zp_pack = build_background(zprime_pack, 'dummy')
+    zp_pack.pop('QCDjj') # Remove the dummy QCDjj
+
+    return zp_pack
+
+def generate_watermark(after_fit : bool, qcd_sample : str, vbf_sample : str):
+    ew_string = vbf_sample.replace('.root','').replace('Signal_','')
+    qcd_string = qcd_sample.replace('.root','')
+
+    predefined_channels = ['Zee','Zmumu','Ztautau','Zll']
+    channel_found = False
+    for channel in predefined_channels:
+        if channel in qcd_string:
+            channel_found = True
+            qcd_string = qcd_string.replace(channel+'_','')
+            break
+
+    if not channel_found:
+        ERROR.log('When creating watermark... the channel was not found in QCD sample. Check!')
+        exit(1)
+
+    watermark_postfix = "%s_%s" % ('QCD'+qcd_string,'EW'+ew_string)
+
+    if after_fit:
+        return watermark_postfix + '_AfterFit'
+    
+    return watermark_postfix
+
+def get_args():
+    parser = argparse.ArgumentParser(description='Plot the histograms.')
+    parser.add_argument('config_file', type=str, help='The configuration file to use.')
+    return parser.parse_args()
 
 def Plot():
-    config = load_config('configExamplePlot.yml')
+    args = get_args()
+    # Get the configuration file.
+    config = load_config(args.config_file)
     print_config(config)
     run = verify()
     if not run:
         INFO.log('Exiting... without running!')
         exit(0)
     INFO.log('Running...')
-    print(config)
     # Set the configuration.
+    # First the always needed parameters.
     try:
         DATA = {"Data":["Data.root",ROOT.kBlack,0]}
         SIGNAL = {"Signal":[config['signal_sample'],ROOT.kOrange+1,0]} 
         BACKGROUND = build_background(config['background'], config['qcd_sample'])
         HISTOGRAMS = get_template(config['histograms'])
-        WATERMARK = generate_watermark()
         EWjjSF = 1.0
         QCDjjSF = 1.0
         if bool(config['is_post_fit']):
@@ -147,10 +180,50 @@ def Plot():
             QCDjjSF = config['qcd_scale']
         FINAL_STATE = config['final_state']
         REGION = config['region']
-        
+        WATERMARK = generate_watermark(config['is_post_fit'], config['qcd_sample'], config['signal_sample'])
+        PRINT_VERSION = config['print_version']
     except KeyError as e:
         ERROR.log('Key %s not found in configuration file.' % e)
         exit(1)
+    # Now the optional parameters.
+    optional_defaults = {'blind':True,
+                         'blind_mass':True,
+                         'unblind_purity_limit':0.0,
+                         'print_overflows':False,
+                         'purity_multiplier':1.0,
+                         'additional_signal':[],
+                         'Zprime_pack':None}
+    for key in optional_defaults:
+        if key not in config:
+            config[key] = optional_defaults[key]
+    
+    BLIND = config['blind']
+    BLIND_MASS = config['blind_mass']
+    UNBLIND_PURITY_LIMIT = config['unblind_purity_limit']
+    PRINT_OVERFLOWS = config['print_overflows']
+    PURITY_MULTIPLIER = config['purity_multiplier']
+    ZPRIME_PACK = build_zprime_pack(config['Zprime_pack'])
+    ADDITIONAL_SIGNAL = config['additional_signal']
+
+    # Print the configuration for debugging.
+    DEBUG.log('DATA ----> %s' % DATA)
+    DEBUG.log('SIGNAL ----> %s' % SIGNAL)
+    DEBUG.log('BACKGROUND ----> %s' % BACKGROUND)
+    DEBUG.log('HISTOGRAMS ----> %s' % HISTOGRAMS)
+    DEBUG.log('EWjjSF ----> %s' % EWjjSF)
+    DEBUG.log('QCDjjSF ----> %s' % QCDjjSF)
+    DEBUG.log('FINAL_STATE ----> %s' % FINAL_STATE)
+    DEBUG.log('REGION ----> %s' % REGION)
+    DEBUG.log('WATERMARK ----> %s' % WATERMARK)
+    DEBUG.log('PRINT_VERSION ----> %s' % PRINT_VERSION)
+    DEBUG.log('BLIND ----> %s' % BLIND)
+    DEBUG.log('BLIND_MASS ----> %s' % BLIND_MASS)
+    DEBUG.log('UNBLIND_PURITY_LIMIT ----> %s' % UNBLIND_PURITY_LIMIT)
+    DEBUG.log('PRINT_OVERFLOWS ----> %s' % PRINT_OVERFLOWS)
+    DEBUG.log('PURITY_MULTIPLIER ----> %s' % PURITY_MULTIPLIER)
+    DEBUG.log('ADDITIONAL_SIGNAL ----> %s' % ADDITIONAL_SIGNAL)
+    DEBUG.log('ZPRIME_PACK ----> %s' % ZPRIME_PACK)
+
     # Run the plotting.
     '''
     stackPlot(data = DATA,
@@ -158,21 +231,20 @@ def Plot():
               background = BACKGROUND,
               histograms = HISTOGRAMS,
               watermark = WATERMARK,
-              Zprime_pack = None,
-              additionalSignal = [],
+              Zprime_pack = ZPRIME_PACK,
+              additionalSignal = ADDITIONAL_SIGNAL,
               signalMu = EWjjSF,
               backgroundMu = QCDjjSF,
-              average = False,
               final_state = FINAL_STATE,
               regionLabel = REGION,
-              blind = True,
-              blindMass = True,
-              unblindPurityLimit = 0.0,
-              printVersion = False,
-              printOverflows = False,
-              purityMultiplier = 1.0
+              blind = BLIND,
+              blindMass = BLIND_MASS,
+              unblindPurityLimit = UNBLIND_PURITY_LIMIT,
+              printVersion = PRINT_VERSION,
+              printOverflows = PRINT_OVERFLOWS,
+              purityMultiplier = PURITY_MULTIPLIER
               )
     '''
-
 if __name__ == '__main__':
+    Logger.LOGLEVEL = 4
     Plot()

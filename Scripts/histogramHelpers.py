@@ -453,7 +453,6 @@ def stackPlot(data,signal,background,histograms,watermark,
               additionalSignal = [],
               signalMu = 1.0,
               backgroundMu = 1.0,
-              average = False,
               final_state = "Z#rightarrow #mu#mu",
               regionLabel = "",
               blind = True,
@@ -499,7 +498,6 @@ def stackPlot(data,signal,background,histograms,watermark,
                 additionalSignal ,
                 signalMu ,
                 backgroundMu ,
-                average ,
                 final_state ,
                 regionLabel ,
                 blind ,
@@ -525,20 +523,14 @@ def stackPlot(data,signal,background,histograms,watermark,
         if hist == None:
                 INFO.log("Skipping histogram!!! ")
                 continue
-        if average:
-            watermark = "Average"
 
         ###### REBIN AND NORMALISE ######
         if i.needsRebin():
             rebining=biner(i.m_binEdges,i.m_binSteps,samples["Data"][2])
             nb=len(rebining)-1
-            for s in samples:
-                if 'Average' in samples[s][0]:
-                    print(s,samples[s])
-                    continue
-                else :    
-                    samples[s][2]=samples[s][2].Rebin(nb,s,rebining)
-            hist_list=[samples[s][2] for s in samples if 'Average' not in samples[s][0]]
+            for s in samples:   
+                samples[s][2]=samples[s][2].Rebin(nb,s,rebining)
+            hist_list=[samples[s][2] for s in samples]
             normalization(hist_list,i.m_binNorm)
 
         ###### SETTING THE COLOURS ######
