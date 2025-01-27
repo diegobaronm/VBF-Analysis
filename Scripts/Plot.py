@@ -210,7 +210,7 @@ def Plot():
     PRINT_OVERFLOWS = config['print_overflows']
     PURITY_MULTIPLIER = config['purity_multiplier']
     ZPRIME_PACK = build_zprime_pack(config['Zprime_pack'])
-    ADDITIONAL_SIGNAL = config['additional_signal']
+    ADDITIONAL_SIGNAL = [config['additional_signal']]
 
     # Print the configuration for debugging.
     DEBUG.log('DATA ----> %s' % DATA)
