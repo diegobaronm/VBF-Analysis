@@ -19,8 +19,9 @@ def check_file_and_move_dir(file : str):
     os.chdir(os.path.dirname(file) if os.path.dirname(file) != '' else '.')
 
 def load_config(config_file : str):
-    check_file_and_move_dir(config_file)
-    with open(config_file) as file:
+    check_file_and_move_dir(config_file) # Check the file exists and move to the directory containing it.
+    config_file_name = os.path.basename(config_file)
+    with open(config_file_name) as file:
         INFO.log('Loading configuration file ----> %s' % config_file)
         config = yaml.load(file, Loader=yaml.FullLoader)
     return config
@@ -102,7 +103,7 @@ def color_to_ROOT(color_input : str):
     return root_color + calculate_color_operations(color_operations)
 
 def build_background(background_samples : list, qcd_sample : str):    
-    background = {'QCDjj' : [qcd_sample,ROOT.kViolet-4,0]}
+    background = {}
     for sample_dict in background_samples:
         try:
             sample_name = sample_dict['name']
@@ -117,6 +118,7 @@ def build_background(background_samples : list, qcd_sample : str):
 
         background[sample_name] = [sample_file, sample_color, 0]
 
+    background['QCDjj'] = [qcd_sample,ROOT.kViolet-4,0]
     return background
 
 def build_zprime_pack(zprime_pack : dict):
@@ -154,10 +156,15 @@ def generate_watermark(after_fit : bool, qcd_sample : str, vbf_sample : str):
 def get_args():
     parser = argparse.ArgumentParser(description='Plot the histograms.')
     parser.add_argument('config_file', type=str, help='The configuration file to use.')
+    parser.add_argument('--debug', action='store_true', help='Set the log level to debug.')
     return parser.parse_args()
 
 def Plot():
+    # Get arguments and set the log level.
     args = get_args()
+    Logger.LOGLEVEL = 3
+    if args.debug:
+        Logger.LOGLEVEL = 4
     # Get the configuration file.
     config = load_config(args.config_file)
     print_config(config)
@@ -225,7 +232,6 @@ def Plot():
     DEBUG.log('ZPRIME_PACK ----> %s' % ZPRIME_PACK)
 
     # Run the plotting.
-    '''
     stackPlot(data = DATA,
               signal = SIGNAL,
               background = BACKGROUND,
@@ -244,7 +250,6 @@ def Plot():
               printOverflows = PRINT_OVERFLOWS,
               purityMultiplier = PURITY_MULTIPLIER
               )
-    '''
+    
 if __name__ == '__main__':
-    Logger.LOGLEVEL = 4
     Plot()

@@ -1,17 +1,23 @@
-signal_sample: Signal_Sherpa.root
-qcd_sample: Ztautau_SherpaRW.root
+signal_sample: Signal_MG.root
+qcd_sample: Zll_SherpaRW.root
 is_CR : False
 is_post_fit : True
-vbf_scale: 1.2
-qcd_scale: 1.3
+vbf_scale: 1.649
+qcd_scale: 0.919
 histograms: llQCDCRHistograms
 final_state: Z#rightarrow ll
 region: Z-peak
 print_version: True
 background:
+    - name: W+jets
+      file: Wjets.root
+      color: kGreen
+    - name: ttbar
+      file: ttbar.root
+      color: kYellow-7
     - name: VV
       file: VV.root
-      color: kViolet-1
-    - name: QCDjj
-      file: QCDjj.root
-      color: kViolet-4
+      color: kAzure-4
+    - name: Single Top
+      file: singletop.root
+      color: kCyan
