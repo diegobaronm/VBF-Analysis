@@ -512,7 +512,7 @@ def stackPlot(data,signal,background,histograms,watermark,
             file = r.TFile.Open(samples[s][0],"READ")
             hist = file.Get(i.m_name)
             if hist == None:
-                WARNING.log("Histogram not found in file: " + samples[s][0] + "... trying with basic_all suffix")
+                WARNING.log("Histogram not found in file: " + samples[s][0] + "... trying with basic_all post-fix.")
                 hist = file.Get(i.m_name + "_basic_all") # If the histogram is not found, try with the basic_all suffix
                 if hist == None:
                     WARNING.log("Histogram not found in file: ",samples[s][0])
@@ -523,12 +523,12 @@ def stackPlot(data,signal,background,histograms,watermark,
             DEBUG.log("Sample "+s+" found in file: "+samples[s][0])
             file.Close()
         if len(not_found_samples) == len(samples):
-            INFO.log("Skipping histogram!!! ")
+            INFO.log("Histogram not found in any sample. Skipping histogram!!! ")
             continue
 
-        ###### CONTINUE ON ILL FORMED PLOTS ######
+        ###### CONTINUE ON ILL-FORMED PLOTS ######
         if "Data" in not_found_samples or "Signal" in not_found_samples or "QCDjj" in not_found_samples:
-            WARNING.log("Data, Signal or QCDjj not found in the samples!")
+            WARNING.log("Histogram not found in Data, Signal or QCDjj samples!")
             WARNING.log("Skipping histogram!!! ")
             continue
 
@@ -609,7 +609,12 @@ def stackPlot(data,signal,background,histograms,watermark,
 
         ############## BLINDING BINS WITH ABOVE THE PURITY LIMIT OR IN THE SELECTED REGION AND DEFINING Data/MC RATIO ################
         if blind:
-            blindedBins = blindHistogram(samples["Data"][2],ratio_Zp_SM,unblindPurityLimit, Zprime_pack[first_zp_key][2], statUncer,i.m_name,i.m_leftCut,i.m_rightCut)
+            ratio_signal_mc = ratio_sg_mc
+            signal_histogram = samples["Signal"][2]
+            if Zprime_pack != None:
+                ratio_signal_mc = ratio_Zp_SM
+                signal_histogram = Zprime_pack[first_zp_key][2]
+            blindedBins = blindHistogram(samples["Data"][2],ratio_signal_mc,unblindPurityLimit, signal_histogram, statUncer,i.m_name,i.m_leftCut,i.m_rightCut)
         ratio = r.TGraphAsymmErrors()
         ratio.Divide(mc,samples["Data"][2],"pois")
 

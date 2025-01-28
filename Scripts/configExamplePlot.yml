@@ -1,23 +1,60 @@
-signal_sample: Signal_MG.root
-qcd_sample: Zll_SherpaRW.root
+signal_sample: Signal_truth_MG.root
+qcd_sample: Ztautau_SherpaRW.root
 is_CR : False
 is_post_fit : True
 vbf_scale: 1.649
 qcd_scale: 0.919
-histograms: llQCDCRHistograms
-final_state: Z#rightarrow ll
-region: Z-peak
+histograms: tautauHighMassTightTauHistograms
+final_state: Z#rightarrow#tau#tau
+region: High-Mass SR OS
 print_version: True
+print_overflows: True
+blind: True
+blind_mass: False
+additional_signal: 
+    - Higgs
+unblind_purity_limit: 1
 background:
-    - name: W+jets
-      file: Wjets.root
-      color: kGreen
-    - name: ttbar
-      file: ttbar.root
-      color: kYellow-7
     - name: VV
       file: VV.root
       color: kAzure-4
+    - name: VV EWK
+      file: VV_EWK.root
+      color: kAzure-4+1
+    - name: W+jets
+      file: Wjets.root
+      color: kGreen
+    - name: W+jets EWK
+      file: W_EWK_Sherpa.root
+      color: kGreen+1
+    - name: Z+jets
+      file: Zjets.root
+      color: kRed
+    - name: ttbar
+      file: ttbar.root
+      color: kYellow-7
     - name: Single Top
       file: singletop.root
       color: kCyan
+    - name: MJ
+      file: MJ.root
+      color: kAzure+4
+    - name: Higgs
+      file: Higgs.root
+      color: kTeal-4
+Zprime_pack:
+    - name: Zp_200
+      file: Zprime_200.root
+      color: kGreen
+    - name: Zp_250
+      file: Zprime_250.root
+      color: kGreen+1
+    - name: Zp_300
+      file: Zprime_300.root
+      color: kGreen+2
+    - name: Zp_400
+      file: Zprime_400.root
+      color: kRed
+    - name: Zp_500
+      file: Zprime_500.root
+      color: kViolet-9

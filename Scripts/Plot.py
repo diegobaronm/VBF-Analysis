@@ -27,14 +27,17 @@ def load_config(config_file : str):
     return config
 
 def print_config(config, indent = ''):
-    for key, value in config.items():
-        if type(value) == list:
-            INFO.log(key+' ----> ')
-            for i in value:
-                print_config(i,indent+'  ')
-                INFO.log('-------------------------------')
-        else:
-            INFO.log(indent+str(key) + '  ----> ' + str(value))
+    if type(config) == dict:
+        for key, value in config.items():
+            if type(value) == list:
+                INFO.log(key+' ----> ')
+                for i in value:
+                    print_config(i,indent+'  ')
+                    INFO.log('-------------------------------')
+            else:
+                INFO.log(indent+str(key) + '  ----> ' + str(value))
+    else:
+        INFO.log(indent+str(config))
 
 def verify():
     print('')
@@ -210,7 +213,12 @@ def Plot():
     PRINT_OVERFLOWS = config['print_overflows']
     PURITY_MULTIPLIER = config['purity_multiplier']
     ZPRIME_PACK = build_zprime_pack(config['Zprime_pack'])
-    ADDITIONAL_SIGNAL = [config['additional_signal']]
+    ADDITIONAL_SIGNAL = config['additional_signal']
+    if type(ADDITIONAL_SIGNAL) != list:
+        ERROR.log('Additional signal must be a list.')
+        exit(1)
+    if ZPRIME_PACK != None:
+        WATERMARK += '_Zprime'
 
     # Print the configuration for debugging.
     DEBUG.log('DATA ----> %s' % DATA)
