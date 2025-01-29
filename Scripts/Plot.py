@@ -216,6 +216,8 @@ def Plot():
     PURITY_MULTIPLIER = config['purity_multiplier']
     ZPRIME_PACK = build_zprime_pack(config['Zprime_pack'])
     ADDITIONAL_SIGNAL = config['additional_signal']
+    if 'MG' in config['signal_sample']:
+            ADDITIONAL_SIGNAL.remove('Higgs_EWK')
     if type(ADDITIONAL_SIGNAL) != list:
         ERROR.log('Additional signal must be a list.')
         exit(1)
