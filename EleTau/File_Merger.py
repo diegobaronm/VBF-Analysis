@@ -26,7 +26,8 @@ try :
 		os.system('hadd -j 4 '+channel_dir+'MC/out/Ztautau_MGNLO.root NOMINAL/Ztautau_MGNLO*.root')
 		os.system('hadd -j 4 '+channel_dir+'MC/out/Ztautau_SherpaNLO.root NOMINAL/Ztautau_SherpaNLO*.root')
 		os.system('hadd -j 4 '+channel_dir+'MC/out/Zjets.root NOMINAL/Zmumu_*.root NOMINAL/Zee_*.root')
-		os.system('hadd -j 4 '+channel_dir+'MC/out/Higgs.root NOMINAL/WpH*.root NOMINAL/WmH*.root NOMINAL/ZHllbb*.root NOMINAL/ZHlltautau*.root NOMINAL/ggHttlm15hp20*.root NOMINAL/ggHttlp15hm20*.root NOMINAL/VBFHttlm15hp20*.root NOMINAL/VBFHttlp15hm20*.root')
+		os.system('hadd -j 4 '+channel_dir+'MC/out/Higgs.root NOMINAL/WpH*.root NOMINAL/WmH*.root NOMINAL/ZHllbb*.root NOMINAL/ZHlltautau*.root NOMINAL/ggHttlm15hp20*.root NOMINAL/ggHttlp15hm20*.root')
+		os.system('hadd -j 4 '+channel_dir+'MC/out/Higgs_EWK.root NOMINAL/VBFHttlm15hp20*.root NOMINAL/VBFHttlp15hm20*.root')
 		os.system('hadd -j 4 '+channel_dir+'MC/out/VV.root NOMINAL/llll_*.root NOMINAL/lllv_*.root NOMINAL/llvv_*.root NOMINAL/lvvv_*.root NOMINAL/ZqqZvv_*.root NOMINAL/ZqqZll_*.root NOMINAL/WqqZvv_*.root NOMINAL/WqqZll_*.root NOMINAL/WlvZqq_*.root')
 		os.system('hadd -j 4 '+channel_dir+'MC/out/Wjets.root NOMINAL/Wplusenu_*.root NOMINAL/Wminusenu_*.root NOMINAL/Wplusmunu_*.root NOMINAL/Wminusmunu_*.root NOMINAL/Wplustaunu_*.root NOMINAL/Wminustaunu_*.root')
 		os.system('hadd -j 4 '+channel_dir+'MC/out/singletop.root NOMINAL/st_schan_top_*.root NOMINAL/st_schan_atop_*.root NOMINAL/st_tchan_top_*.root NOMINAL/st_tchan_atop_*.root NOMINAL/st_wt_top_*.root NOMINAL/st_wt_atop_*.root')
@@ -39,7 +40,7 @@ try :
 			os.system('hadd -j 4 '+channel_dir+'MC/out/Zprime_'+str(mass)+'.root NOMINAL/VBF_Zprime_'+str(mass)+'*.root')
 		# Create the BG and MC files
 		cmd = "hadd -4 "+channel_dir+"MC/out/BG.root "
-		for sample in ["VV_EWK.root","W_EWK_Sherpa.root","VV.root","singletop.root","Wjets.root","Zjets.root","ttbar.root","Ztautau_Sherpa.root","Higgs.root"]:
+		for sample in ["VV_EWK.root","W_EWK_Sherpa.root","VV.root","singletop.root","Wjets.root","Zjets.root","ttbar.root","Ztautau_Sherpa.root","Higgs.root","Higgs_EWK.root"]:
 			cmd += channel_dir+"MC/out/"+sample + " "
 		os.system(cmd)
 		cmd = "hadd -4 "+channel_dir+"MC/out/MC.root "

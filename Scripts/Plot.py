@@ -182,6 +182,8 @@ def Plot():
         DATA = {"Data":["Data.root",ROOT.kBlack,0]}
         SIGNAL = {"Signal":[config['signal_sample'],ROOT.kOrange+1,0]} 
         BACKGROUND = build_background(config['background'], config['qcd_sample'])
+        if 'MG' in config['signal_sample']:
+            BACKGROUND.pop('Higgs_EWK')
         HISTOGRAMS = get_template(config['histograms'])
         EWjjSF = 1.0
         QCDjjSF = 1.0

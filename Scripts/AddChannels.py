@@ -25,12 +25,12 @@ def main(menu_option):
         Zp_tuples = [(i,i) for i in Zp_samples]
         sample_pairs=[("Data.root","Data.root"),("MC.root","MC.root"),("Signal_Sherpa.root","Signal_Sherpa.root"),
                     ("Signal_PoPy.root","Signal_PoPy.root"),("singletop.root","singletop.root"),("ttbar.root","ttbar.root"),
-                    ("VV.root","VV.root"),("Wjets.root","Wjets.root"),("Higgs.root","Higgs.root"),("Zjets.root","Zjets.root"),
+                    ("VV.root","VV.root"),("Wjets.root","Wjets.root"),("Higgs.root","Higgs.root"),("Higgs_EWK.root","Higgs_EWK.root"),("Zjets.root","Zjets.root"),
                     ("W_EWK_Sherpa.root","W_EWK_Sherpa.root"),("W_EWK_PoPy.root","W_EWK_PoPy.root"),("VV_EWK.root","VV_EWK.root"),
                     ("Ztautau_Sherpa.root","Ztautau_Sherpa.root"),("Ztautau_MG.root","Ztautau_MG.root"),
                     ("Ztautau_SherpaNLO.root","Ztautau_SherpaNLO.root"),("Ztautau_MGNLO.root","Ztautau_MGNLO.root"),] + Zp_tuples #+[("ttbar1bjet.root","ttbar1bjet.root"),("QCDjjOneGapJet.root","QCDjjOneGapJet.root")]
         output_names = ["Data.root","MC.root","Signal_Sherpa.root","Signal_PoPy.root","singletop.root","ttbar.root","VV.root",
-                        "Wjets.root","Higgs.root","Zjets.root","W_EWK_Sherpa.root","W_EWK_PoPy.root","VV_EWK.root",
+                        "Wjets.root","Higgs.root","Higgs_EWK.root","Zjets.root","W_EWK_Sherpa.root","W_EWK_PoPy.root","VV_EWK.root",
                         "Ztautau_SherpaRW.root","Ztautau_MGRW.root","Ztautau_SherpaNLORW.root","Ztautau_MGNLORW.root"] + Zp_samples#+["ttbar1bjet.root","QCDjjOneGapJet.root"]
         
         # Ask the name of the directory where files are stored
@@ -58,11 +58,11 @@ def main(menu_option):
 
         sample_pairs=[("Data.root","Data.root"),("MC.root","MC.root"),("Signal_Sherpa.root","Signal_Sherpa.root"),
              ("Signal_PoPy.root","Signal_PoPy.root"),("singletop.root","singletop.root"),("ttbar.root","ttbar.root"),
-             ("VV.root","VV.root"),("Wjets.root","Wjets.root"),("Higgs.root","Higgs.root"),("Zjets.root","Zjets.root"),
+             ("VV.root","VV.root"),("Wjets.root","Wjets.root"),("Higgs.root","Higgs.root"),("Higgs_EWK.root","Higgs_EWK.root"),("Zjets.root","Zjets.root"),
               ("Ztautau_SherpaRW.root","Ztautau_SherpaRW.root"),
              ("Ztautau_MGRW.root","Ztautau_MGRW.root"),('W_EWK_Sherpa.root','W_EWK_Sherpa.root'),('W_EWK_PoPy.root','W_EWK_PoPy.root'),('VV_EWK.root','VV_EWK.root')]
         output_names = ["Data.root","MC.root","Signal_Sherpa.root","Signal_PoPy.root","singletop.root","ttbar.root","VV.root",
-                "Wjets.root","Higgs.root","Zjets.root","Ztautau_SherpaRW.root","Ztautau_MGRW.root","W_EWK_Sherpa.root","W_EWK_PoPy.root","VV_EWK.root"]
+                "Wjets.root","Higgs.root","Higgs_EWK.root","Zjets.root","Ztautau_SherpaRW.root","Ztautau_MGRW.root","W_EWK_Sherpa.root","W_EWK_PoPy.root","VV_EWK.root"]
 
         # Define the input/output paths
         ztt_path="TauTau/Z-peak/SR/"

@@ -13,6 +13,7 @@ blind: True
 blind_mass: False
 additional_signal: 
     - Higgs
+    - Higgs_EWK
 unblind_purity_limit: 1
 background:
     - name: VV
@@ -41,6 +42,9 @@ background:
       color: kAzure+4
     - name: Higgs
       file: Higgs.root
+      color: kTeal-4
+    - name: Higgs_EWK
+      file: Higgs_EWK.root
       color: kTeal-4
 Zprime_pack:
     - name: Zp_200
