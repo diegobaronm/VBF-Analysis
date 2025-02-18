@@ -56,6 +56,8 @@ void CLoop::Book() {
   n_jets_intervalContainer = histogramContainer("n_jets_interval","N jets between rapidity interval",5,0,5,m_cutNames,"nji");
   Z_centralityContainer = histogramContainer("Z_centrality","Z boson centrality",350,0,3.5,m_cutNames,"zcen");
   inv_massContainer = histogramContainer("inv_mass","Invariant mass di-lepton system",1000,0,1000,m_cutNames,"mass");
+
+  sum_of_weights_store = std::make_unique<TH1F>("sum_of_weights_store","Sum of weights",2,0,2);
 }
 
 void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
@@ -96,6 +98,13 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
   // 0) Invariant mass of tagging jets.
   double mjj = Kinematics::Mass({ljet_0_p4, ljet_1_p4});
   double mll = Kinematics::Mass({elec_0_p4, elec_1_p4});
+
+  bool fiducial_selection = n_ljets>=2 && n_electrons==2 
+                            && trigger_decision && trigger_match
+                            && mjj>=500 && mll>=60 && correctCharge 
+                            && ljet_0_p4->Pt() > 25 && ljet_1_p4->Pt() > 25
+                            && elec_0_p4->Pt() > 27 && elec_1_p4->Pt() > 27;
+  Tools::RecordTotalWeightsAndAfterCut(sum_of_weights_store, weight_mc, fiducial_selection);
 
   if (correctCharge && n_electrons==2 && elec_id  && n_ljets>=2 && n_ljets<=3 && NOMINAL_pileup_combined_weight > -10 && mjj>=500 && mll >=40 && trigger_decision && trigger_match){
     g_LOG(LogLevel::DEBUG, "This event passes the basic selection cuts.");
@@ -231,7 +240,7 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
 }
 
 void CLoop::Style(double lumFactor) {
-
+  sum_of_weights_store->Write();
   lep1_etaContainer.Write();
   lep2_etaContainer.Write();
   delta_R_leplepContainer.Write();

@@ -31,6 +31,7 @@ histogramContainer vec_sum_pt_jetsContainer;
 histogramContainer ratio_zpt_sumjetptContainer;
 histogramContainer Z_pt_truthContainer;
 
+std::unique_ptr<TH1F> sum_of_weights_store;
 #endif
 
 histogramContainer delta_phiContainer;

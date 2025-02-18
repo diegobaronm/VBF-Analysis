@@ -160,4 +160,22 @@ bool passedAllCuts(const std::vector<int>& cuts){
     return passedAllCuts;
 }
 
+
+/**
+ * @brief Records the total weights and weights after a cut into a histogram.
+ * 
+ * This function fills the first bin of the provided histogram with the given weight.
+ * If the selection condition is true, it also fills the second bin with the same weight.
+ * 
+ * @param record_histogram A unique pointer to a TH1F histogram where the weights will be recorded.
+ * @param weight The weight of each event to be recorded in the histogram.
+ * @param selection A boolean indicating whether to record the weight in the second bin.
+ */
+void RecordTotalWeightsAndAfterCut(std::unique_ptr<TH1F>& record_histogram, double weight, bool selection){
+    double firstBin = 0;
+    double secondBin = 1;
+    record_histogram->Fill(firstBin,weight);
+    if (selection) record_histogram->Fill(secondBin,weight);
+}
+
 } // End of namespace Tools
