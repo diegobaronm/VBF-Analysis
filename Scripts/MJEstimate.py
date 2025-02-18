@@ -82,7 +82,7 @@ def main(base_path, SR_name, CR_name, histogram_dictionary):
     mcSamples = [EWjj,QCDjj]
     backgroundSamples = ['VV',"ttbar",'singletop']#+['Wjets',]
     if ("Tau" in channelPath) or ("MuEle" in channelPath):
-        backgroundSamples += ['Higgs','Zjets','W_EWK_Sherpa','VV_EWK']
+        backgroundSamples += ['Higgs','Higgs_EWK','Zjets','W_EWK_Sherpa','VV_EWK']
     mcSamples += backgroundSamples
     INFO.log("Samples being considered for data substraction: ", mcSamples)
 
@@ -183,6 +183,6 @@ def main(base_path, SR_name, CR_name, histogram_dictionary):
 
 if __name__ == "__main__":
     main(base_path = "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/TauTau/TauhadTaulep/High-Mass/",
-         SR_name = "MJValidation",
+         SR_name = "MJValidationNOBDT",
          CR_name = "MJCR",
          histogram_dictionary = tautauHighMassTightTauHistograms )

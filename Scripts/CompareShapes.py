@@ -1,9 +1,8 @@
 import ROOT as r
-from histogramHelpers import normalization, biner, HistogramInfo
-from histogramHelpers import tautauZpeakHistograms as REGION
+from histogramHelpers import normalization, biner, HistogramInfo, templatesDict
 MAX_Y_VALUE = 0.0
 
-def getMaxYValue(fileName, histogramName, histogramTemplate,prefix, postfix, compareDensity, region : list[HistogramInfo]):
+def getMaxYValue(fileName, histogramName, histogramTemplate,prefix, postfix, compareDensity):
     # Get hisogram from file
     f1 = r.TFile(fileName)
     h1 = f1.Get(prefix + histogramName + postfix)
@@ -14,7 +13,7 @@ def getMaxYValue(fileName, histogramName, histogramTemplate,prefix, postfix, com
     # Check if the histograms belongs to the region
     found = False
     histogramInfo = None
-    for i in region:
+    for i in REGION:
         if i.m_name == histogramTemplate:
             found = True
             histogramInfo = i
@@ -135,7 +134,7 @@ def compareShapesFromDifferentFiles(histogramName, histogramTemplate, prefix, po
     # Get the maximum value of the histograms
     global MAX_Y_VALUE
     for i in range(len(dictOfFiles)):
-        max_value = getMaxYValue(dictOfFiles[i]["path"], histogramName, histogramTemplate, prefix, postfix, useDensity, REGION)
+        max_value = getMaxYValue(dictOfFiles[i]["path"], histogramName, histogramTemplate, prefix, postfix, useDensity)
         if (max_value > MAX_Y_VALUE):
             MAX_Y_VALUE = max_value;
     
@@ -160,31 +159,36 @@ def main():
     # List of histograms to compare
     histoNamesTemplateDic = {}
     
-    histoNamesTemplateDic["Lepton_pt_basic"] = "lep_pt"
-    histoNamesTemplateDic["Tau_pt_basic"] = "tau_pt"
-    histoNamesTemplateDic["ljet0_pt_basic"] = "ljet0_pt"
-    histoNamesTemplateDic["ljet1_pt_basic"] = "ljet1_pt"
-    histoNamesTemplateDic["delta_phi_basic"] = "delta_phi"
-    histoNamesTemplateDic["delta_y_basic"] = "delta_y"
-    histoNamesTemplateDic["mass_jj_basic"] = "mass_jj"
-    histoNamesTemplateDic["reco_mass_basic"] = "reco_mass_"
-    histoNamesTemplateDic["dilepCentrality"] = "Z_centrality"
-    histoNamesTemplateDic["Z_pt_reco_basic"] = "Z_pt_reco"
+    histoNamesTemplateDic["tau_pt"] = "tau_pt"
+    histoNamesTemplateDic["lep_pt"] = "lep_pt"
+    histoNamesTemplateDic["ljet0_pt"] = "ljet0_pt"
+    histoNamesTemplateDic["ljet1_pt"] = "ljet1_pt"
+    histoNamesTemplateDic["delta_phi"] = "delta_phi"
+    histoNamesTemplateDic["delta_y"] = "delta_y"
+    histoNamesTemplateDic["mass_jj"] = "mass_jj"
+    histoNamesTemplateDic["reco_mass_"] = "reco_mass_"
+    histoNamesTemplateDic["Z_centrality"] = "Z_centrality"
+    histoNamesTemplateDic["Z_pt_reco_i_basic_all"] = "Z_pt_reco"
+    histoNamesTemplateDic["Z_pt_reco_o_basic_all"] = "Z_pt_reco"
+    histoNamesTemplateDic["omega"] = "omega"
+    histoNamesTemplateDic["bdtScore_basic_all"] = "bdtScore"
 
 
     # List of files to compare
     FILE_DICT = [
-        {"path" : "/Users/user/Downloads/LHE_NTuples/Zp_Weighted.root", "title" : "Zp only"},
-        {"path" : "/Users/user/Downloads/LHE_NTuples/HM_SM_Weighted.root", "title" : "SM only"},
-        {"path" : "/Users/user/Downloads/LHE_NTuples/Zp_Interference_SM_Weighted.root", "title" : "Zp + SM Inter."},
-        {"path" : "/Users/user/Downloads/LHE_NTuples/Zp_plus_SM_Weighted.root", "title" : "Zp + SM NO Inter."},
+        {"path" : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/TauTau/Z-peak/SR/Signal_truth_MG.root", "title" : "ATLAS MG Zpeak"},
+        {"path" : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/TauTau/Z-peak/SR/Signal_truth_Sherpa.root", "title" : "ATLAS Sherpa Zpeak"},
+        {"path" : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/TauTau/Z-peak/SR/Signal_truth_PoPy.root", "title" : "ATLAS PoPy Zpeak"},
     ]
     
     PREFIX = ''
     POSTFIX = ''
 
     # Add missing templates if needed
-    REGION.append(HistogramInfo('Z_pt_reco', [300], [50, 100], 50, 'pT(Z)',0,0,'GeV'),)
+    global REGION # Create a global variable to store the region dictionary.
+    REGION = templatesDict["tautauZpeakHistograms"]
+    REGION.append(HistogramInfo('Z_pt_reco', [300], [50, 100], 50, 'pT(Z)',0,0,'GeV'),) # Add things to this dict if needed.
+    REGION.append(HistogramInfo('bdtScore', [-0.4, 0.1, 0.5], [0.2, 0.25, 0.2, 0.25], 0.2, 'VBF-BDT score',0.3,1.0,''))
 
     for histoName, histoTemplate in histoNamesTemplateDic.items():
         compareShapesFromDifferentFiles(histoName, histoTemplate, PREFIX, POSTFIX, FILE_DICT, False)

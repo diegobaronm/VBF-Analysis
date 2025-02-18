@@ -1827,18 +1827,30 @@ infos = {
 'VBFHttlp15hm20_truth_2017_0': {'DSID'    : 346192,'events'  : 1853319.571799,'red_eff' :1,'sumw'    :1853319.571799,'xsec'    :0.237210,'kfac'    :2.000000,'fil_eff'    :0.040323},
 #VBFHttlp15hm20_truth_2015
 'VBFHttlp15hm20_truth_2015_0': {'DSID'    : 346192,'events'  : 1483023.836306,'red_eff' :1,'sumw'    :1483023.836306,'xsec'    :0.237210,'kfac'    :2.000000,'fil_eff'    :0.040323},
+#VBF_Ztautau_MG_bug_LM_truth_2017
+'VBF_Ztautau_MG_bug_LM_truth_2017_0': {'DSID'    : 545886,'events'  : 1381826.909011,'red_eff' :1,'sumw'    :1381826.909011,'xsec'    :1.071800,'kfac'    :1.000000,'fil_eff'    :1.000000},
+#VBF_Ztautau_MG_bug_LM_truth_2018
+'VBF_Ztautau_MG_bug_LM_truth_2018_0': {'DSID'    : 545886,'events'  : 1772757.506964,'red_eff' :1,'sumw'    :1772757.506964,'xsec'    :1.071800,'kfac'    :1.000000,'fil_eff'    :1.000000},
+#VBF_Ztautau_MG_bug_LM_truth_2015
+'VBF_Ztautau_MG_bug_LM_truth_2015_0': {'DSID'    : 545886,'events'  : 1068438.839045,'red_eff' :1,'sumw'    :1068438.839045,'xsec'    :1.071800,'kfac'    :1.000000,'fil_eff'    :1.000000},
+#VBF_Ztautau_MG_bug_HM_truth_2015
+'VBF_Ztautau_MG_bug_HM_truth_2015_0': {'DSID'    : 545887,'events'  : 9325.196324,'red_eff' :1,'sumw'    :9325.196324,'xsec'    :0.037449,'kfac'    :1.000000,'fil_eff'    :1.000000},
+#VBF_Ztautau_MG_bug_HM_truth_2018
+'VBF_Ztautau_MG_bug_HM_truth_2018_0': {'DSID'    : 545887,'events'  : 15652.351346,'red_eff' :1,'sumw'    :15652.351346,'xsec'    :0.037449,'kfac'    :1.000000,'fil_eff'    :1.000000},
+#VBF_Ztautau_MG_bug_HM_truth_2017
+'VBF_Ztautau_MG_bug_HM_truth_2017_0': {'DSID'    : 545887,'events'  : 12321.556517,'red_eff' :1,'sumw'    :12321.556517,'xsec'    :0.037449,'kfac'    :1.000000,'fil_eff'    :1.000000},
 #VBF_Ztautau_MG_LM_truth_2017
-'VBF_Ztautau_MG_LM_truth_2017_0': {'DSID'    : 545886,'events'  : 1381826.909011,'red_eff' :1,'sumw'    :1381826.909011,'xsec'    :1.071800,'kfac'    :1.000000,'fil_eff'    :1.000000},
+'VBF_Ztautau_MG_LM_truth_2017_0': {'DSID'    : 558313,'events'  : 335656.105093,'red_eff' :1,'sumw'    :335656.105093,'xsec'    :0.258260,'kfac'    :1.000000,'fil_eff'    :1.000000},
 #VBF_Ztautau_MG_LM_truth_2018
-'VBF_Ztautau_MG_LM_truth_2018_0': {'DSID'    : 545886,'events'  : 1772757.506964,'red_eff' :1,'sumw'    :1772757.506964,'xsec'    :1.071800,'kfac'    :1.000000,'fil_eff'    :1.000000},
+'VBF_Ztautau_MG_LM_truth_2018_0': {'DSID'    : 558313,'events'  : 438979.029957,'red_eff' :1,'sumw'    :438979.029957,'xsec'    :0.258260,'kfac'    :1.000000,'fil_eff'    :1.000000},
 #VBF_Ztautau_MG_LM_truth_2015
-'VBF_Ztautau_MG_LM_truth_2015_0': {'DSID'    : 545886,'events'  : 1068438.839045,'red_eff' :1,'sumw'    :1068438.839045,'xsec'    :1.071800,'kfac'    :1.000000,'fil_eff'    :1.000000},
-#VBF_Ztautau_MG_HM_truth_2015
-'VBF_Ztautau_MG_HM_truth_2015_0': {'DSID'    : 545887,'events'  : 9325.196324,'red_eff' :1,'sumw'    :9325.196324,'xsec'    :0.037449,'kfac'    :1.000000,'fil_eff'    :1.000000},
-#VBF_Ztautau_MG_HM_truth_2018
-'VBF_Ztautau_MG_HM_truth_2018_0': {'DSID'    : 545887,'events'  : 15652.351346,'red_eff' :1,'sumw'    :15652.351346,'xsec'    :0.037449,'kfac'    :1.000000,'fil_eff'    :1.000000},
+'VBF_Ztautau_MG_LM_truth_2015_0': {'DSID'    : 558313,'events'  : 258349.867402,'red_eff' :1,'sumw'    :258349.867402,'xsec'    :0.258260,'kfac'    :1.000000,'fil_eff'    :1.000000},
 #VBF_Ztautau_MG_HM_truth_2017
-'VBF_Ztautau_MG_HM_truth_2017_0': {'DSID'    : 545887,'events'  : 12321.556517,'red_eff' :1,'sumw'    :12321.556517,'xsec'    :0.037449,'kfac'    :1.000000,'fil_eff'    :1.000000},
+'VBF_Ztautau_MG_HM_truth_2017_0': {'DSID'    : 558314,'events'  : 2367.939652,'red_eff' :1,'sumw'    :2367.939652,'xsec'    :0.007394,'kfac'    :1.000000,'fil_eff'    :1.000000},
+#VBF_Ztautau_MG_HM_truth_2018
+'VBF_Ztautau_MG_HM_truth_2018_0': {'DSID'    : 558314,'events'  : 3177.324391,'red_eff' :1,'sumw'    :3177.324391,'xsec'    :0.007394,'kfac'    :1.000000,'fil_eff'    :1.000000},
+#VBF_Ztautau_MG_HM_truth_2015
+'VBF_Ztautau_MG_HM_truth_2015_0': {'DSID'    : 558314,'events'  : 1848.571260,'red_eff' :1,'sumw'    :1848.571260,'xsec'    :0.007394,'kfac'    :1.000000,'fil_eff'    :1.000000},
 #VBF_Zprime_200_truth_2018
 'VBF_Zprime_200_truth_2018_0': {'DSID'    : 545888,'events'  : 2638.209648,'red_eff' :1,'sumw'    :2638.209648,'xsec'    :0.052713,'kfac'    :4.000000,'fil_eff'    :1.000000},
 #VBF_Zprime_200_truth_2017

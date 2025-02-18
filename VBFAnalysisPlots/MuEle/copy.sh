@@ -12,10 +12,11 @@ cp ../../$parentDirectory/MC/out/Ztautau_PoPy.root .
 cp ../../$parentDirectory/MC/out/Ztautau_MG.root .
 cp ../../$parentDirectory/MC/out/Ztautau_MGNLO.root .
 cp ../../$parentDirectory/MC/out/Higgs.root .
+cp ../../$parentDirectory/MC/out/Higgs_EWK.root .
 cp ../../$parentDirectory/MC/out/Signal_PoPy.root .
 cp ../../$parentDirectory/MC/out/Signal_Sherpa.root .
 cp ../../$parentDirectory/MC/out/W_EWK_Sherpa.root .
 cp ../../$parentDirectory/MC/out/W_EWK_PoPy.root .
 cp ../../$parentDirectory/MC/out/VV_EWK.root .
-hadd BG.root VV.root singletop.root Wjets.root Zjets.root ttbar.root Ztautau_Sherpa.root Higgs.root
+hadd BG.root VV.root singletop.root Wjets.root Zjets.root ttbar.root Ztautau_Sherpa.root Higgs.root Higgs_EWK.root
 hadd MC.root BG.root Signal_Sherpa.root

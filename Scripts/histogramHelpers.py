@@ -33,7 +33,7 @@ class HistogramInfo:
     
     def xRangeIsCustom(self):
         if self.m_xRange[0] > self.m_xRange[1]:
-            print('WARNING: X range is inverted!\n')
+            WARNING.log('X range is inverted!\n')
         return self.m_xRange[0] != self.m_xRange[1]
 
 ############################################################################################################
@@ -45,7 +45,6 @@ def biner(edges,bin_widths,histogram):
         return
     
     # Get the first and last bin edges of the histogram
-    bins=[]
     first_bin = histogram.GetXaxis().GetBinLowEdge(1)
     last_bin = histogram.GetXaxis().GetBinUpEdge(histogram.GetNbinsX())
     edges_with_borders = [first_bin] + edges + [last_bin]
@@ -198,7 +197,7 @@ def ratioDataMinusBG(path_to_samples=os.getcwd(),signal_name="Signal",data_name=
             sampleName = i.GetName()
             i.Scale(SFs[sampleName])
         except KeyError:
-            print("No scale factor for sample: "+sampleName)
+            WARNING.log("No scale factor for sample: "+sampleName)
             continue
 
 
@@ -301,7 +300,7 @@ def makeSRBinsConsistentWithNOMJ(histogram,cutLeft,cutRight,totalMJ,totalMJUncer
     if integral == 0.0:
         return
     
-    print("Integral in SR bins: "+str(integral))
+    INFO.log("Integral in SR bins: "+str(integral))
     # Spread the MJ in the SR bins
     for i in range(1,histogram.GetNbinsX()+1):
         binMidPoint = histogram.GetBinCenter(i)
@@ -328,7 +327,7 @@ def blindHistogram(dataHistogram,
     # Check if the histogram is the reco_mass
     isRecoMass = False
     if "reco_mass" in histogramName:
-        print("Blinding reco_mass histogram")
+        INFO.log("Blinding reco_mass histogram")
         isRecoMass = True
 
     # Loop over all bins including underflow and overflow
@@ -449,12 +448,10 @@ def setupZprimeHistograms(histogram_objet : HistogramInfo, Zprime_pack):
 
 # Function to plot a histogram stack of MC with data
 def stackPlot(data,signal,background,histograms,watermark,
-              Zprime_pack = None,
+              Zprime_pack : dict = None,
               additionalSignal = [],
               signalMu = 1.0,
               backgroundMu = 1.0,
-              average = False,
-              after_fit = False,
               final_state = "Z#rightarrow #mu#mu",
               regionLabel = "",
               blind = True,
@@ -472,11 +469,12 @@ def stackPlot(data,signal,background,histograms,watermark,
     sampleNames = {"vbfName" : signal["Signal"][0], "qcdName" :background["QCDjj"][0]}
     for sample in sampleNames:
         sampleType = sampleNames[sample].split("_")[1]
+        if sampleType == "truth":
+            sampleType = sampleNames[sample].split("_")[2]
         sampleType = sampleType.replace(".root","") # Remove the .root extension
         sampleType = sampleType.replace("RW","") # Remove the RW extension
         sampleType = sampleType.replace("2","") # Some samples have a 2 at the end
-        sampleType = sampleType.replace("Flat","") # Some samples have a "Flat" attached at the end
-        # Asign the processed name to the dictionary
+        sampleType = sampleType.replace("Flat","") # Some samples have a "Flat" attached at the end        # Asign the processed name to the dictionary
         sampleNames[sample] = sampleType
 
 
@@ -500,8 +498,6 @@ def stackPlot(data,signal,background,histograms,watermark,
                 additionalSignal ,
                 signalMu ,
                 backgroundMu ,
-                average ,
-                after_fit ,
                 final_state ,
                 regionLabel ,
                 blind ,
@@ -511,38 +507,47 @@ def stackPlot(data,signal,background,histograms,watermark,
                 printOverflows ,
                 purityMultiplier )
 
+        not_found_samples = []
         for s in samples:
             file = r.TFile.Open(samples[s][0],"READ")
             hist = file.Get(i.m_name)
             if hist == None:
-                WARNING.log("Histogram not found in file: " + samples[s][0] + "... trying with basic_all suffix")
+                WARNING.log("Histogram not found in file: " + samples[s][0] + "... trying with basic_all post-fix.")
                 hist = file.Get(i.m_name + "_basic_all") # If the histogram is not found, try with the basic_all suffix
                 if hist == None:
                     WARNING.log("Histogram not found in file: ",samples[s][0])
+                    not_found_samples.append(s)
                     continue
             hist.SetDirectory(0)
-            samples[s].append
             samples[s][2]=hist # add histogram (TH1F) to list of samples
+            DEBUG.log("Sample "+s+" found in file: "+samples[s][0])
             file.Close()
-        if hist == None:
-                INFO.log("Skipping histogram!!! ")
-                continue
-        if average:
-            watermark = "Average"
-            if after_fit:
-                watermark = "Average_AfterFit"
+        if len(not_found_samples) == len(samples):
+            INFO.log("Histogram not found in any sample. Skipping histogram!!! ")
+            continue
+
+        ###### CONTINUE ON ILL-FORMED PLOTS ######
+        if "Data" in not_found_samples or "Signal" in not_found_samples or "QCDjj" in not_found_samples:
+            WARNING.log("Histogram not found in Data, Signal or QCDjj samples!")
+            WARNING.log("Skipping histogram!!! ")
+            continue
+
+        ###### DROP NOT FOUND SAMPLES ######
+        for s in not_found_samples:
+            WARNING.log("Dropping sample: "+s)
+            samples.pop(s)
 
         ###### REBIN AND NORMALISE ######
         if i.needsRebin():
-            rebining=biner(i.m_binEdges,i.m_binSteps,samples["Data"][2])
+            model_histogram = samples["Data"][2] if "Data" not in not_found_samples else samples[list(samples.keys())[0]][2]
+            rebining=biner(i.m_binEdges,i.m_binSteps,model_histogram)
             nb=len(rebining)-1
             for s in samples:
-                if 'Average' in samples[s][0]:
-                    print(s,samples[s])
+                if s == "MJ": # MJ should not be rebinned. It should come rebin already.
                     continue
-                else :    
-                    samples[s][2]=samples[s][2].Rebin(nb,s,rebining)
-            hist_list=[samples[s][2] for s in samples if 'Average' not in samples[s][0]]
+                samples[s][2]=samples[s][2].Rebin(nb,s,rebining)
+                samples[s][2].GetMaximum()
+            hist_list=[samples[s][2] for s in samples]
             normalization(hist_list,i.m_binNorm)
 
         ###### SETTING THE COLOURS ######
@@ -561,11 +566,10 @@ def stackPlot(data,signal,background,histograms,watermark,
         #################### DO Z PRIME SAMPLES ####################
         if Zprime_pack != None:
             setupZprimeHistograms(i,Zprime_pack)
-        #################### SCALING FACTORS FROM FIT ####################
 
-        if after_fit:
-            samples["Signal"][2].Scale(signalMu)
-            samples["QCDjj"][2].Scale(backgroundMu)
+        #################### SCALING FACTORS FROM FIT ####################
+        samples["Signal"][2].Scale(signalMu)
+        samples["QCDjj"][2].Scale(backgroundMu)
                 
         ####################### CREATING MC AND STACK HISTOGRAM ########################        
         
@@ -605,7 +609,12 @@ def stackPlot(data,signal,background,histograms,watermark,
 
         ############## BLINDING BINS WITH ABOVE THE PURITY LIMIT OR IN THE SELECTED REGION AND DEFINING Data/MC RATIO ################
         if blind:
-            blindedBins = blindHistogram(samples["Data"][2],ratio_Zp_SM,unblindPurityLimit, Zprime_pack[first_zp_key][2], statUncer,i.m_name,i.m_leftCut,i.m_rightCut)
+            ratio_signal_mc = ratio_sg_mc
+            signal_histogram = samples["Signal"][2]
+            if Zprime_pack != None:
+                ratio_signal_mc = ratio_Zp_SM
+                signal_histogram = Zprime_pack[first_zp_key][2]
+            blindedBins = blindHistogram(samples["Data"][2],ratio_signal_mc,unblindPurityLimit, signal_histogram, statUncer,i.m_name,i.m_leftCut,i.m_rightCut)
         ratio = r.TGraphAsymmErrors()
         ratio.Divide(mc,samples["Data"][2],"pois")
 
@@ -950,7 +959,8 @@ def stackPlot(data,signal,background,histograms,watermark,
         ratio_sg_mc.SetMarkerSize(0.6)
 
         ratio_sg_mc.Draw ("hist p E1 X0")
-        ratio_Zp_SM.Draw("hist p E1 X0 same")
+        if Zprime_pack != None:
+            ratio_Zp_SM.Draw("hist p E1 X0 same")
         ###### SETTING ALL THE HORIZONTAL DASHED LINES #######
 
         line11 = r.TLine (s ,0.80 ,e,0.80)
@@ -1118,16 +1128,16 @@ HistogramInfo('elecPdgID_basic_all', [], [], 1.0, 'elecPdgID_basic_all',0,0,''),
 HistogramInfo('muonPdgID_basic_all', [], [], 1.0, 'muonPdgID_basic_all',0,0,''),
 HistogramInfo('tauPdgID_basic_all', [], [], 1.0, 'tauPdgID_basic_all',0,0,''),
 HistogramInfo('nLightJets_basic_all', [], [], 1.0, 'nLightJets_basic_all',0,0,''),
-HistogramInfo('tau_pt', [25.0, 125.0, 150.0], [25.0, 20.0, 125.0, 350.0], 25.0, 'pT(#tau)',25,1000,'GeV'),
+HistogramInfo('tau_pt', [150.0, 250.0], [25.0, 100.0, 250.0], 25.0, 'pT(#tau)',25,1000,'GeV'),
 HistogramInfo('lep_pt', [27, 97, 297], [27, 35, 100, 203], 27, 'pT(l)',27,1000,'GeV'),
 HistogramInfo('delta_phi', [1.8], [0.9, 0.7], 0.7, '#Delta#phi(#tau,l)',0,0,''),
 HistogramInfo('delta_y', [2.0, 6.0], [2.0, 1.0, 4.0], 2.0, '#Deltay_{jj}',2.0,10.0,''),
 HistogramInfo('omega', [-0.2, 0.0, 0.6, 1.0, 1.6], [1.4, 0.2, 0.3, 0.2, 0.29999, 1.4], 0.2, '#Omega',-0.2,1.6,''),
 HistogramInfo('rnn_score_1p', [0.15, 0.25, 0.4], [0.15, 0.1, 0.15, 0.3], 0.1, 'jetRNN Score 1p',0.25,1.0,''),
 HistogramInfo('rnn_score_3p', [0.25, 0.55, 0.8], [0.25, 0.15, 0.25, 0.2], 0.15, 'jetRNN Score 3p',0.4,1.0,''),
-HistogramInfo('ljet0_pt', [75, 375, 625], [75, 100, 225, 375], 75, 'pT(j_{1})',75,1000,'GeV'),
-HistogramInfo('ljet1_pt', [70, 370, 630], [70, 100, 230, 370], 70, 'pT(j_{2})',70,1000,'GeV'),
-HistogramInfo('pt_bal', [0.15], [0.03, 0.75], 0.03, 'pT balance',0,0.15,''),
+HistogramInfo('ljet0_pt', [75, 375, 625], [75, 100, 250, 375], 75, 'pT(j_{1})',75,1000,'GeV'),
+HistogramInfo('ljet1_pt', [70, 370, 630], [70, 100, 260, 370], 70, 'pT(j_{2})',70,1000,'GeV'),
+HistogramInfo('pt_bal', [0.15], [0.03, 0.85], 0.03, 'pT balance',0,0.15,''),
 HistogramInfo('Z_centrality', [0.5,0.7,1.0, 2.0], [0.1, 0.19999, 0.3, 1.0, 3.0], 0.1, '#xi(Z)',0,0.5,'',xRange=[0,2]),
 HistogramInfo('mass_jj', [1000, 2500], [250, 750, 1250.0], 250, 'm_{jj}',1000,5000,'GeV',True),
 HistogramInfo('reco_mass_i', [66, 81, 101, 116, 160, 250, 500], [66, 15, 10, 15, 11, 30, 125, 250], 10, 'm_{#tau,l}(i)',66,116,'GeV',True),
@@ -1145,11 +1155,11 @@ HistogramInfo('massLepClosestJet_basic_all', [200, 500], [100, 100, 500], 100, '
 HistogramInfo('massTauFurthestJet_basic_all', [200, 500], [100, 100, 500], 100, 'm_{#tau,j_{furthest}}',0,0,'GeV'),
 HistogramInfo('nuTauPt', [30, 100], [15, 35, 100], 15, 'pT(#nu_{#tau})',0,0,'GeV'),
 HistogramInfo('nuPtAssummetry_basic_all', [0.0], [0.1, 0.1], 0.1, 'pT(#nu_{l}-#nu_{#tau})/(#nu_{l}+#nu_{#tau})',0,0,''),
-HistogramInfo('bdtScore', [-0.4, 0.1, 0.5], [0.1999, 0.25, 0.2, 0.25], 0.2, 'VBF-BDT score',0,0,'',xRange=[-1,1]),
+HistogramInfo('bdtScore', [-0.4, 0.1, 0.5], [0.2, 0.25, 0.2, 0.25], 0.2, 'VBF-BDT score',0,0,'',xRange=[-1,1]),
 HistogramInfo('lepNuPt', [30, 100], [15, 35, 100], 15, 'pT(#nu_{l})',0,0,'GeV'),
 HistogramInfo('pTsymmetry', [0.4], [0.2, 0.2], 0.2, 'pT(#tau - l)/(#tau + l)',0,0,''),
 #HistogramInfo('lepTransMass_basic_all', [100, 200], [20, 50, 50], 20, 'm_{T}(l)',0,0,'GeV'),
-HistogramInfo('lepTransMass', [60, 100, 200], [30, 40, 100, 250], 30, 'm_{T}(l)',0,0,'GeV'),
+HistogramInfo('lepTransMass', [60, 100, 200], [30, 40, 100, 300], 30, 'm_{T}(l)',0,0,'GeV'),
 HistogramInfo('tauTransMass_basic_all', [100, 200], [20, 50, 50], 20, 'm_{T}(#tau)',0,0,'GeV'),
 HistogramInfo('signedCentrality_basic_all', [0.0], [0.1, 0.1], 0.1, 'Signed #xi(Z)',0,0,''),
 HistogramInfo('visibleMass_basic_all', [40, 100, 150, 250], [40, 20, 25, 50, 250], 20, 'm(vis)_{#tau,l}',0,0,'GeV'),
@@ -1199,7 +1209,7 @@ HistogramInfo('lep1_pt', [100, 220, 300], [20, 40, 80, 200], 20, 'pT(l_{1})',50,
 HistogramInfo('lep2_pt', [100, 220, 300], [20, 40, 80, 200], 20, 'pT(l_{2})',40,500,'GeV'),
 HistogramInfo('ljet0_pt', [75, 200, 300, 500], [75, 25, 50, 100, 500], 25, 'pT(j_{1})',75,1000,'GeV'),
 HistogramInfo('ljet1_pt', [50,70, 195, 295, 495], [25, 20, 25, 50, 100, 505], 25, 'pT(j_{2})',70,1000,'GeV'),
-HistogramInfo('pt_bal', [0.15, 0.3], [0.0499, 0.15, 0.7], 0.15, 'pT balance',0,0.15,''),
+HistogramInfo('pt_bal', [0.15, 0.3], [0.05, 0.15, 0.7], 0.15, 'pT balance',0,0.15,''),
 HistogramInfo('Z_centrality', [0.5], [0.1, 0.5], 0.1, '#xi(Z)',0,0,'',xRange=[0,2]),
 HistogramInfo('delta_y', [2.0, 6.0], [2.0, 0.5, 4.0], 1.0, '#Deltay_{jj}',2.0,10.0,''),
 HistogramInfo('inv_mass', [70, 100, 160, 250, 500], [70, 6, 15, 30, 50, 250], 6, 'm_{ll}',101,1000,'GeV',True),
@@ -1244,7 +1254,7 @@ HistogramInfo('delta_phijj_basic_all', [3.0], [0.3, 0.2], 0.3, '#Delta#phi(j_{1}
 HistogramInfo('massTauClosestJet_basic_all', [100, 200, 500], [10, 20, 50, 500], 10, 'm_{#tau,j_{closest}}',0,0,'GeV'),
 HistogramInfo('massLepClosestJet_basic_all', [100, 200, 500], [10, 20, 50, 500], 10, 'm_{l,j_{closest}}',0,0,'GeV'),
 HistogramInfo('massTauFurthestJet_basic_all', [100, 200, 500], [10, 20, 50, 500], 10, 'm_{#tau,j_{furthest}}',0,0,'GeV'),
-HistogramInfo('bdtScore', [-0.4, 0.1, 0.5], [0.1999, 0.25, 0.2, 0.25], 0.2, 'VBF-BDT score',0.0,0.0,''),
+HistogramInfo('bdtScore', [-0.4, 0.1, 0.5], [0.2, 0.25, 0.2, 0.25], 0.2, 'VBF-BDT score',0.0,0.0,''),
 HistogramInfo('lepNuPt', [30, 100], [15, 35, 100], 15, 'pT(#nu_{l})',30,1000,'GeV'),
 HistogramInfo('pTsymmetry', [0.4], [0.35, 0.3], 0.3, 'pT(#tau - l)/(#tau + l)',-0.3,1.0,''),
 HistogramInfo('lepTransMass_basic_all', [100, 200], [20, 50, 50], 20, 'm_{T}(l)',0,0,'GeV'),
@@ -1289,7 +1299,7 @@ HistogramInfo('massLepClosestJet_basic_all', [200, 500], [100, 100, 500], 100, '
 HistogramInfo('massTauFurthestJet_basic_all', [200, 500], [100, 100, 500], 100, 'm_{#tau,j_{furthest}}',0,0,''),
 HistogramInfo('nuTauPt', [30, 100], [15, 35, 100], 15, 'pT(#nu_{#tau})',0,1000,'GeV'),
 HistogramInfo('nuPtAssummetry_basic_all', [0.0], [0.1, 0.1], 0.1, 'pT(#nu_{l}-#nu_{#tau})/(#nu_{l}+#nu_{#tau})',0,0,''),
-HistogramInfo('bdtScore', [-0.4, 0.1, 0.5], [0.1999, 0.25, 0.2, 0.25], 0.2, 'VBF-BDT score',-1.0,1.0,''),
+HistogramInfo('bdtScore', [-0.4, 0.1, 0.5], [0.2, 0.25, 0.2, 0.25], 0.2, 'VBF-BDT score',-1.0,1.0,''),
 HistogramInfo('lepNuPt', [30, 100], [15, 35, 100], 15, 'pT(#nu_{l})',0,1000,'GeV'),
 HistogramInfo('pTsymmetry', [0.4], [0.2, 0.2], 0.2, 'p_{T} asymmetry',-1.0,1.0,''),
 HistogramInfo('lepTransMass_basic_all', [60, 100, 200], [30, 40, 100, 250], 30, 'm_{T}(l)',0,0,'GeV'),
@@ -1336,7 +1346,7 @@ HistogramInfo('massLepClosestJet_basic_all', [200, 500], [100, 100, 500], 100, '
 HistogramInfo('massTauFurthestJet_basic_all', [200, 500], [100, 100, 500], 100, 'm_{#tau,j_{furthest}}',0,0,''),
 HistogramInfo('nuTauPt', [30, 100], [15, 35, 100], 15, 'pT(#nu_{#tau})',0,1000,'GeV'),
 HistogramInfo('nuPtAssummetry_basic_all', [0.0], [0.1, 0.1], 0.1, 'pT(#nu_{l}-#nu_{#tau})/(#nu_{l}+#nu_{#tau})',0,0,''),
-HistogramInfo('bdtScore', [-0.4, 0.1, 0.5], [0.1999, 0.25, 0.2, 0.25], 0.2, 'VBF-BDT score',0.3,1.0,''),
+HistogramInfo('bdtScore', [-0.4, 0.1, 0.5], [0.2, 0.25, 0.2, 0.25], 0.2, 'VBF-BDT score',0.3,1.0,''),
 HistogramInfo('lepNuPt', [30, 100], [15, 35, 100], 15, 'pT(#nu_{l})',0,1000,'GeV'),
 HistogramInfo('pTsymmetry', [0.4], [0.2, 0.2], 0.2, 'p_{T} asymmetry',-0.3,1.0,''),
 HistogramInfo('lepTransMass_basic_all', [60, 100, 200], [30, 40, 100, 250], 30, 'm_{T}(l)',0,0,'GeV'),
@@ -1447,7 +1457,7 @@ HistogramInfo('massLepClosestJet_basic_all', [200, 500], [100, 100, 500], 100, '
 HistogramInfo('massTauFurthestJet_basic_all', [200, 500], [100, 100, 500], 100, 'm_{#tau,j_{furthest}}',0,0,''),
 HistogramInfo('nuTauPt', [30, 100], [15, 35, 100], 15, 'pT(#nu_{#tau})',15,1000,'GeV'),
 HistogramInfo('nuPtAssummetry_basic_all', [0.0], [0.1, 0.1], 0.1, 'pT(#nu_{l}-#nu_{#tau})/(#nu_{l}+#nu_{#tau})',0,0,''),
-HistogramInfo('bdtScore', [-0.4, 0.1, 0.5], [0.1999, 0.25, 0.2, 0.25], 0.2, 'VBF-BDT score',0.3,1.0,''),
+HistogramInfo('bdtScore', [-0.4, 0.1, 0.5], [0.2, 0.25, 0.2, 0.25], 0.2, 'VBF-BDT score',0.3,1.0,''),
 HistogramInfo('lepNuPt', [30, 100], [15, 35, 100], 15, 'pT(#nu_{l})',30,1000,'GeV'),
 HistogramInfo('pTsymmetry', [-0.6,0.6], [0.4,0.3, 0.4], 0.3, 'p_{T} asymmetry',-0.3,1.0,''),
 HistogramInfo('lepTransMass_basic_all', [100, 200], [20, 50, 50], 20, 'm_{T}(l)',0,0,'GeV'),
@@ -1494,7 +1504,7 @@ HistogramInfo('massLepClosestJet_basic_all', [200, 500], [100, 100, 500], 100, '
 HistogramInfo('massTauFurthestJet_basic_all', [200, 500], [100, 100, 500], 100, 'm_{#tau,j_{furthest}}',0,0,''),
 HistogramInfo('nuTauPt', [30, 100], [15, 35, 100], 15, 'pT(#nu_{#tau})',15,1000,''),
 HistogramInfo('nuPtAssummetry_basic_all', [0.0], [0.1, 0.1], 0.1, 'pT(#nu_{l}-#nu_{#tau})/(#nu_{l}+#nu_{#tau})',0,0,''),
-HistogramInfo('bdtScore', [-0.4, 0.1, 0.5], [0.1999, 0.25, 0.2, 0.24999], 0.2, 'VBF-BDT score',-1.0,1.0,''),
+HistogramInfo('bdtScore', [-0.4, 0.1, 0.5], [0.2, 0.25, 0.2, 0.24999], 0.2, 'VBF-BDT score',-1.0,1.0,''),
 HistogramInfo('lepNuPt', [30, 100], [15, 35, 100], 15, 'pT(#nu_{l})',30,1000,''),
 HistogramInfo('pTsymmetry', [0.4], [0.2, 0.2], 0.2, 'pT(#tau - l)/(#tau + l)',-0.3,1.0,''),
 #HistogramInfo('lepTransMass_basic_all', [100, 200], [20, 50, 50], 20, 'm_{T}(l)',0,0,''),
@@ -1542,7 +1552,7 @@ HistogramInfo('massLepClosestJet_basic_all', [200, 500], [100, 100, 500], 100, '
 HistogramInfo('massTauFurthestJet_basic_all', [200, 500], [100, 100, 500], 100, 'm_{#tau,j_{furthest}}',0,0,''),
 HistogramInfo('nuTauPt', [30, 100], [15, 35, 100], 15, 'pT(#nu_{#tau})',15,1000,''),
 HistogramInfo('nuPtAssummetry_basic_all', [0.0], [0.1, 0.1], 0.1, 'pT(#nu_{l}-#nu_{#tau})/(#nu_{l}+#nu_{#tau})',0,0,''),
-HistogramInfo('bdtScore', [-0.4, 0.1, 0.5], [0.1999, 0.25, 0.2, 0.25], 0.2, 'VBF-BDT score',0.3,1.0,''),
+HistogramInfo('bdtScore', [-0.4, 0.1, 0.5], [0.2, 0.25, 0.2, 0.25], 0.2, 'VBF-BDT score',0.3,1.0,''),
 HistogramInfo('lepNuPt', [30, 100], [15, 35, 100], 15, 'pT(#nu_{l})',30,1000,''),
 HistogramInfo('pTsymmetry', [0.4], [0.2, 0.2], 0.2, 'pT(#tau - l)/(#tau + l)',-0.3,1.0,''),
 HistogramInfo('lepTransMass_basic_all', [100, 200], [20, 50, 50], 20, 'm_{T}(l)',0,0,''),
@@ -1553,6 +1563,22 @@ HistogramInfo('visibleMass_basic_all', [40, 100, 150, 250], [40, 20, 25, 50, 250
 HistogramInfo('recoVisibleMassRatio', [1.0, 2.0], [0.2, 0.5, 1.0], 0.2, 'm(reco)_{#tau,l}/m(vis)_{#tau,l}',0,4.0,''),
 ]
 
+templatesDict = {
+    'eeZpeakHistograms' : eeZpeakHistograms,
+    'mumuZpeakHistograms' : mumuZpeakHistograms,
+    'llZpeakHistograms' : llZpeakHistograms,
+    'tautauZpeakHistograms' : tautauZpeakHistograms,
+    'llMidRangeHistograms' : llMidRangeHistograms,
+    'llHighRangeHistograms' : llHighRangeHistograms,
+    'llQCDCRHistograms' : llQCDCRHistograms,
+    'tautauInclusiveHistograms' : tautauInclusiveHistograms,
+    'tautauHighMassCutBasedHistograms' : tautauHighMassCutBasedHistograms,
+    'tautauHighMassHistograms' : tautauHighMassHistograms,
+    'tautauHighMassTightTauHistograms' : tautauHighMassTightTauHistograms,
+    'tautauHighMassMJHistograms' : tautauHighMassMJHistograms,
+    'tautauHiggsHistograms' : tautauHiggsHistograms,
+    'tautauHiggsBDTHistograms' : tautauHiggsBDTHistograms,
+}
 
 if __name__ == "__main__":
     print("This is a module with histogram helpers. Import it to use it!")
