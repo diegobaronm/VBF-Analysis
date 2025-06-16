@@ -1,6 +1,0 @@
-Zee_sherpa2_2018_3 yes NOMINAL
-Zee_sherpa3_2018_2 yes NOMINAL
-Zee_sherpa12_2015_2 yes NOMINAL
-Zee_MG2_2017_0 yes NOMINAL
-Zee_MG3_2017_1 yes NOMINAL
-Zee_MG13_2018_0 yes NOMINAL
