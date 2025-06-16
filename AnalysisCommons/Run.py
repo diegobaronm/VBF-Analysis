@@ -212,7 +212,11 @@ def RunAnalysis(analysis_function, dataCombos):
     # see if the code is executed in remote mode
     remote_mode = isRunningRemote(parser.remote)
 
-    
+    # Before running, we always compile the C++ code (we assume the code is run from the Channel/MC directory).
+    # The C++ code is at the same level in the backend directory.
+    INFO.log("Compiling C++ code...")
+    r.gROOT.ProcessLine(".L backend/CLoop.C+")
+    INFO.log("C++ code compiled successfully.")
 
     # iterate over chains from user input
     if running_from_txt:
