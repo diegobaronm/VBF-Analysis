@@ -3,6 +3,7 @@ import ROOT as r
 import os
 import sys
 import argparse
+from multiprocessing import Pool
 
 # Define  colours for the output
 class bcolors:
@@ -156,10 +157,11 @@ def createParser():
     parser = argparse.ArgumentParser(description="Run VBF Analysis!")
 
     # Add positional arguments
-    parser.add_argument("sample", help="The name of the sample from the ones on the metadata.", type=str)
+    parser.add_argument("sample", help="The name of the sample from the ones on the metadata. It can also be a file in which case the code will check that the path exists and will do parallel processing according to the optional --j parameter.", type=str)
     parser.add_argument("remote", help="Is the code running remotely? (yes/no)", type=str, choices=["yes", "no"])
     parser.add_argument("tree", help="Tree to run over. Usually NOMINAL.", type=str,)
     parser.add_argument("region", help="Region to run over. Should contain OS or SS in the name.", type=str)
+    parser.add_argument("--j", help="Number of jobs to run in parallel. Default is 1.", type=int, default=1)
 
     # Parse arguments
     args = parser.parse_args()
@@ -171,20 +173,55 @@ def createParser():
 
     return args
 
+def get_combos_from_txt_file(file_path):
+    """
+    Function to get the combos from a text file.
+    The text file should contain one combo per line.
+    """
+    combos = []
+    try:
+        with open(file_path, 'r') as f:
+            for line in f:
+                line = line.strip()
+                if line:  # Check if the line is not empty
+                    combos.append(line)
+    except FileNotFoundError:
+        ERROR.log(f"File {file_path} not found.")
+        exit(1)
+    
+    return combos
+
 def RunAnalysis(analysis_function, dataCombos):
     # create parser
     parser = createParser()
 
-    # get input from user
-    chains = getInput(dataCombos)
+    # check if the user wants to run from a set of samples defined in a text file.
+    running_from_txt = parser.sample.endswith(".txt")
+    if running_from_txt:
+        chains = get_combos_from_txt_file(parser.sample)
+        
+        # check if the user wants multicore processing
+        if parser.j == 1:
+            WARNING.log("You are running the code in single-core mode. If you want to run in parallel, please use --j parameter.")
+        else :
+            INFO.log("You are running the code in multi-core mode with %d jobs." % parser.j)
+    else:
+        # get input from user
+        chains = getInput(dataCombos)
 
     # see if the code is executed in remote mode
     remote_mode = isRunningRemote(parser.remote)
 
+    
+
     # iterate over chains from user input
-    for sample in chains:
-        INFO.log("Running analysis for: "+sample)
-        analysis_function(sample,remote_mode, parser)
+    if running_from_txt:
+        with Pool(processes=parser.j) as pool:
+            pool.starmap(analysis_function, [(sample, remote_mode, parser) for sample in chains])
+    else:
+        for sample in chains:
+            INFO.log("Running analysis for: " + sample)
+            analysis_function(sample, remote_mode, parser)
 
 if __name__ == "__main__":
     print("This script is not meant to be run directly.")

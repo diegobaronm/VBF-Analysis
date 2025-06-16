@@ -354,7 +354,7 @@ def blindHistogram(dataHistogram,
         signal = signalHistogram.GetBinContent(i)
         totalUncertainty = totalUncertaintyHistogram.GetBinError(i)
         # If the signal is larger than the total uncertainty, blind the bin
-        if signal >= totalUncertainty:
+        if signal >= totalUncertainty and not isRecoMass:
             criterion2 = True
 
         # Here you make the decision... if any of the criteria is met, blind the bin

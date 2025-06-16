@@ -94,7 +94,7 @@ def sample_file_generator(type_of_ntuples, rem, region):
 if __name__ == "__main__":
     # Ask questions to the user
     ntuples_type = menu("Nominal or systematics?",["Nominal","Systematics"])
-    running_machine = menu("Wher are you running?",["Local","Lxplus"])
+    running_machine = menu("Where are you running?",["Local","Lxplus"])
     region = input("Which region are you running? ")
 
     sample_file_generator(ntuples_type, running_machine==2, region)
