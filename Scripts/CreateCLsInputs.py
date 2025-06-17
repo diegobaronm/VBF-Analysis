@@ -48,15 +48,18 @@ def greater_than_160(bin_center):
     
 if __name__ == '__main__':
     Data = "Data.root"
-    EWKjj = 'Signal_Sherpa.root'
+    EWKjj = 'Signal_truth_MG.root'
     QCDjj = 'Ztautau_SherpaRW.root'
 
     Background = [EWKjj, QCDjj, "VV.root","VV_EWK.root","W_EWK_Sherpa.root","Zjets.root","ttbar.root","singletop.root","MJ.root","Higgs.root"]
+    if "MG" not in EWKjj:
+        Background.append("Higgs_EWK.root")
+
     Zprime_Pack = ["Zprime_200.root","Zprime_250.root","Zprime_300.root","Zprime_350.root","Zprime_400.root","Zprime_450.root","Zprime_500.root"]
 
     bkg, bkg_error = build_background(path='/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/TauTau/TauhadTaulep/High-Mass/NewBDTTightTauOS',
                                     samples=Background,
-                                    QCDjjSF=0.92,EWKjjSF=1.121,
+                                    QCDjjSF=0.919,EWKjjSF=1.649,
                                     selection_fn=greater_than_160,
                                     histogram_object=HistogramInfo('reco_mass_', [66, 81, 101, 116, 160, 250, 500], [66, 15, 10, 15, 11, 30, 125, 250], 10, 'm_{#tau,l}',160,1000,'GeV',True))
 
@@ -67,7 +70,7 @@ if __name__ == '__main__':
 
     Signal, Signal_error = build_sample(path='/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/TauTau/TauhadTaulep/High-Mass/NewBDTTightTauOS',
                                     sample=Zprime_Pack[0],
-                                    QCDjjSF=0.92,EWKjjSF=1.121,
+                                    QCDjjSF=0.919,EWKjjSF=1.649,
                                     selection_fn=greater_than_160,
                                     histogram_object=HistogramInfo('reco_mass_', [66, 81, 101, 116, 160, 250, 500], [66, 15, 10, 15, 11, 30, 125, 250], 10, 'm_{#tau,l}',160,1000,'GeV',True))
     
@@ -79,7 +82,7 @@ if __name__ == '__main__':
     for i in Zprime_Pack:
         signal, signal_error = build_sample(path='/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/TauTau/TauhadTaulep/High-Mass/NewBDTTightTauOS',
                                     sample=i,
-                                    QCDjjSF=0.92,EWKjjSF=1.121,
+                                    QCDjjSF=0.919,EWKjjSF=1.649,
                                     selection_fn=greater_than_160,
                                     histogram_object=HistogramInfo('reco_mass_', [66, 81, 101, 116, 160, 250, 500], [66, 15, 10, 15, 11, 30, 125, 250], 10, 'm_{#tau,l}',160,1000,'GeV',True))
         data_dict['Signal'+i.replace('.root','').replace('Zprime_','')] = signal
