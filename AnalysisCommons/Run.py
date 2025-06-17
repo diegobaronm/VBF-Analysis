@@ -162,6 +162,7 @@ def createParser():
     parser.add_argument("tree", help="Tree to run over. Usually NOMINAL.", type=str,)
     parser.add_argument("region", help="Region to run over. Should contain OS or SS in the name.", type=str)
     parser.add_argument("--j", help="Number of jobs to run in parallel. Default is 1.", type=int, default=1)
+    parser.add_argument("--clean", help="Clean the output directory before running the analysis. Default is False.", action='store_true')
 
     # Parse arguments
     args = parser.parse_args()
@@ -215,9 +216,24 @@ def RunAnalysis(analysis_function, dataCombos):
     # Before running, we always compile the C++ code (we assume the code is run from the Channel/MC directory).
     # The C++ code is at the same level in the backend directory.
     INFO.log("Compiling C++ code...")
-    r.gROOT.ProcessLine(".L backend/CLoop.C+")
+    try:
+        r.gROOT.ProcessLine(".L backend/CLoop.C+")
+    except Exception as e:
+        ERROR.log("Failed to compile C++ code: %s" % str(e))
+        exit(1)
     INFO.log("C++ code compiled successfully.")
 
+    # check if the user wants to clean the output directory
+    if parser.clean and not remote_mode:
+        INFO.log("Cleaning output directory...")
+        output_dir = "out/"+parser.tree+"/"
+        if os.path.exists(output_dir):
+            os.system("rm %s*" % output_dir)
+            INFO.log("Output directory cleaned.")
+        else:
+            ERROR.log("Output directory %s does not exist." % output_dir)
+            exit(1)
+        
     # iterate over chains from user input
     if running_from_txt:
         with Pool(processes=parser.j) as pool:

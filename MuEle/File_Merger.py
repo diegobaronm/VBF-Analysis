@@ -1,7 +1,7 @@
 import os
 import sys
 
-from Condor_Lister import menu
+from Scripts.CreateListToRun import menu
 
 clean=menu("Clean the output directories?",["No","Yes"])
 
