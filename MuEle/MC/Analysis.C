@@ -238,6 +238,7 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) { /
     cutVars.centrality = z_centrality;
     cutVars.omega = omega;
     cutVars.recoMass = reco_mass;
+    cutVars.recoVisibleMassRatio = reco_mass/massMuonElec;
 
     // Apply cuts 
     std::vector<int> cuts = ApplySelection(m_region, cutVars);
