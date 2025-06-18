@@ -219,8 +219,7 @@ def main():
     parser.add_argument("output_name", type=str, help="Name of the output file to be created.")
     args = parser.parse_args()
 
-    print(args)
-
+    INFO.log("Gathering samples from the local path: ", args.local_path)
     list_of_samples = gather_samples(args.local_path)
     INFO.log("Gathered samples: ", list_of_samples)
 

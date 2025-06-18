@@ -3,10 +3,10 @@ from ROOT import gStyle
 import numpy as np
 import ctypes
 import os
-from histogramHelpers import tautauInclusiveHistograms,tautauHighMassHistograms,tautauHighMassMJHistograms,emuHighMassHistograms,tautauZpeakHistograms,tautauHiggsBDTHistograms,tautauHiggsHistograms, tautauHighMassCutBasedHistograms, tautauHighMassTightTauHistograms
-from histogramHelpers import dataSubtract, makeNegativeBinsZero, mcAdd, makeSRBinsConsistentWithNOMJ, scaleUncertainty
+from histogramHelpers import dataSubtract, makeNegativeBinsZero, mcAdd, makeSRBinsConsistentWithNOMJ, scaleUncertainty, templatesDict
 from AnalysisCommons.Run import INFO, WARNING, ERROR, DEBUG, Logger
 from CreateListToRun import menu
+import argparse
 Logger.LOGLEVEL = 3
 
 def errorAoverB (histoA,histoB):
@@ -84,7 +84,11 @@ def main(base_path, SR_name, CR_name, histogram_dictionary):
     if ("Tau" in channelPath) or ("MuEle" in channelPath):
         backgroundSamples += ['Higgs','Higgs_EWK','Zjets','W_EWK_Sherpa','VV_EWK']
     mcSamples += backgroundSamples
-    INFO.log("Samples being considered for data substraction: ", mcSamples)
+
+    # Inform user which samples are being used for data substraction
+    INFO.log("Samples being considered for data substraction: ")
+    for sample in mcSamples:
+        INFO.log(" - " + sample)
 
     # First evaluate if there is evidence for MJ BG.
     totalMJisZero = False
@@ -155,8 +159,8 @@ def main(base_path, SR_name, CR_name, histogram_dictionary):
                 INFO.log("Using provided (not calculated) RQCD value.")
                 # RQCD = 1.3 +- 0.25 -> Standard used in thesis version of the analysis.
                 # RQCD = 1.26 +- 0.25 -> Latest ANA.
-                RQCD = 1.36
-                UncerRQCD = 0.24
+                RQCD = 1.26
+                UncerRQCD = 0.25
                 INFO.log("RQCD = " + str(RQCD) + " +- " + str(UncerRQCD))
             
             # Calculate the MJ Background shape
@@ -182,7 +186,15 @@ def main(base_path, SR_name, CR_name, histogram_dictionary):
         multiJetFile.Close()
 
 if __name__ == "__main__":
-    main(base_path = "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/TauTau/TauhadTaulep/High-Mass/",
-         SR_name = "MJValidationNOBDT",
-         CR_name = "MJCR",
-         histogram_dictionary = tautauHighMassTightTauHistograms )
+    argparser = argparse.ArgumentParser(description="Estimate MJ background in TauHadTauLep channel.")
+    argparser.add_argument("base_path", type=str, help="Base path to the channel directory.")
+    argparser.add_argument("SR", type=str, help="Name of the signal region.")
+    argparser.add_argument("histo_templates", type=str, help="Name of the histogram templates to use.", default="tautauZpeakHistograms")
+    argparser.add_argument("--CR", type=str, help="Name of the control region. Optional, if not provided the code will use predetermined RQCD values.", default="ThisCRDoesNotExist")
+
+    args = argparser.parse_args()
+
+    main(base_path = args.base_path,
+         SR_name = args.SR,
+         CR_name = args.CR,
+         histogram_dictionary = templatesDict[args.histo_templates] )
