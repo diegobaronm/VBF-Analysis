@@ -1563,6 +1563,72 @@ HistogramInfo('visibleMass_basic_all', [40, 100, 150, 250], [40, 20, 25, 50, 250
 HistogramInfo('recoVisibleMassRatio', [1.0, 2.0], [0.2, 0.5, 1.0], 0.2, 'm(reco)_{#tau,l}/m(vis)_{#tau,l}',0,4.0,''),
 ]
 
+tauhadtauhadZPeakHistograms = [
+HistogramInfo('n_bjets', [], [], 1, 'n_bjets',-0.5,0.5),
+HistogramInfo('n_gapjets', [], [], 1, 'n_gapjets',-0.5,0.5),
+HistogramInfo('tau0_pt', [80,180,380], [40,50,100,120], 40, 'pT(#tau_{1})',80,500,'GeV'),
+HistogramInfo('tau1_pt', [60,200,320], [60,70,120,180], 60, 'pT(#tau_{2})',60,500,'GeV'),
+HistogramInfo('delta_yjj', [5], [1,1], 1, '#Deltay_{jj}',2.0,10.0,''),
+HistogramInfo('omega', [-1,-0.4,1.4,2], [1,0.6,0.2,0.6,1], 0.2, '#Omega',-3,4,''),
+HistogramInfo('ljet0_pt', [450,750], [75,150,250], 75, 'pT(j_{1})',75,1000,'GeV'),
+HistogramInfo('ljet1_pt', [420,700], [70,140,300], 70, 'pT(j_{2})',70,1000,'GeV'),
+HistogramInfo('pt_bal', [0.10,0.15], [0.02,0.05,0.10], 0.02, 'pT balance',0,0.15,''),
+HistogramInfo('centrality', [0.5,1.0], [0.1,0.25,1.00], 0.1, '#xi(Z)',0,0.5,''),
+HistogramInfo('mass_jj', [1000,3000], [250,500,2000], 250, 'm_{jj}',1000,5000,'GeV',True),
+HistogramInfo('rnn_score_1p_tau0', [0.15,0.25,0.40,], [0.15,0.10,0.15,0.30], 0.10, '#tau_{1}jetRNN score 1p', 0.15, 1),
+HistogramInfo('rnn_score_3p_tau0', [0.25,0.55], [0.25,0.15,0.225], 0.15, '#tau_{1}jetRNN score 3p', 0.25, 1),
+HistogramInfo('rnn_score_1p_tau1', [0.15,0.25,0.40,0.70,1.00], [0.15,0.10,0.15,0.30], 0.10, '#tau_{2}jetRNN score 1p', 0.15, 1),
+HistogramInfo('rnn_score_3p_tau1', [0.25,0.40,0.55,0.775,1.00], [0.25,0.15,0.225], 0.15, '#tau_{2}jetRNN score 3p', 0.25, 1),
+HistogramInfo('reconstructedMass',[96], [10,10], 10, 'm_reco',66,116,'GeV',xRange=[56.0,126.0]),
+HistogramInfo('m_reco_vis', [4], [0.5,1], 0.5, 'm_{reco}/m_{vis}', 0, 4,''),
+HistogramInfo('trigger', [1], [1,1], 1, 'trigger', 1, 2,''),
+HistogramInfo('bdtScore', [0], [0.2,0.2], 0.2, 'bdtScore', -1,1,'')
+]
+
+tauhadtauhadHiggsPeakHistograms = [
+HistogramInfo('n_bjets', [], [], 1, 'n_bjets',-0.5,0.5),
+HistogramInfo('n_gapjets', [], [], 1, 'n_gapjets',-0.5,0.5),
+HistogramInfo('tau0_pt', [80,180,380], [40,50,100,120], 40, 'pT(#tau_{1})',80,500,'GeV'),
+HistogramInfo('tau1_pt', [60,200,320], [60,70,120,180], 60, 'pT(#tau_{2})',60,500,'GeV'),
+HistogramInfo('delta_yjj', [5], [1,1], 1, '#Deltay_{jj}',2.0,10.0,''),
+HistogramInfo('omega', [-1,-0.4,1.4,2], [1,0.6,0.2,0.6,1], 0.2, '#Omega',-3,4,''),
+HistogramInfo('ljet0_pt', [450,750], [75,150,250], 75, 'pT(j_{1})',75,1000,'GeV'),
+HistogramInfo('ljet1_pt', [420,700], [70,140,300], 70, 'pT(j_{2})',70,1000,'GeV'),
+HistogramInfo('pt_bal', [0.10,0.15], [0.02,0.05,0.10], 0.02, 'pT balance',0,0.15,''),
+HistogramInfo('centrality', [0.5,1.0], [0.1,0.25,1.00], 0.1, '#xi(Z)',0,0.5,''),
+HistogramInfo('mass_jj', [1000,3000], [250,500,2000], 250, 'm_{jj}',1000,5000,'GeV',True),
+HistogramInfo('rnn_score_1p_tau0', [0.15,0.25,0.40,], [0.15,0.10,0.15,0.30], 0.10, '#tau_{1}jetRNN score 1p', 0.15, 1),
+HistogramInfo('rnn_score_3p_tau0', [0.25,0.55], [0.25,0.15,0.225], 0.15, '#tau_{1}jetRNN score 3p', 0.25, 1),
+HistogramInfo('rnn_score_1p_tau1', [0.15,0.25,0.40,0.70,1.00], [0.15,0.10,0.15,0.30], 0.10, '#tau_{2}jetRNN score 1p', 0.15, 1),
+HistogramInfo('rnn_score_3p_tau1', [0.25,0.40,0.55,0.775,1.00], [0.25,0.15,0.225], 0.15, '#tau_{2}jetRNN score 3p', 0.25, 1),
+HistogramInfo('reconstructedMass',[80], [10,10], 10,'m_reco',101,160,'GeV',True,xRange=[0.0,160.0]),
+HistogramInfo('m_reco_vis', [4], [0.5,1], 0.5, 'm_{reco}/m_{vis}', 0, 4,''),
+HistogramInfo('trigger', [1], [1,1], 1, 'trigger', 1, 2,''),
+HistogramInfo('bdtScore', [0], [0.2,0.2], 0.2, 'bdtScore', -1,1,'')
+]
+
+tauhadtauhadHighMassHistograms = [
+HistogramInfo('n_bjets', [], [], 1, 'n_bjets',-0.5,0.5),
+HistogramInfo('n_gapjets', [], [], 1, 'n_gapjets',-0.5,0.5),
+HistogramInfo('tau0_pt', [80,180,380], [40,50,100,120], 40, 'pT(#tau_{1})',80,500,'GeV'),
+HistogramInfo('tau1_pt', [60,200,320], [60,70,120,180], 60, 'pT(#tau_{2})',60,500,'GeV'),
+HistogramInfo('delta_yjj', [5], [1,1], 1, '#Deltay_{jj}',2.0,10.0,''),
+HistogramInfo('omega', [-1,-0.4,1.4,2], [1,0.6,0.2,0.6,1], 0.2, '#Omega',-3,4,''),
+HistogramInfo('ljet0_pt', [450,750], [75,150,250], 75, 'pT(j_{1})',75,1000,'GeV'),
+HistogramInfo('ljet1_pt', [420,700], [70,140,300], 70, 'pT(j_{2})',70,1000,'GeV'),
+HistogramInfo('pt_bal', [0.10,0.15], [0.02,0.05,0.10], 0.02, 'pT balance',0,0.15,''),
+HistogramInfo('centrality', [0.5,1.0], [0.1,0.25,1.00], 0.1, '#xi(Z)',0,0.5,''),
+HistogramInfo('mass_jj', [1000,3000], [250,500,2000], 250, 'm_{jj}',1000,5000,'GeV',True),
+HistogramInfo('rnn_score_1p_tau0', [0.15,0.25,0.40,], [0.15,0.10,0.15,0.30], 0.10, '#tau_{1}jetRNN score 1p', 0.15, 1),
+HistogramInfo('rnn_score_3p_tau0', [0.25,0.55], [0.25,0.15,0.225], 0.15, '#tau_{1}jetRNN score 3p', 0.25, 1),
+HistogramInfo('rnn_score_1p_tau1', [0.15,0.25,0.40,0.70,1.00], [0.15,0.10,0.15,0.30], 0.10, '#tau_{2}jetRNN score 1p', 0.15, 1),
+HistogramInfo('rnn_score_3p_tau1', [0.25,0.40,0.55,0.775,1.00], [0.25,0.15,0.225], 0.15, '#tau_{2}jetRNN score 3p', 0.25, 1),
+HistogramInfo('reconstructedMass',[66,81,91,101,116,160,250,500], [66,15,10,20,15,11,30,125,250], 10, 'm_reco',160,1000,'GeV',True),
+HistogramInfo('m_reco_vis', [4], [0.5,1], 0.5, 'm_{reco}/m_{vis}', 0, 4,''),
+HistogramInfo('trigger', [1], [1,1], 1, 'trigger', 1, 2,''),
+HistogramInfo('bdtScore', [0], [0.2,0.2], 0.2, 'bdtScore', -1,1,'')
+]
+
 templatesDict = {
     'eeZpeakHistograms' : eeZpeakHistograms,
     'mumuZpeakHistograms' : mumuZpeakHistograms,
@@ -1578,6 +1644,9 @@ templatesDict = {
     'tautauHighMassMJHistograms' : tautauHighMassMJHistograms,
     'tautauHiggsHistograms' : tautauHiggsHistograms,
     'tautauHiggsBDTHistograms' : tautauHiggsBDTHistograms,
+    'tauhadtauhadZPeakHistograms' : tauhadtauhadZPeakHistograms,
+    'tauhadtauhadHiggsPeakHistograms' : tauhadtauhadHiggsPeakHistograms,
+    'tauhadtauhadHighMassHistograms' : tauhadtauhadHighMassHistograms
 }
 
 if __name__ == "__main__":
