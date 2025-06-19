@@ -131,9 +131,7 @@ def main(menu_option, used_rw_samples):
         hadd_dictionary["W_EWK_PoPy"] = ("W_EWK_PoPy","W_EWK_PoPy")
         hadd_dictionary["VV_EWK"] = ("VV_EWK","VV_EWK")
         potential_rw_samples = ["Ztautau_Sherpa","Ztautau_MG","Ztautau_SherpaNLO","Ztautau_MGNLO"]
-        print(used_rw_samples)
         add_potential_rw_samples(hadd_dictionary, potential_rw_samples, used_rw_samples)
-        print(hadd_dictionary)
 
         # Ask the name of the directory where files are stored
         dir_name = input("Enter the name of the directory where the files will be stored: ")
