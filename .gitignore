@@ -16,6 +16,7 @@
 
 # Ignore metadata generation outputs
 Scripts/MetadataGen/*.txt
+Scripts/results/*
 
 TauMu/MC/out/*
 TauMu/MC/output/*
