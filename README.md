@@ -45,3 +45,49 @@ Run the `Submit.py` command and choose the desired channel and follow the instru
 
 - Use `Scripts/CreateListToRun.py` to create your list of samples.
 - Use `Scripts/AddChannels.py` to move the results from the output directories to the plots directory and to merge channels.
+
+## Python environment for code in `Scripts`
+
+The analysis scripts in the `Scripts` directory require a Python environment with specific packages. A setup script is provided to automatically create and manage this environment.
+
+### Prerequisites
+
+- **ROOT**: The analysis requires ROOT to be installed and available in your system PATH. The setup script will automatically check for ROOT availability before proceeding.
+
+### Environment Setup
+
+Run the setup script from the project root directory:
+
+```bash
+source setup_vbf_env.sh
+```
+
+This script will:
+1. **Check ROOT availability**: Verify that ROOT is installed and display its location and version
+2. **Create virtual environment**: Create a Python virtual environment named `vbf_pyenv` (only on first run)
+3. **Install dependencies**: Install required packages from `requirements.txt` (numpy, pandas, scipy)
+4. **Activate environment**: Automatically activate the environment for immediate use
+
+### Usage
+
+- **First run**: Creates the environment and installs all dependencies
+- **Subsequent runs**: Simply activates the existing environment
+- **Manual activation**: `source vbf_pyenv/bin/activate`
+- **Deactivation**: `deactivate`
+
+If ROOT is not found, the script will exit with installation instructions.
+
+### Note for Jupyter Notebooks in VS Code
+
+When working with Jupyter notebooks in VS Code (like `Scripts/SREstimator.ipynb`):
+
+1. **Select the correct kernel**: Choose `vbf_pyenv` as the Python kernel in VS Code
+2. **Add project path**: Include the following code at the beginning of your notebook to ensure proper module imports:
+
+```python
+import sys
+import os
+sys.path.append(os.path.dirname(os.getcwd()))  # Add parent directory to path
+```
+
+This ensures that the notebook can access all modules and scripts in the project directory structure.
