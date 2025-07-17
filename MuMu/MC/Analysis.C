@@ -106,7 +106,7 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
                             && muon_0_p4->Pt() > 27 && muon_0_p4->Pt() > 27;
   Tools::RecordTotalWeightsAndAfterCut(sum_of_weights_store, weight_mc, fiducial_selection);
 
-  if (correctCharge && n_muons==2 && muon_id && n_ljets>=2 && n_ljets<=3 && NOMINAL_pileup_combined_weight > -10 && mjj>=500 && mll >=40 && trigger_decision && trigger_match && abs(muon_0_p4->Eta())>=0.1 && abs(muon_1_p4->Eta())>=0.1){
+  if (correctCharge && n_muons==2 && muon_id && n_ljets>=2 && n_ljets<=3 && NOMINAL_pileup_combined_weight > -10 && mjj>=250 && mll >=40 && trigger_decision && trigger_match){
     g_LOG(LogLevel::DEBUG, "This event passes the basic selection cuts.");
     // Build the kinematic variables needed for the selections.
     

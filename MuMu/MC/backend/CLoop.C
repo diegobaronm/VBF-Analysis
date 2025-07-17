@@ -166,7 +166,7 @@ void CLoop::Loop(double lumFactor, int z_sample, const std::string& key)
         double mjj_w = 1.0;
 
         // mjj reweighting
-        bool reweight_mjj = true;
+        bool reweight_mjj = false;
         MC mcSample = static_cast<MC>(z_sample);
         if (reweight_mjj){
             if(mcSample == MC::PowHegPythia){
@@ -184,7 +184,8 @@ void CLoop::Loop(double lumFactor, int z_sample, const std::string& key)
 
         // ZpT reweighting		
         double z_w=1;
-        if(mcSample == MC::PowHegPythia){
+        bool reweight_zpt = false;
+        if(mcSample == MC::PowHegPythia && reweight_zpt){
             double zpt=truth_Z_p4->Pt()/1000;
             z_w = zpT_rw_popy(zpt);
             g_LOG(LogLevel::DEBUG,"Reweighting ZpT = ", z_w);
@@ -213,10 +214,10 @@ void CLoop::Loop(double lumFactor, int z_sample, const std::string& key)
                 puWeight = 1.0;
             // take product of all scale factors
             eventWeight = weight_mc*puWeight*lumFactor*zpt_weight*mjj_w
-            *muon_0_NOMINAL_MuEffSF_IsoTightTrackOnly_FixedRad*muon_0_NOMINAL_MuEffSF_Reco_QualMedium/*muon_0_NOMINAL_MuEffSF_TTVA*/
+            *muon_0_NOMINAL_MuEffSF_IsoTightTrackOnly_FixedRad*muon_0_NOMINAL_MuEffSF_Reco_QualMedium*muon_0_NOMINAL_MuEffSF_TTVA
             *jet_NOMINAL_central_jets_global_effSF_JVT*jet_NOMINAL_central_jets_global_ineffSF_JVT*jet_NOMINAL_forward_jets_global_effSF_JVT
             *jet_NOMINAL_forward_jets_global_ineffSF_JVT*jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85*jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85
-            *muon_1_NOMINAL_MuEffSF_IsoTightTrackOnly_FixedRad*muon_1_NOMINAL_MuEffSF_Reco_QualMedium/*muon_1_NOMINAL_MuEffSF_TTVA*/;
+            *muon_1_NOMINAL_MuEffSF_IsoTightTrackOnly_FixedRad*muon_1_NOMINAL_MuEffSF_Reco_QualMedium*muon_1_NOMINAL_MuEffSF_TTVA;
         }
 
         // fill histograms

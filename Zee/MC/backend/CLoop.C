@@ -178,7 +178,7 @@ void CLoop::Loop(double lumFactor, int z_sample, const std::string& key)
         double mjj_w=1;
         
         // mjj reweighting
-        bool reweight_mjj = true;
+        bool reweight_mjj = false;
         MC mcSample = static_cast<MC>(z_sample);
         if (reweight_mjj){
             if(mcSample == MC::PowHegPythia){
@@ -196,7 +196,8 @@ void CLoop::Loop(double lumFactor, int z_sample, const std::string& key)
 				
         // ZpT reweighting
         double z_w=1;
-        if(mcSample == MC::PowHegPythia){
+        bool reweight_zpt = false;
+        if(mcSample == MC::PowHegPythia && reweight_zpt){
             double zpt=truth_Z_p4->Pt()/1000;
             z_w = zpT_rw_popy(zpt);
             g_LOG(LogLevel::DEBUG,"Reweighting ZpT = ", z_w);
