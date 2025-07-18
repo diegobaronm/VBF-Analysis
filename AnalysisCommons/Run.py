@@ -152,6 +152,70 @@ def DrawC(filename,lumStr,z_sample,key_pop,tree,region, dirs):
     r.gROOT.ProcessLine('t->Loop(%s, %s, "%s")' % (lumStr, z_sample, key_pop+tree))
     r.gROOT.ProcessLine("f->Close("R")")
 
+# Function to move the output file to the correct directory and track any failed samples.
+def MoveOutput(output_name, tree_name, remote, output_dict, cli_path=None):
+
+    output_path = None
+
+    if cli_path is None and not remote:  # If running locally, we assume the output will go to the current directory under out/
+        output_path = "out/"
+    elif cli_path is None and remote: # Look for the output directory in the dictionary
+        username = os.environ['USER']
+        output_paths = output_dict[username]
+        if len(output_paths) == 0:
+            ERROR.log("No output paths found for this machine. Neither they were specified by the CLI.")
+            exit(1)
+        if len(output_paths) == 1:
+            output_path = output_paths[0]
+        else:
+            INFO.log("Multiple output paths found. Finding the first one that exists in this machine.")
+            for path in output_paths:
+                if os.path.exists(path):
+                    output_path = path
+                    INFO.log("Using output path: " + output_path)
+                    break
+            if output_path is None:
+                ERROR.log("No output path found that exists in this machine.")
+                exit(1)
+    elif cli_path is not None: # Use the path specified by the CLI
+        output_path = cli_path
+
+    if output_path is None:
+        ERROR.log("Output path is None. Cannot move output file.")
+        exit(1)
+
+    # We assume the output will folder is already created. For local jobs it is created when launching the analysis.
+    # For remote, it is created by the submission script.
+    # The creator function is CreateOutputsDir().
+    if remote:
+        cmd = 'mv %s %s/%s/%s' % (output_name, output_path, tree_name, output_name)
+        INFO.log("Moving output with command: " + cmd)
+        output = os.system(cmd)
+        if (output!=0):
+            cmd = 'echo %s %s >> %s/%s/Failed.txt' % (output_name.replace(tree_name, '').replace('.root',''), tree_name, output_path, tree_name)
+            WARNING.log('Job for %s sample failed. Creating log with command: %s' % (output_name, cmd))
+            os.system(cmd)
+    else : # We created the output directory when launching the analysis
+        cmd = 'mv %s %s/%s/%s' % (output_name, output_path, tree_name, output_name)
+        INFO.log("Moving output with command: " + cmd)
+        output = os.system(cmd)
+        if (output!=0):
+            cmd = 'echo %s >> %s/%s/Failed.txt' % (output_name.replace('.root', ''), output_path, tree_name)
+            WARNING.log('Job for %s sample failed. Moving log with command: %s' % (output_name, cmd))
+            os.system(cmd)
+
+def CreateOutputsDir(output_path, tree_name):
+    # We create the output directory if needed.
+    if output_path == None: # No path was passed, so use the default one
+        output_path = "out"
+        
+    cmd = 'mkdir -p %s/%s' % (output_path, tree_name)
+    DEBUG.log("Creating output directory with command: " + cmd)
+    output = os.system(cmd)
+    if output != 0:
+        ERROR.log("Failed to create output directory with command: " + cmd)
+        exit(1)
+
 def createParser():
     # Create parser
     parser = argparse.ArgumentParser(description="Run VBF Analysis!")
@@ -163,6 +227,7 @@ def createParser():
     parser.add_argument("region", help="Region to run over. Should contain OS or SS in the name.", type=str)
     parser.add_argument("--j", help="Number of jobs to run in parallel. Default is 1.", type=int, default=1)
     parser.add_argument("--clean", help="Clean the output directory before running the analysis. Default is False.", action='store_true')
+    parser.add_argument("--output", help="Output directory for the analysis results. Default is out/<tree>/", type=str)
 
     # Parse arguments
     args = parser.parse_args()
@@ -234,6 +299,12 @@ def RunAnalysis(analysis_function, dataCombos):
             ERROR.log("Output directory %s does not exist." % output_dir)
             exit(1)
         
+    # Create output directory if necessary (by default it is out/<tree>/)
+    if not remote_mode:
+        CreateOutputsDir(parser.output, parser.tree)
+    else:
+        DEBUG.log("Remote mode enabled, output directory should be created by the submission script.")
+
     # iterate over chains from user input
     if running_from_txt:
         with Pool(processes=parser.j) as pool:

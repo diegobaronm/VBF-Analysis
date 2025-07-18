@@ -8,13 +8,13 @@ v26Paths = {
 
 # Z->mumu
 v26_mm_Paths = {
-"dbaronmo": ['/eos/user/d/dbaronmo/v26-mm/','/eos/user/t/twyatt/data/diego/v26-mm/'], # Remote
+"dbaronmo": ['/data/dbaronmo/VBF-Analysis/v26-mm/','/eos/user/d/dbaronmo/v26-mm/','/eos/user/t/twyatt/data/diego/v26-mm/'], # Remote
 "b78499db": ['/Volumes/T7/v26-mm/']
 }
 
 # Z->ee
 v26_ee_Paths = {
-"dbaronmo": ['/eos/user/d/dbaronmo/v26-ee/','/eos/user/t/twyatt/data/diego/v26-ee/'], # Remote
+"dbaronmo": ['/data/dbaronmo/VBF-Analysis/v26-ee/','/eos/user/d/dbaronmo/v26-ee/','/eos/user/t/twyatt/data/diego/v26-ee/'], # Remote
 "b78499db": ['/Volumes/T7/v26-ee/']
 }
 

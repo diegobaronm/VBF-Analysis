@@ -15,7 +15,8 @@ sys.path.append('../../') # allow code to be imported from main directory
 
 from AnalysisCommons.Metadata.infofileTauTau import infos
 from AnalysisCommons.Metadata.datasetsTauTau import dataSets, realList, dataCombos, dirs
-from AnalysisCommons.Run import luminosity, getEventWeight, DrawC, getZllSampleKey, RunAnalysis, INFO, DEBUG, ERROR
+from AnalysisCommons.Metadata.OutputPaths import Ztm_outputs_path
+from AnalysisCommons.Run import luminosity, getEventWeight, DrawC, getZllSampleKey, RunAnalysis, INFO, DEBUG, ERROR, MoveOutput
 
 def runAnalysis(key, remote, args):
     """
@@ -40,15 +41,9 @@ def runAnalysis(key, remote, args):
 
     DrawC(filename,lumStr,z_sample,key,tree_name, region, dirs)
 
-    # move the output to a different directory
-    if remote:
-        output=os.system("mv "+key+tree_name+".root "+"/afs/cern.ch/work/d/dbaronmo/private/Outputs/Ztm/"+tree_name+"/"+key+tree_name+".root")
-        if (output!=0):
-            os.system("echo "+key+" yes "+tree_name+"   >> "+"/afs/cern.ch/work/d/dbaronmo/private/Outputs/FAILED_Ztm.txt")
-    else :
-        output=os.system("mv "+key+tree_name+".root "+"out/"+tree_name+"/"+key+tree_name+".root")
-        if (output!=0):
-            os.system("echo "+key+" yes "+tree_name+" >> "+"FAILED.txt")
+    # Move the output to a different directory
+    output_name = key+tree_name+".root"
+    MoveOutput(output_name, tree_name, remote, output_dict = Ztm_outputs_path, cli_path=args.output)
 
 def main():
     RunAnalysis(runAnalysis, dataCombos)

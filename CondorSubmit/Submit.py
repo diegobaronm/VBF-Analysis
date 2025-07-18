@@ -3,7 +3,7 @@ This script submits Analysis jobs to HTCondor
 """
 import os
 
-from AnalysisCommons.Run import INFO, WARNING, ERROR
+from AnalysisCommons.Run import INFO, WARNING, ERROR, CreateOutputsDir
 
 def menu(question,options):
     incorrect_answer=True
@@ -25,6 +25,12 @@ def create_executable(selected_channel):
         f.write("#!/bin/bash\n")
         f.write('echo $PWD\n') # DEBUG 
         f.write('ls\n') # DEBUG
+        #### Load ATLAS environment
+        f.write("shopt -s expand_aliases\n") # Enable aliases in the remote machine
+        f.write("alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'\n") # Set up the ATLAS environment
+        f.write("setupATLAS\n")
+        f.write("asetup StatAnalysis,0.6.1\n")
+        #####
         f.write('cd %s/MC\n' % (selected_channel))
         f.write('python3 RunAnalysis.py ${1} ${2} ${3} ${4}')
 
@@ -36,11 +42,12 @@ def create_submission_file(selected_channel):
         f.write('log                     = log/$(ClusterId).log\n')
         f.write("stream_error            = True\n")
         f.write("stream_output           = True\n")
+        f.write('getenv                  = True\n')
         f.write('on_exit_remove   = (ExitBySignal == False) && (ExitCode == 0)\n')
         f.write('max_retries      = 3\n')
         f.write('requirements     = Machine =!= LastRemoteHost\n')
         f.write('preserve_relative_paths = True\n')
-        f.write('initialdir = /afs/cern.ch/work/d/dbaronmo/private/VBF-Analysis/\n')
+        f.write('initialdir = %s/\n' % (os.path.dirname(os.getcwd()))) # Get the directory above the CWD.
         f.write('transfer_input_files    = AnalysisCommons/,%s/MC/\n' % (selected_channel))
         f.write('+JobFlavour = "microcentury"')
 
@@ -84,15 +91,28 @@ def create_input_datasets(selected_input_path):
         if not tree:
             ERROR.log('Tree name cannot be empty.')
             exit(1)
+
+    # Finally create the output directory if needed.
+    INFO.log('Do you want to create the output directory? (yes/no)')
+    create_output_dir = input().strip().lower() == 'yes'
+    output_path = None
+    if create_output_dir:
+        INFO.log('Enter path:')
+        output_path = input()
+        CreateOutputsDir(output_path, tree)
     
     # Print the selected options and ask for confirmation
     INFO.log('You selected the following options:')
     INFO.log(f'Region: {region}')
     INFO.log(f'Tree: {tree}')
+    if create_output_dir:
+        INFO.log(f'Output directory: {output_path}')
+    else:
+        INFO.log('Output directory: OutputPaths.py will be used.')
     INFO.log('Is this correct? (yes/no)')
     confirm = input().strip().lower() == 'yes'
     if not confirm:
-        ERROR.log('Exiting without changes.')
+        ERROR.log('Exiting...')
         exit(0)
     
     # Now construct the submission file lines
@@ -101,8 +121,24 @@ def create_input_datasets(selected_input_path):
     for line in lines:
         line = line.replace('\n', '')
         tokens = line.split(' ')
-        line = '%s %s %s %s\n' % (line, 'yes', tree, region)
+        if output_path is None:
+            line = '%s %s %s %s\n' % (line, 'yes', tree, region)
+        else:
+            line = '%s %s %s %s %s\n' % (line, 'yes', tree, region, output_path)
         new_lines.append(line)
+
+    # If the output path is not None, we need to modify the run.sh
+    if output_path is not None:
+        with open('run.sh', 'r') as f:
+            run_script = f.read()
+        
+        # Replace the runnin command to include the output path
+        run_script = run_script.replace('python3 RunAnalysis.py ${1} ${2} ${3} ${4}', 
+                                        'python3 RunAnalysis.py ${1} ${2} ${3} ${4} --output ${5}')
+        
+        # Write the modified script back
+        with open('run.sh', 'w') as f:
+            f.write(run_script)
 
     # Create file with _ForCondor suffix
     with open(selected_input_path.replace('.txt', '_ForCondor.txt'), 'w') as f:
@@ -112,6 +148,13 @@ def create_input_datasets(selected_input_path):
     return selected_input_path.replace('.txt', '_ForCondor.txt')
 
 def main():
+    # Check that log directories exist, if not create them
+    if not os.path.exists('../log') or not os.path.exists('../output') or not os.path.exists('../error'):
+        INFO.log('Creating log, output and error directories...')
+        os.makedirs('../log', exist_ok=True)
+        os.makedirs('../output', exist_ok=True)
+        os.makedirs('../error', exist_ok=True)
+
     # Ask the user if they want to clean the logs
     clean = menu("Do you want to clean the logs?", ["no", "yes"]) == 2
     if clean:

@@ -2,10 +2,13 @@ executable              = run.sh
 output                  = output/$(ClusterId).$(ProcId).out
 error                   = error/$(ClusterId).$(ProcId).err
 log                     = log/$(ClusterId).log
+stream_error            = True
+stream_output           = True
+getenv                  = True
 on_exit_remove   = (ExitBySignal == False) && (ExitCode == 0)
 max_retries      = 3
 requirements     = Machine =!= LastRemoteHost
 preserve_relative_paths = True
-initialdir = /afs/cern.ch/work/d/dbaronmo/private/VBF-Analysis/
-transfer_input_files    = AnalysisCommons/,MuMu/MC/
+initialdir = /home/dbaronmo/VBF-Analysis/
+transfer_input_files    = AnalysisCommons/,Zee/MC/
 +JobFlavour = "microcentury"
