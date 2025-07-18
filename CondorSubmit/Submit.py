@@ -3,24 +3,28 @@ This script submits Analysis jobs to HTCondor
 """
 import os
 
+from AnalysisCommons.Run import INFO, WARNING, ERROR
+
 def menu(question,options):
     incorrect_answer=True
     while incorrect_answer:
-        print(question)
+        INFO.log(question)
         c=0
         for i in options:
             c+=1
-            print(str(c)+")"+" "+i)
+            INFO.log(str(c)+")"+" "+i)
         answer=input()
         if int(answer)<=len(options):
             incorrect_answer=False
         else :
-            print("Select a correct option!")
+            INFO.log("Select a correct option!")
     return int(answer)
 
 def create_executable(selected_channel):
     with open("run.sh","w") as f:
         f.write("#!/bin/bash\n")
+        f.write('echo $PWD\n') # DEBUG 
+        f.write('ls\n') # DEBUG
         f.write('cd %s/MC\n' % (selected_channel))
         f.write('python3 RunAnalysis.py ${1} ${2} ${3} ${4}')
 
@@ -30,6 +34,8 @@ def create_submission_file(selected_channel):
         f.write('output                  = output/$(ClusterId).$(ProcId).out\n')
         f.write('error                   = error/$(ClusterId).$(ProcId).err\n')
         f.write('log                     = log/$(ClusterId).log\n')
+        f.write("stream_error            = True\n")
+        f.write("stream_output           = True\n")
         f.write('on_exit_remove   = (ExitBySignal == False) && (ExitCode == 0)\n')
         f.write('max_retries      = 3\n')
         f.write('requirements     = Machine =!= LastRemoteHost\n')
@@ -45,44 +51,65 @@ def get_list_of_inputs(selected_channel):
 
     return inputs
 
-def change_region_for_input_file(selected_input_path):
+# This function creates the input datasets file for Condor submission and return the path to the new file.
+def create_input_datasets(selected_input_path):
+    # Read file lines
     with open(selected_input_path, 'r') as f:
         lines = f.readlines()
 
-    first_line = lines[0]
-    tokens = first_line.split(' ')
-    region = ''
-    if len(tokens) < 3:
-        print('Error: Your input file does not have the correct format. Exiting...')
-        exit(1)
-    elif len(tokens) == 3:
-        print('Warning: Your input file does not contain a region. Please define one...')
-    elif len(tokens) == 4:
-        region = tokens[3].replace('\n', '')
-    else: 
-        print('Error: Your input file does not have the correct format. Exiting...')
+    # Prevent previous formats (e.g. Samples yes/no NOMINAL blabla)
+    # Only let one Sample per line, check all the file
+    for line in lines:
+        tokens = line.split(' ')
+        if len(tokens) > 1:
+            ERROR.log('Error: Your input file does not have the correct format. Exiting...')
+            ERROR.log('Only Sample name per line is allowed.')
+            exit(1)
+
+    # Define region name.
+    INFO.log('Input the region name to run over - REMEMBER adding OS, SS at the end!')
+    region = input()
+
+    if not region.endswith('OS') and not region.endswith('SS'):
+        ERROR.log('Region should end with OS or SS.')
         exit(1)
 
-    if region != '':
-        change_region = menu("Your current region is : %s \n Do you want to change it? " % (region), ["no", "yes"]) == 2
+    # Ask if the user want to change the tree name from NOMINAL to something else
+    tree = 'NOMINAL'
+    INFO.log('Do you want to change the tree name from NOMINAL to something else? (yes/no)')
+    change_tree = input().strip().lower() == 'yes'
+    if change_tree:
+        INFO.log('Input the new tree name (e.g. NOMINAL, SYSTEMATIC, etc.):')
+        tree = input().strip()
+        if not tree:
+            ERROR.log('Tree name cannot be empty.')
+            exit(1)
     
-    if change_region or region == '':
-        region = input("Please enter the new region: ")
-
-    # Now change the actual file
+    # Print the selected options and ask for confirmation
+    INFO.log('You selected the following options:')
+    INFO.log(f'Region: {region}')
+    INFO.log(f'Tree: {tree}')
+    INFO.log('Is this correct? (yes/no)')
+    confirm = input().strip().lower() == 'yes'
+    if not confirm:
+        ERROR.log('Exiting without changes.')
+        exit(0)
+    
+    # Now construct the submission file lines
     # Build the lines
     new_lines = []
     for line in lines:
         line = line.replace('\n', '')
         tokens = line.split(' ')
-        line = '%s %s %s %s\n' % (tokens[0], tokens[1], tokens[2], region.replace('\n', ''))
+        line = '%s %s %s %s\n' % (line, 'yes', tree, region)
         new_lines.append(line)
 
-    # Remove the old file and write the new one
-    os.remove(selected_input_path)
-    with open(selected_input_path, 'w') as f:
+    # Create file with _ForCondor suffix
+    with open(selected_input_path.replace('.txt', '_ForCondor.txt'), 'w') as f:
         for new_line in new_lines:
             f.write(new_line)
+
+    return selected_input_path.replace('.txt', '_ForCondor.txt')
 
 def main():
     # Ask the user if they want to clean the logs
@@ -108,11 +135,11 @@ def main():
     selected_input_path = '../%s/MC/InputDatasets/%s' % (selected_channel, selected_input)
 
     # Read the region from the input file and let the user choose the region name
-    change_region_for_input_file(selected_input_path)
+    input_datasets_path = create_input_datasets(selected_input_path)
 
     # Submit the jobs
-    cmd = 'condor_submit Condor.sub -queue arguments from %s' % (selected_input_path)
-    print('Submitting jobs... with command: %s' % (cmd))
+    cmd = 'condor_submit Condor.sub -queue arguments from %s' % (input_datasets_path)
+    INFO.log('Submitting jobs... with command: %s' % (cmd))
     os.system(cmd)  
 
 if __name__ == "__main__":

@@ -83,3 +83,6 @@ Scripts/results/*
 error/*
 output/*
 log/*
+
+# Condor inputs
+*_ForCondor.txt
