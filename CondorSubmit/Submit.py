@@ -34,7 +34,7 @@ def create_executable(selected_channel):
         f.write('cd %s/MC\n' % (selected_channel))
         f.write('python3 RunAnalysis.py ${1} ${2} ${3} ${4}')
 
-def create_submission_file(selected_channel):
+def create_submission_file(selected_channel, is_chicago):
     with open("Condor.sub","w") as f:
         f.write('executable              = run.sh\n')
         f.write('output                  = output/$(ClusterId).$(ProcId).out\n')
@@ -49,7 +49,11 @@ def create_submission_file(selected_channel):
         f.write('preserve_relative_paths = True\n')
         f.write('initialdir = %s/\n' % (os.path.dirname(os.getcwd()))) # Get the directory above the CWD.
         f.write('transfer_input_files    = AnalysisCommons/,%s/MC/\n' % (selected_channel))
-        f.write('+JobFlavour = "microcentury"')
+        if is_chicago:
+            f.write('+ALLOW_MWT2            = True\n')
+            f.write('request_memory = 4096MB\n')
+        else:
+            f.write('+JobFlavour = "microcentury"')
 
 def get_list_of_inputs(selected_channel):
     inputs = []
@@ -162,6 +166,9 @@ def main():
         os.system('rm -rf ../output/*')
         os.system('rm -rf ../error/*')
 
+    # Ask if submitting in Chicago or Lxplus
+    is_chicago = menu("Where do you want to submit the jobs?", ["Chicago", "Lxplus"]) == 1
+
     # First get the channel
     valid_channels = ["MuMu","Zee","EleTau","TauMu","MuEle"]
     selected_channel = valid_channels[menu("Please select a channel: ", valid_channels) - 1]
@@ -170,7 +177,7 @@ def main():
     create_executable(selected_channel)
 
     # Create submission file
-    create_submission_file(selected_channel)
+    create_submission_file(selected_channel, is_chicago)
 
     # Ask user which input file to use
     inputs = get_list_of_inputs(selected_channel)

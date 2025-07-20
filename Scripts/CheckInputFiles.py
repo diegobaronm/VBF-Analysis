@@ -47,6 +47,7 @@ def check_input_file(file_path, tree_name):
 # This function also returns the samples not found.
 def check_samples(dirs, dataCombos, dataSets, tree_name):
     combos_with_missing_samples = []  # To keep track of combos with missing samples
+    missing_samples = []  # To keep track of missing samples
     # Loop through all the combos.
     for icombo in dataCombos:
         INFO.log(f"Checking combo: {icombo}")
@@ -65,9 +66,11 @@ def check_samples(dirs, dataCombos, dataSets, tree_name):
                 DEBUG.log(f"Sample {isample} found and checked successfully.")
             else:
                 WARNING.log(f"Sample {isample} not found!")
-                combos_with_missing_samples.append(icombo)
+                if icombo not in combos_with_missing_samples:
+                    combos_with_missing_samples.append(icombo)
+                missing_samples.append(isample)
 
-    return combos_with_missing_samples
+    return combos_with_missing_samples, missing_samples
 
 def get_all_input_directores(path):
     if not os.path.exists(path):
@@ -90,15 +93,18 @@ def main():
         dirs = get_all_input_directores(args.path)
 
     # Check all input files
-    missing = check_samples(dirs, dataCombos, dataSets, args.tree)
+    missing_combos, missing_samples = check_samples(dirs, dataCombos, dataSets, args.tree)
     INFO.log("Input file check completed.")
 
-    if missing:
+    if missing_samples:
         WARNING.log("Some samples were not found in the input directories:")
-        for combo in missing:
+        for combo in missing_combos:
             WARNING.log(f"Combo with missing samples: {combo}")
+        for isample in missing_samples:
+            DEBUG.log(f"Missing sample: {isample}")
     else:
         INFO.log("All samples were found and checked successfully.")
-    
+
+# This script will check that all the inputs declared in the metadata are present in the input directories.
 if __name__ == "__main__":
     main()
