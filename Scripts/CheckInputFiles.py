@@ -25,6 +25,7 @@ def create_cli_args():
     parser.add_argument("--channel", type=str, default=None, choices=["ee", "mm","tautau"], help="Channel to check from the available options: ee, mm, tautau.")
     parser.add_argument("--tree", type=str, default="NOMINAL", help="Name of the tree to check in the input files.")
     parser.add_argument("--path", type=str, default=None, help="Path to the input files. If not provided, it will use the default path for the specified channel.")
+    parser.add_argument("--filter", type=str, default=None, help="Filter to apply to the input files. For example, 'Zmumu' to only process Zmumu files. It will print the number of events in the files.")
 
     args = parser.parse_args()
 
@@ -41,16 +42,22 @@ def check_input_file(file_path, tree_name):
         n_entries = tree.GetEntriesFast()
         DEBUG.log(f"File {file_path} has {n_entries} entries in tree {tree_name}.")
         INFO.log(f"File {file_path} and tree {tree_name} are valid.")
+        return n_entries
     except Exception as e:
         ERROR.log(f"An error occurred while checking file {file_path}: {str(e)}")
     
 # This function also returns the samples not found.
-def check_samples(dirs, dataCombos, dataSets, tree_name):
+def check_samples(dirs, dataCombos, dataSets, tree_name, filter_string=None):
+    total_number_of_events = 0
     combos_with_missing_samples = []  # To keep track of combos with missing samples
     missing_samples = []  # To keep track of missing samples
     # Loop through all the combos.
     for icombo in dataCombos:
         INFO.log(f"Checking combo: {icombo}")
+        # Do the filtering if needed.
+        if filter_string is not None and filter_string not in icombo:
+            INFO.log(f"Skipping combo {icombo} as it does not match the filter {filter_string}.")
+            continue
         for isample in dataCombos[icombo]: # And the sample in each combo.
             isample_path = dataSets[isample]
             DEBUG.log("Checking path: %s" % isample_path)
@@ -59,7 +66,9 @@ def check_samples(dirs, dataCombos, dataSets, tree_name):
                 DEBUG.log("Checking directory: %s" % idir)
                 if isample_path in os.listdir(idir):
                     full_path = os.path.join(idir, isample_path)
-                    check_input_file(full_path, tree_name)
+                    i_n_entries = check_input_file(full_path, tree_name)
+                    if filter_string is not None: # Only count filtered samples
+                        total_number_of_events += i_n_entries
                     sample_found = True
                     break
             if sample_found:
@@ -70,7 +79,7 @@ def check_samples(dirs, dataCombos, dataSets, tree_name):
                     combos_with_missing_samples.append(icombo)
                 missing_samples.append(isample)
 
-    return combos_with_missing_samples, missing_samples
+    return combos_with_missing_samples, missing_samples, total_number_of_events
 
 def get_all_input_directores(path):
     if not os.path.exists(path):
@@ -93,8 +102,11 @@ def main():
         dirs = get_all_input_directores(args.path)
 
     # Check all input files
-    missing_combos, missing_samples = check_samples(dirs, dataCombos, dataSets, args.tree)
+    missing_combos, missing_samples, total_n_events = check_samples(dirs, dataCombos, dataSets, args.tree, args.filter)
     INFO.log("Input file check completed.")
+
+    if args.filter is not None:
+        INFO.log(f"Total number of events in filtered samples: {total_n_events}")
 
     if missing_samples:
         WARNING.log("Some samples were not found in the input directories:")
