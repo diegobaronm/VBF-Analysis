@@ -1,19 +1,21 @@
 import os
 import sys
 
+from AnalysisCommons.Run import INFO, WARNING, ERROR
+
 def menu(question,options):
     incorrect_answer=True
     while incorrect_answer:
-        print(question)
+        INFO.log(question)
         c=0
         for i in options:
             c+=1
-            print(str(c)+")"+" "+i)
+            INFO.log(str(c)+")"+" "+i)
         answer=input()
         if int(answer)<=len(options):
             incorrect_answer=False
         else :
-            print("Select a correct option!")
+            INFO.log("Select a correct option!")
     return int(answer)
 
 def tag_checker(channel,include_tags,exclude_tags,branches,remote,region):

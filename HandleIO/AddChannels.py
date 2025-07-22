@@ -162,6 +162,13 @@ def main(menu_option, used_rw_samples):
             else:
                 INFO.log("Sucess!!")
 
+    elif menu_option==3: # Merge MuMu and Zee
+        # TODO
+
+    else:
+        ERROR.log("Invalid option selected. Please choose a valid option.")
+        exit(1)
+
 
 if __name__ == "__main__":
     option = menu("Which channels do you want to merge?",["TauMu + EleTau","TauLep + MuEle (TauLep need to be already in the correct path)"," MuMu + Zee"])

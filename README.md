@@ -41,12 +41,17 @@ python3 RunAnalysis.py InputDatasets/Higgs.txt no NOMINAL NewZpeakOS --j10
 
 Run the `Submit.py` command and choose the desired channel and follow the instructions.
 
-## Additional tricks:
+## Inputs/Outputs handling:
 
-- Use `Scripts/CreateListToRun.py` to create your list of samples.
-- Use `Scripts/AddChannels.py` to move the results from the output directories to the plots directory and to merge channels.
+Code to do IO operations are stored in the `HandleIO` directory. The scripts living there are:
 
-## Python environment for code in `Scripts`
+- `CreateListToRun.py` to create a txt file with your list of samples.
+- `AddChannels.py` to move the results from the output directories to the plots directory and to merge channels.
+- `CheckInputFiles.py` to check that all input ROOT files listed in the metadata are valid.
+- `CheckOutputFiles.py` to check if all the output ROOT files from a submission were created.
+- `OutputsMerger` to merge all output ROOT files into a reduced set of samples using `hadd`.
+
+## Python environment for code in `Scripts/HandleIO`
 
 The analysis scripts in the `Scripts` directory require a Python environment with specific packages. A setup script is provided to automatically create and manage this environment.
 
@@ -91,3 +96,9 @@ sys.path.append(os.path.dirname(os.getcwd()))  # Add parent directory to path
 ```
 
 This ensures that the notebook can access all modules and scripts in the project directory structure.
+
+
+# Common problems:
+
+This is a list of things that can usually go wrong while running the code.
+- Using MC-only variables in `if` when running over real data samples.
