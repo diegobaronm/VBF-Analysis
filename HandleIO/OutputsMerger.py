@@ -48,8 +48,89 @@ hadd_mumu = {
 "W_EWK_PoPy.root" : ["W_EWK_PoPy*.root"],
 }
 
+hadd_mutau = {
+"Signal_Sherpa.root": ["VBF_Ztautau_sherpa_20*.root"],
+"Signal_PoPy.root": ["VBF_Ztautau_201*.root"],
+"Signal_truth_Sherpa.root": ["VBF_Ztautau_sherpa_truth_20*.root"],
+"Signal_truth_PoPy.root": ["VBF_Ztautau_truth_201*.root"],
+"Ztautau_Sherpa.root": ["Ztautau_sherpa*.root"],
+"Ztautau_PoPy.root": ["Ztautau_201*.root"],
+"Ztautau_MG.root": ["Ztautau_MG[!NLO]*.root"],
+"Ztautau_MGNLO.root": ["Ztautau_MGNLO*.root"],
+"Ztautau_SherpaNLO.root": ["Ztautau_SherpaNLO*.root"],
+"Zjets.root": ["Zmumu_201*.root"],
+"Higgs.root": ["WpH*.root WmH*.root", "ZHllbb*.root", "ZHlltautau*.root", "ggHttlm15hp20*.root", "ggHttlp15hm20*.root"],
+"Higgs_EWK.root": ["VBFHttlm15hp20*.root", "VBFHttlp15hm20*.root"],
+"VV.root": ["llll_*.root", "lllv_*.root", "llvv_*.root", "lvvv_*.root", "ZqqZvv_*.root", "ZqqZll_*.root", "WqqZvv_*.root", "WqqZll_*.root", "WlvZqq_*.root"],
+"Wjets.root": ["Wplusenu_*.root", "Wminusenu_*.root", "Wplusmunu_*.root", "Wminusmunu_*.root", "Wplustaunu_*.root", "Wminustaunu_*.root"],
+"singletop.root": ["st_schan_top_*.root", "st_schan_atop_*.root", "st_tchan_top_*.root", "st_tchan_atop_*.root", "st_wt_top_*.root", "st_wt_atop_*.root"],
+"ttbar.root": ["ttbar_*.root"],
+"W_EWK_Sherpa.root": ["W_EWK_sherpa*.root"],
+"W_EWK_PoPy.root": ["W_EWK_PoPy*.root"],
+"VV_EWK.root": ["VV_EWK*.root"],
+"Data.root": ["data_*.root"],
+}
+
+hadd_etau = {
+"Signal_Sherpa.root": ["VBF_Ztautau_sherpa_20*.root"],
+"Signal_PoPy.root": ["VBF_Ztautau_201*.root"],
+"Signal_truth_Sherpa.root": ["VBF_Ztautau_sherpa_truth_20*.root"],
+"Signal_truth_PoPy.root": ["VBF_Ztautau_truth_201*.root"],
+"Ztautau_Sherpa.root": ["Ztautau_sherpa*.root"],
+"Ztautau_PoPy.root": ["Ztautau_201*.root"],
+"Ztautau_MG.root": ["Ztautau_MG[!NLO]*.root"],
+"Ztautau_MGNLO.root": ["Ztautau_MGNLO*.root"],
+"Ztautau_SherpaNLO.root": ["Ztautau_SherpaNLO*.root"],
+"Zjets.root": ["Zmumu_201*.root","Zee_201*.root"],
+"Higgs.root": ["WpH*.root WmH*.root", "ZHllbb*.root", "ZHlltautau*.root", "ggHttlm15hp20*.root", "ggHttlp15hm20*.root"],
+"Higgs_EWK.root": ["VBFHttlm15hp20*.root", "VBFHttlp15hm20*.root"],
+"VV.root": ["llll_*.root", "lllv_*.root", "llvv_*.root", "lvvv_*.root", "ZqqZvv_*.root", "ZqqZll_*.root", "WqqZvv_*.root", "WqqZll_*.root", "WlvZqq_*.root"],
+"Wjets.root": ["Wplusenu_*.root", "Wminusenu_*.root", "Wplusmunu_*.root", "Wminusmunu_*.root", "Wplustaunu_*.root", "Wminustaunu_*.root"],
+"singletop.root": ["st_schan_top_*.root", "st_schan_atop_*.root", "st_tchan_top_*.root", "st_tchan_atop_*.root", "st_wt_top_*.root", "st_wt_atop_*.root"],
+"ttbar.root": ["ttbar_*.root"],
+"W_EWK_Sherpa.root": ["W_EWK_sherpa*.root"],
+"W_EWK_PoPy.root": ["W_EWK_PoPy*.root"],
+"VV_EWK.root": ["VV_EWK*.root"],
+"Data.root": ["data_*.root"],
+}
+
+hadd_emu ={
+"Signal_Sherpa.root": ["VBF_Ztautau_sherpa_20*.root"],
+"Signal_PoPy.root": ["VBF_Ztautau_201*.root"],
+"Signal_truth_Sherpa.root": ["VBF_Ztautau_sherpa_truth_20*.root"],
+"Signal_truth_PoPy.root": ["VBF_Ztautau_truth_201*.root"],
+"Ztautau_Sherpa.root": ["Ztautau_sherpa*.root"],
+"Ztautau_PoPy.root": ["Ztautau_201*.root"],
+"Ztautau_MG.root": ["Ztautau_MG[!NLO]*.root"],
+"Ztautau_MGNLO.root": ["Ztautau_MGNLO*.root"],
+"Ztautau_SherpaNLO.root": ["Ztautau_SherpaNLO*.root"],
+"Zjets.root": ["Zmumu_201*.root","Zee_201*.root"],
+"Higgs.root": ["WpH*.root WmH*.root", "ZHllbb*.root", "ZHlltautau*.root", "ggHttlm15hp20*.root", "ggHttlp15hm20*.root"],
+"Higgs_EWK.root": ["VBFHttlm15hp20*.root", "VBFHttlp15hm20*.root"],
+"VV.root": ["llll_*.root", "lllv_*.root", "llvv_*.root", "lvvv_*.root", "ZqqZvv_*.root", "ZqqZll_*.root", "WqqZvv_*.root", "WqqZll_*.root", "WlvZqq_*.root"],
+"Wjets.root": ["Wplusenu_*.root", "Wminusenu_*.root", "Wplusmunu_*.root", "Wminusmunu_*.root", "Wplustaunu_*.root", "Wminustaunu_*.root"],
+"singletop.root": ["st_schan_top_*.root", "st_schan_atop_*.root", "st_tchan_top_*.root", "st_tchan_atop_*.root", "st_wt_top_*.root", "st_wt_atop_*.root"],
+"ttbar.root": ["ttbar_*.root"],
+"W_EWK_Sherpa.root": ["W_EWK_sherpa*.root"],
+"W_EWK_PoPy.root": ["W_EWK_PoPy*.root"],
+"VV_EWK.root": ["VV_EWK*.root"],
+"Data.root": ["data_*.root"],
+}
+
+# Function to add the Zprime pairs between 200 and 500 GeV.
+def add_Zprime_samples(hadd_dict):
+	for mass in range(200,550,50):
+		hadd_dict[f'Zprime_{mass}.root'] = [f'VBF_Zprime_{mass}*.root']
+
+# Add Zprime samples to tauhad-taulep channels.
+add_Zprime_samples(hadd_etau)
+add_Zprime_samples(hadd_mutau)
+
 hadd_dictionaries = {'MuMu': hadd_mumu,
-					 'Zee': hadd_ee,}
+					 'Zee': hadd_ee,
+					 'TauMu': hadd_mutau,
+					 'EleTau': hadd_etau,
+					 'MuEle': hadd_emu,}
 
 def hadd_datasets(channel_dict, input_path, output_path, filter_string=None):
 	# Loop trough the channel dictionary and hadd the files
