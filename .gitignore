@@ -13,6 +13,8 @@
 .vscode/
 .ipynb_checkpoints/
 */__pycache__/*
+*.asetup.save
+*.bash_history
 
 # Ignore metadata generation outputs
 Scripts/MetadataGen/*.txt
@@ -86,3 +88,4 @@ log/*
 
 # Condor inputs
 *_ForCondor.txt
+*Missing_files.txt
