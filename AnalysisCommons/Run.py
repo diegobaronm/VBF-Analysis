@@ -160,7 +160,7 @@ def MoveOutput(output_name, tree_name, remote, output_dict, cli_path=None):
 
     if cli_path is None and not remote:  # If running locally, we assume the output will go to the current directory under out/
         output_path = "out/"
-    elif cli_path is None and remote: # Look for the output directory in the dictionary
+    elif (cli_path is None and remote): # Look for the output directory in the dictionary
         username = os.environ['USER']
         output_paths = output_dict[username]
         if len(output_paths) == 0:

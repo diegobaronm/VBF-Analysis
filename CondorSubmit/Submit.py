@@ -55,10 +55,13 @@ def create_submission_file(selected_channel, is_chicago):
         else:
             f.write('+JobFlavour = "microcentury"')
 
+CONDOR_SUBMIT_TXT_POSTFIX = '_ForCondor.txt'
+
 def get_list_of_inputs(selected_channel):
     inputs = []
     for file in os.listdir('../%s/MC/InputDatasets/' % (selected_channel)):
-        inputs.append(file)
+        if file.endswith('.txt') and not file.endswith(CONDOR_SUBMIT_TXT_POSTFIX):
+            inputs.append(file)
 
     return inputs
 
@@ -144,12 +147,12 @@ def create_input_datasets(selected_input_path):
         with open('run.sh', 'w') as f:
             f.write(run_script)
 
-    # Create file with _ForCondor suffix
-    with open(selected_input_path.replace('.txt', '_ForCondor.txt'), 'w') as f:
+    # Create file with CONDOR_SUBMIT_TXT_POSTFIX suffix
+    with open(selected_input_path.replace('.txt', CONDOR_SUBMIT_TXT_POSTFIX), 'w') as f:
         for new_line in new_lines:
             f.write(new_line)
 
-    return selected_input_path.replace('.txt', '_ForCondor.txt')
+    return selected_input_path.replace('.txt', CONDOR_SUBMIT_TXT_POSTFIX)
 
 def main():
     # Check that log directories exist, if not create them

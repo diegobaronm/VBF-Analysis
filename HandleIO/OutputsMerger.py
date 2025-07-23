@@ -159,10 +159,6 @@ def create_cli_args():
 	if not os.path.exists(args.inputs):
 		ERROR.log(f"Input path {args.inputs} does not exist.")
 		exit(1)
-	if not os.path.exists(args.outputs):
-		# Create the output directory if it does not exist
-		CreateOutputsDir(args.outputs, tree_name='') # Tree_name empty to use the function correctly.
-		INFO.log(f"Output path {args.outputs} does not exist. Creating it.")
 
 	return args
 
@@ -182,11 +178,18 @@ def main():
 	# Create CLI arguments
 	args = create_cli_args()
 
-	# Clean input directories if needed
-	clean = menu("Clean the output directories?",["No","Yes"])
-	if clean:
-		os.system("rm %s/*.root" % args.outputs)
-	
+	# Check that the output path exists
+	if not os.path.exists(args.outputs):
+		# Create the output directory if it does not exist
+		CreateOutputsDir(args.outputs, tree_name='') # Tree_name empty to use the function correctly.
+		INFO.log(f"Output path {args.outputs} does not exist. Creating it.")
+
+	else:
+		# Clean input directories if needed
+		clean = menu("Clean the output directories?",["No","Yes"])
+		if clean:
+			os.system("rm %s/*.root" % args.outputs)
+
 	# Get the channel dictionary
 	hadd_dict = get_channel(args.channel)
 
