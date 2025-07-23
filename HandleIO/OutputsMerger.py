@@ -143,7 +143,11 @@ def hadd_datasets(channel_dict, input_path, output_path, filter_string=None):
 		cmd = "hadd -v1 %s/%s %s" % (output_path, output_file, input_files_string)
 		INFO.log("Creating %s sample." % output_file)
 		DEBUG.log(f"Running command: {cmd}")
-		os.system(cmd)
+		output =os.system(cmd)
+		if output != 0:
+			ERROR.log(f"Error while hadding sample {output_file}")
+			ERROR.log(f"Command: {cmd}")
+			exit(1)
 
 def create_cli_args():
 	# Options...
@@ -183,11 +187,12 @@ def main():
 		# Create the output directory if it does not exist
 		CreateOutputsDir(args.outputs, tree_name='') # Tree_name empty to use the function correctly.
 		INFO.log(f"Output path {args.outputs} does not exist. Creating it.")
-
 	else:
+		INFO.log(f"Output path {args.outputs} already exists. Using it.")
 		# Clean input directories if needed
-		clean = menu("Clean the output directories?",["No","Yes"])
+		clean = menu("Clean the output directories?",["No","Yes"]) == 2
 		if clean:
+			INFO.log(f"Cleaning the output directory {args.outputs}.")
 			os.system("rm %s/*.root" % args.outputs)
 
 	# Get the channel dictionary
