@@ -5,3 +5,4 @@ scipy
 pyhf
 ipython
 ipykernel
+uncertainties

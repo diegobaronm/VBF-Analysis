@@ -73,14 +73,14 @@ def plotIndividualRatio(canvas, fileAndHistogramNameDict, postfix, compareDensit
         normalization([h1,h2],histogramInfo.m_binNorm)
     # Plot the histogram density if requested
     if (compareDensity):
-        h1.Scale(1.0/h1.Integral(1,-1));
-        h2.Scale(1.0/h2.Integral(1,-1));
+        h1.Scale(1.0/h1.Integral(1,-1))
+        h2.Scale(1.0/h2.Integral(1,-1))
 
-    h2.Divide(h1); # One is always the reference
+    h2.Divide(h1) # One is always the reference
 
 
     # Set the histogram style
-    h2.SetTitle(title2);
+    h2.SetTitle(title2)
 
     # Get the ratio factors
     scale_factors = get_scale_factors(h2)
@@ -91,25 +91,25 @@ def plotIndividualRatio(canvas, fileAndHistogramNameDict, postfix, compareDensit
         for i in range(1, h2.GetNbinsX() + 1 + 1):
             h2.SetBinContent(i, h2.GetBinContent(i) * scale_factors[i-1])
 
-    canvas.cd();
-    canvas.SetTitle("HOLA");
-    h2.GetXaxis().SetRange(1,h2.GetNbinsX()+1); 
-    h2.GetYaxis().SetRangeUser(0.05,6.0);
-    h2.Draw(drawingOptions);
-    h2.GetXaxis().SetTitle(histogramInfo.m_xTitle);
-    h2.GetYaxis().SetTitle(title2);
-    h2.GetXaxis().SetTitleSize(0.056);
-    h2.GetYaxis().SetTitleSize(0.056);
-    h2.GetXaxis().SetLabelSize(0.056);
-    h2.GetYaxis().SetLabelSize(0.056);
-    h2.GetYaxis().SetTitleOffset(1.45);
-    h2.GetXaxis().SetTitleOffset(1.00);
+    canvas.cd()
+    canvas.SetTitle("HOLA")
+    h2.GetXaxis().SetRange(1,h2.GetNbinsX()+1) 
+    h2.GetYaxis().SetRangeUser(0.05,6.0)
+    h2.Draw(drawingOptions)
+    h2.GetXaxis().SetTitle(histogramInfo.m_xTitle)
+    h2.GetYaxis().SetTitle(title2)
+    h2.GetXaxis().SetTitleSize(0.056)
+    h2.GetYaxis().SetTitleSize(0.056)
+    h2.GetXaxis().SetLabelSize(0.056)
+    h2.GetYaxis().SetLabelSize(0.056)
+    h2.GetYaxis().SetTitleOffset(1.45)
+    h2.GetXaxis().SetTitleOffset(1.00)
 
-    h2.SetMarkerStyle(20);
-    h2.SetMarkerColor(colour);
-    h2.SetLineColor(colour);
-    h2.SetLineWidth(4);
-    r.gStyle.SetOptStat(0);
+    h2.SetMarkerStyle(20)
+    h2.SetMarkerColor(colour)
+    h2.SetLineColor(colour)
+    h2.SetLineWidth(4)
+    r.gStyle.SetOptStat(0)
 
 
 def plotRatio(pairsPacket, histoName, postfix, useDensity, apply_scale_factors):
@@ -135,10 +135,10 @@ def plotRatio(pairsPacket, histoName, postfix, useDensity, apply_scale_factors):
         plotIndividualRatio(c, pairsPacket[i], postfix, useDensity, colours[i], "SAME HIST", REGION, apply_scale_factors)
 
     # Add legend
-    c.BuildLegend(0.7,0.7,0.9,0.9);
+    c.BuildLegend(0.7,0.7,0.9,0.9)
 
     # Save the plot
-    c.SaveAs("RatioPlot_%s%s.pdf" % (histoName, postfix));
+    c.SaveAs("results/RatioPlot_%s%s.pdf" % (histoName, postfix))
 
 def generate_plot_input(filePath1, file2Path, histogramName1, histogramName2, title1, title2):
     dic = {
@@ -154,7 +154,7 @@ def generate_plot_input(filePath1, file2Path, histogramName1, histogramName2, ti
 def main():
     # List of histograms to compare
     histoNames = ["mass_jj","ljet0_pt","ljet1_pt","lep1_pt","lep2_pt",
-                  "n_bjets","delta_y","pt_bal","delta_phi","Z_centrality","n_jets_interval","inv_mass","Z_pt_reco"];
+                  "n_bjets","delta_y","pt_bal","delta_phi","Z_centrality","n_jets_interval","inv_mass","Z_pt_reco"]
     
     # List of files to compare
     commonPath = '/Users/user/Documents/HEP/VBF-Analysis/MuMu/MC/out/'

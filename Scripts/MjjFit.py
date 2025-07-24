@@ -1,7 +1,12 @@
-from AnalysisCommons.Run import INFO, WARNING, ERROR, DEBUG
-import numpy as np
 
-# Models
+import numpy as np
+import math
+from uncertainties import ufloat, correlated_values
+from uncertainties.umath import *
+
+from AnalysisCommons.Run import INFO, WARNING, ERROR, DEBUG
+
+################################## Models ##################################
 def parabolic_model(mjj,a,b,c):
     return a*mjj*mjj + b*mjj + c
 
@@ -11,48 +16,15 @@ def linear_model(mjj,slope,level):
 def parabolic_cutoff_model(mjj,a,b,c,mass_limit=5000,level=1):
     mjj = np.array(mjj)
     if mjj<= mass_limit:
-        return a*mjj*mjj+b*mjj+c
+        return a*mjj*mjj + b*mjj + c
     else :
         return level
     
-def linear_model_uncertainty(x, covariance_matrix):
-    sigma_slope = covariance_matrix[0][0]
-    sigma_level = covariance_matrix[1][1]
-    cov = covariance_matrix[0][1]
+def exponential_model(mjj, a, b, c):
+    y = c - b * (1 - math.e**(-a * mjj))
+    return y
 
-    return np.sqrt(sigma_slope*x**2 + sigma_level + 2*cov*x)
-
-def parabolic_model_uncertainty(x, covariance_matrix):
-    sigma_a = covariance_matrix[0][0]
-    sigma_b = covariance_matrix[1][1]
-    sigma_c = covariance_matrix[2][2]
-    
-    cov_ab = covariance_matrix[0][1]
-    cov_ac = covariance_matrix[0][2]
-    cov_bc = covariance_matrix[1][2]
-    
-    diagonal_term = sigma_a*x**4 + sigma_b*x**2 + sigma_c
-    no_diagonal_term = 2*cov_ab*x**3 + 2*cov_ac*x**2 + 2*cov_bc*x
-    
-    return np.sqrt(diagonal_term+no_diagonal_term)
-
-def parabolic_cutoff_model_uncertainty(x_axis, covariance_matrix, x_axis_limit=5000, sigma=1.0):
-    x = x_axis
-    if x<= x_axis_limit:
-        sigma_a = covariance_matrix[0][0]
-        sigma_b = covariance_matrix[1][1]
-        sigma_c = covariance_matrix[2][2]
-        
-        cov_ab = covariance_matrix[0][1]
-        cov_ac = covariance_matrix[0][2]
-        cov_bc = covariance_matrix[1][2]
-        
-        diagonal_term = sigma_a*x**4 + sigma_b*x**2 + sigma_c
-        no_diagonal_term = 2*cov_ab*x**3 + 2*cov_ac*x**2 + 2*cov_bc*x
-    
-        return np.sqrt(diagonal_term+no_diagonal_term)
-    else :
-        return sigma
+#################################################################################
 
 
 # Test statistic
@@ -64,29 +36,45 @@ def reducedChiSquared(model, fit_parameters, x,y,uncer):
     chi=0
     for i in range(0,len(x)):
         chi+=((y[i]-model(x[i],*fit_parameters))**2)/(uncer[i]**2)
-        #print(x[i])
-        #print(((y[i]-model(x[i],slope,level))**2)/(uncer[i]**2))
     return (chi/(len(x)-len(fit_parameters)))
 
 
 class FitExperiment:
-    def __init__(self, name, model, fit_parameters, fit_covariance,x, y, y_uncer):
+    def __init__(self, name, model, fit_parameters, fit_covariance,x, y, y_uncer, cutoff_value=None):
         if not self._check_name_scheme(name):
             ERROR.log(f"Experiment name {name} does not follow the required scheme: CRX_EWjj_QCDjj_shape")
             raise ValueError(f"Experiment name {name} does not follow the required scheme: CRX_EWjj_QCDjj_shape")
         self.name = name
         self.model = model
-        self.model_uncertainty = self._get_uncertainty_function()
         self.fit_parameters = fit_parameters
         self.fit_covariance = fit_covariance
+        self.is_cutoff_model = ('parabolic-cutoff' in name)
+        self.cutoff_value = cutoff_value
+        if self.is_cutoff_model and cutoff_value is None:
+            ERROR.log(f"Experiment {name} is a cutoff model but no cutoff value provided.")
+            raise ValueError(f"Experiment {name} is a cutoff model but no cutoff value provided.")
         self.x = x
         self.y = y
         self.y_uncer = y_uncer
         self.reduced_chi2 = reducedChiSquared(model, fit_parameters, x, y, y_uncer)
 
     def __str__(self):
-        return f"Experiment Name: {self.name}\n Model: {self.model}\n Model_E: {self.model_uncertainty}\n Parameters: {self.fit_parameters}\n Parameters_E: {self.fit_covariance}\n Reduced Chi2: {self.reduced_chi2}"
-    
+        return f"Experiment Name: {self.name}\n Model: {self.model}\n Parameters: {self.fit_parameters}\n Parameters_E: {self.fit_covariance}\n Reduced Chi2: {self.reduced_chi2}"
+
+    def to_file_string(self):
+        write_string = "################## Experiment Name: %s ##################\n" % self.name
+        write_string += "Model: %s\n" % self.model.__name__
+        write_string += "Is cutoff model: %s\n" % self.is_cutoff_model
+        if self.is_cutoff_model:
+            write_string += "Cutoff value: %s\n" % self.cutoff_value
+        write_string += "Parameters: %s\n" % self.fit_parameters
+        write_string += "Covariance matrix: %s\n" % self.fit_covariance
+        write_string += "Reduced Chi2: %s\n" % self.reduced_chi2
+        write_string += "X: %s\n" % self.x
+        write_string += "Y: %s\n" % self.y
+        write_string += "Y Uncertainty: %s\n" % self.y_uncer
+        return write_string
+
     # Name should always be of type CRX_EWjj_QCDjj_shape
     def _check_name_scheme(self, name):
         name_parts = name.split('_')
@@ -103,22 +91,10 @@ class FitExperiment:
         if name_parts[2][:5] != "QCDjj":
             ERROR.log(f"Experiment name {name} does not contain 'QCDjj'.")
             return False
-        if name_parts[3] not in ["parabolic", "linear", "parabolic-cutoff"]:
+        if name_parts[3] not in ["parabolic", "linear", "parabolic-cutoff", "exponential"]:
             ERROR.log(f"Experiment name {name} does not contain a valid shape.")
             return False
         return True
-    
-    # Assign the correct uncertainty function based on the model
-    def _get_uncertainty_function(self):
-        if self.name.endswith("parabolic"):
-            return parabolic_model_uncertainty
-        elif self.name.endswith("linear"):
-            return linear_model_uncertainty
-        elif self.name.endswith("parabolic-cutoff"):
-            return parabolic_cutoff_model_uncertainty
-        else:
-            ERROR.log(f"Experiment name {self.name} does not contain a valid shape.")
-            raise ValueError(f"Experiment name {self.name} does not contain a valid shape.")
     
     def get_name_scheme(self):
         name_parts = self.name.split('_')
@@ -136,27 +112,44 @@ class FitExperiment:
             if x_axis is None:
                 ERROR.log("No x_axis provided for function extrapolation mode. This is required when using function-extrapolation mode.")
                 raise ValueError("No x_axis provided for function extrapolation mode. This is required when using function-extrapolation mode.")
-            x = x_axis
-            model = self.model
-            fit_params = self.fit_parameters
-            model_uncertainty = self.model_uncertainty
-            try:
-                y_pred = model(x, *fit_params)
-                y_uncer = model_uncertainty(x, self.fit_covariance)
-            except ValueError:
-                DEBUG.log(f"Error in model prediction for experiment {self.name}. Trying with cutoff model way of passsing params.")
-                model = np.vectorize(model)
-                model_uncertainty = np.vectorize(model_uncertainty, excluded=['covariance_matrix'])
-                y_pred = model(x, *fit_params)
-                y_uncer = model_uncertainty(x, covariance_matrix=self.fit_covariance[0],
-                                             x_axis_limit=self.fit_covariance[1],
-                                             sigma=self.fit_covariance[2])
-
+            
+            # Do the predictions for the whole x_axis
+            DEBUG.log(f"Making predictions for the x_axis: {x_axis} using the model: {self.model}")
+            predictions = [self.make_single_prediction(x_value) for x_value in x_axis]
+            y_pred = np.array([i.n for i in predictions])
+            y_uncer = np.array([i.s for i in predictions])
             return y_pred, y_uncer
+        
         else:
             ERROR.log(f"Invalid prediction mode: {mode}. Valid modes are 'function-extrapolation' and 'point-by-point'.")
             raise ValueError(f"Invalid prediction mode: {mode}. Valid modes are 'function-extrapolation' and 'point-by-point'.")
+        
+    def make_single_prediction(self, x_value):
+        if x_value < 250 or x_value > 5000:
+            ERROR.log(f"x_value {x_value} is out of bounds for the model. It should be between 250 and 5000.")
+            raise ValueError(f"x_value {x_value} is out of bounds for the model. It should be between 250 and 5000.")
+        
+        # Construct the correlated values for the parameters
+        params = correlated_values(self.fit_parameters, self.fit_covariance)
 
+        if self.is_cutoff_model:
+            DEBUG.log("Using cutoff model to do single prediction.")
+            if x_value < self.cutoff_value:
+                DEBUG.log(f"x_value {x_value} is below the cutoff value {self.cutoff_value}. Using the model normally.")
+                return self.model(x_value, *params)
+            else:
+                DEBUG.log(f"x_value {x_value} is above the cutoff value {self.cutoff_value}. Using the cutoff model.")
+                # First obtain the value from the normal model - this is to extract the uncertainty.
+                pred = self.model(self.cutoff_value, *params, mass_limit=5000, level = 1)
+                percentage_uncertainty = pred.s / pred.n
+                # Now use the cutoff value to return the value at the cutoff
+                pred = self.model(self.cutoff_value, *params, mass_limit=self.cutoff_value, level = self.model(self.cutoff_value, *params).n)
+                return ufloat(pred.n, pred.n * percentage_uncertainty)
+
+        DEBUG.log("Using normal model to do single prediction.")
+        return self.model(x_value, *params)
+
+# This class is a container for multiple FitExperiment objects                
 class FitExperimentContainer:
     def __init__(self):
         self.experiments = []
@@ -174,6 +167,7 @@ class FitExperimentContainer:
     def get_experiment(self, name):
         for exp in self.experiments:
             if exp.name == name:
+                DEBUG.log(f"Experiment with name {name} found.")
                 return exp
         DEBUG.log(f"Experiment with name {name} not found. Returning None.")
         return None
@@ -188,6 +182,22 @@ class FitExperimentContainer:
         for exp in self.experiments:
             INFO.log(str(exp))
 
+    def write_experiments_to_file(self, file_name):
+        # Check if the file exists and if it does, ask the user if they want to overwrite it
+        import os
+        if os.path.exists(f"results/{file_name}"):
+            INFO.log(f"File results/{file_name} already exists. Do you want to overwrite it? (y/n)")
+            overwrite = input().strip().lower() == 'y'
+            if not overwrite:
+                WARNING.log("Not overwriting the file. Returning without writing.")
+                return
+
+        # Write the experiments to the file
+        with open(f"results/{file_name}", 'w') as f:
+            for exp in self.experiments:
+                f.write(exp.to_file_string())
+        INFO.log(f"Experiments written to file results/{file_name}.")
+
 # Perform the fit in mjj and add this to the experiments container
 from scipy.optimize import curve_fit
 def mjj_fit_experiment(model , x_axis, y_axis, y_uncer, experiment_name=None, experiments_container: FitExperimentContainer = None):
@@ -199,8 +209,13 @@ def mjj_fit_experiment(model , x_axis, y_axis, y_uncer, experiment_name=None, ex
         WARNING.log("No experiments container provided, results will not be stored.")
         return curve_fit(model, x_axis, y_axis, sigma=y_uncer)
 
-
-    fit_params, fit_covariance = curve_fit(model, x_axis, y_axis, sigma=y_uncer)
+    fit_hint = None
+    if 'exponential' in experiment_name:
+        fit_hint = [ 0.001, 1.2, 1.5] # a, b, c
+    if 'parabolic-cutoff' in experiment_name:
+            DEBUG.log(f"Experiment {experiment_name} is a parabolic-cutoff model, vectorizing the model.")
+            model = np.vectorize(model)
+    fit_params, fit_covariance = curve_fit(model, x_axis, y_axis, sigma=y_uncer, p0=fit_hint)
     new_experiment = FitExperiment(
         name=experiment_name,
         model=model,
@@ -259,10 +274,18 @@ def display_fit_experiments(experiments_container: FitExperimentContainer, CR_na
     experiment_counter = 1
     for iexperiment in experiment_names:
         experiment = experiments_container.get_experiment(iexperiment)
-        experiment_model = experiment.model
-        fit_params = experiment.fit_parameters
+        # Compute predictions taking care of numbers with uncertainties or just floats
+        predictions = []
+        for x in X:
+            pred = experiment.make_single_prediction(x)
+            try:
+                pred = pred.n  # If it's a ufloat, get the nominal value
+            except AttributeError:
+                pred = float(pred)  # If it's a float, just use it
+            predictions.append(pred)
+        predictions = np.array(predictions)
         model_name = experiment.get_name_scheme()[3]
-        plt.plot(X, experiment_model(X, *fit_params), label='Fit-%s' % model_name)
+        plt.plot(X, predictions, label='Fit-%s' % model_name)
 
         # Plot the GoF of the experiments
         font = {'color':  'black',
@@ -396,3 +419,6 @@ def predict_SR_from_experiments(experiments_container : FitExperimentContainer, 
 
     return SR_y, SR_error
 
+if __name__ == "__main__":
+    # This is a test to see if the module works correctly
+    INFO.log("This is a library module for fitting Mjj distributions. Not meant to be run directly.")
