@@ -290,9 +290,9 @@ def display_fit_experiments(experiments_container: FitExperimentContainer, CR_na
         # Plot the GoF of the experiments
         font = {'color':  'black',
         'weight': 'normal',
-        'size': 16,}
+        'size': 14,}
         gof = experiment.reduced_chi2
-        plt.text(0.05, (experiment_counter + 1)*0.05, '%s = %s' % (model_name,round(gof,2)),fontdict=font, transform = ax.transAxes)
+        plt.text(0.05, (experiment_counter + 1)*0.04, '%s = %s' % (model_name,round(gof,2)),fontdict=font, transform = ax.transAxes)
         experiment_counter += 1
 
     plt.text(0.05, 0.03, 'Reduced chi-squared: ',fontdict=font, transform = ax.transAxes)
@@ -302,7 +302,7 @@ def display_fit_experiments(experiments_container: FitExperimentContainer, CR_na
     plt.xlabel(r'$m_{jj}$ [GeV]',fontsize=20,horizontalalignment='center')
     plt.ylabel(r'$r_{k}$',fontsize=18)
     plt.xlim(0,5000)
-    plt.title("%s QCDjj: %s EWjj: %s" % (CR, QCD, EW),fontsize=18)
+    plt.title("%s QCDjj: %s EWjj: %s" % (CR[:3] if "CR" in CR else "SR", QCD, EW),fontsize=18)
     plt.xticks(fontsize = 15)
     plt.yticks(fontsize = 15)
     
@@ -312,7 +312,8 @@ def display_fit_experiments(experiments_container: FitExperimentContainer, CR_na
         if save_name is None:
             ERROR.log("No save name provided, cannot save the figure.")
             raise ValueError("No save name provided, cannot save the figure.")
-        plt.savefig(save_name, bbox_inches='tight')
+        INFO.log(f"Saving the figure to results/{save_name}.pdf")
+        plt.savefig(f"results/{save_name}.pdf", bbox_inches='tight')
     else:
         INFO.log("Displaying the figure without saving.")
         plt.show()
