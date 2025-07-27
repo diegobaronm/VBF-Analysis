@@ -187,22 +187,13 @@ def MoveOutput(output_name, tree_name, remote, output_dict, cli_path=None):
     # We assume the output will folder is already created. For local jobs it is created when launching the analysis.
     # For remote, it is created by the submission script.
     # The creator function is CreateOutputsDir().
-    if remote:
-        cmd = 'mv %s %s/%s/%s' % (output_name, output_path, tree_name, output_name)
-        INFO.log("Moving output with command: " + cmd)
-        output = os.system(cmd)
-        if (output!=0):
-            cmd = 'echo %s %s >> %s/%s/Failed.txt' % (output_name.replace(tree_name, '').replace('.root',''), tree_name, output_path, tree_name)
-            WARNING.log('Job for %s sample failed. Creating log with command: %s' % (output_name, cmd))
-            os.system(cmd)
-    else : # We created the output directory when launching the analysis
-        cmd = 'mv %s %s/%s/%s' % (output_name, output_path, tree_name, output_name)
-        INFO.log("Moving output with command: " + cmd)
-        output = os.system(cmd)
-        if (output!=0):
-            cmd = 'echo %s >> %s/%s/Failed.txt' % (output_name.replace('.root', ''), output_path, tree_name)
-            WARNING.log('Job for %s sample failed. Moving log with command: %s' % (output_name, cmd))
-            os.system(cmd)
+    cmd = 'mv %s %s/%s/%s' % (output_name, output_path, tree_name, output_name)
+    INFO.log("Moving output with command: " + cmd)
+    output = os.system(cmd)
+    if (output!=0):
+        cmd = 'echo %s %s >> %s/%s/Failed.txt' % (output_name.replace(tree_name, '').replace('.root',''), tree_name, output_path, tree_name)
+        WARNING.log('Job for %s sample failed. Creating log with command: %s' % (output_name, cmd))
+        os.system(cmd)
 
 def CreateOutputsDir(output_path, tree_name):
     # We create the output directory if needed.
@@ -257,9 +248,42 @@ def get_combos_from_txt_file(file_path):
     
     return combos
 
-def RunAnalysis(analysis_function, dataCombos):
-    # create parser
+
+def AnalysisFunction(key, remote, CLI_args, dataSets, realList, infos, dirs, output_dict):
+    # get the Z boson process
+    z_sample= getZllSampleKey(key)
+
+    # get filename
+    filename = dataSets[key]
+
+    totRealLum=luminosity(key)
+    INFO.log("Luminosity for this year: "+str(totRealLum))
+
+    # get luminosity weight if data is MC
+    lumStr = getEventWeight(key,realList,infos,totRealLum)
+
+    # launch the analysis script for the given data set
+    tree_name = CLI_args.tree
+    region = CLI_args.region
+
+    DrawC(filename,lumStr,z_sample,key,tree_name, region, dirs)
+
+    # Move the output to a different directory
+    output_name = key+tree_name+".root"
+    MoveOutput(output_name, tree_name, remote, output_dict = output_dict, cli_path=CLI_args.output)
+
+
+def RunAnalysis(dataCombos, dataSets, realList, infos, dirs, output_dict):
+    # create parser and print job configuration
     parser = createParser()
+    INFO.log("Running analysis with the following configuration:")
+    INFO.log("Sample: %s" % parser.sample)
+    INFO.log("Remote: %s" % parser.remote)
+    INFO.log("Tree: %s" % parser.tree)
+    INFO.log("Region: %s" % parser.region)
+    INFO.log("Number of cores: %d" % parser.j)
+    INFO.log("Output directory: %s" % parser.output)
+    INFO.log("Clean: %s" % parser.clean)
 
     # check if the user wants to run from a set of samples defined in a text file.
     running_from_txt = parser.sample.endswith(".txt")
@@ -308,11 +332,11 @@ def RunAnalysis(analysis_function, dataCombos):
     # iterate over chains from user input
     if running_from_txt:
         with Pool(processes=parser.j) as pool:
-            pool.starmap(analysis_function, [(sample, remote_mode, parser) for sample in chains])
+            pool.starmap(AnalysisFunction, [(sample, remote_mode, parser, dataSets, realList, infos, dirs, output_dict) for sample in chains])
     else:
         for sample in chains:
             INFO.log("Running analysis for: " + sample)
-            analysis_function(sample, remote_mode, parser)
+            AnalysisFunction(sample, remote_mode, parser, dataSets, realList, infos, dirs, output_dict)
 
 if __name__ == "__main__":
     print("This script is not meant to be run directly.")

@@ -1,5 +1,5 @@
-#ifndef rewightingTools_h
-#define rewightingTools_h
+#ifndef reweightingTools_h
+#define reweightingTools_h
 #include <map>
 #include "Tools.h"
 
@@ -147,7 +147,6 @@ RegionRWParametersMap parametersSHERPA = {
     // CRc
     //{Region::CRc,{RWType::Exponential,{6.77111407E-04, 1.06577307, 1.32799518}}},
     {Region::CRc,{RWType::ParabolicCutoff,{9.49859209E-08, -5.73086485E-04,  1.28561923, 2750.0}}}
-
 };
 
 RegionRWParametersMap parametersMadGraph = {
@@ -203,7 +202,7 @@ RegionRWParametersMap parametersSHERPANLO = {
 
     // CRc
     //{Region::CRc,{RWType::Exponential,{4.36532955e-04, 8.28953792e-01, 1.07790403}}},
-    {Region::CRc,{RWType::ParabolicCutoff,{4.64652042e-08 -3.32330381e-04  1.07040864, 2250.0}}},
+    {Region::CRc,{RWType::ParabolicCutoff,{4.64652042e-08, -3.32330381e-04,  1.07040864, 2250.0}}},
 };
 
 RegionRWParametersMap parametersMadGraphNLO = {

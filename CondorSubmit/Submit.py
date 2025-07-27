@@ -29,7 +29,7 @@ def create_executable(selected_channel):
         f.write("shopt -s expand_aliases\n") # Enable aliases in the remote machine
         f.write("alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'\n") # Set up the ATLAS environment
         f.write("setupATLAS\n")
-        f.write("asetup StatAnalysis,0.6.1\n")
+        f.write("asetup StatAnalysis,0.6.2\n")
         #####
         f.write('cd %s/MC\n' % (selected_channel))
         f.write('python3 RunAnalysis.py ${1} ${2} ${3} ${4}')
@@ -43,6 +43,7 @@ def create_submission_file(selected_channel, is_chicago):
         f.write("stream_error            = True\n")
         f.write("stream_output           = True\n")
         f.write('getenv                  = True\n')
+        f.write('arguments               = $(arguments)\n')
         f.write('on_exit_remove   = (ExitBySignal == False) && (ExitCode == 0)\n')
         f.write('max_retries      = 3\n')
         f.write('requirements     = Machine =!= LastRemoteHost\n')
