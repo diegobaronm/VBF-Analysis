@@ -136,7 +136,6 @@ def DrawC(filename,lumStr,z_sample,key_pop,tree,region, dirs):
             break
 
     # reset environment and get path to file
-    r.gROOT.Reset()
     fullPath = correctPath + filename
     DEBUG.log("Full path to file: " + fullPath)
 

@@ -178,7 +178,7 @@ void CLoop::Loop(double lumFactor, int z_sample, const std::string& key)
         double mjj_w=1;
         
         // mjj reweighting
-        bool reweight_mjj = false;
+        bool reweight_mjj = true;
         MC mcSample = static_cast<MC>(z_sample);
         if (reweight_mjj){
             if(mcSample == MC::PowHegPythia){
