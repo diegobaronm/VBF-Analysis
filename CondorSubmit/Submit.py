@@ -20,7 +20,7 @@ def menu(question,options):
             INFO.log("Select a correct option!")
     return int(answer)
 
-def create_executable(selected_channel):
+def create_executable(selected_channel, output_datasets_path):
     with open("run.sh","w") as f:
         f.write("#!/bin/bash\n")
         f.write('echo $PWD\n') # DEBUG 
@@ -32,9 +32,13 @@ def create_executable(selected_channel):
         f.write("asetup StatAnalysis,0.6.2\n")
         #####
         f.write('cd %s/MC\n' % (selected_channel))
-        f.write('python3 RunAnalysis.py ${1} ${2} ${3} ${4}')
+        # If the output path is not None, we need to modify the run.sh
+        if output_datasets_path is None:
+            f.write('python3 RunAnalysis.py ${1} ${2} ${3} ${4}')
+        else:
+            f.write('python3 RunAnalysis.py ${1} ${2} ${3} ${4} --output ${5}')
 
-def create_submission_file(selected_channel, is_chicago):
+def create_submission_file(selected_channel, is_chicago, input_datasets_path ,output_datasets_path):
     with open("Condor.sub","w") as f:
         f.write('executable              = run.sh\n')
         f.write('output                  = output/$(ClusterId).$(ProcId).out\n')
@@ -46,6 +50,10 @@ def create_submission_file(selected_channel, is_chicago):
         f.write('arguments               = $(arguments)\n')
         f.write('on_exit_remove   = (ExitBySignal == False) && (ExitCode == 0)\n')
         f.write('max_retries      = 3\n')
+        if output_datasets_path is not None:
+            f.write('arguments               = $(SAMPLE) $(REMOTE) $(TREE) $(REGION) $(OUTDIR)\n')
+        else:
+            f.write('arguments               = $(SAMPLE) $(REMOTE) $(TREE) $(REGION)\n')
         f.write('requirements     = Machine =!= LastRemoteHost\n')
         f.write('preserve_relative_paths = True\n')
         f.write('initialdir = %s/\n' % (os.path.dirname(os.getcwd()))) # Get the directory above the CWD.
@@ -55,6 +63,12 @@ def create_submission_file(selected_channel, is_chicago):
             f.write('request_memory = 4096MB\n')
         else:
             f.write('+JobFlavour = "microcentury"')
+
+        f.write('\n')
+        if output_datasets_path is not None:
+            f.write('queue SAMPLE, REMOTE, TREE, REGION, OUTDIR from %s\n' % (input_datasets_path))
+        else:
+            f.write('queue SAMPLE, REMOTE, TREE, REGION from %s\n' % (input_datasets_path))
 
 CONDOR_SUBMIT_TXT_POSTFIX = '_ForCondor.txt'
 
@@ -135,25 +149,12 @@ def create_input_datasets(selected_input_path):
             line = '%s %s %s %s %s\n' % (line, 'yes', tree, region, output_path)
         new_lines.append(line)
 
-    # If the output path is not None, we need to modify the run.sh
-    if output_path is not None:
-        with open('run.sh', 'r') as f:
-            run_script = f.read()
-        
-        # Replace the runnin command to include the output path
-        run_script = run_script.replace('python3 RunAnalysis.py ${1} ${2} ${3} ${4}', 
-                                        'python3 RunAnalysis.py ${1} ${2} ${3} ${4} --output ${5}')
-        
-        # Write the modified script back
-        with open('run.sh', 'w') as f:
-            f.write(run_script)
-
     # Create file with CONDOR_SUBMIT_TXT_POSTFIX suffix
     with open(selected_input_path.replace('.txt', CONDOR_SUBMIT_TXT_POSTFIX), 'w') as f:
         for new_line in new_lines:
             f.write(new_line)
 
-    return selected_input_path.replace('.txt', CONDOR_SUBMIT_TXT_POSTFIX)
+    return selected_input_path.replace('.txt', CONDOR_SUBMIT_TXT_POSTFIX), output_path
 
 def main():
     # Check that log directories exist, if not create them
@@ -177,22 +178,22 @@ def main():
     valid_channels = ["MuMu","Zee","EleTau","TauMu","MuEle"]
     selected_channel = valid_channels[menu("Please select a channel: ", valid_channels) - 1]
 
-    # Create run.sh file (executable)
-    create_executable(selected_channel)
-
-    # Create submission file
-    create_submission_file(selected_channel, is_chicago)
-
     # Ask user which input file to use
     inputs = get_list_of_inputs(selected_channel)
     selected_input = inputs[menu("Please select an input file: ", inputs) - 1]
     selected_input_path = '../%s/MC/InputDatasets/%s' % (selected_channel, selected_input)
 
     # Read the region from the input file and let the user choose the region name
-    input_datasets_path = create_input_datasets(selected_input_path)
+    input_datasets_path, output_datasets_path = create_input_datasets(selected_input_path)
+
+    # Create run.sh file (executable)
+    create_executable(selected_channel, output_datasets_path)
+
+    # Create submission file
+    create_submission_file(selected_channel, is_chicago, input_datasets_path, output_datasets_path)
 
     # Submit the jobs
-    cmd = 'condor_submit Condor.sub -queue arguments from %s' % (input_datasets_path)
+    cmd = 'condor_submit Condor.sub'
     INFO.log('Submitting jobs... with command: %s' % (cmd))
     os.system(cmd)  
 
