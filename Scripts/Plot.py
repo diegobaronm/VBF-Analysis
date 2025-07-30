@@ -39,7 +39,10 @@ def print_config(config, indent = ''):
     else:
         INFO.log(indent+str(config))
 
-def verify():
+def verify(interactive_mode):
+    if not interactive_mode:
+        INFO.log('Running in non-interactive mode, automatically confirming.')
+        return True
     print('')
     INFO.log('Run this configuration? [y/n]')
     answer = input().lower()
@@ -162,16 +165,12 @@ def get_args():
     parser.add_argument('--debug', action='store_true', help='Set the log level to debug.')
     return parser.parse_args()
 
-def Plot():
-    # Get arguments and set the log level.
-    args = get_args()
+def Plot(args, config, interactive_mode = True):
     Logger.LOGLEVEL = 3
     if args.debug:
         Logger.LOGLEVEL = 4
-    # Get the configuration file.
-    config = load_config(args.config_file)
     print_config(config)
-    run = verify()
+    run = verify(interactive_mode)
     if not run:
         INFO.log('Exiting... without running!')
         exit(0)
@@ -264,4 +263,8 @@ def Plot():
               )
     
 if __name__ == '__main__':
-    Plot()
+     # Get arguments and set the log level.
+    args = get_args()
+    # Get the configuration file.
+    config = load_config(args.config_file)
+    Plot(args, config)
