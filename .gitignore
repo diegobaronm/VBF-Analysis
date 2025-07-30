@@ -89,3 +89,5 @@ log/*
 # Condor inputs
 *_ForCondor.txt
 *Missing_files.txt
+CondorSubmit/Condor*.sub
+CondorSubmit/run_*.sh

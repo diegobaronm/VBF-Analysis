@@ -20,8 +20,8 @@ def menu(question,options):
             INFO.log("Select a correct option!")
     return int(answer)
 
-def create_executable(selected_channel, output_datasets_path):
-    with open("run.sh","w") as f:
+def create_executable(selected_channel, output_datasets_path, job_id):
+    with open("run_%s.sh" % (job_id),"w") as f:
         f.write("#!/bin/bash\n")
         f.write('echo $PWD\n') # DEBUG 
         f.write('ls\n') # DEBUG
@@ -38,9 +38,9 @@ def create_executable(selected_channel, output_datasets_path):
         else:
             f.write('python3 RunAnalysis.py ${1} ${2} ${3} ${4} --output ${5}')
 
-def create_submission_file(selected_channel, is_chicago, input_datasets_path ,output_datasets_path):
-    with open("Condor.sub","w") as f:
-        f.write('executable              = run.sh\n')
+def create_submission_file(selected_channel, is_chicago, input_datasets_path ,output_datasets_path, job_id):
+    with open("Condor_%s.sub" % (job_id),"w") as f:
+        f.write('executable              = run_%s.sh\n' % (job_id))
         f.write('transfer_executable     = True\n')
         f.write('output                  = output/$(ClusterId).$(ProcId).out\n')
         f.write('error                   = error/$(ClusterId).$(ProcId).err\n')
@@ -157,6 +157,12 @@ def create_input_datasets(selected_input_path):
 
     return selected_input_path.replace('.txt', CONDOR_SUBMIT_TXT_POSTFIX), output_path
 
+# Create JobID with time of the day and date
+def create_job_id():
+    from datetime import datetime
+    now = datetime.now()
+    return now.strftime("%Y%m%d_%H%M%S")
+
 def main():
     # Check that log directories exist, if not create them
     if not os.path.exists('../log') or not os.path.exists('../output') or not os.path.exists('../error'):
@@ -187,14 +193,17 @@ def main():
     # Read the region from the input file and let the user choose the region name
     input_datasets_path, output_datasets_path = create_input_datasets(selected_input_path)
 
+    # Create the job ID
+    job_id = create_job_id()
+
     # Create run.sh file (executable)
-    create_executable(selected_channel, output_datasets_path)
+    create_executable(selected_channel, output_datasets_path, job_id)
 
     # Create submission file
-    create_submission_file(selected_channel, is_chicago, input_datasets_path, output_datasets_path)
+    create_submission_file(selected_channel, is_chicago, input_datasets_path, output_datasets_path, job_id)
 
     # Submit the jobs
-    cmd = 'condor_submit Condor.sub'
+    cmd = 'condor_submit Condor_%s.sub' % (job_id)
     INFO.log('Submitting jobs... with command: %s' % (cmd))
     os.system(cmd)  
 

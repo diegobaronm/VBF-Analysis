@@ -107,12 +107,16 @@ double mjj_rw(double mjj, const RWParameters& rwParameters) {
 
     switch (rwType) {
         case RWType::Linear:
+            g_LOG(LogLevel::DEBUG, "Applying linear reweighting.");
             return linearMjjRW(mjj, params[0], params[1]);
         case RWType::Parabolic:
+            g_LOG(LogLevel::DEBUG, "Applying parabolic reweighting.");
             return parabolicMjjRW(mjj, params[0], params[1], params[2]);
         case RWType::ParabolicCutoff:
+            g_LOG(LogLevel::DEBUG, "Applying parabolic cutoff reweighting.");
             return parabolicCutoffMjjRW(mjj, params[0], params[1], params[2], params[3]);
         case RWType::Exponential:
+            g_LOG(LogLevel::DEBUG, "Applying exponential reweighting.");
             return exponentialMjjRW(mjj, params[0], params[1], params[2]);
         default:
             g_LOG(LogLevel::ERROR, "Invalid RWType provided for mjj_rw function.");
@@ -121,7 +125,7 @@ double mjj_rw(double mjj, const RWParameters& rwParameters) {
 }
 
 RegionRWParametersMap parametersSHERPA = {
-    {Region::DefaultNoRW,{RWType::Linear,{0.0,0.0,1.0}}},
+    {Region::DefaultNoRW,{RWType::Linear,{0.0,1.0}}},
 
     // Why we have this config?
     // Because for the SR, the parabolic cutoff / and exponential functions look ok.
@@ -150,7 +154,7 @@ RegionRWParametersMap parametersSHERPA = {
 };
 
 RegionRWParametersMap parametersMadGraph = {
-    {Region::DefaultNoRW,{RWType::Linear,{0.0,0.0,1.0}}},
+    {Region::DefaultNoRW,{RWType::Linear,{0.0,1.0}}},
     
     // Why we have this config?
     // Because for the SR, the parabolic cutoff / and exponential functions look ok.
@@ -179,7 +183,7 @@ RegionRWParametersMap parametersMadGraph = {
 };
 
 RegionRWParametersMap parametersSHERPANLO = {
-    {Region::DefaultNoRW,{RWType::Linear,{0.0,0.0,1.0}}},
+    {Region::DefaultNoRW,{RWType::Linear,{0.0,1.0}}},
     
     // Why we have this config?
     // Because for the SR, the parabolic cutoff / and exponential functions look ok.
@@ -206,7 +210,7 @@ RegionRWParametersMap parametersSHERPANLO = {
 };
 
 RegionRWParametersMap parametersMadGraphNLO = {
-    {Region::DefaultNoRW,{RWType::Linear,{0.0,0.0,1.0}}},
+    {Region::DefaultNoRW,{RWType::Linear,{0.0,1.0}}},
     
     // Why we have this config?
     // Because for the SR, the parabolic cutoff is the only that looks ok.
@@ -229,15 +233,15 @@ RegionRWParametersMap parametersMadGraphNLO = {
 };
 
 RegionRWParametersMap parametersPowHegPythia = {
-    {Region::DefaultNoRW,{RWType::Linear,{0.0,0.0,1.0}}},
+    {Region::DefaultNoRW,{RWType::Linear,{0.0,1.0}}},
 
     // Why we have this config?
     // Because no RW can recover this sample.
 
-    {Region::SR,{RWType::Linear,{0.0,0.0,1.0}}},
-    {Region::CRa,{RWType::Linear,{0.0,0.0,1.0}}},
-    {Region::CRb,{RWType::Linear,{0.0,0.0,1.0}}},
-    {Region::CRc,{RWType::Linear,{0.0,0.0,1.0}}}
+    {Region::SR,{RWType::Linear,{0.0,1.0}}},
+    {Region::CRa,{RWType::Linear,{0.0,1.0}}},
+    {Region::CRb,{RWType::Linear,{0.0,1.0}}},
+    {Region::CRc,{RWType::Linear,{0.0,1.0}}}
 };
 
 #endif

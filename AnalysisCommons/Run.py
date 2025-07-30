@@ -306,6 +306,12 @@ def RunAnalysis(dataCombos, dataSets, realList, infos, dirs, output_dict):
     # The C++ code is at the same level in the backend directory.
     INFO.log("Compiling C++ code...")
     try:
+        # Remove all previous compiled files
+        INFO.log("Removing previously compiled files...")
+        output = os.system("rm -f backend/*.so backend/*.d backend/*.pcm")
+        if output != 0:
+            ERROR.log("Failed to remove previous compiled files.")
+            exit(1)
         r.gROOT.ProcessLine(".L backend/CLoop.C+")
     except Exception as e:
         ERROR.log("Failed to compile C++ code: %s" % str(e))
