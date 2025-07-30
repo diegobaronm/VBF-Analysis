@@ -41,6 +41,7 @@ def create_executable(selected_channel, output_datasets_path):
 def create_submission_file(selected_channel, is_chicago, input_datasets_path ,output_datasets_path):
     with open("Condor.sub","w") as f:
         f.write('executable              = run.sh\n')
+        f.write('transfer_executable     = True\n')
         f.write('output                  = output/$(ClusterId).$(ProcId).out\n')
         f.write('error                   = error/$(ClusterId).$(ProcId).err\n')
         f.write('log                     = log/$(ClusterId).log\n')
