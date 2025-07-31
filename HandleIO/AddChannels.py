@@ -192,11 +192,28 @@ def main(menu_option, used_rw_samples):
         hadd_dictionary["W_EWK_PoPy"] = ("W_EWK_PoPy","W_EWK_PoPy")
         hadd_dictionary["VV_EWK"] = ("VV_EWK","VV_EWK")
         potential_rw_samples = ["Zll_Sherpa","Zll_MG","Zll_SherpaNLO","Zll_MGNLO","Zll_PoPy"]
-        add_potential_rw_samples(hadd_dictionary, potential_rw_samples, used_rw_samples, channel="Zll")
+        if not used_rw_samples:
+            INFO.log("When not using RW samples, all the not RW samples will be added.")
+            add_potential_rw_samples(hadd_dictionary, potential_rw_samples, used_rw_samples = False, channel="Zll")
+        else:
+            INFO.log("When using RW samples, only the RW samples will be added.")
+            hadd_dictionary = {} # Clean the dictionary and fill it later.
+            hadd_dictionary["Zll_Sherpa_RWParabolicCutoff"] = ("Zee_Sherpa_RWParabolicCutoff","Zmumu_Sherpa_RWParabolicCutoff")
+            hadd_dictionary["Zll_MG_RWParabolicCutoff"] = ("Zee_MG_RWParabolicCutoff","Zmumu_MG_RWParabolicCutoff")
+            hadd_dictionary["Zll_SherpaNLO_RWParabolicCutoff"] = ("Zee_SherpaNLO_RWParabolicCutoff","Zmumu_SherpaNLO_RWParabolicCutoff")
+            hadd_dictionary["Zll_MGNLO_RWParabolicCutoff"] = ("Zee_MGNLO_RWParabolicCutoff","Zmumu_MGNLO_RWParabolicCutoff")
+            hadd_dictionary["Zll_Sherpa_RWExponential"] = ("Zee_Sherpa_RWExponential","Zmumu_Sherpa_RWExponential")
+            hadd_dictionary["Zll_MG_RWExponential"] = ("Zee_MG_RWExponential","Zmumu_MG_RWExponential")
+            hadd_dictionary["Zll_SherpaNLO_RWExponential"] = ("Zee_SherpaNLO_RWExponential","Zmumu_SherpaNLO_RWExponential")
 
         # Ask the name of the directory where files are stored
         dir_name = input("Enter the name of the directory where the files will be stored: ")
         validate_input(dir_name)
+
+        if 'SR' in dir_name:
+            INFO.log("You are merging the SR samples. Adding the Parabolic RW samples for the Zll channel.")
+            hadd_dictionary["Zll_Sherpa_RWParabolic"] = ("Zee_Sherpa_RWParabolic","Zmumu_Sherpa_RWParabolic")
+            hadd_dictionary["Zll_MG_RWParabolic"] = ("Zee_MG_RWParabolic","Zmumu_MG_RWParabolic")
 
         # First the final directory
         zll_path = os.path.join("Zll", dir_name)
@@ -222,8 +239,12 @@ def main(menu_option, used_rw_samples):
             ERROR.log("The path %s does not exist. Please check the path and try again." % source_mumu_path)
             exit(1)
 
-        copy_root_files_from_to(source_zee_path, zee_path, list_of_potential_rw_samples = potential_rw_samples, used_rw_samples = used_rw_samples) # Relative to the current directory
-        copy_root_files_from_to(source_mumu_path, zmm_path, list_of_potential_rw_samples = potential_rw_samples, used_rw_samples = used_rw_samples)
+        if not used_rw_samples:
+            copy_root_files_from_to(source_zee_path, zee_path, list_of_potential_rw_samples = potential_rw_samples, used_rw_samples = used_rw_samples) # Relative to the current directory
+            copy_root_files_from_to(source_mumu_path, zmm_path, list_of_potential_rw_samples = potential_rw_samples, used_rw_samples = used_rw_samples)
+        else:
+            INFO.log("When using RW samples, the RW samples are assumed to exist in their paths.")
+
 
         # Do the merging
         for result_sample, sample_pair in hadd_dictionary.items():

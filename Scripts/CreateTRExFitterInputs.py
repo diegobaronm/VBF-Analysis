@@ -2,83 +2,126 @@ import ROOT as r
 import os
 import numpy as np
 import argparse
-from AnalysisCommons.Run import INFO, WARNING, ERROR, DEBUG
+from uncertainties import ufloat, correlated_values
+from uncertainties.umath import *
 
+from AnalysisCommons.Run import INFO, WARNING, ERROR, DEBUG, Logger
+from Scripts.MjjFit import parabolic_model, exponential_model
+Logger.LOGLEVEL = 3
 
 # Program constants
 
-fitParams = {"Sherpa": [ 1.29830478e-07, -6.86843818e-04,  1.49385117e+00],
-              "SherpaNLO" : [ 9.82221362e-08, -4.74780468e-04,  1.21850173e+00],
-              "MG" : [ 1.43497535e-07, -5.60660936e-04,  9.95732869e-01],
-               "MGNLO" : [ 1.31215631e-07, -2.44056445e-04,  1.18831132e+00]}
+FIT_PARAMS = {"Sherpa_RWParabolicCutoff": [8.82838944E-08,-5.75209880E-04,1.43649628,2750.0],
+              "SherpaNLO_RWParabolicCutoff" : [5.94966044e-08,-3.76772401e-04, 1.17521036, 2250.0],
+              "MG_RWParabolicCutoff" : [6.54900406e-08,-3.82604146e-04, 9.17664656e-01, 2250.0],
+               "MGNLO_RWParabolicCutoff" : [1.87328269e-08, -1.24610255e-05,  1.09966978, 2250.0],
+               "Sherpa_RWExponential" : [8.47307103E-04,1.06314779,1.54110821],
+               "SherpaNLO_RWExponential" : [8.96860907e-04, 6.93896459e-01, 1.25625295],
+               "MG_RWExponential" : [7.42436292e-04, 7.03633110e-01, 9.64192819e-01],
+               "Sherpa_RWParabolic" : [8.82838944E-08,-5.75209880E-04,1.43649628],
+               "MG_RWParabolic" : [6.54900406e-08,-3.82604146e-04, 9.17664656e-01],}
 
-covarianceMatrix =  {"Sherpa" : [[ 4.37933189e-17, -9.78166325e-14,  4.33532089e-11],
-                                 [-9.78166325e-14,  2.38588198e-10, -1.15458381e-07],
-                                 [ 4.33532089e-11, -1.15458381e-07,  6.46145772e-05]],
-                     "SherpaNLO" : [[ 4.88721411e-17, -1.04467382e-13,  4.43766971e-11],
-                                    [-1.04467382e-13,  2.43818533e-10, -1.12809488e-07],
-                                    [ 4.43766971e-11, -1.12809488e-07,  6.00411993e-05]],
-                    "MG" : [[ 4.29977493e-17, -9.10704127e-14,  3.87653933e-11],
-                            [-9.10704127e-14,  2.10011698e-10, -9.70820577e-08],
-                            [ 3.87653933e-11, -9.70820577e-08,  5.12322795e-05]],
-                    "MGNLO" : [[ 2.96293197e-16, -5.64587228e-13,  2.15110041e-10],
-                               [-5.64587228e-13,  1.20075868e-09, -5.04193636e-07],
-                               [ 2.15110041e-10, -5.04193636e-07,  2.45157055e-04]]}
+FIT_COVARIANCE =  {"Sherpa_RWParabolicCutoff": [[ 4.20605912e-18, -1.05427079e-14,  5.06421195e-12],
+                                                    [-1.05427079e-14,  2.95603005e-11, -1.56011963e-08],
+                                                    [ 5.06421195e-12, -1.56011963e-08,  9.61124646e-06]],
+                     "SherpaNLO_RWParabolicCutoff": [[ 2.06553470e-17, -8.20011301e-14,  4.90184092e-11],
+                                                    [-8.20011301e-14,  3.64367633e-10, -2.33870975e-07],
+                                                    [ 4.90184092e-11, -2.33870975e-07,  1.80087363e-04]],
+                     "MG_RWParabolicCutoff": [[ 6.28300443e-17, -2.44733463e-13,  1.45860273e-10],
+                                                [-2.44733463e-13,  1.07657090e-09, -6.89771768e-07],
+                                                [ 1.45860273e-10, -6.89771768e-07,  5.26126101e-04]],
+                     "MGNLO_RWParabolicCutoff": [[ 1.25043836e-16, -4.22720216e-13,  2.17411396e-10],
+                                                [-4.22720216e-13,  1.71261502e-09, -9.58016471e-07],
+                                                [ 2.17411396e-10, -9.58016471e-07,  6.38964869e-04]],
+                     "Sherpa_RWExponential": [[ 5.70295287e-10, -1.39309227e-07,  1.55388883e-07],
+                                                [-1.39309227e-07,  9.14875204e-05, -8.28027500e-06],
+                                                [ 1.55388883e-07, -8.28027500e-06,  5.94002775e-05]],
+                     "SherpaNLO_RWExponential": [[ 2.37155393e-09, -3.31116570e-07,  4.15405141e-07],
+                                                    [-3.31116570e-07,  1.38673767e-04, -9.34866513e-06],
+                                                    [ 4.15405141e-07, -9.34866513e-06,  1.01018969e-04]],
+                     "MG_RWExponential": [[ 5.36921036e-11, -1.05729868e-08,  1.06524362e-08],
+                                            [-1.05729868e-08,  5.75756160e-06, -2.94019349e-07],
+                                            [ 1.06524362e-08, -2.94019349e-07,  3.10751010e-06]],
+                     "Sherpa_RWParabolic": [[ 4.20605912e-18, -1.05427079e-14,  5.06421195e-12],
+                                            [-1.05427079e-14,  2.95603005e-11, -1.56011963e-08],
+                                            [ 5.06421195e-12, -1.56011963e-08,  9.61124646e-06]],
+                     "MG_RWParabolic": [[ 6.28300443e-17, -2.44733463e-13,  1.45860273e-10],
+                                        [-2.44733463e-13,  1.07657090e-09, -6.89771768e-07],
+                                        [ 1.45860273e-10, -6.89771768e-07,  5.26126101e-04]],
+                     }
 
-remotePath = "/afs/cern.ch/work/d/dbaronmo/private/Fitter/"
+def custom_parabolic_cutoff_model(x, a, b, c, cutoff):
+    if x < cutoff:
+        return a * x**2 + b * x + c
+    else:
+        return a * cutoff**2 + b * cutoff + c
 
-# Functions to calculate the uncertainties based on the covariance matrix and the parabolic shape of the reweighting function
 
-def model_uncern(covariance_matrix,x):
-    var_a = covariance_matrix[0][0]
-    var_b = covariance_matrix[1][1]
-    var_c = covariance_matrix[2][2]
-    
-    cov_ab = covariance_matrix[0][1]
-    cov_ac = covariance_matrix[0][2]
-    cov_bc = covariance_matrix[1][2]
-    
-    diagonal_term = var_a*(x**4) + var_b*(x**2) + var_c
-    no_diagonal_term = 2*cov_ab*(x**3) + 2*cov_ac*(x**2) + 2*cov_bc*x
-    
-    return np.sqrt(diagonal_term+no_diagonal_term)
+FUNCTIONS_DICT = {
+    "RWParabolic" : parabolic_model,
+    "RWExponential" : exponential_model,
+    "RWParabolicCutoff" : custom_parabolic_cutoff_model
+}
 
-def parabolic_shape(mjj,parameters):
-    a = parameters[0]
-    b = parameters[1]
-    c = parameters[2]
-    return a*mjj*mjj+b*mjj+c
+REMOTE_PATH = "/afs/cern.ch/work/d/dbaronmo/private/Fitter/"
 
-# Vectorize the functions to apply them to numpy arrays
+def get_generator_rw_tag(sample_name):
+    # Find the first occurrence of of "_" in the sample name
+    underscore_index = sample_name.find("_")
+    if underscore_index == -1:
+        raise ValueError("Sample name does not contain an underscore: " + sample_name)
+    # Extract the substring after underscore
+    return sample_name[underscore_index + 1:-5] # To remove the ".root" at the end
 
-model_uncer = np.vectorize(model_uncern)
-parabolic_shape = np.vectorize(parabolic_shape,excluded=['parameters'])
+def rw_tag(generator_rw_tag):
+    # Find the first occurrence of of "_" in the sample name
+    underscore_index = generator_rw_tag.find("_")
+    if underscore_index == -1:
+        raise ValueError("Sample name does not contain an underscore: " + generator_rw_tag)
+    # Extract the substring after underscore
+    return generator_rw_tag[underscore_index + 1:]
+
 
 def scaleBinUncertainty(histogram,sampleName):
-    
-    generator = sampleName.split("_")[1][:-5]
-    generator = generator.replace("RW","")
-    generator = generator.replace("2","") # For MGNLO samples
-    INFO.log("Modifiying weights of generator = ",generator)
+
+    generator_rw_tag = get_generator_rw_tag(sampleName)
+    INFO.log("Modifiying weights of generator = ", generator_rw_tag)
+    rw_function = FUNCTIONS_DICT[rw_tag(generator_rw_tag)]
+    INFO.log("RW function = ", rw_tag(generator_rw_tag))
     
     for i in range(1,histogram.GetNbinsX()+1):
+        # Get the current bin center and error
         x = histogram.GetBinCenter(i)
         error = histogram.GetBinError(i)
-        # Get the errors for the parabolic part of the RW
-        rw = parabolic_shape(x,parameters=fitParams[generator])
-        rw_error = model_uncern(covarianceMatrix[generator],x)
-        
-        # Parameters that we apply for the flat part of the distribution
-        # The dictionary structure is sampleName : [mjj-value-where-flatRW-starts,rw-value,rw-error]
-        flatRWParameters = {"MGNLO":[2250,1.5,0.9],"SherpaNLO":[2750,0.8,0.4],"Sherpa":[2750,0.6,0.4],"MG":[2750,0.5,0.4]}
-        
-        if (x > flatRWParameters[generator][0]): # Check the current m-jj value to apply the correct error modification
-            newError = np.sqrt(error**2 + ((flatRWParameters[generator][2]/flatRWParameters[generator][1])**2)*(error**2))
-        else :
-            newError = np.sqrt(error**2 + ((rw_error/rw)**2)*(error**2))
+
+        # Treat the cutoff case specially
+        if "Cutoff" in generator_rw_tag:
+            # Make the fit parameters and covariance matrix available for the RW 
+            params = correlated_values(FIT_PARAMS[generator_rw_tag][0:3], FIT_COVARIANCE[generator_rw_tag])
+            cutoff_pred = rw_function(x, *params, cutoff=FIT_PARAMS[generator_rw_tag][3])
+
+            # Before cutoff, use just the prediction 
+            if x < FIT_PARAMS[generator_rw_tag][3]: 
+                rw = cutoff_pred.nominal_value
+                rw_error = cutoff_pred.std_dev
+            # After cutoff, we need the fractional uncertainty given by the no-cutoff prediction
+            else:
+                no_cutoff_pred = rw_function(x, *params, cutoff=6000.0)
+                relative_no_cutoff_error = no_cutoff_pred.std_dev / no_cutoff_pred.nominal_value
+                rw = cutoff_pred.nominal_value
+                rw_error = cutoff_pred.nominal_value * relative_no_cutoff_error
+
+            DEBUG.log("Bin x: %s RW prediction: %s +- %s" % (x, rw, rw_error))
+        else:
+            params = correlated_values(FIT_PARAMS[generator_rw_tag], FIT_COVARIANCE[generator_rw_tag])
+            pred = rw_function(x, *params)
+            rw = pred.nominal_value
+            rw_error = pred.std_dev
+            DEBUG.log("Bin x: %s RW prediction: %s" % (x, pred))
+
+        # Do the scaling
+        newError = np.sqrt(error**2 + ((rw_error/rw)**2)*(error**2))
         histogram.SetBinError(i,newError)
-        #if (i%249==0):
-            #INFO.log("Error change in bin = ",x," is ",round(100*(newError-error)/error,2))
 
 def channel(path):
     if "MuMu" in path:
@@ -160,15 +203,12 @@ def gather_samples(localPath):
 
     dataSamples = ['Data.root']
     signalSamples = ['Signal_Sherpa.root','Signal_PoPy.root']
-    qcdSamples = [channel(localPath)+i for i in ["_SherpaRW.root",#"_SherpaRW-Alternative.root",
-                                                "_MGRW.root",#"_MGRW-Alternative.root",
-                                                "_MGNLORW.root", "_SherpaNLORW.root",
-                                                ]]
-    backgroundSamples = ['Wjets.root','VV.root',"ttbar.root",'singletop.root']
+    qcdSamples = ["%s_%s.root" % (channel(localPath), i) for i in FIT_PARAMS.keys()]
+    backgroundSamples = ['Wjets.root','VV.root',"ttbar.root",'singletop.root','VV_EWK.root']
     if "Tau" in localPath or "MuEle" in localPath:
-        backgroundSamples += ['Higgs.root','Higgs_EWK.root','Zjets.root','W_EWK_Sherpa.root','VV_EWK.root','MJ.root']
-        
-    samples = dataSamples+signalSamples+qcdSamples+backgroundSamples
+        backgroundSamples += ['Higgs.root','Higgs_EWK.root','Zjets.root','W_EWK_Sherpa.root','MJ.root']
+
+    samples = dataSamples + signalSamples + qcdSamples + backgroundSamples
 
     return samples
 
@@ -190,7 +230,7 @@ def correct_qcd_uncertainties(localPath, samples):
                 scaleBinUncertainty(histogram,sample)
             
             # Include NOMINAL tag to samples used for systematics    
-            if "Signal_Sherpa" in sample[:-5] or "SherpaRW" in sample[:-5]:
+            if "Signal_Sherpa" in sample[:-5] or "Sherpa_RWParabolicCutoff" in sample[:-5]:
                 outputFile.WriteObject(histogram,histogramName+"_"+sample[:-5]+'_NOMINAL')
             else :
                 outputFile.WriteObject(histogram,histogramName+"_"+sample[:-5])
@@ -214,7 +254,7 @@ def upload_file(remotePath, localPath, outputName):
 
 def main():
     parser = argparse.ArgumentParser(description="Create TRExFitter inputs for VBF Analysis.")
-    parser.add_argument("--remote-path", type=str, default=remotePath, help="Path to the remote directory where the files will be uploaded.")
+    parser.add_argument("--remote-path", type=str, default=REMOTE_PATH, help="Path to the remote directory where the files will be uploaded.")
     parser.add_argument("local_path", type=str, help="Path to the local directory where the files are stored.")
     parser.add_argument("output_name", type=str, help="Name of the output file to be created.")
     args = parser.parse_args()
@@ -229,7 +269,6 @@ def main():
 
     INFO.log("Uploading the file to the remote path...")
     upload_file(args.remote_path, args.local_path, args.output_name)
-
 
 
 if __name__ == "__main__":

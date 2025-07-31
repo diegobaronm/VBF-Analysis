@@ -62,8 +62,8 @@ def RatioPlot(canvas, fileAndHistogramNameDict, postfix, compareDensity, colour,
         normalization([h1,h2],histogramInfo.m_binNorm)
     # Plot the histogram density if requested
     if (compareDensity):
-        h1.Scale(1.0/h1.Integral(1,-1))
-        h2.Scale(1.0/h2.Integral(1,-1))
+        h1.Scale(1.0/h1.Integral(1,2))
+        h2.Scale(1.0/h2.Integral(1,2))
 
     h2.Divide(h1) # One is always the reference
 
@@ -84,7 +84,7 @@ def RatioPlot(canvas, fileAndHistogramNameDict, postfix, compareDensity, colour,
     canvas.SetTitle("HOLA")
     h2.GetXaxis().SetRange(1,h2.GetNbinsX()+1) 
     h2.GetYaxis().SetRangeUser(0.01,2.0)
-    h2.GetXaxis().SetRangeUser(0,1.0)
+    h2.GetXaxis().SetRangeUser(0,2.0)
     h2.Draw(drawingOptions)
     h2.GetXaxis().SetTitle(histogramInfo.m_xTitle)
     h2.GetYaxis().SetTitle("Events/"+str(histogramInfo.m_binNorm)+" "+histogramInfo.m_units)
@@ -104,14 +104,14 @@ def RatioPlot(canvas, fileAndHistogramNameDict, postfix, compareDensity, colour,
 
 
 if __name__ == "__main__":
-    qcd_sample = 'Zll_MGNLO'
+    qcd_sample = 'Zll_PoPy'
     inputs_dictionary = generate_plot_input(
         filePath1 = '/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/Zll/NewZpeak/SR/%s.root' % qcd_sample,
-        file2Path = '/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/Zll/NewZpeak/CRa/%s.root' % qcd_sample,
-        histogramName1 = 'Z_centrality',
-        histogramName2 = 'Z_centrality',
-        title1 = 'SR',
-        title2 = 'CRa'
+        file2Path = '/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/Zll/NewZpeak/CRc/%s.root' % qcd_sample,
+        histogramName1 = 'n_jets_interval',
+        histogramName2 = 'n_jets_interval',
+        title1 = 'SR+CRa',
+        title2 = 'CRc+CRb'
     )
 
     # Create canvas
@@ -129,8 +129,9 @@ if __name__ == "__main__":
             break
     histogram_to_replace
     # Do the modifications
-    histogram_to_replace.m_binEdges = [0.5]
-    histogram_to_replace.m_binSteps = [0.1, 0.25]
+    histogram_to_replace.m_binEdges = [1.0]
+    histogram_to_replace.m_binSteps = [0.5,0.5]
+    histogram_to_replace.m_binNorm = 0.5
     # Put it back
     histogram_models_list.append(histogram_to_replace)
 
@@ -150,4 +151,4 @@ if __name__ == "__main__":
     c.BuildLegend(0.7,0.7,0.9,0.9)
 
     # Save the plot
-    c.SaveAs("results/RatioPlot_%s%s_QCD%s.pdf" % ('Centrality_SR_CRa', '', qcd_sample.replace('Zll_','')))
+    c.SaveAs("results/RatioPlot_%s%s_QCD%s.pdf" % ('NGapJets_SR_CRc', '', qcd_sample.replace('Zll_','')))
