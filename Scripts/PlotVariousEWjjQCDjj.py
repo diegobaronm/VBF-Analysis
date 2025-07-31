@@ -50,7 +50,7 @@ def get_norm_factors(qcd_sample, ew_sample, channel):
 def main():
     # Get the arguments.
     args = get_args()
-    channel = 'Zmumu'
+    channel = 'Zll'
     yaml_file = args.config_file
     
     QCDjj_suffixes = ['Sherpa','SherpaNLO','MG','MGNLO','PoPy',
@@ -81,7 +81,15 @@ def main():
                 config['is_post_fit'] = post_fit
 
             INFO.log(f"Running with QCD sample: {qcd_sample} and EW sample: {ew_sample}")
-            Plot(args, config, interactive_mode=False)
+            if post_fit:
+                INFO.log(f"Using normalization factors: {norm_factors[0]} for QCD and {norm_factors[1]} for VBF.")
+                Plot(args, config, interactive_mode=False)
+                INFO.log(f"Plotting also the non-normalised version.")
+                config['qcd_scale'] = 1.0
+                config['vbf_scale'] = 1.0
+                config['is_post_fit'] = False
+                Plot(args, config, interactive_mode=False)
+                
 
     INFO.log('All plots generated successfully!')
 

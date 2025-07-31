@@ -29,14 +29,23 @@ def exponential_model(mjj, a, b, c):
 
 # Test statistic
 # Make fit parameters a list of variable length arguments
-def reducedChiSquared(model, fit_parameters, x,y,uncer):
+def reducedChiSquared(model, fit_parameters, x,y,uncer, is_cutoff_model=False, cutoff_value=5000):
     x = x[1:]
     y = y[1:]
     uncer = uncer[1:]
     chi=0
     for i in range(0,len(x)):
-        chi+=((y[i]-model(x[i],*fit_parameters))**2)/(uncer[i]**2)
-    return (chi/(len(x)-len(fit_parameters)))
+        if not is_cutoff_model:
+            chi+=((y[i]-model(x[i],*fit_parameters))**2)/(uncer[i]**2)
+        else:
+            chi+=((y[i]-model(x[i],*fit_parameters, mass_limit=cutoff_value, level= model(cutoff_value,*fit_parameters)))**2)/(uncer[i]**2)
+
+    if not is_cutoff_model:
+        reduced_chi2 = (chi/(len(x)-len(fit_parameters)))
+    else:
+        reduced_chi2 = (chi/(len(x)-len(fit_parameters) - 1))
+
+    return reduced_chi2
 
 
 class FitExperiment:
@@ -56,7 +65,7 @@ class FitExperiment:
         self.x = x
         self.y = y
         self.y_uncer = y_uncer
-        self.reduced_chi2 = reducedChiSquared(model, fit_parameters, x, y, y_uncer)
+        self.reduced_chi2 = reducedChiSquared(model, fit_parameters, x, y, y_uncer, is_cutoff_model=self.is_cutoff_model, cutoff_value=self.cutoff_value)
 
     def __str__(self):
         return f"Experiment Name: {self.name}\n Model: {self.model}\n Parameters: {self.fit_parameters}\n Parameters_E: {self.fit_covariance}\n Reduced Chi2: {self.reduced_chi2}"
@@ -266,7 +275,8 @@ def display_fit_experiments(experiments_container: FitExperimentContainer, CR_na
 
     fig, ax = plt.subplots()
     # Plot the data points
-    plt.errorbar(x_axis, y_axis, yerr=y_uncer, fmt='.', label='(Data-BG)/QCDjj')
+    if 'SR' not in CR: # Only plot data points in the CRs
+        plt.errorbar(x_axis, y_axis, yerr=y_uncer, fmt='.', label='(Data-BG)/QCDjj')
     plt.rcParams['text.usetex'] = True
     X = np.append(x_axis,5000.0)
 
@@ -285,22 +295,27 @@ def display_fit_experiments(experiments_container: FitExperimentContainer, CR_na
             predictions.append(pred)
         predictions = np.array(predictions)
         model_name = experiment.get_name_scheme()[3]
-        plt.plot(X, predictions, label='Fit-%s' % model_name)
+        plt.plot(X, predictions, label='Fit-%s' % (model_name if 'FromCutoffCRs' not in experiment.name else model_name + ' (with cutoff CRs)'))
 
         # Plot the GoF of the experiments
         font = {'color':  'black',
         'weight': 'normal',
         'size': 14,}
         gof = experiment.reduced_chi2
-        plt.text(0.05, (experiment_counter + 1)*0.04, '%s = %s' % (model_name,round(gof,2)),fontdict=font, transform = ax.transAxes)
+        if 'SR' not in CR: # Only plot the GoF in the CRs
+            plt.text(0.05, (experiment_counter + 1)*0.04, '%s = %s' % (model_name,round(gof,2)),fontdict=font, transform = ax.transAxes)
         experiment_counter += 1
 
-    plt.text(0.05, 0.03, 'Reduced chi-squared: ',fontdict=font, transform = ax.transAxes)
+    if 'SR' not in CR: # Only plot the GoF in the CRs
+        plt.text(0.05, 0.03, 'Reduced chi-squared: ',fontdict=font, transform = ax.transAxes)
 
 
     plt.legend()
     plt.xlabel(r'$m_{jj}$ [GeV]',fontsize=20,horizontalalignment='center')
-    plt.ylabel(r'$r_{k}$',fontsize=18)
+    if 'SR' not in CR:
+        plt.ylabel(r'$r_{k}$',fontsize=18)
+    else:
+        plt.ylabel(r'$f_{k}$',fontsize=18)
     plt.xlim(0,5000)
     plt.title("%s QCDjj: %s EWjj: %s" % (CR[:3] if "CR" in CR else "SR", QCD, EW),fontsize=18)
     plt.xticks(fontsize = 15)
