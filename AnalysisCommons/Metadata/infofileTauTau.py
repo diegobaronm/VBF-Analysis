@@ -1893,6 +1893,108 @@ infos = {
 'VBF_Zprime_500_truth_2015_0': {'DSID'    : 545894,'events'  : 42.229526,'red_eff' :1,'sumw'    :42.229526,'xsec'    :0.001406,'kfac'    :4.000000,'fil_eff'    :1.000000},
 #VBF_Zprime_500_truth_2018
 'VBF_Zprime_500_truth_2018_0': {'DSID'    : 545894,'events'  : 70.315609,'red_eff' :1,'sumw'    :70.315609,'xsec'    :0.001406,'kfac'    :4.000000,'fil_eff'    :1.000000},
+#VBF_Zprime_550_truth_2017
+'VBF_Zprime_550_truth_2017_0': {'DSID'    : 567845,'events'  : 29.939214,'red_eff' :1,'sumw'    :29.939214,'xsec'    :0.000998,'kfac'    :4.000000,'fil_eff'    :1.000000},
+#VBF_Zprime_550_truth_2015
+'VBF_Zprime_550_truth_2015_0': {'DSID'    : 567845,'events'  : 29.857814,'red_eff' :1,'sumw'    :29.857814,'xsec'    :0.000998,'kfac'    :4.000000,'fil_eff'    :1.000000},
+#VBF_Zprime_550_truth_2018
+'VBF_Zprime_550_truth_2018_0': {'DSID'    : 567845,'events'  : 38.993377,'red_eff' :1,'sumw'    :38.993377,'xsec'    :0.000998,'kfac'    :4.000000,'fil_eff'    :1.000000},
+#VBF_Zprime_600_truth_2015
+'VBF_Zprime_600_truth_2015_0': {'DSID'    : 567846,'events'  : 21.726937,'red_eff' :1,'sumw'    :21.726937,'xsec'    :0.000724,'kfac'    :4.000000,'fil_eff'    :1.000000},
+#VBF_Zprime_600_truth_2018
+'VBF_Zprime_600_truth_2018_0': {'DSID'    : 567846,'events'  : 29.075690,'red_eff' :1,'sumw'    :29.075690,'xsec'    :0.000724,'kfac'    :4.000000,'fil_eff'    :1.000000},
+#VBF_Zprime_600_truth_2017
+'VBF_Zprime_600_truth_2017_0': {'DSID'    : 567846,'events'  : 21.799065,'red_eff' :1,'sumw'    :21.799065,'xsec'    :0.000724,'kfac'    :4.000000,'fil_eff'    :1.000000},
+#VBF_Zprime_650_truth_2018
+'VBF_Zprime_650_truth_2018_0': {'DSID'    : 567847,'events'  : 21.146133,'red_eff' :1,'sumw'    :21.146133,'xsec'    :0.000542,'kfac'    :4.000000,'fil_eff'    :1.000000},
+#VBF_Zprime_650_truth_2017
+'VBF_Zprime_650_truth_2017_0': {'DSID'    : 567847,'events'  : 16.230556,'red_eff' :1,'sumw'    :16.230556,'xsec'    :0.000542,'kfac'    :4.000000,'fil_eff'    :1.000000},
+#VBF_Zprime_650_truth_2015
+'VBF_Zprime_650_truth_2015_0': {'DSID'    : 567847,'events'  : 16.263658,'red_eff' :1,'sumw'    :16.263658,'xsec'    :0.000542,'kfac'    :4.000000,'fil_eff'    :1.000000},
+#VBF_Zprime_700_truth_2015
+'VBF_Zprime_700_truth_2015_0': {'DSID'    : 567848,'events'  : 12.359336,'red_eff' :1,'sumw'    :12.359336,'xsec'    :0.000411,'kfac'    :4.000000,'fil_eff'    :1.000000},
+#VBF_Zprime_700_truth_2017
+'VBF_Zprime_700_truth_2017_0': {'DSID'    : 567848,'events'  : 12.327146,'red_eff' :1,'sumw'    :12.327146,'xsec'    :0.000411,'kfac'    :4.000000,'fil_eff'    :1.000000},
+#VBF_Zprime_700_truth_2018
+'VBF_Zprime_700_truth_2018_0': {'DSID'    : 567848,'events'  : 16.438489,'red_eff' :1,'sumw'    :16.438489,'xsec'    :0.000411,'kfac'    :4.000000,'fil_eff'    :1.000000},
+#VBF_Zprime_750_truth_2017
+'VBF_Zprime_750_truth_2017_0': {'DSID'    : 567849,'events'  : 9.489983,'red_eff' :1,'sumw'    :9.489983,'xsec'    :0.000316,'kfac'    :4.000000,'fil_eff'    :1.000000},
+#VBF_Zprime_750_truth_2018
+'VBF_Zprime_750_truth_2018_0': {'DSID'    : 567849,'events'  : 12.657769,'red_eff' :1,'sumw'    :12.657769,'xsec'    :0.000316,'kfac'    :4.000000,'fil_eff'    :1.000000},
+#VBF_Zprime_750_truth_2015
+'VBF_Zprime_750_truth_2015_0': {'DSID'    : 567849,'events'  : 9.480748,'red_eff' :1,'sumw'    :9.480748,'xsec'    :0.000316,'kfac'    :4.000000,'fil_eff'    :1.000000},
+#VBF_Zprime_800_truth_2015
+'VBF_Zprime_800_truth_2015_0': {'DSID'    : 567850,'events'  : 7.166121,'red_eff' :1,'sumw'    :7.166121,'xsec'    :0.000246,'kfac'    :4.000000,'fil_eff'    :1.000000},
+#VBF_Zprime_800_truth_2018
+'VBF_Zprime_800_truth_2018_0': {'DSID'    : 567850,'events'  : 9.871998,'red_eff' :1,'sumw'    :9.871998,'xsec'    :0.000246,'kfac'    :4.000000,'fil_eff'    :1.000000},
+#VBF_Zprime_800_truth_2017
+'VBF_Zprime_800_truth_2017_0': {'DSID'    : 567850,'events'  : 7.412961,'red_eff' :1,'sumw'    :7.412961,'xsec'    :0.000246,'kfac'    :4.000000,'fil_eff'    :1.000000},
+#VBF_Zprime_850_truth_2018
+'VBF_Zprime_850_truth_2018_0': {'DSID'    : 567851,'events'  : 7.612812,'red_eff' :1,'sumw'    :7.612812,'xsec'    :0.000195,'kfac'    :4.000000,'fil_eff'    :1.000000},
+#VBF_Zprime_850_truth_2017
+'VBF_Zprime_850_truth_2017_0': {'DSID'    : 567851,'events'  : 5.645319,'red_eff' :1,'sumw'    :5.645319,'xsec'    :0.000195,'kfac'    :4.000000,'fil_eff'    :1.000000},
+#VBF_Zprime_850_truth_2015
+'VBF_Zprime_850_truth_2015_0': {'DSID'    : 567851,'events'  : 5.846434,'red_eff' :1,'sumw'    :5.846434,'xsec'    :0.000195,'kfac'    :4.000000,'fil_eff'    :1.000000},
+#VBF_Zprime_900_truth_2015
+'VBF_Zprime_900_truth_2015_0': {'DSID'    : 567852,'events'  : 4.653259,'red_eff' :1,'sumw'    :4.653259,'xsec'    :0.000155,'kfac'    :4.000000,'fil_eff'    :1.000000},
+#VBF_Zprime_900_truth_2018
+'VBF_Zprime_900_truth_2018_0': {'DSID'    : 567852,'events'  : 6.060311,'red_eff' :1,'sumw'    :6.060311,'xsec'    :0.000155,'kfac'    :4.000000,'fil_eff'    :1.000000},
+#VBF_Zprime_900_truth_2017
+'VBF_Zprime_900_truth_2017_0': {'DSID'    : 567852,'events'  : 4.652391,'red_eff' :1,'sumw'    :4.652391,'xsec'    :0.000155,'kfac'    :4.000000,'fil_eff'    :1.000000},
+#VBF_Zprime_950_truth_2018
+'VBF_Zprime_950_truth_2018_0': {'DSID'    : 567853,'events'  : 4.992010,'red_eff' :1,'sumw'    :4.992010,'xsec'    :0.000125,'kfac'    :4.000000,'fil_eff'    :1.000000},
+#VBF_Zprime_950_truth_2015
+'VBF_Zprime_950_truth_2015_0': {'DSID'    : 567853,'events'  : 3.752676,'red_eff' :1,'sumw'    :3.752676,'xsec'    :0.000125,'kfac'    :4.000000,'fil_eff'    :1.000000},
+#VBF_Zprime_950_truth_2017
+'VBF_Zprime_950_truth_2017_0': {'DSID'    : 567853,'events'  : 3.747119,'red_eff' :1,'sumw'    :3.747119,'xsec'    :0.000125,'kfac'    :4.000000,'fil_eff'    :1.000000},
+#VBF_Zprime_1000_truth_2017
+'VBF_Zprime_1000_truth_2017_0': {'DSID'    : 567854,'events'  : 3.030380,'red_eff' :1,'sumw'    :3.030380,'xsec'    :0.000101,'kfac'    :4.000000,'fil_eff'    :1.000000},
+#VBF_Zprime_1000_truth_2018
+'VBF_Zprime_1000_truth_2018_0': {'DSID'    : 567854,'events'  : 4.044689,'red_eff' :1,'sumw'    :4.044689,'xsec'    :0.000101,'kfac'    :4.000000,'fil_eff'    :1.000000},
+#VBF_Zprime_1000_truth_2015
+'VBF_Zprime_1000_truth_2015_0': {'DSID'    : 567854,'events'  : 2.929937,'red_eff' :1,'sumw'    :2.929937,'xsec'    :0.000101,'kfac'    :4.000000,'fil_eff'    :1.000000},
+#VBF_Zprime_1200_truth_2017
+'VBF_Zprime_1200_truth_2017_0': {'DSID'    : 567855,'events'  : 1.382564,'red_eff' :1,'sumw'    :1.382564,'xsec'    :0.000046,'kfac'    :4.000000,'fil_eff'    :1.000000},
+#VBF_Zprime_1200_truth_2015
+'VBF_Zprime_1200_truth_2015_0': {'DSID'    : 567855,'events'  : 1.380748,'red_eff' :1,'sumw'    :1.380748,'xsec'    :0.000046,'kfac'    :4.000000,'fil_eff'    :1.000000},
+#VBF_Zprime_1200_truth_2018
+'VBF_Zprime_1200_truth_2018_0': {'DSID'    : 567855,'events'  : 1.795447,'red_eff' :1,'sumw'    :1.795447,'xsec'    :0.000046,'kfac'    :4.000000,'fil_eff'    :1.000000},
+#VBF_Zprime_1400_truth_2018
+'VBF_Zprime_1400_truth_2018_0': {'DSID'    : 567856,'events'  : 0.906547,'red_eff' :1,'sumw'    :0.906547,'xsec'    :0.000023,'kfac'    :4.000000,'fil_eff'    :1.000000},
+#VBF_Zprime_1400_truth_2015
+'VBF_Zprime_1400_truth_2015_0': {'DSID'    : 567856,'events'  : 0.680662,'red_eff' :1,'sumw'    :0.680662,'xsec'    :0.000023,'kfac'    :4.000000,'fil_eff'    :1.000000},
+#VBF_Zprime_1400_truth_2017
+'VBF_Zprime_1400_truth_2017_0': {'DSID'    : 567856,'events'  : 0.635493,'red_eff' :1,'sumw'    :0.635493,'xsec'    :0.000023,'kfac'    :4.000000,'fil_eff'    :1.000000},
+#VBF_Zprime_1600_truth_2018
+'VBF_Zprime_1600_truth_2018_0': {'DSID'    : 567857,'events'  : 0.446835,'red_eff' :1,'sumw'    :0.446835,'xsec'    :0.000012,'kfac'    :4.000000,'fil_eff'    :1.000000},
+#VBF_Zprime_1600_truth_2017
+'VBF_Zprime_1600_truth_2017_0': {'DSID'    : 567857,'events'  : 0.352983,'red_eff' :1,'sumw'    :0.352983,'xsec'    :0.000012,'kfac'    :4.000000,'fil_eff'    :1.000000},
+#VBF_Zprime_1600_truth_2015
+'VBF_Zprime_1600_truth_2015_0': {'DSID'    : 567857,'events'  : 0.352511,'red_eff' :1,'sumw'    :0.352511,'xsec'    :0.000012,'kfac'    :4.000000,'fil_eff'    :1.000000},
+#VBF_Zprime_1800_truth_2015
+'VBF_Zprime_1800_truth_2015_0': {'DSID'    : 567858,'events'  : 0.190094,'red_eff' :1,'sumw'    :0.190094,'xsec'    :0.000006,'kfac'    :4.000000,'fil_eff'    :1.000000},
+#VBF_Zprime_1800_truth_2017
+'VBF_Zprime_1800_truth_2017_0': {'DSID'    : 567858,'events'  : 0.190671,'red_eff' :1,'sumw'    :0.190671,'xsec'    :0.000006,'kfac'    :4.000000,'fil_eff'    :1.000000},
+#VBF_Zprime_1800_truth_2018
+'VBF_Zprime_1800_truth_2018_0': {'DSID'    : 567858,'events'  : 0.253971,'red_eff' :1,'sumw'    :0.253971,'xsec'    :0.000006,'kfac'    :4.000000,'fil_eff'    :1.000000},
+#VBF_Zprime_2000_truth_2015
+'VBF_Zprime_2000_truth_2015_0': {'DSID'    : 567859,'events'  : 0.106094,'red_eff' :1,'sumw'    :0.106094,'xsec'    :0.000004,'kfac'    :4.000000,'fil_eff'    :1.000000},
+#VBF_Zprime_2000_truth_2018
+'VBF_Zprime_2000_truth_2018_0': {'DSID'    : 567859,'events'  : 0.141822,'red_eff' :1,'sumw'    :0.141822,'xsec'    :0.000004,'kfac'    :4.000000,'fil_eff'    :1.000000},
+#VBF_Zprime_2000_truth_2017
+'VBF_Zprime_2000_truth_2017_0': {'DSID'    : 567859,'events'  : 0.106311,'red_eff' :1,'sumw'    :0.106311,'xsec'    :0.000004,'kfac'    :4.000000,'fil_eff'    :1.000000},
+#VBF_Zprime_2500_truth_2015
+'VBF_Zprime_2500_truth_2015_0': {'DSID'    : 567860,'events'  : 0.027101,'red_eff' :1,'sumw'    :0.027101,'xsec'    :0.000001,'kfac'    :4.000000,'fil_eff'    :1.000000},
+#VBF_Zprime_2500_truth_2018
+'VBF_Zprime_2500_truth_2018_0': {'DSID'    : 567860,'events'  : 0.035151,'red_eff' :1,'sumw'    :0.035151,'xsec'    :0.000001,'kfac'    :4.000000,'fil_eff'    :1.000000},
+#VBF_Zprime_2500_truth_2017
+'VBF_Zprime_2500_truth_2017_0': {'DSID'    : 567860,'events'  : 0.027145,'red_eff' :1,'sumw'    :0.027145,'xsec'    :0.000001,'kfac'    :4.000000,'fil_eff'    :1.000000},
+#VBF_Zprime_3000_truth_2018
+'VBF_Zprime_3000_truth_2018_0': {'DSID'    : 567861,'events'  : 0.010081,'red_eff' :1,'sumw'    :0.010081,'xsec'    :0.000000,'kfac'    :4.000000,'fil_eff'    :1.000000},
+#VBF_Zprime_3000_truth_2015
+'VBF_Zprime_3000_truth_2015_0': {'DSID'    : 567861,'events'  : 0.007555,'red_eff' :1,'sumw'    :0.007555,'xsec'    :0.000000,'kfac'    :4.000000,'fil_eff'    :1.000000},
+#VBF_Zprime_3000_truth_2017
+'VBF_Zprime_3000_truth_2017_0': {'DSID'    : 567861,'events'  : 0.007539,'red_eff' :1,'sumw'    :0.007539,'xsec'    :0.000000,'kfac'    :4.000000,'fil_eff'    :1.000000},
 }
 
 if __name__ == "__main__":

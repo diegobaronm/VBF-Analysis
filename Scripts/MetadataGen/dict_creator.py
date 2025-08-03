@@ -104,9 +104,25 @@ dict_of_samples={"Ztautau":"361108_PoPy","Zmumu":"mumu_PoPy","Zee":"Zee_PoPy","W
 "VBF_Zee_MG_LM":"558309", "VBF_Zee_MG_HM":"558310", 
 "VBF_Zmumu_MG_LM":"558311", "VBF_Zmumu_MG_HM":"558312", 
 "VBF_Ztautau_MG_LM":"558313", "VBF_Ztautau_MG_HM":"558314", 
-"VBF_Zprime_200": "545888", "VBF_Zprime_250": "545889", "VBF_Zprime_300": "545890", "VBF_Zprime_350": "545891", "VBF_Zprime_400": "545892",  "VBF_Zprime_450": "545893",  "VBF_Zprime_500": "545894",  
+"VBF_Zprime_200": "545888", "VBF_Zprime_250": "545889", "VBF_Zprime_300": "545890", "VBF_Zprime_350": "545891", "VBF_Zprime_400": "545892",  "VBF_Zprime_450": "545893",  "VBF_Zprime_500": "545894",
+"VBF_Zprime_550":"567845",
+"VBF_Zprime_600":"567846",
+"VBF_Zprime_650":"567847",
+"VBF_Zprime_700":"567848",
+"VBF_Zprime_750":"567849",
+"VBF_Zprime_800":"567850",
+"VBF_Zprime_850":"567851",
+"VBF_Zprime_900":"567852",
+"VBF_Zprime_950":"567853",
+"VBF_Zprime_1000":"567854",
+"VBF_Zprime_1200":"567855",
+"VBF_Zprime_1400":"567856",
+"VBF_Zprime_1600":"567857",
+"VBF_Zprime_1800":"567858",
+"VBF_Zprime_2000":"567859",
+"VBF_Zprime_2500":"567860",
+"VBF_Zprime_3000":"567861" 
 }
-
 
 for i in dict_of_samples:
     create_dict(i,dict_of_samples[i])

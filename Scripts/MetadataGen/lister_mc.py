@@ -1143,6 +1143,57 @@ mc_taulep_truth = {
 'VBF_Zprime_500_truth_2017'  :  ['user.dbaronmo.v26-truth.mc16_13TeV.545894.MGPy8_Zp500_ttjj_U1X.M4.e8574_s3126_r10201_p4512.sv3_Ta', '545894', 0.0014064, 4.0, 1.0] ,
 'VBF_Zprime_500_truth_2015'  :  ['user.dbaronmo.v26-truth.mc16_13TeV.545894.MGPy8_Zp500_ttjj_U1X.M4.e8574_s3126_r9364_p4512.sv3_Ta', '545894', 0.0014064, 4.0, 1.0] ,
 'VBF_Zprime_500_truth_2018'  :  ['user.dbaronmo.v26-truth.mc16_13TeV.545894.MGPy8_Zp500_ttjj_U1X.M4.e8574_s3126_r10724_p4512.sv3_Ta', '545894', 0.0014064, 4.0, 1.0] ,
+'VBF_Zprime_550_truth_2017'  :  ['user.dbaronmo.v26.mc16_13TeV.567845.MGPy8_Zp550_ttjj_U1X.M4.e8574_s3126_r10201_p4512.sv2_Ta', '567845', 0.00099797, 4.0, 1.0] ,
+'VBF_Zprime_550_truth_2015'  :  ['user.dbaronmo.v26.mc16_13TeV.567845.MGPy8_Zp550_ttjj_U1X.M4.e8574_s3126_r9364_p4512.sv2_Ta', '567845', 0.00099797, 4.0, 1.0] ,
+'VBF_Zprime_550_truth_2018'  :  ['user.dbaronmo.v26.mc16_13TeV.567845.MGPy8_Zp550_ttjj_U1X.M4.e8574_s3126_r10724_p4512.sv2_Ta', '567845', 0.00099797, 4.0, 1.0] ,
+'VBF_Zprime_600_truth_2015'  :  ['user.dbaronmo.v26.mc16_13TeV.567846.MGPy8_Zp600_ttjj_U1X.M4.e8574_s3126_r9364_p4512.sv2_Ta', '567846', 0.00072423, 4.0, 1.0] ,
+'VBF_Zprime_600_truth_2018'  :  ['user.dbaronmo.v26.mc16_13TeV.567846.MGPy8_Zp600_ttjj_U1X.M4.e8574_s3126_r10724_p4512.sv2_Ta', '567846', 0.00072423, 4.0, 1.0] ,
+'VBF_Zprime_600_truth_2017'  :  ['user.dbaronmo.v26.mc16_13TeV.567846.MGPy8_Zp600_ttjj_U1X.M4.e8574_s3126_r10201_p4512.sv2_Ta', '567846', 0.00072423, 4.0, 1.0] ,
+'VBF_Zprime_650_truth_2018'  :  ['user.dbaronmo.v26.mc16_13TeV.567847.MGPy8_Zp650_ttjj_U1X.M4.e8574_s3126_r10724_p4512.sv2_Ta', '567847', 0.00054213, 4.0, 1.0] ,
+'VBF_Zprime_650_truth_2017'  :  ['user.dbaronmo.v26.mc16_13TeV.567847.MGPy8_Zp650_ttjj_U1X.M4.e8574_s3126_r10201_p4512.sv2_Ta', '567847', 0.00054213, 4.0, 1.0] ,
+'VBF_Zprime_650_truth_2015'  :  ['user.dbaronmo.v26.mc16_13TeV.567847.MGPy8_Zp650_ttjj_U1X.M4.e8574_s3126_r9364_p4512.sv2_Ta', '567847', 0.00054213, 4.0, 1.0] ,
+'VBF_Zprime_700_truth_2015'  :  ['user.dbaronmo.v26.mc16_13TeV.567848.MGPy8_Zp700_ttjj_U1X.M4.e8574_s3126_r9364_p4512.sv2_Ta', '567848', 0.00041095, 4.0, 1.0] ,
+'VBF_Zprime_700_truth_2017'  :  ['user.dbaronmo.v26.mc16_13TeV.567848.MGPy8_Zp700_ttjj_U1X.M4.e8574_s3126_r10201_p4512.sv2_Ta', '567848', 0.00041095, 4.0, 1.0] ,
+'VBF_Zprime_700_truth_2018'  :  ['user.dbaronmo.v26.mc16_13TeV.567848.MGPy8_Zp700_ttjj_U1X.M4.e8574_s3126_r10724_p4512.sv2_Ta', '567848', 0.00041095, 4.0, 1.0] ,
+'VBF_Zprime_750_truth_2017'  :  ['user.dbaronmo.v26.mc16_13TeV.567849.MGPy8_Zp750_ttjj_U1X.M4.e8574_s3126_r10201_p4512.sv2_Ta', '567849', 0.00031603, 4.0, 1.0] ,
+'VBF_Zprime_750_truth_2018'  :  ['user.dbaronmo.v26.mc16_13TeV.567849.MGPy8_Zp750_ttjj_U1X.M4.e8574_s3126_r10724_p4512.sv2_Ta', '567849', 0.00031603, 4.0, 1.0] ,
+'VBF_Zprime_750_truth_2015'  :  ['user.dbaronmo.v26.mc16_13TeV.567849.MGPy8_Zp750_ttjj_U1X.M4.e8574_s3126_r9364_p4512.sv2_Ta', '567849', 0.00031603, 4.0, 1.0] ,
+'VBF_Zprime_800_truth_2015'  :  ['user.dbaronmo.v26.mc16_13TeV.567850.MGPy8_Zp800_ttjj_U1X.M4.e8574_s3126_r9364_p4512.sv2_Ta', '567850', 0.00024637, 4.0, 1.0] ,
+'VBF_Zprime_800_truth_2018'  :  ['user.dbaronmo.v26.mc16_13TeV.567850.MGPy8_Zp800_ttjj_U1X.M4.e8574_s3126_r10724_p4512.sv2_Ta', '567850', 0.00024637, 4.0, 1.0] ,
+'VBF_Zprime_800_truth_2017'  :  ['user.dbaronmo.v26.mc16_13TeV.567850.MGPy8_Zp800_ttjj_U1X.M4.e8574_s3126_r10201_p4512.sv2_Ta', '567850', 0.00024637, 4.0, 1.0] ,
+'VBF_Zprime_850_truth_2018'  :  ['user.dbaronmo.v26.mc16_13TeV.567851.MGPy8_Zp850_ttjj_U1X.M4.e8574_s3126_r10724_p4512.sv2_Ta', '567851', 0.0001949, 4.0, 1.0] ,
+'VBF_Zprime_850_truth_2017'  :  ['user.dbaronmo.v26.mc16_13TeV.567851.MGPy8_Zp850_ttjj_U1X.M4.e8574_s3126_r10201_p4512.sv2_Ta', '567851', 0.0001949, 4.0, 1.0] ,
+'VBF_Zprime_850_truth_2015'  :  ['user.dbaronmo.v26.mc16_13TeV.567851.MGPy8_Zp850_ttjj_U1X.M4.e8574_s3126_r9364_p4512.sv2_Ta', '567851', 0.0001949, 4.0, 1.0] ,
+'VBF_Zprime_900_truth_2015'  :  ['user.dbaronmo.v26.mc16_13TeV.567852.MGPy8_Zp900_ttjj_U1X.M4.e8574_s3126_r9364_p4512.sv2_Ta', '567852', 0.00015513, 4.0, 1.0] ,
+'VBF_Zprime_900_truth_2018'  :  ['user.dbaronmo.v26.mc16_13TeV.567852.MGPy8_Zp900_ttjj_U1X.M4.e8574_s3126_r10724_p4512.sv2_Ta', '567852', 0.00015513, 4.0, 1.0] ,
+'VBF_Zprime_900_truth_2017'  :  ['user.dbaronmo.v26.mc16_13TeV.567852.MGPy8_Zp900_ttjj_U1X.M4.e8574_s3126_r10201_p4512.sv2_Ta', '567852', 0.00015513, 4.0, 1.0] ,
+'VBF_Zprime_950_truth_2018'  :  ['user.dbaronmo.v26.mc16_13TeV.567853.MGPy8_Zp950_ttjj_U1X.M4.e8574_s3126_r10724_p4512.sv2_Ta', '567853', 0.0001248, 4.0, 1.0] ,
+'VBF_Zprime_950_truth_2015'  :  ['user.dbaronmo.v26.mc16_13TeV.567853.MGPy8_Zp950_ttjj_U1X.M4.e8574_s3126_r9364_p4512.sv2_Ta', '567853', 0.0001248, 4.0, 1.0] ,
+'VBF_Zprime_950_truth_2017'  :  ['user.dbaronmo.v26.mc16_13TeV.567853.MGPy8_Zp950_ttjj_U1X.M4.e8574_s3126_r10201_p4512.sv2_Ta', '567853', 0.0001248, 4.0, 1.0] ,
+'VBF_Zprime_1000_truth_2017'  :  ['user.dbaronmo.v26.mc16_13TeV.567854.MGPy8_Zp1000_ttjj_U1X.M4.e8574_s3126_r10201_p4512.sv2_Ta', '567854', 0.000101, 4.0, 1.0] ,
+'VBF_Zprime_1000_truth_2018'  :  ['user.dbaronmo.v26.mc16_13TeV.567854.MGPy8_Zp1000_ttjj_U1X.M4.e8574_s3126_r10724_p4512.sv2_Ta', '567854', 0.000101, 4.0, 1.0] ,
+'VBF_Zprime_1000_truth_2015'  :  ['user.dbaronmo.v26.mc16_13TeV.567854.MGPy8_Zp1000_ttjj_U1X.M4.e8574_s3126_r9364_p4512.sv2_Ta', '567854', 0.000101, 4.0, 1.0] ,
+'VBF_Zprime_1200_truth_2017'  :  ['user.dbaronmo.v26.mc16_13TeV.567855.MGPy8_Zp1200_ttjj_U1X.M4.e8574_s3126_r10201_p4512.sv2_Ta', '567855', 4.6024e-05, 4.0, 1.0] ,
+'VBF_Zprime_1200_truth_2015'  :  ['user.dbaronmo.v26.mc16_13TeV.567855.MGPy8_Zp1200_ttjj_U1X.M4.e8574_s3126_r9364_p4512.sv2_Ta', '567855', 4.6024e-05, 4.0, 1.0] ,
+'VBF_Zprime_1200_truth_2018'  :  ['user.dbaronmo.v26.mc16_13TeV.567855.MGPy8_Zp1200_ttjj_U1X.M4.e8574_s3126_r10724_p4512.sv2_Ta', '567855', 4.6024e-05, 4.0, 1.0] ,
+'VBF_Zprime_1400_truth_2018'  :  ['user.dbaronmo.v26.mc16_13TeV.567856.MGPy8_Zp1400_ttjj_U1X.M4.e8574_s3126_r10724_p4512.sv2_Ta', '567856', 2.2687e-05, 4.0, 1.0] ,
+'VBF_Zprime_1400_truth_2015'  :  ['user.dbaronmo.v26.mc16_13TeV.567856.MGPy8_Zp1400_ttjj_U1X.M4.e8574_s3126_r9364_p4512.sv2_Ta', '567856', 2.2687e-05, 4.0, 1.0] ,
+'VBF_Zprime_1400_truth_2017'  :  ['user.dbaronmo.v26.mc16_13TeV.567856.MGPy8_Zp1400_ttjj_U1X.M4.e8574_s3126_r10201_p4512.sv2_Ta', '567856', 2.2687e-05, 4.0, 1.0] ,
+'VBF_Zprime_1600_truth_2018'  :  ['user.dbaronmo.v26.mc16_13TeV.567857.MGPy8_Zp1600_ttjj_U1X.M4.e8574_s3126_r10724_p4512.sv2_Ta', '567857', 1.1758e-05, 4.0, 1.0] ,
+'VBF_Zprime_1600_truth_2017'  :  ['user.dbaronmo.v26.mc16_13TeV.567857.MGPy8_Zp1600_ttjj_U1X.M4.e8574_s3126_r10201_p4512.sv2_Ta', '567857', 1.1758e-05, 4.0, 1.0] ,
+'VBF_Zprime_1600_truth_2015'  :  ['user.dbaronmo.v26.mc16_13TeV.567857.MGPy8_Zp1600_ttjj_U1X.M4.e8574_s3126_r9364_p4512.sv2_Ta', '567857', 1.1758e-05, 4.0, 1.0] ,
+'VBF_Zprime_1800_truth_2015'  :  ['user.dbaronmo.v26.mc16_13TeV.567858.MGPy8_Zp1800_ttjj_U1X.M4.e8574_s3126_r9364_p4512.sv2_Ta', '567858', 6.3363e-06, 4.0, 1.0] ,
+'VBF_Zprime_1800_truth_2017'  :  ['user.dbaronmo.v26.mc16_13TeV.567858.MGPy8_Zp1800_ttjj_U1X.M4.e8574_s3126_r10201_p4512.sv2_Ta', '567858', 6.3363e-06, 4.0, 1.0] ,
+'VBF_Zprime_1800_truth_2018'  :  ['user.dbaronmo.v26.mc16_13TeV.567858.MGPy8_Zp1800_ttjj_U1X.M4.e8574_s3126_r10724_p4512.sv2_Ta', '567858', 6.3363e-06, 4.0, 1.0] ,
+'VBF_Zprime_2000_truth_2015'  :  ['user.dbaronmo.v26.mc16_13TeV.567859.MGPy8_Zp2000_ttjj_U1X.M4.e8574_s3126_r9364_p4512.sv2_Ta', '567859', 3.5455e-06, 4.0, 1.0] ,
+'VBF_Zprime_2000_truth_2018'  :  ['user.dbaronmo.v26.mc16_13TeV.567859.MGPy8_Zp2000_ttjj_U1X.M4.e8574_s3126_r10724_p4512.sv2_Ta', '567859', 3.5455e-06, 4.0, 1.0] ,
+'VBF_Zprime_2000_truth_2017'  :  ['user.dbaronmo.v26.mc16_13TeV.567859.MGPy8_Zp2000_ttjj_U1X.M4.e8574_s3126_r10201_p4512.sv2_Ta', '567859', 3.5455e-06, 4.0, 1.0] ,
+'VBF_Zprime_2500_truth_2015'  :  ['user.dbaronmo.v26.mc16_13TeV.567860.MGPy8_Zp2500_ttjj_U1X.M4.e8574_s3126_r9364_p4512.sv2_Ta', '567860', 9.0337e-07, 4.0, 1.0] ,
+'VBF_Zprime_2500_truth_2018'  :  ['user.dbaronmo.v26.mc16_13TeV.567860.MGPy8_Zp2500_ttjj_U1X.M4.e8574_s3126_r10724_p4512.sv2_Ta', '567860', 9.0337e-07, 4.0, 1.0] ,
+'VBF_Zprime_2500_truth_2017'  :  ['user.dbaronmo.v26.mc16_13TeV.567860.MGPy8_Zp2500_ttjj_U1X.M4.e8574_s3126_r10201_p4512.sv2_Ta', '567860', 9.0337e-07, 4.0, 1.0] ,
+'VBF_Zprime_3000_truth_2018'  :  ['user.dbaronmo.v26.mc16_13TeV.567861.MGPy8_Zp3000_ttjj_U1X.M4.e8574_s3126_r10724_p4512.sv2_Ta', '567861', 2.5184e-07, 4.0, 1.0] ,
+'VBF_Zprime_3000_truth_2015'  :  ['user.dbaronmo.v26.mc16_13TeV.567861.MGPy8_Zp3000_ttjj_U1X.M4.e8574_s3126_r9364_p4512.sv2_Ta', '567861', 2.5184e-07, 4.0, 1.0] ,
+'VBF_Zprime_3000_truth_2017'  :  ['user.dbaronmo.v26.mc16_13TeV.567861.MGPy8_Zp3000_ttjj_U1X.M4.e8574_s3126_r10201_p4512.sv2_Ta', '567861', 2.5184e-07, 4.0, 1.0] ,
 }
 
 mc=mc_taulep_truth # IT CAN BE mc_taulep, mc_ee, mc_mumu and _truth/_sys appended for the systematics
@@ -1205,7 +1256,7 @@ def info_file(name,directory,DSID,XSEC,KFAC,FIL_EFF,home):
     return strin
 
 for sample in mc:
-    if "VBF" in sample and "MG" in sample:
+    if "VBF" in sample and "Zprime" in sample:
 
         files=open('files.txt','a+')
         files.write('#%s\n'%(sample))
