@@ -6,6 +6,64 @@ from AnalysisCommons.Run import INFO, WARNING, ERROR, DEBUG, Logger
 
 from histogramHelpers import stackPlot, templatesDict
 
+NORM_FACTORS_DICT = { # Always QCDjj_EWjj : [qcd, vbf]
+    'Sherpa_RWParabolicCutoff_Sherpa' : [0.942, 1.170],
+    'MG_RWParabolicCutoff_Sherpa' : [0.943, 1.102],
+    'SherpaNLO_RWParabolicCutoff_Sherpa' : [1.000, 0.982],
+    'MGNLO_RWParabolicCutoff_Sherpa' : [0.953, 1.309],
+    'Sherpa_RWExponential_Sherpa' : [0.937, 1.182],
+    'MG_RWExponential_Sherpa' : [0.935, 1.130],
+    'SherpaNLO_RWExponential_Sherpa' : [0.993, 1.006],
+    'Sherpa_RWParabolic_Sherpa' : [0.942, 1.170],
+    'MG_RWParabolic_Sherpa' : [0.943, 1.104],
+    'Sherpa_RWParabolicCutoff_PoPy' : [0.962, 0.999],
+    'MG_RWParabolicCutoff_PoPy' : [0.961, 0.947],
+    'SherpaNLO_RWParabolicCutoff_PoPy' : [1.017, 0.843],
+    'MGNLO_RWParabolicCutoff_PoPy' : [0.974, 1.127],
+    'Sherpa_RWExponential_PoPy' : [0.962, 0.999],
+    'MG_RWExponential_PoPy' : [0.961, 0.947],
+    'SherpaNLO_RWExponential_PoPy' : [1.017, 0.843],
+    'Sherpa_RWParabolic_PoPy' : [0.962, 0.999],
+    'MG_RWParabolic_PoPy' : [0.961, 0.947],
+}
+
+def get_norm_factors(qcd_sample, ew_sample, channel):
+    # Remove the `.root` extension from the sample names.
+    qcd_sample = qcd_sample.replace('.root', '')
+    ew_sample = ew_sample.replace('.root', '')
+    # Remove the channel prefix for QCD samples.
+    qcd_sample = qcd_sample.replace(f"{channel}_", '')
+    # Remove the `Signal_` prefix for EW samples.
+    ew_sample = ew_sample.replace('Signal_', '')
+    # Remove "truth" from the sample if it applies.
+    ew_sample = ew_sample.replace('truth_', '')
+
+    # For not RW samples, return the default normalization factors.
+    if 'RW' not in qcd_sample:
+        return [1.0, 1.0], False  # Default normalization factors if no RW is used.
+
+    try:
+        norm_factors = NORM_FACTORS_DICT["%s_%s" % (qcd_sample, ew_sample)]
+    except KeyError:
+        ERROR.log(f"Normalization factors not found for {qcd_sample} and {ew_sample}.")
+        exit(1)
+
+    return norm_factors, True
+
+def get_channel_from_sample(sample : str):
+    if sample is None or sample == '':
+        ERROR.log('Sample name is empty, cannot determine channel!')
+        exit(1)
+    if 'Zee' in sample:
+        return 'Zee'
+    elif 'Zmumu' in sample:
+        return 'Zmumu'
+    elif 'Ztautau' in sample:
+        return 'Ztautau'
+    else:
+        ERROR.log('Sample %s does not contain a valid channel name!' % sample)
+        exit(1)
+
 def get_template(dict_name : str):
     if dict_name not in templatesDict:
         ERROR.log('Dictionary %s not found... do you need to define it in histogramHelpers.py ? ' % dict_name)
@@ -187,8 +245,15 @@ def Plot(args, config, interactive_mode = True):
         EWjjSF = 1.0
         QCDjjSF = 1.0
         if bool(config['is_post_fit']):
-            EWjjSF = config['vbf_scale']
-            QCDjjSF = config['qcd_scale']
+            try: # Get the scale factors from the config.
+                EWjjSF = config['vbf_scale']
+                QCDjjSF = config['qcd_scale']
+            except KeyError as e: # Figure them out from the code.
+                INFO.log('Scale factors not found in config file, using default values.')
+                norm_factors, post_fit = get_norm_factors(config['qcd_sample'], config['signal_sample'], get_channel_from_sample(config['qcd_sample'])) # We will not use the post_fit value.
+                config['qcd_scale'] = norm_factors[0]
+                config['vbf_scale'] = norm_factors[1]
+
         FINAL_STATE = config['final_state']
         REGION = config['region']
         WATERMARK = generate_watermark(config['is_post_fit'], config['qcd_sample'], config['signal_sample'])

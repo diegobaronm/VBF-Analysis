@@ -53,14 +53,15 @@ hadd_mutau = {
 "Signal_PoPy.root": ["VBF_Ztautau_201*.root"],
 "Signal_truth_Sherpa.root": ["VBF_Ztautau_sherpa_truth_20*.root"],
 "Signal_truth_PoPy.root": ["VBF_Ztautau_truth_201*.root"],
+"Signal_truth_MG.root": ["VBF_Ztautau_MG_*_truth_20*.root"],
 "Ztautau_Sherpa.root": ["Ztautau_sherpa*.root"],
 "Ztautau_PoPy.root": ["Ztautau_201*.root"],
 "Ztautau_MG.root": ["Ztautau_MG[!NLO]*.root"],
 "Ztautau_MGNLO.root": ["Ztautau_MGNLO*.root"],
 "Ztautau_SherpaNLO.root": ["Ztautau_SherpaNLO*.root"],
 "Zjets.root": ["Zmumu_201*.root"],
-"Higgs.root": ["WpH*.root WmH*.root", "ZHllbb*.root", "ZHlltautau*.root", "ggHttlm15hp20*.root", "ggHttlp15hm20*.root"],
-"Higgs_EWK.root": ["VBFHttlm15hp20*.root", "VBFHttlp15hm20*.root"],
+"Higgs.root": ["WpH*.root", "WmH*.root", "ZHllbb*.root", "ZHlltautau*.root", "ggHttlm15hp20*.root", "ggHttlp15hm20*.root"],
+"Higgs_truth_EWK.root": ["VBFHttlm15hp20_truth*.root", "VBFHttlp15hm20_truth*.root"],
 "VV.root": ["llll_*.root", "lllv_*.root", "llvv_*.root", "lvvv_*.root", "ZqqZvv_*.root", "ZqqZll_*.root", "WqqZvv_*.root", "WqqZll_*.root", "WlvZqq_*.root"],
 "Wjets.root": ["Wplusenu_*.root", "Wminusenu_*.root", "Wplusmunu_*.root", "Wminusmunu_*.root", "Wplustaunu_*.root", "Wminustaunu_*.root"],
 "singletop.root": ["st_schan_top_*.root", "st_schan_atop_*.root", "st_tchan_top_*.root", "st_tchan_atop_*.root", "st_wt_top_*.root", "st_wt_atop_*.root"],
@@ -76,14 +77,15 @@ hadd_etau = {
 "Signal_PoPy.root": ["VBF_Ztautau_201*.root"],
 "Signal_truth_Sherpa.root": ["VBF_Ztautau_sherpa_truth_20*.root"],
 "Signal_truth_PoPy.root": ["VBF_Ztautau_truth_201*.root"],
+"Signal_truth_MG.root": ["VBF_Ztautau_MG_*_truth_20*.root"],
 "Ztautau_Sherpa.root": ["Ztautau_sherpa*.root"],
 "Ztautau_PoPy.root": ["Ztautau_201*.root"],
 "Ztautau_MG.root": ["Ztautau_MG[!NLO]*.root"],
 "Ztautau_MGNLO.root": ["Ztautau_MGNLO*.root"],
 "Ztautau_SherpaNLO.root": ["Ztautau_SherpaNLO*.root"],
 "Zjets.root": ["Zmumu_201*.root","Zee_201*.root"],
-"Higgs.root": ["WpH*.root WmH*.root", "ZHllbb*.root", "ZHlltautau*.root", "ggHttlm15hp20*.root", "ggHttlp15hm20*.root"],
-"Higgs_EWK.root": ["VBFHttlm15hp20*.root", "VBFHttlp15hm20*.root"],
+"Higgs.root": ["WpH*.root", "WmH*.root", "ZHllbb*.root", "ZHlltautau*.root", "ggHttlm15hp20*.root", "ggHttlp15hm20*.root"],
+"Higgs_truth_EWK.root": ["VBFHttlm15hp20_truth*.root", "VBFHttlp15hm20_truth*.root"],
 "VV.root": ["llll_*.root", "lllv_*.root", "llvv_*.root", "lvvv_*.root", "ZqqZvv_*.root", "ZqqZll_*.root", "WqqZvv_*.root", "WqqZll_*.root", "WlvZqq_*.root"],
 "Wjets.root": ["Wplusenu_*.root", "Wminusenu_*.root", "Wplusmunu_*.root", "Wminusmunu_*.root", "Wplustaunu_*.root", "Wminustaunu_*.root"],
 "singletop.root": ["st_schan_top_*.root", "st_schan_atop_*.root", "st_tchan_top_*.root", "st_tchan_atop_*.root", "st_wt_top_*.root", "st_wt_atop_*.root"],
@@ -99,14 +101,15 @@ hadd_emu ={
 "Signal_PoPy.root": ["VBF_Ztautau_201*.root"],
 "Signal_truth_Sherpa.root": ["VBF_Ztautau_sherpa_truth_20*.root"],
 "Signal_truth_PoPy.root": ["VBF_Ztautau_truth_201*.root"],
+"Signal_truth_MG.root": ["VBF_Ztautau_MG_*_truth_20*.root"],
 "Ztautau_Sherpa.root": ["Ztautau_sherpa*.root"],
 "Ztautau_PoPy.root": ["Ztautau_201*.root"],
 "Ztautau_MG.root": ["Ztautau_MG[!NLO]*.root"],
 "Ztautau_MGNLO.root": ["Ztautau_MGNLO*.root"],
 "Ztautau_SherpaNLO.root": ["Ztautau_SherpaNLO*.root"],
 "Zjets.root": ["Zmumu_201*.root","Zee_201*.root"],
-"Higgs.root": ["WpH*.root WmH*.root", "ZHllbb*.root", "ZHlltautau*.root", "ggHttlm15hp20*.root", "ggHttlp15hm20*.root"],
-"Higgs_EWK.root": ["VBFHttlm15hp20*.root", "VBFHttlp15hm20*.root"],
+"Higgs.root": ["WpH*.root", "WmH*.root", "ZHllbb*.root", "ZHlltautau*.root", "ggHttlm15hp20*.root", "ggHttlp15hm20*.root"],
+"Higgs_truth_EWK.root": ["VBFHttlm15hp20_truth*.root", "VBFHttlp15hm20_truth*.root"],
 "VV.root": ["llll_*.root", "lllv_*.root", "llvv_*.root", "lvvv_*.root", "ZqqZvv_*.root", "ZqqZll_*.root", "WqqZvv_*.root", "WqqZll_*.root", "WlvZqq_*.root"],
 "Wjets.root": ["Wplusenu_*.root", "Wminusenu_*.root", "Wplusmunu_*.root", "Wminusmunu_*.root", "Wplustaunu_*.root", "Wminustaunu_*.root"],
 "singletop.root": ["st_schan_top_*.root", "st_schan_atop_*.root", "st_tchan_top_*.root", "st_tchan_atop_*.root", "st_wt_top_*.root", "st_wt_atop_*.root"],
@@ -117,9 +120,12 @@ hadd_emu ={
 "Data.root": ["data_*.root"],
 }
 
+Z_PRIME_MASS_LIST = list(range(200, 1050, 50)) + list(range(1000, 2200, 200)) + list(range(2000, 3500, 500))
+
 # Function to add the Zprime pairs between 200 and 500 GeV.
 def add_Zprime_samples(hadd_dict):
-	for mass in range(200,550,50):
+
+	for mass in Z_PRIME_MASS_LIST:
 		hadd_dict[f'Zprime_{mass}.root'] = [f'VBF_Zprime_{mass}*.root']
 
 # Add Zprime samples to tauhad-taulep channels.
@@ -132,7 +138,7 @@ hadd_dictionaries = {'MuMu': hadd_mumu,
 					 'EleTau': hadd_etau,
 					 'MuEle': hadd_emu,}
 
-def hadd_datasets(channel_dict, input_path, output_path, filter_string=None):
+def hadd_datasets(channel_dict, input_path, output_path, filter_string=None, rw_dictionary=None):
 	# Loop trough the channel dictionary and hadd the files
 	for output_file, input_patters in channel_dict.items():
 		if filter_string is not None and filter_string not in output_file:
@@ -140,7 +146,16 @@ def hadd_datasets(channel_dict, input_path, output_path, filter_string=None):
 			continue
 
 		input_files_string = " ".join([os.path.join(input_path, pattern) for pattern in input_patters])
-		cmd = "hadd -v1 %s/%s %s" % (output_path, output_file, input_files_string)
+		if rw_dictionary is None:
+			cmd = "hadd -v1 %s/%s %s" % (output_path, output_file, input_files_string)
+		else:
+			cmd = "hadd -v1 %s/%s %s" % (output_path, output_file, input_files_string)
+			for sample, tag in rw_dictionary.items():
+				if sample in output_file:
+					INFO.log("Hadding reweighted sample %s with tag %s." % (sample, tag))
+					cmd = "hadd -v1 %s/%s %s" % (output_path, output_file.replace(".root", f"_{tag}.root"), input_files_string)
+					break
+
 		INFO.log("Creating %s sample." % output_file)
 		DEBUG.log(f"Running command: {cmd}")
 		output =os.system(cmd)
@@ -157,12 +172,35 @@ def create_cli_args():
 	# parser.add_argument("--tree", type=str, default="NOMINAL", help="Name of the tree to check in the output files.")
 	parser.add_argument("--channel", type=str, required=True, default=None, help="Channel to process.")
 	parser.add_argument("--filter", type=str, default=None, help="Filter to apply to the input files. For example, 'Zmumu' to only process Zmumu files.")
+	parser.add_argument("--rw-samples", help="Comma-separated list of samples that were reweighted.", default=None)
+	parser.add_argument("--rw-tags", help="Comma-separated list of tags for the reweighted samples.", default=None)
 	args = parser.parse_args()
 
 	# Check that the paths exist
 	if not os.path.exists(args.inputs):
 		ERROR.log(f"Input path {args.inputs} does not exist.")
 		exit(1)
+
+	# Check that she same number of reweighted samples and tags are provided.
+	if args.rw_samples is None and args.rw_tags is not None:
+		ERROR.log("Reweighted samples provided but no tags. Please provide both or neither.")
+		exit(1)
+	if args.rw_tags is None and args.rw_samples is not None:
+		ERROR.log("Reweighted tags provided but no samples. Please provide both or neither.")
+		exit(1)
+	if args.rw_samples is not None and args.rw_tags is not None:
+		rw_samples = args.rw_samples.split(",")
+		rw_tags = args.rw_tags.split(",")
+		if len(rw_samples) >= 1:
+			if len(rw_tags) == 1:
+				INFO.log("Only one tag provided for reweighted samples. Using the same tag for all samples.")
+			elif len(rw_samples) != len(rw_tags):
+				ERROR.log("Number of reweighted samples and tags do not match. Please provide the same number of samples and tags.")
+				exit(1)
+		else:
+			ERROR.log("Wrong format for reweighted samples or tags.")
+			exit(1)
+	
 
 	return args
 
@@ -177,6 +215,19 @@ def get_channel(channel_string = None):
 	except KeyError:
 		ERROR.log(f"Channel {channel_string} not found in hadd dictionaries.")
 		exit(1)
+
+def create_rw_dictionary(rw_samples, rw_tags):
+	rw_samples = rw_samples.split(",")
+	rw_tags = rw_tags.split(",")
+	rw_dictionary = {}
+	if len(rw_samples) != len(rw_tags):
+		for i in rw_samples:
+			rw_dictionary[i] = 'RW'+rw_tags[0]
+	else:
+		for i, j in zip(rw_samples, rw_tags):
+			rw_dictionary[i] = 'RW'+j
+
+	return rw_dictionary
 
 def main():
 	# Create CLI arguments
@@ -198,8 +249,16 @@ def main():
 	# Get the channel dictionary
 	hadd_dict = get_channel(args.channel)
 
+	# Create the re-weighting dictionary if needed.
+	rw_dictionary = None
+	if args.rw_samples is not None:
+		INFO.log("Creating re-weighting dictionary from provided samples and tags.")
+		rw_dictionary = create_rw_dictionary(args.rw_samples, args.rw_tags)
+	else:
+		WARNING.log("No re-weighting samples or tags provided. Proceeding without re-weighting.")
+
 	# Hadd the datasets
-	hadd_datasets(hadd_dict, args.inputs, args.outputs, args.filter)
+	hadd_datasets(hadd_dict, args.inputs, args.outputs, args.filter, rw_dictionary)
 
 	INFO.log("File merging completed successfully.")
 

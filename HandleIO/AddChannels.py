@@ -1,18 +1,17 @@
 import os
 from CreateListToRun import menu
 from AnalysisCommons.Run import INFO, WARNING, DEBUG, ERROR
+from HandleIO.OutputsMerger import Z_PRIME_MASS_LIST
 
-def copy_root_files_from_to(from_path,to_path, list_of_potential_rw_samples=[], used_rw_samples=False):
+def copy_root_files_from_to(from_path,to_path):
     # Copy the root files from the from_path to the to_path
     for root_file in os.listdir(from_path):
         if root_file.endswith(".root"):
-            if 'RW' in root_file:
-                ERROR.log("RW files should never be given to this function!")
-                exit(1)
-            if root_file.strip('.root') in list_of_potential_rw_samples and used_rw_samples:
-                os.system("cp "+from_path+root_file+" "+to_path+'/'+root_file.strip('.root')+"RW.root")
+            output = os.system("cp "+from_path+root_file+" "+to_path)
+            if output:
+                WARNING.log("Error copying file %s to %s" % (root_file, to_path))
             else:
-                os.system("cp "+from_path+root_file+" "+to_path)
+                INFO.log("Copied file %s to %s" % (root_file, to_path))
 
 def validate_input(dir_name):
         message = "Invalid directory name. Please enter a valid directory name. It must be something of the form A/B or A."
@@ -45,7 +44,7 @@ def create_if_not_exists(directory):
                 ERROR.log("Error creating directory: ",directory)
                 exit(1)
 
-def add_potential_rw_samples(pairs_dict,list_of_samples, used_rw_samples, channel=None):
+def add_potential_rw_samples(pairs_dict,list_of_samples, rw_tag = None, channel=None):
 
     for sample in list_of_samples:
 
@@ -60,20 +59,20 @@ def add_potential_rw_samples(pairs_dict,list_of_samples, used_rw_samples, channe
             sample2 = sample.replace("Zll","Zmumu")
 
         # Create the pairs in the dictionary
-        if used_rw_samples == True:
-            pairs_dict[sample+"RW"] = (sample1+"RW", sample2+"RW")
+        if rw_tag is not None:
+            pairs_dict[sample+"_RW"+rw_tag] = (sample1+"_RW"+rw_tag, sample2+"_RW"+rw_tag)
         else:
             pairs_dict[sample] = (sample1, sample2)
 
 
 
-def main(menu_option, used_rw_samples):
+def main(menu_option):
     # Change to the directory where the files are
     os.chdir("/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/")
 
     if menu_option==1: # Merge TauMu and EleTau
-        
-        Zp_samples = ["Zprime_200","Zprime_250","Zprime_300","Zprime_350","Zprime_400","Zprime_450","Zprime_500"]
+
+        Zp_samples = ["Zprime_%d" % mass for mass in Z_PRIME_MASS_LIST]
         Zp_tuples = [(i,i) for i in Zp_samples]
         hadd_dictionary = {}
         # Fill with all the relevant pairings
@@ -81,12 +80,15 @@ def main(menu_option, used_rw_samples):
         hadd_dictionary["MC"] = ("MC","MC")
         hadd_dictionary["Signal_Sherpa"] = ("Signal_Sherpa","Signal_Sherpa")
         hadd_dictionary["Signal_PoPy"] = ("Signal_PoPy","Signal_PoPy")
+        hadd_dictionary["Signal_truth_Sherpa"] = ("Signal_truth_Sherpa","Signal_truth_Sherpa")
+        hadd_dictionary["Signal_truth_PoPy"] = ("Signal_truth_PoPy","Signal_truth_PoPy")
+        hadd_dictionary["Signal_truth_MG"] = ("Signal_truth_MG","Signal_truth_MG")
         hadd_dictionary["singletop"] = ("singletop","singletop")
         hadd_dictionary["ttbar"] = ("ttbar","ttbar")
         hadd_dictionary["VV"] = ("VV","VV")
         hadd_dictionary["Wjets"] = ("Wjets","Wjets")
         hadd_dictionary["Higgs"] = ("Higgs","Higgs")
-        hadd_dictionary["Higgs_EWK"] = ("Higgs_EWK","Higgs_EWK")
+        hadd_dictionary["Higgs_truth_EWK"] = ("Higgs_truth_EWK","Higgs_truth_EWK")
         hadd_dictionary["Zjets"] = ("Zjets","Zjets")
         hadd_dictionary["W_EWK_Sherpa"] = ("W_EWK_Sherpa","W_EWK_Sherpa")
         hadd_dictionary["W_EWK_PoPy"] = ("W_EWK_PoPy","W_EWK_PoPy")
@@ -94,9 +96,8 @@ def main(menu_option, used_rw_samples):
         for Zp_sample in Zp_samples:
             hadd_dictionary[Zp_sample] = (Zp_sample,Zp_sample)
         potential_rw_samples = ["Ztautau_Sherpa","Ztautau_MG","Ztautau_SherpaNLO","Ztautau_MGNLO"]
-        add_potential_rw_samples(hadd_dictionary, potential_rw_samples, used_rw_samples)
-        
-        
+        add_potential_rw_samples(hadd_dictionary, potential_rw_samples+["Ztautau_PoPy"]) # Add not RW samples
+        add_potential_rw_samples(hadd_dictionary, potential_rw_samples, rw_tag="ParabolicCutoff")
 
         # Ask the name of the directory where files are stored
         dir_name = input("Enter the name of the directory where the files will be stored: ")
@@ -113,8 +114,8 @@ def main(menu_option, used_rw_samples):
         create_if_not_exists(ztm_path)
 
         # Copy the root files from the channels to the output directory
-        copy_root_files_from_to("../EleTau/MC/out/",zte_path, list_of_potential_rw_samples = potential_rw_samples, used_rw_samples = used_rw_samples) # Relative to the current directory
-        copy_root_files_from_to("../TauMu/MC/out/",ztm_path, list_of_potential_rw_samples = potential_rw_samples, used_rw_samples = used_rw_samples)
+        copy_root_files_from_to("../EleTau/MC/out/",zte_path)
+        copy_root_files_from_to("../TauMu/MC/out/",ztm_path)
 
         # Do the merging
         for result_sample, sample_pair in hadd_dictionary.items():
@@ -133,18 +134,22 @@ def main(menu_option, used_rw_samples):
         hadd_dictionary["MC"] = ("MC","MC")
         hadd_dictionary["Signal_Sherpa"] = ("Signal_Sherpa","Signal_Sherpa")
         hadd_dictionary["Signal_PoPy"] = ("Signal_PoPy","Signal_PoPy")
+        hadd_dictionary["Signal_truth_Sherpa"] = ("Signal_truth_Sherpa","Signal_truth_Sherpa")
+        hadd_dictionary["Signal_truth_PoPy"] = ("Signal_truth_PoPy","Signal_truth_PoPy")
+        hadd_dictionary["Signal_truth_MG"] = ("Signal_truth_MG","Signal_truth_MG")
         hadd_dictionary["singletop"] = ("singletop","singletop")
         hadd_dictionary["ttbar"] = ("ttbar","ttbar")
         hadd_dictionary["VV"] = ("VV","VV")
         hadd_dictionary["Wjets"] = ("Wjets","Wjets")
         hadd_dictionary["Higgs"] = ("Higgs","Higgs")
-        hadd_dictionary["Higgs_EWK"] = ("Higgs_EWK","Higgs_EWK")
+        hadd_dictionary["Higgs_truth_EWK"] = ("Higgs_truth_EWK","Higgs_truth_EWK")
         hadd_dictionary["Zjets"] = ("Zjets","Zjets")
         hadd_dictionary["W_EWK_Sherpa"] = ("W_EWK_Sherpa","W_EWK_Sherpa")
         hadd_dictionary["W_EWK_PoPy"] = ("W_EWK_PoPy","W_EWK_PoPy")
         hadd_dictionary["VV_EWK"] = ("VV_EWK","VV_EWK")
         potential_rw_samples = ["Ztautau_Sherpa","Ztautau_MG","Ztautau_SherpaNLO","Ztautau_MGNLO"]
-        add_potential_rw_samples(hadd_dictionary, potential_rw_samples, used_rw_samples)
+        add_potential_rw_samples(hadd_dictionary, potential_rw_samples+["Ztautau_PoPy"]) # Add not RW samples
+        add_potential_rw_samples(hadd_dictionary, potential_rw_samples, rw_tag="ParabolicCutoff")
 
         # Ask the name of the directory where files are stored
         dir_name = input("Enter the name of the directory where the files will be stored: ")
@@ -164,7 +169,7 @@ def main(menu_option, used_rw_samples):
         # Now the MuEle directory
         zemu_path="MuEle/" + dir_name + "/"
         create_if_not_exists(zemu_path)
-        copy_root_files_from_to("../MuEle/MC/out/",zemu_path, list_of_potential_rw_samples = potential_rw_samples, used_rw_samples = used_rw_samples)
+        copy_root_files_from_to("../MuEle/MC/out/",zemu_path)
 
         # Do the merging
         for result_sample, sample_pair in hadd_dictionary.items():
@@ -192,19 +197,19 @@ def main(menu_option, used_rw_samples):
         hadd_dictionary["W_EWK_PoPy"] = ("W_EWK_PoPy","W_EWK_PoPy")
         hadd_dictionary["VV_EWK"] = ("VV_EWK","VV_EWK")
         potential_rw_samples = ["Zll_Sherpa","Zll_MG","Zll_SherpaNLO","Zll_MGNLO","Zll_PoPy"]
-        if not used_rw_samples:
-            INFO.log("When not using RW samples, all the not RW samples will be added.")
-            add_potential_rw_samples(hadd_dictionary, potential_rw_samples, used_rw_samples = False, channel="Zll")
-        else:
-            INFO.log("When using RW samples, only the RW samples will be added.")
-            hadd_dictionary = {} # Clean the dictionary and fill it later.
-            hadd_dictionary["Zll_Sherpa_RWParabolicCutoff"] = ("Zee_Sherpa_RWParabolicCutoff","Zmumu_Sherpa_RWParabolicCutoff")
-            hadd_dictionary["Zll_MG_RWParabolicCutoff"] = ("Zee_MG_RWParabolicCutoff","Zmumu_MG_RWParabolicCutoff")
-            hadd_dictionary["Zll_SherpaNLO_RWParabolicCutoff"] = ("Zee_SherpaNLO_RWParabolicCutoff","Zmumu_SherpaNLO_RWParabolicCutoff")
-            hadd_dictionary["Zll_MGNLO_RWParabolicCutoff"] = ("Zee_MGNLO_RWParabolicCutoff","Zmumu_MGNLO_RWParabolicCutoff")
-            hadd_dictionary["Zll_Sherpa_RWExponential"] = ("Zee_Sherpa_RWExponential","Zmumu_Sherpa_RWExponential")
-            hadd_dictionary["Zll_MG_RWExponential"] = ("Zee_MG_RWExponential","Zmumu_MG_RWExponential")
-            hadd_dictionary["Zll_SherpaNLO_RWExponential"] = ("Zee_SherpaNLO_RWExponential","Zmumu_SherpaNLO_RWExponential")
+        hadd_dictionary["Zll_Sherpa"] = ("Zee_Sherpa","Zmumu_Sherpa")
+        hadd_dictionary["Zll_MG"] = ("Zee_MG","Zmumu_MG")
+        hadd_dictionary["Zll_SherpaNLO"] = ("Zee_SherpaNLO","Zmumu_SherpaNLO")
+        hadd_dictionary["Zll_MGNLO"] = ("Zee_MGNLO","Zmumu_MGNLO")
+        hadd_dictionary["Zll_PoPy"] = ("Zee_PoPy","Zmumu_PoPy")
+        hadd_dictionary = {} # Clean the dictionary and fill it later.
+        hadd_dictionary["Zll_Sherpa_RWParabolicCutoff"] = ("Zee_Sherpa_RWParabolicCutoff","Zmumu_Sherpa_RWParabolicCutoff")
+        hadd_dictionary["Zll_MG_RWParabolicCutoff"] = ("Zee_MG_RWParabolicCutoff","Zmumu_MG_RWParabolicCutoff")
+        hadd_dictionary["Zll_SherpaNLO_RWParabolicCutoff"] = ("Zee_SherpaNLO_RWParabolicCutoff","Zmumu_SherpaNLO_RWParabolicCutoff")
+        hadd_dictionary["Zll_MGNLO_RWParabolicCutoff"] = ("Zee_MGNLO_RWParabolicCutoff","Zmumu_MGNLO_RWParabolicCutoff")
+        hadd_dictionary["Zll_Sherpa_RWExponential"] = ("Zee_Sherpa_RWExponential","Zmumu_Sherpa_RWExponential")
+        hadd_dictionary["Zll_MG_RWExponential"] = ("Zee_MG_RWExponential","Zmumu_MG_RWExponential")
+        hadd_dictionary["Zll_SherpaNLO_RWExponential"] = ("Zee_SherpaNLO_RWExponential","Zmumu_SherpaNLO_RWExponential")
 
         # Ask the name of the directory where files are stored
         dir_name = input("Enter the name of the directory where the files will be stored: ")
@@ -239,12 +244,9 @@ def main(menu_option, used_rw_samples):
             ERROR.log("The path %s does not exist. Please check the path and try again." % source_mumu_path)
             exit(1)
 
-        if not used_rw_samples:
-            copy_root_files_from_to(source_zee_path, zee_path, list_of_potential_rw_samples = potential_rw_samples, used_rw_samples = used_rw_samples) # Relative to the current directory
-            copy_root_files_from_to(source_mumu_path, zmm_path, list_of_potential_rw_samples = potential_rw_samples, used_rw_samples = used_rw_samples)
-        else:
-            INFO.log("When using RW samples, the RW samples are assumed to exist in their paths.")
-
+        
+        copy_root_files_from_to(source_zee_path, zee_path) # Relative to the current directory
+        copy_root_files_from_to(source_mumu_path, zmm_path)
 
         # Do the merging
         for result_sample, sample_pair in hadd_dictionary.items():
@@ -262,6 +264,5 @@ def main(menu_option, used_rw_samples):
 
 if __name__ == "__main__":
     option = menu("Which channels do you want to merge?",["TauMu + EleTau","TauLep + MuEle (TauLep need to be already in the correct path)","Zee + MuMu"])
-    used_rw_samples = menu("Did you use RW samples?",["No","Yes"]) == 2
-    main(option, used_rw_samples)
+    main(option)
     
