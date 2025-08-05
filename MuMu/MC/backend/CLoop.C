@@ -6,7 +6,7 @@
 #include "../../../AnalysisCommons/reweightingTools.h"
 #include"../../../AnalysisCommons/Kinematics.h"
 
-void CLoop::Loop(double lumFactor, int z_sample, const std::string& key)
+void CLoop::Loop(double lumFactor, int z_sample, const std::string& key, int logLevel)
 {
 //    In a ROOT session, you can do:
 //        root> .L CLoop.C
@@ -33,6 +33,9 @@ void CLoop::Loop(double lumFactor, int z_sample, const std::string& key)
 //by  b_branchname->GetEntry(ientry); //read only this branch
 
     clock_t startTime = clock(); // get start time
+
+    // Set the logging level
+    g_LOG.setLogLevel(static_cast<LogLevel>(logLevel));
 
     if (fChain == 0) return;
 

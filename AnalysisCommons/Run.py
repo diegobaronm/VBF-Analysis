@@ -28,6 +28,10 @@ class Logger:
         if self.s_LOG_LEVELS[self.m_level] <= Logger.LOGLEVEL:
             message = self.m_colour+self.m_level+': '+bcolors.ENDC+message
             print(message, variable)
+    def setLogLevel(level):
+        if level > 4 or level < 1:
+            raise ValueError("Log level must be between 1 and 4.")
+        Logger.LOGLEVEL = level
 
 INFO = Logger("INFO",bcolors.OKGREEN)
 WARNING = Logger("WARNING",bcolors.WARNING)
@@ -124,7 +128,7 @@ def isRunningRemote(Remote):
         exit(1)
     return remote_mode
     
-def DrawC(filename,lumStr,z_sample,key_pop,tree,region, dirs):
+def DrawC(filename,lumStr,z_sample,key_pop,tree,region, dirs, logLevel = 3):
     """
     Function to load in the C++ code and run it for a given data set
     """
@@ -149,7 +153,7 @@ def DrawC(filename,lumStr,z_sample,key_pop,tree,region, dirs):
 
     # create new instance of CLoop and loop over events
     r.gROOT.ProcessLine('CLoop* t = new CLoop(minTree, "%s", "%s")' % (key_pop, region))
-    r.gROOT.ProcessLine('t->Loop(%s, %s, "%s")' % (lumStr, z_sample, key_pop+tree))
+    r.gROOT.ProcessLine('t->Loop(%s, %s, "%s", %d)' % (lumStr, z_sample, key_pop+tree, logLevel))
     r.gROOT.ProcessLine("f->Close("R")")
 
 # Function to move the output file to the correct directory and track any failed samples.
@@ -219,6 +223,7 @@ def createParser():
     parser.add_argument("--j", help="Number of jobs to run in parallel. Default is 1.", type=int, default=1)
     parser.add_argument("--clean", help="Clean the output directory before running the analysis. Default is False.", action='store_true')
     parser.add_argument("--output", help="Output directory for the analysis results. Default is out/<tree>/", type=str)
+    parser.add_argument("--loglevel", help="Set the log level. Default is INFO.", type=int, choices=[1, 2, 3, 4], default=3)
 
     # Parse arguments
     args = parser.parse_args()
@@ -249,7 +254,7 @@ def get_combos_from_txt_file(file_path):
     return combos
 
 
-def AnalysisFunction(key, remote, CLI_args, dataSets, realList, infos, dirs, output_dict):
+def AnalysisFunction(key, remote, CLI_args, dataSets, realList, infos, dirs, output_dict, log_level = 3):
     # get the Z boson process
     z_sample= getZllSampleKey(key)
 
@@ -266,7 +271,7 @@ def AnalysisFunction(key, remote, CLI_args, dataSets, realList, infos, dirs, out
     tree_name = CLI_args.tree
     region = CLI_args.region
 
-    DrawC(filename,lumStr,z_sample,key,tree_name, region, dirs)
+    DrawC(filename,lumStr,z_sample,key,tree_name, region, dirs, log_level)
 
     # Move the output to a different directory
     output_name = key+tree_name+".root"
@@ -276,6 +281,18 @@ def AnalysisFunction(key, remote, CLI_args, dataSets, realList, infos, dirs, out
 def RunAnalysis(dataCombos, dataSets, realList, infos, dirs, output_dict):
     # create parser and print job configuration
     parser = createParser()
+    INFO.log("Log level: %d" % parser.loglevel)
+
+    # Set the log level
+    log_level = parser.loglevel
+    Logger.setLogLevel(log_level)
+    # If running in multi-core mode, or from a file we set the log level to ERROR
+    running_from_txt = parser.sample.endswith(".txt")
+    if parser.j > 1 or running_from_txt:
+        Logger.setLogLevel(1)
+        log_level = 1
+
+    # More information about the run
     INFO.log("Running analysis with the following configuration:")
     INFO.log("Sample: %s" % parser.sample)
     INFO.log("Remote: %s" % parser.remote)
@@ -286,7 +303,6 @@ def RunAnalysis(dataCombos, dataSets, realList, infos, dirs, output_dict):
     INFO.log("Clean: %s" % parser.clean)
 
     # check if the user wants to run from a set of samples defined in a text file.
-    running_from_txt = parser.sample.endswith(".txt")
     if running_from_txt:
         chains = get_combos_from_txt_file(parser.sample)
         
@@ -338,11 +354,11 @@ def RunAnalysis(dataCombos, dataSets, realList, infos, dirs, output_dict):
     # iterate over chains from user input
     if running_from_txt:
         with Pool(processes=parser.j) as pool:
-            pool.starmap(AnalysisFunction, [(sample, remote_mode, parser, dataSets, realList, infos, dirs, output_dict) for sample in chains])
+            pool.starmap(AnalysisFunction, [(sample, remote_mode, parser, dataSets, realList, infos, dirs, output_dict, log_level) for sample in chains])
     else:
         for sample in chains:
             INFO.log("Running analysis for: " + sample)
-            AnalysisFunction(sample, remote_mode, parser, dataSets, realList, infos, dirs, output_dict)
+            AnalysisFunction(sample, remote_mode, parser, dataSets, realList, infos, dirs, output_dict, log_level)
 
 if __name__ == "__main__":
     print("This script is not meant to be run directly.")

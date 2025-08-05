@@ -1895,7 +1895,7 @@ public :
    virtual Int_t    GetEntry(Long64_t entry);
    virtual Long64_t LoadTree(Long64_t entry);
    virtual void     Init(TTree *tree,std::string sample_name="");
-   virtual void     Loop(double lumFactor, int z_sample, const std::string& key);
+   virtual void     Loop(double lumFactor, int z_sample, const std::string& key, int logLevel);
    virtual Bool_t   Notify();
    virtual void     Show(Long64_t entry = -1);
 };

@@ -12,6 +12,7 @@ const char* g_INFO_MESSAGE = "\033[1;92mINFO:\033[0m";
 // Enum for log levels.
 enum LogLevel {
     ERROR = 1,
+    WARNING,
     INFO,
     DEBUG,
 };
@@ -41,6 +42,10 @@ class Logger {
 
         LogLevel getLogLevel() {
             return m_logLevel;
+        }
+
+        void setLogLevel(LogLevel level) {
+            m_logLevel = level;
         }
 
         // Functions to print the log message.
