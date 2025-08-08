@@ -177,35 +177,13 @@ void CLoop::Loop(double lumFactor, int z_sample, const std::string& key, int log
         else if ((z_centrality>=0.5 && z_centrality<=1) && n_jets_interval==1){region = Region::CRb;}
         else if ((z_centrality>=0.5 && z_centrality<=1) && n_jets_interval==0){region = Region::CRc;}
 
+        // Mjj reweighting
         double mjj=sqrt(2*(ljet_0_p4->Dot(*ljet_1_p4)));
-        double mjj_w=1;
+        bool do_data_driven = true;
+        bool do_mc_driven = true;
+
+        double mjj_w = calculateMjjWeight(do_data_driven, do_mc_driven, mjj, region, z_sample);
         
-        // mjj reweighting
-        bool reweight_mjj = true;
-        MC mcSample = static_cast<MC>(z_sample);
-        if (reweight_mjj){
-            if(mcSample == MC::PowHegPythia){
-                mjj_w = mjj_rw(mjj,parametersPowHegPythia[region]);
-            } else if (mcSample == MC::SHERPA){
-                mjj_w = mjj_rw(mjj,parametersSHERPA[region]); 
-            } else if (mcSample == MC::MadGraph){ 
-                mjj_w = mjj_rw(mjj,parametersMadGraph[region]);
-            } else if (mcSample == MC::SHERPANLO){ 
-                mjj_w = mjj_rw(mjj,parametersSHERPANLO[region]);
-            } else if (mcSample == MC::MadGraphNLO){ 
-                mjj_w = mjj_rw(mjj,parametersMadGraphNLO[region]);
-            } 
-        }
-				
-        // ZpT reweighting
-        double z_w=1;
-        bool reweight_zpt = false;
-        if(mcSample == MC::PowHegPythia && reweight_zpt){
-            double zpt=truth_Z_p4->Pt()/1000;
-            z_w = zpT_rw_popy(zpt);
-            g_LOG(LogLevel::DEBUG,"Reweighting ZpT = ", z_w);
-        }
-        double zpt_weight=1/z_w;
         // calculate event weight
         double eventWeight = 1;
 
@@ -228,7 +206,7 @@ void CLoop::Loop(double lumFactor, int z_sample, const std::string& key, int log
             if (key.find("VBF") != std::string::npos && key.find("MG") != std::string::npos)
                 puWeight = 1.0;
             // take product of all scale factors
-            eventWeight = weight_mc*puWeight*lumFactor*zpt_weight*mjj_w
+            eventWeight = weight_mc*puWeight*lumFactor*mjj_w
             *elec_0_NOMINAL_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight*elec_0_NOMINAL_EleEffSF_offline_TightLLH_d0z0_v13*elec_0_NOMINAL_EleEffSF_offline_RecoTrk
             *jet_NOMINAL_central_jets_global_effSF_JVT*jet_NOMINAL_central_jets_global_ineffSF_JVT*jet_NOMINAL_forward_jets_global_effSF_JVT
             *jet_NOMINAL_forward_jets_global_ineffSF_JVT*jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85*jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85

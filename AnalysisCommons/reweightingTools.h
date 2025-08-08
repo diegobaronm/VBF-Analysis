@@ -124,7 +124,11 @@ double mjj_rw(double mjj, const RWParameters& rwParameters) {
     }
 }
 
-RegionRWParametersMap parametersSHERPA = {
+
+
+
+
+RegionRWParametersMap g_dataDrivenParametersSHERPA = {
     {Region::DefaultNoRW,{RWType::Linear,{0.0,1.0}}},
 
     // Why we have this config?
@@ -153,7 +157,7 @@ RegionRWParametersMap parametersSHERPA = {
     {Region::CRc,{RWType::ParabolicCutoff,{9.49859209E-08, -5.73086485E-04,  1.28561923, 2750.0}}}
 };
 
-RegionRWParametersMap parametersMadGraph = {
+RegionRWParametersMap  g_dataDrivenParametersMadGraph = {
     {Region::DefaultNoRW,{RWType::Linear,{0.0,1.0}}},
     
     // Why we have this config?
@@ -182,7 +186,7 @@ RegionRWParametersMap parametersMadGraph = {
     {Region::CRc,{RWType::ParabolicCutoff,{6.36300429e-08, -3.52804325e-04, 9.01219872e-01, 2250.0}}}
 };
 
-RegionRWParametersMap parametersSHERPANLO = {
+RegionRWParametersMap  g_dataDrivenParametersSHERPANLO = {
     {Region::DefaultNoRW,{RWType::Linear,{0.0,1.0}}},
     
     // Why we have this config?
@@ -209,7 +213,7 @@ RegionRWParametersMap parametersSHERPANLO = {
     {Region::CRc,{RWType::ParabolicCutoff,{4.64652042e-08, -3.32330381e-04,  1.07040864, 2250.0}}},
 };
 
-RegionRWParametersMap parametersMadGraphNLO = {
+RegionRWParametersMap  g_dataDrivenParametersMadGraphNLO = {
     {Region::DefaultNoRW,{RWType::Linear,{0.0,1.0}}},
     
     // Why we have this config?
@@ -232,7 +236,7 @@ RegionRWParametersMap parametersMadGraphNLO = {
     {Region::CRc,{RWType::ParabolicCutoff,{-8.92091182e-08,  1.75520985e-04,  9.65630866e-01, 2250.0}}}
 };
 
-RegionRWParametersMap parametersPowHegPythia = {
+RegionRWParametersMap  g_dataDrivenParametersPowHegPythia = {
     {Region::DefaultNoRW,{RWType::Linear,{0.0,1.0}}},
 
     // Why we have this config?
@@ -243,5 +247,108 @@ RegionRWParametersMap parametersPowHegPythia = {
     {Region::CRb,{RWType::Linear,{0.0,1.0}}},
     {Region::CRc,{RWType::Linear,{0.0,1.0}}}
 };
+
+RegionRWParametersMap  g_mcDrivenParametersSHERPA = {
+    {Region::DefaultNoRW,{RWType::Linear,{0.0,1.0}}},
+
+    // Why we have this config?
+    // We only apply the MC QCDjj closure RW to the SR
+
+    {Region::SR,{RWType::Linear,{1.32414517e-04, 9.15044268e-01}}},
+};
+
+RegionRWParametersMap  g_mcDrivenParametersSHERPANLO = {
+    {Region::DefaultNoRW,{RWType::Linear,{0.0,1.0}}},
+
+    // Why we have this config?
+    // We only apply the MC QCDjj closure RW to the SR
+
+    {Region::SR,{RWType::Linear,{3.63250659e-05, 9.74936749e-01}}},
+};
+
+RegionRWParametersMap  g_mcDrivenParametersMadGraph = {
+    {Region::DefaultNoRW,{RWType::Linear,{0.0,1.0}}},
+
+    // Why we have this config?
+    // We only apply the MC QCDjj closure RW to the SR
+
+    {Region::SR,{RWType::Linear,{4.21819894e-05 , 9.60973106e-01}}},
+};
+
+RegionRWParametersMap  g_mcDrivenParametersMadGraphNLO = {
+    {Region::DefaultNoRW,{RWType::Linear,{0.0,1.0}}},
+
+    // Why we have this config?
+    // We only apply the MC QCDjj closure RW to the SR
+
+    {Region::SR,{RWType::Linear,{2.52428835e-04, 8.42915241e-01}}},
+};
+
+RegionRWParametersMap  g_mcDrivenParametersPowHegPythia = {
+    {Region::DefaultNoRW,{RWType::Linear,{0.0,1.0}}},
+    {Region::SR,{RWType::Linear,{0.0,1.0}}},
+
+    // Why we have this config?
+    // We do not apply the MC QCDjj closure RW to this sample.
+
+    
+};
+
+double calculateMjjWeight(bool doDataDrivenRW, bool doMCDrivenRW, double mjj, Region region, int sample_id) {
+    double mjj_w = 1.0;
+
+    // If no reweighting is requested, return the original mjj value
+    if (!doDataDrivenRW && !doMCDrivenRW) {
+        g_LOG(LogLevel::DEBUG, "No reweighting applied.");
+        return mjj_w;
+    }
+
+    // Convert sample_id to MC enum
+    MC mcSample = static_cast<MC>(sample_id);
+
+    // Do the data-driven reweighting if requested
+    if (doDataDrivenRW) {
+        g_LOG(LogLevel::DEBUG, "Applying data-driven reweighting.");
+        if(mcSample == MC::PowHegPythia){
+            mjj_w = mjj_rw(mjj,g_dataDrivenParametersPowHegPythia[region]);
+        } else if (mcSample == MC::SHERPA){
+            mjj_w = mjj_rw(mjj,g_dataDrivenParametersSHERPA[region]); 
+        } else if (mcSample == MC::MadGraph){ 
+            mjj_w = mjj_rw(mjj,g_dataDrivenParametersMadGraph[region]);
+        } else if (mcSample == MC::SHERPANLO){ 
+            mjj_w = mjj_rw(mjj,g_dataDrivenParametersSHERPANLO[region]);
+        } else if (mcSample == MC::MadGraphNLO){ 
+            mjj_w = mjj_rw(mjj,g_dataDrivenParametersMadGraphNLO[region]);
+        } else {
+            g_LOG(LogLevel::ERROR, "Invalid MC sample for data-driven reweighting.");
+            throw std::runtime_error("Invalid MC sample for data-driven reweighting.");
+        }
+    }
+
+    // Do the MC-driven reweighting if requested
+    if (doMCDrivenRW) {
+        g_LOG(LogLevel::DEBUG, "Applying MC-driven reweighting.");
+        if (region != Region::SR) return mjj_w; // No MC-driven reweighting for CRs
+
+        // Multiply the previous weight by the MC-driven reweighting factor
+        if(mcSample == MC::SHERPA){
+            mjj_w *= mjj_rw(mjj,g_mcDrivenParametersSHERPA[Region::SR]);
+        } else if (mcSample == MC::SHERPANLO){
+            mjj_w *= mjj_rw(mjj,g_mcDrivenParametersSHERPANLO[Region::SR]);
+        } else if (mcSample == MC::MadGraph){
+            mjj_w *= mjj_rw(mjj,g_mcDrivenParametersMadGraph[Region::SR]);
+        } else if (mcSample == MC::MadGraphNLO){
+            mjj_w *= mjj_rw(mjj,g_mcDrivenParametersMadGraphNLO[Region::SR]);
+        } else if (mcSample == MC::PowHegPythia){
+            mjj_w *= mjj_rw(mjj,g_mcDrivenParametersPowHegPythia[Region::SR]);
+        } else {
+            g_LOG(LogLevel::ERROR, "Invalid MC sample for MC-driven reweighting.");
+            throw std::runtime_error("Invalid MC sample for MC-driven reweighting.");
+        }
+    }
+    
+    g_LOG(LogLevel::DEBUG, "Final mjj weight = ", mjj_w);
+    return mjj_w;
+}
 
 #endif

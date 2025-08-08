@@ -123,6 +123,78 @@ def unpackHisto(histogram_file):
 
 ############################################################################################################
 
+# Convert to TH1 to NumPy
+def convert_to_numpy_histogram(h):
+    histo_object = {
+        "name": "",
+        "n_bins": 0,
+        "bin_contents": [],
+        "bin_errors": [],
+        "bin_edges": [],
+        "bin_centers": []
+    }
+
+    n_bins = h.GetNbinsX()
+    bin_contents = np.array([h.GetBinContent(i) for i in range(1, n_bins + 1)])
+    bin_errors = np.array([h.GetBinError(i) for i in range(1, n_bins + 1)])
+    bin_edges = np.array([h.GetBinLowEdge(i) for i in range(1, n_bins + 2)])
+    bin_centers = 0.5 * (bin_edges[:-1] + bin_edges[1:])
+
+    histo_object["name"] = h.GetName()
+    histo_object["n_bins"] = n_bins
+    histo_object["bin_contents"] = bin_contents
+    histo_object["bin_errors"] = bin_errors
+    histo_object["bin_edges"] = bin_edges
+    histo_object["bin_centers"] = bin_centers
+
+    return histo_object
+
+############################################################################################################
+
+# Function to get a histogram from a ROOT file
+def get_histogram(file_path, histogram_name):
+    file = r.TFile(file_path)
+    if not file:
+        ERROR.log(f"Failed to open file {file_path}")
+        return None
+    
+    histogram = file.Get(histogram_name)
+    if not histogram:
+        ERROR.log(f"Histogram {histogram_name} not found in file {file_path}")
+    
+    return histogram
+
+############################################################################################################
+
+# Function to process a histogram: rebin, normalize, and optionally convert to density
+def process_histogram(histogram, rebin = None, norm_factor = None, density = False):
+    # Do not modify the original histogram
+    new_histogram = histogram.Clone()
+
+    if rebin is not None:
+        n_bins = len(rebin) - 1
+        new_histogram = new_histogram.Rebin(n_bins, new_histogram.GetName(), rebin)
+
+    if norm_factor is not None:
+        normalization([new_histogram], norm_factor)
+
+    if density:
+        new_histogram.Scale(1.0 / new_histogram.Integral(1,-1))
+
+    return new_histogram
+
+############################################################################################################
+
+# Function to multiply two histograms and divide by a third one
+def a_times_b_divide_c(a, b, c):
+    # Do a * b / c
+    a = a.Clone()
+    a.Multiply(b)
+    a.Divide(c)
+    return a
+
+############################################################################################################
+
 # Function to return a histogram that is the data minus all the samples included in a list
 def dataSubtract(histoName,histogramsPath,dataFileName,sampleFilesToSubtract,histogramInfo,rebin=True):
     # Get the data histogram
@@ -1000,7 +1072,7 @@ def stackPlot(data,signal,background,histograms,watermark,
 # Dictionaries for Z->ee
 
 eeZpeakHistograms = [
-HistogramInfo('n_bjets', [], [], 1.0, 'n_bjets',0,1,''),
+HistogramInfo('n_bjets', [], [], 1.0, 'n_bjets',0,1,'',logScale=True),
 HistogramInfo('lepiso', [], [], 1.0, 'lepiso',1,2,''),
 HistogramInfo('n_jets_interval', [], [], 1.0, 'N gap jets',0,1,'',xRange=[0,2],isIntegerPlot=True),
 HistogramInfo('delta_R_leplep_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl', [], [], 1.0, 'delta_R_leplep_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl',0,0,''),
@@ -1025,7 +1097,7 @@ HistogramInfo('met_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen
 # Dictionaries for Z->mumu
 
 mumuZpeakHistograms = [
-HistogramInfo('n_bjets', [], [], 1.0, 'n_bjets',0,1,''),
+HistogramInfo('n_bjets', [], [], 1.0, 'n_bjets',0,1,'',logScale=True),
 HistogramInfo('lepiso', [], [], 1.0, 'lepiso',1,2,''),
 HistogramInfo('n_jets_interval', [], [], 1.0, 'N gap jets',0,1,'',xRange=[0,2],isIntegerPlot=True),
 HistogramInfo('delta_R_leplep_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl', [], [], 1.0, 'delta_R_leplep_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl',0,0,''),
@@ -1049,7 +1121,7 @@ HistogramInfo('met_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen
 # Dictionaries for Z->tautau
 # Tau(lep)Tau(lep)
 emuHighMassHistograms = [
-HistogramInfo('n_bjets', [], [], 1.0, 'n_bjets',0,1,''),
+HistogramInfo('n_bjets', [], [], 1.0, 'n_bjets',0,1,'',logScale=True),
 HistogramInfo('iso', [], [], 1.0, 'iso',1,2,''),
 HistogramInfo('n_jets_interval', [], [], 1.0, 'N gap jets',0,1,'',xRange=[0,2],isIntegerPlot=True),
 HistogramInfo('flavourJet1_basic_all', [], [], 1.0, 'flavourJet1_basic_all',0,0,''),
@@ -1095,7 +1167,7 @@ HistogramInfo('nLightJets_basic_all', [], [], 1.0, 'nLightJets_basic_all',0,0,''
 # Dictionaries for Z->ll
 
 llZpeakHistograms = [
-HistogramInfo('n_bjets', [], [], 1.0, 'n_bjets',0,1,''),
+HistogramInfo('n_bjets', [], [], 1.0, 'n_bjets',0,1,'',logScale=True),
 HistogramInfo('lepiso', [], [], 1.0, 'lepiso',1,2,''),
 HistogramInfo('n_jets_interval', [], [], 1.0, 'N gap jets',0,1,'',xRange=[0,2],isIntegerPlot=True),
 HistogramInfo('delta_R_leplep_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl', [], [], 1.0, 'delta_R_leplep_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl',0,0,''),
@@ -1119,7 +1191,7 @@ HistogramInfo('met_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen
 # Dictionaries for Z->tau tau (Z-peak)
 
 tautauZpeakHistograms = [
-HistogramInfo('n_bjets', [], [], 1.0, 'n_bjets',0,1,''),
+HistogramInfo('n_bjets', [], [], 1.0, 'n_bjets',0,1,'',logScale=True),
 HistogramInfo('lepiso', [], [], 1.0, 'lepiso',1,2,''),
 HistogramInfo('n_jets_interval', [], [], 1.0, 'N gap jets',0,1,'',xRange=[0,2],isIntegerPlot=True),
 HistogramInfo('flavourJet1_basic_all', [], [], 1.0, 'flavourJet1_basic_all',0,0,''),
@@ -1167,7 +1239,7 @@ HistogramInfo('recoVisibleMassRatio', [1.0, 2.0], [0.2, 0.5, 1.0], 0.2, 'm(reco)
 ]
 
 llMidRangeHistograms = [
-HistogramInfo('n_bjets', [], [], 1.0, 'n_bjets',0,1,''),
+HistogramInfo('n_bjets', [], [], 1.0, 'n_bjets',0,1,'',logScale=True),
 HistogramInfo('lepiso', [], [], 1.0, 'lepiso',1,2,''),
 HistogramInfo('n_jets_interval', [], [], 1.0, 'N gap jets',0,1,'',xRange=[0,2],isIntegerPlot=True),
 HistogramInfo('delta_phi', [2.0], [0.2, 0.6], 0.2, '#Delta#phi(l_{1},l_{2})',0,0,''),
@@ -1184,7 +1256,7 @@ HistogramInfo('met_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen
 ]
 
 llHighRangeHistograms = [
-HistogramInfo('n_bjets', [], [], 1.0, 'n_bjets',0,1,''),
+HistogramInfo('n_bjets', [], [], 1.0, 'n_bjets',0,1,'',logScale=True),
 HistogramInfo('lepiso', [], [], 1.0, 'lepiso',1,2,''),
 HistogramInfo('n_jets_interval', [], [], 1.0, 'N gap jets',0,1,'',xRange=[0,2],isIntegerPlot=True),
 HistogramInfo('delta_phi', [2.0], [0.2, 0.6], 0.2, '#Delta#phi(l_{1},l_{2})',0,0,''),
@@ -1201,7 +1273,7 @@ HistogramInfo('met_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen
 ]
 
 llQCDCRHistograms = [
-HistogramInfo('n_bjets', [], [], 1.0, 'n_bjets',0,1,''),
+HistogramInfo('n_bjets', [], [], 1.0, 'n_bjets',0,1,'',logScale=True),
 HistogramInfo('lepiso', [], [], 1.0, 'lepiso',1,2,''),
 HistogramInfo('n_jets_interval', [], [], 1.0, 'N gap jets',0,2,'',xRange=[0,2],isIntegerPlot=True),
 HistogramInfo('delta_phi', [2.0], [0.2, 0.6], 0.2, '#Delta#phi(l_{1},l_{2})',0,0,''),
@@ -1219,7 +1291,7 @@ HistogramInfo('met_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen
 
 
 tautauInclusiveHistograms = [
-HistogramInfo('n_bjets', [], [], 1.0, 'n_bjets',0,1,''),
+HistogramInfo('n_bjets', [], [], 1.0, 'n_bjets',0,1,'',logScale=True),
 HistogramInfo('lepiso', [], [], 1.0, 'lepiso',1,2,''),
 HistogramInfo('n_jets_interval', [], [], 1.0, 'N gap jets',0,0,'',xRange=[0,2],isIntegerPlot=True),
 HistogramInfo('flavourJet1_basic_all', [], [], 1.0, 'flavourJet1_basic_all',0,0,''),
@@ -1263,7 +1335,7 @@ HistogramInfo('met_basic_all',[100,250],[20,50,250],20,'MET',0,0,'GeV'),
 ]
 
 tautauHighMassCutBasedHistograms = [
-HistogramInfo('n_bjets', [], [], 1.0, 'n_bjets',0,1,''),
+HistogramInfo('n_bjets', [], [], 1.0, 'n_bjets',0,1,'',logScale=True),
 HistogramInfo('lepiso', [], [], 1.0, 'lepiso',1,2,''),
 HistogramInfo('n_jets_interval', [], [], 1.0, 'N gap jets',0,1,'',xRange=[0,2],isIntegerPlot=True),
 HistogramInfo('flavourJet1_basic_all', [], [], 1.0, 'flavourJet1_basic_all',0,0,''),
@@ -1310,7 +1382,7 @@ HistogramInfo('visibleMass_basic_all', [40, 100, 150, 250], [40, 20, 25, 50, 250
 
 
 tautauHighMassHistograms = [
-HistogramInfo('n_bjets', [], [], 1.0, 'n_bjets',0,1,''),
+HistogramInfo('n_bjets', [], [], 1.0, 'n_bjets',0,1,'',logScale=True),
 HistogramInfo('lepiso', [], [], 1.0, 'lepiso',1,2,''),
 HistogramInfo('n_jets_interval', [], [], 1.0, 'N gap jets',0,1,'',xRange=[0,2],isIntegerPlot=True),
 HistogramInfo('flavourJet1_basic_all', [], [], 1.0, 'flavourJet1_basic_all',0,0,''),
@@ -1365,7 +1437,7 @@ HistogramInfo('met',[20,40,100,200],[20,10,30,100,150],20,'MET',40,500,'GeV'),
 ]
 
 tautauHighMassTightTauHistograms = [
-HistogramInfo('n_bjets', [], [], 1.0, 'n_bjets',0,1,''),
+HistogramInfo('n_bjets', [], [], 1.0, 'n_bjets',0,1,'',logScale=True),
 HistogramInfo('lepiso', [], [], 1.0, 'lepiso',1,2,''),
 HistogramInfo('n_jets_interval', [], [], 1.0, 'N gap jets',0,1,'',xRange=[0,2],isIntegerPlot=True),
 HistogramInfo('flavourJet1_basic_all', [], [], 1.0, 'flavourJet1_basic_all',0,0,''),
@@ -1421,7 +1493,7 @@ HistogramInfo('met',[20,40,100,200],[20,10,30,100,150],20,'MET',0,0,'GeV'),
 
 
 tautauHighMassMJHistograms = [
-HistogramInfo('n_bjets', [], [], 1.0, 'n_bjets',0,1,''),
+HistogramInfo('n_bjets', [], [], 1.0, 'n_bjets',0,1,'',logScale=True),
 HistogramInfo('lepiso', [], [], 1.0, 'lepiso',1,2,''),
 HistogramInfo('n_jets_interval', [], [], 1.0, 'N gap jets',0,1,'',xRange=[0,2],isIntegerPlot=True),
 HistogramInfo('flavourJet1_basic_all', [], [], 1.0, 'flavourJet1_basic_all',0,0,''),
@@ -1468,7 +1540,7 @@ HistogramInfo('recoVisibleMassRatio', [4.0], [1.0, 3.0], 1.0, 'm(reco)_{#tau,l}/
 ]
 
 tautauHiggsHistograms = [
-HistogramInfo('n_bjets', [], [], 1.0, 'n_bjets',0,1,''),
+HistogramInfo('n_bjets', [], [], 1.0, 'n_bjets',0,1,'',logScale=True),
 HistogramInfo('lepiso', [], [], 1.0, 'lepiso',1,2,''),
 HistogramInfo('n_jets_interval', [], [], 1.0, 'N gap jets',0,1,'',xRange=[0,2],isIntegerPlot=True),
 HistogramInfo('flavourJet1_basic_all', [], [], 1.0, 'flavourJet1_basic_all',0,0,''),
@@ -1516,7 +1588,7 @@ HistogramInfo('recoVisibleMassRatio', [1.0, 2.0], [0.2, 0.5, 1.0], 0.2, 'm(reco)
 ]
 
 tautauHiggsBDTHistograms = [
-HistogramInfo('n_bjets', [], [], 1.0, 'n_bjets',0,1,''),
+HistogramInfo('n_bjets', [], [], 1.0, 'n_bjets',0,1,'',logScale=True),
 HistogramInfo('lepiso', [], [], 1.0, 'lepiso',1,2,''),
 HistogramInfo('n_jets_interval', [], [], 1.0, 'N gap jets',0,1,'',xRange=[0,2],isIntegerPlot=True),
 HistogramInfo('flavourJet1_basic_all', [], [], 1.0, 'flavourJet1_basic_all',0,0,''),
@@ -1564,7 +1636,7 @@ HistogramInfo('recoVisibleMassRatio', [1.0, 2.0], [0.2, 0.5, 1.0], 0.2, 'm(reco)
 ]
 
 tauhadtauhadZPeakHistograms = [
-HistogramInfo('n_bjets', [], [], 1, 'n_bjets',-0.5,0.5),
+HistogramInfo('n_bjets', [], [], 1, 'n_bjets',-0.5,0.5,logScale=True),
 HistogramInfo('n_gapjets', [], [], 1, 'n_gapjets',-0.5,0.5),
 HistogramInfo('tau0_pt', [80,180,380], [40,50,100,120], 40, 'pT(#tau_{1})',80,500,'GeV'),
 HistogramInfo('tau1_pt', [60,200,320], [60,70,120,180], 60, 'pT(#tau_{2})',60,500,'GeV'),
@@ -1586,7 +1658,7 @@ HistogramInfo('bdtScore', [0], [0.2,0.2], 0.2, 'bdtScore', -1,1,'')
 ]
 
 tauhadtauhadHiggsPeakHistograms = [
-HistogramInfo('n_bjets', [], [], 1, 'n_bjets',-0.5,0.5),
+HistogramInfo('n_bjets', [], [], 1, 'n_bjets',-0.5,0.5,logScale=True),
 HistogramInfo('n_gapjets', [], [], 1, 'n_gapjets',-0.5,0.5),
 HistogramInfo('tau0_pt', [80,180,380], [40,50,100,120], 40, 'pT(#tau_{1})',80,500,'GeV'),
 HistogramInfo('tau1_pt', [60,200,320], [60,70,120,180], 60, 'pT(#tau_{2})',60,500,'GeV'),
@@ -1608,7 +1680,7 @@ HistogramInfo('bdtScore', [0], [0.2,0.2], 0.2, 'bdtScore', -1,1,'')
 ]
 
 tauhadtauhadHighMassHistograms = [
-HistogramInfo('n_bjets', [], [], 1, 'n_bjets',-0.5,0.5),
+HistogramInfo('n_bjets', [], [], 1, 'n_bjets',-0.5,0.5,logScale=True),
 HistogramInfo('n_gapjets', [], [], 1, 'n_gapjets',-0.5,0.5),
 HistogramInfo('tau0_pt', [80,180,380], [40,50,100,120], 40, 'pT(#tau_{1})',80,500,'GeV'),
 HistogramInfo('tau1_pt', [60,200,320], [60,70,120,180], 60, 'pT(#tau_{2})',60,500,'GeV'),
@@ -1628,6 +1700,17 @@ HistogramInfo('m_reco_vis', [4], [0.5,1], 0.5, 'm_{reco}/m_{vis}', 0, 4,''),
 HistogramInfo('trigger', [1], [1,1], 1, 'trigger', 1, 2,''),
 HistogramInfo('bdtScore', [0], [0.2,0.2], 0.2, 'bdtScore', -1,1,'')
 ]
+
+def get_histogram_from_collection(histogram_name : str, histogram_collection : list[HistogramInfo]) -> HistogramInfo:
+    """
+    Returns a HistogramInfo object from a collection of HistogramInfo objects based on the histogram name.
+    If the histogram is not found, it raises a ValueError.
+    """
+    for histogram in histogram_collection:
+        if histogram.m_name == histogram_name:
+            DEBUG.log(f"Found histogram: {histogram_name}")
+            return histogram
+    raise ValueError(f"Histogram {histogram_name} not found in the collection.")
 
 templatesDict = {
     'eeZpeakHistograms' : eeZpeakHistograms,

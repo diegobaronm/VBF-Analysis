@@ -332,6 +332,8 @@ def display_fit_experiments(experiments_container: FitExperimentContainer, CR_na
     else:
         INFO.log("Displaying the figure without saving.")
         plt.show()
+
+    return fig, ax
     
 
 # Function to store fit results in a DataFrame

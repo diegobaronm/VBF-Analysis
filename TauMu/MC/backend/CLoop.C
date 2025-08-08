@@ -371,29 +371,12 @@ void CLoop::Loop(double lumFactor, int z_sample, const std::string& key, int log
         else if ((z_centrality>=0.5 && z_centrality<=1) && n_jets_interval==1){region = Region::CRb;}
         else if ((z_centrality>=0.5 && z_centrality<=1) && n_jets_interval==0){region = Region::CRc;}
 
-        double mjj = sqrt(2*(ljet_0_p4->Dot(*ljet_1_p4)));
-        double mjj_w = 1.0;
+        // Mjj reweighting
+        double mjj=sqrt(2*(ljet_0_p4->Dot(*ljet_1_p4)));
+        bool do_data_driven = true;
+        bool do_mc_driven = true;
 
-        // mjj reweighting
-        bool reweight_mjj = true;
-        if (reweight_mjj){
-            MC mcSample = static_cast<MC>(z_sample);
-            if(mcSample == MC::PowHegPythia){
-                mjj_w = 1.0;
-            } else if (mcSample == MC::SHERPA){
-                mjj_w = mjj_rw(mjj,parametersSHERPA[region]); 
-            } else if (mcSample == MC::MadGraph){ 
-                mjj_w = mjj_rw(mjj,parametersMadGraph[region]);
-            } else if (mcSample == MC::SHERPANLO){ 
-                mjj_w = mjj_rw(mjj,parametersSHERPANLO[region]);
-            } else if (mcSample == MC::MadGraphNLO){ 
-                mjj_w = mjj_rw(mjj,parametersMadGraphNLO[region]);
-            } 
-        }
-
-        // ZpT reweighting
-        double z_w=1;
-        double zpt_weight=1/z_w;
+        double mjj_w = calculateMjjWeight(do_data_driven, do_mc_driven, mjj, region, z_sample);
 
         double eventWeight = 1;
         g_LOG(LogLevel::DEBUG,"Initial event w = ", eventWeight);
@@ -414,7 +397,7 @@ void CLoop::Loop(double lumFactor, int z_sample, const std::string& key, int log
             if (key.find("VBF") != std::string::npos && key.find("MG") != std::string::npos)
                 puWeight = 1.0;
             // take product of all scale factors
-            eventWeight = weight_mc*puWeight*lumFactor*zpt_weight*mjj_w
+            eventWeight = weight_mc*puWeight*lumFactor*mjj_w
             *muon_0_NOMINAL_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium*muon_0_NOMINAL_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium
             *muon_0_NOMINAL_MuEffSF_IsoTightTrackOnly_FixedRad*muon_0_NOMINAL_MuEffSF_Reco_QualMedium/*muon_0_NOMINAL_MuEffSF_TTVA*/
             *jet_NOMINAL_central_jets_global_effSF_JVT*jet_NOMINAL_central_jets_global_ineffSF_JVT*jet_NOMINAL_forward_jets_global_effSF_JVT
