@@ -73,6 +73,7 @@ double exponentialMjjRW(double mjj, double a, double b, double c){
 
 enum class MC
 {
+    NotZSample = 0,
     PowHegPythia = 1,
     SHERPA,
     MadGraph,
@@ -305,6 +306,12 @@ double calculateMjjWeight(bool doDataDrivenRW, bool doMCDrivenRW, double mjj, Re
 
     // Convert sample_id to MC enum
     MC mcSample = static_cast<MC>(sample_id);
+
+    // If this is not a Zll sample just return
+    if (mcSample == MC::NotZSample) {
+        g_LOG(LogLevel::DEBUG, "Not a Zll sample, no reweighting applied.");
+        return mjj_w;
+    }
 
     // Do the data-driven reweighting if requested
     if (doDataDrivenRW) {
