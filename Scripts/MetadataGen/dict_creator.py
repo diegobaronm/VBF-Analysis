@@ -69,7 +69,7 @@ def create_dict(sample_name,sample_match_strings):
                     elif "r10201" in sample:
                         dict[sample_name+str(id_counter)+"_2017"]=[sample,IDs,xsec,kfactor,filteref]
                     elif "r10724" in sample:
-                        dict[sample_name+str(id_counter)+"_2018"]=[sample,IDs,xsec,kfactor,filteref]
+                        dict[sample_name+str(id_counter)+"_truth_2018"]=[sample,IDs,xsec,kfactor,filteref]
             else :
                 if IDs in sample:
                     if "r9364" in sample:
@@ -82,7 +82,7 @@ def create_dict(sample_name,sample_match_strings):
 
     # PRINT THE DICTIONARY IN THE CORRECT FORMAT TO PUT IT ON THE lister_mc.py SCRIPT
     for key, value in dict.items():
-        print("'"+key+sys_key+"'", ' : ', value,",")
+        print("'%s'  :  ['%s','%s',%e,%f,%f] ," % (key, value[0], value[1], value[2], value[3], value[4]))
 
 dict_of_samples={"Ztautau":"361108_PoPy","Zmumu":"mumu_PoPy","Zee":"Zee_PoPy","Wplustaunu":"Wplustaunu_PoPy","Wminustaunu":"Wminustaunu_PoPy",
 "Wplusmunu":"Wplusmunu_PoPy","Wminusmunu":"Wminusmunu_PoPy","Wminusenu":"Wminusenu_PoPy","Wplusenu":"Wplusenu_PoPy","ttbar":"ttb",
@@ -93,9 +93,10 @@ dict_of_samples={"Ztautau":"361108_PoPy","Zmumu":"mumu_PoPy","Zee":"Zee_PoPy","W
 "VBF_Zee_old":"Zee_Sh221_2jets","VBF_Ztautau":"600939","VBF_Zmumu":"600938","VBF_Zee":"600937","VBF_Ztautau_sherpa":"700360","VBF_Zmumu_sherpa":"700359",
 "VBF_Zee_sherpa":"700358",
 "WpH":"345212","WmH":"345211","ZHllbb":"345055","ZHlltautau":"346329","ggHttlm15hp20":"345121","ggHttlp15hm20":"345122",
-"VBFHttlm15hp20":"346191","VBFHttlp15hm20":"346192","Zee_MG":"MGPy8_Zee","Zmumu_MG":"MGPy8_Zmumu","Ztautau_MG":"MadPy_Ztt",
+"VBFHttlm15hp20":"346191","VBFHttlp15hm20":"346192","VBFHttl13l7":"346190","VBFHtth30h20":"346193",
+"Zee_MG":"MGPy8_Zee","Zmumu_MG":"MGPy8_Zmumu","Ztautau_MG":"MadPy_Ztt",
 "Zee_MGNLO":"MGPy8_Zee_3jets","Zmumu_MGNLO":"MGPy8_Zmumu_3jets","Ztautau_MGNLO":"MGPy8_Ztt_3jets",
-"Zee_SherpaNLO":"Sh_2211_Zee","Zmumu_SherpaNLO":"Sh_2211_Zmumu","Ztautau_SherpaNLO":"Sh_2211_Ztt",
+"Zee_SherpaNLO":"Sh_2211_Zee_maxHTpTV2","Zmumu_SherpaNLO":"Sh_2211_Zmumu_maxHTpTV2","Ztautau_SherpaNLO":"Sh_2211_Ztt_maxHTpTV2",
 "W_EWK_PoPy":"PhPy8_VBF_W","W_EWK_sherpa":"Sh_2211_W_2jets",
 "VV_EWK":"Sh_2212_jj","VV_EWK_SemiLep":"MGPy8EvtGen_jj_qq",
 "VBF_Zee_MG_bug_LM":"545882", "VBF_Zee_MG_bug_HM":"545883", 
