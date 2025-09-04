@@ -6,7 +6,7 @@ from uncertainties import ufloat, correlated_values
 from uncertainties.umath import *
 
 from AnalysisCommons.Run import INFO, WARNING, ERROR, DEBUG, Logger
-from Scripts.MjjFit import parabolic_model, exponential_model
+from Scripts.MjjFit import parabolic_model, exponential_model, linear_model
 Logger.LOGLEVEL = 3
 
 # Program constants
@@ -14,12 +14,21 @@ Logger.LOGLEVEL = 3
 FIT_PARAMS = {"Sherpa_RWParabolicCutoff": [8.82838944E-08,-5.75209880E-04,1.43649628,2750.0],
               "SherpaNLO_RWParabolicCutoff" : [5.94966044e-08,-3.76772401e-04, 1.17521036, 2250.0],
               "MG_RWParabolicCutoff" : [6.54900406e-08,-3.82604146e-04, 9.17664656e-01, 2250.0],
-               "MGNLO_RWParabolicCutoff" : [1.87328269e-08, -1.24610255e-05,  1.09966978, 2250.0],
-               "Sherpa_RWExponential" : [8.47307103E-04,1.06314779,1.54110821],
-               "SherpaNLO_RWExponential" : [8.96860907e-04, 6.93896459e-01, 1.25625295],
-               "MG_RWExponential" : [7.42436292e-04, 7.03633110e-01, 9.64192819e-01],
-               "Sherpa_RWParabolic" : [8.82838944E-08,-5.75209880E-04,1.43649628],
-               "MG_RWParabolic" : [6.54900406e-08,-3.82604146e-04, 9.17664656e-01],}
+              "MGNLO_RWParabolicCutoff" : [1.87328269e-08, -1.24610255e-05,  1.09966978, 2250.0],
+              "Sherpa_RWParabolicCutoffClosure": [8.82838944E-08,-5.75209880E-04,1.43649628,2750.0],
+              "SherpaNLO_RWParabolicCutoffClosure" : [5.94966044e-08,-3.76772401e-04, 1.17521036, 2250.0],
+              "MG_RWParabolicCutoffClosure" : [6.54900406e-08,-3.82604146e-04, 9.17664656e-01, 2250.0],
+              "MGNLO_RWParabolicCutoffClosure" : [1.87328269e-08, -1.24610255e-05,  1.09966978, 2250.0],
+              "Sherpa_RWExponential" : [8.47307103E-04,1.06314779,1.54110821],
+              "SherpaNLO_RWExponential" : [8.96860907e-04, 6.93896459e-01, 1.25625295],
+              "MG_RWExponential" : [7.42436292e-04, 7.03633110e-01, 9.64192819e-01],
+              "Sherpa_RWParabolic" : [8.82838944E-08,-5.75209880E-04,1.43649628],
+              "MG_RWParabolic" : [6.54900406e-08,-3.82604146e-04, 9.17664656e-01],
+              "Sherpa_Closure": [1.32414517e-04, 9.15044268e-01],
+              "MG_Closure": [4.21819894e-05, 9.60973106e-01],
+              "MGNLO_Closure": [2.52428835e-04, 8.42915241e-01],
+              "SherpaNLO_Closure": [3.63250659e-05, 9.74936749e-01],
+               }
 
 FIT_COVARIANCE =  {"Sherpa_RWParabolicCutoff": [[ 4.20605912e-18, -1.05427079e-14,  5.06421195e-12],
                                                     [-1.05427079e-14,  2.95603005e-11, -1.56011963e-08],
@@ -31,6 +40,18 @@ FIT_COVARIANCE =  {"Sherpa_RWParabolicCutoff": [[ 4.20605912e-18, -1.05427079e-1
                                                 [-2.44733463e-13,  1.07657090e-09, -6.89771768e-07],
                                                 [ 1.45860273e-10, -6.89771768e-07,  5.26126101e-04]],
                      "MGNLO_RWParabolicCutoff": [[ 1.25043836e-16, -4.22720216e-13,  2.17411396e-10],
+                                                [-4.22720216e-13,  1.71261502e-09, -9.58016471e-07],
+                                                [ 2.17411396e-10, -9.58016471e-07,  6.38964869e-04]],
+                    "Sherpa_RWParabolicCutoffClosure": [[ 4.20605912e-18, -1.05427079e-14,  5.06421195e-12],
+                                                    [-1.05427079e-14,  2.95603005e-11, -1.56011963e-08],
+                                                    [ 5.06421195e-12, -1.56011963e-08,  9.61124646e-06]],
+                     "SherpaNLO_RWParabolicCutoffClosure": [[ 2.06553470e-17, -8.20011301e-14,  4.90184092e-11],
+                                                    [-8.20011301e-14,  3.64367633e-10, -2.33870975e-07],
+                                                    [ 4.90184092e-11, -2.33870975e-07,  1.80087363e-04]],
+                     "MG_RWParabolicCutoffClosure": [[ 6.28300443e-17, -2.44733463e-13,  1.45860273e-10],
+                                                [-2.44733463e-13,  1.07657090e-09, -6.89771768e-07],
+                                                [ 1.45860273e-10, -6.89771768e-07,  5.26126101e-04]],
+                     "MGNLO_RWParabolicCutoffClosure": [[ 1.25043836e-16, -4.22720216e-13,  2.17411396e-10],
                                                 [-4.22720216e-13,  1.71261502e-09, -9.58016471e-07],
                                                 [ 2.17411396e-10, -9.58016471e-07,  6.38964869e-04]],
                      "Sherpa_RWExponential": [[ 5.70295287e-10, -1.39309227e-07,  1.55388883e-07],
@@ -48,6 +69,14 @@ FIT_COVARIANCE =  {"Sherpa_RWParabolicCutoff": [[ 4.20605912e-18, -1.05427079e-1
                      "MG_RWParabolic": [[ 6.28300443e-17, -2.44733463e-13,  1.45860273e-10],
                                         [-2.44733463e-13,  1.07657090e-09, -6.89771768e-07],
                                         [ 1.45860273e-10, -6.89771768e-07,  5.26126101e-04]],
+                     "Sherpa_Closure": [[ 6.22183566e-10, -4.86375579e-07],
+                                          [-4.86375579e-07,  5.14027312e-04]],
+                     "MG_Closure": [[ 5.01070485e-09, -3.38644698e-06],
+                                      [-3.38644698e-06,  3.05006567e-03]],
+                     "MGNLO_Closure": [[ 2.72316965e-09, -1.66491926e-06],
+                                         [-1.66491926e-06,  1.23410973e-03]],
+                     "SherpaNLO_Closure":  [[ 9.70273239e-11, -7.86988760e-08],
+                                                [-7.86988760e-08,  8.42092075e-05]],
                      }
 
 def custom_parabolic_cutoff_model(x, a, b, c, cutoff):
@@ -60,7 +89,8 @@ def custom_parabolic_cutoff_model(x, a, b, c, cutoff):
 FUNCTIONS_DICT = {
     "RWParabolic" : parabolic_model,
     "RWExponential" : exponential_model,
-    "RWParabolicCutoff" : custom_parabolic_cutoff_model
+    "RWParabolicCutoff" : custom_parabolic_cutoff_model,
+    "RWParabolicCutoffClosure" : custom_parabolic_cutoff_model,
 }
 
 REMOTE_PATH = "/afs/cern.ch/work/d/dbaronmo/private/Fitter/"
@@ -81,6 +111,14 @@ def rw_tag(generator_rw_tag):
     # Extract the substring after underscore
     return generator_rw_tag[underscore_index + 1:]
 
+def generator_tag(generator_rw_tag):
+    # Find the first occurrence of of "_" in the sample name
+    underscore_index = generator_rw_tag.find("_")
+    if underscore_index == -1:
+        raise ValueError("Sample name does not contain an underscore: " + generator_rw_tag)
+    # Extract the substring before underscore
+    return generator_rw_tag[:underscore_index]
+
 
 def scaleBinUncertainty(histogram,sampleName):
 
@@ -90,6 +128,7 @@ def scaleBinUncertainty(histogram,sampleName):
     INFO.log("RW function = ", rw_tag(generator_rw_tag))
     
     for i in range(1,histogram.GetNbinsX()+1):
+        # 1) Data-driven RW.
         # Get the current bin center and error
         x = histogram.GetBinCenter(i)
         error = histogram.GetBinError(i)
@@ -121,7 +160,30 @@ def scaleBinUncertainty(histogram,sampleName):
 
         # Do the scaling
         newError = np.sqrt(error**2 + ((rw_error/rw)**2)*(error**2))
+        DEBUG.log("Bin: %d | Old error: %f | New error: %f" % (i, error, newError))
         histogram.SetBinError(i,newError)
+
+        # 2) MC-driven closure RW.
+        # Get the current bin center and error
+        x = histogram.GetBinCenter(i)
+        error = histogram.GetBinError(i)
+
+        # Check if the sample was affected by thus RW type
+        if "Closure" in generator_rw_tag:
+            DEBUG.log("Doing MC-driven closure RW uncertainty adjustment.")
+            # Form the key = generator + "_Closure"
+            closure_key = generator_tag(generator_rw_tag) + "_Closure"
+            # Load parameters and predict
+            params = correlated_values(FIT_PARAMS[closure_key], FIT_COVARIANCE[closure_key])
+            pred = linear_model(x, *params)
+            # Extract the RW value and error
+            rw = pred.nominal_value
+            rw_error = pred.std_dev
+            DEBUG.log("Bin x: %s RW prediction: %s" % (x, pred))
+            # Update the uncertianty
+            newError = np.sqrt(error**2 + ((rw_error/rw)**2)*(error**2))
+            DEBUG.log("Bin: %d | Old error: %f | New error: %f" % (i, error, newError))
+            histogram.SetBinError(i,newError)
 
 def channel(path):
     if "MuMu" in path:
@@ -203,7 +265,7 @@ def gather_samples(localPath):
 
     dataSamples = ['Data.root']
     signalSamples = ['Signal_Sherpa.root','Signal_PoPy.root']
-    qcdSamples = ["%s_%s.root" % (channel(localPath), i) for i in FIT_PARAMS.keys()]
+    qcdSamples = ["%s_%s.root" % (channel(localPath), i) for i in FIT_PARAMS.keys() if 'RW' in i]
     backgroundSamples = ['Wjets.root','VV.root',"ttbar.root",'singletop.root','VV_EWK.root']
     if "Tau" in localPath or "MuEle" in localPath:
         backgroundSamples += ['Higgs.root','Higgs_EWK.root','Zjets.root','W_EWK_Sherpa.root','MJ.root']

@@ -16,11 +16,11 @@ std::vector<std::string> CLoop::InitCutNames(const std::string& selectionName){
     // Define the vector to be returned.
     std::vector<std::string> cutNames{};
 
-    if (selName == "Zpeak"){
+    if (selName == "BeforeEBZpeak"){
         cutNames = {"basic","dphi","drap","btag","iso","rnn","ptl","j1pt","j2pt","ptbal","mjj","nji","zcen","omega","mlt","ebdt","mreco","tpt"}; 
-    } else if (selName == "NewZpeak"){
+    } else if (selName == "NoBDTZpeak"){
         cutNames = {"basic","dphi","drap","btag","iso","rnn","ptl","j1pt","j2pt","ptbal","mjj","nji","zcen","omega","mlt","ebdt","mreco","tpt","ptsym","rvr"};
-    } else if (selName == "NewZpeakBDT"){
+    } else if (selName == "Zpeak"){
         cutNames = {"basic","dphi","drap","btag","iso","rnn","ptl","j1pt","j2pt","ptbal","mjj","nji","zcen","omega","mlt","ebdt","mreco","tpt","mva","ptsym","rvr"};
     } else if (selName == "HighMass"){
         cutNames = {"basic","dphi","drap","btag","iso","rnn","ptl","j1pt","j2pt","ptbal","mjj","nji","zcen","omega","mlt","ebdt","mreco","tpt","mva","ptsym","rvr"};
@@ -45,7 +45,7 @@ std::vector<int> CLoop::ApplySelection(const std::string& selectionName, const K
     std::vector<int> cuts;
 
     // Region: Z  peak
-    if (selName == "Zpeak"){
+    if (selName == "BeforeEBZpeak"){
         cuts.push_back( vars.deltaPhiLepLep <= 3.2 );
         cuts.push_back( vars.deltaRapidityTaggingJets >= 2.0 );
         cuts.push_back( vars.nBJets == 0 );
@@ -68,14 +68,14 @@ std::vector<int> CLoop::ApplySelection(const std::string& selectionName, const K
         cuts.push_back( vars.recoMass < 116 && vars.recoMass > 66 );
         cuts.push_back( vars.taupT >= 25 );
 
-    } else if (selName == "NewZpeak"){
+    } else if (selName == "NoBDTZpeak"){
         cuts.push_back( vars.deltaPhiLepLep <= 3.2 );
         cuts.push_back( vars.deltaRapidityTaggingJets >= 2.0 );
         cuts.push_back( vars.nBJets == 0 );
         cuts.push_back( vars.lep1IsolationTight == 1 );
 
-        bool oneProngId = vars.nTauProngs == 1 && vars.tauJetRNNScore >= 0.40; // Medium = shift by 0.15
-        bool threeProngId = vars.nTauProngs == 3 && vars.tauJetRNNScore >= 0.55;
+        bool oneProngId = vars.nTauProngs == 1 && vars.tauJetRNNScore >= 0.25; // Medium = shift by 0.15
+        bool threeProngId = vars.nTauProngs == 3 && vars.tauJetRNNScore >= 0.40;
         cuts.push_back( oneProngId || threeProngId );
 
         cuts.push_back( vars.lep1pT >= 27 );
@@ -93,14 +93,14 @@ std::vector<int> CLoop::ApplySelection(const std::string& selectionName, const K
         cuts.push_back( vars.lepPtAssymetry > -0.3 );
         cuts.push_back( vars.recoVisibleMassRatio < 4.0 );
 
-    } else if (selName == "NewZpeakBDT"){
+    } else if (selName == "Zpeak"){
         cuts.push_back( vars.deltaPhiLepLep <= 3.2 );
         cuts.push_back( vars.deltaRapidityTaggingJets >= 2.0 );
         cuts.push_back( vars.nBJets == 0 );
         cuts.push_back( vars.lep1IsolationTight == 1 );
 
-        bool oneProngId = vars.nTauProngs == 1 && vars.tauJetRNNScore >= 0.40; // Medium = shift by 0.15
-        bool threeProngId = vars.nTauProngs == 3 && vars.tauJetRNNScore >= 0.55;
+        bool oneProngId = vars.nTauProngs == 1 && vars.tauJetRNNScore >= 0.25; // Medium = shift by 0.15
+        bool threeProngId = vars.nTauProngs == 3 && vars.tauJetRNNScore >= 0.40;
         cuts.push_back( oneProngId || threeProngId );
 
         cuts.push_back( vars.lep1pT >= 27 );
