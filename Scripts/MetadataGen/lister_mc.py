@@ -204,33 +204,15 @@ mc_taulep={'Ztautau_2017'  :  ['user.dbaronmo.v26.mc.361108.PoPy8_Ztt.M4.e3601_s
 'Ztautau_MGNLO3_2017'  :  ['user.dbaronmo.v26.mc16_13TeV.512199.MGPy8_FxFx_Ztt_3jets_HT2bias_CFBV.M4.e8382_s3126_r10201_p4512.sv1_Ta', '512199', 2271.6, 1.0, 0.122] ,
 'Ztautau_MGNLO3_2018'  :  ['user.dbaronmo.v26.mc16_13TeV.512199.MGPy8_FxFx_Ztt_3jets_HT2bias_CFBV.M4.e8382_s3126_r10724_p4512.sv1_Ta', '512199', 2271.6, 1.0, 0.122] ,
 'Ztautau_MGNLO3_2015'  :  ['user.dbaronmo.v26.mc16_13TeV.512199.MGPy8_FxFx_Ztt_3jets_HT2bias_CFBV.M4.e8382_s3126_r9364_p4512.sv1_Ta', '512199', 2271.6, 1.0, 0.122] ,
-'Ztautau_SherpaNLO1_2017'  :  ['user.dbaronmo.v26.mc16_13TeV.700333.Sh_2211_Ztt_HH_maxHTpTV2_CFBV.M4.e8351_s3126_r10201_p4514.sv1_Ta', '700333', 932.53, 1.0, 0.1247522] ,
-'Ztautau_SherpaNLO1_2015'  :  ['user.dbaronmo.v26.mc16_13TeV.700333.Sh_2211_Ztt_HH_maxHTpTV2_CFBV.M4.e8351_s3126_r9364_p4514.sv1_Ta', '700333', 932.53, 1.0, 0.1247522] ,
-'Ztautau_SherpaNLO1_2018'  :  ['user.dbaronmo.v26.mc16_13TeV.700333.Sh_2211_Ztt_HH_maxHTpTV2_CFBV.M4.e8351_s3126_r10724_p4514.sv1_Ta', '700333', 932.53, 1.0, 0.1247522] ,
-'Ztautau_SherpaNLO2_2017'  :  ['user.dbaronmo.v26.mc16_13TeV.700326.Sh_2211_Ztt_LL_maxHTpTV2_BF.M4.e8351_s3126_r10201_p4514.sv1_Ta', '700326', 275.33, 1.0, 0.0249068] ,
-'Ztautau_SherpaNLO2_2018'  :  ['user.dbaronmo.v26.mc16_13TeV.700326.Sh_2211_Ztt_LL_maxHTpTV2_BF.M4.e8351_s3126_r10724_p4514.sv1_Ta', '700326', 275.33, 1.0, 0.0249068] ,
-'Ztautau_SherpaNLO2_2015'  :  ['user.dbaronmo.v26.mc16_13TeV.700326.Sh_2211_Ztt_LL_maxHTpTV2_BF.M4.e8351_s3126_r9364_p4514.sv1_Ta', '700326', 275.33, 1.0, 0.0249068] ,
-'Ztautau_SherpaNLO3_2017'  :  ['user.dbaronmo.v26.mc16_13TeV.700330.Sh_2211_Ztt_LH_maxHTpTV2_CFBV.M4.e8351_s3126_r10201_p4514.sv1_Ta', '700330', 1013.2, 1.0, 0.125] ,
-'Ztautau_SherpaNLO3_2018'  :  ['user.dbaronmo.v26.mc16_13TeV.700330.Sh_2211_Ztt_LH_maxHTpTV2_CFBV.M4.e8351_s3126_r10724_p4514.sv1_Ta', '700330', 1013.2, 1.0, 0.125] ,
-'Ztautau_SherpaNLO3_2015'  :  ['user.dbaronmo.v26.mc16_13TeV.700330.Sh_2211_Ztt_LH_maxHTpTV2_CFBV.M4.e8351_s3126_r9364_p4514.sv1_Ta', '700330', 1013.2, 1.0, 0.125] ,
-'Ztautau_SherpaNLO4_2018'  :  ['user.dbaronmo.v26.mc16_13TeV.700334.Sh_2211_Ztt_HH_maxHTpTV2_CVBV.M4.e8351_s3126_r10724_p4514.sv1_Ta', '700334', 932.53, 1.0, 0.85] ,
-'Ztautau_SherpaNLO4_2015'  :  ['user.dbaronmo.v26.mc16_13TeV.700334.Sh_2211_Ztt_HH_maxHTpTV2_CVBV.M4.e8351_s3126_r9364_p4514.sv1_Ta', '700334', 932.53, 1.0, 0.85] ,
-'Ztautau_SherpaNLO4_2017'  :  ['user.dbaronmo.v26.mc16_13TeV.700334.Sh_2211_Ztt_HH_maxHTpTV2_CVBV.M4.e8351_s3126_r10201_p4514.sv1_Ta', '700334', 932.53, 1.0, 0.85] ,
-'Ztautau_SherpaNLO5_2015'  :  ['user.dbaronmo.v26.mc16_13TeV.700328.Sh_2211_Ztt_LL_maxHTpTV2_CVBV.M4.e8351_s3126_r9364_p4514.sv1_Ta', '700328', 275.33, 1.0, 0.85] ,
-'Ztautau_SherpaNLO5_2018'  :  ['user.dbaronmo.v26.mc16_13TeV.700328.Sh_2211_Ztt_LL_maxHTpTV2_CVBV.M4.e8351_s3126_r10724_p4514.sv1_Ta', '700328', 275.33, 1.0, 0.85] ,
-'Ztautau_SherpaNLO5_2017'  :  ['user.dbaronmo.v26.mc16_13TeV.700328.Sh_2211_Ztt_LL_maxHTpTV2_CVBV.M4.e8351_s3126_r10201_p4514.sv1_Ta', '700328', 275.33, 1.0, 0.85] ,
-'Ztautau_SherpaNLO6_2018'  :  ['user.dbaronmo.v26.mc16_13TeV.700332.Sh_2211_Ztt_HH_maxHTpTV2_BF.M4.e8351_s3126_r10724_p4514.sv1_Ta', '700332', 932.53, 1.0, 0.0246] ,
-'Ztautau_SherpaNLO6_2017'  :  ['user.dbaronmo.v26.mc16_13TeV.700332.Sh_2211_Ztt_HH_maxHTpTV2_BF.M4.e8351_s3126_r10201_p4514.sv1_Ta', '700332', 932.53, 1.0, 0.0246] ,
-'Ztautau_SherpaNLO6_2015'  :  ['user.dbaronmo.v26.mc16_13TeV.700332.Sh_2211_Ztt_HH_maxHTpTV2_BF.M4.e8351_s3126_r9364_p4514.sv1_Ta', '700332', 932.53, 1.0, 0.0246] ,
-'Ztautau_SherpaNLO7_2015'  :  ['user.dbaronmo.v26.mc16_13TeV.700329.Sh_2211_Ztt_LH_maxHTpTV2_BF.M4.e8351_s3126_r9364_p4514.sv1_Ta', '700329', 1013.2, 1.0, 0.0244] ,
-'Ztautau_SherpaNLO7_2017'  :  ['user.dbaronmo.v26.mc16_13TeV.700329.Sh_2211_Ztt_LH_maxHTpTV2_BF.M4.e8351_s3126_r10201_p4514.sv1_Ta', '700329', 1013.2, 1.0, 0.0244] ,
-'Ztautau_SherpaNLO7_2018'  :  ['user.dbaronmo.v26.mc16_13TeV.700329.Sh_2211_Ztt_LH_maxHTpTV2_BF.M4.e8351_s3126_r10724_p4514.sv1_Ta', '700329', 1013.2, 1.0, 0.0244] ,
-'Ztautau_SherpaNLO8_2015'  :  ['user.dbaronmo.v26.mc16_13TeV.700327.Sh_2211_Ztt_LL_maxHTpTV2_CFBV.M4.e8351_s3126_r9364_p4514.sv1_Ta', '700327', 275.33, 1.0, 0.125] ,
-'Ztautau_SherpaNLO8_2018'  :  ['user.dbaronmo.v26.mc16_13TeV.700327.Sh_2211_Ztt_LL_maxHTpTV2_CFBV.M4.e8351_s3126_r10724_p4514.sv1_Ta', '700327', 275.33, 1.0, 0.125] ,
-'Ztautau_SherpaNLO8_2017'  :  ['user.dbaronmo.v26.mc16_13TeV.700327.Sh_2211_Ztt_LL_maxHTpTV2_CFBV.M4.e8351_s3126_r10201_p4514.sv1_Ta', '700327', 275.33, 1.0, 0.125] ,
-'Ztautau_SherpaNLO9_2018'  :  ['user.dbaronmo.v26.mc16_13TeV.700331.Sh_2211_Ztt_LH_maxHTpTV2_CVBV.M4.e8351_s3126_r10724_p4514.sv1_Ta', '700331', 1013.2, 1.0, 0.85] ,
-'Ztautau_SherpaNLO9_2017'  :  ['user.dbaronmo.v26.mc16_13TeV.700331.Sh_2211_Ztt_LH_maxHTpTV2_CVBV.M4.e8351_s3126_r10201_p4514.sv1_Ta', '700331', 1013.2, 1.0, 0.85] ,
-'Ztautau_SherpaNLO9_2015'  :  ['user.dbaronmo.v26.mc16_13TeV.700331.Sh_2211_Ztt_LH_maxHTpTV2_CVBV.M4.e8351_s3126_r9364_p4514.sv1_Ta', '700331', 1013.2, 1.0, 0.85] ,
+'Ztautau_SherpaNLO1_2015'  :  ['user.dbaronmo.v26.mc16_13TeV.700792.Sh_2214_Ztt_maxHTpTV2_BF.M4.e8527_s3126_r9364_p5313.sv1_Ta','700792',2.239600e+03,1.000000,0.024865] ,
+'Ztautau_SherpaNLO1_2018'  :  ['user.dbaronmo.v26.mc16_13TeV.700792.Sh_2214_Ztt_maxHTpTV2_BF.M4.e8527_s3126_r10724_p5313.sv1_Ta','700792',2.239600e+03,1.000000,0.024865] ,
+'Ztautau_SherpaNLO1_2017'  :  ['user.dbaronmo.v26.mc16_13TeV.700792.Sh_2214_Ztt_maxHTpTV2_BF.M4.e8527_s3126_r10201_p5313.sv1_Ta','700792',2.239600e+03,1.000000,0.024865] ,
+'Ztautau_SherpaNLO2_2018'  :  ['user.dbaronmo.v26.mc16_13TeV.700794.Sh_2214_Ztt_maxHTpTV2_CVBV.M4.e8527_s3126_r10724_p5313.sv1_Ta','700794',2.239700e+03,1.000000,0.845954] ,
+'Ztautau_SherpaNLO2_2017'  :  ['user.dbaronmo.v26.mc16_13TeV.700794.Sh_2214_Ztt_maxHTpTV2_CVBV.M4.e8527_s3126_r10201_p5313.sv1_Ta','700794',2.239700e+03,1.000000,0.845954] ,
+'Ztautau_SherpaNLO2_2015'  :  ['user.dbaronmo.v26.mc16_13TeV.700794.Sh_2214_Ztt_maxHTpTV2_CVBV.M4.e8527_s3126_r9364_p5313.sv1_Ta','700794',2.239700e+03,1.000000,0.845954] ,
+'Ztautau_SherpaNLO3_2015'  :  ['user.dbaronmo.v26.mc16_13TeV.700793.Sh_2214_Ztt_maxHTpTV2_CFBV.M4.e8527_s3126_r9364_p5313.sv1_Ta','700793',2.239600e+03,1.000000,0.129159] ,
+'Ztautau_SherpaNLO3_2017'  :  ['user.dbaronmo.v26.mc16_13TeV.700793.Sh_2214_Ztt_maxHTpTV2_CFBV.M4.e8527_s3126_r10201_p5313.sv1_Ta','700793',2.239600e+03,1.000000,0.129159] ,
+'Ztautau_SherpaNLO3_2018'  :  ['user.dbaronmo.v26.mc16_13TeV.700793.Sh_2214_Ztt_maxHTpTV2_CFBV.M4.e8527_s3126_r10724_p5313.sv1_Ta','700793',2.239600e+03,1.000000,0.129159] ,
 'W_EWK_PoPy1_2018'  :  ['user.dbaronmo.v26.mc16_13TeV.600931.PhPy8_VBF_Wminusenu.M4.e8373_s3126_r10724_p4514.sv1_Ta', '600931', 3.1329, 1.0, 1.0] ,
 'W_EWK_PoPy1_2017'  :  ['user.dbaronmo.v26.mc16_13TeV.600931.PhPy8_VBF_Wminusenu.M4.e8373_s3126_r10201_p4514.sv1_Ta', '600931', 3.1329, 1.0, 1.0] ,
 'W_EWK_PoPy1_2015'  :  ['user.dbaronmo.v26.mc16_13TeV.600931.PhPy8_VBF_Wminusenu.M4.e8373_s3126_r9364_p4514.sv1_Ta', '600931', 3.1329, 1.0, 1.0] ,
@@ -1211,8 +1193,8 @@ mc_taulep_truth = {
 'VBF_Zprime_3000_truth_2017'  :  ['user.dbaronmo.v26.mc16_13TeV.567861.MGPy8_Zp3000_ttjj_U1X.M4.e8574_s3126_r10201_p4512.sv2_Ta','567861',2.518400e-07,4.000000,1.000000] ,
 }
 
-mc=mc_taulep_truth # IT CAN BE mc_taulep, mc_ee, mc_mumu and _truth/_sys appended for the systematics
-ntuples_type=Ztaulep_truth # IT CAN BE Zee,Zmumu,Ztaulep and _sys appended for the systematics
+mc = mc_taulep_truth # IT CAN BE mc_taulep, mc_ee, mc_mumu and _truth/_sys appended for the systematics
+ntuples_type = Ztaulep_truth # IT CAN BE Zee,Zmumu,Ztaulep and _sys appended for the systematics
 
 
 for x in mc.keys():

@@ -69,7 +69,7 @@ def create_dict(sample_name,sample_match_strings):
                     elif "r10201" in sample:
                         dict[sample_name+str(id_counter)+"_2017"]=[sample,IDs,xsec,kfactor,filteref]
                     elif "r10724" in sample:
-                        dict[sample_name+str(id_counter)+"_truth_2018"]=[sample,IDs,xsec,kfactor,filteref]
+                        dict[sample_name+str(id_counter)+"_2018"]=[sample,IDs,xsec,kfactor,filteref]
             else :
                 if IDs in sample:
                     if "r9364" in sample:
@@ -96,7 +96,7 @@ dict_of_samples={"Ztautau":"361108_PoPy","Zmumu":"mumu_PoPy","Zee":"Zee_PoPy","W
 "VBFHttlm15hp20":"346191","VBFHttlp15hm20":"346192","VBFHttl13l7":"346190","VBFHtth30h20":"346193",
 "Zee_MG":"MGPy8_Zee","Zmumu_MG":"MGPy8_Zmumu","Ztautau_MG":"MadPy_Ztt",
 "Zee_MGNLO":"MGPy8_Zee_3jets","Zmumu_MGNLO":"MGPy8_Zmumu_3jets","Ztautau_MGNLO":"MGPy8_Ztt_3jets",
-"Zee_SherpaNLO":"Sh_2211_Zee_maxHTpTV2","Zmumu_SherpaNLO":"Sh_2211_Zmumu_maxHTpTV2","Ztautau_SherpaNLO":"Sh_2211_Ztt_maxHTpTV2",
+"Zee_SherpaNLO":"Sh_2211_Zee_maxHTpTV2","Zmumu_SherpaNLO":"Sh_2211_Zmumu_maxHTpTV2","Ztautau_SherpaNLO":"Sh_2214_Ztt_maxHTpTV2",
 "W_EWK_PoPy":"PhPy8_VBF_W","W_EWK_sherpa":"Sh_2211_W_2jets",
 "VV_EWK":"Sh_2212_jj","VV_EWK_SemiLep":"MGPy8EvtGen_jj_qq",
 "VBF_Zee_MG_bug_LM":"545882", "VBF_Zee_MG_bug_HM":"545883", 

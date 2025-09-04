@@ -228,6 +228,9 @@ SampleID,category,xsectioninpb,kfactor,filterefficiency,xsecunc
 700332,Sh_2211_Ztautau_HH_maxHTpTV2_BFilter,932.53,1,2.46E-02,1
 700333,Sh_2211_Ztautau_HH_maxHTpTV2_CFilterBVeto,932.53,1,0.1247522,1
 700334,Sh_2211_Ztautau_HH_maxHTpTV2_CVetoBVeto,932.53,1,8.50E-01,1
+700792,Sh_2214_Ztautau_maxHTpTV2_BFilter,2239.6,1.0,2.486526E-02,1
+700793,Sh_2214_Ztautau_maxHTpTV2_CFilterBVeto,2239.6,1.0,1.291589E-01,1
+700794,Sh_2214_Ztautau_maxHTpTV2_CVetoBVeto,2239.7,1.0,8.459542E-01,1
 ,,,,,
 ,,,,,
 # MadGraph,,,,,
@@ -424,8 +427,10 @@ SampleID,category,xsectioninpb,kfactor,filterefficiency,xsecunc
 345121,PowhegPy8EG_NNLOPS_nnlo_30_ggH125_tautaulm15hp20,6.0938,1,0.037749,1
 345122,PowhegPy8EG_NNLOPS_nnlo_30_ggH125_tautaulp15hm20,6.0938,1,0.037826,1
 # VBF Higgs,,,,,
-346191,PowhegPy8EG_NNPDF30_AZNLOCTEQ6L1_VBFH125_tautaulm15hp20,0.23721,2,0.040323,1
-346192,PowhegPy8EG_NNPDF30_AZNLOCTEQ6L1_VBFH125_tautaulp15hm20,0.23721,2,0.040323,1
+346191,PowhegPy8EG_NNPDF30_AZNLOCTEQ6L1_VBFH125_tautaulm15hp20,3.7474,0.02888028817468645,1.7637E-01,1
+346192,PowhegPy8EG_NNPDF30_AZNLOCTEQ6L1_VBFH125_tautaulp15hm20,3.7473,0.028881058870605505,1.7648E-01,1
+346193,PowhegPy8EG_NNPDF30_AZNLOCTEQ6L1_VBFH125_tautauh30h20,0.0989,1.0,4.7285E-01,1
+346190,PowhegPy8EG_NNPDF30_AZNLOCTEQ6L1_VBFH125_tautaul13l7,3.7476,0.007847049533325328,4.6566E-01,1 
 ,,,,,
 ################################################################################################################,,,,,
 ,,,,,
