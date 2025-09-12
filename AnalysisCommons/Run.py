@@ -80,6 +80,11 @@ def luminosity(key):
         return 36.2369
     
 def getEventWeight(key,realList,infos,totRealLum):
+    # Modification needed for systematics
+    if "_sys" in key:
+        key = key+"_NOMINAL"
+        DEBUG.log("Key modified for systematics...")
+
     if key in realList:
         lumStr = "1"
     else:
@@ -134,10 +139,16 @@ def DrawC(filename,lumStr,z_sample,key_pop,tree,region, dirs, logLevel = 3):
     """
 
     # search through several directories to find where the input file is located
+    correctPath = None
     for path in dirs:
         if filename in os.listdir(path):
             correctPath = path
             break
+    if correctPath is None:
+        ERROR.log("File %s not found in any of the specified directories:" % filename)
+        for path in dirs:
+            ERROR.log(" - " + path)
+        exit(1)
 
     # reset environment and get path to file
     fullPath = correctPath + filename
@@ -224,6 +235,7 @@ def createParser():
     parser.add_argument("--clean", help="Clean the output directory before running the analysis. Default is False.", action='store_true')
     parser.add_argument("--output", help="Output directory for the analysis results. Default is out/<tree>/", type=str)
     parser.add_argument("--loglevel", help="Set the log level. Default is INFO.", type=int, choices=[1, 2, 3, 4], default=3)
+    parser.add_argument("--sys", help="If set, the code will run the systematic variations. Default is False.", action='store_true')
 
     # Parse arguments
     args = parser.parse_args()
@@ -256,12 +268,12 @@ def get_combos_from_txt_file(file_path):
 
 def AnalysisFunction(key, remote, CLI_args, dataSets, realList, infos, dirs, output_dict, log_level = 3):
     # get the Z boson process
-    z_sample= getZllSampleKey(key)
+    z_sample = getZllSampleKey(key)
 
     # get filename
     filename = dataSets[key]
 
-    totRealLum=luminosity(key)
+    totRealLum = luminosity(key)
     INFO.log("Luminosity for this year: "+str(totRealLum))
 
     # get luminosity weight if data is MC
@@ -301,6 +313,7 @@ def RunAnalysis(dataCombos, dataSets, realList, infos, dirs, output_dict):
     INFO.log("Number of cores: %d" % parser.j)
     INFO.log("Output directory: %s" % parser.output)
     INFO.log("Clean: %s" % parser.clean)
+    INFO.log("Systematics: %s" % parser.sys)
 
     # check if the user wants to run from a set of samples defined in a text file.
     if running_from_txt:

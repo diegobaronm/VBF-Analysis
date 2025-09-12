@@ -17,10 +17,15 @@ sys_key=""
 if(len(sys.argv)>2):
     sys_key="_sys"
 
-def create_dict(sample_name,sample_match_strings):
+def create_dict(sample_name,sample_match_strings, systematic_samples=False):
+
+    # Define systematics key
+    sys_key = ""
+    if systematic_samples:
+        sys_key = "_sys"
 
     # KEYWORDS TO LOOK FOR THE SAMPLES
-    keywords=sample_match_strings.split("_")
+    keywords = sample_match_strings.split("_")
 
     #FILL A LIST WITH ALL THE DIRECTORIES THAT CONTAIN THE KEYWORDS
     matching_folders=[]
@@ -65,19 +70,19 @@ def create_dict(sample_name,sample_match_strings):
             if(len(matching_folders)>3):
                 if IDs in sample:
                     if "r9364" in sample:
-                        dict[sample_name+str(id_counter)+"_2015"]=[sample,IDs,xsec,kfactor,filteref]
+                        dict[sample_name+str(id_counter)+"_2015"+sys_key]=[sample,IDs,xsec,kfactor,filteref]
                     elif "r10201" in sample:
-                        dict[sample_name+str(id_counter)+"_2017"]=[sample,IDs,xsec,kfactor,filteref]
+                        dict[sample_name+str(id_counter)+"_2017"+sys_key]=[sample,IDs,xsec,kfactor,filteref]
                     elif "r10724" in sample:
-                        dict[sample_name+str(id_counter)+"_2018"]=[sample,IDs,xsec,kfactor,filteref]
+                        dict[sample_name+str(id_counter)+"_2018"+sys_key]=[sample,IDs,xsec,kfactor,filteref]
             else :
                 if IDs in sample:
                     if "r9364" in sample:
-                        dict[sample_name+"_2015"]=[sample,IDs,xsec,kfactor,filteref]
+                        dict[sample_name+"_2015"+sys_key]=[sample,IDs,xsec,kfactor,filteref]
                     elif "r10201" in sample:
-                        dict[sample_name+"_2017"]=[sample,IDs,xsec,kfactor,filteref]
+                        dict[sample_name+"_2017"+sys_key]=[sample,IDs,xsec,kfactor,filteref]
                     elif "r10724" in sample:
-                        dict[sample_name+"_2018"]=[sample,IDs,xsec,kfactor,filteref]
+                        dict[sample_name+"_2018"+sys_key]=[sample,IDs,xsec,kfactor,filteref]
         id_counter+=1
 
     # PRINT THE DICTIONARY IN THE CORRECT FORMAT TO PUT IT ON THE lister_mc.py SCRIPT
@@ -125,5 +130,17 @@ dict_of_samples={"Ztautau":"361108_PoPy","Zmumu":"mumu_PoPy","Zee":"Zee_PoPy","W
 "VBF_Zprime_3000":"567861" 
 }
 
-for i in dict_of_samples:
-    create_dict(i,dict_of_samples[i])
+
+def main():
+    systematics_run = input("Is these set of samples for systematics studies? y/n ")
+    if systematics_run not in ["y","n"]:
+        print("Invalid option, exiting...")
+        exit()
+
+    systematic_samples = systematics_run == "y"
+
+    for i in dict_of_samples:
+        create_dict(i,dict_of_samples[i], systematic_samples)
+
+if __name__ == "__main__":
+    main()

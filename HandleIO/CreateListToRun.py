@@ -18,7 +18,7 @@ def menu(question,options):
             INFO.log("Select a correct option!")
     return int(answer)
 
-def tag_checker(channel,include_tags,exclude_tags,branches,remote,region):
+def tag_checker(channel,include_tags,exclude_tags,remote):
     # Got to the channel directory and add the relevant things to the path
     channelPath = '../'+channel
     os.chdir(channelPath)
@@ -51,37 +51,20 @@ def tag_checker(channel,include_tags,exclude_tags,branches,remote,region):
                 if j in i:
                     include=False
                     break
-        if include and ".txt" not in branches:
+        if include:
             samples=samples+dataCombos[i]
-        elif include and ".txt" in branches :
-            samples=samples+[i]
 
     file_name_string=""
     if remote:
         file_name_string="_Condor"
     
     with open("Input"+file_name_string+".txt","w") as file:
-        if ".txt" not in branches:
-            for j in samples:
-                if remote:
-                    file.write("%s yes %s %s" % (j,branches,region))
-                    file.write('\n')
-                else :
-                    file.write(j)
-                    file.write('\n')
-        else :
-            with open(branches) as f:
-                lines = f.readlines()
-            for l in lines:
-                for j in samples:
-                    if remote:
-                        file.write(j+" yes "+l.strip("\n"))
-                        file.write('\n')
-                    else :
-                        file.write(j)
-                        file.write('\n')
 
-def sample_file_generator(type_of_ntuples, rem, region):
+        for j in samples:
+            file.write(j)
+            file.write('\n')
+
+def sample_file_generator(type_of_ntuples, rem):
     # Ask one more question to the user
     valid_channels = ["TauMu","EleTau","MuEle","Zee","MuMu"]
     channelIndex = menu("Select a channel:",valid_channels)
@@ -89,15 +72,13 @@ def sample_file_generator(type_of_ntuples, rem, region):
 
     # NOMINAL
     if type_of_ntuples==1 :
-        tag_checker(channel,[],["sys"],"NOMINAL",rem, region)
+        tag_checker(channel,[],["sys"],rem)
     elif type_of_ntuples==2 :
-        tag_checker(channel,["sys"],[],"sysTrees.txt",rem, region)
+        tag_checker(channel,["sys"],[],rem)
 
 if __name__ == "__main__":
     # Ask questions to the user
     ntuples_type = menu("Nominal or systematics?",["Nominal","Systematics"])
     running_machine = menu("Where are you running?",["Local","Lxplus"])
-    region = input("Which region are you running? ")
 
-    sample_file_generator(ntuples_type, running_machine==2, region)
-    
+    sample_file_generator(ntuples_type, running_machine==2)

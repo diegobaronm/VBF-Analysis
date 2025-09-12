@@ -3,7 +3,7 @@
 # Z->tautau
 v26Paths = {
 "dbaronmo": ['/eos/user/w/wyatt/data/v26-sys-vbf/'], # Remote
-"b78499db": ['/Users/user/Documents/HEP/v26/','/Users/user/Documents/HEP/v26-truth/']
+"b78499db": ['/Users/user/Documents/HEP/v26/','/Users/user/Documents/HEP/v26-truth/','/Volumes/T7/v26-SYS/']
 }
 
 # Z->mumu

@@ -6,7 +6,7 @@ Ztaulep=["/Users/diegomac/Documents/HEP/v26/",]
 Zmumu=["/eos/user/t/twyatt/data/diego/v26-mm/","/eos/user/d/dbaronmo/v26-mm/"]
 Zee=["/eos/user/t/twyatt/data/diego/v26-ee/","/eos/user/d/dbaronmo/v26-ee/"]
 
-Ztaulep_sys = ["/eos/user/w/wyatt/data/v26-sys-vbf/"]
+Ztaulep_sys = ["/Volumes/T7/v26-SYS/"]
 Zmumu_sys = ["/eos/user/d/dbaronmo/v26-mm-sys-vbf/"]
 Zee_sys = ['/eos/user/d/dbaronmo/v26-ee-sys-vbf-p1/','/eos/user/w/wyatt/data/v26-ee-sys-vbf-p2/']
 
@@ -933,51 +933,18 @@ mc_ee={'Ztautau_2017'  :  ['user.dbaronmo.v26-ee.mc.361108.PoPy8_Ztt.M4.e3601_s3
 'VBF_Zee_MG_HM_2015'  :  ['user.dbaronmo.v26-ee.mc16_13TeV.558310.MGPy8_SM_highMass_eejj_v2.M4.e8557_s3889_r9364_p4512.sv2_Ta', '558310', 0.007385, 1.0, 1.0] ,
 }
 
-mc_taulep_sys = {'Ztautau_sherpa1_2017_sys'  :  ['user.dbaronmo.v26-sys-vbf.mc16_13TeV.364128.Sh221_PDF30_Ztt_MV0_70_CVBV.M4.e5307_s3126_r10201_p4512.sv1_Ta', '364128', 1981.7, 0.9751, 0.82142] ,
-'Ztautau_sherpa1_2018_sys'  :  ['user.dbaronmo.v26-sys-vbf.mc16_13TeV.364128.Sh221_PDF30_Ztt_MV0_70_CVBV.M4.e5307_s3126_r10724_p4512.sv2_Ta', '364128', 1981.7, 0.9751, 0.82142] ,
-'Ztautau_sherpa1_2015_sys'  :  ['user.dbaronmo.v26-sys-vbf.mc16_13TeV.364128.Sh221_PDF30_Ztt_MV0_70_CVBV.M4.e5307_s3126_r9364_p4512.sv1_Ta', '364128', 1981.7, 0.9751, 0.82142] ,
-'Ztautau_sherpa2_2017_sys'  :  ['user.dbaronmo.v26-sys-vbf.mc16_13TeV.364129.Sh221_PDF30_Ztt_MV0_70_CFBV.M4.e5307_s3126_r10201_p4512.sv6_Ta', '364129', 1981.6, 0.9751, 0.10907] ,
-'Ztautau_sherpa2_2018_sys'  :  ['user.dbaronmo.v26-sys-vbf.mc16_13TeV.364129.Sh221_PDF30_Ztt_MV0_70_CFBV.M4.e5307_s3126_r10724_p4512.sv1_Ta', '364129', 1981.6, 0.9751, 0.10907] ,
-'Ztautau_sherpa2_2015_sys'  :  ['user.dbaronmo.v26-sys-vbf.mc16_13TeV.364129.Sh221_PDF30_Ztt_MV0_70_CFBV.M4.e5307_s3126_r9364_p4512.sv1_Ta', '364129', 1981.6, 0.9751, 0.10907] ,
-'Ztautau_sherpa3_2017_sys'  :  ['user.dbaronmo.v26-sys-vbf.mc16_13TeV.364130.Sh221_PDF30_Ztt_MV0_70_BF.M4.e5307_s3126_r10201_p4512.sv1_Ta', '364130', 1982.1, 0.9751, 0.065759] ,
-'Ztautau_sherpa3_2018_sys'  :  ['user.dbaronmo.v26-sys-vbf.mc16_13TeV.364130.Sh221_PDF30_Ztt_MV0_70_BF.M4.e5307_s3126_r10724_p4512.sv1_Ta', '364130', 1982.1, 0.9751, 0.065759] ,
-'Ztautau_sherpa3_2015_sys'  :  ['user.dbaronmo.v26-sys-vbf.mc16_13TeV.364130.Sh221_PDF30_Ztt_MV0_70_BF.M4.e5307_s3126_r9364_p4512.sv1_Ta', '364130', 1982.1, 0.9751, 0.065759] ,
-'Ztautau_sherpa4_2017_sys'  :  ['user.dbaronmo.v26-sys-vbf.mc16_13TeV.364131.Sh221_PDF30_Ztt_MV70_140_CVBV.M4.e5307_s3126_r10201_p4512.sv1_Ta', '364131', 110.56, 0.9751, 0.6926] ,
-'Ztautau_sherpa4_2018_sys'  :  ['user.dbaronmo.v26-sys-vbf.mc16_13TeV.364131.Sh221_PDF30_Ztt_MV70_140_CVBV.M4.e5307_s3126_r10724_p4512.sv1_Ta', '364131', 110.56, 0.9751, 0.6926] ,
-'Ztautau_sherpa4_2015_sys'  :  ['user.dbaronmo.v26-sys-vbf.mc16_13TeV.364131.Sh221_PDF30_Ztt_MV70_140_CVBV.M4.e5307_s3126_r9364_p4512.sv2_Ta', '364131', 110.56, 0.9751, 0.6926] ,
-'Ztautau_sherpa5_2017_sys'  :  ['user.dbaronmo.v26-sys-vbf.mc16_13TeV.364132.Sh221_PDF30_Ztt_MV70_140_CFBV.M4.e5307_s3126_r10201_p4512.sv6_Ta', '364132', 110.55, 0.9751, 0.1902] ,
-'Ztautau_sherpa5_2018_sys'  :  ['user.dbaronmo.v26-sys-vbf.mc16_13TeV.364132.Sh221_PDF30_Ztt_MV70_140_CFBV.M4.e5307_s3126_r10724_p4512.sv1_Ta', '364132', 110.55, 0.9751, 0.1902] ,
-'Ztautau_sherpa5_2015_sys'  :  ['user.dbaronmo.v26-sys-vbf.mc16_13TeV.364132.Sh221_PDF30_Ztt_MV70_140_CFBV.M4.e5307_s3126_r9364_p4512.sv1_Ta', '364132', 110.55, 0.9751, 0.1902] ,
-'Ztautau_sherpa6_2017_sys'  :  ['user.dbaronmo.v26-sys-vbf.mc16_13TeV.364133.Sh221_PDF30_Ztt_MV70_140_BF.M4.e5307_s3126_r10201_p4512.sv1_Ta', '364133', 110.63, 0.9751, 0.110886] ,
-'Ztautau_sherpa6_2018_sys'  :  ['user.dbaronmo.v26-sys-vbf.mc16_13TeV.364133.Sh221_PDF30_Ztt_MV70_140_BF.M4.e5307_s3126_r10724_p4512.sv2_Ta', '364133', 110.63, 0.9751, 0.110886] ,
-'Ztautau_sherpa6_2015_sys'  :  ['user.dbaronmo.v26-sys-vbf.mc16_13TeV.364133.Sh221_PDF30_Ztt_MV70_140_BF.M4.e5307_s3126_r9364_p4512.sv1_Ta', '364133', 110.63, 0.9751, 0.110886] ,
-'Ztautau_sherpa7_2017_sys'  :  ['user.dbaronmo.v26-sys-vbf.mc16_13TeV.364134.Sh221_PDF30_Ztt_MV140_280_CVBV.M4.e5307_s3126_r10201_p4512.sv1_Ta', '364134', 40.793, 0.9751, 0.61823] ,
-'Ztautau_sherpa7_2018_sys'  :  ['user.dbaronmo.v26-sys-vbf.mc16_13TeV.364134.Sh221_PDF30_Ztt_MV140_280_CVBV.M4.e5307_s3126_r10724_p4512.sv6_Ta', '364134', 40.793, 0.9751, 0.61823] ,
-'Ztautau_sherpa7_2015_sys'  :  ['user.dbaronmo.v26-sys-vbf.mc16_13TeV.364134.Sh221_PDF30_Ztt_MV140_280_CVBV.M4.e5307_s3126_r9364_p4512.sv6_Ta', '364134', 40.793, 0.9751, 0.61823] ,
-'Ztautau_sherpa8_2017_sys'  :  ['user.dbaronmo.v26-sys-vbf.mc16_13TeV.364135.Sh221_PDF30_Ztt_MV140_280_CFBV.M4.e5307_s3126_r10201_p4512.sv1_Ta', '364135', 40.718, 0.9751, 0.23417] ,
-'Ztautau_sherpa8_2018_sys'  :  ['user.dbaronmo.v26-sys-vbf.mc16_13TeV.364135.Sh221_PDF30_Ztt_MV140_280_CFBV.M4.e5307_s3126_r10724_p4512.sv6_Ta', '364135', 40.718, 0.9751, 0.23417] ,
-'Ztautau_sherpa8_2015_sys'  :  ['user.dbaronmo.v26-sys-vbf.mc16_13TeV.364135.Sh221_PDF30_Ztt_MV140_280_CFBV.M4.e5307_s3126_r9364_p4512.sv1_Ta', '364135', 40.718, 0.9751, 0.23417] ,
-'Ztautau_sherpa9_2017_sys'  :  ['user.dbaronmo.v26-sys-vbf.mc16_13TeV.364136.Sh221_PDF30_Ztt_MV140_280_BF.M4.e5307_s3126_r10201_p4512.sv1_Ta', '364136', 40.735, 0.9751, 0.15608] ,
-'Ztautau_sherpa9_2018_sys'  :  ['user.dbaronmo.v26-sys-vbf.mc16_13TeV.364136.Sh221_PDF30_Ztt_MV140_280_BF.M4.e5307_s3126_r10724_p4512.sv1_Ta', '364136', 40.735, 0.9751, 0.15608] ,
-'Ztautau_sherpa9_2015_sys'  :  ['user.dbaronmo.v26-sys-vbf.mc16_13TeV.364136.Sh221_PDF30_Ztt_MV140_280_BF.M4.e5307_s3126_r9364_p4512.sv1_Ta', '364136', 40.735, 0.9751, 0.15608] ,
-'Ztautau_sherpa10_2017_sys'  :  ['user.dbaronmo.v26-sys-vbf.mc16_13TeV.364137.Sh221_PDF30_Ztt_MV280_500_CVBV.M4.e5307_s3126_r10201_p4512.sv1_Ta', '364137', 8.6642, 0.9751, 0.56327] ,
-'Ztautau_sherpa10_2018_sys'  :  ['user.dbaronmo.v26-sys-vbf.mc16_13TeV.364137.Sh221_PDF30_Ztt_MV280_500_CVBV.M4.e5307_s3126_r10724_p4512.sv1_Ta', '364137', 8.6642, 0.9751, 0.56327] ,
-'Ztautau_sherpa10_2015_sys'  :  ['user.dbaronmo.v26-sys-vbf.mc16_13TeV.364137.Sh221_PDF30_Ztt_MV280_500_CVBV.M4.e5307_s3126_r9364_p4512.sv6_Ta', '364137', 8.6642, 0.9751, 0.56327] ,
-'Ztautau_sherpa11_2017_sys'  :  ['user.dbaronmo.v26-sys-vbf.mc16_13TeV.364138.Sh221_PDF30_Ztt_MV280_500_CFBV.M4.e5313_s3126_r10201_p4512.sv6_Ta', '364138', 8.6756, 0.9751, 0.26523] ,
-'Ztautau_sherpa11_2018_sys'  :  ['user.dbaronmo.v26-sys-vbf.mc16_13TeV.364138.Sh221_PDF30_Ztt_MV280_500_CFBV.M4.e5313_s3126_r10724_p4512.sv1_Ta', '364138', 8.6756, 0.9751, 0.26523] ,
-'Ztautau_sherpa11_2015_sys'  :  ['user.dbaronmo.v26-sys-vbf.mc16_13TeV.364138.Sh221_PDF30_Ztt_MV280_500_CFBV.M4.e5313_s3126_r9364_p4512.sv1_Ta', '364138', 8.6756, 0.9751, 0.26523] ,
-'Ztautau_sherpa12_2017_sys'  :  ['user.dbaronmo.v26-sys-vbf.mc16_13TeV.364139.Sh221_PDF30_Ztt_MV280_500_BF.M4.e5313_s3126_r10201_p4512.sv1_Ta', '364139', 8.6797, 0.9751, 0.17626] ,
-'Ztautau_sherpa12_2018_sys'  :  ['user.dbaronmo.v26-sys-vbf.mc16_13TeV.364139.Sh221_PDF30_Ztt_MV280_500_BF.M4.e5313_s3126_r10724_p4512.sv1_Ta', '364139', 8.6797, 0.9751, 0.17626] ,
-'Ztautau_sherpa12_2015_sys'  :  ['user.dbaronmo.v26-sys-vbf.mc16_13TeV.364139.Sh221_PDF30_Ztt_MV280_500_BF.M4.e5313_s3126_r9364_p4512.sv1_Ta', '364139', 8.6797, 0.9751, 0.17626] ,
-'Ztautau_sherpa13_2017_sys'  :  ['user.dbaronmo.v26-sys-vbf.mc16_13TeV.364140.Sh221_PDF30_Ztt_MV500_1000.M4.e5307_s3126_r10201_p4512.sv1_Ta', '364140', 1.8079, 0.9751, 1.0] ,
-'Ztautau_sherpa13_2018_sys'  :  ['user.dbaronmo.v26-sys-vbf.mc16_13TeV.364140.Sh221_PDF30_Ztt_MV500_1000.M4.e5307_s3126_r10724_p4512.sv6_Ta', '364140', 1.8079, 0.9751, 1.0] ,
-'Ztautau_sherpa13_2015_sys'  :  ['user.dbaronmo.v26-sys-vbf.mc16_13TeV.364140.Sh221_PDF30_Ztt_MV500_1000.M4.e5307_s3126_r9364_p4512.sv2_Ta', '364140', 1.8079, 0.9751, 1.0] ,
-'Ztautau_sherpa14_2017_sys'  :  ['user.dbaronmo.v26-sys-vbf.mc16_13TeV.364141.Sh221_PDF30_Ztt_MV1000_E_CMS.M4.e5307_s3126_r10201_p4512.sv1_Ta', '364141', 0.14823, 0.9751, 1.0] ,
-'Ztautau_sherpa14_2018_sys'  :  ['user.dbaronmo.v26-sys-vbf.mc16_13TeV.364141.Sh221_PDF30_Ztt_MV1000_E_CMS.M4.e5307_s3126_r10724_p4512.sv2_Ta', '364141', 0.14823, 0.9751, 1.0] ,
-'Ztautau_sherpa14_2015_sys'  :  ['user.dbaronmo.v26-sys-vbf.mc16_13TeV.364141.Sh221_PDF30_Ztt_MV1000_E_CMS.M4.e5307_s3126_r9364_p4512.sv1_Ta', '364141', 0.14823, 0.9751, 1.0] ,
-'VBF_Ztautau_sherpa_2017_sys'  :  ['user.dbaronmo.v26-sys-vbf.mc16_13TeV.700360.Sh_2211_Ztt2jets_Min_N_TChannel.M4.e8357_s3126_r10201_p4512.sv1_Ta', '700360', 0.77916, 1.0, 1.0] ,
-'VBF_Ztautau_sherpa_2018_sys'  :  ['user.dbaronmo.v26-sys-vbf.mc16_13TeV.700360.Sh_2211_Ztt2jets_Min_N_TChannel.M4.e8357_s3126_r10724_p4512.sv1_Ta', '700360', 0.77916, 1.0, 1.0] ,
-'VBF_Ztautau_sherpa_2015_sys'  :  ['user.dbaronmo.v26-sys-vbf.mc16_13TeV.700360.Sh_2211_Ztt2jets_Min_N_TChannel.M4.e8357_s3126_r9364_p4512.sv1_Ta', '700360', 0.77916, 1.0, 1.0] ,
+mc_taulep_sys = {'VBF_Ztautau_sherpa_2017_sys'  :  ['user.dbaronmo.v26-SYS.mc16_13TeV.700360.Sh_2211_Ztt2jets_Min_N_TChannel.M4.e8357_s3126_r10201_p4512.sv1_Ta','700360',7.791600e-01,1.000000,1.000000] ,
+'VBF_Ztautau_sherpa_2018_sys'  :  ['user.dbaronmo.v26-SYS.mc16_13TeV.700360.Sh_2211_Ztt2jets_Min_N_TChannel.M4.e8357_s3126_r10724_p4512.sv1_Ta','700360',7.791600e-01,1.000000,1.000000] ,
+'VBF_Ztautau_sherpa_2015_sys'  :  ['user.dbaronmo.v26-SYS.mc16_13TeV.700360.Sh_2211_Ztt2jets_Min_N_TChannel.M4.e8357_s3126_r9364_p4512.sv1_Ta','700360',7.791600e-01,1.000000,1.000000] ,
+'Ztautau_SherpaNLO1_2017_sys'  :  ['user.dbaronmo.v26-SYS.mc16_13TeV.700792.Sh_2214_Ztt_maxHTpTV2_BF.M4.e8527_s3126_r10201_p5313.sv1_Ta','700792',2.239600e+03,1.000000,0.024865] ,
+'Ztautau_SherpaNLO1_2018_sys'  :  ['user.dbaronmo.v26-SYS.mc16_13TeV.700792.Sh_2214_Ztt_maxHTpTV2_BF.M4.e8527_s3126_r10724_p5313.sv1_Ta','700792',2.239600e+03,1.000000,0.024865] ,
+'Ztautau_SherpaNLO1_2015_sys'  :  ['user.dbaronmo.v26-SYS.mc16_13TeV.700792.Sh_2214_Ztt_maxHTpTV2_BF.M4.e8527_s3126_r9364_p5313.sv1_Ta','700792',2.239600e+03,1.000000,0.024865] ,
+'Ztautau_SherpaNLO2_2017_sys'  :  ['user.dbaronmo.v26-SYS.mc16_13TeV.700793.Sh_2214_Ztt_maxHTpTV2_CFBV.M4.e8527_s3126_r10201_p5313.sv1_Ta','700793',2.239600e+03,1.000000,0.129159] ,
+'Ztautau_SherpaNLO2_2018_sys'  :  ['user.dbaronmo.v26-SYS.mc16_13TeV.700793.Sh_2214_Ztt_maxHTpTV2_CFBV.M4.e8527_s3126_r10724_p5313.sv1_Ta','700793',2.239600e+03,1.000000,0.129159] ,
+'Ztautau_SherpaNLO2_2015_sys'  :  ['user.dbaronmo.v26-SYS.mc16_13TeV.700793.Sh_2214_Ztt_maxHTpTV2_CFBV.M4.e8527_s3126_r9364_p5313.sv1_Ta','700793',2.239600e+03,1.000000,0.129159] ,
+'Ztautau_SherpaNLO3_2017_sys'  :  ['user.dbaronmo.v26-SYS.mc16_13TeV.700794.Sh_2214_Ztt_maxHTpTV2_CVBV.M4.e8527_s3126_r10201_p5313.sv1_Ta','700794',2.239700e+03,1.000000,0.845954] ,
+'Ztautau_SherpaNLO3_2018_sys'  :  ['user.dbaronmo.v26-SYS.mc16_13TeV.700794.Sh_2214_Ztt_maxHTpTV2_CVBV.M4.e8527_s3126_r10724_p5313.sv1_Ta','700794',2.239700e+03,1.000000,0.845954] ,
+'Ztautau_SherpaNLO3_2015_sys'  :  ['user.dbaronmo.v26-SYS.mc16_13TeV.700794.Sh_2214_Ztt_maxHTpTV2_CVBV.M4.e8527_s3126_r9364_p5313.sv1_Ta','700794',2.239700e+03,1.000000,0.845954] ,
 }
 
 mc_mumu_sys = {
@@ -1193,8 +1160,8 @@ mc_taulep_truth = {
 'VBF_Zprime_3000_truth_2017'  :  ['user.dbaronmo.v26.mc16_13TeV.567861.MGPy8_Zp3000_ttjj_U1X.M4.e8574_s3126_r10201_p4512.sv2_Ta','567861',2.518400e-07,4.000000,1.000000] ,
 }
 
-mc = mc_taulep_truth # IT CAN BE mc_taulep, mc_ee, mc_mumu and _truth/_sys appended for the systematics
-ntuples_type = Ztaulep_truth # IT CAN BE Zee,Zmumu,Ztaulep and _sys appended for the systematics
+mc = mc_taulep_sys # IT CAN BE mc_taulep, mc_ee, mc_mumu and _truth/_sys appended for the systematics
+ntuples_type = Ztaulep_sys # IT CAN BE Zee,Zmumu,Ztaulep and _sys appended for the systematics
 
 
 for x in mc.keys():
@@ -1235,7 +1202,7 @@ def data_combo(name,directory,home):
 
 def info_file(name,directory,DSID,XSEC,KFAC,FIL_EFF,home):
     os.chdir(directory)
-    strin=''
+    str_for_file=''
     sumw=0
     for file in os.listdir():
         if file[-4:]=='root':
@@ -1247,24 +1214,97 @@ def info_file(name,directory,DSID,XSEC,KFAC,FIL_EFF,home):
         if file[-4:]=='root':
             f = ROOT.TFile.Open(file, 'read')
             a="'%s_%d': {'DSID'    : %d,'events'  : %f,'red_eff' :1,'sumw'    :%f,'xsec'    :%e,'kfac'    :%f,'fil_eff'    :%f},"%(name,k,int(DSID),sumw,sumw,float(XSEC),float(KFAC),float(FIL_EFF))
-            strin=strin+a+'\n'
+            str_for_file = str_for_file+a+'\n'
             k=k+1
     os.chdir(home)
-    return strin
+    return str_for_file
 
-for sample in mc:
-    files = open('files.txt','a+')
-    files.write('#%s\n'%(sample))
-    files.write(list(sample,mc[sample][0],pwd))
-    files.close()
+def find_correct_bin_index(theory_weights_hist, target_label):
+    correct_bin_index = -10
+    for i in range(1, theory_weights_hist.GetXaxis().GetNbins()+1):
+        if theory_weights_hist.GetXaxis().GetBinLabel(i) == target_label:
+            correct_bin_index = i
+            break
+    if correct_bin_index == -10:
+        print("Error: %s bin not found in theory weights histogram." % target_label)
+        print("Falling back to LHE3Weight_Weight.")
+        # Do the fallback search
+        for i in range(1, theory_weights_hist.GetXaxis().GetNbins()+1):
+            if theory_weights_hist.GetXaxis().GetBinLabel(i) == "LHE3Weight_Weight":
+                correct_bin_index = i
+                break
 
-    combos = open('combos.txt','a+')
-    combos.write('#%s\n'%(sample))
-    combos.write(data_combo(sample,mc[sample][0],pwd))
-    combos.close()
+    if correct_bin_index == -10:
+        print("Error: 'LHE3Weight_Weight' bin not found in theory weights histogram.")
+        exit(1)
 
-    f = open('info.txt','a+')
-    f.write('#%s\n'%(sample))
-    print(sample)
-    f.write(info_file(sample,mc[sample][0],mc[sample][1],mc[sample][2],mc[sample][3],mc[sample][4],pwd))
-    f.close()
+    return correct_bin_index
+
+
+def check_metadata_makes_sense(file_path):
+    metadata_hist = file_path.Get('h_metadata')
+    theory_weights_hist = file_path.Get('h_metadata_theory_weights')
+
+    # Find the correct bin.
+    correct_bin_index = find_correct_bin_index(theory_weights_hist, "LHE3Weight_Weight")
+    
+    # Do the comparison
+    if metadata_hist.GetBinContent(8) != theory_weights_hist.GetBinContent(correct_bin_index):
+        print("Warning: The metadata histogram and the theory weights histogram do not match.")
+        print("Metadata sum of weights (bin 8): ", metadata_hist.GetBinContent(8))
+        print("Theory weights sum of weights (LHE3Weight_Weight): ", theory_weights_hist.GetBinContent(correct_bin_index))
+    else:
+        print("Info: The metadata histogram and the theory weights histogram match.")
+
+def info_file_sys(name,directory,DSID,XSEC,KFAC,FIL_EFF,home):
+    # Initialise the output string that will be written to info.txt
+    str_for_file=''
+
+    # Do the following for every variation declared in theory_variations.py
+    from theory_variations import theory_variations_dict
+    for variation_key, variation_in_file in theory_variations_dict.items():
+        # Change to directory containing the ROOT files
+        os.chdir(directory)
+        # Initialise sum of weights for this variation
+        sumw=0
+        for file in os.listdir():
+            if file[-4:]=='root':
+                f = ROOT.TFile.Open(file, 'read')
+                check_metadata_makes_sense(f)
+                hist = f.Get('h_metadata_theory_weights')
+                bin_index = find_correct_bin_index(hist, variation_in_file)
+                sumw+=hist.GetBinContent(bin_index)
+        k=0
+        for file in os.listdir():
+            if file[-4:]=='root':
+                a="'%s_%d_%s': {'DSID'    : %d,'events'  : %f,'red_eff' :1,'sumw'    :%f,'xsec'    :%e,'kfac'    :%f,'fil_eff'    :%f},"%(name,k,variation_key,int(DSID),sumw,sumw,float(XSEC),float(KFAC),float(FIL_EFF))
+                str_for_file = str_for_file+a+'\n'
+                k=k+1
+        os.chdir(home)
+
+    return str_for_file
+    
+
+def main():
+    for sample in mc:
+        print(sample)
+        files = open('files.txt','a+')
+        files.write('#%s\n'%(sample))
+        files.write(list(sample,mc[sample][0],pwd))
+        files.close()
+
+        combos = open('combos.txt','a+')
+        combos.write('#%s\n'%(sample))
+        combos.write(data_combo(sample,mc[sample][0],pwd))
+        combos.close()
+
+        f = open('info.txt','a+')
+        f.write('#%s\n'%(sample))
+        if '_sys' in sample:
+            f.write(info_file_sys(sample,mc[sample][0],mc[sample][1],mc[sample][2],mc[sample][3],mc[sample][4],pwd))
+        else:
+            f.write(info_file(sample,mc[sample][0],mc[sample][1],mc[sample][2],mc[sample][3],mc[sample][4],pwd))
+        f.close()
+
+if __name__ == "__main__":
+    main()
