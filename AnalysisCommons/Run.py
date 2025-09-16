@@ -133,7 +133,7 @@ def isRunningRemote(Remote):
         exit(1)
     return remote_mode
     
-def DrawC(filename,lumStr,z_sample,key_pop,tree,region, dirs, logLevel = 3):
+def DrawC(filename,lumStr,z_sample,key_pop,tree,region, dirs, logLevel = 3, do_sys = False):
     """
     Function to load in the C++ code and run it for a given data set
     """
@@ -154,18 +154,33 @@ def DrawC(filename,lumStr,z_sample,key_pop,tree,region, dirs, logLevel = 3):
     fullPath = correctPath + filename
     DEBUG.log("Full path to file: " + fullPath)
 
-    # load in CLoop.C
-    r.gSystem.Load("backend/CLoop_C")
+    # For the nominal analysys do this ...
+    if not do_sys:
+        # load in CLoop.C
+        r.gSystem.Load("backend/CLoop_C")
 
-    # load in tree from file
-    r.gROOT.ProcessLine('TFile* f = new TFile("%s")' % (fullPath))
-    r.gROOT.ProcessLine("TTree * minTree = new TTree")
-    r.gROOT.ProcessLine('f->GetObject("%s", minTree)' % (tree))
+        # load in tree from file
+        r.gROOT.ProcessLine('TFile* f = new TFile("%s")' % (fullPath))
+        r.gROOT.ProcessLine("TTree * minTree = new TTree")
+        r.gROOT.ProcessLine('f->GetObject("%s", minTree)' % (tree))
 
-    # create new instance of CLoop and loop over events
-    r.gROOT.ProcessLine('CLoop* t = new CLoop(minTree, "%s", "%s")' % (key_pop, region))
-    r.gROOT.ProcessLine('t->Loop(%s, %s, "%s", %d)' % (lumStr, z_sample, key_pop+tree, logLevel))
-    r.gROOT.ProcessLine("f->Close("R")")
+        # create new instance of CLoop and loop over events
+        r.gROOT.ProcessLine('CLoop* t = new CLoop(minTree, "%s", "%s")' % (key_pop, region))
+        r.gROOT.ProcessLine('t->Loop(%s, %s, "%s", %d)' % (lumStr, z_sample, key_pop+tree, logLevel))
+        r.gROOT.ProcessLine("f->Close("R")")
+    else:
+        # load in CLoopSYS.C
+        r.gSystem.Load("backend/CLoopSYS_C")
+
+        # load in tree from file
+        r.gROOT.ProcessLine('TFile* f = new TFile("%s")' % (fullPath))
+        r.gROOT.ProcessLine("TTree * minTree = new TTree")
+        r.gROOT.ProcessLine('f->GetObject("%s", minTree)' % (tree))
+
+        # create new instance of CLoopSYS and loop over events
+        r.gROOT.ProcessLine('CLoopSYS* t = new CLoopSYS(minTree, "%s")' % (region))
+        r.gROOT.ProcessLine('t->Loop(%s, %s, "%s", %d)' % (lumStr, z_sample, key_pop+tree, logLevel))
+        r.gROOT.ProcessLine("f->Close("R")")
 
 # Function to move the output file to the correct directory and track any failed samples.
 def MoveOutput(output_name, tree_name, remote, output_dict, cli_path=None):
@@ -283,7 +298,7 @@ def AnalysisFunction(key, remote, CLI_args, dataSets, realList, infos, dirs, out
     tree_name = CLI_args.tree
     region = CLI_args.region
 
-    DrawC(filename,lumStr,z_sample,key,tree_name, region, dirs, log_level)
+    DrawC(filename,lumStr,z_sample,key,tree_name, region, dirs, log_level, do_sys=CLI_args.sys)
 
     # Move the output to a different directory
     output_name = key+tree_name+".root"
@@ -341,10 +356,19 @@ def RunAnalysis(dataCombos, dataSets, realList, infos, dirs, output_dict):
         if output != 0:
             ERROR.log("Failed to remove previous compiled files.")
             exit(1)
-        r.gROOT.ProcessLine(".L backend/CLoop.C+")
+        
+        # Compile the C++ code
+        if parser.sys:
+            INFO.log("Compiling for systematics...")
+            r.gROOT.ProcessLine(".L backend/CLoopSYS.C+")
+        else:
+            INFO.log("Compiling for nominal...")
+            r.gROOT.ProcessLine(".L backend/CLoop.C+")
+    # Notify the user if the compilation fails
     except Exception as e:
         ERROR.log("Failed to compile C++ code: %s" % str(e))
         exit(1)
+
     INFO.log("C++ code compiled successfully.")
 
     # check if the user wants to clean the output directory

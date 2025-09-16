@@ -4,7 +4,8 @@
 
 // Include the file that lets the program know about the data
 #include "backend/CLoop.h"
-#include"../../AnalysisCommons/Tools.h" 
+#include"../../AnalysisCommons/Tools.h"
+#include "Selections.C"
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -12,7 +13,7 @@
 #include <utility>
 
 void CLoop::Book() {
-  m_cutNames = InitCutNames(m_region);
+  m_cutNames = Selections::InitCutNames(m_region);
   double pi=TMath::Pi();
 
   elecnu_ptContainer = histogramContainer("elecnu_pt","Lep + Neutrino pT",500,0,500,m_cutNames);
@@ -241,7 +242,7 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) { /
     cutVars.recoVisibleMassRatio = reco_mass/massMuonElec;
 
     // Apply cuts 
-    std::vector<int> cuts = ApplySelection(m_region, cutVars);
+    std::vector<int> cuts = Selections::ApplySelection(m_region, cutVars);
     if ((m_cutNames.size() - 1) != cuts.size()){
         g_LOG(LogLevel::ERROR, "The number of cuts is not consistent with the number of cut names.");
         exit(1);

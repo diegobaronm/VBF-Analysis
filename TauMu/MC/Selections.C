@@ -8,8 +8,9 @@
 #include"../../AnalysisCommons/Kinematics.h"
 #include"../../AnalysisCommons/Tools.h" 
 
+namespace Selections {
 
-std::vector<std::string> CLoop::InitCutNames(const std::string& selectionName){
+std::vector<std::string> InitCutNames(const std::string& selectionName){
     // Always subtract the OS or SS string at the end of the selection name.
     const std::string selName = selectionName.substr(0,selectionName.size()-2);
 
@@ -37,7 +38,7 @@ std::vector<std::string> CLoop::InitCutNames(const std::string& selectionName){
     return cutNames;
 }
 
-std::vector<int> CLoop::ApplySelection(const std::string& selectionName, const Kinematics::VariablesForCutflow& vars){
+std::vector<int> ApplySelection(const std::string& selectionName, const Kinematics::VariablesForCutflow& vars){
     // Always subtract the OS or SS string at the end of the selection name.
     const std::string selName = selectionName.substr(0,selectionName.size()-2);
 
@@ -206,4 +207,6 @@ std::vector<int> CLoop::ApplySelection(const std::string& selectionName, const K
     
     
     return cuts;
+}
+
 }

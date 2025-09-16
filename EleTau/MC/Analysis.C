@@ -4,7 +4,8 @@
 
 // Include the file that lets the program know about the data
 #include"backend/CLoop.h"
-#include"../../AnalysisCommons/Tools.h" 
+#include"../../AnalysisCommons/Tools.h"
+#include "Selections.C"
 #include"../../AnalysisCommons/Kinematics.h" 
 #include <iostream>
 #include <vector>
@@ -14,7 +15,7 @@
 
 
 void CLoop::Book() {
-  m_cutNames = InitCutNames(m_region);
+  m_cutNames = Selections::InitCutNames(m_region);
   double pi=TMath::Pi();
 
   trueMass_2D_lepTransMass_basic_all = new TH2F("trueMass_2D_lepTransMass_basic_all","trueMass Vs lepton transverse mass",1000,0,1000,50,0,500);
@@ -272,7 +273,7 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
     cutVars.recoVisibleMassRatio = reco_mass/inv_taulep;
     
     // Apply cuts 
-    std::vector<int> cuts = ApplySelection(m_region, cutVars);
+    std::vector<int> cuts = Selections::ApplySelection(m_region, cutVars);
     if ((m_cutNames.size() - 1) != cuts.size()){
         g_LOG(LogLevel::ERROR, "The number of cuts is not consistent with the number of cut names.");
         exit(1);
@@ -285,7 +286,7 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
     std::vector<int> notFullCutsVector{1,static_cast<int>(passedAllCuts)};
 
     // Blind H-M region
-    std::vector<int> cutsSignalRegion = ApplySelection("HighMassOS", cutVars);
+    std::vector<int> cutsSignalRegion = Selections::ApplySelection("HighMassOS", cutVars);
     bool signalRegion = Tools::passedAllCuts(cutsSignalRegion);
     std::string passAllHMString = signalRegion ? "Yes" : "No";
     g_LOG(LogLevel::DEBUG, "Passes all signal region cuts:", passAllHMString);
