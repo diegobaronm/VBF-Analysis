@@ -3,6 +3,8 @@
 #include "Selections.C"
 #include"../../AnalysisCommons/Systematics.h" 
 #include <vector>
+#include <string>
+#include <map>
 #include <TMVA/Reader.h>
 #include <algorithm>
 #include <utility>
@@ -11,6 +13,7 @@ void CLoopSYS::Book() {
     m_cutNames = Selections::InitCutNames(m_region);
     double pi=TMath::Pi();
 
+    if (m_systematicType == "sf") {
     DEFINE_SYS_HISTOGRAMS(muon_0_MUON_EFF_ISO_STAT, MuEffSF_IsoTightTrackOnly_FixedRad)
     DEFINE_SYS_HISTOGRAMS(muon_0_MUON_EFF_ISO_SYS, MuEffSF_IsoTightTrackOnly_FixedRad)
     DEFINE_SYS_HISTOGRAMS(muon_0_MUON_EFF_RECO_STAT, MuEffSF_Reco_QualMedium)
@@ -33,9 +36,13 @@ void CLoopSYS::Book() {
     DEFINE_SYS_HISTOGRAMS(tau_0_TAUS_TRUEHADTAU_EFF_RNNID_3PRONGSTATSYSTPTGE40, TauEffSF_JetRNNmedium)
     DEFINE_SYS_HISTOGRAMS(tau_0_TAUS_TRUEHADTAU_EFF_RNNID_HIGHPT, TauEffSF_JetRNNmedium)
     DEFINE_SYS_HISTOGRAMS(tau_0_TAUS_TRUEHADTAU_EFF_RNNID_SYST, TauEffSF_JetRNNmedium)
+    }
+
+    std::string sysHistogramName = "mass_jj_" + m_systematicHistogramName;
+    mass_jj_sys_hist = std::make_unique<TH1F>(sysHistogramName.c_str(),"Invariant mass di-jet system",5000,0,5000);
 }
 
-void CLoopSYS::Fill(double weight, int z_sample, const std::string& sampleName) {
+void CLoopSYS::Fill(double weight) {
   double pi=TMath::Pi();
   // Charges and lepton ID
   bool correctCharge = Kinematics::isChargeCorrect(m_region,muon_0_q,tau_0_q);
@@ -168,7 +175,7 @@ void CLoopSYS::Fill(double weight, int z_sample, const std::string& sampleName) 
     cutVars.taupT = tau_0_p4->Pt();
     cutVars.jet1pT = ljet_0_p4->Pt();
     cutVars.jet2pT = ljet_1_p4->Pt();
-    cutVars.mjj = mjj;
+    cutVars.mjj = 2000; // To write all the mjj spectrum in the histograms
     cutVars.pTBalance = pt_bal;
     cutVars.nJetsInGap = n_jets_interval;
     cutVars.centrality = z_centrality;
@@ -192,34 +199,92 @@ void CLoopSYS::Fill(double weight, int z_sample, const std::string& sampleName) 
     std::vector<int> notFullCutsVector{1,static_cast<int>(passedAllCuts)};
 
     // Fill the histograms for SF systematics
-    FILL_SYS_HISTOGRAMS(muon_0_MUON_EFF_ISO_STAT, MuEffSF_IsoTightTrackOnly_FixedRad, muon_0_NOMINAL_MuEffSF_IsoTightTrackOnly_FixedRad)
-    FILL_SYS_HISTOGRAMS(muon_0_MUON_EFF_ISO_SYS, MuEffSF_IsoTightTrackOnly_FixedRad, muon_0_NOMINAL_MuEffSF_IsoTightTrackOnly_FixedRad)
-    FILL_SYS_HISTOGRAMS(muon_0_MUON_EFF_RECO_STAT, MuEffSF_Reco_QualMedium, muon_0_NOMINAL_MuEffSF_Reco_QualMedium)
-    FILL_SYS_HISTOGRAMS(muon_0_MUON_EFF_RECO_SYS, MuEffSF_Reco_QualMedium, muon_0_NOMINAL_MuEffSF_Reco_QualMedium)
-    FILL_SYS_TRIGGER_HISTOGRAMS(muon_0_MUON_EFF_TrigStatUncertainty, combined, MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium, MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium, muon_0_NOMINAL_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium)
-    FILL_SYS_TRIGGER_HISTOGRAMS(muon_0_MUON_EFF_TrigSystUncertainty, combined, MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium, MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium, muon_0_NOMINAL_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium)
-    FILL_SYS_HISTOGRAMS(PRW_DATASF, pileup_combined_weight, NOMINAL_pileup_combined_weight)
-    FILL_SYS_HISTOGRAMS(jet_JET_JvtEfficiency, central_jets_global_effSF_JVT, jet_NOMINAL_central_jets_global_effSF_JVT)
-    FILL_SYS_HISTOGRAMS(jet_JET_JvtEfficiency, central_jets_global_ineffSF_JVT, jet_NOMINAL_central_jets_global_ineffSF_JVT)
-    FILL_SYS_HISTOGRAMS(jet_JET_fJvtEfficiency, forward_jets_global_effSF_JVT, jet_NOMINAL_forward_jets_global_effSF_JVT)
-    FILL_SYS_HISTOGRAMS(jet_JET_fJvtEfficiency, forward_jets_global_ineffSF_JVT, jet_NOMINAL_forward_jets_global_ineffSF_JVT)
-    FILL_SYS_HISTOGRAMS(tau_0_TAUS_TRUEHADTAU_EFF_RECO_TOTAL, TauEffSF_reco, tau_0_NOMINAL_TauEffSF_reco)
-    FILL_SYS_HISTOGRAMS(tau_0_TAUS_TRUEHADTAU_EFF_RNNID_1PRONGSTATSYSTPT2025, TauEffSF_JetRNNmedium, tau_0_NOMINAL_TauEffSF_JetRNNmedium)
-    FILL_SYS_HISTOGRAMS(tau_0_TAUS_TRUEHADTAU_EFF_RNNID_1PRONGSTATSYSTPT2530, TauEffSF_JetRNNmedium, tau_0_NOMINAL_TauEffSF_JetRNNmedium)
-    FILL_SYS_HISTOGRAMS(tau_0_TAUS_TRUEHADTAU_EFF_RNNID_1PRONGSTATSYSTPT3040, TauEffSF_JetRNNmedium, tau_0_NOMINAL_TauEffSF_JetRNNmedium)
-    FILL_SYS_HISTOGRAMS(tau_0_TAUS_TRUEHADTAU_EFF_RNNID_1PRONGSTATSYSTPTGE40, TauEffSF_JetRNNmedium, tau_0_NOMINAL_TauEffSF_JetRNNmedium)
-    FILL_SYS_HISTOGRAMS(tau_0_TAUS_TRUEHADTAU_EFF_RNNID_3PRONGSTATSYSTPT2025, TauEffSF_JetRNNmedium, tau_0_NOMINAL_TauEffSF_JetRNNmedium)
-    FILL_SYS_HISTOGRAMS(tau_0_TAUS_TRUEHADTAU_EFF_RNNID_3PRONGSTATSYSTPT2530, TauEffSF_JetRNNmedium, tau_0_NOMINAL_TauEffSF_JetRNNmedium)
-    FILL_SYS_HISTOGRAMS(tau_0_TAUS_TRUEHADTAU_EFF_RNNID_3PRONGSTATSYSTPT3040, TauEffSF_JetRNNmedium, tau_0_NOMINAL_TauEffSF_JetRNNmedium)
-    FILL_SYS_HISTOGRAMS(tau_0_TAUS_TRUEHADTAU_EFF_RNNID_3PRONGSTATSYSTPTGE40, TauEffSF_JetRNNmedium, tau_0_NOMINAL_TauEffSF_JetRNNmedium)
-    FILL_SYS_HISTOGRAMS(tau_0_TAUS_TRUEHADTAU_EFF_RNNID_HIGHPT, TauEffSF_JetRNNmedium, tau_0_NOMINAL_TauEffSF_JetRNNmedium)
-    FILL_SYS_HISTOGRAMS(tau_0_TAUS_TRUEHADTAU_EFF_RNNID_SYST, TauEffSF_JetRNNmedium, tau_0_NOMINAL_TauEffSF_JetRNNmedium)
+    if (m_systematicType == "sf" && passedAllCuts) {
+      FILL_SYS_HISTOGRAMS(muon_0_MUON_EFF_ISO_STAT, MuEffSF_IsoTightTrackOnly_FixedRad, muon_0_NOMINAL_MuEffSF_IsoTightTrackOnly_FixedRad)
+      FILL_SYS_HISTOGRAMS(muon_0_MUON_EFF_ISO_SYS, MuEffSF_IsoTightTrackOnly_FixedRad, muon_0_NOMINAL_MuEffSF_IsoTightTrackOnly_FixedRad)
+      FILL_SYS_HISTOGRAMS(muon_0_MUON_EFF_RECO_STAT, MuEffSF_Reco_QualMedium, muon_0_NOMINAL_MuEffSF_Reco_QualMedium)
+      FILL_SYS_HISTOGRAMS(muon_0_MUON_EFF_RECO_SYS, MuEffSF_Reco_QualMedium, muon_0_NOMINAL_MuEffSF_Reco_QualMedium)
+      FILL_SYS_TRIGGER_HISTOGRAMS(muon_0_MUON_EFF_TrigStatUncertainty, combined, MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium, MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium, muon_0_NOMINAL_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium)
+      FILL_SYS_TRIGGER_HISTOGRAMS(muon_0_MUON_EFF_TrigSystUncertainty, combined, MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium, MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium, muon_0_NOMINAL_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium)
+      FILL_SYS_HISTOGRAMS(PRW_DATASF, pileup_combined_weight, NOMINAL_pileup_combined_weight)
+      FILL_SYS_HISTOGRAMS(jet_JET_JvtEfficiency, central_jets_global_effSF_JVT, jet_NOMINAL_central_jets_global_effSF_JVT)
+      FILL_SYS_HISTOGRAMS(jet_JET_JvtEfficiency, central_jets_global_ineffSF_JVT, jet_NOMINAL_central_jets_global_ineffSF_JVT)
+      FILL_SYS_HISTOGRAMS(jet_JET_fJvtEfficiency, forward_jets_global_effSF_JVT, jet_NOMINAL_forward_jets_global_effSF_JVT)
+      FILL_SYS_HISTOGRAMS(jet_JET_fJvtEfficiency, forward_jets_global_ineffSF_JVT, jet_NOMINAL_forward_jets_global_ineffSF_JVT)
+      FILL_SYS_HISTOGRAMS(tau_0_TAUS_TRUEHADTAU_EFF_RECO_TOTAL, TauEffSF_reco, tau_0_NOMINAL_TauEffSF_reco)
+      FILL_SYS_HISTOGRAMS(tau_0_TAUS_TRUEHADTAU_EFF_RNNID_1PRONGSTATSYSTPT2025, TauEffSF_JetRNNmedium, tau_0_NOMINAL_TauEffSF_JetRNNmedium)
+      FILL_SYS_HISTOGRAMS(tau_0_TAUS_TRUEHADTAU_EFF_RNNID_1PRONGSTATSYSTPT2530, TauEffSF_JetRNNmedium, tau_0_NOMINAL_TauEffSF_JetRNNmedium)
+      FILL_SYS_HISTOGRAMS(tau_0_TAUS_TRUEHADTAU_EFF_RNNID_1PRONGSTATSYSTPT3040, TauEffSF_JetRNNmedium, tau_0_NOMINAL_TauEffSF_JetRNNmedium)
+      FILL_SYS_HISTOGRAMS(tau_0_TAUS_TRUEHADTAU_EFF_RNNID_1PRONGSTATSYSTPTGE40, TauEffSF_JetRNNmedium, tau_0_NOMINAL_TauEffSF_JetRNNmedium)
+      FILL_SYS_HISTOGRAMS(tau_0_TAUS_TRUEHADTAU_EFF_RNNID_3PRONGSTATSYSTPT2025, TauEffSF_JetRNNmedium, tau_0_NOMINAL_TauEffSF_JetRNNmedium)
+      FILL_SYS_HISTOGRAMS(tau_0_TAUS_TRUEHADTAU_EFF_RNNID_3PRONGSTATSYSTPT2530, TauEffSF_JetRNNmedium, tau_0_NOMINAL_TauEffSF_JetRNNmedium)
+      FILL_SYS_HISTOGRAMS(tau_0_TAUS_TRUEHADTAU_EFF_RNNID_3PRONGSTATSYSTPT3040, TauEffSF_JetRNNmedium, tau_0_NOMINAL_TauEffSF_JetRNNmedium)
+      FILL_SYS_HISTOGRAMS(tau_0_TAUS_TRUEHADTAU_EFF_RNNID_3PRONGSTATSYSTPTGE40, TauEffSF_JetRNNmedium, tau_0_NOMINAL_TauEffSF_JetRNNmedium)
+      FILL_SYS_HISTOGRAMS(tau_0_TAUS_TRUEHADTAU_EFF_RNNID_HIGHPT, TauEffSF_JetRNNmedium, tau_0_NOMINAL_TauEffSF_JetRNNmedium)
+      FILL_SYS_HISTOGRAMS(tau_0_TAUS_TRUEHADTAU_EFF_RNNID_SYST, TauEffSF_JetRNNmedium, tau_0_NOMINAL_TauEffSF_JetRNNmedium)
+      mass_jj_sys_hist->Fill(mjj, weight); // Do the nominal for free here
+
+    } else if (m_systematicType == "kinematic" && passedAllCuts) {
+      mass_jj_sys_hist->Fill(mjj, weight);
+
+    } else if (m_systematicType == "theory" && passedAllCuts) {
+      std::map<std::string, float> theory_weights_map;
+      INSERT_SYS_THEORY_MAP(theory_weights_map, theory_weights_CT18_pdfset)
+      INSERT_SYS_THEORY_MAP(theory_weights_map, theory_weights_LHE3Weight_ME_ONLY_MUR05_MUF05_PDF303200_PSMUR05_PSMUF05)
+      INSERT_SYS_THEORY_MAP(theory_weights_map, theory_weights_LHE3Weight_ME_ONLY_MUR05_MUF1_PDF303200_PSMUR05_PSMUF1)
+      INSERT_SYS_THEORY_MAP(theory_weights_map, theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF05_PDF303200_PSMUR1_PSMUF05)
+      INSERT_SYS_THEORY_MAP(theory_weights_map, theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_ASSEW)
+      INSERT_SYS_THEORY_MAP(theory_weights_map, theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_ASSEWLO1)
+      INSERT_SYS_THEORY_MAP(theory_weights_map, theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_ASSEWLO1LO2)
+      INSERT_SYS_THEORY_MAP(theory_weights_map, theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_ASSEWLO1LO2LO3)
+      INSERT_SYS_THEORY_MAP(theory_weights_map, theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_EXPASSEW)
+      INSERT_SYS_THEORY_MAP(theory_weights_map, theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_EXPASSEWLO1)
+      INSERT_SYS_THEORY_MAP(theory_weights_map, theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_EXPASSEWLO1LO2)
+      INSERT_SYS_THEORY_MAP(theory_weights_map, theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_EXPASSEWLO1LO2LO3)
+      INSERT_SYS_THEORY_MAP(theory_weights_map, theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_MULTIASSEW)
+      INSERT_SYS_THEORY_MAP(theory_weights_map, theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_MULTIASSEWLO1)
+      INSERT_SYS_THEORY_MAP(theory_weights_map, theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_MULTIASSEWLO1LO2)
+      INSERT_SYS_THEORY_MAP(theory_weights_map, theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_MULTIASSEWLO1LO2LO3)
+      INSERT_SYS_THEORY_MAP(theory_weights_map, theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF2_PDF303200_PSMUR1_PSMUF2)
+      INSERT_SYS_THEORY_MAP(theory_weights_map, theory_weights_LHE3Weight_ME_ONLY_MUR2_MUF1_PDF303200_PSMUR2_PSMUF1)
+      INSERT_SYS_THEORY_MAP(theory_weights_map, theory_weights_LHE3Weight_ME_ONLY_MUR2_MUF2_PDF303200_PSMUR2_PSMUF2)
+      INSERT_SYS_THEORY_MAP(theory_weights_map, theory_weights_LHE3Weight_MUR05_MUF05_PDF303200_PSMUR05_PSMUF05)
+      INSERT_SYS_THEORY_MAP(theory_weights_map, theory_weights_LHE3Weight_MUR05_MUF1_PDF303200_PSMUR05_PSMUF1)
+      INSERT_SYS_THEORY_MAP(theory_weights_map, theory_weights_LHE3Weight_MUR1_MUF05_PDF303200_PSMUR1_PSMUF05)
+      INSERT_SYS_THEORY_MAP(theory_weights_map, theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_ASSEW)
+      INSERT_SYS_THEORY_MAP(theory_weights_map, theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_ASSEWLO1)
+      INSERT_SYS_THEORY_MAP(theory_weights_map, theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_ASSEWLO1LO2)
+      INSERT_SYS_THEORY_MAP(theory_weights_map, theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_ASSEWLO1LO2LO3)
+      INSERT_SYS_THEORY_MAP(theory_weights_map, theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_EXPASSEW)
+      INSERT_SYS_THEORY_MAP(theory_weights_map, theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_EXPASSEWLO1)
+      INSERT_SYS_THEORY_MAP(theory_weights_map, theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_EXPASSEWLO1LO2)
+      INSERT_SYS_THEORY_MAP(theory_weights_map, theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_EXPASSEWLO1LO2LO3)
+      INSERT_SYS_THEORY_MAP(theory_weights_map, theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_MULTIASSEW)
+      INSERT_SYS_THEORY_MAP(theory_weights_map, theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_MULTIASSEWLO1)
+      INSERT_SYS_THEORY_MAP(theory_weights_map, theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_MULTIASSEWLO1LO2)
+      INSERT_SYS_THEORY_MAP(theory_weights_map, theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_MULTIASSEWLO1LO2LO3)
+      INSERT_SYS_THEORY_MAP(theory_weights_map, theory_weights_LHE3Weight_MUR1_MUF2_PDF303200_PSMUR1_PSMUF2)
+      INSERT_SYS_THEORY_MAP(theory_weights_map, theory_weights_LHE3Weight_MUR2_MUF1_PDF303200_PSMUR2_PSMUF1)
+      INSERT_SYS_THEORY_MAP(theory_weights_map, theory_weights_LHE3Weight_MUR2_MUF2_PDF303200_PSMUR2_PSMUF2)
+      INSERT_SYS_THEORY_MAP(theory_weights_map, theory_weights_MSHT_pdfset)
+      INSERT_SYS_THEORY_MAP(theory_weights_map, theory_weights_alphaS_down)
+      INSERT_SYS_THEORY_MAP(theory_weights_map, theory_weights_alphaS_up)
+      // Do the weight adjustment
+      std::cout << theory_weights_map[m_systematicIdentifier] << std::endl;
+      if (theory_weights_map[m_systematicIdentifier] == 0) {
+        g_LOG(LogLevel::WARNING, "The theory weight for systematic identifier " + m_systematicIdentifier + " is zero. Skipping this event to avoid division by zero.");
+      }
+      weight = (weight / weight_mc) * theory_weights_map[m_systematicIdentifier]; // Remove nominal weight_mc and apply the systematic one
+      mass_jj_sys_hist->Fill(mjj, weight);
+    }
+    
 
   }
 }
 
-void CLoopSYS::Style(double lumFactor) {
-    // Write the histograms
+void CLoopSYS::Style() {
+    // Write the histograms for SF systematics
+    if (m_systematicType == "sf") {
     WRITE_SYS_HISTOGRAMS(muon_0_MUON_EFF_ISO_STAT, MuEffSF_IsoTightTrackOnly_FixedRad)
     WRITE_SYS_HISTOGRAMS(muon_0_MUON_EFF_ISO_SYS, MuEffSF_IsoTightTrackOnly_FixedRad)
     WRITE_SYS_HISTOGRAMS(muon_0_MUON_EFF_RECO_STAT, MuEffSF_Reco_QualMedium)
@@ -242,4 +307,8 @@ void CLoopSYS::Style(double lumFactor) {
     WRITE_SYS_HISTOGRAMS(tau_0_TAUS_TRUEHADTAU_EFF_RNNID_3PRONGSTATSYSTPTGE40, TauEffSF_JetRNNmedium)
     WRITE_SYS_HISTOGRAMS(tau_0_TAUS_TRUEHADTAU_EFF_RNNID_HIGHPT, TauEffSF_JetRNNmedium)
     WRITE_SYS_HISTOGRAMS(tau_0_TAUS_TRUEHADTAU_EFF_RNNID_SYST, TauEffSF_JetRNNmedium)
+    }
+
+    // Write the histograms for other systematics
+    mass_jj_sys_hist->Write();
 }

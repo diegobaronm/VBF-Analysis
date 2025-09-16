@@ -1,6 +1,7 @@
 #pragma once
 
-#include "../../AnalysisCommons/Systematics.h" 
+#include "../../AnalysisCommons/Systematics.h"
+#include <memory>
 
 // SF systematics histograms
 DECLARE_SYS_HISTOGRAMS(muon_0_MUON_EFF_ISO_STAT, MuEffSF_IsoTightTrackOnly_FixedRad)
@@ -25,5 +26,6 @@ DECLARE_SYS_HISTOGRAMS(tau_0_TAUS_TRUEHADTAU_EFF_RNNID_3PRONGSTATSYSTPT3040, Tau
 DECLARE_SYS_HISTOGRAMS(tau_0_TAUS_TRUEHADTAU_EFF_RNNID_3PRONGSTATSYSTPTGE40, TauEffSF_JetRNNmedium)
 DECLARE_SYS_HISTOGRAMS(tau_0_TAUS_TRUEHADTAU_EFF_RNNID_HIGHPT, TauEffSF_JetRNNmedium)
 DECLARE_SYS_HISTOGRAMS(tau_0_TAUS_TRUEHADTAU_EFF_RNNID_SYST, TauEffSF_JetRNNmedium)
+std::unique_ptr<TH1F> mass_jj_sys_hist;
 
 // Other systematics histograms

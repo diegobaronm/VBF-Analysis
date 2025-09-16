@@ -58,7 +58,7 @@ void CLoopSYS::Loop(double lumFactor, int z_sample, const std::string& key, int 
     const char*  name_root = keyRoot.c_str();
     // set style of histograms and write to output file
     // open output file
-    TFile outfile(name_root,"recreate");
+    TFile outfile(name_root,"UPDATE");
 
     // loop over number of entries
     for (Long64_t jentry=0; jentry<nLoop;jentry++) {
@@ -107,28 +107,26 @@ void CLoopSYS::Loop(double lumFactor, int z_sample, const std::string& key, int 
         g_LOG(LogLevel::DEBUG,"Jet SFs = ", jet_NOMINAL_central_jets_global_effSF_JVT*jet_NOMINAL_central_jets_global_ineffSF_JVT*jet_NOMINAL_forward_jets_global_effSF_JVT);
         g_LOG(LogLevel::DEBUG,"Tau SFs = ", tau_0_NOMINAL_TauEffSF_reco*tau_0_NOMINAL_TauEffSF_JetRNNmedium);
 
-        // check if event is from real data
-        if (!(key.substr(0,4)=="data")) {
-            if (!(NOMINAL_pileup_combined_weight > -1)) continue; // TO AVOID FILLING HUGE WEIGHTS IN EWK Sample
-            // Do not apply pileup reweighting to VBF MadGraph samples
-            float puWeight = NOMINAL_pileup_combined_weight;
-            if (key.find("VBF") != std::string::npos && key.find("MG") != std::string::npos)
-                puWeight = 1.0;
-            // take product of all scale factors
-            eventWeight = weight_mc*puWeight*lumFactor*mjj_w
-            *muon_0_NOMINAL_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium*muon_0_NOMINAL_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium
-            *muon_0_NOMINAL_MuEffSF_IsoTightTrackOnly_FixedRad*muon_0_NOMINAL_MuEffSF_Reco_QualMedium/*muon_0_NOMINAL_MuEffSF_TTVA*/
-            *jet_NOMINAL_central_jets_global_effSF_JVT*jet_NOMINAL_central_jets_global_ineffSF_JVT*jet_NOMINAL_forward_jets_global_effSF_JVT
-            *jet_NOMINAL_forward_jets_global_ineffSF_JVT*jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85*jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85
+        // Systematics are all done in MC
+         if (!(NOMINAL_pileup_combined_weight > -1)) continue; // TO AVOID FILLING HUGE WEIGHTS IN EWK Sample
+         // Do not apply pileup reweighting to VBF MadGraph samples
+         float puWeight = NOMINAL_pileup_combined_weight;
+         if (key.find("VBF") != std::string::npos && key.find("MG") != std::string::npos)
+               puWeight = 1.0;
+         // take product of all scale factors
+         eventWeight = weight_mc*puWeight*lumFactor*mjj_w
+         *muon_0_NOMINAL_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium*muon_0_NOMINAL_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium
+         *muon_0_NOMINAL_MuEffSF_IsoTightTrackOnly_FixedRad*muon_0_NOMINAL_MuEffSF_Reco_QualMedium/*muon_0_NOMINAL_MuEffSF_TTVA*/
+         *jet_NOMINAL_central_jets_global_effSF_JVT*jet_NOMINAL_central_jets_global_ineffSF_JVT*jet_NOMINAL_forward_jets_global_effSF_JVT
+         *jet_NOMINAL_forward_jets_global_ineffSF_JVT*jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85*jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85
             *tau_0_NOMINAL_TauEffSF_reco*tau_0_NOMINAL_TauEffSF_JetRNNmedium;
-        }
 
         // fill histograms
         g_LOG(LogLevel::DEBUG,"Final event w = ", eventWeight);
-        Fill(eventWeight, z_sample, key);
+        Fill(eventWeight);
     }
     // end style and writing
-    Style(lumFactor);   
+    Style();
 
 
     outfile.Close();

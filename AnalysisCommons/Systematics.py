@@ -1,47 +1,35 @@
-from Run import INFO, WARNING, ERROR
+from .Run import INFO, WARNING, ERROR
 
 import ROOT as r
 
 class Systematic:
-    def __init__(self, identifier, histogram_name, type):
+    def __init__(self, identifier, histogram_name, type, channels = ["Zte","Ztm","Zem", "Zee", "Zmm"]):
         self.identifier = identifier
         self.histogram_name = histogram_name
         if type not in ["theory","sf","kinematic"]:
             ERROR(f"Systematic type '{type}' is not recognized. Must be one of ['theory','sf','kinematic']")
             exit(1)
         self.type = type
+        for channel in channels:
+            if channel not in ["Zte","Ztm","Zem", "Zee", "Zmm"]:
+                ERROR(f"Channel '{channel}' is not recognized for systematic {identifier}. Must be one of ['Zte','Ztm','Zem', 'Zee', 'Zmm']")
+                exit(1)
+        self.channels = channels
 
 
 LIST_OF_SYSTEMATICS = [
     # Theory systematics
     Systematic("theory_weights_CT18_pdfset", "CT18_pdfset", "theory"),
+    Systematic("theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_ASSEW", "LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_ASSEW", "theory"),
     # Kinematic systematics
     Systematic("MUON_ID_1down", "MUON_ID_1down", "kinematic"),
     # Scale factors
     Systematic("muon_0_MUON_EFF_TTVA_STAT_1down_MuEffSF_TTVA", "muon_0_MUON_EFF_TTVA_STAT_1down_MuEffSF_TTVA", "sf"),
+    Systematic("muon_0_MUON_EFF_TTVA_STAT_1up_MuEffSF_TTVA", "muon_0_MUON_EFF_TTVA_STAT_1up_MuEffSF_TTVA", "sf"),
 ]
 
-
-def dev_function():
-    file_path = '/Volumes/T7/v26-SYS/user.dbaronmo.v26-SYS.mc16_13TeV.700793.Sh_2214_Ztt_maxHTpTV2_CFBV.M4.e8527_s3126_r10724_p5313.sv1_Ta/user.dbaronmo.46291384._000001.TauID_Zll.root'
-
-    f = r.TFile.Open(file_path, 'READ')
-    
-    INFO.log("File Trees:")
-    for key in f.GetListOfKeys():
-        class_type = f.Get(key.GetName()).ClassName()
-        if class_type == "TTree":
-            print(key.GetName())
-    
-    INFO.log("NOMINAL branches:")
-    tree = f.Get("NOMINAL")
-    for branch in tree.GetListOfBranches():
-        branch_name = branch.GetName()
-        if "_1up" in branch_name or "_1down" in branch_name:
-            print(branch_name)
-
 if __name__ == "__main__":
-    dev_function()
+    print('This module is not supposed to be run directly.')
 
 """
 theory_weights_CT18_pdfset

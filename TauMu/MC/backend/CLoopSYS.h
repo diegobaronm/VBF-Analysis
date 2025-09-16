@@ -26,11 +26,14 @@
 #include "../../../AnalysisCommons/Kinematics.h"
 
 class CLoopSYS {
-   void Style(double lumFactor);
+   void Style();
    void Book();
-   void Fill(double weight, int z_sample, const std::string& sampleName);
+   void Fill(double weight);
 
-   std::string m_region; 
+   std::string m_region;
+   std::string m_systematicType;
+   std::string m_systematicHistogramName;
+   std::string m_systematicIdentifier;
    std::vector<std::string> notFull{"basic","all"};
    std::vector<std::string> m_cutNames;
    #include "../AnalysisSYS.h"
@@ -474,6 +477,18 @@ public :
    Float_t         theory_weights_LHE3Weight_ME_ONLY_MUR05_MUF1_PDF303200_PSMUR05_PSMUF1;
    Float_t         theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF05_PDF303200_PSMUR1_PSMUF05;
    Float_t         theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200;
+   Float_t         theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_ASSEW;
+   Float_t         theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_ASSEWLO1;
+   Float_t         theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_ASSEWLO1LO2;
+   Float_t         theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_ASSEWLO1LO2LO3;
+   Float_t         theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_EXPASSEW;
+   Float_t         theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_EXPASSEWLO1;
+   Float_t         theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_EXPASSEWLO1LO2;
+   Float_t         theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_EXPASSEWLO1LO2LO3;
+   Float_t         theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_MULTIASSEW;
+   Float_t         theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_MULTIASSEWLO1;
+   Float_t         theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_MULTIASSEWLO1LO2;
+   Float_t         theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_MULTIASSEWLO1LO2LO3;
    Float_t         theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF2_PDF303200_PSMUR1_PSMUF2;
    Float_t         theory_weights_LHE3Weight_ME_ONLY_MUR2_MUF1_PDF303200_PSMUR2_PSMUF1;
    Float_t         theory_weights_LHE3Weight_ME_ONLY_MUR2_MUF2_PDF303200_PSMUR2_PSMUF2;
@@ -481,6 +496,18 @@ public :
    Float_t         theory_weights_LHE3Weight_MUR05_MUF1_PDF303200_PSMUR05_PSMUF1;
    Float_t         theory_weights_LHE3Weight_MUR1_MUF05_PDF303200_PSMUR1_PSMUF05;
    Float_t         theory_weights_LHE3Weight_MUR1_MUF1_PDF303200;
+   Float_t         theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_ASSEW;
+   Float_t         theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_ASSEWLO1;
+   Float_t         theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_ASSEWLO1LO2;
+   Float_t         theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_ASSEWLO1LO2LO3;
+   Float_t         theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_EXPASSEW;
+   Float_t         theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_EXPASSEWLO1;
+   Float_t         theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_EXPASSEWLO1LO2;
+   Float_t         theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_EXPASSEWLO1LO2LO3;
+   Float_t         theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_MULTIASSEW;
+   Float_t         theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_MULTIASSEWLO1;
+   Float_t         theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_MULTIASSEWLO1LO2;
+   Float_t         theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_MULTIASSEWLO1LO2LO3;
    Float_t         theory_weights_LHE3Weight_MUR1_MUF2_PDF303200_PSMUR1_PSMUF2;
    Float_t         theory_weights_LHE3Weight_MUR2_MUF1_PDF303200_PSMUR2_PSMUF1;
    Float_t         theory_weights_LHE3Weight_MUR2_MUF2_PDF303200_PSMUR2_PSMUF2;
@@ -929,6 +956,18 @@ public :
    TBranch        *b_theory_weights_LHE3Weight_ME_ONLY_MUR05_MUF1_PDF303200_PSMUR05_PSMUF1;   //!
    TBranch        *b_theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF05_PDF303200_PSMUR1_PSMUF05;   //!
    TBranch        *b_theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200;   //!
+   TBranch        *b_theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_ASSEW;   //!
+   TBranch        *b_theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_ASSEWLO1;   //!
+   TBranch        *b_theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_ASSEWLO1LO2;   //!
+   TBranch        *b_theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_ASSEWLO1LO2LO3;   //!
+   TBranch        *b_theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_EXPASSEW;   //!
+   TBranch        *b_theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_EXPASSEWLO1;   //!
+   TBranch        *b_theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_EXPASSEWLO1LO2;   //!
+   TBranch        *b_theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_EXPASSEWLO1LO2LO3;   //!
+   TBranch        *b_theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_MULTIASSEW;   //!
+   TBranch        *b_theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_MULTIASSEWLO1;   //!
+   TBranch        *b_theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_MULTIASSEWLO1LO2;   //!
+   TBranch        *b_theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_MULTIASSEWLO1LO2LO3;   //!
    TBranch        *b_theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF2_PDF303200_PSMUR1_PSMUF2;   //!
    TBranch        *b_theory_weights_LHE3Weight_ME_ONLY_MUR2_MUF1_PDF303200_PSMUR2_PSMUF1;   //!
    TBranch        *b_theory_weights_LHE3Weight_ME_ONLY_MUR2_MUF2_PDF303200_PSMUR2_PSMUF2;   //!
@@ -936,6 +975,18 @@ public :
    TBranch        *b_theory_weights_LHE3Weight_MUR05_MUF1_PDF303200_PSMUR05_PSMUF1;   //!
    TBranch        *b_theory_weights_LHE3Weight_MUR1_MUF05_PDF303200_PSMUR1_PSMUF05;   //!
    TBranch        *b_theory_weights_LHE3Weight_MUR1_MUF1_PDF303200;   //!
+   TBranch        *b_theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_ASSEW;   //!
+   TBranch        *b_theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_ASSEWLO1;   //!
+   TBranch        *b_theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_ASSEWLO1LO2;   //!
+   TBranch        *b_theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_ASSEWLO1LO2LO3;   //!
+   TBranch        *b_theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_EXPASSEW;   //!
+   TBranch        *b_theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_EXPASSEWLO1;   //!
+   TBranch        *b_theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_EXPASSEWLO1LO2;   //!
+   TBranch        *b_theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_EXPASSEWLO1LO2LO3;   //!
+   TBranch        *b_theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_MULTIASSEW;   //!
+   TBranch        *b_theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_MULTIASSEWLO1;   //!
+   TBranch        *b_theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_MULTIASSEWLO1LO2;   //!
+   TBranch        *b_theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_MULTIASSEWLO1LO2LO3;   //!
    TBranch        *b_theory_weights_LHE3Weight_MUR1_MUF2_PDF303200_PSMUR1_PSMUF2;   //!
    TBranch        *b_theory_weights_LHE3Weight_MUR2_MUF1_PDF303200_PSMUR2_PSMUF1;   //!
    TBranch        *b_theory_weights_LHE3Weight_MUR2_MUF2_PDF303200_PSMUR2_PSMUF2;   //!
@@ -952,7 +1003,7 @@ public :
    TBranch        *b_weight_mc;   //!
    TBranch        *b_useEvent;   //!
 
-   CLoopSYS(TTree *tree=0, const std::string& region = "");
+   CLoopSYS(TTree *tree=0, const std::string& region = "", const std::string& sysType="", const std::string& sysHistogramName="", const std::string& sysIdentifier="");
    virtual ~CLoopSYS();
    virtual Int_t    Cut(/*Long64_t entry*/);
    virtual Int_t    GetEntry(Long64_t entry);
@@ -966,7 +1017,7 @@ public :
 #endif
 
 #ifdef CLoopSYS_cxx
-CLoopSYS::CLoopSYS(TTree *tree, const std::string& region) : fChain(0) 
+CLoopSYS::CLoopSYS(TTree *tree, const std::string& region, const std::string& sysType, const std::string& sysHistogramName, const std::string& sysIdentifier) : fChain(0)
 {
 // if parameter tree is not specified (or zero), connect the file
 // used to generate this class and read the Tree.
@@ -979,6 +1030,10 @@ CLoopSYS::CLoopSYS(TTree *tree, const std::string& region) : fChain(0)
 
    }
    m_region = region;
+   if (sysType == "") throw std::runtime_error("No valid systematic type provided to CLoopSYS");
+   m_systematicType = sysType;
+   m_systematicHistogramName = sysHistogramName;
+   m_systematicIdentifier = sysIdentifier;
    Init(tree);
 }
 
@@ -1466,6 +1521,18 @@ void CLoopSYS::Init(TTree *tree)
    fChain->SetBranchAddress("theory_weights_LHE3Weight_ME_ONLY_MUR05_MUF1_PDF303200_PSMUR05_PSMUF1", &theory_weights_LHE3Weight_ME_ONLY_MUR05_MUF1_PDF303200_PSMUR05_PSMUF1, &b_theory_weights_LHE3Weight_ME_ONLY_MUR05_MUF1_PDF303200_PSMUR05_PSMUF1);
    fChain->SetBranchAddress("theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF05_PDF303200_PSMUR1_PSMUF05", &theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF05_PDF303200_PSMUR1_PSMUF05, &b_theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF05_PDF303200_PSMUR1_PSMUF05);
    fChain->SetBranchAddress("theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200", &theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200, &b_theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200);
+   fChain->SetBranchAddress("theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_ASSEW", &theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_ASSEW, &b_theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_ASSEW);
+   fChain->SetBranchAddress("theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_ASSEWLO1", &theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_ASSEWLO1, &b_theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_ASSEWLO1);
+   fChain->SetBranchAddress("theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_ASSEWLO1LO2", &theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_ASSEWLO1LO2, &b_theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_ASSEWLO1LO2);
+   fChain->SetBranchAddress("theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_ASSEWLO1LO2LO3", &theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_ASSEWLO1LO2LO3, &b_theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_ASSEWLO1LO2LO3);
+   fChain->SetBranchAddress("theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_EXPASSEW", &theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_EXPASSEW, &b_theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_EXPASSEW);
+   fChain->SetBranchAddress("theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_EXPASSEWLO1", &theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_EXPASSEWLO1, &b_theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_EXPASSEWLO1);
+   fChain->SetBranchAddress("theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_EXPASSEWLO1LO2", &theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_EXPASSEWLO1LO2, &b_theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_EXPASSEWLO1LO2);
+   fChain->SetBranchAddress("theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_EXPASSEWLO1LO2LO3", &theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_EXPASSEWLO1LO2LO3, &b_theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_EXPASSEWLO1LO2LO3);
+   fChain->SetBranchAddress("theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_MULTIASSEW", &theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_MULTIASSEW, &b_theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_MULTIASSEW);
+   fChain->SetBranchAddress("theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_MULTIASSEWLO1", &theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_MULTIASSEWLO1, &b_theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_MULTIASSEWLO1);
+   fChain->SetBranchAddress("theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_MULTIASSEWLO1LO2", &theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_MULTIASSEWLO1LO2, &b_theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_MULTIASSEWLO1LO2);
+   fChain->SetBranchAddress("theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_MULTIASSEWLO1LO2LO3", &theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_MULTIASSEWLO1LO2LO3, &b_theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303200_MULTIASSEWLO1LO2LO3);
    fChain->SetBranchAddress("theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF2_PDF303200_PSMUR1_PSMUF2", &theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF2_PDF303200_PSMUR1_PSMUF2, &b_theory_weights_LHE3Weight_ME_ONLY_MUR1_MUF2_PDF303200_PSMUR1_PSMUF2);
    fChain->SetBranchAddress("theory_weights_LHE3Weight_ME_ONLY_MUR2_MUF1_PDF303200_PSMUR2_PSMUF1", &theory_weights_LHE3Weight_ME_ONLY_MUR2_MUF1_PDF303200_PSMUR2_PSMUF1, &b_theory_weights_LHE3Weight_ME_ONLY_MUR2_MUF1_PDF303200_PSMUR2_PSMUF1);
    fChain->SetBranchAddress("theory_weights_LHE3Weight_ME_ONLY_MUR2_MUF2_PDF303200_PSMUR2_PSMUF2", &theory_weights_LHE3Weight_ME_ONLY_MUR2_MUF2_PDF303200_PSMUR2_PSMUF2, &b_theory_weights_LHE3Weight_ME_ONLY_MUR2_MUF2_PDF303200_PSMUR2_PSMUF2);
@@ -1473,6 +1540,18 @@ void CLoopSYS::Init(TTree *tree)
    fChain->SetBranchAddress("theory_weights_LHE3Weight_MUR05_MUF1_PDF303200_PSMUR05_PSMUF1", &theory_weights_LHE3Weight_MUR05_MUF1_PDF303200_PSMUR05_PSMUF1, &b_theory_weights_LHE3Weight_MUR05_MUF1_PDF303200_PSMUR05_PSMUF1);
    fChain->SetBranchAddress("theory_weights_LHE3Weight_MUR1_MUF05_PDF303200_PSMUR1_PSMUF05", &theory_weights_LHE3Weight_MUR1_MUF05_PDF303200_PSMUR1_PSMUF05, &b_theory_weights_LHE3Weight_MUR1_MUF05_PDF303200_PSMUR1_PSMUF05);
    fChain->SetBranchAddress("theory_weights_LHE3Weight_MUR1_MUF1_PDF303200", &theory_weights_LHE3Weight_MUR1_MUF1_PDF303200, &b_theory_weights_LHE3Weight_MUR1_MUF1_PDF303200);
+   fChain->SetBranchAddress("theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_ASSEW", &theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_ASSEW, &b_theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_ASSEW);
+   fChain->SetBranchAddress("theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_ASSEWLO1", &theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_ASSEWLO1, &b_theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_ASSEWLO1);
+   fChain->SetBranchAddress("theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_ASSEWLO1LO2", &theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_ASSEWLO1LO2, &b_theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_ASSEWLO1LO2);
+   fChain->SetBranchAddress("theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_ASSEWLO1LO2LO3", &theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_ASSEWLO1LO2LO3, &b_theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_ASSEWLO1LO2LO3);
+   fChain->SetBranchAddress("theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_EXPASSEW", &theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_EXPASSEW, &b_theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_EXPASSEW);
+   fChain->SetBranchAddress("theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_EXPASSEWLO1", &theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_EXPASSEWLO1, &b_theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_EXPASSEWLO1);
+   fChain->SetBranchAddress("theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_EXPASSEWLO1LO2", &theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_EXPASSEWLO1LO2, &b_theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_EXPASSEWLO1LO2);
+   fChain->SetBranchAddress("theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_EXPASSEWLO1LO2LO3", &theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_EXPASSEWLO1LO2LO3, &b_theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_EXPASSEWLO1LO2LO3);
+   fChain->SetBranchAddress("theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_MULTIASSEW", &theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_MULTIASSEW, &b_theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_MULTIASSEW);
+   fChain->SetBranchAddress("theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_MULTIASSEWLO1", &theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_MULTIASSEWLO1, &b_theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_MULTIASSEWLO1);
+   fChain->SetBranchAddress("theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_MULTIASSEWLO1LO2", &theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_MULTIASSEWLO1LO2, &b_theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_MULTIASSEWLO1LO2);
+   fChain->SetBranchAddress("theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_MULTIASSEWLO1LO2LO3", &theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_MULTIASSEWLO1LO2LO3, &b_theory_weights_LHE3Weight_MUR1_MUF1_PDF303200_MULTIASSEWLO1LO2LO3);
    fChain->SetBranchAddress("theory_weights_LHE3Weight_MUR1_MUF2_PDF303200_PSMUR1_PSMUF2", &theory_weights_LHE3Weight_MUR1_MUF2_PDF303200_PSMUR1_PSMUF2, &b_theory_weights_LHE3Weight_MUR1_MUF2_PDF303200_PSMUR1_PSMUF2);
    fChain->SetBranchAddress("theory_weights_LHE3Weight_MUR2_MUF1_PDF303200_PSMUR2_PSMUF1", &theory_weights_LHE3Weight_MUR2_MUF1_PDF303200_PSMUR2_PSMUF1, &b_theory_weights_LHE3Weight_MUR2_MUF1_PDF303200_PSMUR2_PSMUF1);
    fChain->SetBranchAddress("theory_weights_LHE3Weight_MUR2_MUF2_PDF303200_PSMUR2_PSMUF2", &theory_weights_LHE3Weight_MUR2_MUF2_PDF303200_PSMUR2_PSMUF2, &b_theory_weights_LHE3Weight_MUR2_MUF2_PDF303200_PSMUR2_PSMUF2);

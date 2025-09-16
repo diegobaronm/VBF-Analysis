@@ -93,6 +93,13 @@ def getEventWeight(key,realList,infos,totRealLum):
         lumStr = "%.5E" % (lumWeight)
     DEBUG.log("Luminosity weight = "+lumStr)
     return lumStr
+
+def getEventWeightForSys(key, infos, totRealLum):
+    # calculate luminosity weight
+    lumWeight = (totRealLum * 1000 * infos[key]["xsec"] * infos[key]["fil_eff"] * infos[key]["kfac"])/infos[key]["sumw"]
+    lumStr = "%.5E" % (lumWeight)
+    DEBUG.log("Luminosity weight for systematics = "+lumStr)
+    return lumStr
     
 def getZllSampleKey(key):
     """
@@ -133,7 +140,7 @@ def isRunningRemote(Remote):
         exit(1)
     return remote_mode
     
-def DrawC(filename,lumStr,z_sample,key_pop,tree,region, dirs, logLevel = 3, do_sys = False):
+def DrawC(filename,lumStr,z_sample,key_pop,tree,region, dirs, logLevel = 3, do_sys = False, sum_of_weight_metadata = None, luminosity=1):
     """
     Function to load in the C++ code and run it for a given data set
     """
@@ -169,18 +176,78 @@ def DrawC(filename,lumStr,z_sample,key_pop,tree,region, dirs, logLevel = 3, do_s
         r.gROOT.ProcessLine('t->Loop(%s, %s, "%s", %d)' % (lumStr, z_sample, key_pop+tree, logLevel))
         r.gROOT.ProcessLine("f->Close("R")")
     else:
-        # load in CLoopSYS.C
-        r.gSystem.Load("backend/CLoopSYS_C")
+        # Figure out the relevant systematics
+        # TODO
 
-        # load in tree from file
-        r.gROOT.ProcessLine('TFile* f = new TFile("%s")' % (fullPath))
-        r.gROOT.ProcessLine("TTree * minTree = new TTree")
-        r.gROOT.ProcessLine('f->GetObject("%s", minTree)' % (tree))
+        # State variables for the systematic loop
+        from .Systematics import LIST_OF_SYSTEMATICS
+        number_of_systematics = len(LIST_OF_SYSTEMATICS)
+        number_of_sf_systematics = sum(1 for s in LIST_OF_SYSTEMATICS if s.type == "sf")
+        sys_counter = 0
+        sf_systematics_done = False
+        sys_tree_name = "NOMINAL"
+        sys_histogram_postfix = "NOMINAL"
+        systematic_identifier = ""
+        sys_lumStr = lumStr
+        if sum_of_weight_metadata is None:
+            ERROR.log("Sum of weights metadata is required for systematics.")
+            exit(1)
+        if luminosity == 1:
+            ERROR.log("Luminosity is 1, which is not expected for systematics.")
+            exit(1)
 
-        # create new instance of CLoopSYS and loop over events
-        r.gROOT.ProcessLine('CLoopSYS* t = new CLoopSYS(minTree, "%s")' % (region))
-        r.gROOT.ProcessLine('t->Loop(%s, %s, "%s", %d)' % (lumStr, z_sample, key_pop+tree, logLevel))
-        r.gROOT.ProcessLine("f->Close("R")")
+        # Loop over systematics
+        INFO.log("Running the analysis for %d systematic variations." % number_of_systematics)
+        for systematic in LIST_OF_SYSTEMATICS:
+            # SF systematics logic
+            if systematic.type == "sf":
+                sys_tree_name = "NOMINAL"
+                sys_histogram_postfix = "NOMINAL"
+                systematic_identifier = ""
+                sys_lumStr = lumStr
+                if sf_systematics_done:
+                    DEBUG.log("SF systematics already done, skipping %s" % systematic.identifier)
+                    continue
+                else:
+                    sf_systematics_done = True
+                    sys_counter += number_of_sf_systematics
+                    DEBUG.log("Doing all SF systematics together, counting %d systematics." % number_of_sf_systematics)
+            elif systematic.type == "kinematic":
+                sys_tree_name = systematic.identifier
+                sys_histogram_postfix = systematic.histogram_name
+                systematic_identifier = systematic.identifier
+                sys_lumStr = lumStr
+                sys_counter += 1
+            elif systematic.type == "theory":
+                sys_tree_name = "NOMINAL"
+                sys_histogram_postfix = systematic.histogram_name
+                systematic_identifier = systematic.identifier
+                sys_counter += 1
+                # Only in this case we need to modify the lumiStr
+                sys_key = key_pop+systematic.identifier.replace('theory_weights_', '_')
+                sys_lumStr = str(getEventWeightForSys(sys_key, sum_of_weight_metadata, luminosity))
+                DEBUG.log("Original lumStr: %s, new lumStr for theory systematic: %s" % (lumStr, sys_lumStr))
+            else:
+                ERROR.log("Systematic type %s not recognised." % systematic.type)
+                exit(1)
+            
+            INFO.log("Running systematic %d/%d: %s" % (sys_counter, number_of_systematics, systematic.identifier if systematic.type != "sf" else "SF variations"))
+
+            # load in CLoopSYS.C
+            r.gSystem.Load("backend/CLoopSYS_C")
+
+            # load in tree from file
+            r.gROOT.ProcessLine('TFile* f = new TFile("%s")' % (fullPath))
+            r.gROOT.ProcessLine("TTree * minTree = new TTree")
+            r.gROOT.ProcessLine('f->GetObject("%s", minTree)' % (sys_tree_name))
+
+            # create new instance of CLoopSYS and loop over events
+            r.gROOT.ProcessLine('CLoopSYS* t = new CLoopSYS(minTree, "%s", "%s", "%s", "%s")' % (region, systematic.type, sys_histogram_postfix, systematic_identifier))
+            r.gROOT.ProcessLine('t->Loop(%s, %s, "%s", %d)' % (sys_lumStr, z_sample, key_pop+tree, logLevel))
+            r.gROOT.ProcessLine("f->Close("R")")
+
+            # Clean for the next iteration
+            r.gROOT.Reset()
 
 # Function to move the output file to the correct directory and track any failed samples.
 def MoveOutput(output_name, tree_name, remote, output_dict, cli_path=None):
@@ -298,7 +365,7 @@ def AnalysisFunction(key, remote, CLI_args, dataSets, realList, infos, dirs, out
     tree_name = CLI_args.tree
     region = CLI_args.region
 
-    DrawC(filename,lumStr,z_sample,key,tree_name, region, dirs, log_level, do_sys=CLI_args.sys)
+    DrawC(filename,lumStr,z_sample,key,tree_name, region, dirs, log_level, do_sys=CLI_args.sys, sum_of_weight_metadata=infos, luminosity=totRealLum)
 
     # Move the output to a different directory
     output_name = key+tree_name+".root"
