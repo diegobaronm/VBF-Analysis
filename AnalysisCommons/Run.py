@@ -139,8 +139,19 @@ def isRunningRemote(Remote):
         ERROR.log("Remote mode not recognised.")
         exit(1)
     return remote_mode
+
+def show_list_of_not_found_systematics(list_of_expected_systematics, output_file):
+    for expected_sys in list_of_expected_systematics:
+        found_sys = [k.GetName() for k in output_file.GetListOfKeys()]
+        good = False
+        for hist_name in found_sys:
+            if expected_sys.histogram_name in hist_name:
+                good = True
+                break
+        if not good:
+            ERROR.log("Expected systematic histogram %s not found in output file %s." % (expected_sys.histogram_name, output_file.GetName()))
     
-def DrawC(filename,lumStr,z_sample,key_pop,tree,region, dirs, logLevel = 3, do_sys = False, sum_of_weight_metadata = None, luminosity=1):
+def DrawC(filename,lumStr,z_sample,key_pop,tree,region, dirs, CLI_args, logLevel = 3, sum_of_weight_metadata = None, luminosity=1):
     """
     Function to load in the C++ code and run it for a given data set
     """
@@ -161,7 +172,8 @@ def DrawC(filename,lumStr,z_sample,key_pop,tree,region, dirs, logLevel = 3, do_s
     fullPath = correctPath + filename
     DEBUG.log("Full path to file: " + fullPath)
 
-    # For the nominal analysys do this ...
+    # For the nominal analysis do this ...
+    do_sys = CLI_args.sys
     if not do_sys:
         # load in CLoop.C
         r.gSystem.Load("backend/CLoop_C")
@@ -177,10 +189,10 @@ def DrawC(filename,lumStr,z_sample,key_pop,tree,region, dirs, logLevel = 3, do_s
         r.gROOT.ProcessLine("f->Close("R")")
     else:
         # Figure out the relevant systematics
-        # TODO
+        from .Systematics import LIST_OF_SYSTEMATICS, filter_systematics_by_channel
+        LIST_OF_SYSTEMATICS = filter_systematics_by_channel(LIST_OF_SYSTEMATICS, CLI_args.sys_channel)
 
         # State variables for the systematic loop
-        from .Systematics import LIST_OF_SYSTEMATICS
         number_of_systematics = len(LIST_OF_SYSTEMATICS)
         number_of_sf_systematics = sum(1 for s in LIST_OF_SYSTEMATICS if s.type == "sf")
         sys_counter = 0
@@ -248,6 +260,20 @@ def DrawC(filename,lumStr,z_sample,key_pop,tree,region, dirs, logLevel = 3, do_s
 
             # Clean for the next iteration
             r.gROOT.Reset()
+
+        # Check that the number of histograms you expect are created in each file.
+        expected_number_of_histograms = 1 + number_of_systematics # Count the NOMINAL
+        output_file_name = key_pop + tree + ".root"
+        output_file = r.TFile(output_file_name, "READ")
+        actual_number_of_histograms = len(output_file.GetListOfKeys())
+        # Inform the user the results
+        if actual_number_of_histograms != expected_number_of_histograms:
+            ERROR.log("Number of histograms in output file %s is %d, but expected %d." % (output_file_name, actual_number_of_histograms, expected_number_of_histograms))
+            show_list_of_not_found_systematics(LIST_OF_SYSTEMATICS, output_file)
+            exit(1)
+        else:
+            INFO.log("Number of histograms in output file %s is correct: %d." % (output_file_name, actual_number_of_histograms))
+
 
 # Function to move the output file to the correct directory and track any failed samples.
 def MoveOutput(output_name, tree_name, remote, output_dict, cli_path=None):
@@ -318,6 +344,7 @@ def createParser():
     parser.add_argument("--output", help="Output directory for the analysis results. Default is out/<tree>/", type=str)
     parser.add_argument("--loglevel", help="Set the log level. Default is INFO.", type=int, choices=[1, 2, 3, 4], default=3)
     parser.add_argument("--sys", help="If set, the code will run the systematic variations. Default is False.", action='store_true')
+    parser.add_argument("--sys-channel", help="When --sys is set, this has to be set to select the associated systematics variations for the channel. Default is None and will raise an error if --sys is set.", type=str, choices=["Zee", "Zmm", "Zem", "Ztm","Zte"], default=None)
 
     # Parse arguments
     args = parser.parse_args()
@@ -325,6 +352,10 @@ def createParser():
     # Check a couple of things...
     if args.region.find("OS") == -1 and args.region.find("SS") == -1:
         ERROR.log("Region should contain OS or SS in the name.")
+        exit(1)
+
+    if args.sys and args.sys_channel is None:
+        ERROR.log("When --sys is set, --sys-channel has to be set too.")
         exit(1)
 
     return args
@@ -365,7 +396,7 @@ def AnalysisFunction(key, remote, CLI_args, dataSets, realList, infos, dirs, out
     tree_name = CLI_args.tree
     region = CLI_args.region
 
-    DrawC(filename,lumStr,z_sample,key,tree_name, region, dirs, log_level, do_sys=CLI_args.sys, sum_of_weight_metadata=infos, luminosity=totRealLum)
+    DrawC(filename,lumStr,z_sample,key,tree_name, region, dirs, CLI_args, log_level, sum_of_weight_metadata=infos, luminosity=totRealLum)
 
     # Move the output to a different directory
     output_name = key+tree_name+".root"
@@ -396,6 +427,7 @@ def RunAnalysis(dataCombos, dataSets, realList, infos, dirs, output_dict):
     INFO.log("Output directory: %s" % parser.output)
     INFO.log("Clean: %s" % parser.clean)
     INFO.log("Systematics: %s" % parser.sys)
+    INFO.log("Systematics channel: %s" % parser.sys_channel)
 
     # check if the user wants to run from a set of samples defined in a text file.
     if running_from_txt:
@@ -419,7 +451,7 @@ def RunAnalysis(dataCombos, dataSets, realList, infos, dirs, output_dict):
     try:
         # Remove all previous compiled files
         INFO.log("Removing previously compiled files...")
-        output = os.system("rm -f backend/*.so backend/*.d backend/*.pcm")
+        output = os.system("rm -f backend/*.so backend/*.d backend/*.pcm backend/*C_ACLiC*")
         if output != 0:
             ERROR.log("Failed to remove previous compiled files.")
             exit(1)

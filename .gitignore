@@ -9,6 +9,7 @@
 *.d
 *.pyc
 *.DS_Store
+*C_ACLiC*
 
 .vscode/
 .ipynb_checkpoints/

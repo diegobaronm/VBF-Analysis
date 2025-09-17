@@ -28,7 +28,7 @@
 class CLoopSYS {
    void Style();
    void Book();
-   void Fill(double weight);
+   void Fill(double weight, const std::string& key);
 
    std::string m_region;
    std::string m_systematicType;
