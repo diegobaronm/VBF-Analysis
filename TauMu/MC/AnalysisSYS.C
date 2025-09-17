@@ -5,13 +5,11 @@
 #include <vector>
 #include <string>
 #include <map>
-#include <TMVA/Reader.h>
 #include <algorithm>
 #include <utility>
 
 void CLoopSYS::Book() {
     m_cutNames = Selections::InitCutNames(m_region);
-    double pi=TMath::Pi();
 
     if (m_systematicType == "sf") {
       DEFINE_SYS_HISTOGRAMS(muon_0_MUON_EFF_TTVA_STAT, MuEffSF_TTVA)
@@ -67,7 +65,7 @@ void CLoopSYS::Book() {
       DEFINE_SYS_HISTOGRAMS(tau_0_TAUS_TRUEHADTAU_EFF_RNNID_HIGHPT, TauEffSF_JetRNNmedium)
       DEFINE_SYS_HISTOGRAMS(tau_0_TAUS_TRUEHADTAU_EFF_RNNID_SYST, TauEffSF_JetRNNmedium)
     }
-
+    // For the other kind of systematics...
     std::string sysHistogramName = "mass_jj_" + m_systematicHistogramName;
     mass_jj_sys_hist = std::make_unique<TH1F>(sysHistogramName.c_str(),"Invariant mass di-jet system",5000,0,5000);
 }
@@ -331,7 +329,7 @@ void CLoopSYS::Fill(double weight, const std::string& key) {
       INSERT_SYS_THEORY_MAP(theory_weights_map, theory_weights_alphaS_up)
       // Do the weight adjustment
       if (key.find("VBF") != std::string::npos && m_systematicIdentifier.find("ASSEW") != std::string::npos) {
-        g_LOG(LogLevel::DEBUG, "VBF samples do not have some theory weights (ASSEW*), fallick to nominal.");
+        g_LOG(LogLevel::DEBUG, "VBF samples do not have some theory weights (ASSEW*), falling back to nominal.");
       } else {
         weight = (weight / weight_mc) * theory_weights_map[m_systematicIdentifier]; // Remove nominal weight_mc and apply the systematic one
       }
