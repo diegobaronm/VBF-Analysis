@@ -30,6 +30,18 @@
   h_mass_jj_##systematic_name_begin##_1down_##systematic_name_end->Fill(mjj, weight * systematic_name_begin##_1down_##trigger / nominal); \
   h_mass_jj_##systematic_name_begin##_1up_##systematic_name_end->Fill(mjj, weight * systematic_name_begin##_1up_##trigger / nominal); \
 
+#define FILL_SYS_DI_MUON_TRIGGER_HISTOGRAMS(systematic_name_begin, systematic_name_end, muon_x, trigger, nominal) \
+  h_mass_jj_##systematic_name_begin##_1down_##systematic_name_end->Fill(mjj, weight * muon_x##_1down_##trigger / nominal); \
+  h_mass_jj_##systematic_name_begin##_1up_##systematic_name_end->Fill(mjj, weight * muon_x##_1up_##trigger / nominal); \
+
+#define FILL_SYS_DI_MUON_TRIGGER_HISTOGRAMS_DUMMY(systematic_name_begin, systematic_name_end) \
+  h_mass_jj_##systematic_name_begin##_1down_##systematic_name_end->Fill(mjj, weight ); \
+  h_mass_jj_##systematic_name_begin##_1up_##systematic_name_end->Fill(mjj, weight ); \
+
+#define FILL_SYS_2LEP_HISTOGRAMS(systematic_name_begin, systematic_name_end, nominal1, nominal2) \
+  h_mass_jj_muon_##systematic_name_begin##_1down_##systematic_name_end->Fill(mjj, weight * ( muon_0_##systematic_name_begin##_1down_##systematic_name_end * muon_1_##systematic_name_begin##_1down_##systematic_name_end ) / (nominal1 * nominal2)); \
+  h_mass_jj_muon_##systematic_name_begin##_1up_##systematic_name_end->Fill(mjj, weight * ( muon_0_##systematic_name_begin##_1up_##systematic_name_end * muon_1_##systematic_name_begin##_1up_##systematic_name_end ) / (nominal1 * nominal2)); \
+
 #define WRITE_SYS_HISTOGRAMS(systematic_name_begin, systematic_name_end) \
   h_mass_jj_##systematic_name_begin##_1down_##systematic_name_end->Write(); \
   h_mass_jj_##systematic_name_begin##_1up_##systematic_name_end->Write();

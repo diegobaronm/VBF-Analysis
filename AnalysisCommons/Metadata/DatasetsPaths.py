@@ -2,20 +2,20 @@
 
 # Z->tautau
 v26Paths = {
-"dbaronmo": ['/eos/user/w/wyatt/data/v26-sys-vbf/'], # Remote
+# LEGACY SYS: "dbaronmo": ['/eos/user/w/wyatt/data/v26-sys-vbf/'], # Remote
 "b78499db": ['/Users/user/Documents/HEP/v26/','/Users/user/Documents/HEP/v26-truth/','/Volumes/T7/v26-SYS/']
 }
 
 # Z->mumu
 v26_mm_Paths = {
 "dbaronmo": ['/data/dbaronmo/VBF-Analysis/v26-mm/','/eos/user/d/dbaronmo/v26-mm/','/eos/user/t/twyatt/data/diego/v26-mm/'], # Remote
-"b78499db": ['/Volumes/T7/v26-mm/']
+"b78499db": ['/Volumes/T7/v26-mm/', '/Volumes/T7/v26-mm-SYS/']
 }
 
 # Z->ee
 v26_ee_Paths = {
 "dbaronmo": ['/data/dbaronmo/VBF-Analysis/v26-ee/','/eos/user/d/dbaronmo/v26-ee/','/eos/user/t/twyatt/data/diego/v26-ee/'], # Remote
-"b78499db": ['/Volumes/T7/v26-ee/']
+"b78499db": ['/Volumes/T7/v26-ee/', '/Volumes/T7/v26-ee-SYS/']
 }
 
 if __name__ == "__main__":
