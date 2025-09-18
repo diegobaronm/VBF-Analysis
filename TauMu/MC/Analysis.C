@@ -112,16 +112,20 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
   bool lepton_id=muon_0_id_medium;
   size_t n_ljets=n_jets-n_bjets_MV2c10_FixedCutBEff_85;
 
-  // Trigger decision
-    bool trigger_decision= false;
-    bool trigger_match= false;
-    if (run_number>= 276262 && run_number<=284484) {
-      trigger_decision= bool(HLT_mu20_iloose_L1MU15 | HLT_mu50);
-      trigger_match=bool(muTrigMatch_0_HLT_mu20_iloose_L1MU15 | muTrigMatch_0_HLT_mu50);
-    } else {
-      trigger_decision= bool(HLT_mu26_ivarmedium | HLT_mu50);
-      trigger_match=bool(muTrigMatch_0_HLT_mu26_ivarmedium | muTrigMatch_0_HLT_mu50);
-    }
+  // Trigger decision and muon trigger scale factor
+  double muon_trigger_SF = 1.0;
+  bool trigger_decision= false;
+  bool trigger_match= false;
+  if (run_number>= 276262 && run_number<=284484) {
+    trigger_decision= bool(HLT_mu20_iloose_L1MU15 | HLT_mu50);
+    trigger_match=bool(muTrigMatch_0_HLT_mu20_iloose_L1MU15 | muTrigMatch_0_HLT_mu50);
+    muon_trigger_SF = muon_0_NOMINAL_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium;
+  } else {
+    trigger_decision= bool(HLT_mu26_ivarmedium | HLT_mu50);
+    trigger_match=bool(muTrigMatch_0_HLT_mu26_ivarmedium | muTrigMatch_0_HLT_mu50);
+    muon_trigger_SF = muon_0_NOMINAL_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium;  
+  }
+  weight *= muon_trigger_SF;
 
   // 0) Invariant mass of tagging jets.
   double mjj = Kinematics::Mass({ljet_0_p4, ljet_1_p4});

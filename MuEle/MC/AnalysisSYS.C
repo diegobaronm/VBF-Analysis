@@ -20,8 +20,9 @@ void CLoopSYS::Book() {
       DEFINE_SYS_HISTOGRAMS(muon_0_MUON_EFF_ISO_SYS, MuEffSF_IsoTightTrackOnly_FixedRad)
       DEFINE_SYS_HISTOGRAMS(muon_0_MUON_EFF_RECO_STAT, MuEffSF_Reco_QualMedium)
       DEFINE_SYS_HISTOGRAMS(muon_0_MUON_EFF_RECO_SYS, MuEffSF_Reco_QualMedium)
-      DEFINE_SYS_HISTOGRAMS(muon_0_MUON_EFF_TrigStatUncertainty, combined)
-      DEFINE_SYS_HISTOGRAMS(muon_0_MUON_EFF_TrigSystUncertainty, combined)
+      DEFINE_SYS_HISTOGRAMS_NOEND(triggerSF_em_MUON_EFF_TrigStatUncertainty_)
+      DEFINE_SYS_HISTOGRAMS_NOEND(triggerSF_em_MUON_EFF_TrigSystUncertainty_)
+      DEFINE_SYS_HISTOGRAMS_NOEND(triggerSF_em_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_)
       DEFINE_SYS_HISTOGRAMS(PRW_DATASF, pileup_combined_weight)
       DEFINE_SYS_HISTOGRAMS(jet_JET_JvtEfficiency, central_jets_global_effSF_JVT)
       DEFINE_SYS_HISTOGRAMS(jet_JET_JvtEfficiency, central_jets_global_ineffSF_JVT)
@@ -53,17 +54,9 @@ void CLoopSYS::Book() {
       DEFINE_SYS_HISTOGRAMS(jet_FT_EFF_Eigen_Light_3, global_ineffSF_MV2c10_FixedCutBEff_85)
       DEFINE_SYS_HISTOGRAMS(jet_FT_EFF_extrapolation, global_ineffSF_MV2c10_FixedCutBEff_85)
       DEFINE_SYS_HISTOGRAMS(jet_FT_EFF_extrapolation_from_charm, global_ineffSF_MV2c10_FixedCutBEff_85)
-      DEFINE_SYS_HISTOGRAMS(tau_0_TAUS_TRUEHADTAU_EFF_RECO_TOTAL, TauEffSF_reco)
-      DEFINE_SYS_HISTOGRAMS(tau_0_TAUS_TRUEHADTAU_EFF_RNNID_1PRONGSTATSYSTPT2025, TauEffSF_JetRNNmedium)
-      DEFINE_SYS_HISTOGRAMS(tau_0_TAUS_TRUEHADTAU_EFF_RNNID_1PRONGSTATSYSTPT2530, TauEffSF_JetRNNmedium)
-      DEFINE_SYS_HISTOGRAMS(tau_0_TAUS_TRUEHADTAU_EFF_RNNID_1PRONGSTATSYSTPT3040, TauEffSF_JetRNNmedium)
-      DEFINE_SYS_HISTOGRAMS(tau_0_TAUS_TRUEHADTAU_EFF_RNNID_1PRONGSTATSYSTPTGE40, TauEffSF_JetRNNmedium)
-      DEFINE_SYS_HISTOGRAMS(tau_0_TAUS_TRUEHADTAU_EFF_RNNID_3PRONGSTATSYSTPT2025, TauEffSF_JetRNNmedium)
-      DEFINE_SYS_HISTOGRAMS(tau_0_TAUS_TRUEHADTAU_EFF_RNNID_3PRONGSTATSYSTPT2530, TauEffSF_JetRNNmedium)
-      DEFINE_SYS_HISTOGRAMS(tau_0_TAUS_TRUEHADTAU_EFF_RNNID_3PRONGSTATSYSTPT3040, TauEffSF_JetRNNmedium)
-      DEFINE_SYS_HISTOGRAMS(tau_0_TAUS_TRUEHADTAU_EFF_RNNID_3PRONGSTATSYSTPTGE40, TauEffSF_JetRNNmedium)
-      DEFINE_SYS_HISTOGRAMS(tau_0_TAUS_TRUEHADTAU_EFF_RNNID_HIGHPT, TauEffSF_JetRNNmedium)
-      DEFINE_SYS_HISTOGRAMS(tau_0_TAUS_TRUEHADTAU_EFF_RNNID_SYST, TauEffSF_JetRNNmedium)
+      DEFINE_SYS_HISTOGRAMS(elec_0_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR, EleEffSF_offline_TightLLH_d0z0_v13)
+      DEFINE_SYS_HISTOGRAMS(elec_0_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR, EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight)
+      DEFINE_SYS_HISTOGRAMS(elec_0_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR, EleEffSF_offline_RecoTrk)
     }
     // For the other kind of systematics...
     std::string sysHistogramName = "mass_jj_" + m_systematicHistogramName;
@@ -73,125 +66,133 @@ void CLoopSYS::Book() {
 void CLoopSYS::Fill(double weight, const std::string& key) {
   double pi=TMath::Pi();
   // Charges and lepton ID
-  bool correctCharge = Kinematics::isChargeCorrect(m_region,muon_0_q,tau_0_q);
-  bool lepton_id=muon_0_id_medium;
-  size_t n_ljets=n_jets-n_bjets_MV2c10_FixedCutBEff_85;
+  bool correctCharge = Kinematics::isChargeCorrect(m_region,elec_0_q,muon_0_q);
+  bool muon_id = muon_0_id_medium;
+  bool elec_id = elec_0_id_tight;
+  size_t n_ljets = n_jets-n_bjets_MV2c10_FixedCutBEff_85;
 
-  // Trigger decision and muon trigger scale factor
-  double muon_trigger_SF = 1.0;
-  bool trigger_decision= false;
-  bool trigger_match= false;
+  // Trigger decision
+  // Muon
+  bool trigger_decision_mu= false;
+  bool trigger_match_mu= false;
   if (run_number>= 276262 && run_number<=284484) {
-    trigger_decision= bool(HLT_mu20_iloose_L1MU15 | HLT_mu50);
-    trigger_match=bool(muTrigMatch_0_HLT_mu20_iloose_L1MU15 | muTrigMatch_0_HLT_mu50);
-    muon_trigger_SF = muon_0_NOMINAL_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium;
+    trigger_decision_mu= bool(HLT_mu20_iloose_L1MU15 | HLT_mu50);
+    trigger_match_mu=bool(muTrigMatch_0_HLT_mu20_iloose_L1MU15 | muTrigMatch_0_HLT_mu50);
   } else {
-    trigger_decision= bool(HLT_mu26_ivarmedium | HLT_mu50);
-    trigger_match=bool(muTrigMatch_0_HLT_mu26_ivarmedium | muTrigMatch_0_HLT_mu50);
-    muon_trigger_SF = muon_0_NOMINAL_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium;  
+    trigger_decision_mu= bool(HLT_mu26_ivarmedium | HLT_mu50);
+    trigger_match_mu=bool(muTrigMatch_0_HLT_mu26_ivarmedium | muTrigMatch_0_HLT_mu50);
   }
-  weight *= muon_trigger_SF;
+
+  // Electron
+  bool trigger_decision_e= false;
+  bool trigger_match_e= false;
+  if (run_number>= 276262 && run_number<=284484){
+      trigger_decision_e=bool(HLT_e120_lhloose | HLT_e140_lhloose_nod0 | HLT_e24_lhmedium_L1EM20VH | HLT_e60_lhmedium | HLT_e60_lhmedium_nod0);
+      trigger_match_e=bool(eleTrigMatch_0_HLT_e120_lhloose | eleTrigMatch_0_HLT_e140_lhloose_nod0 | eleTrigMatch_0_HLT_e24_lhmedium_L1EM20VH | eleTrigMatch_0_HLT_e60_lhmedium | eleTrigMatch_0_HLT_e60_lhmedium_nod0);
+  } else {
+      trigger_decision_e=bool(HLT_e120_lhloose | HLT_e140_lhloose_nod0 | HLT_e26_lhtight_nod0_ivarloose | HLT_e60_lhmedium | HLT_e60_lhmedium_nod0);
+      trigger_match_e=bool(eleTrigMatch_0_HLT_e120_lhloose | eleTrigMatch_0_HLT_e140_lhloose_nod0 | eleTrigMatch_0_HLT_e26_lhtight_nod0_ivarloose | eleTrigMatch_0_HLT_e60_lhmedium | eleTrigMatch_0_HLT_e60_lhmedium_nod0);
+  }
 
   // 0) Invariant mass of tagging jets.
   double mjj = Kinematics::Mass({ljet_0_p4, ljet_1_p4});
 
-  if (useEvent==1 && correctCharge && n_muons==1 && n_taus_rnn_loose>=1 && weight > -190 && lepton_id && n_ljets>=2 && n_ljets<=3 && mjj>=250 && trigger_decision  && trigger_match && abs(tau_0_p4->Eta())>=0.1){
+  if (useEvent==1 && correctCharge && n_muons==1 && n_electrons==1 && weight > -190 && elec_id && muon_id && n_ljets>=2 && n_ljets<=3 && mjj>=250 && ((trigger_decision_mu && trigger_match_mu) || (trigger_decision_e && trigger_match_e))){
     
     // Build the kinematic variables needed for the selections.
     
     // 1) Angles between the MET, Tau and Muon.
-    double angle_l_MET = Kinematics::del_phi(muon_0_p4->Phi(),met_reco_p4->Phi());
-    double angle_tau_MET = Kinematics::del_phi(tau_0_p4->Phi(),met_reco_p4->Phi());
-    double angle = Kinematics::del_phi(tau_0_p4->Phi(),muon_0_p4->Phi());
+    double angle_elec_MET = Kinematics::del_phi(elec_0_p4->Phi(),met_reco_p4->Phi());
+    double angle_muon_MET = Kinematics::del_phi(muon_0_p4->Phi(),met_reco_p4->Phi());
+    double angle = Kinematics::del_phi(muon_0_p4->Phi(),elec_0_p4->Phi());
 
     // 2) Get the topology of the tau-tau system.
-    Kinematics::TauTauTopology tauTauTopology = Kinematics::getTauTauTopology(angle_l_MET, angle_tau_MET, angle);
+    Kinematics::TauTauTopology tauTauTopology = Kinematics::getTauTauTopology(angle_elec_MET, angle_muon_MET, angle);
     if (tauTauTopology == Kinematics::TauTauTopology::NOT_VALID) return;
     g_LOG(LogLevel::DEBUG, "This event passes the basic selection cuts.");
 
     // 3) Neutrino momentum
-    TLorentzVector nu_tau_p4 = Kinematics::getTauNeutrino(tauTauTopology,met_reco_p4,tau_0_p4,muon_0_p4);
-    TLorentzVector nu_lep_p4 = Kinematics::getLepNeutrino(tauTauTopology,met_reco_p4,tau_0_p4,muon_0_p4);
+    TLorentzVector nu_muon_p4 = Kinematics::getTauNeutrino(tauTauTopology,met_reco_p4,muon_0_p4,elec_0_p4);
+    TLorentzVector nu_elec_p4 = Kinematics::getLepNeutrino(tauTauTopology,met_reco_p4,muon_0_p4,elec_0_p4);
 
     // 4) Reconstructed mass
-    double reco_mass = Kinematics::getRecoMass(tauTauTopology, tau_0_p4, muon_0_p4, &nu_tau_p4, &nu_lep_p4);
+    double reco_mass = Kinematics::getRecoMass(tauTauTopology, muon_0_p4, elec_0_p4, &nu_muon_p4, &nu_elec_p4);
+    double massMuonElec = Kinematics::Mass({muon_0_p4,elec_0_p4});
 
     // 5) ZpT and truth ZpT calculations
-    double Z_pt = (*muon_0_p4 + *tau_0_p4 + nu_tau_p4 + nu_lep_p4).Pt();
+    double Z_pt = (*elec_0_p4 + *muon_0_p4 + nu_muon_p4 + nu_elec_p4).Pt();
 
-    // LEP-TAU INVARIANT MASS
-    double inv_taulep = Kinematics::Mass({muon_0_p4,tau_0_p4});
+    // TRANSVERSE MASS LEPTON
+    double elecmet_mass = Kinematics::TransverseMass(elec_0_p4, met_reco_p4);
+    double muonmet_mass = Kinematics::TransverseMass(muon_0_p4, met_reco_p4);
     // Vector sum pT of the jets
     double jet_pt_sum = (*ljet_0_p4 + *ljet_1_p4).Pt();
     // Ratio ZpT/jet_pt_sum
     double ratio_zpt_sumjetpt = Z_pt/jet_pt_sum;
 
     // 6) Omega variable calculation
-    double omega = Kinematics::getOmega(tauTauTopology, angle_l_MET, angle_tau_MET, angle);
-
+    double omega = Kinematics::getOmega(tauTauTopology, angle_elec_MET, angle_muon_MET, angle);
 
     // VBF-dedicated variables
 
     // 7) Delta rapidity between the tagging jets.
     double delta_y = abs(ljet_0_p4->Rapidity()-ljet_1_p4->Rapidity());
-    
+
     // 8) Number of jets in the rapidity interval between the tagging jets.
     std::vector<UInt_t> is_jet_present{ljet_0,ljet_1,ljet_2};
     std::vector<TLorentzVector*> jet_container{ljet_0_p4,ljet_1_p4,ljet_2_p4};
     int n_jets_interval = Kinematics::getNumberOfGapJets(jet_container, is_jet_present);
-
+  
     // 9) pT balance
-    std::vector<TLorentzVector*> particles = {ljet_0_p4, ljet_1_p4, tau_0_p4, muon_0_p4, &nu_tau_p4, &nu_lep_p4};
+    std::vector<TLorentzVector*> particles = {ljet_0_p4, ljet_1_p4, muon_0_p4, elec_0_p4, &nu_muon_p4, &nu_elec_p4};
     if (n_jets_interval==1) particles.push_back(ljet_2_p4);
     double pt_bal = Kinematics::getPtBalance(particles);
 
     // 10) Z boson centrality
-    double signed_z_centrality = Kinematics::getSignedCentrality(ljet_0_p4, ljet_1_p4, tau_0_p4, muon_0_p4);
+    double signed_z_centrality = Kinematics::getSignedCentrality(ljet_0_p4, ljet_1_p4, muon_0_p4, elec_0_p4);
     double z_centrality = abs(signed_z_centrality);
 
     // 11) pT gap jet
     double pt_gap_jet = n_jets_interval == 1 ? ljet_2_p4->Pt() : 0.0;
 
-    // Minimum DeltaR between lepton and jets
-    double min_dR_tau = Kinematics::min_deltaR(tau_0_p4,is_jet_present,jet_container);
-    double min_dR_lep = Kinematics::min_deltaR(muon_0_p4,is_jet_present,jet_container);
+    // Minimum DeltaR between leptons and jets
+    double min_dR_muon = Kinematics::min_deltaR(muon_0_p4,is_jet_present,jet_container);
+    double min_dR_elec = Kinematics::min_deltaR(elec_0_p4,is_jet_present,jet_container);
 
-    // More kinematic variables
     double etaMoreCentral = abs(ljet_0_p4->Eta())>=abs(ljet_1_p4->Eta()) ? ljet_1_p4->Eta() : ljet_0_p4->Eta();
     double etaLessCentral = abs(ljet_0_p4->Eta())<abs(ljet_1_p4->Eta()) ? ljet_1_p4->Eta() : ljet_0_p4->Eta();
-    double normPtDifference = (tau_0_p4->Pt()-muon_0_p4->Pt())/(tau_0_p4->Pt()+muon_0_p4->Pt());
+    double normPtDifference = (muon_0_p4->Pt()-elec_0_p4->Pt())/(muon_0_p4->Pt()+elec_0_p4->Pt());
     double anglejj = Kinematics::del_phi(ljet_0_p4->Phi(),ljet_1_p4->Phi());
-    double metToDilepRatio = met_reco_p4->Pt()/(tau_0_p4->Pt()+muon_0_p4->Pt());
-    double metToDilepnuRatio = met_reco_p4->Pt()/(tau_0_p4->Pt()+nu_tau_p4.Pt()+muon_0_p4->Pt()+nu_lep_p4.Pt());
-
-    double massTauCloserJet{0.0};
-    double massLepClosestJet{0.0};
-    double massTauFurthestJet{0.0};
-    bool j0CloserToTau = tau_0_p4->DeltaR(*ljet_0_p4) <= tau_0_p4->DeltaR(*ljet_1_p4);
-    if (j0CloserToTau)
+    double metToDilepnuRatio = 0.0;
+    double metToDilepRatio = met_reco_p4->Pt()/(muon_0_p4->Pt()+elec_0_p4->Pt());
+    if (tauTauTopology == Kinematics::TauTauTopology::INSIDE)
     {
-      massTauCloserJet = sqrt(2*(tau_0_p4->Dot(*ljet_0_p4)));
-      massTauFurthestJet = sqrt(2*(tau_0_p4->Dot(*ljet_1_p4)));
-      massLepClosestJet = sqrt(2*(muon_0_p4->Dot(*ljet_1_p4)));
+      metToDilepnuRatio = met_reco_p4->Pt()/(muon_0_p4->Pt()+nu_muon_p4.Pt()+elec_0_p4->Pt()+nu_elec_p4.Pt());
     }
     else
     {
-      massTauCloserJet = sqrt(2*(tau_0_p4->Dot(*ljet_1_p4)));
-      massTauFurthestJet = sqrt(2*(tau_0_p4->Dot(*ljet_0_p4)));
-      massLepClosestJet = sqrt(2*(muon_0_p4->Dot(*ljet_0_p4)));
+      metToDilepnuRatio = met_reco_p4->Pt()/(muon_0_p4->Pt()+elec_0_p4->Pt()+nu_muon_p4.Pt()+nu_elec_p4.Pt());
     }
 
-    // Transverse mass
-    double transverseMassLep = Kinematics::TransverseMass(muon_0_p4,met_reco_p4);
-    double transverseMassTau = Kinematics::TransverseMass(tau_0_p4,met_reco_p4);
-    double transverseMassSum = transverseMassTau + transverseMassLep;
-    double transverseMassRatio = (transverseMassTau - transverseMassLep)/transverseMassSum;
-
-    // Handling BDT
-    float bdt_transmasslep = reco_mass > 200 ? transverseMassLep/std::pow(reco_mass,0.3) : transverseMassLep/std::pow(200,0.3); // for transverse-reco mass ratio
-    m_vbfBDT.update(mjj, delta_y, pt_bal, z_centrality, omega, bdt_transmasslep, event_number);
-    double VBFBDT_score = m_vbfBDT.evaluate();
-
+    double massMuonClosestJet{0.0};
+    double massElecClosestJet{0.0};
+    double massMuonFurthestJet{0.0};
+    double massElecFurthestJet{0.0};
+    bool j0CloserToMuon = muon_0_p4->DeltaR(*ljet_0_p4) <= muon_0_p4->DeltaR(*ljet_1_p4);
+    if (j0CloserToMuon)
+    {
+      massMuonClosestJet = sqrt(2*(muon_0_p4->Dot(*ljet_0_p4)));
+      massElecClosestJet = sqrt(2*(elec_0_p4->Dot(*ljet_1_p4)));
+      massMuonFurthestJet = sqrt(2*(muon_0_p4->Dot(*ljet_1_p4)));
+      massElecFurthestJet = sqrt(2*(elec_0_p4->Dot(*ljet_0_p4)));
+    }
+    else
+    {
+      massMuonClosestJet = sqrt(2*(muon_0_p4->Dot(*ljet_1_p4)));
+      massElecClosestJet = sqrt(2*(elec_0_p4->Dot(*ljet_0_p4)));
+      massMuonFurthestJet = sqrt(2*(muon_0_p4->Dot(*ljet_0_p4)));
+      massElecFurthestJet = sqrt(2*(elec_0_p4->Dot(*ljet_1_p4)));
+    }
 
     // Cuts 
     // First initialise the variables used for the cutflow
@@ -201,29 +202,27 @@ void CLoopSYS::Fill(double weight, const std::string& key) {
     cutVars.nBJets = n_bjets_MV2c10_FixedCutBEff_85;
     cutVars.lep1IsolationTight = muon_0_iso_TightTrackOnly_FixedRad;
     cutVars.lep1IsolationLoose = muon_0_iso_Loose_FixedRad;
-    cutVars.nTauProngs = tau_0_n_charged_tracks;
-    cutVars.tauJetRNNScore = tau_0_jet_rnn_score_trans;
-    cutVars.lep1pT = muon_0_p4->Pt();
-    cutVars.taupT = tau_0_p4->Pt();
+    cutVars.lep2IsolationTight = elec_0_iso_FCTight;
+    cutVars.lep2IsolationLoose = elec_0_iso_FCLoose;
+    cutVars.lep1pT = elec_0_p4->Pt();
+    cutVars.lep2pT = muon_0_p4->Pt();
     cutVars.jet1pT = ljet_0_p4->Pt();
     cutVars.jet2pT = ljet_1_p4->Pt();
-    cutVars.mjj = 2000; // To write all the mjj spectrum in the histograms
+    cutVars.mjj = 2000; // To save all the mjj spectrum
     cutVars.pTBalance = pt_bal;
     cutVars.nJetsInGap = n_jets_interval;
     cutVars.centrality = z_centrality;
     cutVars.omega = omega;
     cutVars.recoMass = reco_mass;
-    cutVars.vbfBDTScore = VBFBDT_score;
-    cutVars.lepPtAssymetry = normPtDifference;
-    cutVars.recoVisibleMassRatio = reco_mass/inv_taulep;
+    cutVars.recoVisibleMassRatio = reco_mass/massMuonElec;
 
-    // Apply cuts
+    // Apply cuts 
     std::vector<int> cuts = Selections::ApplySelection(m_region, cutVars);
     if ((m_cutNames.size() - 1) != cuts.size()){
         g_LOG(LogLevel::ERROR, "The number of cuts is not consistent with the number of cut names.");
         exit(1);
     }
-
+    
     // Calculate if the event passed all cuts
     std::vector<int> cutsVector{1};
     cutsVector.insert(cutsVector.end(),cuts.begin(),cuts.end());
@@ -240,13 +239,9 @@ void CLoopSYS::Fill(double weight, const std::string& key) {
       FILL_SYS_HISTOGRAMS(muon_0_MUON_EFF_ISO_SYS, MuEffSF_IsoTightTrackOnly_FixedRad, muon_0_NOMINAL_MuEffSF_IsoTightTrackOnly_FixedRad)
       FILL_SYS_HISTOGRAMS(muon_0_MUON_EFF_RECO_STAT, MuEffSF_Reco_QualMedium, muon_0_NOMINAL_MuEffSF_Reco_QualMedium)
       FILL_SYS_HISTOGRAMS(muon_0_MUON_EFF_RECO_SYS, MuEffSF_Reco_QualMedium, muon_0_NOMINAL_MuEffSF_Reco_QualMedium)
-      if (run_number>= 276262 && run_number<=284484) {
-        FILL_SYS_MUON_TRIGGER_HISTOGRAMS(muon_0_MUON_EFF_TrigStatUncertainty, combined, MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium, muon_trigger_SF)
-        FILL_SYS_MUON_TRIGGER_HISTOGRAMS(muon_0_MUON_EFF_TrigSystUncertainty, combined, MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium, muon_trigger_SF)
-      } else {
-        FILL_SYS_MUON_TRIGGER_HISTOGRAMS(muon_0_MUON_EFF_TrigStatUncertainty, combined, MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium, muon_trigger_SF)
-        FILL_SYS_MUON_TRIGGER_HISTOGRAMS(muon_0_MUON_EFF_TrigSystUncertainty, combined, MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium, muon_trigger_SF)
-      }
+      FILL_SYS_HISTOGRAMS_NOEND(triggerSF_em_MUON_EFF_TrigStatUncertainty_, triggerSF_em_NOMINAL)
+      FILL_SYS_HISTOGRAMS_NOEND(triggerSF_em_MUON_EFF_TrigSystUncertainty_, triggerSF_em_NOMINAL)
+      FILL_SYS_HISTOGRAMS_NOEND(triggerSF_em_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_, triggerSF_em_NOMINAL)
       FILL_SYS_HISTOGRAMS(PRW_DATASF, pileup_combined_weight, NOMINAL_pileup_combined_weight)
       FILL_SYS_HISTOGRAMS(jet_JET_JvtEfficiency, central_jets_global_effSF_JVT, jet_NOMINAL_central_jets_global_effSF_JVT)
       FILL_SYS_HISTOGRAMS(jet_JET_JvtEfficiency, central_jets_global_ineffSF_JVT, jet_NOMINAL_central_jets_global_ineffSF_JVT)
@@ -278,17 +273,9 @@ void CLoopSYS::Fill(double weight, const std::string& key) {
       FILL_SYS_HISTOGRAMS(jet_FT_EFF_Eigen_Light_3, global_ineffSF_MV2c10_FixedCutBEff_85, jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85)
       FILL_SYS_HISTOGRAMS(jet_FT_EFF_extrapolation, global_ineffSF_MV2c10_FixedCutBEff_85, jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85)
       FILL_SYS_HISTOGRAMS(jet_FT_EFF_extrapolation_from_charm, global_ineffSF_MV2c10_FixedCutBEff_85, jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85)
-      FILL_SYS_HISTOGRAMS(tau_0_TAUS_TRUEHADTAU_EFF_RECO_TOTAL, TauEffSF_reco, tau_0_NOMINAL_TauEffSF_reco)
-      FILL_SYS_HISTOGRAMS(tau_0_TAUS_TRUEHADTAU_EFF_RNNID_1PRONGSTATSYSTPT2025, TauEffSF_JetRNNmedium, tau_0_NOMINAL_TauEffSF_JetRNNmedium)
-      FILL_SYS_HISTOGRAMS(tau_0_TAUS_TRUEHADTAU_EFF_RNNID_1PRONGSTATSYSTPT2530, TauEffSF_JetRNNmedium, tau_0_NOMINAL_TauEffSF_JetRNNmedium)
-      FILL_SYS_HISTOGRAMS(tau_0_TAUS_TRUEHADTAU_EFF_RNNID_1PRONGSTATSYSTPT3040, TauEffSF_JetRNNmedium, tau_0_NOMINAL_TauEffSF_JetRNNmedium)
-      FILL_SYS_HISTOGRAMS(tau_0_TAUS_TRUEHADTAU_EFF_RNNID_1PRONGSTATSYSTPTGE40, TauEffSF_JetRNNmedium, tau_0_NOMINAL_TauEffSF_JetRNNmedium)
-      FILL_SYS_HISTOGRAMS(tau_0_TAUS_TRUEHADTAU_EFF_RNNID_3PRONGSTATSYSTPT2025, TauEffSF_JetRNNmedium, tau_0_NOMINAL_TauEffSF_JetRNNmedium)
-      FILL_SYS_HISTOGRAMS(tau_0_TAUS_TRUEHADTAU_EFF_RNNID_3PRONGSTATSYSTPT2530, TauEffSF_JetRNNmedium, tau_0_NOMINAL_TauEffSF_JetRNNmedium)
-      FILL_SYS_HISTOGRAMS(tau_0_TAUS_TRUEHADTAU_EFF_RNNID_3PRONGSTATSYSTPT3040, TauEffSF_JetRNNmedium, tau_0_NOMINAL_TauEffSF_JetRNNmedium)
-      FILL_SYS_HISTOGRAMS(tau_0_TAUS_TRUEHADTAU_EFF_RNNID_3PRONGSTATSYSTPTGE40, TauEffSF_JetRNNmedium, tau_0_NOMINAL_TauEffSF_JetRNNmedium)
-      FILL_SYS_HISTOGRAMS(tau_0_TAUS_TRUEHADTAU_EFF_RNNID_HIGHPT, TauEffSF_JetRNNmedium, tau_0_NOMINAL_TauEffSF_JetRNNmedium)
-      FILL_SYS_HISTOGRAMS(tau_0_TAUS_TRUEHADTAU_EFF_RNNID_SYST, TauEffSF_JetRNNmedium, tau_0_NOMINAL_TauEffSF_JetRNNmedium)
+      FILL_SYS_HISTOGRAMS(elec_0_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR, EleEffSF_offline_TightLLH_d0z0_v13, elec_0_NOMINAL_EleEffSF_offline_TightLLH_d0z0_v13)
+      FILL_SYS_HISTOGRAMS(elec_0_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR, EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight, elec_0_NOMINAL_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight)
+      FILL_SYS_HISTOGRAMS(elec_0_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR, EleEffSF_offline_RecoTrk, elec_0_NOMINAL_EleEffSF_offline_RecoTrk)
       mass_jj_sys_hist->Fill(mjj, weight); // Do the nominal for free here
 
     } else if (m_systematicType == "kinematic" && passedAllCuts) {
@@ -361,8 +348,9 @@ void CLoopSYS::Style() {
       WRITE_SYS_HISTOGRAMS(muon_0_MUON_EFF_ISO_SYS, MuEffSF_IsoTightTrackOnly_FixedRad)
       WRITE_SYS_HISTOGRAMS(muon_0_MUON_EFF_RECO_STAT, MuEffSF_Reco_QualMedium)
       WRITE_SYS_HISTOGRAMS(muon_0_MUON_EFF_RECO_SYS, MuEffSF_Reco_QualMedium)
-      WRITE_SYS_HISTOGRAMS(muon_0_MUON_EFF_TrigStatUncertainty, combined)
-      WRITE_SYS_HISTOGRAMS(muon_0_MUON_EFF_TrigSystUncertainty, combined)
+      WRITE_SYS_HISTOGRAMS_NOEND(triggerSF_em_MUON_EFF_TrigStatUncertainty_)
+      WRITE_SYS_HISTOGRAMS_NOEND(triggerSF_em_MUON_EFF_TrigSystUncertainty_)
+      WRITE_SYS_HISTOGRAMS_NOEND(triggerSF_em_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_ )
       WRITE_SYS_HISTOGRAMS(PRW_DATASF, pileup_combined_weight)
       WRITE_SYS_HISTOGRAMS(jet_JET_JvtEfficiency, central_jets_global_effSF_JVT)
       WRITE_SYS_HISTOGRAMS(jet_JET_JvtEfficiency, central_jets_global_ineffSF_JVT)
@@ -394,17 +382,9 @@ void CLoopSYS::Style() {
       WRITE_SYS_HISTOGRAMS(jet_FT_EFF_Eigen_Light_3, global_ineffSF_MV2c10_FixedCutBEff_85)
       WRITE_SYS_HISTOGRAMS(jet_FT_EFF_extrapolation, global_ineffSF_MV2c10_FixedCutBEff_85)
       WRITE_SYS_HISTOGRAMS(jet_FT_EFF_extrapolation_from_charm, global_ineffSF_MV2c10_FixedCutBEff_85)
-      WRITE_SYS_HISTOGRAMS(tau_0_TAUS_TRUEHADTAU_EFF_RECO_TOTAL, TauEffSF_reco)
-      WRITE_SYS_HISTOGRAMS(tau_0_TAUS_TRUEHADTAU_EFF_RNNID_1PRONGSTATSYSTPT2025, TauEffSF_JetRNNmedium)
-      WRITE_SYS_HISTOGRAMS(tau_0_TAUS_TRUEHADTAU_EFF_RNNID_1PRONGSTATSYSTPT2530, TauEffSF_JetRNNmedium)
-      WRITE_SYS_HISTOGRAMS(tau_0_TAUS_TRUEHADTAU_EFF_RNNID_1PRONGSTATSYSTPT3040, TauEffSF_JetRNNmedium)
-      WRITE_SYS_HISTOGRAMS(tau_0_TAUS_TRUEHADTAU_EFF_RNNID_1PRONGSTATSYSTPTGE40, TauEffSF_JetRNNmedium)
-      WRITE_SYS_HISTOGRAMS(tau_0_TAUS_TRUEHADTAU_EFF_RNNID_3PRONGSTATSYSTPT2025, TauEffSF_JetRNNmedium)
-      WRITE_SYS_HISTOGRAMS(tau_0_TAUS_TRUEHADTAU_EFF_RNNID_3PRONGSTATSYSTPT2530, TauEffSF_JetRNNmedium)
-      WRITE_SYS_HISTOGRAMS(tau_0_TAUS_TRUEHADTAU_EFF_RNNID_3PRONGSTATSYSTPT3040, TauEffSF_JetRNNmedium)
-      WRITE_SYS_HISTOGRAMS(tau_0_TAUS_TRUEHADTAU_EFF_RNNID_3PRONGSTATSYSTPTGE40, TauEffSF_JetRNNmedium)
-      WRITE_SYS_HISTOGRAMS(tau_0_TAUS_TRUEHADTAU_EFF_RNNID_HIGHPT, TauEffSF_JetRNNmedium)
-      WRITE_SYS_HISTOGRAMS(tau_0_TAUS_TRUEHADTAU_EFF_RNNID_SYST, TauEffSF_JetRNNmedium)
+      WRITE_SYS_HISTOGRAMS(elec_0_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR, EleEffSF_offline_TightLLH_d0z0_v13)
+      WRITE_SYS_HISTOGRAMS(elec_0_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR, EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight)
+      WRITE_SYS_HISTOGRAMS(elec_0_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR, EleEffSF_offline_RecoTrk)
     }
 
     // Write the histograms for other systematics

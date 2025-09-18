@@ -19,7 +19,7 @@ class Systematic:
 
 MUON_CHANNELS = ["Ztm", "Zem", "Zmm"]
 ELECTRON_CHANNELS = ["Zte", "Zem", "Zee"]
-TAU_CHANNELS = ["Ztm", "Zte", "Zem"]
+TAU_CHANNELS = ["Ztm", "Zte"]
 
 LIST_OF_SYSTEMATICS = [
     # Theory systematics
@@ -166,10 +166,10 @@ LIST_OF_SYSTEMATICS = [
     Systematic("JET_SingleParticle_HighPt_1up", "JET_SingleParticle_HighPt_1up", "kinematic"),
     Systematic("JET_TILECORR_Uncertainty_1down", "JET_TILECORR_Uncertainty_1down", "kinematic"),
     Systematic("JET_TILECORR_Uncertainty_1up", "JET_TILECORR_Uncertainty_1up", "kinematic"),
-    Systematic("MET_SoftTrk_ResoPara", "MET_SoftTrk_ResoPara", "kinematic", channels=TAU_CHANNELS),
-    Systematic("MET_SoftTrk_ResoPerp", "MET_SoftTrk_ResoPerp", "kinematic", channels=TAU_CHANNELS),
-    Systematic("MET_SoftTrk_Scale_1down", "MET_SoftTrk_Scale_1down", "kinematic", channels=TAU_CHANNELS),
-    Systematic("MET_SoftTrk_Scale_1up", "MET_SoftTrk_Scale_1up", "kinematic", channels=TAU_CHANNELS),
+    Systematic("MET_SoftTrk_ResoPara", "MET_SoftTrk_ResoPara", "kinematic", channels=TAU_CHANNELS+["Zem"]),
+    Systematic("MET_SoftTrk_ResoPerp", "MET_SoftTrk_ResoPerp", "kinematic", channels=TAU_CHANNELS+["Zem"]),
+    Systematic("MET_SoftTrk_Scale_1down", "MET_SoftTrk_Scale_1down", "kinematic", channels=TAU_CHANNELS+["Zem"]),
+    Systematic("MET_SoftTrk_Scale_1up", "MET_SoftTrk_Scale_1up", "kinematic", channels=TAU_CHANNELS+["Zem"]),
 
     # Scale factors
     Systematic("PRW_DATASF_1down_pileup_combined_weight", "PRW_DATASF_1down_pileup_combined_weight", "sf"),
@@ -180,18 +180,14 @@ LIST_OF_SYSTEMATICS = [
     Systematic("elec_0_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight", "elec_0_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight", "sf", channels=ELECTRON_CHANNELS),
     Systematic("elec_0_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_offline_RecoTrk", "elec_0_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_offline_RecoTrk", "sf", channels=ELECTRON_CHANNELS),
     Systematic("elec_0_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_offline_RecoTrk", "elec_0_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_offline_RecoTrk", "sf", channels=ELECTRON_CHANNELS),
-    Systematic("elec_0_EL_EFF_TriggerEff_TOTAL_1NPCOR_PLUS_UNCOR_1down_efficiency_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight", "elec_0_EL_EFF_TriggerEff_TOTAL_1NPCOR_PLUS_UNCOR_1down_efficiency_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight", "sf", channels=ELECTRON_CHANNELS),
-    Systematic("elec_0_EL_EFF_TriggerEff_TOTAL_1NPCOR_PLUS_UNCOR_1up_efficiency_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight", "elec_0_EL_EFF_TriggerEff_TOTAL_1NPCOR_PLUS_UNCOR_1up_efficiency_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight", "sf", channels=ELECTRON_CHANNELS),
-    Systematic("elec_0_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight", "elec_0_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight", "sf", channels=ELECTRON_CHANNELS),
-    Systematic("elec_0_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight", "elec_0_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight", "sf", channels=ELECTRON_CHANNELS),
+    Systematic("elec_0_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight", "elec_0_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight", "sf", channels=["Zee","Zte"]),
+    Systematic("elec_0_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight", "elec_0_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight", "sf", channels=["Zee","Zte"]),
     Systematic("elec_1_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_offline_TightLLH_d0z0_v13", "elec_1_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_offline_TightLLH_d0z0_v13", "sf", channels=["Zee"]),
     Systematic("elec_1_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_offline_TightLLH_d0z0_v13", "elec_1_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_offline_TightLLH_d0z0_v13", "sf", channels=["Zee"]),
     Systematic("elec_1_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight", "elec_1_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight", "sf", channels=["Zee"]),
     Systematic("elec_1_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight", "elec_1_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight", "sf", channels=["Zee"]),
     Systematic("elec_1_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_offline_RecoTrk", "elec_1_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_offline_RecoTrk", "sf", channels=["Zee"]),
     Systematic("elec_1_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_offline_RecoTrk", "elec_1_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_offline_RecoTrk", "sf", channels=["Zee"]),
-    Systematic("elec_1_EL_EFF_TriggerEff_TOTAL_1NPCOR_PLUS_UNCOR_1down_efficiency_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight", "elec_1_EL_EFF_TriggerEff_TOTAL_1NPCOR_PLUS_UNCOR_1down_efficiency_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight", "sf", channels=["Zee"]),
-    Systematic("elec_1_EL_EFF_TriggerEff_TOTAL_1NPCOR_PLUS_UNCOR_1up_efficiency_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight", "elec_1_EL_EFF_TriggerEff_TOTAL_1NPCOR_PLUS_UNCOR_1up_efficiency_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight", "sf", channels=["Zee"]),
     Systematic("elec_1_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight", "elec_1_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1down_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight", "sf", channels=["Zee"]),
     Systematic("elec_1_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight", "elec_1_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR_1up_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight", "sf", channels=["Zee"]),
     Systematic("jet_FT_EFF_Eigen_B_0_1down_global_effSF_MV2c10_FixedCutBEff_85", "jet_FT_EFF_Eigen_B_0_1down_global_effSF_MV2c10_FixedCutBEff_85", "sf"),
@@ -270,10 +266,10 @@ LIST_OF_SYSTEMATICS = [
     Systematic("muon_0_MUON_EFF_RECO_SYS_1up_MuEffSF_Reco_QualMedium", "muon_0_MUON_EFF_RECO_SYS_1up_MuEffSF_Reco_QualMedium", "sf", channels=MUON_CHANNELS),
     Systematic("muon_0_MUON_EFF_RECO_SYS_LOWPT_1down_MuEffSF_Reco_QualMedium", "muon_0_MUON_EFF_RECO_SYS_LOWPT_1down_MuEffSF_Reco_QualMedium", "sf", channels=MUON_CHANNELS),
     Systematic("muon_0_MUON_EFF_RECO_SYS_LOWPT_1up_MuEffSF_Reco_QualMedium", "muon_0_MUON_EFF_RECO_SYS_LOWPT_1up_MuEffSF_Reco_QualMedium", "sf", channels=MUON_CHANNELS),
-    Systematic("muon_0_MUON_EFF_TrigStatUncertainty_1down_combined", "muon_0_MUON_EFF_TrigStatUncertainty_1down_combined", "sf", channels=MUON_CHANNELS),
-    Systematic("muon_0_MUON_EFF_TrigStatUncertainty_1up_combined", "muon_0_MUON_EFF_TrigStatUncertainty_1up_combined", "sf", channels=MUON_CHANNELS),
-    Systematic("muon_0_MUON_EFF_TrigSystUncertainty_1down_combined", "muon_0_MUON_EFF_TrigSystUncertainty_1down_combined", "sf", channels=MUON_CHANNELS),
-    Systematic("muon_0_MUON_EFF_TrigSystUncertainty_1up_combined", "muon_0_MUON_EFF_TrigSystUncertainty_1up_combined", "sf", channels=MUON_CHANNELS),
+    Systematic("muon_0_MUON_EFF_TrigStatUncertainty_1down_combined", "muon_0_MUON_EFF_TrigStatUncertainty_1down_combined", "sf", channels=["Zmm","Ztm"]),
+    Systematic("muon_0_MUON_EFF_TrigStatUncertainty_1up_combined", "muon_0_MUON_EFF_TrigStatUncertainty_1up_combined", "sf", channels=["Zmm","Ztm"]),
+    Systematic("muon_0_MUON_EFF_TrigSystUncertainty_1down_combined", "muon_0_MUON_EFF_TrigSystUncertainty_1down_combined", "sf", channels=["Zmm","Ztm"]),
+    Systematic("muon_0_MUON_EFF_TrigSystUncertainty_1up_combined", "muon_0_MUON_EFF_TrigSystUncertainty_1up_combined", "sf", channels=["Zmm","Ztm"]),
     Systematic("muon_1_MUON_EFF_TTVA_STAT_1down_MuEffSF_TTVA", "muon_1_MUON_EFF_TTVA_STAT_1down_MuEffSF_TTVA", "sf", channels=["Zmm"]),
     Systematic("muon_1_MUON_EFF_TTVA_STAT_1up_MuEffSF_TTVA", "muon_1_MUON_EFF_TTVA_STAT_1up_MuEffSF_TTVA", "sf", channels=["Zmm"]),
     Systematic("muon_1_MUON_EFF_TTVA_SYS_1down_MuEffSF_TTVA", "muon_1_MUON_EFF_TTVA_SYS_1down_MuEffSF_TTVA", "sf", channels=["Zmm"]),
