@@ -12,16 +12,10 @@ void CLoopSYS::Book() {
     m_cutNames = Selections::InitCutNames(m_region);
 
     if (m_systematicType == "sf") {
-      DEFINE_SYS_HISTOGRAMS(muon_MUON_EFF_TTVA_STAT, MuEffSF_TTVA)
-      DEFINE_SYS_HISTOGRAMS(muon_MUON_EFF_TTVA_SYS, MuEffSF_TTVA)
-      DEFINE_SYS_HISTOGRAMS(muon_MUON_EFF_RECO_STAT_LOWPT, MuEffSF_Reco_QualMedium)
-      DEFINE_SYS_HISTOGRAMS(muon_MUON_EFF_RECO_SYS_LOWPT, MuEffSF_Reco_QualMedium)
-      DEFINE_SYS_HISTOGRAMS(muon_MUON_EFF_ISO_STAT, MuEffSF_IsoTightTrackOnly_FixedRad)
-      DEFINE_SYS_HISTOGRAMS(muon_MUON_EFF_ISO_SYS, MuEffSF_IsoTightTrackOnly_FixedRad)
-      DEFINE_SYS_HISTOGRAMS(muon_MUON_EFF_RECO_STAT, MuEffSF_Reco_QualMedium)
-      DEFINE_SYS_HISTOGRAMS(muon_MUON_EFF_RECO_SYS, MuEffSF_Reco_QualMedium)
-      DEFINE_SYS_HISTOGRAMS(muon_MUON_EFF_TrigStatUncertainty, combined)
-      DEFINE_SYS_HISTOGRAMS(muon_MUON_EFF_TrigSystUncertainty, combined)
+      DEFINE_SYS_HISTOGRAMS(elec_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR, EleEffSF_offline_TightLLH_d0z0_v13)
+      DEFINE_SYS_HISTOGRAMS(elec_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR, EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight)
+      DEFINE_SYS_HISTOGRAMS(elec_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR, EleEffSF_offline_RecoTrk)
+      DEFINE_SYS_HISTOGRAMS(elec_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR, EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight)
       DEFINE_SYS_HISTOGRAMS(PRW_DATASF, pileup_combined_weight)
       DEFINE_SYS_HISTOGRAMS(jet_JET_JvtEfficiency, central_jets_global_effSF_JVT)
       DEFINE_SYS_HISTOGRAMS(jet_JET_JvtEfficiency, central_jets_global_ineffSF_JVT)
@@ -62,60 +56,60 @@ void CLoopSYS::Book() {
 void CLoopSYS::Fill(double weight, const std::string& key) {
   double pi=TMath::Pi();
   // Charges and lepton ID
-  bool correctCharge = Kinematics::isChargeCorrect(m_region,muon_0_q,muon_1_q);
-  bool muon_id = muon_0_id_medium && muon_1_id_medium;
+  bool correctCharge = Kinematics::isChargeCorrect(m_region,elec_0_q,elec_1_q);
+  bool elec_id = elec_0_id_tight && elec_1_id_tight;
   std::size_t n_ljets=n_jets-n_bjets_MV2c10_FixedCutBEff_85;
 
   // Trigger decision
-  double muon_trigger_SF = 1.0;
-  bool trigger_decision = false;
-  bool trigger_match = false;
+  double electron_trigger_SF = 1.0;
+  bool trigger_decision= false;
+  bool trigger_match= false;
   bool trigger_match_1 = false;
   bool trigger_match_2 = false;
   bool trigger_match_12 = false;
   if (run_number>= 276262 && run_number<=284484) {
-    trigger_decision = bool(HLT_mu20_iloose_L1MU15 | HLT_mu50);
-    trigger_match_1 = bool((muTrigMatch_0_HLT_mu20_iloose_L1MU15 | muTrigMatch_0_HLT_mu50) && !(muTrigMatch_1_HLT_mu20_iloose_L1MU15 | muTrigMatch_1_HLT_mu50));
-    trigger_match_2 = bool(!(muTrigMatch_0_HLT_mu20_iloose_L1MU15 | muTrigMatch_0_HLT_mu50) && (muTrigMatch_1_HLT_mu20_iloose_L1MU15 | muTrigMatch_1_HLT_mu50));
-    trigger_match_12 = bool((muTrigMatch_0_HLT_mu20_iloose_L1MU15 | muTrigMatch_0_HLT_mu50) && (muTrigMatch_1_HLT_mu20_iloose_L1MU15 | muTrigMatch_1_HLT_mu50));
+    trigger_decision = bool(HLT_e120_lhloose | HLT_e140_lhloose_nod0 | HLT_e24_lhmedium_L1EM20VH | HLT_e60_lhmedium | HLT_e60_lhmedium_nod0);
+    trigger_match_1 = bool((eleTrigMatch_0_HLT_e120_lhloose | eleTrigMatch_0_HLT_e140_lhloose_nod0 | eleTrigMatch_0_HLT_e24_lhmedium_L1EM20VH | eleTrigMatch_0_HLT_e60_lhmedium | eleTrigMatch_0_HLT_e60_lhmedium_nod0) && !(eleTrigMatch_1_HLT_e120_lhloose | eleTrigMatch_1_HLT_e140_lhloose_nod0 | eleTrigMatch_1_HLT_e24_lhmedium_L1EM20VH | eleTrigMatch_1_HLT_e60_lhmedium | eleTrigMatch_1_HLT_e60_lhmedium_nod0));
+    trigger_match_2 = bool(!(eleTrigMatch_0_HLT_e120_lhloose | eleTrigMatch_0_HLT_e140_lhloose_nod0 | eleTrigMatch_0_HLT_e24_lhmedium_L1EM20VH | eleTrigMatch_0_HLT_e60_lhmedium | eleTrigMatch_0_HLT_e60_lhmedium_nod0) && (eleTrigMatch_1_HLT_e120_lhloose | eleTrigMatch_1_HLT_e140_lhloose_nod0 | eleTrigMatch_1_HLT_e24_lhmedium_L1EM20VH | eleTrigMatch_1_HLT_e60_lhmedium | eleTrigMatch_1_HLT_e60_lhmedium_nod0));
+    trigger_match_12 = bool((eleTrigMatch_0_HLT_e120_lhloose | eleTrigMatch_0_HLT_e140_lhloose_nod0 | eleTrigMatch_0_HLT_e24_lhmedium_L1EM20VH | eleTrigMatch_0_HLT_e60_lhmedium | eleTrigMatch_0_HLT_e60_lhmedium_nod0) && (eleTrigMatch_1_HLT_e120_lhloose | eleTrigMatch_1_HLT_e140_lhloose_nod0 | eleTrigMatch_1_HLT_e24_lhmedium_L1EM20VH | eleTrigMatch_1_HLT_e60_lhmedium | eleTrigMatch_1_HLT_e60_lhmedium_nod0));
   
-    if (trigger_match_1){muon_trigger_SF=muon_0_NOMINAL_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium;}
-    if (trigger_match_2){muon_trigger_SF=muon_1_NOMINAL_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium;}
+    if (trigger_match_1){electron_trigger_SF=elec_0_NOMINAL_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight;}
+    if (trigger_match_2){electron_trigger_SF=elec_1_NOMINAL_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight;}
 
-    trigger_match= trigger_match_1 | trigger_match_2 | trigger_match_12;
+    trigger_match = trigger_match_1 | trigger_match_2 | trigger_match_12;
   } else {
-    trigger_decision = bool(HLT_mu26_ivarmedium | HLT_mu50);
-    trigger_match_1 = bool((muTrigMatch_0_HLT_mu26_ivarmedium | muTrigMatch_0_HLT_mu50) && !(muTrigMatch_1_HLT_mu26_ivarmedium | muTrigMatch_1_HLT_mu50));
-    trigger_match_2 = bool(!(muTrigMatch_0_HLT_mu26_ivarmedium | muTrigMatch_0_HLT_mu50) && (muTrigMatch_1_HLT_mu26_ivarmedium | muTrigMatch_1_HLT_mu50));
-    trigger_match_12 = bool((muTrigMatch_0_HLT_mu26_ivarmedium | muTrigMatch_0_HLT_mu50) && (muTrigMatch_1_HLT_mu26_ivarmedium | muTrigMatch_1_HLT_mu50));
-
-    if (trigger_match_1){muon_trigger_SF=muon_0_NOMINAL_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium;}
-    if (trigger_match_2){muon_trigger_SF=muon_1_NOMINAL_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium;}
-
-    trigger_match= trigger_match_1 | trigger_match_2 | trigger_match_12;
+    trigger_decision = bool(HLT_e120_lhloose | HLT_e140_lhloose_nod0 | HLT_e26_lhtight_nod0_ivarloose | HLT_e60_lhmedium | HLT_e60_lhmedium_nod0);
+    trigger_match_1 = bool((eleTrigMatch_0_HLT_e120_lhloose | eleTrigMatch_0_HLT_e140_lhloose_nod0 | eleTrigMatch_0_HLT_e26_lhtight_nod0_ivarloose | eleTrigMatch_0_HLT_e60_lhmedium | eleTrigMatch_0_HLT_e60_lhmedium_nod0) && !(eleTrigMatch_1_HLT_e120_lhloose | eleTrigMatch_1_HLT_e140_lhloose_nod0 | eleTrigMatch_1_HLT_e26_lhtight_nod0_ivarloose | eleTrigMatch_1_HLT_e60_lhmedium | eleTrigMatch_1_HLT_e60_lhmedium_nod0));
+    trigger_match_2 = bool(!(eleTrigMatch_0_HLT_e120_lhloose | eleTrigMatch_0_HLT_e140_lhloose_nod0 | eleTrigMatch_0_HLT_e26_lhtight_nod0_ivarloose | eleTrigMatch_0_HLT_e60_lhmedium | eleTrigMatch_0_HLT_e60_lhmedium_nod0) && (eleTrigMatch_1_HLT_e120_lhloose | eleTrigMatch_1_HLT_e140_lhloose_nod0 | eleTrigMatch_1_HLT_e26_lhtight_nod0_ivarloose | eleTrigMatch_1_HLT_e60_lhmedium | eleTrigMatch_1_HLT_e60_lhmedium_nod0));
+    trigger_match_12 = bool((eleTrigMatch_0_HLT_e120_lhloose | eleTrigMatch_0_HLT_e140_lhloose_nod0 | eleTrigMatch_0_HLT_e26_lhtight_nod0_ivarloose | eleTrigMatch_0_HLT_e60_lhmedium | eleTrigMatch_0_HLT_e60_lhmedium_nod0) && (eleTrigMatch_1_HLT_e120_lhloose | eleTrigMatch_1_HLT_e140_lhloose_nod0 | eleTrigMatch_1_HLT_e26_lhtight_nod0_ivarloose | eleTrigMatch_1_HLT_e60_lhmedium | eleTrigMatch_1_HLT_e60_lhmedium_nod0));
+    
+    if (trigger_match_1){electron_trigger_SF=elec_0_NOMINAL_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight;}
+    if (trigger_match_2){electron_trigger_SF=elec_1_NOMINAL_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight;}
+  
+      trigger_match = trigger_match_1 | trigger_match_2 | trigger_match_12;
   }
-  weight *= muon_trigger_SF;
+  weight *= electron_trigger_SF;
 
   // 0) Invariant mass of tagging jets.
   double mjj = Kinematics::Mass({ljet_0_p4, ljet_1_p4});
-  double mll = Kinematics::Mass({muon_0_p4, muon_1_p4});
+  double mll = Kinematics::Mass({elec_0_p4, elec_1_p4});
 
   // Prevent high PileUPRW events.
   bool goodPUW = true;
   goodPUW = NOMINAL_pileup_combined_weight > -10;
 
-  if (useEvent==1 && correctCharge && n_muons==2 && muon_id && n_ljets>=2 && n_ljets<=3 && goodPUW && mjj>=250 && mll >=40 && trigger_decision && trigger_match){
+  if (useEvent==1 && correctCharge && n_electrons==2 && elec_id  && n_ljets>=2 && n_ljets<=3 && goodPUW && mjj>=250 && mll >=40 && trigger_decision && trigger_match){
     g_LOG(LogLevel::DEBUG, "This event passes the basic selection cuts.");
     // Build the kinematic variables needed for the selections.
-    
+
     // 1) Angles between the leptons.
-    double angle = Kinematics::del_phi(muon_1_p4->Phi(),muon_0_p4->Phi());
+    double angle = Kinematics::del_phi(elec_1_p4->Phi(),elec_0_p4->Phi());
 
     // 4) Invariant mass of the di-lepton system.
-    double inv_mass = Kinematics::Mass({muon_0_p4, muon_1_p4});
+    double inv_mass = Kinematics::Mass({elec_0_p4, elec_1_p4});
 
     // 3) ZpT and truth ZpT calculations
-    double Z_pt = (*muon_0_p4 + *muon_1_p4).Pt();
+    double Z_pt = (*elec_0_p4 + *elec_1_p4).Pt();
 
     // Vector sum pT of the jets
     double jet_pt_sum= (*ljet_0_p4 + *ljet_1_p4).Pt();
@@ -133,29 +127,20 @@ void CLoopSYS::Fill(double weight, const std::string& key) {
     int n_jets_interval = Kinematics::getNumberOfGapJets(jet_container, is_jet_present);
   
     // 6) pT balance
-    std::vector<TLorentzVector*> particles = {ljet_0_p4, ljet_1_p4, muon_0_p4, muon_1_p4};
+    std::vector<TLorentzVector*> particles = {ljet_0_p4, ljet_1_p4, elec_0_p4, elec_1_p4};
     if (n_jets_interval==1) particles.push_back(ljet_2_p4);
     double pt_bal = Kinematics::getPtBalance(particles);
 
-
     // 7) Z boson centrality
-    double signed_z_centrality = Kinematics::getSignedCentrality(ljet_0_p4, ljet_1_p4, muon_0_p4, muon_1_p4);
+    double signed_z_centrality = Kinematics::getSignedCentrality(ljet_0_p4, ljet_1_p4, elec_0_p4, elec_1_p4);
     double z_centrality = abs(signed_z_centrality);
 
     // 8) pT gap jet
     double pt_gap_jet = n_jets_interval == 1 ? ljet_2_p4->Pt() : 0.0;
 
-
     // Minimum DeltaR between lepton and jets
-    double min_dR_lep1 = Kinematics::min_deltaR(muon_0_p4,is_jet_present,jet_container);
-    double min_dR_lep2 = Kinematics::min_deltaR(muon_1_p4,is_jet_present,jet_container);
-
-    // Definition of the superCR = CR(a+b+c)
-    Region region = Kinematics::getRegion(z_centrality, n_jets_interval);
-    bool superCR = (region == Region::CRa) || (region == Region::CRb) || (region == Region::CRc);
-
-    // ONLY SUPER CR
-    //if (!superCR) return;
+    double min_dR_lep1 = Kinematics::min_deltaR(elec_0_p4,is_jet_present,jet_container);
+    double min_dR_lep2 = Kinematics::min_deltaR(elec_1_p4,is_jet_present,jet_container);
 
     // Cuts 
     // First initialise the variables used for the cutflow
@@ -163,12 +148,12 @@ void CLoopSYS::Fill(double weight, const std::string& key) {
     cutVars.deltaPhiLepLep = angle;
     cutVars.deltaRapidityTaggingJets = delta_y;
     cutVars.nBJets = n_bjets_MV2c10_FixedCutBEff_85;
-    cutVars.lep1IsolationTight = muon_0_iso_TightTrackOnly_FixedRad;
-    cutVars.lep1IsolationLoose = muon_0_iso_Loose_FixedRad;
-    cutVars.lep2IsolationTight = muon_1_iso_TightTrackOnly_FixedRad;
-    cutVars.lep2IsolationLoose = muon_1_iso_Loose_FixedRad;
-    cutVars.lep1pT = muon_0_p4->Pt();
-    cutVars.lep2pT = muon_1_p4->Pt();
+    cutVars.lep1IsolationTight = elec_0_iso_FCTight;
+    cutVars.lep1IsolationLoose = elec_0_iso_FCLoose;
+    cutVars.lep2IsolationTight = elec_1_iso_FCTight;
+    cutVars.lep2IsolationLoose = elec_1_iso_FCLoose;
+    cutVars.lep1pT = elec_0_p4->Pt();
+    cutVars.lep2pT = elec_1_p4->Pt();
     cutVars.jet1pT = ljet_0_p4->Pt();
     cutVars.jet2pT = ljet_1_p4->Pt();
     cutVars.pTBalance = pt_bal;
@@ -193,36 +178,15 @@ void CLoopSYS::Fill(double weight, const std::string& key) {
 
     // Fill the histograms for SF systematics
     if (m_systematicType == "sf" && passedAllCuts) {
-      FILL_SYS_DI_MUON_HISTOGRAMS(MUON_EFF_TTVA_STAT, MuEffSF_TTVA, muon_0_NOMINAL_MuEffSF_TTVA, muon_1_NOMINAL_MuEffSF_TTVA)
-      FILL_SYS_DI_MUON_HISTOGRAMS(MUON_EFF_TTVA_SYS, MuEffSF_TTVA, muon_0_NOMINAL_MuEffSF_TTVA, muon_1_NOMINAL_MuEffSF_TTVA)
-      FILL_SYS_DI_MUON_HISTOGRAMS(MUON_EFF_RECO_STAT_LOWPT, MuEffSF_Reco_QualMedium, muon_0_NOMINAL_MuEffSF_Reco_QualMedium, muon_1_NOMINAL_MuEffSF_Reco_QualMedium)
-      FILL_SYS_DI_MUON_HISTOGRAMS(MUON_EFF_RECO_SYS_LOWPT, MuEffSF_Reco_QualMedium, muon_0_NOMINAL_MuEffSF_Reco_QualMedium, muon_1_NOMINAL_MuEffSF_Reco_QualMedium)
-      FILL_SYS_DI_MUON_HISTOGRAMS(MUON_EFF_ISO_STAT, MuEffSF_IsoTightTrackOnly_FixedRad, muon_0_NOMINAL_MuEffSF_IsoTightTrackOnly_FixedRad, muon_1_NOMINAL_MuEffSF_IsoTightTrackOnly_FixedRad)
-      FILL_SYS_DI_MUON_HISTOGRAMS(MUON_EFF_ISO_SYS, MuEffSF_IsoTightTrackOnly_FixedRad, muon_0_NOMINAL_MuEffSF_IsoTightTrackOnly_FixedRad, muon_1_NOMINAL_MuEffSF_IsoTightTrackOnly_FixedRad)
-      FILL_SYS_DI_MUON_HISTOGRAMS(MUON_EFF_RECO_STAT, MuEffSF_Reco_QualMedium, muon_0_NOMINAL_MuEffSF_Reco_QualMedium, muon_1_NOMINAL_MuEffSF_Reco_QualMedium)
-      FILL_SYS_DI_MUON_HISTOGRAMS(MUON_EFF_RECO_SYS, MuEffSF_Reco_QualMedium, muon_0_NOMINAL_MuEffSF_Reco_QualMedium, muon_1_NOMINAL_MuEffSF_Reco_QualMedium)
-      if (run_number>= 276262 && run_number<=284484) {
-        if (trigger_match_1) {
-          FILL_SYS_DI_MUON_TRIGGER_HISTOGRAMS(muon_MUON_EFF_TrigStatUncertainty, combined, muon_0_MUON_EFF_TrigStatUncertainty, MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium, muon_trigger_SF)
-          FILL_SYS_DI_MUON_TRIGGER_HISTOGRAMS(muon_MUON_EFF_TrigSystUncertainty, combined, muon_0_MUON_EFF_TrigSystUncertainty, MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium, muon_trigger_SF)
-        } else if (trigger_match_2) {
-          FILL_SYS_DI_MUON_TRIGGER_HISTOGRAMS(muon_MUON_EFF_TrigStatUncertainty, combined, muon_1_MUON_EFF_TrigStatUncertainty, MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium, muon_trigger_SF)
-          FILL_SYS_DI_MUON_TRIGGER_HISTOGRAMS(muon_MUON_EFF_TrigSystUncertainty, combined, muon_1_MUON_EFF_TrigSystUncertainty, MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium, muon_trigger_SF)
-        } else {
-          FILL_SYS_DI_MUON_TRIGGER_HISTOGRAMS_DUMMY(muon_MUON_EFF_TrigStatUncertainty, combined)
-          FILL_SYS_DI_MUON_TRIGGER_HISTOGRAMS_DUMMY(muon_MUON_EFF_TrigSystUncertainty, combined)
-        }
+      FILL_SYS_DI_ELEC_HISTOGRAMS(EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR, EleEffSF_offline_TightLLH_d0z0_v13, elec_0_NOMINAL_EleEffSF_offline_TightLLH_d0z0_v13, elec_1_NOMINAL_EleEffSF_offline_TightLLH_d0z0_v13)
+      FILL_SYS_DI_ELEC_HISTOGRAMS(EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR, EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight, elec_0_NOMINAL_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight, elec_1_NOMINAL_EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight)
+      FILL_SYS_DI_ELEC_HISTOGRAMS(EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR, EleEffSF_offline_RecoTrk, elec_0_NOMINAL_EleEffSF_offline_RecoTrk, elec_1_NOMINAL_EleEffSF_offline_RecoTrk)
+      if (trigger_match_1) {
+        FILL_SYS_DI_MUON_TRIGGER_HISTOGRAMS(elec_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR, EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight, elec_0_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR, EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight, electron_trigger_SF)
+      } else if (trigger_match_2) {
+        FILL_SYS_DI_MUON_TRIGGER_HISTOGRAMS(elec_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR, EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight, elec_1_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR, EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight, electron_trigger_SF)
       } else {
-        if (trigger_match_1) {
-          FILL_SYS_DI_MUON_TRIGGER_HISTOGRAMS(muon_MUON_EFF_TrigStatUncertainty, combined, muon_0_MUON_EFF_TrigStatUncertainty, MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium, muon_trigger_SF)
-          FILL_SYS_DI_MUON_TRIGGER_HISTOGRAMS(muon_MUON_EFF_TrigSystUncertainty, combined, muon_0_MUON_EFF_TrigSystUncertainty, MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium, muon_trigger_SF)
-        } else if (trigger_match_2) {
-          FILL_SYS_DI_MUON_TRIGGER_HISTOGRAMS(muon_MUON_EFF_TrigStatUncertainty, combined, muon_1_MUON_EFF_TrigStatUncertainty, MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium, muon_trigger_SF)
-          FILL_SYS_DI_MUON_TRIGGER_HISTOGRAMS(muon_MUON_EFF_TrigSystUncertainty, combined, muon_1_MUON_EFF_TrigSystUncertainty, MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium, muon_trigger_SF)
-        } else {
-          FILL_SYS_DI_MUON_TRIGGER_HISTOGRAMS_DUMMY(muon_MUON_EFF_TrigStatUncertainty, combined)
-          FILL_SYS_DI_MUON_TRIGGER_HISTOGRAMS_DUMMY(muon_MUON_EFF_TrigSystUncertainty, combined)
-        }
+        FILL_SYS_DI_MUON_TRIGGER_HISTOGRAMS_DUMMY(elec_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR, EleEffSF_offline_TightLLH_d0z0_v13)
       }
       FILL_SYS_HISTOGRAMS(PRW_DATASF, pileup_combined_weight, NOMINAL_pileup_combined_weight)
       FILL_SYS_HISTOGRAMS(jet_JET_JvtEfficiency, central_jets_global_effSF_JVT, jet_NOMINAL_central_jets_global_effSF_JVT)
@@ -319,16 +283,10 @@ void CLoopSYS::Fill(double weight, const std::string& key) {
 void CLoopSYS::Style() {
     // Write the histograms for SF systematics
     if (m_systematicType == "sf") {
-      WRITE_SYS_HISTOGRAMS(muon_MUON_EFF_TTVA_STAT, MuEffSF_TTVA)
-      WRITE_SYS_HISTOGRAMS(muon_MUON_EFF_TTVA_SYS, MuEffSF_TTVA)
-      WRITE_SYS_HISTOGRAMS(muon_MUON_EFF_RECO_STAT_LOWPT, MuEffSF_Reco_QualMedium)
-      WRITE_SYS_HISTOGRAMS(muon_MUON_EFF_RECO_SYS_LOWPT, MuEffSF_Reco_QualMedium)
-      WRITE_SYS_HISTOGRAMS(muon_MUON_EFF_ISO_STAT, MuEffSF_IsoTightTrackOnly_FixedRad)
-      WRITE_SYS_HISTOGRAMS(muon_MUON_EFF_ISO_SYS, MuEffSF_IsoTightTrackOnly_FixedRad)
-      WRITE_SYS_HISTOGRAMS(muon_MUON_EFF_RECO_STAT, MuEffSF_Reco_QualMedium)
-      WRITE_SYS_HISTOGRAMS(muon_MUON_EFF_RECO_SYS, MuEffSF_Reco_QualMedium)
-      WRITE_SYS_HISTOGRAMS(muon_MUON_EFF_TrigStatUncertainty, combined)
-      WRITE_SYS_HISTOGRAMS(muon_MUON_EFF_TrigSystUncertainty, combined)
+      WRITE_SYS_HISTOGRAMS(elec_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR, EleEffSF_offline_TightLLH_d0z0_v13)
+      WRITE_SYS_HISTOGRAMS(elec_EL_EFF_Iso_TOTAL_1NPCOR_PLUS_UNCOR, EleEffSF_Isolation_TightLLH_d0z0_v13_FCTight)
+      WRITE_SYS_HISTOGRAMS(elec_EL_EFF_Reco_TOTAL_1NPCOR_PLUS_UNCOR, EleEffSF_offline_RecoTrk)
+      WRITE_SYS_HISTOGRAMS(elec_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR, EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight)
       WRITE_SYS_HISTOGRAMS(PRW_DATASF, pileup_combined_weight)
       WRITE_SYS_HISTOGRAMS(jet_JET_JvtEfficiency, central_jets_global_effSF_JVT)
       WRITE_SYS_HISTOGRAMS(jet_JET_JvtEfficiency, central_jets_global_ineffSF_JVT)
