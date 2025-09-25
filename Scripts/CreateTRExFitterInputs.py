@@ -307,7 +307,6 @@ def main():
     INFO.log("QCDjj uncertainties corrected.")
 
     INFO.log("Uploading the file to the remote path...")
-    exit(0)
     upload_file(args.remote_path, args.local_path, args.output_name)
 
 

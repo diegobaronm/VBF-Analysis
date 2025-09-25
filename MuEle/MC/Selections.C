@@ -19,7 +19,7 @@ std::vector<std::string> InitCutNames(const std::string& selectionName){
 
     if (selName == "BeforeEBZpeak"){
         cutNames = {"basic","dphi","drap","btag","iso","ptl","j1pt","j2pt","ptbal","mjj","nji","zcen","omega","mreco","tpt"};
-    } else if (selName == "Zpeak"){
+    } else if (selName == "Zpeak" || selName == "Inclusive"){
         cutNames = {"basic","dphi","drap","btag","iso","ptl","j1pt","j2pt","ptbal","mjj","nji","zcen","omega","mreco","tpt","rvr"};
     } else {
         g_LOG(LogLevel::ERROR, "Selection name not found!");
@@ -64,6 +64,23 @@ std::vector<int> ApplySelection(const std::string& selectionName, const Kinemati
         cuts.push_back( vars.mjj >= 750 );
         cuts.push_back( vars.nJetsInGap == 0 );
         cuts.push_back( vars.centrality < 0.5 );
+        cuts.push_back( vars.omega > -0.4 && vars.omega < 1.4 );
+        cuts.push_back( vars.recoMass < 116 && vars.recoMass > 66 );
+        cuts.push_back( vars.lep2pT >= 27 );
+        cuts.push_back( vars.recoVisibleMassRatio < 4.0 );
+
+    } else if (selName == "Inclusive"){
+        cuts.push_back( vars.deltaPhiLepLep <= 3.2 );
+        cuts.push_back( vars.deltaRapidityTaggingJets >= 2.0 );
+        cuts.push_back( vars.nBJets == 0 );
+        cuts.push_back( vars.lep1IsolationTight == 1 && vars.lep2IsolationTight == 1 );
+        cuts.push_back( vars.lep1pT >= 27 );
+        cuts.push_back( vars.jet1pT >= 75 );
+        cuts.push_back( vars.jet2pT >= 70 );
+        cuts.push_back( vars.pTBalance <= 0.15 );
+        cuts.push_back( vars.mjj >= 750 );
+        cuts.push_back( vars.nJetsInGap == 1 || vars.nJetsInGap == 0 );
+        cuts.push_back( vars.centrality <= 1.0 );
         cuts.push_back( vars.omega > -0.4 && vars.omega < 1.4 );
         cuts.push_back( vars.recoMass < 116 && vars.recoMass > 66 );
         cuts.push_back( vars.lep2pT >= 27 );

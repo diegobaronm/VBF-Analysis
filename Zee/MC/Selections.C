@@ -45,7 +45,7 @@ std::vector<int> ApplySelection(const std::string& selectionName, const Kinemati
         cuts.push_back( vars.jet1pT >= 75 );
         cuts.push_back( vars.jet2pT >= 70 );
         cuts.push_back( vars.pTBalance <= 0.15 );
-        cuts.push_back( vars.mjj >= 1000 );
+        cuts.push_back( vars.mjj >= 750 );
         cuts.push_back( vars.nJetsInGap == 0 );
         cuts.push_back( vars.centrality < 0.5 );
         cuts.push_back( vars.massLeptonLepton < 101 && vars.massLeptonLepton > 81 ); // Z-peak mass range 81 < inv_mass < 101 GeV. // Mid Range inv_mass < 160 && inv_mass >= 101 
@@ -62,7 +62,7 @@ std::vector<int> ApplySelection(const std::string& selectionName, const Kinemati
         cuts.push_back( vars.jet1pT >= 75 );
         cuts.push_back( vars.jet2pT >= 70 );
         cuts.push_back( vars.pTBalance <= 0.15 );
-        cuts.push_back( vars.mjj >= 1000 );
+        cuts.push_back( vars.mjj >= 750 );
         cuts.push_back( vars.nJetsInGap == 1 );
         cuts.push_back( vars.centrality < 0.5 );
         cuts.push_back( vars.massLeptonLepton < 101 && vars.massLeptonLepton > 81 ); // Z-peak mass range 81 < inv_mass < 101 GeV. // Mid Range inv_mass < 160 && inv_mass >= 101 
@@ -79,7 +79,7 @@ std::vector<int> ApplySelection(const std::string& selectionName, const Kinemati
         cuts.push_back( vars.jet1pT >= 75 );
         cuts.push_back( vars.jet2pT >= 70 );
         cuts.push_back( vars.pTBalance <= 0.15 );
-        cuts.push_back( vars.mjj >= 1000 );
+        cuts.push_back( vars.mjj >= 750 );
         cuts.push_back( vars.nJetsInGap == 1 );
         cuts.push_back( vars.centrality >= 0.5 && vars.centrality <= 1.0);
         cuts.push_back( vars.massLeptonLepton < 101 && vars.massLeptonLepton > 81 ); // Z-peak mass range 81 < inv_mass < 101 GeV. // Mid Range inv_mass < 160 && inv_mass >= 101 
@@ -96,7 +96,7 @@ std::vector<int> ApplySelection(const std::string& selectionName, const Kinemati
         cuts.push_back( vars.jet1pT >= 75 );
         cuts.push_back( vars.jet2pT >= 70 );
         cuts.push_back( vars.pTBalance <= 0.15 );
-        cuts.push_back( vars.mjj >= 1000 );
+        cuts.push_back( vars.mjj >= 750 );
         cuts.push_back( vars.nJetsInGap == 0 );
         cuts.push_back( vars.centrality >= 0.5 && vars.centrality <= 1.0);
         cuts.push_back( vars.massLeptonLepton < 101 && vars.massLeptonLepton > 81 ); // Z-peak mass range 81 < inv_mass < 101 GeV. // Mid Range inv_mass < 160 && inv_mass >= 101 
@@ -113,7 +113,7 @@ std::vector<int> ApplySelection(const std::string& selectionName, const Kinemati
         cuts.push_back( vars.jet1pT >= 75 );
         cuts.push_back( vars.jet2pT >= 70 );
         cuts.push_back( vars.pTBalance <= 0.15 );
-        cuts.push_back( vars.mjj >= 1000 );
+        cuts.push_back( vars.mjj >= 750 );
         cuts.push_back( vars.nJetsInGap == 0 );
         cuts.push_back( vars.centrality < 0.5 );
         cuts.push_back( vars.massLeptonLepton < 160 && vars.massLeptonLepton >= 101 ); // Z-peak mass range 81 < inv_mass < 101 GeV. // Mid Range inv_mass < 160 && inv_mass >= 101 
@@ -130,7 +130,7 @@ std::vector<int> ApplySelection(const std::string& selectionName, const Kinemati
         cuts.push_back( vars.jet1pT >= 75 );
         cuts.push_back( vars.jet2pT >= 70 );
         cuts.push_back( vars.pTBalance <= 0.15 );
-        cuts.push_back( vars.mjj >= 1000 );
+        cuts.push_back( vars.mjj >= 750 );
         cuts.push_back( vars.nJetsInGap == 0 );
         cuts.push_back( vars.centrality < 0.5 );
         cuts.push_back( vars.massLeptonLepton >= 160 ); // Z-peak mass range 81 < inv_mass < 101 GeV. // Mid Range inv_mass < 160 && inv_mass >= 101 
@@ -147,7 +147,7 @@ std::vector<int> ApplySelection(const std::string& selectionName, const Kinemati
         cuts.push_back( vars.jet1pT >= 75 );
         cuts.push_back( vars.jet2pT >= 70 );
         cuts.push_back( vars.pTBalance <= 0.15 );
-        cuts.push_back( vars.mjj >= 1000 );
+        cuts.push_back( vars.mjj >= 750 );
         cuts.push_back( vars.nJetsInGap == 0 );
         cuts.push_back( vars.centrality < 0.5 );
         cuts.push_back( vars.massLeptonLepton >= 101 ); // Z-peak mass range 81 < inv_mass < 101 GeV. // Mid Range inv_mass < 160 && inv_mass >= 101 
