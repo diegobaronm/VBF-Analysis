@@ -196,72 +196,10 @@ def channel(path):
         return "Zll"
     else :
         raise ValueError("Path not found")
-    
-# TODO: Adapt this function to the other part of the code.
-def add_systematics():
-    from SystematicsAdd import getSystematicsName
-
-    systematicsPath = '/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/TauTau/Z-peak/Systematics/'
-    systematicSamples = ['Signal_Sherpa.root',channel(systematicsPath)+'_SherpaRW.root']
-
-    # Extract the systematics names
-    systematicNames = getSystematicsName(systematicsPath,'mass_jj')
-    systematicShapeNames = systematicNames['shapeSys']
-    systematicWeightNames = systematicNames['weightSys']
-
-    # Clean single SFs identified with tags (only for Z->ll samples --- put something that does not remove anything for Z->tautau) ['elec_0','elec_1','muon_0','muon_1']
-    tags = ['elec_x','elec_x','muon_x','muon_x']
-    removeNames = []
-    for systematicName in systematicWeightNames:
-        for tag in tags:
-            if tag in systematicName:
-                removeNames.append(systematicName)
-    for removeSys in removeNames:
-        INFO.log('Removing ... ',removeSys)
-        systematicWeightNames.remove(removeSys)
-
-    # Open the output file        
-    outputFile = r.TFile.Open(channel(localPath)+"histograms.root","UPDATE")
-
-    # Clean the nominal samples
-    #for sample in systematicSamples:
-        #INFO.log("mass_jj"+sample[:-5]+";*")
-        #outputFile.Delete("mass_jj_"+sample[:-5]+";*")
-
-    # Fill shape systematics (NOMINAL Shape is extracted here)
-    for sample in systematicSamples:
-        
-        for systematicName in systematicShapeNames:
-            file = r.TFile.Open(systematicsPath+sample[:-5]+'_'+systematicName+'.root',"READ")
-            histogram = file.Get("mass_jj")
-
-            if "RW" in sample:
-                scaleBinUncertainty(histogram,sample)
-                
-            if "NOMINAL" in systematicName:
-                outputFile.WriteObject(histogram,"mass_jj"+"_"+sample[:-5])
-            else:
-                outputFile.WriteObject(histogram,"mass_jj"+"_"+sample[:-5]+'_'+systematicName)
-
-    # Fill weight systematics        
-    for sample in systematicSamples:
-        
-        for systematicName in systematicWeightNames:
-            file = r.TFile.Open(systematicsPath+sample[:-5]+'_NOMINAL.root',"READ")
-            histogram = file.Get("mass_jj"+'_'+systematicName)
-
-            if "RW" in sample:
-                scaleBinUncertainty(histogram,sample)
-
-            outputFile.WriteObject(histogram,"mass_jj"+"_"+sample[:-5]+'_'+systematicName)
-            
-            
-    outputFile.Close()
-
 
 # Step 1: Gather the correct files and samples.
 
-def gather_samples(localPath):
+def gather_samples(localPath, add_systematics = False):
 
     dataSamples = ['Data.root']
     signalSamples = ['Signal_Sherpa.root','Signal_PoPy.root']
@@ -272,36 +210,70 @@ def gather_samples(localPath):
 
     samples = dataSamples + signalSamples + qcdSamples + backgroundSamples
 
-    return samples
+    if add_systematics:
+        # Look for files with the SYS tag in the name
+        sys_samples = [file for file in os.listdir(localPath) if (file.endswith('.root') and 'SYS' in file)]
+        if len(sys_samples) == 0:
+            ERROR.log("No systematic samples found in the provided local path.")
+            exit(1)
+        # Print the found systematic samples and make the user confirm
+        INFO.log("Found the following systematic samples: ", sys_samples)
+        user_input = input("Do you want to include these systematic samples? (y/n): ")
+        if user_input.lower() != 'y':
+            INFO.log("User opted not to include systematic samples. Exiting.")
+            exit(0)
+        
+        # Add the systematic samples to the list of samples to be processed
+        samples += sys_samples
+
+    # Final check: ensure all samples exist in the local path
+    final_samples = samples.copy()
+    for sample in samples:
+        if not os.path.isfile(localPath+sample):
+            WARNING.log("Sample not found: %s . Dropping it from the list." % sample)
+            final_samples.remove(sample)
+
+    return final_samples
 
 # Step 2: Correct QCDjj uncertainties.
 
 def correct_qcd_uncertainties(localPath, samples):
 
-    histogramNames = ["mass_jj"]
+    histogramNames = ["mass_jj"] # NOTE: This is hardcoded for this analysis.
 
+    # Open the output file
     outputFile = r.TFile.Open(channel(localPath)+"histograms.root","RECREATE")
 
     for sample in samples:
         for histogramName in histogramNames:
             file = r.TFile.Open(localPath+sample,"READ")
-            histogram = file.Get(histogramName)
-            
-            if "RW" in sample:
-                INFO.log(sample)
-                scaleBinUncertainty(histogram,sample)
-            
-            # Include NOMINAL tag to samples used for systematics    
-            if "Signal_Sherpa" in sample[:-5] or "Sherpa_RWParabolicCutoff" in sample[:-5]:
-                outputFile.WriteObject(histogram,histogramName+"_"+sample[:-5]+'_NOMINAL')
-            else :
-                outputFile.WriteObject(histogram,histogramName+"_"+sample[:-5])
-            file.Close()
-            
-    outputFile.Close()
 
-# Step 3 (optional): Add systematics to the output file.
-# TODO: Look to the add_systematics() function.
+            # For no systematics samples...
+            if "SYS" not in sample:
+                histogram = file.Get(histogramName)
+                if "RW" in sample:
+                    INFO.log(sample)
+                    scaleBinUncertainty(histogram,sample)
+                # Include NOMINAL tag to samples used for systematics    
+                if "Signal_Sherpa" in sample[:-5] or "Sherpa_RWParabolicCutoff" in sample[:-5]:
+                    outputFile.WriteObject(histogram,histogramName+"_"+sample[:-5]+'_NOMINAL')
+                else :
+                    outputFile.WriteObject(histogram,histogramName+"_"+sample[:-5])
+                file.Close()
+            else:
+                # For systematic samples... all the histograms in the file should be included.
+                list_of_histograms = [key.GetName() for key in file.GetListOfKeys() if key.GetName().startswith(histogramName)]
+                sample = sample.replace("_SYS","") # Remove the SYS tag for naming consistency
+                for sys_histogram_name in list_of_histograms:
+                    histogram = file.Get(sys_histogram_name)
+                    save_name = histogramName+'_'+sample[:-5]+sys_histogram_name.replace(histogramName,'')
+                    if "RW" in sample:
+                        INFO.log("Scaling systematic...")
+                        scaleBinUncertainty(histogram,sample)
+                    outputFile.WriteObject(histogram,save_name)
+                file.Close()
+    
+    outputFile.Close()
 
 # Step 4: Upload the file.
 
@@ -319,17 +291,23 @@ def main():
     parser.add_argument("--remote-path", type=str, default=REMOTE_PATH, help="Path to the remote directory where the files will be uploaded.")
     parser.add_argument("local_path", type=str, help="Path to the local directory where the files are stored.")
     parser.add_argument("output_name", type=str, help="Name of the output file to be created.")
+    parser.add_argument("--sys", action='store_true', help="Pass this flag to add systematics to the output file.")
     args = parser.parse_args()
 
+    if args.sys:
+        INFO.log("Adding systematics to the output file...")
+
     INFO.log("Gathering samples from the local path: ", args.local_path)
-    list_of_samples = gather_samples(args.local_path)
+    list_of_samples = gather_samples(args.local_path, add_systematics = args.sys)
     INFO.log("Gathered samples: ", list_of_samples)
+
 
     INFO.log("Correcting QCDjj uncertainties...")
     correct_qcd_uncertainties(args.local_path, list_of_samples)
     INFO.log("QCDjj uncertainties corrected.")
 
     INFO.log("Uploading the file to the remote path...")
+    exit(0)
     upload_file(args.remote_path, args.local_path, args.output_name)
 
 
