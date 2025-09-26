@@ -6,6 +6,15 @@ Logger.LOGLEVEL = 3
 
 BASE_PATH = '/data/dbaronmo/Chicago_VBF_Outputs/'
 DICT_PATH_SUFFIX = {
+    BASE_PATH + '/Zee/CRa_ParabolicCutoffClosure/NOMINAL/': 'RWParabolicCutoffClosure',
+    BASE_PATH + '/Zee/CRb_ParabolicCutoffClosure/NOMINAL/': 'RWParabolicCutoffClosure',
+    BASE_PATH + '/Zee/CRc_ParabolicCutoffClosure/NOMINAL/': 'RWParabolicCutoffClosure',
+    BASE_PATH + '/Zee/SR_ParabolicCutoffClosure/NOMINAL/': 'RWParabolicCutoffClosure',
+    BASE_PATH + '/Zmm/CRa_ParabolicCutoffClosure/NOMINAL/': 'RWParabolicCutoffClosure',
+    BASE_PATH + '/Zmm/CRb_ParabolicCutoffClosure/NOMINAL/': 'RWParabolicCutoffClosure',
+    BASE_PATH + '/Zmm/CRc_ParabolicCutoffClosure/NOMINAL/': 'RWParabolicCutoffClosure',
+    BASE_PATH + '/Zmm/SR_ParabolicCutoffClosure/NOMINAL/': 'RWParabolicCutoffClosure',
+    
     BASE_PATH + '/Zee/CRa_ParabolicCutoff/NOMINAL/': 'RWParabolicCutoff',
     BASE_PATH + '/Zee/CRb_ParabolicCutoff/NOMINAL/': 'RWParabolicCutoff',
     BASE_PATH + '/Zee/CRc_ParabolicCutoff/NOMINAL/': 'RWParabolicCutoff',
@@ -14,16 +23,15 @@ DICT_PATH_SUFFIX = {
     BASE_PATH + '/Zmm/CRb_ParabolicCutoff/NOMINAL/': 'RWParabolicCutoff',
     BASE_PATH + '/Zmm/CRc_ParabolicCutoff/NOMINAL/': 'RWParabolicCutoff',
     BASE_PATH + '/Zmm/SR_ParabolicCutoff/NOMINAL/': 'RWParabolicCutoff',
-    BASE_PATH + '/Zee/CRa_Exponential/NOMINAL/': 'RWExponential',
-    BASE_PATH + '/Zee/CRb_Exponential/NOMINAL/': 'RWExponential',
-    BASE_PATH + '/Zee/CRc_Exponential/NOMINAL/': 'RWExponential',
-    BASE_PATH + '/Zee/SR_Exponential/NOMINAL/': 'RWExponential',
-    BASE_PATH + '/Zmm/CRa_Exponential/NOMINAL/': 'RWExponential',
-    BASE_PATH + '/Zmm/CRb_Exponential/NOMINAL/': 'RWExponential',
-    BASE_PATH + '/Zmm/CRc_Exponential/NOMINAL/': 'RWExponential',
-    BASE_PATH + '/Zmm/SR_Exponential/NOMINAL/': 'RWExponential',
-    BASE_PATH + '/Zee/SR_Parabolic/NOMINAL/': 'RWParabolic',
-    BASE_PATH + '/Zmm/SR_Parabolic/NOMINAL/': 'RWParabolic',
+
+    BASE_PATH + '/Zee/CRa_ExponentialClosure/NOMINAL/': 'RWExponentialClosure',
+    BASE_PATH + '/Zee/CRb_ExponentialClosure/NOMINAL/': 'RWExponentialClosure',
+    BASE_PATH + '/Zee/CRc_ExponentialClosure/NOMINAL/': 'RWExponentialClosure',
+    BASE_PATH + '/Zee/SR_ExponentialClosure/NOMINAL/': 'RWExponentialClosure',
+    BASE_PATH + '/Zmm/CRa_ExponentialClosure/NOMINAL/': 'RWExponentialClosure',
+    BASE_PATH + '/Zmm/CRb_ExponentialClosure/NOMINAL/': 'RWExponentialClosure',
+    BASE_PATH + '/Zmm/CRc_ExponentialClosure/NOMINAL/': 'RWExponentialClosure',
+    BASE_PATH + '/Zmm/SR_ExponentialClosure/NOMINAL/': 'RWExponentialClosure',
 }
 
 DICT_OUTPUT_INPUT_STRINGS = {
