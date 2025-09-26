@@ -701,13 +701,13 @@ def stackPlot(data,signal,background,histograms,watermark,
         r.gStyle.SetStatW(0.12);                
         r.gStyle.SetStatH(0.12);
 
-        canvas = r.TCanvas("canvas2")
+        canvas = r.TCanvas("canvas2","canvas2",800,800)
         canvas.cd()
 
         pad1 = r.TPad (" pad1 "," pad1 " ,0 ,0.40 ,0.85 ,1)
         pad1.SetTopMargin(0.07)
-        pad1.SetRightMargin(0.01)
-        pad1.SetLeftMargin(0.08)
+        pad1.SetRightMargin(0.15)
+        pad1.SetLeftMargin(0.16)
         pad1.SetBottomMargin(0.0)
         pad1.Draw ()
         pad1.cd ()
@@ -766,12 +766,13 @@ def stackPlot(data,signal,background,histograms,watermark,
         ###### CHANGING SIZE OF TICKS AND LABELS ######
         samples["Data"][2].GetYaxis().SetLabelSize(0.06)
         samples["Data"][2].GetYaxis().SetTitleSize(0.08)
-        samples["Data"][2].GetYaxis().SetTitleOffset(0.48)
+        samples["Data"][2].GetYaxis().SetTitleOffset(0.75)
         samples["Data"][2].GetYaxis().SetTitle("Events/"+str(i.m_binNorm)+" "+i.m_units)
         samples["Data"][2].GetYaxis().ChangeLabel(1,-1,0.)
 
         ###### SETTING MAX NUMBER OF DIGITS IN Y/X AXIS ######
         samples["Data"][2].GetYaxis().SetMaxDigits(3)
+        
 
         ###### SETTING X AXIS RANGE ######
         if i.xRangeIsCustom():
@@ -816,6 +817,15 @@ def stackPlot(data,signal,background,histograms,watermark,
             pad1.cd()
 
 
+        ###### DRAWING LEGEND PAD ######
+        canvas.cd()
+        LegendPad = r.TPad (" LegendPad "," LegendPad " ,0.73 ,0.1 ,1.0 ,0.98)
+        LegendPad.SetTopMargin(0.05)
+        LegendPad.SetRightMargin(0.01)
+        LegendPad.SetLeftMargin(0.01)
+        LegendPad.SetBottomMargin(0.0)
+        LegendPad.Draw ()
+
         ###### DRAWING LEGEND ######
         legend = r.TLegend (0.0 ,0.45 ,1.0 ,1.0)
         for sample in samples:
@@ -828,11 +838,11 @@ def stackPlot(data,signal,background,histograms,watermark,
             for zp in Zprime_pack:
                 legend.AddEntry(Zprime_pack[zp][2],zp)
 
-        legend.SetNColumns(1)
+        legend.SetNColumns(2)
         r.gStyle.SetLegendBorderSize(0)
         legend.SetLineWidth (0)
-        r.gStyle.SetLegendTextSize(0.12)
-        InfoPad.cd()
+        r.gStyle.SetLegendTextSize(0.08)
+        LegendPad.cd()
         legend.Draw()
         pad1.cd()
 
@@ -842,18 +852,18 @@ def stackPlot(data,signal,background,histograms,watermark,
         l.SetNDC ()
         if printVersion:
             r.gStyle.SetOptStat(0)
-            l.DrawLatex(0.825,0.88,final_state)
-            regionText = r.TText(.5,.97,regionLabel)
-            vbfNormText = r.TText(.85,.85,"VBF = "+str(round(signalMu,3)))
-            vbfSampleText = r.TText(.85,.80,vbfLabels[sampleNames["vbfName"]])
-            qcdNormText = r.TText(.85,.75,"QCD = "+str(round(backgroundMu,3)))
-            qcdSampleText = r.TText(.85,.70,qcdLabels[sampleNames["qcdName"]])
+            l.DrawLatex(0.7,0.88,final_state)
+            regionText = r.TText(.5,.97,"Region: %s" % regionLabel)
+            vbfNormText = r.TText(.74,.85,"VBF: %s" % vbfLabels[sampleNames["vbfName"]])
+            vbfSampleText = r.TText(.74,.80,"SF = %s" % str(round(signalMu,3)))
+            qcdNormText = r.TText(.74,.75, "QCD: %s" % qcdLabels[sampleNames["qcdName"]])
+            qcdSampleText = r.TText(.74,.70,"SF = %s" % str(round(backgroundMu,3)))
         else :
             l.DrawLatex(0.8,0.65,final_state)
-            regionText = r.TText(.5,.99,regionLabel)
-            vbfNormText = r.TText(.8,.60,"VBF = "+str(round(signalMu,3)))
+            regionText = r.TText(.5,.99,"Region: %s" % regionLabel)
+            vbfNormText = r.TText(.8,.60,"SF VBF = "+str(round(signalMu,3)))
             vbfSampleText = r.TText(.8,.55,vbfLabels[sampleNames["vbfName"]])
-            qcdNormText = r.TText(.8,.50,"QCD = "+str(round(backgroundMu,3)))
+            qcdNormText = r.TText(.8,.50,"SF QCD = "+str(round(backgroundMu,3)))
             qcdSampleText = r.TText(.8,.45,qcdLabels[sampleNames["qcdName"]])
 
 
@@ -861,7 +871,7 @@ def stackPlot(data,signal,background,histograms,watermark,
         regionText.SetNDC()
         regionText.SetTextAlign(22)
         regionText.SetTextFont(43)
-        regionText.SetTextSize(17)
+        regionText.SetTextSize(20)
         regionText.Draw("same")    
 
         vbfNormText.SetNDC ()
@@ -921,8 +931,8 @@ def stackPlot(data,signal,background,histograms,watermark,
 
         canvas.cd()
         pad2 = r.TPad (" pad2 "," pad2 " ,0 ,0.24 ,0.85 ,0.40)
-        pad2.SetRightMargin(0.01)
-        pad2.SetLeftMargin(0.08)
+        pad2.SetRightMargin(0.15)
+        pad2.SetLeftMargin(0.16)
         pad2.SetTopMargin(0)
         pad2.SetBottomMargin(0.0)
         pad2.Draw ()
@@ -939,7 +949,7 @@ def stackPlot(data,signal,background,histograms,watermark,
         mc.GetXaxis (). SetRangeUser(s,e)
         mc.GetYaxis (). SetTitle ("MC/Data")
         mc.GetYaxis (). SetTitleSize (0.24)
-        mc.GetYaxis (). SetTitleOffset (0.16)
+        mc.GetYaxis (). SetTitleOffset (0.24)
         mc.GetXaxis (). SetTitleSize (0.09)
         mc.GetXaxis().SetLabelSize(0.10)
         mc.GetYaxis().SetLabelSize(0.18)
@@ -986,8 +996,8 @@ def stackPlot(data,signal,background,histograms,watermark,
     
         canvas.cd()
         pad3 = r.TPad (" pad3","pad3" ,0.0 ,0.0 ,0.85 ,0.24)
-        pad3.SetRightMargin(0.01)
-        pad3.SetLeftMargin(0.08)
+        pad3.SetRightMargin(0.15)
+        pad3.SetLeftMargin(0.16)
         pad3.SetTopMargin(0)
         pad3.SetBottomMargin(0.5)
         pad3.Draw ()
@@ -996,8 +1006,8 @@ def stackPlot(data,signal,background,histograms,watermark,
         ratio_sg_mc.GetYaxis (). SetRangeUser (0.0 ,1.02)
         ratio_sg_mc.GetXaxis (). SetRangeUser(s,e)
         ratio_sg_mc.GetYaxis (). SetTitle ("SM-VBF/MC")
-        ratio_sg_mc.GetYaxis (). SetTitleSize (0.18)
-        ratio_sg_mc.GetYaxis (). SetTitleOffset (0.20)
+        ratio_sg_mc.GetYaxis (). SetTitleSize (0.17)
+        ratio_sg_mc.GetYaxis (). SetTitleOffset (0.32)
         ratio_sg_mc.GetYaxis().ChangeLabel(1,-1,0.)
         ratio_sg_mc.GetYaxis().ChangeLabel(-1,-1,0.)
         ratio_sg_mc.SetTitle("")
@@ -1007,7 +1017,7 @@ def stackPlot(data,signal,background,histograms,watermark,
             ratio_sg_mc.GetYaxis (). SetTitle ("Purity(#times"+str(int(purityMultiplier))+")")
             ratio_sg_mc.GetYaxis (). SetRangeUser (0.0 ,1.0)
             ratio_sg_mc.GetYaxis (). SetTitleSize (0.16)
-            ratio_sg_mc.GetYaxis (). SetTitleOffset (0.22)
+            ratio_sg_mc.GetYaxis (). SetTitleOffset (0.32)
             ratio_sg_mc.GetYaxis().SetNdivisions(405, r.kFALSE);
 
         if i.m_isIntegerPlot:
@@ -1029,6 +1039,8 @@ def stackPlot(data,signal,background,histograms,watermark,
         ratio_sg_mc.GetXaxis().SetLabelSize(0.24)
         ratio_sg_mc.SetMarkerStyle(8)
         ratio_sg_mc.SetMarkerSize(0.6)
+
+        ratio_sg_mc.GetXaxis().SetMaxDigits(3)
 
         ratio_sg_mc.Draw ("hist p E1 X0")
         if Zprime_pack != None:

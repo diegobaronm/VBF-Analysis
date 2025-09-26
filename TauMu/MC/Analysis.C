@@ -125,7 +125,7 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
     trigger_match=bool(muTrigMatch_0_HLT_mu26_ivarmedium | muTrigMatch_0_HLT_mu50);
     muon_trigger_SF = muon_0_NOMINAL_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium;  
   }
-  weight *= muon_trigger_SF;
+  if (sampleName.substr(0,4)!="data") weight *= muon_trigger_SF; // Apply trigger SF only to MC
 
   // 0) Invariant mass of tagging jets.
   double mjj = Kinematics::Mass({ljet_0_p4, ljet_1_p4});

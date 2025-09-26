@@ -21,7 +21,9 @@ std::vector<std::string> InitCutNames(const std::string& selectionName){
         cutNames = {"basic","dphi","drap","btag","iso","rnn","ptl","j1pt","j2pt","ptbal","mjj","nji","zcen","omega","mlt","ebdt","mreco","tpt"}; 
     } else if (selName == "NoBDTZpeak"){
         cutNames = {"basic","dphi","drap","btag","iso","rnn","ptl","j1pt","j2pt","ptbal","mjj","nji","zcen","omega","mlt","ebdt","mreco","tpt","ptsym","rvr"};
-    } else if (selName == "Zpeak" || selName == "Inclusive"){
+    } else if (selName == "Inclusive") {
+        cutNames = {"basic","dphi","drap","btag","iso","rnn","ptl","j1pt","j2pt","ptbal","mjj","nji","zcen","omega","mlt","ebdt","mreco","tpt"};
+    } else if (selName == "Zpeak") {
         cutNames = {"basic","dphi","drap","btag","iso","rnn","ptl","j1pt","j2pt","ptbal","mjj","nji","zcen","omega","mlt","ebdt","mreco","tpt","mva","ptsym","rvr"};
     } else if (selName == "HighMass"){
         cutNames = {"basic","dphi","drap","btag","iso","rnn","ptl","j1pt","j2pt","ptbal","mjj","nji","zcen","omega","mlt","ebdt","mreco","tpt","mva","ptsym","rvr"};
@@ -142,9 +144,6 @@ std::vector<int> ApplySelection(const std::string& selectionName, const Kinemati
         cuts.push_back( vars.eBDTScore >= 0.05 );
         cuts.push_back( vars.recoMass < 116 && vars.recoMass > 66 );
         cuts.push_back( vars.taupT >= 25 );
-        cuts.push_back( vars.vbfBDTScore > 0.3 );
-        cuts.push_back( vars.lepPtAssymetry > -0.3 );
-        cuts.push_back( vars.recoVisibleMassRatio < 4.0 );
 
     } else if (selName == "HighMass"){
         cuts.push_back( vars.deltaPhiLepLep <= 3.2 );

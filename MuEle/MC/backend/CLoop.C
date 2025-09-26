@@ -3,7 +3,7 @@
 #include "../Analysis.C"
 #include <cmath>
 #include <TMacro.h>
-#include "../../../AnalysisCommons/rewightingTools.h"
+#include "../../../AnalysisCommons/reweightingTools.h"
 #include"../../../AnalysisCommons/Tools.h"
 #include"../../../AnalysisCommons/Kinematics.h"
 
@@ -178,8 +178,8 @@ void CLoop::Loop(double lumFactor, int z_sample, const std::string& key, int log
 
         // Mjj reweighting
         double mjj=sqrt(2*(ljet_0_p4->Dot(*ljet_1_p4)));
-        bool do_data_driven = true;
-        bool do_mc_driven = true;
+        bool do_data_driven = false;
+        bool do_mc_driven = false;
 
         double mjj_w = calculateMjjWeight(do_data_driven, do_mc_driven, mjj, region, z_sample);
 
