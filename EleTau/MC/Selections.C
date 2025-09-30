@@ -208,12 +208,12 @@ std::vector<int> ApplySelection(const std::string& selectionName, const Kinemati
         cuts.push_back( vars.omega > -0.2 && vars.omega < 1.4 );
         cuts.push_back( vars.massTauLepton <= 80 || vars.massTauLepton >= 100);
         cuts.push_back( vars.eBDTScore >= 0.05 );
-        cuts.push_back( vars.recoMass >= 160);
+        cuts.push_back( vars.recoMass >= 66);
         cuts.push_back( vars.taupT >= 25 );
         cuts.push_back( vars.vbfBDTScore > 0.3 );
         cuts.push_back( vars.lepPtAssymetry > -0.3 );
         cuts.push_back( vars.recoVisibleMassRatio < 4.0 );
-        cuts.push_back( vars.lep1IsolationTight == 0 || (vars.nTauProngs == 1 && vars.tauJetRNNScore < 0.4) || (vars.nTauProngs == 3 && vars.tauJetRNNScore < 0.55) );
+        cuts.push_back( vars.lep1IsolationTight == 0 || (vars.nTauProngs == 1 && vars.tauJetRNNScore < 0.25) || (vars.nTauProngs == 3 && vars.tauJetRNNScore < 0.40) );
 
     } else if (selName == "MJValidation"){
         cuts.push_back( vars.deltaPhiLepLep <= 3.2 );
