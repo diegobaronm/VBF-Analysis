@@ -198,56 +198,58 @@ def main(menu_option):
         hadd_dictionary["W_EWK_PoPy"] = ("W_EWK_PoPy","W_EWK_PoPy")
         hadd_dictionary["VV_EWK"] = ("VV_EWK","VV_EWK")
         potential_rw_samples = ["Zll_Sherpa","Zll_MG","Zll_SherpaNLO","Zll_MGNLO","Zll_PoPy"]
-        hadd_dictionary["Zll_Sherpa"] = ("Zee_Sherpa","Zmumu_Sherpa")
-        hadd_dictionary["Zll_MG"] = ("Zee_MG","Zmumu_MG")
-        hadd_dictionary["Zll_SherpaNLO"] = ("Zee_SherpaNLO","Zmumu_SherpaNLO")
-        hadd_dictionary["Zll_MGNLO"] = ("Zee_MGNLO","Zmumu_MGNLO")
-        hadd_dictionary["Zll_PoPy"] = ("Zee_PoPy","Zmumu_PoPy")
-        hadd_dictionary = {} # Clean the dictionary and fill it later.
-        hadd_dictionary["Zll_Sherpa_RWParabolicCutoff"] = ("Zee_Sherpa_RWParabolicCutoff","Zmumu_Sherpa_RWParabolicCutoff")
-        hadd_dictionary["Zll_MG_RWParabolicCutoff"] = ("Zee_MG_RWParabolicCutoff","Zmumu_MG_RWParabolicCutoff")
-        hadd_dictionary["Zll_SherpaNLO_RWParabolicCutoff"] = ("Zee_SherpaNLO_RWParabolicCutoff","Zmumu_SherpaNLO_RWParabolicCutoff")
-        hadd_dictionary["Zll_MGNLO_RWParabolicCutoff"] = ("Zee_MGNLO_RWParabolicCutoff","Zmumu_MGNLO_RWParabolicCutoff")
-        hadd_dictionary["Zll_Sherpa_RWExponential"] = ("Zee_Sherpa_RWExponential","Zmumu_Sherpa_RWExponential")
-        hadd_dictionary["Zll_MG_RWExponential"] = ("Zee_MG_RWExponential","Zmumu_MG_RWExponential")
-        hadd_dictionary["Zll_SherpaNLO_RWExponential"] = ("Zee_SherpaNLO_RWExponential","Zmumu_SherpaNLO_RWExponential")
+        add_potential_rw_samples(hadd_dictionary, potential_rw_samples, channel="Zll")
+        potential_rw_samples = ["Zll_Sherpa","Zll_MG","Zll_SherpaNLO","Zll_MGNLO"]
+        add_potential_rw_samples(hadd_dictionary, potential_rw_samples, rw_tag=DEFAULT_MJJ_REWEIGHTING, channel="Zll")
+        # Now the alternative cases...
+        # 1. Exponential re-weighting
+        potential_rw_samples = ["Zll_Sherpa","Zll_MG","Zll_SherpaNLO"]
+        add_potential_rw_samples(hadd_dictionary, potential_rw_samples, rw_tag="RWExponentialClosure", channel="Zll")
+        # 2. ParabolicCutoff without closure
+        potential_rw_samples = ["Zll_Sherpa","Zll_MG","Zll_SherpaNLO","Zll_MGNLO"]
+        add_potential_rw_samples(hadd_dictionary, potential_rw_samples, rw_tag="RWParabolicCutoff", channel="Zll")
+        # 3. More cases if needed go here...
 
         # Ask the name of the directory where files are stored
         dir_name = input("Enter the name of the directory where the files will be stored: ")
         validate_input(dir_name)
-
-        if 'SR' in dir_name:
-            INFO.log("You are merging the SR samples. Adding the Parabolic RW samples for the Zll channel.")
-            hadd_dictionary["Zll_Sherpa_RWParabolic"] = ("Zee_Sherpa_RWParabolic","Zmumu_Sherpa_RWParabolic")
-            hadd_dictionary["Zll_MG_RWParabolic"] = ("Zee_MG_RWParabolic","Zmumu_MG_RWParabolic")
 
         # First the final directory
         zll_path = os.path.join("Zll", dir_name)
         create_if_not_exists(zll_path)
 
         # Define the input paths
-        zee_path= os.path.join("Zee", dir_name)
-        create_if_not_exists(zee_path)
-        zmm_path= os.path.join("MuMu", dir_name)
-        create_if_not_exists(zmm_path)
-
-        # Copy the root files from the channels to the output directory
-        # Obtain the source paths relative to the current directory
-        INFO.log('Enter the path to the Zee samples (relative to the current directory):')
-        source_zee_path = input().strip()
+        # Check if the files come from production or are already in the correct path
+        files_already_in_path = menu("Are the Zee and MuMu files already in the correct path?",["Yes","No"]) == 1
+        if not files_already_in_path:
+            INFO.log('Enter the path to the Zee samples (relative to the current directory):')
+            source_zee_path = input().strip()
+            INFO.log('Enter the path to the MuMu samples (relative to the current directory):')
+            source_mumu_path = input().strip()
+        else:
+            source_zee_path = os.path.join("Zee", dir_name)
+            source_mumu_path = os.path.join("MuMu", dir_name)
+        # Check the paths were set correctly
         if not os.path.exists(source_zee_path):
             ERROR.log("The path %s does not exist. Please check the path and try again." % source_zee_path)
             exit(1)
-        
-        INFO.log('Enter the path to the MuMu samples (relative to the current directory):')
-        source_mumu_path = input().strip()
         if not os.path.exists(source_mumu_path):
             ERROR.log("The path %s does not exist. Please check the path and try again." % source_mumu_path)
             exit(1)
 
-        
-        copy_root_files_from_to(source_zee_path, zee_path) # Relative to the current directory
-        copy_root_files_from_to(source_mumu_path, zmm_path)
+        # Copy the files to the correct directory if needed (depends on the previous question)
+        if not files_already_in_path:
+            INFO.log("Copying the files to the correct directory...")
+            zee_path= os.path.join("Zee", dir_name)
+            create_if_not_exists(zee_path)
+            zmm_path= os.path.join("MuMu", dir_name)
+            create_if_not_exists(zmm_path)
+            
+            copy_root_files_from_to(source_zee_path, zee_path) # Relative to the current directory
+            copy_root_files_from_to(source_mumu_path, zmm_path)
+        else:
+            zee_path = source_zee_path
+            zmm_path = source_mumu_path
 
         # Do the merging
         for result_sample, sample_pair in hadd_dictionary.items():

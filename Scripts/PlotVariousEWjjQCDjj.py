@@ -19,7 +19,7 @@ def get_QCDjj_suffixes(yaml_file_path, channel):
 def main():
     # Get the arguments.
     args = get_args()
-    channel = 'Zmumu'
+    channel = 'Zll'
     yaml_file = args.config_file
 
     root_files, QCDjj_choices = get_QCDjj_suffixes(yaml_file, channel)
@@ -39,34 +39,44 @@ def main():
 
     # Loop over all combinations of QCDjj and EWjj samples.
     config = load_config(yaml_file)
+    # If the configuration declares that is not post-fit, just plot without scaling.
+    do_not_use_sfs = config.get('is_post_fit', False) == False
+
     for qcd_sample in QCDjj_choices:
         for ew_sample in EWjj_choices:
-
-            # Change the configuration file to use the current samples.
-            config['qcd_sample'] = qcd_sample
-            config['signal_sample'] = ew_sample
-      
-            norm_factors, post_fit = get_norm_factors(qcd_sample, ew_sample, channel)
-            config['qcd_scale'] = norm_factors[0]
-            config['vbf_scale'] = norm_factors[1]
-            config['is_post_fit'] = post_fit
-
-            # Plot with the scaling factors.
-            INFO.log(f"Using normalization factors: {norm_factors[0]} for QCD and {norm_factors[1]} for VBF.")
-            Plot(args, config, interactive_mode=False)
-
-            # Plot without the scaling factors.
-            if post_fit:
-                INFO.log(f"Plotting also the non-normalised version.")
+            if do_not_use_sfs:
+                INFO.log(f"Using no normalization factors as per configuration.")
                 config['qcd_scale'] = 1.0
                 config['vbf_scale'] = 1.0
-                config['is_post_fit'] = False
+                Plot(args, config, interactive_mode=False)
+                INFO.log(f"Finished combination: QCD: {qcd_sample}, EW: {ew_sample}")
+
+            else:
+                # Change the configuration file to use the current samples.
+                config['qcd_sample'] = qcd_sample
+                config['signal_sample'] = ew_sample
+                
+                # Otherwise, get the normalization factors.
+                norm_factors, post_fit = get_norm_factors(qcd_sample, ew_sample, channel)
+                config['qcd_scale'] = norm_factors[0]
+                config['vbf_scale'] = norm_factors[1]
+                config['is_post_fit'] = post_fit
+
+                # Plot with the scaling factors.
+                INFO.log(f"Using normalization factors: {norm_factors[0]} for QCD and {norm_factors[1]} for VBF.")
                 Plot(args, config, interactive_mode=False)
 
-            # Finish the combination.
-            INFO.log(f"Finished combination: QCD: {qcd_sample}, EW: {ew_sample}")
-                
+                # Plot without the scaling factors.
+                if post_fit:
+                    INFO.log(f"Plotting also the non-normalised version.")
+                    config['qcd_scale'] = 1.0
+                    config['vbf_scale'] = 1.0
+                    config['is_post_fit'] = False
+                    Plot(args, config, interactive_mode=False)
 
+                # Finish the combination.
+                INFO.log(f"Finished combination: QCD: {qcd_sample}, EW: {ew_sample}")
+                
     INFO.log('All plots generated successfully!')
 
 if __name__ == "__main__":

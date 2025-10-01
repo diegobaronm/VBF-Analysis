@@ -28,6 +28,10 @@ NORM_FACTORS_DICT = { # Always QCDjj_EWjj : [qcd, vbf]
     'MG_RWExponential_Sherpa' : [0.935, 1.130],
     'SherpaNLO_RWExponential_Sherpa' : [0.993, 1.006],
 
+    'Sherpa_RWExponentialClosure_Sherpa' : [0.937, 1.182],
+    'MG_RWExponentialClosure_Sherpa' : [0.935, 1.130],
+    'SherpaNLO_RWExponentialClosure_Sherpa' : [0.993, 1.006],
+
     'Sherpa_RWParabolic_Sherpa' : [0.942, 1.170],
     'MG_RWParabolic_Sherpa' : [0.943, 1.104],
 
@@ -44,6 +48,10 @@ NORM_FACTORS_DICT = { # Always QCDjj_EWjj : [qcd, vbf]
     'Sherpa_RWExponential_PoPy' : [0.962, 0.999],
     'MG_RWExponential_PoPy' : [0.961, 0.947],
     'SherpaNLO_RWExponential_PoPy' : [1.017, 0.843],
+
+    'Sherpa_RWExponentialClosure_PoPy' : [0.962, 0.999],
+    'MG_RWExponentialClosure_PoPy' : [0.961, 0.947],
+    'SherpaNLO_RWExponentialClosure_PoPy' : [1.017, 0.843],
 
     'Sherpa_RWParabolic_PoPy' : [0.962, 0.999],
     'MG_RWParabolic_PoPy' : [0.961, 0.947],
