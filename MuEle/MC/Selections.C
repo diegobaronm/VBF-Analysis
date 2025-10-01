@@ -21,7 +21,7 @@ std::vector<std::string> InitCutNames(const std::string& selectionName){
         cutNames = {"basic","dphi","drap","btag","iso","ptl","j1pt","j2pt","ptbal","mjj","nji","zcen","omega","mreco","tpt"};
     } else if (selName == "Inclusive") {
         cutNames = {"basic","dphi","drap","btag","iso","ptl","j1pt","j2pt","ptbal","mjj","nji","zcen","omega","mreco","tpt"};
-    } else if (selName == "Zpeak" ){
+    } else if (selName == "Zpeak" || selName == "HighMass"){
         cutNames = {"basic","dphi","drap","btag","iso","ptl","j1pt","j2pt","ptbal","mjj","nji","zcen","omega","mreco","tpt","rvr"};
     } else {
         g_LOG(LogLevel::ERROR, "Selection name not found!");
@@ -102,6 +102,7 @@ std::vector<int> ApplySelection(const std::string& selectionName, const Kinemati
         cuts.push_back( vars.omega > -0.4 && vars.omega < 1.4 );
         cuts.push_back( vars.recoMass >= 160 );
         cuts.push_back( vars.lep2pT >= 27 );
+        cuts.push_back( vars.recoVisibleMassRatio < 4.0 );
 
     } else {
         g_LOG(LogLevel::ERROR, "Selection name not found!");

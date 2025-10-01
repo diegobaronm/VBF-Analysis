@@ -178,8 +178,8 @@ void CLoop::Loop(double lumFactor, int z_sample, const std::string& key, int log
 
         // Mjj reweighting
         double mjj=sqrt(2*(ljet_0_p4->Dot(*ljet_1_p4)));
-        bool do_data_driven = false;
-        bool do_mc_driven = false;
+        bool do_data_driven = true;
+        bool do_mc_driven = true;
 
         double mjj_w = calculateMjjWeight(do_data_driven, do_mc_driven, mjj, region, z_sample);
 
@@ -194,6 +194,7 @@ void CLoop::Loop(double lumFactor, int z_sample, const std::string& key, int log
         g_LOG(LogLevel::DEBUG,"Jet SFs = ", jet_NOMINAL_central_jets_global_effSF_JVT*jet_NOMINAL_central_jets_global_ineffSF_JVT*jet_NOMINAL_forward_jets_global_effSF_JVT);
         // check if event is from real data
         if (!(key.substr(0,4)=="data")) {
+            if (!(NOMINAL_pileup_combined_weight > -1)) continue; // TO AVOID FILLING HUGE WEIGHTS IN EWK Sample
             // Do not apply pileup reweighting to VBF MadGraph samples
             float puWeight = NOMINAL_pileup_combined_weight;
             if (key.find("VBF") != std::string::npos && key.find("MG") != std::string::npos)

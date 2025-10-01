@@ -3,29 +3,9 @@ import os
 import argparse
 import ROOT
 from AnalysisCommons.Run import INFO, WARNING, ERROR, DEBUG, Logger
+from AnalysisCommons.Constants import NORM_FACTORS_DICT
 
 from histogramHelpers import stackPlot, templatesDict
-
-NORM_FACTORS_DICT = { # Always QCDjj_EWjj : [qcd, vbf]
-    'Sherpa_RWParabolicCutoff_Sherpa' : [0.942, 1.170],
-    'MG_RWParabolicCutoff_Sherpa' : [0.943, 1.102],
-    'SherpaNLO_RWParabolicCutoff_Sherpa' : [1.000, 0.982],
-    'MGNLO_RWParabolicCutoff_Sherpa' : [0.953, 1.309],
-    'Sherpa_RWExponential_Sherpa' : [0.937, 1.182],
-    'MG_RWExponential_Sherpa' : [0.935, 1.130],
-    'SherpaNLO_RWExponential_Sherpa' : [0.993, 1.006],
-    'Sherpa_RWParabolic_Sherpa' : [0.942, 1.170],
-    'MG_RWParabolic_Sherpa' : [0.943, 1.104],
-    'Sherpa_RWParabolicCutoff_PoPy' : [0.962, 0.999],
-    'MG_RWParabolicCutoff_PoPy' : [0.961, 0.947],
-    'SherpaNLO_RWParabolicCutoff_PoPy' : [1.017, 0.843],
-    'MGNLO_RWParabolicCutoff_PoPy' : [0.974, 1.127],
-    'Sherpa_RWExponential_PoPy' : [0.962, 0.999],
-    'MG_RWExponential_PoPy' : [0.961, 0.947],
-    'SherpaNLO_RWExponential_PoPy' : [1.017, 0.843],
-    'Sherpa_RWParabolic_PoPy' : [0.962, 0.999],
-    'MG_RWParabolic_PoPy' : [0.961, 0.947],
-}
 
 def get_norm_factors(qcd_sample, ew_sample, channel):
     # Remove the `.root` extension from the sample names.

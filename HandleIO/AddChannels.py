@@ -1,6 +1,7 @@
 import os
 from CreateListToRun import menu
 from AnalysisCommons.Run import INFO, WARNING, DEBUG, ERROR
+from AnalysisCommons.Constants import DEFAULT_MJJ_REWEIGHTING
 from HandleIO.OutputsMerger import Z_PRIME_MASS_LIST
 
 def copy_root_files_from_to(from_path,to_path):
@@ -60,7 +61,7 @@ def add_potential_rw_samples(pairs_dict,list_of_samples, rw_tag = None, channel=
 
         # Create the pairs in the dictionary
         if rw_tag is not None:
-            pairs_dict[sample+"_RW"+rw_tag] = (sample1+"_RW"+rw_tag, sample2+"_RW"+rw_tag)
+            pairs_dict[sample+"_"+rw_tag] = (sample1+"_"+rw_tag, sample2+"_"+rw_tag)
         else:
             pairs_dict[sample] = (sample1, sample2)
 
@@ -97,7 +98,7 @@ def main(menu_option):
             hadd_dictionary[Zp_sample] = (Zp_sample,Zp_sample)
         potential_rw_samples = ["Ztautau_Sherpa","Ztautau_MG","Ztautau_SherpaNLO","Ztautau_MGNLO"]
         add_potential_rw_samples(hadd_dictionary, potential_rw_samples+["Ztautau_PoPy"]) # Add not RW samples
-        add_potential_rw_samples(hadd_dictionary, potential_rw_samples, rw_tag="ParabolicCutoff")
+        add_potential_rw_samples(hadd_dictionary, potential_rw_samples, rw_tag=DEFAULT_MJJ_REWEIGHTING)
 
         # Ask the name of the directory where files are stored
         dir_name = input("Enter the name of the directory where the files will be stored: ")
@@ -149,7 +150,7 @@ def main(menu_option):
         hadd_dictionary["VV_EWK"] = ("VV_EWK","VV_EWK")
         potential_rw_samples = ["Ztautau_Sherpa","Ztautau_MG","Ztautau_SherpaNLO","Ztautau_MGNLO"]
         add_potential_rw_samples(hadd_dictionary, potential_rw_samples+["Ztautau_PoPy"]) # Add not RW samples
-        add_potential_rw_samples(hadd_dictionary, potential_rw_samples, rw_tag="ParabolicCutoff")
+        add_potential_rw_samples(hadd_dictionary, potential_rw_samples, rw_tag=DEFAULT_MJJ_REWEIGHTING)
 
         # Ask the name of the directory where files are stored
         dir_name = input("Enter the name of the directory where the files will be stored: ")
