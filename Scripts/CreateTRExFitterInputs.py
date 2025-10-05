@@ -19,9 +19,9 @@ FIT_PARAMS = {"Sherpa_RWParabolicCutoff": [8.82838944E-08,-5.75209880E-04,1.4364
               "SherpaNLO_RWParabolicCutoffClosure" : [5.94966044e-08,-3.76772401e-04, 1.17521036, 2250.0],
               "MG_RWParabolicCutoffClosure" : [6.54900406e-08,-3.82604146e-04, 9.17664656e-01, 2250.0],
               "MGNLO_RWParabolicCutoffClosure" : [1.87328269e-08, -1.24610255e-05,  1.09966978, 2250.0],
-              "Sherpa_RWExponential" : [8.47307103E-04,1.06314779,1.54110821],
-              "SherpaNLO_RWExponential" : [8.96860907e-04, 6.93896459e-01, 1.25625295],
-              "MG_RWExponential" : [7.42436292e-04, 7.03633110e-01, 9.64192819e-01],
+              "Sherpa_RWExponentialClosure" : [8.47307103E-04,1.06314779,1.54110821],
+              "SherpaNLO_RWExponentialClosure" : [8.96860907e-04, 6.93896459e-01, 1.25625295],
+              "MG_RWExponentialClosure" : [7.42436292e-04, 7.03633110e-01, 9.64192819e-01],
               "Sherpa_RWParabolic" : [8.82838944E-08,-5.75209880E-04,1.43649628],
               "MG_RWParabolic" : [6.54900406e-08,-3.82604146e-04, 9.17664656e-01],
               "Sherpa_Closure": [1.32414517e-04, 9.15044268e-01],
@@ -54,13 +54,13 @@ FIT_COVARIANCE =  {"Sherpa_RWParabolicCutoff": [[ 4.20605912e-18, -1.05427079e-1
                      "MGNLO_RWParabolicCutoffClosure": [[ 1.25043836e-16, -4.22720216e-13,  2.17411396e-10],
                                                 [-4.22720216e-13,  1.71261502e-09, -9.58016471e-07],
                                                 [ 2.17411396e-10, -9.58016471e-07,  6.38964869e-04]],
-                     "Sherpa_RWExponential": [[ 5.70295287e-10, -1.39309227e-07,  1.55388883e-07],
+                     "Sherpa_RWExponentialClosure": [[ 5.70295287e-10, -1.39309227e-07,  1.55388883e-07],
                                                 [-1.39309227e-07,  9.14875204e-05, -8.28027500e-06],
                                                 [ 1.55388883e-07, -8.28027500e-06,  5.94002775e-05]],
-                     "SherpaNLO_RWExponential": [[ 2.37155393e-09, -3.31116570e-07,  4.15405141e-07],
+                     "SherpaNLO_RWExponentialClosure": [[ 2.37155393e-09, -3.31116570e-07,  4.15405141e-07],
                                                     [-3.31116570e-07,  1.38673767e-04, -9.34866513e-06],
                                                     [ 4.15405141e-07, -9.34866513e-06,  1.01018969e-04]],
-                     "MG_RWExponential": [[ 5.36921036e-11, -1.05729868e-08,  1.06524362e-08],
+                     "MG_RWExponentialClosure": [[ 5.36921036e-11, -1.05729868e-08,  1.06524362e-08],
                                             [-1.05729868e-08,  5.75756160e-06, -2.94019349e-07],
                                             [ 1.06524362e-08, -2.94019349e-07,  3.10751010e-06]],
                      "Sherpa_RWParabolic": [[ 4.20605912e-18, -1.05427079e-14,  5.06421195e-12],
@@ -88,7 +88,7 @@ def custom_parabolic_cutoff_model(x, a, b, c, cutoff):
 
 FUNCTIONS_DICT = {
     "RWParabolic" : parabolic_model,
-    "RWExponential" : exponential_model,
+    "RWExponentialClosure" : exponential_model,
     "RWParabolicCutoff" : custom_parabolic_cutoff_model,
     "RWParabolicCutoffClosure" : custom_parabolic_cutoff_model,
 }
@@ -206,7 +206,7 @@ def gather_samples(localPath, add_systematics = False):
     qcdSamples = ["%s_%s.root" % (channel(localPath), i) for i in FIT_PARAMS.keys() if 'RW' in i]
     backgroundSamples = ['Wjets.root','VV.root',"ttbar.root",'singletop.root','VV_EWK.root']
     if "Tau" in localPath or "MuEle" in localPath:
-        backgroundSamples += ['Higgs.root','Higgs_EWK.root','Zjets.root','W_EWK_Sherpa.root','MJ.root']
+        backgroundSamples += ['Higgs.root','Higgs_truth_EWK.root','Zjets.root','W_EWK_Sherpa.root','MJ.root']
 
     samples = dataSamples + signalSamples + qcdSamples + backgroundSamples
 
@@ -255,7 +255,7 @@ def correct_qcd_uncertainties(localPath, samples):
                     INFO.log(sample)
                     scaleBinUncertainty(histogram,sample)
                 # Include NOMINAL tag to samples used for systematics    
-                if "Signal_Sherpa" in sample[:-5] or "Sherpa_RWParabolicCutoff" in sample[:-5]:
+                if "Signal_Sherpa" in sample[:-5] or "SherpaNLO_RWParabolicCutoff" in sample[:-5]:
                     outputFile.WriteObject(histogram,histogramName+"_"+sample[:-5]+'_NOMINAL')
                 else :
                     outputFile.WriteObject(histogram,histogramName+"_"+sample[:-5])

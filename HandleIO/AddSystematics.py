@@ -49,6 +49,8 @@ def adjust_paths(args):
         DEFAULT_PATH_DICT[args.channel2] = args.ch2_path
 
 def get_relevant_systematics(args):
+    if args.channel1 == 'Ztl' or args.channel2 == 'Ztl': # We have to do some special treatment for the Ztl channel
+        return [s for s in LIST_OF_SYSTEMATICS if ('Zte' in s.channels or 'Ztm' in s.channels or args.channel2 in s.channels or args.channel1 in s.channels)]
     return [s for s in LIST_OF_SYSTEMATICS if (args.channel1 in s.channels or args.channel2 in s.channels)]
 
 def make_file_pairs(args):
@@ -82,6 +84,20 @@ def process_systematics(systematics_list, args, file1, file2):
     root_file1 = r.TFile.Open(os.path.join(DEFAULT_PATH_DICT[args.channel1], file1))
     root_file2 = r.TFile.Open(os.path.join(DEFAULT_PATH_DICT[args.channel2], file2))
 
+    # First do the NOMINAL histogram
+    nominal_histo1 = root_file1.Get('mass_jj_NOMINAL')
+    nominal_histo2 = root_file2.Get('mass_jj_NOMINAL')
+    if not nominal_histo1 or not nominal_histo2:
+        ERROR.log("Could not find NOMINAL histogram in one of the files. Exiting.")
+        exit(1)
+    nominal_histo1 = r.TH1F(nominal_histo1)
+    nominal_histo2 = r.TH1F(nominal_histo2)
+    nominal_histo_sum = nominal_histo1.Clone()
+    nominal_histo_sum.Add(nominal_histo2)
+    nominal_histo_sum.SetName('mass_jj_NOMINAL')
+    output_file.WriteTObject(nominal_histo_sum)
+
+    # Now process the systematics
     for i_systematic in systematics_list:
         INFO.log("Processing systematic: ", i_systematic.identifier)
 
