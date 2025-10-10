@@ -87,6 +87,11 @@ void CLoopSYS::Fill(double weight, const std::string& key) {
   // 0) Invariant mass of tagging jets.
   double mjj = Kinematics::Mass({ljet_0_p4, ljet_1_p4});
 
+  // Apply fix for '_thsys' samples
+  if (key.find("_thsys") != std::string::npos) {
+    useEvent = 1;
+  }
+
   if (useEvent==1 && correctCharge && n_electrons==1 && n_taus_rnn_loose>=1 && lepton_id && n_ljets>=2 && n_ljets<=3 && mjj>=250 && trigger_decision && trigger_match){
 
     // Build the kinematic variables needed for the selections.
@@ -224,6 +229,11 @@ void CLoopSYS::Fill(double weight, const std::string& key) {
     bool passedAllCuts = Tools::passedAllCuts(cutsVector);
     std::vector<int> notFullCutsVector{1,static_cast<int>(passedAllCuts)};
 
+    // Do the NOMINAL
+    if (m_systematicType == "nominal" && passedAllCuts) {
+      mass_jj_sys_hist->Fill(mjj, weight);
+    }
+
     // Fill the histograms for SF systematics
     if (m_systematicType == "sf" && passedAllCuts) {
       FILL_SYS_HISTOGRAMS(elec_0_EL_EFF_ID_TOTAL_1NPCOR_PLUS_UNCOR, EleEffSF_offline_TightLLH_d0z0_v13, elec_0_NOMINAL_EleEffSF_offline_TightLLH_d0z0_v13)
@@ -274,7 +284,6 @@ void CLoopSYS::Fill(double weight, const std::string& key) {
       FILL_SYS_HISTOGRAMS(tau_0_TAUS_TRUEHADTAU_EFF_RNNID_SYST, TauEffSF_JetRNNmedium, tau_0_NOMINAL_TauEffSF_JetRNNmedium)
       FILL_SYS_HISTOGRAMS(tau_0_TAUS_TRUEELECTRON_EFF_ELEBDT_STAT, TauEffSF_LooseEleBDT_electron, tau_0_NOMINAL_TauEffSF_LooseEleBDT_electron)
       FILL_SYS_HISTOGRAMS(tau_0_TAUS_TRUEELECTRON_EFF_ELEBDT_SYST, TauEffSF_LooseEleBDT_electron, tau_0_NOMINAL_TauEffSF_LooseEleBDT_electron)
-      mass_jj_sys_hist->Fill(mjj, weight); // Do the nominal for free here
 
     } else if (m_systematicType == "kinematic" && passedAllCuts) {
       mass_jj_sys_hist->Fill(mjj, weight);
@@ -321,6 +330,106 @@ void CLoopSYS::Fill(double weight, const std::string& key) {
       INSERT_SYS_THEORY_MAP(theory_weights_map, theory_weights_MSHT_pdfset)
       INSERT_SYS_THEORY_MAP(theory_weights_map, theory_weights_alphaS_down)
       INSERT_SYS_THEORY_MAP(theory_weights_map, theory_weights_alphaS_up)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_0)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_1)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_2)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_3)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_4)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_5)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_6)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_7)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_8)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_9)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_10)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_11)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_12)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_13)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_14)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_15)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_16)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_17)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_18)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_19)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_20)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_21)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_22)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_23)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_24)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_25)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_26)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_27)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_28)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_29)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_30)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_31)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_32)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_33)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_34)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_35)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_36)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_37)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_38)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_39)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_40)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_41)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_42)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_43)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_44)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_45)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_46)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_47)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_48)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_49)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_50)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_51)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_52)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_53)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_54)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_55)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_56)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_57)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_58)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_59)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_60)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_61)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_62)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_63)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_64)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_65)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_66)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_67)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_68)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_69)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_70)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_71)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_72)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_73)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_74)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_75)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_76)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_77)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_78)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_79)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_80)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_81)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_82)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_83)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_84)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_85)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_86)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_87)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_88)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_89)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_90)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_91)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_92)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_93)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_94)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_95)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_96)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_97)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_98)
+      INSERT_SYS_THEORY_MAP(theory_weights_map,  theory_weights_pdf_ztt_weight_99)
       // Do the weight adjustment
       if (key.find("VBF") != std::string::npos && m_systematicIdentifier.find("ASSEW") != std::string::npos) {
         g_LOG(LogLevel::DEBUG, "VBF samples do not have some theory weights (ASSEW*), falling back to nominal.");

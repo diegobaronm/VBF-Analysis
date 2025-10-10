@@ -43,3 +43,11 @@ theory_variations_dict = {
 "alphaS_down" : "LHE3Weight_MUR1_MUF1_PDF269000",
 "alphaS_up" : "LHE3Weight_MUR1_MUF1_PDF270000",
 }
+
+theory_variations_dict_additional = { "theory_weights_pdf_ztt_weight_%s" % k:"theory_weights_pdf_ztt_weight_%s" % k for k,v in zip(range(0,100), range(0,100)) }
+
+theory_variations_dict.update(theory_variations_dict_additional)
+
+if __name__ == "__main__":
+    print("This file is not meant to be run directly. It is intended to be imported as a module. It stores the following variations dictionary:")
+    print(theory_variations_dict)

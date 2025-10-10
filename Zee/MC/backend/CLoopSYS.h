@@ -365,6 +365,106 @@ public :
    Float_t         theory_weights_MSHT_pdfset;
    Float_t         theory_weights_alphaS_down;
    Float_t         theory_weights_alphaS_up;
+   Float_t         theory_weights_pdf_ztt_weight_0;
+   Float_t         theory_weights_pdf_ztt_weight_1;
+   Float_t         theory_weights_pdf_ztt_weight_10;
+   Float_t         theory_weights_pdf_ztt_weight_11;
+   Float_t         theory_weights_pdf_ztt_weight_12;
+   Float_t         theory_weights_pdf_ztt_weight_13;
+   Float_t         theory_weights_pdf_ztt_weight_14;
+   Float_t         theory_weights_pdf_ztt_weight_15;
+   Float_t         theory_weights_pdf_ztt_weight_16;
+   Float_t         theory_weights_pdf_ztt_weight_17;
+   Float_t         theory_weights_pdf_ztt_weight_18;
+   Float_t         theory_weights_pdf_ztt_weight_19;
+   Float_t         theory_weights_pdf_ztt_weight_2;
+   Float_t         theory_weights_pdf_ztt_weight_20;
+   Float_t         theory_weights_pdf_ztt_weight_21;
+   Float_t         theory_weights_pdf_ztt_weight_22;
+   Float_t         theory_weights_pdf_ztt_weight_23;
+   Float_t         theory_weights_pdf_ztt_weight_24;
+   Float_t         theory_weights_pdf_ztt_weight_25;
+   Float_t         theory_weights_pdf_ztt_weight_26;
+   Float_t         theory_weights_pdf_ztt_weight_27;
+   Float_t         theory_weights_pdf_ztt_weight_28;
+   Float_t         theory_weights_pdf_ztt_weight_29;
+   Float_t         theory_weights_pdf_ztt_weight_3;
+   Float_t         theory_weights_pdf_ztt_weight_30;
+   Float_t         theory_weights_pdf_ztt_weight_31;
+   Float_t         theory_weights_pdf_ztt_weight_32;
+   Float_t         theory_weights_pdf_ztt_weight_33;
+   Float_t         theory_weights_pdf_ztt_weight_34;
+   Float_t         theory_weights_pdf_ztt_weight_35;
+   Float_t         theory_weights_pdf_ztt_weight_36;
+   Float_t         theory_weights_pdf_ztt_weight_37;
+   Float_t         theory_weights_pdf_ztt_weight_38;
+   Float_t         theory_weights_pdf_ztt_weight_39;
+   Float_t         theory_weights_pdf_ztt_weight_4;
+   Float_t         theory_weights_pdf_ztt_weight_40;
+   Float_t         theory_weights_pdf_ztt_weight_41;
+   Float_t         theory_weights_pdf_ztt_weight_42;
+   Float_t         theory_weights_pdf_ztt_weight_43;
+   Float_t         theory_weights_pdf_ztt_weight_44;
+   Float_t         theory_weights_pdf_ztt_weight_45;
+   Float_t         theory_weights_pdf_ztt_weight_46;
+   Float_t         theory_weights_pdf_ztt_weight_47;
+   Float_t         theory_weights_pdf_ztt_weight_48;
+   Float_t         theory_weights_pdf_ztt_weight_49;
+   Float_t         theory_weights_pdf_ztt_weight_5;
+   Float_t         theory_weights_pdf_ztt_weight_50;
+   Float_t         theory_weights_pdf_ztt_weight_51;
+   Float_t         theory_weights_pdf_ztt_weight_52;
+   Float_t         theory_weights_pdf_ztt_weight_53;
+   Float_t         theory_weights_pdf_ztt_weight_54;
+   Float_t         theory_weights_pdf_ztt_weight_55;
+   Float_t         theory_weights_pdf_ztt_weight_56;
+   Float_t         theory_weights_pdf_ztt_weight_57;
+   Float_t         theory_weights_pdf_ztt_weight_58;
+   Float_t         theory_weights_pdf_ztt_weight_59;
+   Float_t         theory_weights_pdf_ztt_weight_6;
+   Float_t         theory_weights_pdf_ztt_weight_60;
+   Float_t         theory_weights_pdf_ztt_weight_61;
+   Float_t         theory_weights_pdf_ztt_weight_62;
+   Float_t         theory_weights_pdf_ztt_weight_63;
+   Float_t         theory_weights_pdf_ztt_weight_64;
+   Float_t         theory_weights_pdf_ztt_weight_65;
+   Float_t         theory_weights_pdf_ztt_weight_66;
+   Float_t         theory_weights_pdf_ztt_weight_67;
+   Float_t         theory_weights_pdf_ztt_weight_68;
+   Float_t         theory_weights_pdf_ztt_weight_69;
+   Float_t         theory_weights_pdf_ztt_weight_7;
+   Float_t         theory_weights_pdf_ztt_weight_70;
+   Float_t         theory_weights_pdf_ztt_weight_71;
+   Float_t         theory_weights_pdf_ztt_weight_72;
+   Float_t         theory_weights_pdf_ztt_weight_73;
+   Float_t         theory_weights_pdf_ztt_weight_74;
+   Float_t         theory_weights_pdf_ztt_weight_75;
+   Float_t         theory_weights_pdf_ztt_weight_76;
+   Float_t         theory_weights_pdf_ztt_weight_77;
+   Float_t         theory_weights_pdf_ztt_weight_78;
+   Float_t         theory_weights_pdf_ztt_weight_79;
+   Float_t         theory_weights_pdf_ztt_weight_8;
+   Float_t         theory_weights_pdf_ztt_weight_80;
+   Float_t         theory_weights_pdf_ztt_weight_81;
+   Float_t         theory_weights_pdf_ztt_weight_82;
+   Float_t         theory_weights_pdf_ztt_weight_83;
+   Float_t         theory_weights_pdf_ztt_weight_84;
+   Float_t         theory_weights_pdf_ztt_weight_85;
+   Float_t         theory_weights_pdf_ztt_weight_86;
+   Float_t         theory_weights_pdf_ztt_weight_87;
+   Float_t         theory_weights_pdf_ztt_weight_88;
+   Float_t         theory_weights_pdf_ztt_weight_89;
+   Float_t         theory_weights_pdf_ztt_weight_9;
+   Float_t         theory_weights_pdf_ztt_weight_90;
+   Float_t         theory_weights_pdf_ztt_weight_91;
+   Float_t         theory_weights_pdf_ztt_weight_92;
+   Float_t         theory_weights_pdf_ztt_weight_93;
+   Float_t         theory_weights_pdf_ztt_weight_94;
+   Float_t         theory_weights_pdf_ztt_weight_95;
+   Float_t         theory_weights_pdf_ztt_weight_96;
+   Float_t         theory_weights_pdf_ztt_weight_97;
+   Float_t         theory_weights_pdf_ztt_weight_98;
+   Float_t         theory_weights_pdf_ztt_weight_99;
    Float_t         triggerSF_em_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR__1down;
    Float_t         triggerSF_em_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR__1up;
    Float_t         triggerSF_em_MUON_EFF_TrigStatUncertainty__1down;
@@ -696,6 +796,106 @@ public :
    TBranch        *b_theory_weights_MSHT_pdfset;   //!
    TBranch        *b_theory_weights_alphaS_down;   //!
    TBranch        *b_theory_weights_alphaS_up;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_0;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_1;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_10;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_11;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_12;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_13;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_14;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_15;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_16;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_17;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_18;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_19;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_2;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_20;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_21;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_22;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_23;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_24;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_25;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_26;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_27;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_28;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_29;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_3;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_30;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_31;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_32;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_33;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_34;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_35;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_36;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_37;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_38;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_39;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_4;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_40;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_41;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_42;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_43;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_44;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_45;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_46;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_47;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_48;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_49;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_5;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_50;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_51;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_52;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_53;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_54;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_55;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_56;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_57;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_58;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_59;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_6;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_60;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_61;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_62;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_63;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_64;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_65;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_66;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_67;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_68;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_69;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_7;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_70;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_71;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_72;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_73;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_74;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_75;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_76;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_77;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_78;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_79;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_8;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_80;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_81;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_82;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_83;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_84;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_85;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_86;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_87;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_88;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_89;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_9;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_90;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_91;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_92;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_93;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_94;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_95;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_96;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_97;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_98;   //!
+   TBranch        *b_theory_weights_pdf_ztt_weight_99;   //!
    TBranch        *b_triggerSF_em_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR__1down;   //!
    TBranch        *b_triggerSF_em_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR__1up;   //!
    TBranch        *b_triggerSF_em_MUON_EFF_TrigStatUncertainty__1down;   //!
@@ -1109,6 +1309,106 @@ void CLoopSYS::Init(TTree *tree)
    fChain->SetBranchAddress("theory_weights_MSHT_pdfset", &theory_weights_MSHT_pdfset, &b_theory_weights_MSHT_pdfset);
    fChain->SetBranchAddress("theory_weights_alphaS_down", &theory_weights_alphaS_down, &b_theory_weights_alphaS_down);
    fChain->SetBranchAddress("theory_weights_alphaS_up", &theory_weights_alphaS_up, &b_theory_weights_alphaS_up);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_0", &theory_weights_pdf_ztt_weight_0, &b_theory_weights_pdf_ztt_weight_0);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_1", &theory_weights_pdf_ztt_weight_1, &b_theory_weights_pdf_ztt_weight_1);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_10", &theory_weights_pdf_ztt_weight_10, &b_theory_weights_pdf_ztt_weight_10);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_11", &theory_weights_pdf_ztt_weight_11, &b_theory_weights_pdf_ztt_weight_11);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_12", &theory_weights_pdf_ztt_weight_12, &b_theory_weights_pdf_ztt_weight_12);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_13", &theory_weights_pdf_ztt_weight_13, &b_theory_weights_pdf_ztt_weight_13);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_14", &theory_weights_pdf_ztt_weight_14, &b_theory_weights_pdf_ztt_weight_14);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_15", &theory_weights_pdf_ztt_weight_15, &b_theory_weights_pdf_ztt_weight_15);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_16", &theory_weights_pdf_ztt_weight_16, &b_theory_weights_pdf_ztt_weight_16);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_17", &theory_weights_pdf_ztt_weight_17, &b_theory_weights_pdf_ztt_weight_17);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_18", &theory_weights_pdf_ztt_weight_18, &b_theory_weights_pdf_ztt_weight_18);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_19", &theory_weights_pdf_ztt_weight_19, &b_theory_weights_pdf_ztt_weight_19);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_2", &theory_weights_pdf_ztt_weight_2, &b_theory_weights_pdf_ztt_weight_2);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_20", &theory_weights_pdf_ztt_weight_20, &b_theory_weights_pdf_ztt_weight_20);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_21", &theory_weights_pdf_ztt_weight_21, &b_theory_weights_pdf_ztt_weight_21);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_22", &theory_weights_pdf_ztt_weight_22, &b_theory_weights_pdf_ztt_weight_22);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_23", &theory_weights_pdf_ztt_weight_23, &b_theory_weights_pdf_ztt_weight_23);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_24", &theory_weights_pdf_ztt_weight_24, &b_theory_weights_pdf_ztt_weight_24);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_25", &theory_weights_pdf_ztt_weight_25, &b_theory_weights_pdf_ztt_weight_25);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_26", &theory_weights_pdf_ztt_weight_26, &b_theory_weights_pdf_ztt_weight_26);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_27", &theory_weights_pdf_ztt_weight_27, &b_theory_weights_pdf_ztt_weight_27);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_28", &theory_weights_pdf_ztt_weight_28, &b_theory_weights_pdf_ztt_weight_28);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_29", &theory_weights_pdf_ztt_weight_29, &b_theory_weights_pdf_ztt_weight_29);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_3", &theory_weights_pdf_ztt_weight_3, &b_theory_weights_pdf_ztt_weight_3);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_30", &theory_weights_pdf_ztt_weight_30, &b_theory_weights_pdf_ztt_weight_30);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_31", &theory_weights_pdf_ztt_weight_31, &b_theory_weights_pdf_ztt_weight_31);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_32", &theory_weights_pdf_ztt_weight_32, &b_theory_weights_pdf_ztt_weight_32);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_33", &theory_weights_pdf_ztt_weight_33, &b_theory_weights_pdf_ztt_weight_33);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_34", &theory_weights_pdf_ztt_weight_34, &b_theory_weights_pdf_ztt_weight_34);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_35", &theory_weights_pdf_ztt_weight_35, &b_theory_weights_pdf_ztt_weight_35);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_36", &theory_weights_pdf_ztt_weight_36, &b_theory_weights_pdf_ztt_weight_36);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_37", &theory_weights_pdf_ztt_weight_37, &b_theory_weights_pdf_ztt_weight_37);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_38", &theory_weights_pdf_ztt_weight_38, &b_theory_weights_pdf_ztt_weight_38);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_39", &theory_weights_pdf_ztt_weight_39, &b_theory_weights_pdf_ztt_weight_39);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_4", &theory_weights_pdf_ztt_weight_4, &b_theory_weights_pdf_ztt_weight_4);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_40", &theory_weights_pdf_ztt_weight_40, &b_theory_weights_pdf_ztt_weight_40);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_41", &theory_weights_pdf_ztt_weight_41, &b_theory_weights_pdf_ztt_weight_41);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_42", &theory_weights_pdf_ztt_weight_42, &b_theory_weights_pdf_ztt_weight_42);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_43", &theory_weights_pdf_ztt_weight_43, &b_theory_weights_pdf_ztt_weight_43);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_44", &theory_weights_pdf_ztt_weight_44, &b_theory_weights_pdf_ztt_weight_44);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_45", &theory_weights_pdf_ztt_weight_45, &b_theory_weights_pdf_ztt_weight_45);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_46", &theory_weights_pdf_ztt_weight_46, &b_theory_weights_pdf_ztt_weight_46);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_47", &theory_weights_pdf_ztt_weight_47, &b_theory_weights_pdf_ztt_weight_47);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_48", &theory_weights_pdf_ztt_weight_48, &b_theory_weights_pdf_ztt_weight_48);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_49", &theory_weights_pdf_ztt_weight_49, &b_theory_weights_pdf_ztt_weight_49);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_5", &theory_weights_pdf_ztt_weight_5, &b_theory_weights_pdf_ztt_weight_5);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_50", &theory_weights_pdf_ztt_weight_50, &b_theory_weights_pdf_ztt_weight_50);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_51", &theory_weights_pdf_ztt_weight_51, &b_theory_weights_pdf_ztt_weight_51);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_52", &theory_weights_pdf_ztt_weight_52, &b_theory_weights_pdf_ztt_weight_52);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_53", &theory_weights_pdf_ztt_weight_53, &b_theory_weights_pdf_ztt_weight_53);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_54", &theory_weights_pdf_ztt_weight_54, &b_theory_weights_pdf_ztt_weight_54);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_55", &theory_weights_pdf_ztt_weight_55, &b_theory_weights_pdf_ztt_weight_55);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_56", &theory_weights_pdf_ztt_weight_56, &b_theory_weights_pdf_ztt_weight_56);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_57", &theory_weights_pdf_ztt_weight_57, &b_theory_weights_pdf_ztt_weight_57);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_58", &theory_weights_pdf_ztt_weight_58, &b_theory_weights_pdf_ztt_weight_58);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_59", &theory_weights_pdf_ztt_weight_59, &b_theory_weights_pdf_ztt_weight_59);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_6", &theory_weights_pdf_ztt_weight_6, &b_theory_weights_pdf_ztt_weight_6);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_60", &theory_weights_pdf_ztt_weight_60, &b_theory_weights_pdf_ztt_weight_60);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_61", &theory_weights_pdf_ztt_weight_61, &b_theory_weights_pdf_ztt_weight_61);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_62", &theory_weights_pdf_ztt_weight_62, &b_theory_weights_pdf_ztt_weight_62);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_63", &theory_weights_pdf_ztt_weight_63, &b_theory_weights_pdf_ztt_weight_63);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_64", &theory_weights_pdf_ztt_weight_64, &b_theory_weights_pdf_ztt_weight_64);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_65", &theory_weights_pdf_ztt_weight_65, &b_theory_weights_pdf_ztt_weight_65);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_66", &theory_weights_pdf_ztt_weight_66, &b_theory_weights_pdf_ztt_weight_66);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_67", &theory_weights_pdf_ztt_weight_67, &b_theory_weights_pdf_ztt_weight_67);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_68", &theory_weights_pdf_ztt_weight_68, &b_theory_weights_pdf_ztt_weight_68);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_69", &theory_weights_pdf_ztt_weight_69, &b_theory_weights_pdf_ztt_weight_69);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_7", &theory_weights_pdf_ztt_weight_7, &b_theory_weights_pdf_ztt_weight_7);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_70", &theory_weights_pdf_ztt_weight_70, &b_theory_weights_pdf_ztt_weight_70);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_71", &theory_weights_pdf_ztt_weight_71, &b_theory_weights_pdf_ztt_weight_71);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_72", &theory_weights_pdf_ztt_weight_72, &b_theory_weights_pdf_ztt_weight_72);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_73", &theory_weights_pdf_ztt_weight_73, &b_theory_weights_pdf_ztt_weight_73);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_74", &theory_weights_pdf_ztt_weight_74, &b_theory_weights_pdf_ztt_weight_74);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_75", &theory_weights_pdf_ztt_weight_75, &b_theory_weights_pdf_ztt_weight_75);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_76", &theory_weights_pdf_ztt_weight_76, &b_theory_weights_pdf_ztt_weight_76);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_77", &theory_weights_pdf_ztt_weight_77, &b_theory_weights_pdf_ztt_weight_77);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_78", &theory_weights_pdf_ztt_weight_78, &b_theory_weights_pdf_ztt_weight_78);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_79", &theory_weights_pdf_ztt_weight_79, &b_theory_weights_pdf_ztt_weight_79);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_8", &theory_weights_pdf_ztt_weight_8, &b_theory_weights_pdf_ztt_weight_8);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_80", &theory_weights_pdf_ztt_weight_80, &b_theory_weights_pdf_ztt_weight_80);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_81", &theory_weights_pdf_ztt_weight_81, &b_theory_weights_pdf_ztt_weight_81);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_82", &theory_weights_pdf_ztt_weight_82, &b_theory_weights_pdf_ztt_weight_82);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_83", &theory_weights_pdf_ztt_weight_83, &b_theory_weights_pdf_ztt_weight_83);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_84", &theory_weights_pdf_ztt_weight_84, &b_theory_weights_pdf_ztt_weight_84);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_85", &theory_weights_pdf_ztt_weight_85, &b_theory_weights_pdf_ztt_weight_85);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_86", &theory_weights_pdf_ztt_weight_86, &b_theory_weights_pdf_ztt_weight_86);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_87", &theory_weights_pdf_ztt_weight_87, &b_theory_weights_pdf_ztt_weight_87);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_88", &theory_weights_pdf_ztt_weight_88, &b_theory_weights_pdf_ztt_weight_88);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_89", &theory_weights_pdf_ztt_weight_89, &b_theory_weights_pdf_ztt_weight_89);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_9", &theory_weights_pdf_ztt_weight_9, &b_theory_weights_pdf_ztt_weight_9);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_90", &theory_weights_pdf_ztt_weight_90, &b_theory_weights_pdf_ztt_weight_90);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_91", &theory_weights_pdf_ztt_weight_91, &b_theory_weights_pdf_ztt_weight_91);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_92", &theory_weights_pdf_ztt_weight_92, &b_theory_weights_pdf_ztt_weight_92);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_93", &theory_weights_pdf_ztt_weight_93, &b_theory_weights_pdf_ztt_weight_93);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_94", &theory_weights_pdf_ztt_weight_94, &b_theory_weights_pdf_ztt_weight_94);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_95", &theory_weights_pdf_ztt_weight_95, &b_theory_weights_pdf_ztt_weight_95);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_96", &theory_weights_pdf_ztt_weight_96, &b_theory_weights_pdf_ztt_weight_96);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_97", &theory_weights_pdf_ztt_weight_97, &b_theory_weights_pdf_ztt_weight_97);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_98", &theory_weights_pdf_ztt_weight_98, &b_theory_weights_pdf_ztt_weight_98);
+   fChain->SetBranchAddress("theory_weights_pdf_ztt_weight_99", &theory_weights_pdf_ztt_weight_99, &b_theory_weights_pdf_ztt_weight_99);
    fChain->SetBranchAddress("triggerSF_em_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR__1down", &triggerSF_em_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR__1down, &b_triggerSF_em_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR__1down);
    fChain->SetBranchAddress("triggerSF_em_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR__1up", &triggerSF_em_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR__1up, &b_triggerSF_em_EL_EFF_Trigger_TOTAL_1NPCOR_PLUS_UNCOR__1up);
    fChain->SetBranchAddress("triggerSF_em_MUON_EFF_TrigStatUncertainty__1down", &triggerSF_em_MUON_EFF_TrigStatUncertainty__1down, &b_triggerSF_em_MUON_EFF_TrigStatUncertainty__1down);

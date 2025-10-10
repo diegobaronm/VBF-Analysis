@@ -6,8 +6,8 @@ class Systematic:
     def __init__(self, identifier, histogram_name, type, channels = ["Zte","Ztm","Zem", "Zee", "Zmm"]):
         self.identifier = identifier
         self.histogram_name = histogram_name
-        if type not in ["theory","sf","kinematic"]:
-            ERROR(f"Systematic type '{type}' is not recognized. Must be one of ['theory','sf','kinematic']")
+        if type not in ["theory","sf","kinematic","nominal"]:
+            ERROR(f"Systematic type '{type}' is not recognized. Must be one of ['theory','sf','kinematic','nominal']")
             exit(1)
         self.type = type
         for channel in channels:
@@ -22,6 +22,9 @@ ELECTRON_CHANNELS = ["Zte", "Zem", "Zee"]
 TAU_CHANNELS = ["Ztm", "Zte"]
 
 LIST_OF_SYSTEMATICS = [
+    # NOMINAL
+    Systematic("NOMINAL", "NOMINAL", "nominal"),
+
     # Theory systematics
     Systematic("theory_weights_CT18_pdfset", "CT18_pdfset", "theory"),
     Systematic("theory_weights_LHE3Weight_ME_ONLY_MUR05_MUF05_PDF303200_PSMUR05_PSMUF05", "LHE3Weight_ME_ONLY_MUR05_MUF05_PDF303200_PSMUR05_PSMUF05", "theory"),
@@ -64,7 +67,107 @@ LIST_OF_SYSTEMATICS = [
     Systematic("theory_weights_MSHT_pdfset", "MSHT_pdfset", "theory"),
     Systematic("theory_weights_alphaS_down", "alphaS_down", "theory"),
     Systematic("theory_weights_alphaS_up", "alphaS_up", "theory"),
-    
+    Systematic("theory_weights_pdf_ztt_weight_0", "theory_weights_pdf_ztt_weight_0", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_1", "theory_weights_pdf_ztt_weight_1", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_2", "theory_weights_pdf_ztt_weight_2", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_3", "theory_weights_pdf_ztt_weight_3", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_4", "theory_weights_pdf_ztt_weight_4", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_5", "theory_weights_pdf_ztt_weight_5", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_6", "theory_weights_pdf_ztt_weight_6", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_7", "theory_weights_pdf_ztt_weight_7", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_8", "theory_weights_pdf_ztt_weight_8", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_9", "theory_weights_pdf_ztt_weight_9", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_10", "theory_weights_pdf_ztt_weight_10", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_11", "theory_weights_pdf_ztt_weight_11", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_12", "theory_weights_pdf_ztt_weight_12", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_13", "theory_weights_pdf_ztt_weight_13", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_14", "theory_weights_pdf_ztt_weight_14", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_15", "theory_weights_pdf_ztt_weight_15", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_16", "theory_weights_pdf_ztt_weight_16", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_17", "theory_weights_pdf_ztt_weight_17", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_18", "theory_weights_pdf_ztt_weight_18", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_19", "theory_weights_pdf_ztt_weight_19", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_20", "theory_weights_pdf_ztt_weight_20", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_21", "theory_weights_pdf_ztt_weight_21", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_22", "theory_weights_pdf_ztt_weight_22", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_23", "theory_weights_pdf_ztt_weight_23", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_24", "theory_weights_pdf_ztt_weight_24", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_25", "theory_weights_pdf_ztt_weight_25", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_26", "theory_weights_pdf_ztt_weight_26", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_27", "theory_weights_pdf_ztt_weight_27", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_28", "theory_weights_pdf_ztt_weight_28", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_29", "theory_weights_pdf_ztt_weight_29", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_30", "theory_weights_pdf_ztt_weight_30", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_31", "theory_weights_pdf_ztt_weight_31", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_32", "theory_weights_pdf_ztt_weight_32", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_33", "theory_weights_pdf_ztt_weight_33", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_34", "theory_weights_pdf_ztt_weight_34", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_35", "theory_weights_pdf_ztt_weight_35", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_36", "theory_weights_pdf_ztt_weight_36", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_37", "theory_weights_pdf_ztt_weight_37", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_38", "theory_weights_pdf_ztt_weight_38", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_39", "theory_weights_pdf_ztt_weight_39", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_40", "theory_weights_pdf_ztt_weight_40", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_41", "theory_weights_pdf_ztt_weight_41", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_42", "theory_weights_pdf_ztt_weight_42", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_43", "theory_weights_pdf_ztt_weight_43", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_44", "theory_weights_pdf_ztt_weight_44", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_45", "theory_weights_pdf_ztt_weight_45", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_46", "theory_weights_pdf_ztt_weight_46", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_47", "theory_weights_pdf_ztt_weight_47", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_48", "theory_weights_pdf_ztt_weight_48", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_49", "theory_weights_pdf_ztt_weight_49", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_50", "theory_weights_pdf_ztt_weight_50", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_51", "theory_weights_pdf_ztt_weight_51", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_52", "theory_weights_pdf_ztt_weight_52", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_53", "theory_weights_pdf_ztt_weight_53", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_54", "theory_weights_pdf_ztt_weight_54", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_55", "theory_weights_pdf_ztt_weight_55", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_56", "theory_weights_pdf_ztt_weight_56", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_57", "theory_weights_pdf_ztt_weight_57", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_58", "theory_weights_pdf_ztt_weight_58", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_59", "theory_weights_pdf_ztt_weight_59", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_60", "theory_weights_pdf_ztt_weight_60", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_61", "theory_weights_pdf_ztt_weight_61", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_62", "theory_weights_pdf_ztt_weight_62", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_63", "theory_weights_pdf_ztt_weight_63", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_64", "theory_weights_pdf_ztt_weight_64", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_65", "theory_weights_pdf_ztt_weight_65", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_66", "theory_weights_pdf_ztt_weight_66", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_67", "theory_weights_pdf_ztt_weight_67", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_68", "theory_weights_pdf_ztt_weight_68", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_69", "theory_weights_pdf_ztt_weight_69", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_70", "theory_weights_pdf_ztt_weight_70", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_71", "theory_weights_pdf_ztt_weight_71", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_72", "theory_weights_pdf_ztt_weight_72", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_73", "theory_weights_pdf_ztt_weight_73", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_74", "theory_weights_pdf_ztt_weight_74", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_75", "theory_weights_pdf_ztt_weight_75", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_76", "theory_weights_pdf_ztt_weight_76", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_77", "theory_weights_pdf_ztt_weight_77", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_78", "theory_weights_pdf_ztt_weight_78", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_79", "theory_weights_pdf_ztt_weight_79", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_80", "theory_weights_pdf_ztt_weight_80", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_81", "theory_weights_pdf_ztt_weight_81", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_82", "theory_weights_pdf_ztt_weight_82", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_83", "theory_weights_pdf_ztt_weight_83", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_84", "theory_weights_pdf_ztt_weight_84", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_85", "theory_weights_pdf_ztt_weight_85", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_86", "theory_weights_pdf_ztt_weight_86", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_87", "theory_weights_pdf_ztt_weight_87", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_88", "theory_weights_pdf_ztt_weight_88", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_89", "theory_weights_pdf_ztt_weight_89", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_90", "theory_weights_pdf_ztt_weight_90", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_91", "theory_weights_pdf_ztt_weight_91", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_92", "theory_weights_pdf_ztt_weight_92", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_93", "theory_weights_pdf_ztt_weight_93", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_94", "theory_weights_pdf_ztt_weight_94", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_95", "theory_weights_pdf_ztt_weight_95", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_96", "theory_weights_pdf_ztt_weight_96", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_97", "theory_weights_pdf_ztt_weight_97", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_98", "theory_weights_pdf_ztt_weight_98", "theory"),
+    Systematic("theory_weights_pdf_ztt_weight_99", "theory_weights_pdf_ztt_weight_99", "theory"),
+
     # Kinematic systematics
     Systematic("MUON_ID_1down", "MUON_ID_1down", "kinematic", channels=MUON_CHANNELS),
     Systematic("MUON_ID_1up", "MUON_ID_1up", "kinematic", channels=MUON_CHANNELS),
@@ -328,6 +431,21 @@ def filter_systematics_by_channel(systematics, channel):
     filtered_systematics = []
     for systematic in systematics:
         if channel in systematic.channels:
+            filtered_systematics.append(systematic)
+    return filtered_systematics
+
+def filter_systematics_by_type(systematics, type_sys_to_run):
+    # Check that the types provided are valid
+    valid_types_sys_to_run = ["sf", "kinematic", "theory", "nominal"]
+    for t in type_sys_to_run:
+        if t not in valid_types_sys_to_run and t != "all":
+            ERROR.log("Type of systematic %s not recognised. Valid types are: %s." % (t, ", ".join(valid_types_sys_to_run)))
+            exit(1)
+
+    # Filter
+    filtered_systematics = []
+    for systematic in systematics:
+        if systematic.type in type_sys_to_run:
             filtered_systematics.append(systematic)
     return filtered_systematics
 

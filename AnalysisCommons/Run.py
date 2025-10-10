@@ -81,7 +81,7 @@ def luminosity(key):
     
 def getEventWeight(key,realList,infos,totRealLum):
     # Modification needed for systematics
-    if "_sys" in key:
+    if "_sys" in key or "_thsys" in key:
         key = key+"_NOMINAL"
         DEBUG.log("Key modified for systematics...")
 
@@ -98,7 +98,7 @@ def getEventWeightForSys(key, infos, totRealLum):
     # calculate luminosity weight
     lumWeight = (totRealLum * 1000 * infos[key]["xsec"] * infos[key]["fil_eff"] * infos[key]["kfac"])/infos[key]["sumw"]
     lumStr = "%.5E" % (lumWeight)
-    DEBUG.log("Luminosity weight for systematics = "+lumStr)
+    INFO.log("Luminosity weight for systematics = "+lumStr)
     return lumStr
     
 def getZllSampleKey(key):
@@ -189,8 +189,9 @@ def DrawC(filename,lumStr,z_sample,key_pop,tree,region, dirs, CLI_args, logLevel
         r.gROOT.ProcessLine("f->Close("R")")
     else:
         # Figure out the relevant systematics
-        from .Systematics import LIST_OF_SYSTEMATICS, filter_systematics_by_channel
+        from .Systematics import LIST_OF_SYSTEMATICS, filter_systematics_by_channel, filter_systematics_by_type
         LIST_OF_SYSTEMATICS = filter_systematics_by_channel(LIST_OF_SYSTEMATICS, CLI_args.sys_channel)
+        LIST_OF_SYSTEMATICS = filter_systematics_by_type(LIST_OF_SYSTEMATICS, CLI_args.sys_type.split(","))
 
         # State variables for the systematic loop
         number_of_systematics = len(LIST_OF_SYSTEMATICS)
@@ -212,7 +213,13 @@ def DrawC(filename,lumStr,z_sample,key_pop,tree,region, dirs, CLI_args, logLevel
         INFO.log("Running the analysis for %d systematic variations." % number_of_systematics)
         for systematic in LIST_OF_SYSTEMATICS:
             # SF systematics logic
-            if systematic.type == "sf":
+            if systematic.type == "nominal":
+                sys_tree_name = "NOMINAL"
+                sys_histogram_postfix = "NOMINAL"
+                systematic_identifier = ""
+                sys_lumStr = lumStr
+                sys_counter += 1
+            elif systematic.type == "sf":
                 sys_tree_name = "NOMINAL"
                 sys_histogram_postfix = "NOMINAL"
                 systematic_identifier = ""
@@ -236,7 +243,9 @@ def DrawC(filename,lumStr,z_sample,key_pop,tree,region, dirs, CLI_args, logLevel
                 systematic_identifier = systematic.identifier
                 sys_counter += 1
                 # Only in this case we need to modify the lumiStr
-                sys_key = key_pop+systematic.identifier.replace('theory_weights_', '_')
+                sys_key = "%s_%s" % (key_pop, systematic.identifier)
+                if not ('pdf_ztt_weight' in systematic.identifier):
+                    sys_key = key_pop + systematic.identifier.replace('theory_weights_', '_')
                 sys_lumStr = str(getEventWeightForSys(sys_key, sum_of_weight_metadata, luminosity))
                 DEBUG.log("Original lumStr: %s, new lumStr for theory systematic: %s" % (lumStr, sys_lumStr))
             else:
@@ -262,7 +271,7 @@ def DrawC(filename,lumStr,z_sample,key_pop,tree,region, dirs, CLI_args, logLevel
             r.gROOT.Reset()
 
         # Check that the number of histograms you expect are created in each file.
-        expected_number_of_histograms = 1 + number_of_systematics # Count the NOMINAL
+        expected_number_of_histograms = number_of_systematics # Count the NOMINAL
         output_file_name = key_pop + tree + ".root"
         output_file = r.TFile(output_file_name, "READ")
         actual_number_of_histograms = len(output_file.GetListOfKeys())
@@ -345,6 +354,7 @@ def createParser():
     parser.add_argument("--loglevel", help="Set the log level. Default is INFO.", type=int, choices=[1, 2, 3, 4], default=3)
     parser.add_argument("--sys", help="If set, the code will run the systematic variations. Default is False.", action='store_true')
     parser.add_argument("--sys-channel", help="When --sys is set, this has to be set to select the associated systematics variations for the channel. Default is None and will raise an error if --sys is set.", type=str, choices=["Zee", "Zmm", "Zem", "Ztm","Zte"], default=None)
+    parser.add_argument("--sys-type", help="Comma separated list of types of systematics to run. By default only experimental ones (sf and kinematic) are run. If you want to run theory systematics too, set this to 'all'.", type=str, default="sf,kinematic")
 
     # Parse arguments
     args = parser.parse_args()
@@ -357,6 +367,18 @@ def createParser():
     if args.sys and args.sys_channel is None:
         ERROR.log("When --sys is set, --sys-channel has to be set too.")
         exit(1)
+
+    type_sys_to_run = args.sys_type.split(",")
+    valid_types_sys_to_run = ["sf", "kinematic", "theory"]
+    for t in type_sys_to_run:
+        if t not in valid_types_sys_to_run and t != "all":
+            ERROR.log("Type of systematic %s not recognised. Valid types are: %s." % (t, ", ".join(valid_types_sys_to_run)))
+            exit(1)
+    if 'sf' in type_sys_to_run and 'kinematic' in type_sys_to_run and 'theory' in type_sys_to_run:
+        ERROR.log("You are trying to run all types of systematics. Since theory ones are in different files this need to be done separately.")
+        exit(1)
+    # Always add the NOMINAL
+    args.sys_type = args.sys_type + ",nominal"
 
     return args
 
@@ -428,6 +450,7 @@ def RunAnalysis(dataCombos, dataSets, realList, infos, dirs, output_dict):
     INFO.log("Clean: %s" % parser.clean)
     INFO.log("Systematics: %s" % parser.sys)
     INFO.log("Systematics channel: %s" % parser.sys_channel)
+    INFO.log("Systematics types: %s" % parser.sys_type)
 
     # check if the user wants to run from a set of samples defined in a text file.
     if running_from_txt:

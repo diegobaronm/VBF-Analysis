@@ -7,8 +7,11 @@ Zmumu=["/eos/user/t/twyatt/data/diego/v26-mm/","/eos/user/d/dbaronmo/v26-mm/"]
 Zee=["/eos/user/t/twyatt/data/diego/v26-ee/","/eos/user/d/dbaronmo/v26-ee/"]
 
 Ztaulep_sys = ["/Volumes/T7/v26-SYS/"]
+Ztaulep_thsys = ["/Volumes/T7/v26-theory-SYS/"]
 Zmumu_sys = ["/Volumes/T7/v26-mm-SYS/"] # Legacy: /eos/user/d/dbaronmo/v26-mm-sys-vbf/
+Zmumu_thsys = ["/Volumes/T7/v26-mm-theory-SYS/"]
 Zee_sys = ['/Volumes/T7/v26-ee-SYS/'] # Legacy: /eos/user/d/dbaronmo/v26-ee-sys-vbf-p1/, /eos/user/w/wyatt/data/v26-ee-sys-vbf-p2/
+Zee_thsys = ["/Volumes/T7/v26-ee-theory-SYS/"]
 
 Ztaulep_truth=["/Users/user/Documents/HEP/v26-truth/"]
 
@@ -933,7 +936,8 @@ mc_ee={'Ztautau_2017'  :  ['user.dbaronmo.v26-ee.mc.361108.PoPy8_Ztt.M4.e3601_s3
 'VBF_Zee_MG_HM_2015'  :  ['user.dbaronmo.v26-ee.mc16_13TeV.558310.MGPy8_SM_highMass_eejj_v2.M4.e8557_s3889_r9364_p4512.sv2_Ta', '558310', 0.007385, 1.0, 1.0] ,
 }
 
-mc_taulep_sys = {'VBF_Ztautau_sherpa_2017_sys'  :  ['user.dbaronmo.v26-SYS.mc16_13TeV.700360.Sh_2211_Ztt2jets_Min_N_TChannel.M4.e8357_s3126_r10201_p4512.sv1_Ta','700360',7.791600e-01,1.000000,1.000000] ,
+mc_taulep_sys = {
+'VBF_Ztautau_sherpa_2017_sys'  :  ['user.dbaronmo.v26-SYS.mc16_13TeV.700360.Sh_2211_Ztt2jets_Min_N_TChannel.M4.e8357_s3126_r10201_p4512.sv1_Ta','700360',7.791600e-01,1.000000,1.000000] ,
 'VBF_Ztautau_sherpa_2018_sys'  :  ['user.dbaronmo.v26-SYS.mc16_13TeV.700360.Sh_2211_Ztt2jets_Min_N_TChannel.M4.e8357_s3126_r10724_p4512.sv1_Ta','700360',7.791600e-01,1.000000,1.000000] ,
 'VBF_Ztautau_sherpa_2015_sys'  :  ['user.dbaronmo.v26-SYS.mc16_13TeV.700360.Sh_2211_Ztt2jets_Min_N_TChannel.M4.e8357_s3126_r9364_p4512.sv1_Ta','700360',7.791600e-01,1.000000,1.000000] ,
 'Ztautau_SherpaNLO1_2017_sys'  :  ['user.dbaronmo.v26-SYS.mc16_13TeV.700792.Sh_2214_Ztt_maxHTpTV2_BF.M4.e8527_s3126_r10201_p5313.sv1_Ta','700792',2.239600e+03,1.000000,0.024865] ,
@@ -946,8 +950,23 @@ mc_taulep_sys = {'VBF_Ztautau_sherpa_2017_sys'  :  ['user.dbaronmo.v26-SYS.mc16_
 'Ztautau_SherpaNLO3_2018_sys'  :  ['user.dbaronmo.v26-SYS.mc16_13TeV.700794.Sh_2214_Ztt_maxHTpTV2_CVBV.M4.e8527_s3126_r10724_p5313.sv1_Ta','700794',2.239700e+03,1.000000,0.845954] ,
 'Ztautau_SherpaNLO3_2015_sys'  :  ['user.dbaronmo.v26-SYS.mc16_13TeV.700794.Sh_2214_Ztt_maxHTpTV2_CVBV.M4.e8527_s3126_r9364_p5313.sv1_Ta','700794',2.239700e+03,1.000000,0.845954] ,
 }
+mc_taulep_thsys = {
+'VBF_Ztautau_sherpa_2017_thsys'  :  ['user.dbaronmo.v26-theory-SYS.mc16_13TeV.700360.Sh_2211_Ztt2jets_Min_N_TChannel.M4.e8357_s3126_r10201_p4514.sv1_Ta','700360',7.791600e-01,1.000000,1.000000] ,
+'VBF_Ztautau_sherpa_2018_thsys'  :  ['user.dbaronmo.v26-theory-SYS.mc16_13TeV.700360.Sh_2211_Ztt2jets_Min_N_TChannel.M4.e8357_s3126_r10724_p4514.sv1_Ta','700360',7.791600e-01,1.000000,1.000000] ,
+'VBF_Ztautau_sherpa_2015_thsys'  :  ['user.dbaronmo.v26-theory-SYS.mc16_13TeV.700360.Sh_2211_Ztt2jets_Min_N_TChannel.M4.e8357_s3126_r9364_p4514.sv1_Ta','700360',7.791600e-01,1.000000,1.000000] ,
+'Ztautau_SherpaNLO1_2017_thsys'  :  ['user.dbaronmo.v26-theory-SYS.mc16_13TeV.700792.Sh_2214_Ztt_maxHTpTV2_BF.M4.e8527_s3126_r10201_p5313.sv1_Ta','700792',2.239600e+03,1.000000,0.024865] ,
+'Ztautau_SherpaNLO1_2018_thsys'  :  ['user.dbaronmo.v26-theory-SYS.mc16_13TeV.700792.Sh_2214_Ztt_maxHTpTV2_BF.M4.e8527_s3126_r10724_p5313.sv1_Ta','700792',2.239600e+03,1.000000,0.024865] ,
+'Ztautau_SherpaNLO1_2015_thsys'  :  ['user.dbaronmo.v26-theory-SYS.mc16_13TeV.700792.Sh_2214_Ztt_maxHTpTV2_BF.M4.e8527_s3126_r9364_p5313.sv1_Ta','700792',2.239600e+03,1.000000,0.024865] ,
+'Ztautau_SherpaNLO2_2017_thsys'  :  ['user.dbaronmo.v26-theory-SYS.mc16_13TeV.700793.Sh_2214_Ztt_maxHTpTV2_CFBV.M4.e8527_s3126_r10201_p5313.sv1_Ta','700793',2.239600e+03,1.000000,0.129159] ,
+'Ztautau_SherpaNLO2_2018_thsys'  :  ['user.dbaronmo.v26-theory-SYS.mc16_13TeV.700793.Sh_2214_Ztt_maxHTpTV2_CFBV.M4.e8527_s3126_r10724_p5313.sv1_Ta','700793',2.239600e+03,1.000000,0.129159] ,
+'Ztautau_SherpaNLO2_2015_thsys'  :  ['user.dbaronmo.v26-theory-SYS.mc16_13TeV.700793.Sh_2214_Ztt_maxHTpTV2_CFBV.M4.e8527_s3126_r9364_p5313.sv1_Ta','700793',2.239600e+03,1.000000,0.129159] ,
+'Ztautau_SherpaNLO3_2017_thsys'  :  ['user.dbaronmo.v26-theory-SYS.mc16_13TeV.700794.Sh_2214_Ztt_maxHTpTV2_CVBV.M4.e8527_s3126_r10201_p5313.sv1_Ta','700794',2.239700e+03,1.000000,0.845954] ,
+'Ztautau_SherpaNLO3_2018_thsys'  :  ['user.dbaronmo.v26-theory-SYS.mc16_13TeV.700794.Sh_2214_Ztt_maxHTpTV2_CVBV.M4.e8527_s3126_r10724_p5313.sv1_Ta','700794',2.239700e+03,1.000000,0.845954] ,
+'Ztautau_SherpaNLO3_2015_thsys'  :  ['user.dbaronmo.v26-theory-SYS.mc16_13TeV.700794.Sh_2214_Ztt_maxHTpTV2_CVBV.M4.e8527_s3126_r9364_p5313.sv1_Ta','700794',2.239700e+03,1.000000,0.845954] ,
+}
 
-mc_mumu_sys = {'VBF_Zmumu_sherpa_2017_sys'  :  ['user.dbaronmo.v26-mm-SYS.mc16_13TeV.700359.Sh_2211_Zmm2jets_Min_N_TChannel.M4.e8357_s3126_r10201_p4514.sv1_Ta','700359',7.794900e-01,1.000000,1.000000] ,
+mc_mumu_sys = {
+'VBF_Zmumu_sherpa_2017_sys'  :  ['user.dbaronmo.v26-mm-SYS.mc16_13TeV.700359.Sh_2211_Zmm2jets_Min_N_TChannel.M4.e8357_s3126_r10201_p4514.sv1_Ta','700359',7.794900e-01,1.000000,1.000000] ,
 'VBF_Zmumu_sherpa_2018_sys'  :  ['user.dbaronmo.v26-mm-SYS.mc16_13TeV.700359.Sh_2211_Zmm2jets_Min_N_TChannel.M4.e8357_s3126_r10724_p4514.sv1_Ta','700359',7.794900e-01,1.000000,1.000000] ,
 'VBF_Zmumu_sherpa_2015_sys'  :  ['user.dbaronmo.v26-mm-SYS.mc16_13TeV.700359.Sh_2211_Zmm2jets_Min_N_TChannel.M4.e8357_s3126_r9364_p4514.sv1_Ta','700359',7.794900e-01,1.000000,1.000000] ,
 'Zmumu_SherpaNLO1_2017_sys'  :  ['user.dbaronmo.v26-mm-SYS.mc16_13TeV.700323.Sh_2211_Zmumu_maxHTpTV2_BF.M4.e8351_s3126_r10201_p4514.sv1_Ta','700323',2.221300e+03,1.000000,0.024400] ,
@@ -960,7 +979,22 @@ mc_mumu_sys = {'VBF_Zmumu_sherpa_2017_sys'  :  ['user.dbaronmo.v26-mm-SYS.mc16_1
 'Zmumu_SherpaNLO3_2015_sys'  :  ['user.dbaronmo.v26-mm-SYS.mc16_13TeV.700325.Sh_2211_Zmumu_maxHTpTV2_CVBV.M4.e8351_s3126_r9364_p4514.sv1_Ta','700325',2.221300e+03,1.000000,0.846000] ,
 'Zmumu_SherpaNLO3_2018_sys'  :  ['user.dbaronmo.v26-mm-SYS.mc16_13TeV.700325.Sh_2211_Zmumu_maxHTpTV2_CVBV.M4.e8351_s3126_r10724_p4514.sv2_Ta','700325',2.221300e+03,1.000000,0.846000] ,
 }
-mc_ee_sys = {'VBF_Zee_sherpa_2017_sys'  :  ['user.dbaronmo.v26-ee-SYS.mc16_13TeV.700358.Sh_2211_Zee2jets_Min_N_TChannel.M4.e8357_s3126_r10201_p4514.sv1_Ta','700358',7.794300e-01,1.000000,1.000000] ,
+mc_mumu_thsys = {
+'VBF_Zmumu_sherpa_2017_thsys'  :  ['user.dbaronmo.v26-mm-theory-SYS.mc16_13TeV.700359.Sh_2211_Zmm2jets_Min_N_TChannel.M4.e8357_s3126_r10201_p4514.sv1_Ta','700359',7.794900e-01,1.000000,1.000000] ,
+'VBF_Zmumu_sherpa_2018_thsys'  :  ['user.dbaronmo.v26-mm-theory-SYS.mc16_13TeV.700359.Sh_2211_Zmm2jets_Min_N_TChannel.M4.e8357_s3126_r10724_p4514.sv1_Ta','700359',7.794900e-01,1.000000,1.000000] ,
+'VBF_Zmumu_sherpa_2015_thsys'  :  ['user.dbaronmo.v26-mm-theory-SYS.mc16_13TeV.700359.Sh_2211_Zmm2jets_Min_N_TChannel.M4.e8357_s3126_r9364_p4514.sv1_Ta','700359',7.794900e-01,1.000000,1.000000] ,
+'Zmumu_SherpaNLO1_2017_thsys'  :  ['user.dbaronmo.v26-mm-theory-SYS.mc16_13TeV.700323.Sh_2211_Zmumu_maxHTpTV2_BF.M4.e8351_s3126_r10201_p4514.sv1_Ta','700323',2.221300e+03,1.000000,0.024400] ,
+'Zmumu_SherpaNLO1_2018_thsys'  :  ['user.dbaronmo.v26-mm-theory-SYS.mc16_13TeV.700323.Sh_2211_Zmumu_maxHTpTV2_BF.M4.e8351_s3126_r10724_p4514.sv1_Ta','700323',2.221300e+03,1.000000,0.024400] ,
+'Zmumu_SherpaNLO1_2015_thsys'  :  ['user.dbaronmo.v26-mm-theory-SYS.mc16_13TeV.700323.Sh_2211_Zmumu_maxHTpTV2_BF.M4.e8351_s3126_r9364_p4514.sv1_Ta','700323',2.221300e+03,1.000000,0.024400] ,
+'Zmumu_SherpaNLO2_2017_thsys'  :  ['user.dbaronmo.v26-mm-theory-SYS.mc16_13TeV.700324.Sh_2211_Zmumu_maxHTpTV2_CFBV.M4.e8351_s3126_r10201_p4514.sv1_Ta','700324',2.221300e+03,1.000000,0.130030] ,
+'Zmumu_SherpaNLO2_2018_thsys'  :  ['user.dbaronmo.v26-mm-theory-SYS.mc16_13TeV.700324.Sh_2211_Zmumu_maxHTpTV2_CFBV.M4.e8351_s3126_r10724_p4514.sv1_Ta','700324',2.221300e+03,1.000000,0.130030] ,
+'Zmumu_SherpaNLO2_2015_thsys'  :  ['user.dbaronmo.v26-mm-theory-SYS.mc16_13TeV.700324.Sh_2211_Zmumu_maxHTpTV2_CFBV.M4.e8351_s3126_r9364_p4514.sv1_Ta','700324',2.221300e+03,1.000000,0.130030] ,
+'Zmumu_SherpaNLO3_2017_thsys'  :  ['user.dbaronmo.v26-mm-theory-SYS.mc16_13TeV.700325.Sh_2211_Zmumu_maxHTpTV2_CVBV.M4.e8351_s3126_r10201_p4514.sv1_Ta','700325',2.221300e+03,1.000000,0.846000] ,
+'Zmumu_SherpaNLO3_2018_thsys'  :  ['user.dbaronmo.v26-mm-theory-SYS.mc16_13TeV.700325.Sh_2211_Zmumu_maxHTpTV2_CVBV.M4.e8351_s3126_r10724_p4514.sv1_Ta','700325',2.221300e+03,1.000000,0.846000] ,
+'Zmumu_SherpaNLO3_2015_thsys'  :  ['user.dbaronmo.v26-mm-theory-SYS.mc16_13TeV.700325.Sh_2211_Zmumu_maxHTpTV2_CVBV.M4.e8351_s3126_r9364_p4514.sv1_Ta','700325',2.221300e+03,1.000000,0.846000] ,
+}
+mc_ee_sys = {
+'VBF_Zee_sherpa_2017_sys'  :  ['user.dbaronmo.v26-ee-SYS.mc16_13TeV.700358.Sh_2211_Zee2jets_Min_N_TChannel.M4.e8357_s3126_r10201_p4514.sv1_Ta','700358',7.794300e-01,1.000000,1.000000] ,
 'VBF_Zee_sherpa_2018_sys'  :  ['user.dbaronmo.v26-ee-SYS.mc16_13TeV.700358.Sh_2211_Zee2jets_Min_N_TChannel.M4.e8357_s3126_r10724_p4514.sv1_Ta','700358',7.794300e-01,1.000000,1.000000] ,
 'VBF_Zee_sherpa_2015_sys'  :  ['user.dbaronmo.v26-ee-SYS.mc16_13TeV.700358.Sh_2211_Zee2jets_Min_N_TChannel.M4.e8357_s3126_r9364_p4514.sv1_Ta','700358',7.794300e-01,1.000000,1.000000] ,
 'Zee_SherpaNLO1_2017_sys'  :  ['user.dbaronmo.v26-ee-SYS.mc16_13TeV.700320.Sh_2211_Zee_maxHTpTV2_BF.M4.e8351_s3126_r10201_p4514.sv1_Ta','700320',2.221200e+03,1.000000,0.024900] ,
@@ -971,7 +1005,22 @@ mc_ee_sys = {'VBF_Zee_sherpa_2017_sys'  :  ['user.dbaronmo.v26-ee-SYS.mc16_13TeV
 'Zee_SherpaNLO2_2015_sys'  :  ['user.dbaronmo.v26-ee-SYS.mc16_13TeV.700321.Sh_2211_Zee_maxHTpTV2_CFBV.M4.e8351_s3126_r9364_p4514.sv1_Ta','700321',2.221200e+03,1.000000,0.129814] ,
 'Zee_SherpaNLO3_2017_sys'  :  ['user.dbaronmo.v26-ee-SYS.mc16_13TeV.700322.Sh_2211_Zee_maxHTpTV2_CVBV.M4.e8351_s3126_r10201_p4514.sv1_Ta','700322',2.221200e+03,1.000000,0.846000] ,
 'Zee_SherpaNLO3_2018_sys'  :  ['user.dbaronmo.v26-ee-SYS.mc16_13TeV.700322.Sh_2211_Zee_maxHTpTV2_CVBV.M4.e8351_s3126_r10724_p4514.sv1_Ta','700322',2.221200e+03,1.000000,0.846000] ,
-'Zee_SherpaNLO3_2015_sys'  :  ['user.dbaronmo.v26-ee-SYS.mc16_13TeV.700322.Sh_2211_Zee_maxHTpTV2_CVBV.M4.e8351_s3126_r9364_p4514.sv1_Ta','700322',2.221200e+03,1.000000,0.846000] ,}
+'Zee_SherpaNLO3_2015_sys'  :  ['user.dbaronmo.v26-ee-SYS.mc16_13TeV.700322.Sh_2211_Zee_maxHTpTV2_CVBV.M4.e8351_s3126_r9364_p4514.sv1_Ta','700322',2.221200e+03,1.000000,0.846000] ,
+}
+mc_ee_thsys = {
+'VBF_Zee_sherpa_2017_thsys'  :  ['user.dbaronmo.v26-ee-theory-SYS.mc16_13TeV.700358.Sh_2211_Zee2jets_Min_N_TChannel.M4.e8357_s3126_r10201_p4514.sv1_Ta','700358',7.794300e-01,1.000000,1.000000] ,
+'VBF_Zee_sherpa_2018_thsys'  :  ['user.dbaronmo.v26-ee-theory-SYS.mc16_13TeV.700358.Sh_2211_Zee2jets_Min_N_TChannel.M4.e8357_s3126_r10724_p4514.sv1_Ta','700358',7.794300e-01,1.000000,1.000000] ,
+'VBF_Zee_sherpa_2015_thsys'  :  ['user.dbaronmo.v26-ee-theory-SYS.mc16_13TeV.700358.Sh_2211_Zee2jets_Min_N_TChannel.M4.e8357_s3126_r9364_p4514.sv1_Ta','700358',7.794300e-01,1.000000,1.000000] ,
+'Zee_SherpaNLO1_2017_thsys'  :  ['user.dbaronmo.v26-ee-theory-SYS.mc16_13TeV.700320.Sh_2211_Zee_maxHTpTV2_BF.M4.e8351_s3126_r10201_p4514.sv1_Ta','700320',2.221200e+03,1.000000,0.024900] ,
+'Zee_SherpaNLO1_2018_thsys'  :  ['user.dbaronmo.v26-ee-theory-SYS.mc16_13TeV.700320.Sh_2211_Zee_maxHTpTV2_BF.M4.e8351_s3126_r10724_p4514.sv1_Ta','700320',2.221200e+03,1.000000,0.024900] ,
+'Zee_SherpaNLO1_2015_thsys'  :  ['user.dbaronmo.v26-ee-theory-SYS.mc16_13TeV.700320.Sh_2211_Zee_maxHTpTV2_BF.M4.e8351_s3126_r9364_p4514.sv1_Ta','700320',2.221200e+03,1.000000,0.024900] ,
+'Zee_SherpaNLO2_2017_thsys'  :  ['user.dbaronmo.v26-ee-theory-SYS.mc16_13TeV.700321.Sh_2211_Zee_maxHTpTV2_CFBV.M4.e8351_s3126_r10201_p4514.sv1_Ta','700321',2.221200e+03,1.000000,0.129814] ,
+'Zee_SherpaNLO2_2018_thsys'  :  ['user.dbaronmo.v26-ee-theory-SYS.mc16_13TeV.700321.Sh_2211_Zee_maxHTpTV2_CFBV.M4.e8351_s3126_r10724_p4514.sv1_Ta','700321',2.221200e+03,1.000000,0.129814] ,
+'Zee_SherpaNLO2_2015_thsys'  :  ['user.dbaronmo.v26-ee-theory-SYS.mc16_13TeV.700321.Sh_2211_Zee_maxHTpTV2_CFBV.M4.e8351_s3126_r9364_p4514.sv1_Ta','700321',2.221200e+03,1.000000,0.129814] ,
+'Zee_SherpaNLO3_2017_thsys'  :  ['user.dbaronmo.v26-ee-theory-SYS.mc16_13TeV.700322.Sh_2211_Zee_maxHTpTV2_CVBV.M4.e8351_s3126_r10201_p4514.sv1_Ta','700322',2.221200e+03,1.000000,0.846000] ,
+'Zee_SherpaNLO3_2018_thsys'  :  ['user.dbaronmo.v26-ee-theory-SYS.mc16_13TeV.700322.Sh_2211_Zee_maxHTpTV2_CVBV.M4.e8351_s3126_r10724_p4514.sv1_Ta','700322',2.221200e+03,1.000000,0.846000] ,
+'Zee_SherpaNLO3_2015_thsys'  :  ['user.dbaronmo.v26-ee-theory-SYS.mc16_13TeV.700322.Sh_2211_Zee_maxHTpTV2_CVBV.M4.e8351_s3126_r9364_p4514.sv1_Ta','700322',2.221200e+03,1.000000,0.846000] ,
+}
 
 mc_taulep_truth = {
 'VBF_Ztautau_truth_2018'  :  ['user.dbaronmo.v26-truth.mc16_13TeV.600939.PhPy8_VBF_Ztt.M4.e8373_s3126_r10724_p4512.sv1_Ta','600939',6.497700e-01,1.000000,1.000000] ,
@@ -1090,8 +1139,8 @@ mc_taulep_truth = {
 'VBF_Zprime_3000_truth_2017'  :  ['user.dbaronmo.v26.mc16_13TeV.567861.MGPy8_Zp3000_ttjj_U1X.M4.e8574_s3126_r10201_p4512.sv2_Ta','567861',2.518400e-07,4.000000,1.000000] ,
 }
 
-mc = mc_taulep_sys # IT CAN BE mc_taulep, mc_ee, mc_mumu and _truth/_sys appended for the systematics
-ntuples_type = Ztaulep_sys # IT CAN BE Zee,Zmumu,Ztaulep and _sys appended for the systematics
+mc = mc_mumu_thsys # IT CAN BE mc_taulep, mc_ee, mc_mumu and _truth/_sys/_thsys appended for the systematics
+ntuples_type = Zmumu_thsys # IT CAN BE Zee,Zmumu,Ztaulep and _sys/_thsys appended for the systematics
 
 
 for x in mc.keys():
@@ -1151,10 +1200,19 @@ def info_file(name,directory,DSID,XSEC,KFAC,FIL_EFF,home):
 
 def find_correct_bin_index(theory_weights_hist, target_label):
     correct_bin_index = -10
-    for i in range(1, theory_weights_hist.GetXaxis().GetNbins()+1):
-        if theory_weights_hist.GetXaxis().GetBinLabel(i) == target_label:
-            correct_bin_index = i
-            break
+    if 'theory_weights_pdf_ztt_weight' not in target_label:
+        for i in range(1, theory_weights_hist.GetXaxis().GetNbins()+1):
+            if theory_weights_hist.GetXaxis().GetBinLabel(i) == target_label:
+                correct_bin_index = i
+                break
+    else:
+        base_label = 'LHE3Weight_ME_ONLY_MUR1_MUF1_PDF303'
+        target_number = 201 + int(target_label.replace('theory_weights_pdf_ztt_weight_', ''))
+        full_target_label = base_label + str(target_number)
+        for i in range(1, theory_weights_hist.GetXaxis().GetNbins()+1):
+            if theory_weights_hist.GetXaxis().GetBinLabel(i) == full_target_label:
+                correct_bin_index = i
+                break
     if correct_bin_index == -10:
         print("Error: %s bin not found in theory weights histogram." % target_label)
         print("Falling back to LHE3Weight_Weight.")
@@ -1230,7 +1288,7 @@ def main():
 
         f = open('info.txt','a+')
         f.write('#%s\n'%(sample))
-        if '_sys' in sample:
+        if '_sys' in sample or '_thsys' in sample:
             f.write(info_file_sys(sample,mc[sample][0],mc[sample][1],mc[sample][2],mc[sample][3],mc[sample][4],pwd))
         else:
             f.write(info_file(sample,mc[sample][0],mc[sample][1],mc[sample][2],mc[sample][3],mc[sample][4],pwd))
