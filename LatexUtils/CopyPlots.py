@@ -1,96 +1,50 @@
 import os
 import shutil
 import argparse
-import string
 
-def copy_files(input_folder, output_folder, naming_scheme, mode, filter_str, remove_str):
-    # Treat the filter and remove strings
-    if filter_str=="":
-        filter_str = 'pdf'
-    else:
-        filter_str = filter_str.split(',')
-    if remove_str=="":
-        remove_str = []
-    else:
-        remove_str = remove_str.split(',')
+def copy_pdfs(src_root, dst_root, allowed_dirs):
+    """
+    Recursively copy only PDF files and directory structure from selected top-level directories.
+    """
+    # Ensure destination exists
+    os.makedirs(dst_root, exist_ok=True)
 
-    all_pdf_files = [f for f in os.listdir(input_folder) if (f.endswith('.pdf') and all(i in f for i in filter_str) and not any(i in f for i in remove_str))]
-    if len(all_pdf_files) == 0:
-        print("No PDF files found in the input folder.")
-        return
-
-    print(f"Found {len(all_pdf_files)} PDF files in the input folder.")
-
-    # Interactively select which files to copy
-    print("Candidate files to copy:")
-    for i, pdf_file in enumerate(all_pdf_files):
-        print(f"{i+1}. {pdf_file}")
-
-    indices = input("Enter the indices of the files to copy (comma-separated), enter 'all' to copy all : ")
-    if indices.lower() == 'all':
-        indices = ','.join([str(i+1) for i in range(len(all_pdf_files))])
-    elif not all(i.isdigit() for i in indices.split(',')):
-        print("Invalid input. Please enter comma-separated integers.")
-        return
-    else:
-        indices = [int(i) for i in indices.split(',')]
-
-    pdf_files = [all_pdf_files[i-1] for i in indices]
-    
-    print("Do you want to proceed with copying the following files? (yes/no): ")
-    for i, pdf_file in enumerate(pdf_files):
-        print(f"{i+1}. {pdf_file}")
-    confirm = input()
-    if confirm.lower() != 'yes':
-        print("Operation cancelled.")
-        return
-
-    for i, pdf_file in enumerate(pdf_files):
-        base_name = naming_scheme
-        if mode == 'increment':
-            new_name = f"{base_name}{i+1}.pdf"
-        elif mode == 'alphabet':
-            new_name = f"{base_name}{string.ascii_lowercase[i % 26]}.pdf"
+    for item in os.listdir(src_root):
+        src_item = os.path.join(src_root, item)
+        # Only process directories that are in the allowed list
+        if os.path.isdir(src_item) and item in allowed_dirs:
+            print(f"Processing directory: {item}")
+            copy_dir_recursive(src_item, os.path.join(dst_root, item))
         else:
-            print("Invalid mode. Use 'increment' or 'alphabet'.")
-            return
+            # Skip anything else at the top level
+            continue
 
-        src = os.path.join(input_folder, pdf_file)
-        dst = os.path.join(output_folder, new_name)
-        shutil.copy(src, dst)
-        print(f"Copied {pdf_file} ---> {new_name}")
 
-def check_to_prevent_override(destination_folder, naming_scheme):
-    # Check the destination exists
-    if not os.path.exists(destination_folder):
-        print(f"Destination folder {destination_folder} does not exist.")
-        create = input("Do you want to create it? (yes/no)")
-        if create.lower() != 'yes':
-            print("Operation cancelled.")
-            exit(1)
-        else:
-            os.makedirs(destination_folder)
-    
-    # Check the contents of the folder to prevent overriding
-    all_pdf_files = [f for f in os.listdir(destination_folder)]
-    if any(naming_scheme in f for f in all_pdf_files):
-        print(f"Some files with the naming scheme {naming_scheme} already exist in the destination folder.")
-        print("Do you want to proceed and override them? (yes/no)")
-        confirm = input()
-        if confirm.lower() != 'yes':
-            print("Operation cancelled.")
-            exit(1)
+def copy_dir_recursive(src_dir, dst_dir):
+    """
+    Recursively copy PDFs and directory structure from src_dir to dst_dir.
+    """
+    for root, dirs, files in os.walk(src_dir):
+        # Reconstruct the relative path
+        rel_path = os.path.relpath(root, src_dir)
+        dest_dir = os.path.join(dst_dir, rel_path)
+        os.makedirs(dest_dir, exist_ok=True)
+
+        # Copy PDF files
+        for file in files:
+            if file.lower().endswith(".pdf"):
+                src_file = os.path.join(root, file)
+                dst_file = os.path.join(dest_dir, file)
+                shutil.copy2(src_file, dst_file)
+
+
+ALLOWED_DIRS = ['Zee','MuMu','Zll','TauTau','TauMu','EleTau','MuEle']
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Copy PDF files with a specific naming scheme.")
-    parser.add_argument("input_folder", help="The input folder containing PDF files.")
-    parser.add_argument("output_folder", help="The output folder to copy PDF files to.")
-    parser.add_argument("naming_scheme", help="The base naming scheme for the copied files.")
-    parser.add_argument("mode", choices=['increment', 'alphabet'], help="The naming mode: 'increment' or 'alphabet'.")
-    # Additional optional argument
-    parser.add_argument("--select", help="Filter strings (comma-separated) used to select plots from the list.", type=str, default="", required=False)
-    parser.add_argument("--remove", help="Filter strings (comma-separated) used to remove plots from the list.", type=str, default="", required=False)
+    parser = argparse.ArgumentParser(description="Copy only selected directories containing PDF files.")
+    parser.add_argument("source", help="Path to the source directory")
+    parser.add_argument("destination", help="Path to the destination directory")
 
     args = parser.parse_args()
-    check_to_prevent_override(args.output_folder, args.naming_scheme)
-    copy_files(args.input_folder, args.output_folder, args.naming_scheme, args.mode, args.select, args.remove)
+
+    copy_pdfs(args.source, args.destination, ALLOWED_DIRS)
