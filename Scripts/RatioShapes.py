@@ -94,10 +94,10 @@ def plotIndividualRatio(canvas, fileAndHistogramNameDict, postfix, compareDensit
     canvas.cd()
     canvas.SetTitle("HOLA")
     h2.GetXaxis().SetRange(1,h2.GetNbinsX()+1) 
-    h2.GetYaxis().SetRangeUser(0.05,6.0)
+    h2.GetYaxis().SetRangeUser(0.05,2.0)
     h2.Draw(drawingOptions)
-    h2.GetXaxis().SetTitle(histogramInfo.m_xTitle)
-    h2.GetYaxis().SetTitle(title2)
+    h2.GetXaxis().SetTitle(histogramInfo.m_xTitle + " [" + histogramInfo.m_units + "]")
+    h2.GetYaxis().SetTitle("MC(x)/Sherpa2.2.1")
     h2.GetXaxis().SetTitleSize(0.056)
     h2.GetYaxis().SetTitleSize(0.056)
     h2.GetXaxis().SetLabelSize(0.056)
@@ -108,6 +108,7 @@ def plotIndividualRatio(canvas, fileAndHistogramNameDict, postfix, compareDensit
     h2.SetMarkerStyle(20)
     h2.SetMarkerColor(colour)
     h2.SetLineColor(colour)
+    h2.SetFillColorAlpha(colour, 0.3)
     h2.SetLineWidth(4)
     r.gStyle.SetOptStat(0)
 
@@ -132,13 +133,13 @@ def plotRatio(pairsPacket, histoName, postfix, useDensity, apply_scale_factors):
     c.SetMargin(0.16,0.05,0.13,0.08)
     # Plot histograms
     for i in range(0,len(pairsPacket)):
-        plotIndividualRatio(c, pairsPacket[i], postfix, useDensity, colours[i], "SAME HIST", REGION, apply_scale_factors)
+        plotIndividualRatio(c, pairsPacket[i], postfix, useDensity, colours[i], "SAME LP E3", REGION, apply_scale_factors)
 
     # Add legend
     c.BuildLegend(0.7,0.7,0.9,0.9)
 
     # Save the plot
-    c.SaveAs("results/RatioPlot_%s%s.pdf" % (histoName, postfix))
+    c.SaveAs("results/RatioPlot_%s%sRWParabolicCutoff.pdf" % (histoName, postfix))
 
 def generate_plot_input(filePath1, file2Path, histogramName1, histogramName2, title1, title2):
     dic = {
@@ -153,19 +154,20 @@ def generate_plot_input(filePath1, file2Path, histogramName1, histogramName2, ti
 
 def main():
     # List of histograms to compare
-    histoNames = ["mass_jj","ljet0_pt","ljet1_pt","lep1_pt","lep2_pt",
-                  "n_bjets","delta_y","pt_bal","delta_phi","Z_centrality","n_jets_interval","inv_mass","Z_pt_reco"]
+    histoNames = ["mass_jj"]#,"ljet0_pt","ljet1_pt","lep1_pt","lep2_pt",
+                  #"n_bjets","delta_y","pt_bal","delta_phi","Z_centrality","n_jets_interval","inv_mass","Z_pt_reco"]
     
     # List of files to compare
-    commonPath = '/Users/user/Documents/HEP/VBF-Analysis/MuMu/MC/out/'
-    referenceSample = commonPath+'Signal_Sherpa.root'
+    commonPath = '/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/Zll/Zpeak/SR/'
+    referenceSample = commonPath+'Zll_Sherpa_RWParabolicCutoff.root'
     samplesToComparePaths = [
-        {"path" : referenceSample, "title" : "EWKjj-Sherpa"}, # Reference sample goes always first
-        {"path" : commonPath+'Signal_PoPy.root', "title" : "EWKjj-PoPy"},
-        {"path" : commonPath+'Signal_MG.root', "title" : "EWKjj-MadGraph"},
+        {"path" : referenceSample, "title" : "Sherpa2.2.1-Reference"}, # Reference sample goes always first
+        {"path" : commonPath+'Zll_SherpaNLO_RWParabolicCutoff.root', "title" : "Sherpa2.2.11"},
+        {"path" : commonPath+'Zll_MG_RWParabolicCutoff.root', "title" : "MadGraph"},
+        {"path" : commonPath+'Zll_MGNLO_RWParabolicCutoff.root', "title" : "MadGraphNLO"},
     ]
 
-    POSTFIX = '_basic'
+    POSTFIX = ''
     APPLY_SCALE_FACTORS = False
     COMPARE_DENSITY = True
 

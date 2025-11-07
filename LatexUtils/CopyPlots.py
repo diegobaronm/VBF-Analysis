@@ -38,7 +38,7 @@ def copy_dir_recursive(src_dir, dst_dir):
                 shutil.copy2(src_file, dst_file)
 
 
-ALLOWED_DIRS = ['Zee','MuMu','Zll','TauTau','TauMu','EleTau','MuEle']
+ALLOWED_DIRS = ['Zee','MuMu','Zll','TauTau','TauMu','EleTau','MuEle','MjjRWStudies']
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Copy only selected directories containing PDF files.")

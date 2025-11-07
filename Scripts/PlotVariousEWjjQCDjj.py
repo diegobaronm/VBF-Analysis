@@ -19,7 +19,7 @@ def get_QCDjj_suffixes(yaml_file_path, channel):
 def main():
     # Get the arguments.
     args = get_args()
-    channel = 'Zll'
+    channel = args.channel
     yaml_file = args.config_file
 
     root_files, QCDjj_choices = get_QCDjj_suffixes(yaml_file, channel)

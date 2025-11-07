@@ -14,7 +14,12 @@ def PrintYields(finalStateName,histogram,path,printToFile=True,latexFormat=False
         file = r.TFile.Open(sample)
         histo = file.Get(histogram)
         error = ctypes.c_double()
-        sampleYield = histo.IntegralAndError(1,-1,error)
+        if not histo or not isinstance(histo, r.TH1):
+            print(f"Warning: Histogram '{histogram}' not found or is not a TH1 in file {os.path.basename(sample)}. Setting yield to 0.")
+            sampleYield = 0.0
+            error.value = 0.0
+        else:
+            sampleYield = histo.IntegralAndError(1,-1,error)
         samples[os.path.basename(sample)]=[round(sampleYield,1),round(error.value,1)]
     # Create dataframe containing all the information from the samples.
     dataframe = pd.DataFrame.from_dict(samples,orient='index',columns=['Yield','Stat. Uncertainty'])

@@ -25,8 +25,8 @@ def get_norm_factors(qcd_sample, ew_sample, channel):
     try:
         norm_factors = NORM_FACTORS_DICT["%s_%s" % (qcd_sample, ew_sample)]
     except KeyError:
-        ERROR.log(f"Normalization factors not found for {qcd_sample} and {ew_sample}.")
-        exit(1)
+        WARNING.log(f"Normalization factors not found for {qcd_sample} and {ew_sample}.")
+        return [1.0, 1.0], False
 
     return norm_factors, True
 
@@ -200,6 +200,7 @@ def generate_watermark(after_fit : bool, qcd_sample : str, vbf_sample : str):
 def get_args():
     parser = argparse.ArgumentParser(description='Plot the histograms.')
     parser.add_argument('config_file', type=str, help='The configuration file to use.')
+    parser.add_argument('channel', type=str, help='The final state channel to use.',choices=['Zee','Zmumu','Ztautau','Zll'])
     parser.add_argument('--debug', action='store_true', help='Set the log level to debug.')
     return parser.parse_args()
 
