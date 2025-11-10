@@ -21,7 +21,13 @@ def main():
     args = get_args()
     channel = args.channel
     yaml_file = args.config_file
+    sfs_dict = args.sfs_dict
 
+    # First, delete all previous pdf files in the output directory.
+    output_path = os.path.dirname(yaml_file)
+    os.system(f"rm -f {output_path}/*.pdf")
+
+    # Get the available QCDjj and EWjj samples.
     root_files, QCDjj_choices = get_QCDjj_suffixes(yaml_file, channel)
 
     EWjj_choices = ['Signal_Sherpa.root']
@@ -57,7 +63,7 @@ def main():
                 config['signal_sample'] = ew_sample
                 
                 # Otherwise, get the normalization factors.
-                norm_factors, post_fit = get_norm_factors(qcd_sample, ew_sample, channel)
+                norm_factors, post_fit = get_norm_factors(qcd_sample, ew_sample, channel, sfs_dict)
                 config['qcd_scale'] = norm_factors[0]
                 config['vbf_scale'] = norm_factors[1]
                 config['is_post_fit'] = post_fit

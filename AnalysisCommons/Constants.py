@@ -13,7 +13,9 @@ DEFAULT_MJJ_REWEIGHTING = "RWParabolicCutoffClosure"
 
 ###################### Normalization factors for QCDjj and EWjj samples ######################
 
-NORM_FACTORS_DICT = { # Always QCDjj_EWjj : [qcd, vbf]
+NORM_FACTORS_DICT = {} # Always QCDjj_EWjj : [qcd, vbf]
+
+NORM_FACTORS_DICT['Zll'] = {
     'Sherpa_RWParabolicCutoffClosure_Sherpa' : [0.974, 0.973],
     'MG_RWParabolicCutoffClosure_Sherpa' : [0.964, 1.040],
     'SherpaNLO_RWParabolicCutoffClosure_Sherpa' : [1.011, 0.923],
@@ -35,4 +37,40 @@ NORM_FACTORS_DICT = { # Always QCDjj_EWjj : [qcd, vbf]
 
     'Sherpa_RWExponentialClosure_PoPy' : [0.987, 0.832],
     'SherpaNLO_RWExponentialClosure_PoPy' : [1.021, 0.812],
+}
+
+NORM_FACTORS_DICT['Ztautau'] = {
+    'Sherpa_RWParabolicCutoffClosure_Sherpa' : [1.000, 1.101],
+    'MG_RWParabolicCutoffClosure_Sherpa' : [1.040,1.010],
+    'SherpaNLO_RWParabolicCutoffClosure_Sherpa' : [1.071, 0.870],
+    'MGNLO_RWParabolicCutoffClosure_Sherpa' : [1.201, 0.744],
+
+    'Sherpa_RWParabolicCutoffClosure_PoPy' : [1.050, 0.898],
+    'MG_RWParabolicCutoffClosure_PoPy' : [1.083, 0.831],
+    'SherpaNLO_RWParabolicCutoffClosure_PoPy' : [1.106, 0.720],
+    'MGNLO_RWParabolicCutoffClosure_PoPy' : [1.220,0.652],
+}
+
+NORM_FACTORS_DICT['Zee'] = {
+    'Sherpa_RWParabolicCutoffClosure_Sherpa' : [0.947, 0.994],
+    'MG_RWParabolicCutoffClosure_Sherpa' : [0.964, 1.061],
+    'SherpaNLO_RWParabolicCutoffClosure_Sherpa' : [1.027, 0.900],
+    'MGNLO_RWParabolicCutoffClosure_Sherpa' : [1.025, 0.922],
+
+    'Sherpa_RWParabolicCutoffClosure_PoPy' : [0.967, 0.846],
+    'MG_RWParabolicCutoffClosure_PoPy' : [0.984, 0.911],
+    'SherpaNLO_RWParabolicCutoffClosure_PoPy' : [1.043, 0.775],
+    'MGNLO_RWParabolicCutoffClosure_PoPy' : [1.041, 0.806],
+}
+
+NORM_FACTORS_DICT['Zmumu'] = {
+    'Sherpa_RWParabolicCutoffClosure_Sherpa' : [0.995, 0.956],
+    'MG_RWParabolicCutoffClosure_Sherpa' : [0.963, 1.020],
+    'SherpaNLO_RWParabolicCutoffClosure_Sherpa' : [1.000, 0.936],
+    'MGNLO_RWParabolicCutoffClosure_Sherpa' : [0.994, 1.013],
+
+    'Sherpa_RWParabolicCutoffClosure_PoPy' : [0.967, 0.846],
+    'MG_RWParabolicCutoffClosure_PoPy' : [0.984, 0.911],
+    'SherpaNLO_RWParabolicCutoffClosure_PoPy' : [1.043, 0.775],
+    'MGNLO_RWParabolicCutoffClosure_PoPy' : [1.041, 0.806],
 }

@@ -3,7 +3,7 @@
 # Z->tautau
 v26Paths = {
 # LEGACY SYS: "dbaronmo": ['/eos/user/w/wyatt/data/v26-sys-vbf/'], # Remote
-"b78499db": ['/Users/user/Documents/HEP/v26/','/Users/user/Documents/HEP/v26-truth/','/Volumes/T7/v26-SYS/','/Volumes/T7/v26-theory-SYS/']
+"b78499db": ['/Volumes/T7/v26/','/Volumes/T7/v26-truth/','/Volumes/T7/v26-SYS/','/Volumes/T7/v26-theory-SYS/']
 }
 
 # Z->mumu

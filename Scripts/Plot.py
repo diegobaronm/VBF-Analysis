@@ -7,7 +7,7 @@ from AnalysisCommons.Constants import NORM_FACTORS_DICT
 
 from histogramHelpers import stackPlot, templatesDict
 
-def get_norm_factors(qcd_sample, ew_sample, channel):
+def get_norm_factors(qcd_sample, ew_sample, channel, sfs_dict):
     # Remove the `.root` extension from the sample names.
     qcd_sample = qcd_sample.replace('.root', '')
     ew_sample = ew_sample.replace('.root', '')
@@ -23,7 +23,7 @@ def get_norm_factors(qcd_sample, ew_sample, channel):
         return [1.0, 1.0], False  # Default normalization factors if no RW is used.
 
     try:
-        norm_factors = NORM_FACTORS_DICT["%s_%s" % (qcd_sample, ew_sample)]
+        norm_factors = NORM_FACTORS_DICT[sfs_dict]["%s_%s" % (qcd_sample, ew_sample)]
     except KeyError:
         WARNING.log(f"Normalization factors not found for {qcd_sample} and {ew_sample}.")
         return [1.0, 1.0], False
@@ -81,7 +81,7 @@ def verify(interactive_mode):
     if not interactive_mode:
         INFO.log('Running in non-interactive mode, automatically confirming.')
         return True
-    print('')
+    
     INFO.log('Run this configuration? [y/n]')
     answer = input().lower()
 
@@ -201,8 +201,19 @@ def get_args():
     parser = argparse.ArgumentParser(description='Plot the histograms.')
     parser.add_argument('config_file', type=str, help='The configuration file to use.')
     parser.add_argument('channel', type=str, help='The final state channel to use.',choices=['Zee','Zmumu','Ztautau','Zll'])
+    parser.add_argument('--sfs-dict', type=str, default='Zll', help='Set of SFs to use.', choices=['Zll','Ztautau','Zee','Zmumu'])
     parser.add_argument('--debug', action='store_true', help='Set the log level to debug.')
-    return parser.parse_args()
+
+    args = parser.parse_args()
+
+    # Check the user selection wrt the SF dict.
+    INFO.log(f"Using SF dict: {args.sfs_dict}. Are you sure you want this?")
+    confirmation = input("Type 'yes' to confirm: ")
+    if confirmation.lower() != 'yes':
+        INFO.log('Exiting as per user request.')
+        exit(0)
+
+    return args
 
 def Plot(args, config, interactive_mode = True):
     Logger.LOGLEVEL = 3
