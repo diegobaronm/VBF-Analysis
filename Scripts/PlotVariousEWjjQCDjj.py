@@ -52,6 +52,8 @@ def main():
         for ew_sample in EWjj_choices:
             if do_not_use_sfs:
                 INFO.log(f"Using no normalization factors as per configuration.")
+                config['qcd_sample'] = qcd_sample
+                config['signal_sample'] = ew_sample
                 config['qcd_scale'] = 1.0
                 config['vbf_scale'] = 1.0
                 Plot(args, config, interactive_mode=False)
