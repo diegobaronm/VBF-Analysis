@@ -17,8 +17,10 @@ std::vector<std::string> InitCutNames(const std::string& selectionName){
     // Define the vector to be returned.
     std::vector<std::string> cutNames{};
 
-    if (selName == "Zpeak" || selName == "Inclusive" || selName == "MediumMass" || selName == "HighMass" || selName == "HighMassInclusive" || selName == "CRa" || selName == "CRb" || selName == "CRc") {
+    if (selName == "Zpeak" || selName == "Inclusive" || selName == "MediumMass" || selName == "HighMass" || selName == "CRa" || selName == "CRb" || selName == "CRc") {
         cutNames = {"basic","dphi","drap","btag","iso","pt1","pt2","j1pt","j2pt","ptbal","mjj","nji","zcen","mass","ptl"};
+    } else  if (selName == "HighMassQCD") {
+        cutNames = {"basic","dphi","drap","btag","iso","pt1","pt2","j1pt","j2pt","ptbal","mjj","qcdcr","mass","ptl"};
     } else {
         g_LOG(LogLevel::ERROR, "Selection name not found!");
         exit(1);
@@ -153,7 +155,7 @@ std::vector<int> ApplySelection(const std::string& selectionName, const Kinemati
         cuts.push_back( vars.massLeptonLepton >= 160 ); // Z-peak mass range 81 < inv_mass < 101 GeV. // Mid Range inv_mass < 160 && inv_mass >= 101 
         if (vars.eventNumber %2 == 0) cuts.push_back( vars.lep1pT >= a );
         else cuts.push_back( vars.lep2pT >= b );
-    } else if (selName == "HighMassInclusive"){
+    } else if (selName == "HighMassQCD"){
         double a{50},b{40};
         cuts.push_back( vars.deltaPhiLepLep <= 3.2 );
         cuts.push_back( vars.deltaRapidityTaggingJets >= 2.0 );
@@ -165,8 +167,7 @@ std::vector<int> ApplySelection(const std::string& selectionName, const Kinemati
         cuts.push_back( vars.jet2pT >= 70 );
         cuts.push_back( vars.pTBalance <= 0.15 );
         cuts.push_back( vars.mjj >= 750 );
-        cuts.push_back( vars.nJetsInGap == 0 );
-        cuts.push_back( vars.centrality < 0.5 );
+        cuts.push_back( (vars.nJetsInGap == 0 && vars.centrality >= 0.5 && vars.centrality <= 1.0) || (vars.nJetsInGap == 1 && vars.centrality <= 1.0) );
         cuts.push_back( vars.massLeptonLepton >= 101 ); // Z-peak mass range 81 < inv_mass < 101 GeV. // Mid Range inv_mass < 160 && inv_mass >= 101 
         if (vars.eventNumber %2 == 0) cuts.push_back( vars.lep1pT >= a );
         else cuts.push_back( vars.lep2pT >= b );

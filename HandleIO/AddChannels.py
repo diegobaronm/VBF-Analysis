@@ -69,7 +69,10 @@ def add_potential_rw_samples(pairs_dict,list_of_samples, rw_tag = None, channel=
 
 def main(menu_option):
     # Change to the directory where the files are
-    os.chdir("/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/")
+    if not os.path.exists("../VBFAnalysisPlots/"):
+        ERROR.log("VBFAnalysisPlots/ directory not found. Create this OR run this script from HandleIO.")
+        exit(1)
+    os.chdir("../VBFAnalysisPlots/")
 
     if menu_option==1: # Merge TauMu and EleTau
 
