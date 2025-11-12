@@ -1,10 +1,8 @@
 import os
 
-from Plot import Plot, get_args, load_config
+from Scripts.Plot import Plot, get_args, load_config, get_norm_factors
 from AnalysisCommons.Run import INFO, WARNING, ERROR, DEBUG, Logger 
 Logger.LOGLEVEL = 3
-
-from Scripts.Plot import get_norm_factors
 
 def get_QCDjj_suffixes(yaml_file_path, channel):
     # List all the contents and extract the root files.

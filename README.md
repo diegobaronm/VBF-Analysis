@@ -1,8 +1,10 @@
 # VBF-Analysis
 
+## Running
+
 To run one of the channels you have two options:
 
-## Local run
+### Local
 
 Go to the `MC` directory inside the respective channel directory (for example `TauMu/MC`) and run:
 
@@ -37,23 +39,21 @@ then, one valid run will look like:
 python3 RunAnalysis.py InputDatasets/Higgs.txt no NOMINAL NewZpeakOS --j10
 ```
 
-## Condor run:
+### HTCondor:
 
 Run the `Submit.py` command and choose the desired channel and follow the instructions.
 
-## Inputs/Outputs handling:
+## Environment:
 
-Code to do IO operations are stored in the `HandleIO` directory. An explanation of the scripts that live there can be found in the [README.md](HandleIO/README.md)
-
-## Python environment for code in `Scripts/HandleIO`
+### Python environment for code in `Scripts/HandleIO/LatexUtils`
 
 The analysis scripts in the `Scripts` directory require a Python environment with specific packages. A setup script is provided to automatically create and manage this environment. Load it with `source SetupPythonScripts.sh`.
 
-### Prerequisites
+#### Prerequisites
 
 - **ROOT**: The analysis requires ROOT to be installed and available in your system PATH. The setup script will automatically check for ROOT availability before proceeding.
 
-### Environment Setup
+#### Environment Setup
 
 Run the setup script from the project root directory:
 
@@ -67,7 +67,7 @@ This script will:
 3. **Install dependencies**: Install required packages from `requirements.txt` (numpy, pandas, scipy)
 4. **Activate environment**: Automatically activate the environment for immediate use
 
-### Usage
+#### Usage
 
 - **First run**: Creates the environment and installs all dependencies
 - **Subsequent runs**: Simply activates the existing environment
@@ -76,7 +76,7 @@ This script will:
 
 If ROOT is not found, the script will exit with installation instructions.
 
-### Note for Jupyter Notebooks in VS Code
+#### Note for Jupyter Notebooks in VS Code
 
 When working with Jupyter notebooks in VS Code (like `Scripts/SREstimator.ipynb`):
 
@@ -91,8 +91,21 @@ sys.path.append(os.path.dirname(os.getcwd()))  # Add parent directory to path
 
 This ensures that the notebook can access all modules and scripts in the project directory structure.
 
+## Additional code around the main analysis:
 
-# Common problems:
+### Inputs/Outputs handling -- Under `HandleIO/`:
+
+Code to do IO operations are stored in the `HandleIO` directory. An explanation of the scripts that live there can be found in the [README.md](HandleIO/README.md)
+
+### Analysis postprocessing, fitting, MJ estimate, etc -- Under `Scripts/`:
+
+An explanation of the scripts that live there can be found in the [README.md](Scripts/README.md)
+
+### Analysis results to LaTeX -- Under `LatexUtils/`:
+
+An explanation of the scripts that live there can be found in the [README.md](LatexUtils/README.md)
+
+## Common problems:
 
 This is a list of things that can usually go wrong while running the code.
 - Using MC-only variables in `if` statements when running over real data samples.
