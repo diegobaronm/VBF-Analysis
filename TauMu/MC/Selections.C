@@ -29,12 +29,10 @@ std::vector<std::string> InitCutNames(const std::string& selectionName){
         cutNames = {"basic","dphi","drap","btag","iso","rnn","ptl","j1pt","j2pt","ptbal","mjj","qcdcr","omega","mreco","tpt","mva","ptsym","rvr"};
     } else if (selName == "HighMass" || selName == "Higgs"){
         cutNames = {"basic","dphi","drap","btag","iso","rnn","ptl","j1pt","j2pt","ptbal","mjj","nji","zcen","omega","mreco","tpt","mva","ptsym","rvr"};
-    } else if (selName == "HMValidation"){
-        cutNames = {"basic","dphi","drap","btag","iso","rnn","ptl","j1pt","j2pt","ptbal","mjj","nji","zcen","omega","mreco","tpt","failmva"};
     } else if (selName == "MJCR"){
         cutNames = {"basic","dphi","drap","btag","ptl","j1pt","j2pt","ptbal","mjj","zcen","omega","mreco","tpt","mva","ptsym","rvr","mjcr"};
-    } else if (selName == "MJValidation"){
-        cutNames = {"basic","dphi","drap","btag","iso","rnn","ptl","j1pt","j2pt","ptbal","mjj","nji","zcen","omega","mreco","tpt","ptsym","rvr"};
+    } else if (selName == "Validation"){
+        cutNames = {"basic","fail3"};
     } else {
         g_LOG(LogLevel::ERROR, "Selection name not found!");
         exit(1);
@@ -226,34 +224,12 @@ std::vector<int> ApplySelection(const std::string& selectionName, const Kinemati
         cuts.push_back( vars.mjj >= 750 );
         cuts.push_back( vars.nJetsInGap == 0 );
         cuts.push_back( vars.centrality < 0.5 );
-        cuts.push_back( vars.omega > -0.2 && vars.omega < 1.4 );
+        cuts.push_back( vars.omega > -0.2 && vars.omega < 1.6 );
         cuts.push_back( vars.recoMass >= 160);
         cuts.push_back( vars.taupT >= 25 );
         cuts.push_back( vars.vbfBDTScore > 0.3 );
         cuts.push_back( vars.lepPtAssymetry > -0.3 );
         cuts.push_back( vars.recoVisibleMassRatio < 4.0 );
-    
-    } else if (selName == "HMValidation"){
-        cuts.push_back( vars.deltaPhiLepLep <= 3.2 );
-        cuts.push_back( vars.deltaRapidityTaggingJets >= 2.0 );
-        cuts.push_back( vars.nBJets == 0 );
-        cuts.push_back( vars.lep1IsolationTight == 1 );
-
-        bool oneProngId = vars.nTauProngs == 1 && vars.tauJetRNNScore >= 0.25;
-        bool threeProngId = vars.nTauProngs == 3 && vars.tauJetRNNScore >= 0.40;
-        cuts.push_back( oneProngId || threeProngId );
-
-        cuts.push_back( vars.lep1pT >= 27 );
-        cuts.push_back( vars.jet1pT >= 75 );
-        cuts.push_back( vars.jet2pT >= 70 );
-        cuts.push_back( vars.pTBalance <= 0.15 );
-        cuts.push_back( vars.mjj >= 750 );
-        cuts.push_back( vars.nJetsInGap == 0 );
-        cuts.push_back( vars.centrality < 0.5 );
-        cuts.push_back( vars.omega > -0.2 && vars.omega < 1.4 );
-        cuts.push_back( vars.recoMass >= 160);
-        cuts.push_back( vars.taupT >= 25 );
-        cuts.push_back( vars.vbfBDTScore <= 0.3 || vars.lepPtAssymetry <= -0.3 || vars.recoVisibleMassRatio >= 4.0 || (vars.nTauProngs == 1 && vars.tauJetRNNScore < 0.4) || (vars.nTauProngs == 3 && vars.tauJetRNNScore < 0.55) );
     
     } else if (selName == "MJCR"){
         cuts.push_back( vars.deltaPhiLepLep <= 3.2 );
@@ -273,28 +249,37 @@ std::vector<int> ApplySelection(const std::string& selectionName, const Kinemati
         cuts.push_back( vars.recoVisibleMassRatio < 4.0 );
         cuts.push_back( vars.lep1IsolationTight == 0 || (vars.nTauProngs == 1 && vars.tauJetRNNScore < 0.25) || (vars.nTauProngs == 3 && vars.tauJetRNNScore < 0.40) );
     
-    } else if (selName == "MJValidation"){
+    } else if (selName == "Validation"){
         cuts.push_back( vars.deltaPhiLepLep <= 3.2 );
         cuts.push_back( vars.deltaRapidityTaggingJets >= 2.0 );
         cuts.push_back( vars.nBJets == 0 );
         cuts.push_back( vars.lep1IsolationTight == 1 );
 
-        bool oneProngId = vars.nTauProngs == 1 && vars.tauJetRNNScore < 0.25;
-        bool threeProngId = vars.nTauProngs == 3 && vars.tauJetRNNScore < 0.40;
+        bool oneProngId = vars.nTauProngs == 1 && vars.tauJetRNNScore >= 0.40; // Medium = shift by 0.15
+        bool threeProngId = vars.nTauProngs == 3 && vars.tauJetRNNScore >= 0.55;
         cuts.push_back( oneProngId || threeProngId );
 
         cuts.push_back( vars.lep1pT >= 27 );
-        cuts.push_back( vars.jet1pT >= 65 );
-        cuts.push_back( vars.jet2pT >= 60 );
+        cuts.push_back( vars.jet1pT >= 75 );
+        cuts.push_back( vars.jet2pT >= 70 );
         cuts.push_back( vars.pTBalance <= 0.15 );
-        cuts.push_back( vars.mjj >= 500 );
+        cuts.push_back( vars.mjj >= 750 );
         cuts.push_back( vars.nJetsInGap == 0 );
         cuts.push_back( vars.centrality < 0.5 );
-        cuts.push_back( vars.omega > -0.2 && vars.omega < 1.4 );
+        cuts.push_back( vars.omega > -0.2 && vars.omega < 1.6 );
         cuts.push_back( vars.recoMass >= 160);
         cuts.push_back( vars.taupT >= 25 );
+        cuts.push_back( vars.vbfBDTScore > 0.3 );
         cuts.push_back( vars.lepPtAssymetry > -0.3 );
         cuts.push_back( vars.recoVisibleMassRatio < 4.0 );
+        // At this point, check the number of failed cuts
+        int failedCuts = 0;
+        for (const auto& cut : cuts){
+            if (!cut) failedCuts++;
+        }
+        // Check if the number of failed cuts is exactly three, and the high-mass is passed
+        cuts = {}; // Empty previous cuts because for the framework to work...
+        cuts.push_back( (failedCuts == 3) && (vars.recoMass >= 160) && (vars.centrality <= 1.0) ); // Make sure QCDjj RW applies.
     } else {
         g_LOG(LogLevel::ERROR, "Selection name not found!");
         exit(1);

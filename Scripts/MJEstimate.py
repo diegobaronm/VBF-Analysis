@@ -106,7 +106,12 @@ def main(base_path, SR_name, CR_name, histogram_dictionary):
 
     # First evaluate if there is evidence for MJ BG.
     totalMJisZero = False
-    nBJetsHistogram = dataSubtract("n_bjets",channelPath+SRSS,"Data",mcSamples,histos,rebin=False)
+    n_bjets_exist = check_histograms_exist("n_bjets", mcSamples, channelPath+SR)
+    if n_bjets_exist == "":
+        WARNING.log("n_bjets histogram not found in any sample. Cannot evaluate MJ evidence. Enter name of existing histogram:")
+        n_bjets_exist = input()
+
+    nBJetsHistogram = dataSubtract(n_bjets_exist,channelPath+SRSS,"Data",mcSamples,histos,rebin=False)
     totalMJ = nBJetsHistogram.GetBinContent(1)
     totalMJUncertainty = nBJetsHistogram.GetBinError(1)
     if (totalMJ < 0.0) or (totalMJ/totalMJUncertainty < 1.0 ):
@@ -118,7 +123,7 @@ def main(base_path, SR_name, CR_name, histogram_dictionary):
         totalMJ = 0.0
 
     # Calculate RQCD in MJCRs
-    histogramName = "n_bjets"
+    histogramName = n_bjets_exist
     # Find object by name
     histogramInfoObject = 0
     for i in histos:

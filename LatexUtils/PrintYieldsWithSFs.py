@@ -34,6 +34,7 @@ def main():
 
     # Calculate the total MC yield and uncertainty
     totalMC = ufloat(0,0)
+    totalBG = ufloat(0,0)
     for sampleName in samples.keys():
         if "Data" in sampleName:
             continue
@@ -43,8 +44,11 @@ def main():
             continue
 
         totalMC += ufloat(samples[sampleName]["Yield"],samples[sampleName]["Stat"])
+        if "Signal_Sherpa" not in sampleName:
+            totalBG += ufloat(samples[sampleName]["Yield"],samples[sampleName]["Stat"])
 
     samples["Total MC"] = {"Yield":round(totalMC.n,1),"Stat":round(totalMC.s,1)}
+    samples["Total BG"] = {"Yield":round(totalBG.n,1),"Stat":round(totalBG.s,1)}
 
     table  = pd.DataFrame.from_dict(samples,orient='index',columns=['Yield',"Stat"])
 
@@ -60,16 +64,18 @@ def main():
 
 if __name__ == "__main__":
     # Script parameters
-    samplesPath = "../VBFAnalysisPlots/TauTau/Zpeak/BDTOS/"
+    samplesPath = "../VBFAnalysisPlots/TauTau/TauhadTaulep/HighMass/BDTOS/"
     channel = "Ztautau"
     samples = {"Data":0.0,"Signal_Sherpa":0.0,"Signal_PoPy":0.0,channel+"_MGNLO_RWParabolicCutoffClosure":0.0,
             channel+"_SherpaNLO_RWParabolicCutoffClosure":0.0,"Higgs":0.0,"ttbar":0.0,"singletop":0.0,"VV":0.0,
             "Wjets":0.0,"Zjets":0.0,"MJ":0.0,"VV_EWK":0.0,"W_EWK_Sherpa":0.0,"Higgs_truth_EWK":0.0}
     sf_dict = {
-        #"Signal_Sherpa":ufloat(0.923,0.040),
+        "Signal_Sherpa":ufloat(0.923,0.040), # Zll and HighMass tautau
+        "Signal_PoPy":ufloat(0.793,00.035), # Zll and HighMass tautau
         "Zll_SherpaNLO_RWParabolicCutoffClosure":ufloat(1.011,0.009),
-        "Signal_Sherpa":ufloat(0.87,0.253), # Ztautau
-        "Ztautau_SherpaNLO_RWParabolicCutoffClosure":ufloat(1.071,0.118),
+        #"Signal_Sherpa":ufloat(0.87,0.253), # Ztautau Z peak
+        # "Ztautau_SherpaNLO_RWParabolicCutoffClosure":ufloat(1.071,0.118), # Ztautau Z peak
+        "Ztautau_SherpaNLO_RWParabolicCutoffClosure":ufloat(1.011,0.009), # Ztautau HighMass
     }
     histogramName = "n_bjets"
     outputFileName = "YieldsWithSFs_"+channel+".csv"
