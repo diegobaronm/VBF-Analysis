@@ -202,7 +202,8 @@ def channel(path):
 def gather_samples(localPath, add_systematics = False):
 
     dataSamples = ['Data.root']
-    signalSamples = ['Signal_Sherpa.root','Signal_PoPy.root']
+    EWjjMGSampleName = 'Signal_MG.root' if 'Tau' not in localPath else 'Signal_truth_MG.root'
+    signalSamples = ['Signal_Sherpa.root','Signal_PoPy.root',EWjjMGSampleName]
     qcdSamples = ["%s_%s.root" % (channel(localPath), i) for i in FIT_PARAMS.keys() if 'RW' in i]
     backgroundSamples = ['Wjets.root','VV.root',"ttbar.root",'singletop.root','VV_EWK.root']
     if "Tau" in localPath or "MuEle" in localPath:
@@ -299,7 +300,9 @@ def main():
 
     INFO.log("Gathering samples from the local path: ", args.local_path)
     list_of_samples = gather_samples(args.local_path, add_systematics = args.sys)
-    INFO.log("Gathered samples: ", list_of_samples)
+    INFO.log("Gathered samples: ")
+    for sample in list_of_samples:
+        INFO.log(" - ", sample)
 
 
     INFO.log("Correcting QCDjj uncertainties...")

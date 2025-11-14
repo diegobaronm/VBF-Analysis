@@ -40,6 +40,8 @@ def get_channel_from_sample(sample : str):
         return 'Zmumu'
     elif 'Ztautau' in sample:
         return 'Ztautau'
+    elif 'Zll' in sample:
+        return 'Zll'
     else:
         ERROR.log('Sample %s does not contain a valid channel name!' % sample)
         exit(1)
@@ -219,20 +221,27 @@ def Plot(args, config, interactive_mode = True):
     Logger.LOGLEVEL = 3
     if args.debug:
         Logger.LOGLEVEL = 4
+
+    # Inform and ask the user to confirm.    
     print_config(config)
     run = verify(interactive_mode)
     if not run:
         INFO.log('Exiting... without running!')
         exit(0)
+
+    # Run
     INFO.log('Running...')
     # Set the configuration.
     # First the always needed parameters.
     try:
+        # Gather the samples info.
         DATA = {"Data":["Data.root",ROOT.kBlack,0]}
         SIGNAL = {"Signal":[config['signal_sample'],ROOT.kOrange+1,0]} 
         BACKGROUND = build_background(config['background'], config['qcd_sample'])
-        if 'MG' in config['signal_sample']:
+        if 'MG' in config['signal_sample'] and args.channel == 'Ztautau':
             BACKGROUND.pop('Higgs_EWK')
+
+        # Now the rest of the parameters.
         HISTOGRAMS = get_template(config['histograms'])
         EWjjSF = 1.0
         QCDjjSF = 1.0
@@ -242,9 +251,12 @@ def Plot(args, config, interactive_mode = True):
                 QCDjjSF = config['qcd_scale']
             except KeyError as e: # Figure them out from the code.
                 INFO.log('Scale factors not found in config file, using default values.')
-                norm_factors, post_fit = get_norm_factors(config['qcd_sample'], config['signal_sample'], get_channel_from_sample(config['qcd_sample'])) # We will not use the post_fit value.
+                norm_factors, post_fit = get_norm_factors(config['qcd_sample'], config['signal_sample'], get_channel_from_sample(config['qcd_sample']), args.sfs_dict) # We will not use the post_fit value.
+                print(f"Using normalization factors: QCDjj: {norm_factors[0]}, EWjj: {norm_factors[1]}")
                 config['qcd_scale'] = norm_factors[0]
                 config['vbf_scale'] = norm_factors[1]
+                QCDjjSF = norm_factors[0]
+                EWjjSF = norm_factors[1]
 
         FINAL_STATE = config['final_state']
         REGION = config['region']
@@ -253,7 +265,8 @@ def Plot(args, config, interactive_mode = True):
     except KeyError as e:
         ERROR.log('Key %s not found in configuration file.' % e)
         exit(1)
-    # Now the optional parameters.
+
+    # Now, the optional parameters.
     optional_defaults = {'blind':True,
                          'blind_mass':True,
                          'unblind_purity_limit':0.0,
@@ -272,7 +285,7 @@ def Plot(args, config, interactive_mode = True):
     PURITY_MULTIPLIER = config['purity_multiplier']
     ZPRIME_PACK = build_zprime_pack(config['Zprime_pack'])
     ADDITIONAL_SIGNAL = config['additional_signal']
-    if 'MG' in config['signal_sample']:
+    if 'MG' in config['signal_sample'] and args.channel == 'Ztautau':
             ADDITIONAL_SIGNAL.remove('Higgs_EWK')
     if type(ADDITIONAL_SIGNAL) != list:
         ERROR.log('Additional signal must be a list.')

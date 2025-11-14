@@ -26,6 +26,9 @@ NORM_FACTORS_DICT['Zll'] = {
     'SherpaNLO_RWParabolicCutoffClosure_PoPy' : [1.027, 0.793],
     'MGNLO_RWParabolicCutoffClosure_PoPy' : [1.023, 0.849],
 
+    'SherpaNLO_RWParabolicCutoffClosure_MG' : [0.940, 1.465],
+    'MGNLO_RWParabolicCutoffClosure_MG' : [0.946, 1.518],
+
     'SherpaNLO_RWParabolicCutoff_Sherpa' : [1.000, 0.982],
     'MGNLO_RWParabolicCutoff_Sherpa' : [0.953, 1.309],
 
@@ -45,6 +48,9 @@ NORM_FACTORS_DICT['Ztautau'] = {
     'SherpaNLO_RWParabolicCutoffClosure_Sherpa' : [1.071, 0.870],
     'MGNLO_RWParabolicCutoffClosure_Sherpa' : [1.201, 0.744],
 
+    'SherpaNLO_RWParabolicCutoffClosure_MG' : [1.046, 1.391],
+    'MGNLO_RWParabolicCutoffClosure_MG' : [1.281, 0.836],
+
     'Sherpa_RWParabolicCutoffClosure_PoPy' : [1.050, 0.898],
     'MG_RWParabolicCutoffClosure_PoPy' : [1.083, 0.831],
     'SherpaNLO_RWParabolicCutoffClosure_PoPy' : [1.106, 0.720],
@@ -57,6 +63,9 @@ NORM_FACTORS_DICT['Zee'] = {
     'SherpaNLO_RWParabolicCutoffClosure_Sherpa' : [1.027, 0.900],
     'MGNLO_RWParabolicCutoffClosure_Sherpa' : [1.025, 0.922],
 
+    'SherpaNLO_RWParabolicCutoffClosure_MG' : [0.940, 1.465],
+    'MGNLO_RWParabolicCutoffClosure_MG' : [0.946, 1.518],
+
     'Sherpa_RWParabolicCutoffClosure_PoPy' : [0.967, 0.846],
     'MG_RWParabolicCutoffClosure_PoPy' : [0.984, 0.911],
     'SherpaNLO_RWParabolicCutoffClosure_PoPy' : [1.043, 0.775],
@@ -68,6 +77,9 @@ NORM_FACTORS_DICT['Zmumu'] = {
     'MG_RWParabolicCutoffClosure_Sherpa' : [0.963, 1.020],
     'SherpaNLO_RWParabolicCutoffClosure_Sherpa' : [1.000, 0.936],
     'MGNLO_RWParabolicCutoffClosure_Sherpa' : [0.994, 1.013],
+
+    'SherpaNLO_RWParabolicCutoffClosure_MG' : [0.940, 1.465],
+    'MGNLO_RWParabolicCutoffClosure_MG' : [0.946, 1.518],
 
     'Sherpa_RWParabolicCutoffClosure_PoPy' : [0.967, 0.846],
     'MG_RWParabolicCutoffClosure_PoPy' : [0.984, 0.911],
