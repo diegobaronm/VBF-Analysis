@@ -1,3 +1,9 @@
+VBF_Zmumu_MG_LM_2017_0
+VBF_Zmumu_MG_LM_2018_0
+VBF_Zmumu_MG_LM_2015_0
+VBF_Zmumu_MG_HM_2017_0
+VBF_Zmumu_MG_HM_2018_0
+VBF_Zmumu_MG_HM_2015_0
 Zmumu_2017_0
 Zmumu_2017_1
 Zmumu_2017_2
