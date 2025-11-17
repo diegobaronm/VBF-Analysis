@@ -1,4 +1,4 @@
-from histogramHelpers import biner,HistogramInfo, INFO
+from histogramHelpers import biner, HistogramInfo, INFO
 import ROOT as r
 import os
 import numpy as np
@@ -47,44 +47,60 @@ def greater_than_160(bin_center):
     return bin_center > 160
     
 if __name__ == '__main__':
+
+    # Gather the samples
+    samples_path = '../VBFAnalysisPlots/TauTau/TauhadTaulep/HighMass/BDTZprimeOS'
     Data = "Data.root"
     EWKjj = 'Signal_truth_MG.root'
-    QCDjj = 'Ztautau_SherpaRW.root'
-
+    QCDjj = 'Ztautau_SherpaNLO_RWParabolicCutoffClosure.root'
     Background = [EWKjj, QCDjj, "VV.root","VV_EWK.root","W_EWK_Sherpa.root","Zjets.root","ttbar.root","singletop.root","MJ.root","Higgs.root"]
     if "MG" not in EWKjj:
         Background.append("Higgs_EWK.root")
+    Zprime_Pack = [ i for i in os.listdir(samples_path) if "Zprime_" in i and i.endswith('.root')]
+    # Sort the Zprime samples by mass
+    Zprime_Pack.sort(key=lambda x: int(x.replace('Zprime_','').replace('.root','')))
 
-    Zprime_Pack = ["Zprime_200.root","Zprime_250.root","Zprime_300.root","Zprime_350.root","Zprime_400.root","Zprime_450.root","Zprime_500.root"]
 
-    bkg, bkg_error = build_background(path='/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/TauTau/TauhadTaulep/High-Mass/NewBDTTightTauOS',
+    # Get the histogram template
+    from histogramHelpers import templatesDict, get_histogram_from_collection
+    histogram_template = get_histogram_from_collection('reco_mass_',templatesDict['tautauHighMassHistograms'])
+    # Get the SFs
+    from Plot import get_norm_factors
+    norm_factors, sfs_found = get_norm_factors(QCDjj, EWKjj, channel='Ztautau', sfs_dict='Zll')
+    if not sfs_found:
+        ERROR.log('Normalization factors not found. Exiting.')
+        exit(1)
+    qcd_scale, vbf_scale = norm_factors[0], norm_factors[1]
+    INFO.log(f'Using VBF scale factor: {vbf_scale}, QCD scale factor: {qcd_scale}')        
+
+    # Build the background
+    bkg, bkg_error = build_background(path=samples_path,
                                     samples=Background,
-                                    QCDjjSF=0.919,EWKjjSF=1.649,
+                                    QCDjjSF=qcd_scale,EWKjjSF=vbf_scale,
                                     selection_fn=greater_than_160,
-                                    histogram_object=HistogramInfo('reco_mass_', [66, 81, 101, 116, 160, 250, 500], [66, 15, 10, 15, 11, 30, 125, 250], 10, 'm_{#tau,l}',160,1000,'GeV',True))
-
+                                    histogram_object=histogram_template)
     INFO.log('Background: %s' % bkg)
     INFO.log('Total background: %s' % np.sum(bkg))
     INFO.log('Background errors: %s' % bkg_error)
     INFO.log('Total background errors: %s' % np.sqrt((bkg_error**2).sum()))
 
-    Signal, Signal_error = build_sample(path='/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/TauTau/TauhadTaulep/High-Mass/NewBDTTightTauOS',
+    # Build the signal
+    Signal, Signal_error = build_sample(path=samples_path,
                                     sample=Zprime_Pack[0],
-                                    QCDjjSF=0.919,EWKjjSF=1.649,
+                                    QCDjjSF=qcd_scale,EWKjjSF=vbf_scale,
                                     selection_fn=greater_than_160,
-                                    histogram_object=HistogramInfo('reco_mass_', [66, 81, 101, 116, 160, 250, 500], [66, 15, 10, 15, 11, 30, 125, 250], 10, 'm_{#tau,l}',160,1000,'GeV',True))
-    
+                                    histogram_object=histogram_template)
     INFO.log('Signal: %s' % Signal)
 
 
     # Create a DataFrame and save it to a csv file
     data_dict = {'Background': bkg, 'BackgroundError': bkg_error}
     for i in Zprime_Pack:
-        signal, signal_error = build_sample(path='/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/TauTau/TauhadTaulep/High-Mass/NewBDTTightTauOS',
+        signal, signal_error = build_sample(path=samples_path,
                                     sample=i,
-                                    QCDjjSF=0.919,EWKjjSF=1.649,
+                                    QCDjjSF=qcd_scale,EWKjjSF=vbf_scale,
                                     selection_fn=greater_than_160,
-                                    histogram_object=HistogramInfo('reco_mass_', [66, 81, 101, 116, 160, 250, 500], [66, 15, 10, 15, 11, 30, 125, 250], 10, 'm_{#tau,l}',160,1000,'GeV',True))
+                                    histogram_object=histogram_template)
         data_dict['Signal'+i.replace('.root','').replace('Zprime_','')] = signal
     df = pd.DataFrame(data_dict)
-    df.to_csv('CLsInputs.csv',index=False)
+    df.to_csv('results/CLsInputs_test.csv',index=False)
