@@ -553,316 +553,233 @@ extern double BgTree_event_number;
 
 void CLoop::FillTree(double weight, int z_sample, const std::string& sampleName, TTree* stree, TTree* btree) {
   double pi=TMath::Pi();
-  //Charges and lepton ID
-  float ql=muon_0_q;
-  float qtau=tau_0_q;
+  // Charges and lepton ID
+  bool correctCharge = Kinematics::isChargeCorrect(m_region,muon_0_q,tau_0_q);
   bool lepton_id=muon_0_id_medium;
   size_t n_ljets=n_jets-n_bjets_MV2c10_FixedCutBEff_85;
 
-  if (ql!=qtau && n_muons==1 && n_taus_rnn_loose>=1 && weight > -190 && lepton_id && n_ljets>=2 && n_ljets<=3){
+  // Trigger decision and muon trigger scale factor
+  double muon_trigger_SF = 1.0;
+  bool trigger_decision= false;
+  bool trigger_match= false;
+  if (run_number>= 276262 && run_number<=284484) {
+    trigger_decision= bool(HLT_mu20_iloose_L1MU15 | HLT_mu50);
+    trigger_match=bool(muTrigMatch_0_HLT_mu20_iloose_L1MU15 | muTrigMatch_0_HLT_mu50);
+    muon_trigger_SF = muon_0_NOMINAL_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium;
+  } else {
+    trigger_decision= bool(HLT_mu26_ivarmedium | HLT_mu50);
+    trigger_match=bool(muTrigMatch_0_HLT_mu26_ivarmedium | muTrigMatch_0_HLT_mu50);
+    muon_trigger_SF = muon_0_NOMINAL_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium;  
+  }
+  if (sampleName.substr(0,4)!="data") weight *= muon_trigger_SF; // Apply trigger SF only to MC
+
+  // 0) Invariant mass of tagging jets.
+  double mjj = Kinematics::Mass({ljet_0_p4, ljet_1_p4});
+
+  if (correctCharge && n_muons==1 && n_taus_rnn_loose>=1 && weight > -190 && lepton_id && n_ljets>=2 && n_ljets<=3 && mjj>=250 && trigger_decision  && trigger_match && abs(tau_0_p4->Eta())>=0.1){
     
-    //angles
-    double angle_l_MET=Kinematics::del_phi(muon_0_p4->Phi(),met_reco_p4->Phi());
-    double angle_tau_MET=Kinematics::del_phi(tau_0_p4->Phi(),met_reco_p4->Phi());
-    double angle=Kinematics::del_phi(tau_0_p4->Phi(),muon_0_p4->Phi());
-    //trigger decision
-    bool trigger_decision= false;
-    bool trigger_match= false;
-    if (run_number>= 276262 && run_number<=284484) {
-      trigger_decision= bool(HLT_mu20_iloose_L1MU15 | HLT_mu50);
-      trigger_match=bool(muTrigMatch_0_HLT_mu20_iloose_L1MU15 | muTrigMatch_0_HLT_mu50);
-    } else {
-      trigger_decision= bool(HLT_mu26_ivarmedium | HLT_mu50);
-      trigger_match=bool(muTrigMatch_0_HLT_mu26_ivarmedium | muTrigMatch_0_HLT_mu50);
+    // Build the kinematic variables needed for the selections.
+    
+    // 1) Angles between the MET, Tau and Muon.
+    double angle_l_MET = Kinematics::del_phi(muon_0_p4->Phi(),met_reco_p4->Phi());
+    double angle_tau_MET = Kinematics::del_phi(tau_0_p4->Phi(),met_reco_p4->Phi());
+    double angle = Kinematics::del_phi(tau_0_p4->Phi(),muon_0_p4->Phi());
+
+    // 2) Get the topology of the tau-tau system.
+    Kinematics::TauTauTopology tauTauTopology = Kinematics::getTauTauTopology(angle_l_MET, angle_tau_MET, angle);
+    if (tauTauTopology == Kinematics::TauTauTopology::NOT_VALID) return;
+    g_LOG(LogLevel::DEBUG, "This event passes the basic selection cuts.");
+
+    // 3) Neutrino momentum
+    TLorentzVector nu_tau_p4 = Kinematics::getTauNeutrino(tauTauTopology,met_reco_p4,tau_0_p4,muon_0_p4);
+    TLorentzVector nu_lep_p4 = Kinematics::getLepNeutrino(tauTauTopology,met_reco_p4,tau_0_p4,muon_0_p4);
+
+    // 4) Reconstructed mass
+    double reco_mass = Kinematics::getRecoMass(tauTauTopology, tau_0_p4, muon_0_p4, &nu_tau_p4, &nu_lep_p4);
+
+    // 5) ZpT and truth ZpT calculations
+    double Z_pt = (*muon_0_p4 + *tau_0_p4 + nu_tau_p4 + nu_lep_p4).Pt();
+    double truth_z_pt = (z_sample==1 || z_sample==2) ? truth_Z_p4->Pt()/1000 : Z_pt;
+
+    // LEP-TAU INVARIANT MASS
+    double inv_taulep = Kinematics::Mass({muon_0_p4,tau_0_p4});
+    // Vector sum pT of the jets
+    double jet_pt_sum = (*ljet_0_p4 + *ljet_1_p4).Pt();
+    // Ratio ZpT/jet_pt_sum
+    double ratio_zpt_sumjetpt = Z_pt/jet_pt_sum;
+
+    // 6) Omega variable calculation
+    double omega = Kinematics::getOmega(tauTauTopology, angle_l_MET, angle_tau_MET, angle);
+
+
+    // VBF-dedicated variables
+
+    // 7) Delta rapidity between the tagging jets.
+    double delta_y = abs(ljet_0_p4->Rapidity()-ljet_1_p4->Rapidity());
+    
+    // 8) Number of jets in the rapidity interval between the tagging jets.
+    std::vector<UInt_t> is_jet_present{ljet_0,ljet_1,ljet_2};
+    std::vector<TLorentzVector*> jet_container{ljet_0_p4,ljet_1_p4,ljet_2_p4};
+    int n_jets_interval = Kinematics::getNumberOfGapJets(jet_container, is_jet_present);
+
+    // 9) pT balance
+    std::vector<TLorentzVector*> particles = {ljet_0_p4, ljet_1_p4, tau_0_p4, muon_0_p4, &nu_tau_p4, &nu_lep_p4};
+    if (n_jets_interval==1) particles.push_back(ljet_2_p4);
+    double pt_bal = Kinematics::getPtBalance(particles);
+
+    // 10) Z boson centrality
+    double signed_z_centrality = Kinematics::getSignedCentrality(ljet_0_p4, ljet_1_p4, tau_0_p4, muon_0_p4);
+    double z_centrality = abs(signed_z_centrality);
+
+    // 11) pT gap jet
+    double pt_gap_jet = n_jets_interval == 1 ? ljet_2_p4->Pt() : 0.0;
+
+    // Minimum DeltaR between lepton and jets
+    double min_dR_tau = Kinematics::min_deltaR(tau_0_p4,is_jet_present,jet_container);
+    double min_dR_lep = Kinematics::min_deltaR(muon_0_p4,is_jet_present,jet_container);
+
+    // More kinematic variables
+    double etaMoreCentral = abs(ljet_0_p4->Eta())>=abs(ljet_1_p4->Eta()) ? ljet_1_p4->Eta() : ljet_0_p4->Eta();
+    double etaLessCentral = abs(ljet_0_p4->Eta())<abs(ljet_1_p4->Eta()) ? ljet_1_p4->Eta() : ljet_0_p4->Eta();
+    double normPtDifference = (tau_0_p4->Pt()-muon_0_p4->Pt())/(tau_0_p4->Pt()+muon_0_p4->Pt());
+    double anglejj = Kinematics::del_phi(ljet_0_p4->Phi(),ljet_1_p4->Phi());
+    double metToDilepRatio = met_reco_p4->Pt()/(tau_0_p4->Pt()+muon_0_p4->Pt());
+    double metToDilepnuRatio = met_reco_p4->Pt()/(tau_0_p4->Pt()+nu_tau_p4.Pt()+muon_0_p4->Pt()+nu_lep_p4.Pt());
+
+    double massTauCloserJet{0.0};
+    double massLepClosestJet{0.0};
+    double massTauFurthestJet{0.0};
+    bool j0CloserToTau = tau_0_p4->DeltaR(*ljet_0_p4) <= tau_0_p4->DeltaR(*ljet_1_p4);
+    if (j0CloserToTau)
+    {
+      massTauCloserJet = sqrt(2*(tau_0_p4->Dot(*ljet_0_p4)));
+      massTauFurthestJet = sqrt(2*(tau_0_p4->Dot(*ljet_1_p4)));
+      massLepClosestJet = sqrt(2*(muon_0_p4->Dot(*ljet_1_p4)));
     }
-    // INVARIANT MASS 2-JETS
-    double mjj=sqrt(2*(ljet_0_p4->Dot(*ljet_1_p4)));
-    if (mjj>=250 && trigger_decision  && trigger_match  && abs(muon_0_p4->Eta())>=0.1 && abs(tau_0_p4->Eta())>=0.1) {
+    else
+    {
+      massTauCloserJet = sqrt(2*(tau_0_p4->Dot(*ljet_1_p4)));
+      massTauFurthestJet = sqrt(2*(tau_0_p4->Dot(*ljet_0_p4)));
+      massLepClosestJet = sqrt(2*(muon_0_p4->Dot(*ljet_0_p4)));
+    }
 
-      //topology
-      bool inside= abs(angle-(angle_l_MET+angle_tau_MET))< 0.00001; //ANGLE BEING USED pi/2 AND 2.0943
-      bool outside_lep= angle_l_MET<angle_tau_MET && abs(angle-(angle_l_MET+angle_tau_MET)) > 0.00001 && cos(angle_l_MET)>0;
-      bool outside_tau= angle_l_MET>angle_tau_MET && abs(angle-(angle_l_MET+angle_tau_MET)) > 0.00001 && cos(angle_tau_MET)>0;
-      bool signal_events = inside || outside_lep || outside_tau;
+    // Transverse mass
+    double transverseMassLep = Kinematics::TransverseMass(muon_0_p4,met_reco_p4);
+    double transverseMassTau = Kinematics::TransverseMass(tau_0_p4,met_reco_p4);
+    double transverseMassSum = transverseMassTau + transverseMassLep;
+    double transverseMassRatio = (transverseMassTau - transverseMassLep)/transverseMassSum;
+    float bdt_transmasslep = reco_mass > 200 ? transverseMassLep/std::pow(reco_mass,0.3) : transverseMassLep/std::pow(200,0.3); // for transverse-reco mass ratio
 
-      if (signal_events){
-        // RECO mass AND neutrino momentum
-        double cot_lep=1.0/tan(muon_0_p4->Phi());
-        double cot_tau=1.0/tan(tau_0_p4->Phi());
-        double pt_tau_nu=(met_reco_p4->Pt()*cos(met_reco_p4->Phi())-met_reco_p4->Pt()*sin(met_reco_p4->Phi())*cot_lep)/(cos(tau_0_p4->Phi())-sin(tau_0_p4->Phi())*cot_lep);
-        double pt_lep_nu=(met_reco_p4->Pt()*cos(met_reco_p4->Phi())-met_reco_p4->Pt()*sin(met_reco_p4->Phi())*cot_tau)/(cos(muon_0_p4->Phi())-sin(muon_0_p4->Phi())*cot_tau);
+    // Truth studies
+    TLorentzVector truth_lep_p4{};
+    double trueMass{};
+    double recoTrueMassRatio{};
+    if (sampleName.find("truth")!=std::string::npos){
+      truth_lep_p4 = (*taulep_0_truth_invis_p4)+(*taulep_0_truth_vis_p4);
+      trueMass = sqrt(2*(truth_lep_p4*(*tau_0_truth_total_p4)));
+      recoTrueMassRatio = trueMass==0.0 ? 0.0 : reco_mass/trueMass;
+    }
 
-        double reco_mass{};
-        if(inside){
-            reco_mass=sqrt(2*muon_0_p4->Pt()*tau_0_p4->Pt()*(cosh(muon_0_p4->Eta()-tau_0_p4->Eta())-cos(muon_0_p4->Phi()-tau_0_p4->Phi()))+2*muon_0_p4->Pt()*pt_tau_nu*(cosh(muon_0_p4->Eta()-tau_0_p4->Eta())-cos(muon_0_p4->Phi()-tau_0_p4->Phi()))+2*tau_0_p4->Pt()*pt_lep_nu*(cosh(tau_0_p4->Eta()-muon_0_p4->Eta())-cos(tau_0_p4->Phi()-muon_0_p4->Phi()))+2*pt_lep_nu*pt_tau_nu*(cosh(muon_0_p4->Eta()-tau_0_p4->Eta())-cos(muon_0_p4->Phi()-tau_0_p4->Phi())));
-        }
+    // Definition of the superCR = CR(a+b+c)
+    Region region = Kinematics::getRegion(z_centrality, n_jets_interval);
+    bool superCR = (region == Region::CRa) || (region == Region::CRb) || (region == Region::CRc);
+    
+    // ONLY SUPER CR
+    //if (!superCR) return;
 
-        double neutrino_pt=0;
-        if (outside_lep) {
-          neutrino_pt=met_reco_p4->Pt()*cos(angle_l_MET);
-          reco_mass = 5+sqrt(2*(muon_0_p4->Pt()*tau_0_p4->Pt()*(cosh(muon_0_p4->Eta()-tau_0_p4->Eta())-cos(muon_0_p4->Phi()-tau_0_p4->Phi()))+tau_0_p4->Pt()*neutrino_pt*(cosh(muon_0_p4->Eta()-tau_0_p4->Eta())-cos(muon_0_p4->Phi()-tau_0_p4->Phi()))));
-        }
-        if (outside_tau) {
-          neutrino_pt=met_reco_p4->Pt()*cos(angle_tau_MET);
-          reco_mass = 5+sqrt(2*(muon_0_p4->Pt()*tau_0_p4->Pt()*(cosh(muon_0_p4->Eta()-tau_0_p4->Eta())-cos(muon_0_p4->Phi()-tau_0_p4->Phi()))+muon_0_p4->Pt()*neutrino_pt*(cosh(muon_0_p4->Eta()-tau_0_p4->Eta())-cos(muon_0_p4->Phi()-tau_0_p4->Phi()))));
-        }
+    // Cuts 
+    // First initialise the variables used for the cutflow
+    Kinematics::VariablesForCutflow cutVars{};
+    cutVars.deltaPhiLepLep = angle;
+    cutVars.deltaRapidityTaggingJets = delta_y;
+    cutVars.nBJets = n_bjets_MV2c10_FixedCutBEff_85;
+    cutVars.lep1IsolationTight = muon_0_iso_TightTrackOnly_FixedRad;
+    cutVars.lep1IsolationLoose = muon_0_iso_Loose_FixedRad;
+    cutVars.nTauProngs = tau_0_n_charged_tracks;
+    cutVars.tauJetRNNScore = tau_0_jet_rnn_score_trans;
+    cutVars.lep1pT = muon_0_p4->Pt();
+    cutVars.taupT = tau_0_p4->Pt();
+    cutVars.jet1pT = ljet_0_p4->Pt();
+    cutVars.jet2pT = ljet_1_p4->Pt();
+    cutVars.mjj = mjj;
+    cutVars.pTBalance = pt_bal;
+    cutVars.nJetsInGap = n_jets_interval;
+    cutVars.centrality = z_centrality;
+    cutVars.omega = omega;
+    cutVars.recoMass = reco_mass;
+    cutVars.lepPtAssymetry = normPtDifference;
+    cutVars.recoVisibleMassRatio = reco_mass/inv_taulep;
+  
+    // Apply cuts 
+    std::vector<int> cuts = Selections::ApplySelection(m_region, cutVars);
+    if ((m_cutNames.size() - 1) != cuts.size()){
+        g_LOG(LogLevel::ERROR, "The number of cuts is not consistent with the number of cut names.");
+        exit(1);
+    }
 
-        // ZpT calculations
-        double Z_pt_x=0;
-        double Z_pt_y=0;
-        double Z_pt=0;
-        double truth_z_pt=0.0;
+    // Calculate if the event passed all cuts
+    std::vector<int> cutsVector{1};
+    cutsVector.insert(cutsVector.end(),cuts.begin(),cuts.end());
+    bool passedAllCuts = Tools::passedAllCuts(cutsVector);
+    std::vector<int> notFullCutsVector{1,static_cast<int>(passedAllCuts)};
+    if(not passedAllCuts) return;
 
-        // truth ZpT definition
-        if (z_sample==1 || z_sample==2)
-        {
-          truth_z_pt=truth_Z_p4->Pt()/1000;
-        }
-
-        if (inside) {
-          Z_pt_x=tau_0_p4->Pt()*cos(tau_0_p4->Phi())+muon_0_p4->Pt()*cos(muon_0_p4->Phi())+pt_tau_nu*cos(tau_0_p4->Phi())+pt_lep_nu*cos(muon_0_p4->Phi());
-          Z_pt_y=tau_0_p4->Pt()*sin(tau_0_p4->Phi())+muon_0_p4->Pt()*sin(muon_0_p4->Phi())+pt_tau_nu*sin(tau_0_p4->Phi())+pt_lep_nu*sin(muon_0_p4->Phi());
-          Z_pt=sqrt(Z_pt_x*Z_pt_x+Z_pt_y*Z_pt_y);
-          if (z_sample==0){
-            truth_z_pt=Z_pt;
-          }
-        }
-        if (outside_tau) {
-          Z_pt_x=tau_0_p4->Pt()*cos(tau_0_p4->Phi())+muon_0_p4->Pt()*cos(muon_0_p4->Phi())+neutrino_pt*cos(tau_0_p4->Phi());
-          Z_pt_y=tau_0_p4->Pt()*sin(tau_0_p4->Phi())+muon_0_p4->Pt()*sin(muon_0_p4->Phi())+neutrino_pt*sin(tau_0_p4->Phi());
-          Z_pt=sqrt(Z_pt_x*Z_pt_x+Z_pt_y*Z_pt_y);
-          if (z_sample==0){
-            truth_z_pt=Z_pt;
-          }
-        }
-        if (outside_lep) {
-          Z_pt_x=tau_0_p4->Pt()*cos(tau_0_p4->Phi())+muon_0_p4->Pt()*cos(muon_0_p4->Phi())+neutrino_pt*cos(muon_0_p4->Phi());
-          Z_pt_y=tau_0_p4->Pt()*sin(tau_0_p4->Phi())+muon_0_p4->Pt()*sin(muon_0_p4->Phi())+neutrino_pt*sin(muon_0_p4->Phi());
-          Z_pt=sqrt(Z_pt_x*Z_pt_x+Z_pt_y*Z_pt_y);
-          if (z_sample==0){
-            truth_z_pt=Z_pt;
-          }
-        }
-
-        // Vector sum pT of the jets
-        double jet_pt_sum= (*ljet_0_p4 + *ljet_1_p4).Pt();
-        // Ratio ZpT/jet_pt_sum
-        double ratio_zpt_sumjetpt = Z_pt/jet_pt_sum;
-
-        // OMEGA VARIABLE DEFINITION
-        double omega=0.0;
-        if (inside && (angle_l_MET<angle_tau_MET)) {
-          omega=1.0-(angle_l_MET)/(angle);
-        }
-        if (inside && (angle_l_MET>angle_tau_MET)) {
-          omega=(angle_tau_MET)/(angle);
-        }
-        if (outside_lep) {
-          omega=1.0+(angle_l_MET)/(angle);
-        }
-        if (outside_tau) {
-          omega=-1.0*(angle_tau_MET)/(angle);
-        }
-
-        // VBF variables
-        // DELTA RAPIDITY 2-JETS
-        double delta_y = abs(ljet_0_p4->Rapidity()-ljet_1_p4->Rapidity());
-        // NUMBER OF JETS INTERVAL
-        int n_jets_interval{};
-        if(n_ljets>2){
-          n_jets_interval=n_jets_interval+Kinematics::is_inside_jets(ljet_2_p4,ljet_0_p4,ljet_1_p4);
-        }
-        //PT BALANCE
-        double pt_bal{0};
-        double scalarSum = tau_0_p4->Pt()+muon_0_p4->Pt()+ljet_0_p4->Pt()+ljet_1_p4->Pt()+bjet_0_p4->Pt();
-        TLorentzVector vectorSum = (*tau_0_p4)+(*muon_0_p4)+(*ljet_0_p4)+(*ljet_1_p4)+(*bjet_0_p4);
-        if (n_jets_interval==1){
-          scalarSum+= ljet_2_p4->Pt();
-          vectorSum+= (*ljet_2_p4);
-        }
-        TLorentzVector nu_tau_p4(0,0,0,0);
-        TLorentzVector nu_lep_p4(0,0,0,0);
-        if(inside){
-          nu_tau_p4 = TLorentzVector(pt_tau_nu*cos(tau_0_p4->Phi()),pt_tau_nu*sin(tau_0_p4->Phi()),0,0);
-          nu_lep_p4 = TLorentzVector(pt_lep_nu*cos(muon_0_p4->Phi()),pt_lep_nu*sin(muon_0_p4->Phi()),0,0);
-        } else {
-          if(outside_lep) nu_lep_p4 = TLorentzVector(neutrino_pt*cos(muon_0_p4->Phi()),neutrino_pt*sin(muon_0_p4->Phi()),0,0);
-          else if(outside_tau) nu_tau_p4 = TLorentzVector (neutrino_pt*cos(tau_0_p4->Phi()),neutrino_pt*sin(tau_0_p4->Phi()),0,0);
-        }
-        pt_bal= (vectorSum+nu_tau_p4+nu_lep_p4).Pt()/(scalarSum+nu_tau_p4.Pt()+nu_lep_p4.Pt());
-
-        // Z BOSON CENTRALITY
-        double lepton_xi=((*tau_0_p4)+(*muon_0_p4)).Rapidity();
-        double dijet_xi=ljet_0_p4->Rapidity()+ljet_1_p4->Rapidity();
-        double z_centrality=abs(lepton_xi-0.5*dijet_xi)/delta_y;
-
-        //pT gap jet
-        double pt_gap_jet{};
-        if (Kinematics::is_inside_jets(ljet_2_p4,ljet_0_p4,ljet_1_p4)){pt_gap_jet=ljet_2_p4->Pt();}
-
-        // Minimum DeltaR between lepton and jets
-        std::vector<UInt_t> is_jet_present{ljet_0,ljet_1,ljet_2};
-        std::vector<TLorentzVector*> jet_container{ljet_0_p4,ljet_1_p4,ljet_2_p4};
-
-        double min_dR_tau = Kinematics::min_deltaR(tau_0_p4,is_jet_present,jet_container);
-        double min_dR_lep = Kinematics::min_deltaR(muon_0_p4,is_jet_present,jet_container);
-
-        // Definition of the superCR = CR(a+b+c)
-        bool CRa = z_centrality < 0.5 && n_jets_interval == 1;
-        bool CRb = z_centrality>=0.5 && z_centrality <=1 && n_jets_interval == 1;
-        bool CRc = z_centrality>=0.5 && z_centrality <=1 && n_jets_interval == 0;
-        bool superCR = CRa || CRb || CRc;
-
-        // ONLY SUPER CR
-        //if (!superCR) return;
-
-        // Cuts vector
-        vector<int> cuts={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-        // CUTS
-        if (angle<=3.2){cuts[0]=1;}
-        if(delta_y>=2.0){cuts[1]=1;}
-        if(n_bjets_MV2c10_FixedCutBEff_85==1){cuts[2]=1;}
-        if(muon_0_iso_TightTrackOnly_FixedRad==1){cuts[3]=1;}
-        if(tau_0_n_charged_tracks==1 && tau_0_jet_rnn_score_trans >= 0.25){cuts[4]=1;}
-        if(tau_0_n_charged_tracks==3 && tau_0_jet_rnn_score_trans >= 0.40){cuts[4]=1;}
-        if(muon_0_p4->Pt()>=27){cuts[5]=1;}
-        if(ljet_0_p4->Pt()>=75){cuts[6]=1;}
-        if(ljet_1_p4->Pt()>=65){cuts[7]=1;}
-        if(pt_bal<=0.15){cuts[8]=1;}
-        if(mjj>=750){cuts[9]=1;}
-        if(n_jets_interval==0){cuts[10]=1;}
-        if(z_centrality<0.5){cuts[11]=1;} // SR -> z_centrality < 0.5
-        if (omega> -0.2 && omega <1.4){cuts[12]=1;} // Z-peak omega> -0.2 && omega <1.6
-        bool diLeptonMassRequirement = reco_mass>120;
-        if (diLeptonMassRequirement){cuts[13]=1;} // Z-peak reco_mass<116 && reco_mass>66 // Higgs reco_mass >= 116 && reco_mass < 150
-        if (tau_0_p4->Pt()>=25){cuts[14]=1;}
-
-        // SUM OF THE VECTOR STORING IF CUTS PASS OR NOT
-        size_t sum{0};
-        for(auto &j : cuts){sum=sum+j;}
-
-        std::vector<int> cutsVector{1};
-        cutsVector.insert(cutsVector.end(),cuts.begin(),cuts.end());
-        bool passedAllCuts = (sum+1==cutsVector.size());
-        std::vector<int> notFullCutsVector{1,static_cast<int>(passedAllCuts)};
-
-        double etaMoreCentral = abs(ljet_0_p4->Eta())>=abs(ljet_1_p4->Eta()) ? ljet_1_p4->Eta() : ljet_0_p4->Eta();
-        double etaLessCentral = abs(ljet_0_p4->Eta())<abs(ljet_1_p4->Eta()) ? ljet_1_p4->Eta() : ljet_0_p4->Eta();
-        double normPtDifference = (tau_0_p4->Pt()-muon_0_p4->Pt())/(tau_0_p4->Pt()+muon_0_p4->Pt());
-        double anglejj = Kinematics::del_phi(ljet_0_p4->Phi(),ljet_1_p4->Phi());
-        double metToDilepnuRatio = 0.0;
-        double metToDilepRatio = met_reco_p4->Pt()/(tau_0_p4->Pt()+muon_0_p4->Pt());
-        if (inside)
-        {
-          metToDilepnuRatio = met_reco_p4->Pt()/(tau_0_p4->Pt()+pt_tau_nu+muon_0_p4->Pt()+pt_lep_nu);
-        }
-        if (outside_lep || outside_tau)
-        {
-          metToDilepnuRatio = met_reco_p4->Pt()/(tau_0_p4->Pt()+muon_0_p4->Pt()+neutrino_pt);
-        }
-
-        double massTauCloserJet{0.0};
-        double massLepClosestJet{0.0};
-        double massTauFurthestJet{0.0};
-        bool j0CloserToTau = tau_0_p4->DeltaR(*ljet_0_p4) <= tau_0_p4->DeltaR(*ljet_1_p4);
-        if (j0CloserToTau)
-        {
-          massTauCloserJet = sqrt(2*(tau_0_p4->Dot(*ljet_0_p4)));
-          massTauFurthestJet = sqrt(2*(tau_0_p4->Dot(*ljet_1_p4)));
-          massLepClosestJet = sqrt(2*(muon_0_p4->Dot(*ljet_1_p4)));
-        }
-        else
-        {
-          massTauCloserJet = sqrt(2*(tau_0_p4->Dot(*ljet_1_p4)));
-          massTauFurthestJet = sqrt(2*(tau_0_p4->Dot(*ljet_0_p4)));
-          massLepClosestJet = sqrt(2*(muon_0_p4->Dot(*ljet_0_p4)));
-        }
-
-        // Neutrino cuts
-        bool taunuPtPass = true;
-        bool lepnuPtPass = true;
-        if (inside) 
-        {
-          taunuPtPass = pt_tau_nu>=15;
-          lepnuPtPass = pt_tau_nu>=30;
-        } else {
-          if (outside_lep) lepnuPtPass = neutrino_pt>=30;
-          if (outside_tau) taunuPtPass = neutrino_pt>=15;
-        }
-
-        // Transverse mass
-        double transverseMassLep = sqrt(2*muon_0_p4->Pt()*met_reco_p4->Pt()*(1-cos(muon_0_p4->Phi()-met_reco_p4->Phi())));
-        double transverseMassTau = sqrt(2*tau_0_p4->Pt()*met_reco_p4->Pt()*(1-cos(tau_0_p4->Phi()-met_reco_p4->Phi())));
-        double transverseRecoMassRatio = reco_mass > 200 ? transverseMassLep/std::pow(reco_mass,0.3) : transverseMassLep/std::pow(200,0.3);
-        
-
-        bool testCuts = transverseMassLep <= 65 && massTauCloserJet >= 90;
-        if (passedAllCuts){
-        // FILLING TTree
-        // Check if sample is VBF Ztautau
-        // LEP-TAU INVARIANT MASS
-        double inv_taulep=sqrt((2*muon_0_p4->Pt()*tau_0_p4->Pt())*(cosh(muon_0_p4->Eta()-tau_0_p4->Eta())-cos(muon_0_p4->Phi()-tau_0_p4->Phi())));
-        bool isVBFZtautau = sampleName.find("VBF") != std::string::npos && sampleName.find("Ztautau") != std::string::npos && sampleName.find("old") == std::string::npos;
-        bool isVBFHiggs = sampleName.find("H") != std::string::npos && sampleName.find("VBF") != std::string::npos;
-        if (isVBFZtautau || isVBFHiggs) {
-          SigTree_mcWeight = weight;
-          SigTree_mjj = mjj;
-          SigTree_deltaRapidity = delta_y;
-          SigTree_mjj = mjj;
-          SigTree_deltaRapidity = delta_y;
-          SigTree_deltaPhiLT = angle;
-          SigTree_deltaPhiJJ = anglejj;
-          SigTree_jetRNNScore = tau_0_jet_rnn_score_trans;
-          SigTree_ptBalance = pt_bal;
-          SigTree_zCentrality = z_centrality;
-          SigTree_omega = omega;
-          SigTree_reco_mass = reco_mass;
-          if (inside) SigTree_lepNuPt = pt_lep_nu;
-          if (outside_lep) SigTree_lepNuPt = neutrino_pt;
-          if (outside_tau) SigTree_lepNuPt = 0.0;
-          SigTree_transverseMassLep = transverseMassLep;
-          SigTree_transverseRecoMassVariable = transverseRecoMassRatio;
-          SigTree_massTauLep = inv_taulep;
-          SigTree_nLightJets = n_ljets;
-          SigTree_tau_pT = tau_0_p4->Pt();
-          SigTree_lep_pT = muon_0_p4->Pt();
-          SigTree_jet0_pT = ljet_0_p4->Pt();
-          SigTree_jet1_pT = ljet_1_p4->Pt();
-          SigTree_met_pT = met_reco_p4->Pt();
-          SigTree_event_number = event_number;
-          // Fill tree
-          stree->Fill();
-        } else {
-          BgTree_mcWeight = weight;
-          BgTree_mjj = mjj;
-          BgTree_deltaRapidity = delta_y;
-          BgTree_mjj = mjj;
-          BgTree_deltaRapidity = delta_y;
-          BgTree_deltaPhiLT = angle;
-          BgTree_deltaPhiJJ = anglejj;
-          BgTree_jetRNNScore = tau_0_jet_rnn_score_trans;
-          BgTree_ptBalance = pt_bal;
-          BgTree_zCentrality = z_centrality;
-          BgTree_omega = omega;
-          BgTree_reco_mass = reco_mass;
-          if (inside) BgTree_lepNuPt = pt_lep_nu;
-          if (outside_lep) BgTree_lepNuPt = neutrino_pt;
-          if (outside_tau) BgTree_lepNuPt = 0.0;
-          BgTree_transverseMassLep = transverseMassLep;
-          BgTree_transverseRecoMassVariable = transverseRecoMassRatio;
-          BgTree_massTauLep = inv_taulep;
-          BgTree_nLightJets = n_ljets;
-          BgTree_tau_pT = tau_0_p4->Pt();
-          BgTree_lep_pT = muon_0_p4->Pt();
-          BgTree_jet0_pT = ljet_0_p4->Pt();
-          BgTree_jet1_pT = ljet_1_p4->Pt();
-          BgTree_met_pT = met_reco_p4->Pt();
-          BgTree_event_number = event_number;
-          // Fill tree
-          btree->Fill();
-        }
-        }
-      }
+    // FILLING TTree
+    // Check if sample is VBF Ztautau
+    bool isVBFZtautau = sampleName.find("VBF") != std::string::npos && sampleName.find("Ztautau") != std::string::npos && sampleName.find("old") == std::string::npos;
+    bool isVBFHiggs = sampleName.find("H") != std::string::npos && sampleName.find("VBF") != std::string::npos;
+    if (isVBFZtautau || isVBFHiggs) {
+      SigTree_mcWeight = weight;
+      SigTree_mjj = mjj;
+      SigTree_deltaRapidity = delta_y;
+      SigTree_mjj = mjj;
+      SigTree_deltaRapidity = delta_y;
+      SigTree_deltaPhiLT = angle;
+      SigTree_deltaPhiJJ = anglejj;
+      SigTree_jetRNNScore = tau_0_jet_rnn_score_trans;
+      SigTree_ptBalance = pt_bal;
+      SigTree_zCentrality = z_centrality;
+      SigTree_omega = omega;
+      SigTree_reco_mass = reco_mass;
+      BgTree_lepNuPt = nu_lep_p4.Pt();
+      SigTree_transverseMassLep = transverseMassLep;
+      SigTree_transverseRecoMassVariable = bdt_transmasslep;
+      SigTree_massTauLep = inv_taulep;
+      SigTree_nLightJets = n_ljets;
+      SigTree_tau_pT = tau_0_p4->Pt();
+      SigTree_lep_pT = muon_0_p4->Pt();
+      SigTree_jet0_pT = ljet_0_p4->Pt();
+      SigTree_jet1_pT = ljet_1_p4->Pt();
+      SigTree_met_pT = met_reco_p4->Pt();
+      SigTree_event_number = event_number;
+      // Fill tree
+      stree->Fill();
+    } else {
+      BgTree_mcWeight = weight;
+      BgTree_mjj = mjj;
+      BgTree_deltaRapidity = delta_y;
+      BgTree_mjj = mjj;
+      BgTree_deltaRapidity = delta_y;
+      BgTree_deltaPhiLT = angle;
+      BgTree_deltaPhiJJ = anglejj;
+      BgTree_jetRNNScore = tau_0_jet_rnn_score_trans;
+      BgTree_ptBalance = pt_bal;
+      BgTree_zCentrality = z_centrality;
+      BgTree_omega = omega;
+      BgTree_reco_mass = reco_mass;
+      BgTree_lepNuPt = nu_lep_p4.Pt();
+      BgTree_transverseMassLep = transverseMassLep;
+      BgTree_transverseRecoMassVariable = bdt_transmasslep;
+      BgTree_massTauLep = inv_taulep;
+      BgTree_nLightJets = n_ljets;
+      BgTree_tau_pT = tau_0_p4->Pt();
+      BgTree_lep_pT = muon_0_p4->Pt();
+      BgTree_jet0_pT = ljet_0_p4->Pt();
+      BgTree_jet1_pT = ljet_1_p4->Pt();
+      BgTree_met_pT = met_reco_p4->Pt();
+      BgTree_event_number = event_number;
+      // Fill tree
+      btree->Fill();
     }
   }
 }
