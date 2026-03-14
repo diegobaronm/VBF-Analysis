@@ -5,7 +5,7 @@
 #include "../../../AnalysisCommons/reweightingTools.h"
 #include"../../../AnalysisCommons/Kinematics.h"
 
-void CLoop::Loop(double lumFactor, int z_sample, const std::string& key, int logLevel)
+void CLoop::Loop(double lumFactor, int z_sample, const std::string& key, int logLevel, const std::string& mode)
 {
 //    In a ROOT session, you can do:
 //        root> .L CLoop.C
@@ -35,6 +35,12 @@ void CLoop::Loop(double lumFactor, int z_sample, const std::string& key, int log
 
     // Set the logging level
     g_LOG.setLogLevel(static_cast<LogLevel>(logLevel));
+
+    // Setup running mode
+    if (mode == "n" || mode == "hn") {
+        g_LOG(LogLevel::INFO, "This channel does not support NTuple mode. Switching to histogram mode.");
+        mode = "h";
+    }
 
     if (fChain == 0) return;
 

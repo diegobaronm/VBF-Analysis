@@ -57,7 +57,7 @@ double BgTree_event_number;
 
 #endif
 
-void CLoop::Loop(double lumFactor, int z_sample, const std::string& key, int logLevel)
+void CLoop::Loop(double lumFactor, int z_sample, const std::string& key, int logLevel, const std::string& mode)
 {
 //    In a ROOT session, you can do:
 //        root> .L CLoop.C
@@ -304,11 +304,14 @@ void CLoop::Loop(double lumFactor, int z_sample, const std::string& key, int log
     // open output file
     TFile outfile(name_root,"recreate");
     // Create TTree
-    bool saveHistograms = true;
+    bool saveHistograms = mode == "h" || mode == "hn";
     #ifdef NOMINAL
-    bool saveEvents = false;
+    bool saveEvents = mode == "n" || mode == "hn";
     TTree* signalTree = new TTree("SIGNAL", "Signal TTree");
     TTree* bgTree = new TTree("BG", "Background TTree");
+
+    g_LOG(LogLevel::INFO, "Saving histograms: ", saveHistograms);
+    g_LOG(LogLevel::INFO, "Saving events: ", saveEvents);
 
     // Setting tree branches
     signalTree->Branch("mcWeight", &SigTree_mcWeight);

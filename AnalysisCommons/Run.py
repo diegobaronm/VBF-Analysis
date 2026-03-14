@@ -185,7 +185,7 @@ def DrawC(filename,lumStr,z_sample,key_pop,tree,region, dirs, CLI_args, logLevel
 
         # create new instance of CLoop and loop over events
         r.gROOT.ProcessLine('CLoop* t = new CLoop(minTree, "%s", "%s")' % (key_pop, region))
-        r.gROOT.ProcessLine('t->Loop(%s, %s, "%s", %d)' % (lumStr, z_sample, key_pop+tree, logLevel))
+        r.gROOT.ProcessLine('t->Loop(%s, %s, "%s", %d, "%s")' % (lumStr, z_sample, key_pop+tree, logLevel, CLI_args.mode))
         r.gROOT.ProcessLine("f->Close("R")")
     else:
         # Figure out the relevant systematics
@@ -348,6 +348,7 @@ def createParser():
     parser.add_argument("remote", help="Is the code running remotely? (yes/no)", type=str, choices=["yes", "no"])
     parser.add_argument("tree", help="Tree to run over. Usually NOMINAL.", type=str,)
     parser.add_argument("region", help="Region to run over. Should contain OS or SS in the name.", type=str)
+    parser.add_argument("--mode", help="Whether the code produces histograms or NTuples. Default is histograms.", type=str, choices=["h", "n", "hn"], default="h")
     parser.add_argument("--j", help="Number of jobs to run in parallel. Default is 1.", type=int, default=1)
     parser.add_argument("--clean", help="Clean the output directory before running the analysis. Default is False.", action='store_true')
     parser.add_argument("--output", help="Output directory for the analysis results. Default is out/<tree>/", type=str)
@@ -366,6 +367,10 @@ def createParser():
 
     if args.sys and args.sys_channel is None:
         ERROR.log("When --sys is set, --sys-channel has to be set too.")
+        exit(1)
+
+    if "n" in args.mode and args.sys:
+        ERROR.log("Running in NTuple mode is not compatible with running systematics.")
         exit(1)
 
     type_sys_to_run = args.sys_type.split(",")
@@ -445,6 +450,7 @@ def RunAnalysis(dataCombos, dataSets, realList, infos, dirs, output_dict):
     INFO.log("Remote: %s" % parser.remote)
     INFO.log("Tree: %s" % parser.tree)
     INFO.log("Region: %s" % parser.region)
+    INFO.log("Mode: %s" % parser.mode)
     INFO.log("Number of cores: %d" % parser.j)
     INFO.log("Output directory: %s" % parser.output)
     INFO.log("Clean: %s" % parser.clean)
