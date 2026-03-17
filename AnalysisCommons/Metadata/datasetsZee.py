@@ -3,9 +3,7 @@ from AnalysisCommons.Logger import INFO, ERROR, WARNING
 import sys
 import os
 from .DatasetsPaths import v26_ee_Paths
-# total luminosity of the real data in inverse femtobarns
 
-totRealLum = 57.6164
 # Name of host
 username = os.environ['USER']
 

@@ -1,7 +1,6 @@
 import sys
 import ROOT as r
 import os
-import sys
 import argparse
 from multiprocessing import Pool
 from .Metadata.ChannelConfig import VALID_CHANNELS

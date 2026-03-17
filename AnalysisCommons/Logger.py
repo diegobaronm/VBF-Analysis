@@ -21,6 +21,7 @@ class Logger:
         if self.s_LOG_LEVELS[self.m_level] <= Logger.LOGLEVEL:
             message = self.m_colour+self.m_level+': '+bcolors.ENDC+message
             print(message, variable)
+    @staticmethod
     def setLogLevel(level):
         if level > 4 or level < 1:
             raise ValueError("Log level must be between 1 and 4.")

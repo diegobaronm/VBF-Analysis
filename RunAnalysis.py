@@ -8,7 +8,6 @@
 #   Usage:
 #     python3 RunAnalysis.py EleTau InputDatasets/Higgs.txt no NOMINAL NewZpeakOS --j10
 #
-#   The --channel flag is REQUIRED when running from the project root.
 #   The script changes into <channel>/MC/ before executing to keep
 #   C++ backend paths working, while resolving metadata automatically.
 #

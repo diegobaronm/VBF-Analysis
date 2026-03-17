@@ -3,16 +3,9 @@ from AnalysisCommons.Logger import INFO, ERROR, WARNING
 import sys
 import os
 from .DatasetsPaths import v26Paths
-# total luminosity of the real data in inverse femtobarns
 
-totRealLum = 57.6164
 # Name of host
 username = os.environ['USER']
-
-try :  
-        remote = sys.argv[2]=="yes"
-except:
-        remote = False
 
 pathsToSamplesList = v26Paths[username]
 samples = []
