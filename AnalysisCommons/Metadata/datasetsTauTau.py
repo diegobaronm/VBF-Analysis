@@ -1,4 +1,4 @@
-from AnalysisCommons.Run import INFO, ERROR, WARNING
+from AnalysisCommons.Logger import INFO, ERROR, WARNING
 # file to hold variables with info about the data
 import sys
 import os

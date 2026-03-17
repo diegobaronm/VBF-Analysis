@@ -1,7 +1,7 @@
 import os
 
 from Scripts.Plot import Plot, get_args, load_config, get_norm_factors
-from AnalysisCommons.Run import INFO, WARNING, ERROR, DEBUG, Logger 
+from AnalysisCommons.Logger import INFO, WARNING, ERROR, DEBUG, Logger 
 Logger.LOGLEVEL = 3
 
 def get_QCDjj_suffixes(yaml_file_path, channel):

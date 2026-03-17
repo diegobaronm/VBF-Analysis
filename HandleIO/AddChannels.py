@@ -1,6 +1,6 @@
 import os
 from CreateListToRun import menu
-from AnalysisCommons.Run import INFO, WARNING, DEBUG, ERROR
+from AnalysisCommons.Logger import INFO, WARNING, DEBUG, ERROR
 from AnalysisCommons.Constants import DEFAULT_MJJ_REWEIGHTING
 from HandleIO.OutputsMerger import Z_PRIME_MASS_LIST
 

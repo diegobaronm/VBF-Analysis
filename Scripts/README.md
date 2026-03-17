@@ -23,7 +23,7 @@ Environment setup
   - No CLI; import as a module.
 
 - `AnalysisCommons` (external to this folder)
-  - `Run.py` provides logging (INFO, WARNING, ERROR, DEBUG) and `Logger.LOGLEVEL`.
+  - `Logger.py` provides logging (INFO, WARNING, ERROR, DEBUG) and `Logger.LOGLEVEL`.
   - `Constants.py` provides normalization factors and defaults (e.g., `NORM_FACTORS_DICT`, `RQCD_VALUE`, `RQCD_UNCERTAINTY_VALUE`, `DEFAULT_MJJ_REWEIGHTING`).
 
 

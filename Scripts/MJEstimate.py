@@ -4,7 +4,7 @@ import numpy as np
 import ctypes
 import os
 from histogramHelpers import dataSubtract, makeNegativeBinsZero, mcAdd, makeSRBinsConsistentWithNOMJ, scaleUncertainty, templatesDict
-from AnalysisCommons.Run import INFO, WARNING, ERROR, DEBUG, Logger
+from AnalysisCommons.Logger import INFO, WARNING, ERROR, DEBUG, Logger
 from HandleIO.CreateListToRun import menu
 from AnalysisCommons.Constants import RQCD_VALUE, RQCD_UNCERTAINTY_VALUE, DEFAULT_MJJ_REWEIGHTING
 import argparse

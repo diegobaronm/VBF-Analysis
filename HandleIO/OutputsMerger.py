@@ -3,7 +3,8 @@ import sys
 from argparse import ArgumentParser
 
 from HandleIO.CreateListToRun import menu
-from AnalysisCommons.Run import INFO, WARNING, ERROR, DEBUG, Logger, CreateOutputsDir
+from AnalysisCommons.Logger import INFO, WARNING, ERROR, DEBUG, Logger
+from AnalysisCommons.Run import CreateOutputsDir
 Logger.LOGLEVEL = 3
 
 hadd_ee = {

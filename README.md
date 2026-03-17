@@ -6,18 +6,25 @@ To run one of the channels you have two options:
 
 ### Local
 
-Go to the `MC` directory inside the respective channel directory (for example `TauMu/MC`) and run:
+Run any channel from the project root using `RunAnalysis.py` with the `channel` argument:
 
-`python3 RunAnalysis.py`
+```
+python3 RunAnalysis.py EleTau InputDatasets/Higgs.txt no NOMINAL NewZpeakOS --j10
+```
+
+Valid channels: `EleTau`, `TauMu`, `MuEle`, `MuMu`, `Zee`.
+
+#### CLI options
 
 If you use the help options you will see
 
 ```
-usage: RunAnalysis.py [-h] [--j J] [--clean] sample {yes,no} tree region
+usage: RunAnalysis.py [-h] [--j J] [--clean] channel sample {yes,no} tree region
 
 Run VBF Analysis!
 
 positional arguments:
+  channel     Channel to run (EleTau, MuMu, Zee, TauMu, MuEle).
   sample      The name of the sample from the ones on the metadata. It can also
               be a file in which case the code will check that the path exists
               and will do parallel processing according to the optional --j
@@ -27,16 +34,10 @@ positional arguments:
   region      Region to run over. Should contain OS or SS in the name.
 
 options:
-  -h, --help  show this help message and exit
-  --j J       Number of jobs to run in parallel. Default is 1.
-  --clean     Clean the output directory before running the analysis. Default
-              is False.
-```
-
-then, one valid run will look like:
-
-```
-python3 RunAnalysis.py InputDatasets/Higgs.txt no NOMINAL NewZpeakOS --j10
+  -h, --help         show this help message and exit
+  --j J              Number of jobs to run in parallel. Default is 1.
+  --clean            Clean the output directory before running the analysis.
+                     Default is False.
 ```
 
 ### HTCondor:

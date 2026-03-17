@@ -5,7 +5,7 @@ import argparse
 from uncertainties import ufloat, correlated_values
 from uncertainties.umath import *
 
-from AnalysisCommons.Run import INFO, WARNING, ERROR, DEBUG, Logger
+from AnalysisCommons.Logger import INFO, WARNING, ERROR, DEBUG, Logger
 from Scripts.MjjFit import parabolic_model, exponential_model, linear_model
 Logger.LOGLEVEL = 3
 

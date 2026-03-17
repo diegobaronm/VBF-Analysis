@@ -3,7 +3,9 @@ This script submits Analysis jobs to HTCondor
 """
 import os
 
-from AnalysisCommons.Run import INFO, WARNING, ERROR, CreateOutputsDir
+from AnalysisCommons.Run import CreateOutputsDir
+from AnalysisCommons.Logger import INFO, WARNING, ERROR
+from AnalysisCommons.Metadata.ChannelConfig import VALID_CHANNELS
 
 def menu(question,options):
     incorrect_answer=True
@@ -31,12 +33,11 @@ def create_executable(selected_channel, output_datasets_path, job_id):
         f.write("setupATLAS\n")
         f.write("asetup StatAnalysis,0.6.2\n")
         #####
-        f.write('cd %s/MC\n' % (selected_channel))
-        # If the output path is not None, we need to modify the run.sh
+        # Use the unified RunAnalysis.py from the project root
         if output_datasets_path is None:
-            f.write('python3 RunAnalysis.py ${1} ${2} ${3} ${4}')
+            f.write('python3 RunAnalysis.py %s ${2} ${3} ${4} ${5}' % (selected_channel))
         else:
-            f.write('python3 RunAnalysis.py ${1} ${2} ${3} ${4} --output ${5}')
+            f.write('python3 RunAnalysis.py %s ${2} ${3} ${4} ${5} --output ${6}' % (selected_channel))
 
 def create_submission_file(selected_channel, is_chicago, input_datasets_path ,output_datasets_path, job_id):
     with open("Condor_%s.sub" % (job_id),"w") as f:
@@ -58,7 +59,7 @@ def create_submission_file(selected_channel, is_chicago, input_datasets_path ,ou
         f.write('requirements     = Machine =!= LastRemoteHost\n')
         f.write('preserve_relative_paths = True\n')
         f.write('initialdir = %s/\n' % (os.path.dirname(os.getcwd()))) # Get the directory above the CWD.
-        f.write('transfer_input_files    = AnalysisCommons/,%s/MC/\n' % (selected_channel))
+        f.write('transfer_input_files    = RunAnalysis.py,AnalysisCommons/,%s/MC/\n' % (selected_channel))
         if is_chicago:
             f.write('+ALLOW_MWT2            = True\n')
             f.write('request_memory = 4096MB\n')
@@ -182,7 +183,7 @@ def main():
     is_chicago = menu("Where do you want to submit the jobs?", ["Chicago", "Lxplus"]) == 1
 
     # First get the channel
-    valid_channels = ["MuMu","Zee","EleTau","TauMu","MuEle"]
+    valid_channels = VALID_CHANNELS
     selected_channel = valid_channels[menu("Please select a channel: ", valid_channels) - 1]
 
     # Ask user which input file to use

@@ -4,7 +4,7 @@ import math
 from uncertainties import ufloat, correlated_values
 from uncertainties.umath import *
 
-from AnalysisCommons.Run import INFO, WARNING, ERROR, DEBUG
+from AnalysisCommons.Logger import INFO, WARNING, ERROR, DEBUG
 
 ################################## Models ##################################
 def parabolic_model(mjj,a,b,c):

@@ -1,5 +1,5 @@
 from argparse import ArgumentParser
-from AnalysisCommons.Run import INFO, WARNING, ERROR
+from AnalysisCommons.Logger import INFO, WARNING, ERROR
 from AnalysisCommons.Systematics import LIST_OF_SYSTEMATICS
 import ROOT as r
 import os

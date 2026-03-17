@@ -3,7 +3,7 @@ import os
 import argparse
 import ROOT as r
 
-from AnalysisCommons.Run import INFO, WARNING, ERROR
+from AnalysisCommons.Logger import INFO, WARNING, ERROR
 
 def get_cli_arguments():
     parser = argparse.ArgumentParser(description="Check systematics in ROOT files.")

@@ -4,48 +4,17 @@ import os
 import sys
 import argparse
 from multiprocessing import Pool
+from .Metadata.ChannelConfig import VALID_CHANNELS
+from .Logger import Logger, INFO, WARNING, ERROR, DEBUG
 
-# Define  colours for the output
-class bcolors:
-    HEADER = '\033[95m'
-    OKBLUE = '\033[94m'
-    OKCYAN = '\033[96m'
-    OKGREEN = '\033[92m'
-    WARNING = '\033[93m'
-    FAIL = '\033[91m'
-    ENDC = '\033[0m'
-    BOLD = '\033[1m'
-    UNDERLINE = '\033[4m'
-
-class Logger:
-    # Static variable
-    LOGLEVEL = 4
-    def __init__(self,level, colour):
-        self.m_level = level
-        self.m_colour = colour
-        self.s_LOG_LEVELS = {"ERROR":1,"WARNING":2, "INFO":3, "DEBUG":4}
-    def log(self,message, variable = ""):
-        if self.s_LOG_LEVELS[self.m_level] <= Logger.LOGLEVEL:
-            message = self.m_colour+self.m_level+': '+bcolors.ENDC+message
-            print(message, variable)
-    def setLogLevel(level):
-        if level > 4 or level < 1:
-            raise ValueError("Log level must be between 1 and 4.")
-        Logger.LOGLEVEL = level
-
-INFO = Logger("INFO",bcolors.OKGREEN)
-WARNING = Logger("WARNING",bcolors.WARNING)
-ERROR = Logger("ERROR",bcolors.FAIL)
-DEBUG = Logger("DEBUG",bcolors.OKBLUE)
-
-def getInput(dataCombo):
+def getInput(sample, dataCombo):
     """
     Function to validate the input from the user.
     Returns an array of keys to analyse.
     """
 
     # get list of decay chains from user
-    userInput = sys.argv[1] # get input
+    userInput = sample
     chain = []
     # Check if the input is a chain:
     try:
@@ -339,54 +308,6 @@ def CreateOutputsDir(output_path, tree_name):
         ERROR.log("Failed to create output directory with command: " + cmd)
         exit(1)
 
-def createParser():
-    # Create parser
-    parser = argparse.ArgumentParser(description="Run VBF Analysis!")
-
-    # Add positional arguments
-    parser.add_argument("sample", help="The name of the sample from the ones on the metadata. It can also be a file in which case the code will check that the path exists and will do parallel processing according to the optional --j parameter.", type=str)
-    parser.add_argument("remote", help="Is the code running remotely? (yes/no)", type=str, choices=["yes", "no"])
-    parser.add_argument("tree", help="Tree to run over. Usually NOMINAL.", type=str,)
-    parser.add_argument("region", help="Region to run over. Should contain OS or SS in the name.", type=str)
-    parser.add_argument("--mode", help="Whether the code produces histograms or NTuples. Default is histograms.", type=str, choices=["h", "n", "hn"], default="h")
-    parser.add_argument("--j", help="Number of jobs to run in parallel. Default is 1.", type=int, default=1)
-    parser.add_argument("--clean", help="Clean the output directory before running the analysis. Default is False.", action='store_true')
-    parser.add_argument("--output", help="Output directory for the analysis results. Default is out/<tree>/", type=str)
-    parser.add_argument("--loglevel", help="Set the log level. Default is INFO.", type=int, choices=[1, 2, 3, 4], default=3)
-    parser.add_argument("--sys", help="If set, the code will run the systematic variations. Default is False.", action='store_true')
-    parser.add_argument("--sys-channel", help="When --sys is set, this has to be set to select the associated systematics variations for the channel. Default is None and will raise an error if --sys is set.", type=str, choices=["Zee", "Zmm", "Zem", "Ztm","Zte"], default=None)
-    parser.add_argument("--sys-type", help="Comma separated list of types of systematics to run. By default only experimental ones (sf and kinematic) are run. If you want to run theory systematics too, set this to 'all'.", type=str, default="sf,kinematic")
-
-    # Parse arguments
-    args = parser.parse_args()
-
-    # Check a couple of things...
-    if args.region.find("OS") == -1 and args.region.find("SS") == -1:
-        ERROR.log("Region should contain OS or SS in the name.")
-        exit(1)
-
-    if args.sys and args.sys_channel is None:
-        ERROR.log("When --sys is set, --sys-channel has to be set too.")
-        exit(1)
-
-    if "n" in args.mode and args.sys:
-        ERROR.log("Running in NTuple mode is not compatible with running systematics.")
-        exit(1)
-
-    type_sys_to_run = args.sys_type.split(",")
-    valid_types_sys_to_run = ["sf", "kinematic", "theory"]
-    for t in type_sys_to_run:
-        if t not in valid_types_sys_to_run and t != "all":
-            ERROR.log("Type of systematic %s not recognised. Valid types are: %s." % (t, ", ".join(valid_types_sys_to_run)))
-            exit(1)
-    if 'sf' in type_sys_to_run and 'kinematic' in type_sys_to_run and 'theory' in type_sys_to_run:
-        ERROR.log("You are trying to run all types of systematics. Since theory ones are in different files this need to be done separately.")
-        exit(1)
-    # Always add the NOMINAL
-    args.sys_type = args.sys_type + ",nominal"
-
-    return args
-
 def get_combos_from_txt_file(file_path):
     """
     Function to get the combos from a text file.
@@ -430,9 +351,8 @@ def AnalysisFunction(key, remote, CLI_args, dataSets, realList, infos, dirs, out
     MoveOutput(output_name, tree_name, remote, output_dict = output_dict, cli_path=CLI_args.output)
 
 
-def RunAnalysis(dataCombos, dataSets, realList, infos, dirs, output_dict):
-    # create parser and print job configuration
-    parser = createParser()
+def RunAnalysis(parser, dataCombos, dataSets, realList, infos, dirs, output_dict):
+    
     INFO.log("Log level: %d" % parser.loglevel)
 
     # Set the log level
@@ -469,7 +389,7 @@ def RunAnalysis(dataCombos, dataSets, realList, infos, dirs, output_dict):
             INFO.log("You are running the code in multi-core mode with %d jobs." % parser.j)
     else:
         # get input from user
-        chains = getInput(dataCombos)
+        chains = getInput(parser.sample, dataCombos)
 
     # see if the code is executed in remote mode
     remote_mode = isRunningRemote(parser.remote)
@@ -524,6 +444,20 @@ def RunAnalysis(dataCombos, dataSets, realList, infos, dirs, output_dict):
         for sample in chains:
             INFO.log("Running analysis for: " + sample)
             AnalysisFunction(sample, remote_mode, parser, dataSets, realList, infos, dirs, output_dict, log_level)
+
+def RunAnalysisFromChannel(parser, channel_name):
+    """Entry point that resolves metadata from a channel name and runs the analysis.
+    This allows running from the project root without per-channel RunAnalysis.py scripts."""
+    from .Metadata.ChannelConfig import get_channel_config
+    config = get_channel_config(channel_name)
+    INFO.log("Starting %s analysis script." % config["label"])
+    RunAnalysis(parser, dataCombos  = config["dataCombos"],
+                dataSets    = config["dataSets"],
+                realList    = config["realList"],
+                infos       = config["infos"],
+                dirs        = config["dirs"],
+                output_dict = config["output_dict"])
+    INFO.log("Finished %s analysis script." % config["label"])
 
 if __name__ == "__main__":
     print("This script is not meant to be run directly.")

@@ -8,7 +8,7 @@ from pyhf.contrib.viz import brazil
 import pandas as pd
 
 
-from AnalysisCommons.Run import INFO, WARNING, ERROR, DEBUG, Logger
+from AnalysisCommons.Logger import INFO, WARNING, ERROR, DEBUG, Logger
 Logger.LOGLEVEL = 3 # Set the log level
 from AnalysisCommons.Constants import ZPRIME_XSEC
 

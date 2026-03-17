@@ -3,7 +3,7 @@ import os
 import numpy as np
 import math
 
-from AnalysisCommons.Run import INFO, WARNING, ERROR, DEBUG, Logger
+from AnalysisCommons.Logger import INFO, WARNING, ERROR, DEBUG, Logger
 Logger.LOGLEVEL = 3
 
 

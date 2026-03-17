@@ -2,7 +2,7 @@ import yaml
 import os
 import argparse
 import ROOT
-from AnalysisCommons.Run import INFO, WARNING, ERROR, DEBUG, Logger
+from AnalysisCommons.Logger import INFO, WARNING, ERROR, DEBUG, Logger
 from AnalysisCommons.Constants import NORM_FACTORS_DICT
 
 from histogramHelpers import stackPlot, templatesDict

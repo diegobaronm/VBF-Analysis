@@ -1,7 +1,7 @@
 import os
 from argparse import ArgumentParser
 
-from AnalysisCommons.Run import INFO, WARNING, ERROR, DEBUG, Logger
+from AnalysisCommons.Logger import INFO, WARNING, ERROR, DEBUG, Logger
 Logger.LOGLEVEL = 3
 
 BASE_PATH = '/data/dbaronmo/Chicago_VBF_Outputs/'

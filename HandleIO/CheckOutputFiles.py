@@ -1,7 +1,7 @@
 from argparse import ArgumentParser
 import os
 
-from AnalysisCommons.Run import DEBUG, INFO, ERROR, WARNING, Logger
+from AnalysisCommons.Logger import DEBUG, INFO, ERROR, WARNING, Logger
 Logger.LOGLEVEL = 3
 
 

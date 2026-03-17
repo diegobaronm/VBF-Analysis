@@ -1,7 +1,7 @@
 import os
 import sys
 
-from AnalysisCommons.Run import INFO, WARNING, ERROR
+from AnalysisCommons.Logger import INFO, WARNING, ERROR
 
 def menu(question,options):
     incorrect_answer=True
