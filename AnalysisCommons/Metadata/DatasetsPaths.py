@@ -1,4 +1,27 @@
+import os
+from AnalysisCommons.Logger import WARNING, ERROR
+
 # Library with paths to the analysis datasets
+
+username = os.environ['USER']
+
+def get_samples_and_dirs(paths_dict):
+  pathsToSamplesList = paths_dict[username]
+  samples = []
+  dirs = []
+  for path in pathsToSamplesList:
+    try:
+      samples += os.listdir(path)
+      dirs += [path+i+'/' for i in os.listdir(path) if ('mc' in i or 'data' in i)]
+    except FileNotFoundError:
+      WARNING.log("Path %s not found in this machine, skipping..." % path)
+    except PermissionError:
+      WARNING.log("No permission to access %s in this machine, skipping..." % path)
+  
+  if len(dirs) == 0:
+    ERROR.log("No valid paths found for user %s, exiting..." % username)
+    exit(1)
+  return samples, dirs
 
 # Z->tautau
 v26Paths = {
