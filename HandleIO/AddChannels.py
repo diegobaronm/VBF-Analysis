@@ -65,9 +65,16 @@ def add_potential_rw_samples(pairs_dict,list_of_samples, rw_tag = None, channel=
         else:
             pairs_dict[sample] = (sample1, sample2)
 
+def process_filter_string(filter_string):
+    # Process the filter string and return a list of filters
+    if filter_string == "":
+        return []
+    else:
+        return [f.strip() for f in filter_string.split(',')]
 
-
-def main(menu_option):
+def main(menu_option, filter_string = ""):
+    # Process the filter string first
+    filters = process_filter_string(filter_string)
     # Change to the directory where the files are
     if not os.path.exists("../VBFAnalysisPlots/"):
         ERROR.log("VBFAnalysisPlots/ directory not found. Create this OR run this script from HandleIO.")
@@ -123,6 +130,9 @@ def main(menu_option):
 
         # Do the merging
         for result_sample, sample_pair in hadd_dictionary.items():
+            if filters and not any(f in result_sample for f in filters):
+                INFO.log("Skipping %s.root as it does not match the filter criteria." % result_sample)
+                continue
             INFO.log("Merging %s.root from %s.root and %s.root" % (result_sample, sample_pair[0], sample_pair[1]))
             status = os.system("hadd -v1 -f %s.root %s.root %s.root" % (ztt_path+result_sample, zte_path+sample_pair[0], ztm_path+sample_pair[1]))
             if status:
@@ -177,6 +187,9 @@ def main(menu_option):
 
         # Do the merging
         for result_sample, sample_pair in hadd_dictionary.items():
+            if filters and not any(f in result_sample for f in filters):
+                INFO.log("Skipping %s.root as it does not match the filter criteria." % result_sample)
+                continue
             INFO.log("Merging %s.root from %s.root and %s.root" % (result_sample, sample_pair[0], sample_pair[1]))
             status = os.system("hadd -v1 -f %s.root %s.root %s.root" % (ztt_path+result_sample, zthtl_path+sample_pair[0], zemu_path+sample_pair[1]))
             if status:
@@ -256,6 +269,9 @@ def main(menu_option):
 
         # Do the merging
         for result_sample, sample_pair in hadd_dictionary.items():
+            if filters and not any(f in result_sample for f in filters):
+                INFO.log("Skipping %s.root as it does not match the filter criteria." % result_sample)
+                continue
             INFO.log("Merging %s.root from %s.root and %s.root" % (result_sample, sample_pair[0], sample_pair[1]))
             status = os.system("hadd -v1 -f %s.root %s.root %s.root" % (os.path.join(zll_path, result_sample), os.path.join(zee_path, sample_pair[0]), os.path.join(zmm_path, sample_pair[1])))
             if status:
@@ -270,5 +286,6 @@ def main(menu_option):
 
 if __name__ == "__main__":
     option = menu("Which channels do you want to merge?",["TauMu + EleTau","TauLep + MuEle (TauLep need to be already in the correct path)","Zee + MuMu"])
-    main(option)
+    filter = input("Apply filter to samples? Leave empty for no filter. Comma separated filter is supported: ")
+    main(option, filter)
     

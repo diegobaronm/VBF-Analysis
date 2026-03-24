@@ -12,6 +12,10 @@ from histogramHelpers import templatesDict
 reco_mass_observable = get_histogram_from_collection("reco_mass_", templatesDict["tautauZpeakHistograms"])
 reco_mass_observable.m_xTitle = "m_{#tau#tau} (true)"
 reco_mass_observable.m_name = "true_mass"
+# reco_mass_observable.m_binEdges = [160,190,210,240,260,290, 310,340, 360,390, 410,440, 460,490, 510,540, 560,590, 610,640, 660,690, 710,740, 760,790, 810,840, 860, 890, 910, 940, 960, 990]
+# reco_mass_observable.m_binSteps = [160,30,20,30, 20, 30, 20, 30, 20, 30, 20, 30, 20, 30, 20, 30, 20, 30, 20, 30, 20, 30, 20, 30, 20, 30, 20, 30, 20, 30, 20, 30, 20, 30, 10]
+reco_mass_observable.m_binNorm = 1
+
 OBSERVABLES = [
     reco_mass_observable,
 ]
@@ -22,7 +26,61 @@ OBSERVABLES = [
 #   "cuts_file"      : path to ROOT file containing the post-cut histogram
 #   "cuts_hist"      : name of the post-cut histogram inside the file
 #   "label"          : legend label for this efficiency curve
-EFFICIENCY_PAIRS = [
+
+EFFICIENCY_PAIRS_Zprime= [
+    {
+        "baseline_file" : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/NewQCDSamples/Zprime_NewQCDSamples_NoBDT/Zprime_200.root",
+        "baseline_hist" : "true_mass_basic_all",
+        "cuts_file"     : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/NewQCDSamples/Zprime_NewQCDSamples_BDT/Zprime_200.root",
+        "cuts_hist"     : "true_mass_basic_all",
+        "label"         : "Z' (m=200 GeV)",
+    },
+    {
+        "baseline_file" : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/NewQCDSamples/Zprime_NewQCDSamples_NoBDT/Zprime_300.root",
+        "baseline_hist" : "true_mass_basic_all",
+        "cuts_file"     : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/NewQCDSamples/Zprime_NewQCDSamples_BDT/Zprime_300.root",
+        "cuts_hist"     : "true_mass_basic_all",
+        "label"         : "Z' (m=300 GeV)",
+    },
+    {
+        "baseline_file" : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/NewQCDSamples/Zprime_NewQCDSamples_NoBDT/Zprime_400.root",
+        "baseline_hist" : "true_mass_basic_all",
+        "cuts_file"     : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/NewQCDSamples/Zprime_NewQCDSamples_BDT/Zprime_400.root",
+        "cuts_hist"     : "true_mass_basic_all",
+        "label"         : "Z' (m=400 GeV)",
+    },
+    {
+        "baseline_file" : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/NewQCDSamples/Zprime_NewQCDSamples_NoBDT/Zprime_500.root",
+        "baseline_hist" : "true_mass_basic_all",
+        "cuts_file"     : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/NewQCDSamples/Zprime_NewQCDSamples_BDT/Zprime_500.root",
+        "cuts_hist"     : "true_mass_basic_all",
+        "label"         : "Z' (m=500 GeV)",
+    },
+    {
+        "baseline_file" : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/NewQCDSamples/Zprime_NewQCDSamples_NoBDT/Zprime_750.root",
+        "baseline_hist" : "true_mass_basic_all",
+        "cuts_file"     : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/NewQCDSamples/Zprime_NewQCDSamples_BDT/Zprime_750.root",
+        "cuts_hist"     : "true_mass_basic_all",
+        "label"         : "Z' (m=750 GeV)",
+    },
+    {
+        "baseline_file" : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/NewQCDSamples/Zprime_NewQCDSamples_NoBDT/Zprime_900.root",
+        "baseline_hist" : "true_mass_basic_all",
+        "cuts_file"     : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/NewQCDSamples/Zprime_NewQCDSamples_BDT/Zprime_900.root",
+        "cuts_hist"     : "true_mass_basic_all",
+        "label"         : "Z' (m=900 GeV)",
+    },
+    # Add more pairs as needed:
+    # {
+    #     "baseline_file" : "/path/to/another_baseline.root",
+    #     "baseline_hist" : "mass_jj",
+    #     "cuts_file"     : "/path/to/another_cuts.root",
+    #     "cuts_hist"     : "mass_jj",
+    #     "label"         : "Selection B",
+    # },
+]
+
+EFFICIENCY_PAIRS_EWjj = [
     {
         "baseline_file" : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/TauTau/TauhadTaulep/HighMass/NoBDTOS/Signal_truth_Sherpa.root",
         "baseline_hist" : "true_mass_basic_all",
@@ -54,6 +112,8 @@ EFFICIENCY_PAIRS = [
     # },
 ]
 
+EFFICIENCY_PAIRS = EFFICIENCY_PAIRS_EWjj
+
 # Plot appearance
 OUTPUT_DIR          = "results/"
 OUTPUT_FORMAT       = "pdf"
@@ -65,6 +125,7 @@ CANVAS_WIDTH        = 1200
 CANVAS_HEIGHT       = 600
 EQUAL_BIN_WIDTH     = True   # Display variable-width bins as visually equal-width
 PLOT_AVERAGE        = True   # Overlay the average efficiency across all curves
+SEPARATE_PLOTS      = False  # If True, produce one plot per efficiency pair; if False, overlay all on one plot
 
 # ============================================================================
 # Core functions
@@ -123,10 +184,25 @@ def get_bin_edges(histogram):
 
 def remap_graph_to_equal_bins(graph, bin_edges):
     """Remap a TGraphAsymmErrors so each point sits at equal-width bin-index
-    coordinates (0.5, 1.5, 2.5, ...) instead of actual x values."""
+    coordinates (0.5, 1.5, 2.5, ...) instead of actual x values.
+
+    Uses the point's x-position to look up the correct bin index, so that
+    graphs with missing bins (e.g. zero-entry bins skipped by Divide) are
+    placed at the right position.
+    """
     n = graph.GetN()
     for i in range(n):
-        graph.SetPoint(i, i + 0.5, graph.GetPointY(i))
+        x = graph.GetPointX(i)
+        # Find which bin this x-value falls in
+        bin_idx = 0
+        for b in range(len(bin_edges) - 1):
+            if bin_edges[b] <= x < bin_edges[b + 1]:
+                bin_idx = b
+                break
+        else:
+            # x equals the upper edge of the last bin
+            bin_idx = len(bin_edges) - 2
+        graph.SetPoint(i, bin_idx + 0.5, graph.GetPointY(i))
         graph.SetPointEXlow(i,  0.5)
         graph.SetPointEXhigh(i, 0.5)
 
@@ -188,18 +264,15 @@ def apply_equal_bin_labels(graph, bin_edges, obs_info):
     axis.SetTitle(x_title)
 
 
-def plot_efficiency(observable_name):
-    """Plot the selection efficiency for a given observable across all pairs."""
-    obs_info = find_observable_info(observable_name)
-    if obs_info is None:
-        print("WARNING: Observable '%s' not found in OBSERVABLES, skipping." % observable_name)
-        return
+def _draw_efficiency_canvas(observable_name, obs_info, pairs_with_indices, suffix=""):
+    """Draw one efficiency canvas for the given (subset of) pairs.
 
-    if len(EFFICIENCY_PAIRS) == 0:
-        print("WARNING: No efficiency pairs defined, nothing to plot.")
-        return
-
-    c = r.TCanvas("c_eff_%s" % observable_name, "", CANVAS_WIDTH, CANVAS_HEIGHT)
+    pairs_with_indices is a list of (global_index, pair_dict) tuples so that
+    colours / markers stay consistent regardless of splitting mode.
+    suffix is appended to the output file name (used in separate-plots mode).
+    """
+    canvas_name = "c_eff_%s%s" % (observable_name, suffix)
+    c = r.TCanvas(canvas_name, "", CANVAS_WIDTH, CANVAS_HEIGHT)
     c.SetMargin(0.14, 0.05, 0.13, 0.08)
     c.SetGrid()
 
@@ -210,7 +283,7 @@ def plot_efficiency(observable_name):
 
     graphs = []
     bin_edges = None
-    for idx, pair in enumerate(EFFICIENCY_PAIRS):
+    for idx, pair in pairs_with_indices:
         h_baseline, _ = get_histogram(pair["baseline_file"], pair["baseline_hist"])
         h_cuts, _     = get_histogram(pair["cuts_file"],     pair["cuts_hist"])
         if h_baseline is None or h_cuts is None:
@@ -219,6 +292,12 @@ def plot_efficiency(observable_name):
         # Rebin both histograms identically
         h_baseline = rebin_histogram(h_baseline, obs_info, "_base")
         h_cuts     = rebin_histogram(h_cuts,     obs_info, "_cuts")
+
+        #print("INFO: Processing '%s' with %d bins after rebinning." % (pair["label"], h_baseline.GetXaxis().GetNbins()))
+        #print("      Bin edges:", [h_baseline.GetXaxis().GetBinLowEdge(i) for i in range(1, h_baseline.GetXaxis().GetNbins() + 1)] + [h_baseline.GetXaxis().GetBinUpEdge(h_baseline.GetXaxis().GetNbins())])
+        #print("      Bin contents (baseline):", [h_baseline.GetBinContent(i) for i in range(1, h_baseline.GetXaxis().GetNbins() + 1)])
+        #print("      Bin contents (cuts):", [h_cuts.GetBinContent(i) for i in range(1, h_cuts.GetXaxis().GetNbins() + 1)])
+
 
         # Capture bin edges from the first valid pair (all pairs share the same binning)
         if bin_edges is None:
@@ -284,7 +363,29 @@ def plot_efficiency(observable_name):
     legend.Draw()
     r.gStyle.SetOptStat(0)
     c.Update()
-    c.SaveAs("%sEfficiency_%s.%s" % (OUTPUT_DIR, observable_name, OUTPUT_FORMAT))
+    c.SaveAs("%sEfficiency_%s%s.%s" % (OUTPUT_DIR, observable_name, suffix, OUTPUT_FORMAT))
+
+
+def plot_efficiency(observable_name):
+    """Plot the selection efficiency for a given observable across all pairs."""
+    obs_info = find_observable_info(observable_name)
+    if obs_info is None:
+        print("WARNING: Observable '%s' not found in OBSERVABLES, skipping." % observable_name)
+        return
+
+    if len(EFFICIENCY_PAIRS) == 0:
+        print("WARNING: No efficiency pairs defined, nothing to plot.")
+        return
+
+    if SEPARATE_PLOTS:
+        for idx, pair in enumerate(EFFICIENCY_PAIRS):
+            safe_label = pair["label"].replace(" ", "_").replace("'", "").replace("(", "").replace(")", "").replace("=", "")
+            _draw_efficiency_canvas(observable_name, obs_info,
+                                   [(idx, pair)],
+                                   suffix="_%s" % safe_label)
+    else:
+        _draw_efficiency_canvas(observable_name, obs_info,
+                                list(enumerate(EFFICIENCY_PAIRS)))
 
 
 # ============================================================================
