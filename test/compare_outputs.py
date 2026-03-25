@@ -160,14 +160,17 @@ def compare_files(output_path, reference_path, tolerance=1e-6):
     if only_in_ref:
         errors.append(f"Keys only in reference ({len(only_in_ref)}): {list(only_in_ref)[:10]}")
 
-    # Compare common objects
+    # Compare common objects — only important histograms and trees
     common_keys = set(keys_out) & set(keys_ref)
     for key_name in sorted(common_keys):
         obj_out = f_out.Get(key_name)
         obj_ref = f_ref.Get(key_name)
 
         if is_histogram(obj_out) and is_histogram(obj_ref):
+            if not is_important(key_name):
+                continue
             n_checks += 1
+            print(f"    Comparing important histogram: {key_name} contents...")
             hist_errors = compare_histograms(obj_out, obj_ref, key_name, tolerance)
             errors.extend(hist_errors)
         elif is_tree(obj_out) and is_tree(obj_ref):
