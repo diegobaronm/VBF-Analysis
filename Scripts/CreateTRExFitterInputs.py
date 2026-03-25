@@ -93,7 +93,8 @@ FUNCTIONS_DICT = {
     "RWParabolicCutoffClosure" : custom_parabolic_cutoff_model,
 }
 
-REMOTE_PATH = "/afs/cern.ch/work/d/dbaronmo/private/Fitter/"
+REMOTE_PATH = os.environ.get("VBF_TREX_REMOTE_PATH", "/afs/cern.ch/work/d/dbaronmo/private/Fitter/")
+REMOTE_HOST = os.environ.get("VBF_TREX_REMOTE_HOST", os.environ.get("USER", "dbaronmo") + "@lxplus.cern.ch")
 
 def get_generator_rw_tag(sample_name):
     # Find the first occurrence of of "_" in the sample name
@@ -283,7 +284,7 @@ def upload_file(remotePath, localPath, outputName):
         ERROR.log("Output name must end with .root")
         exit(1)
 
-    exitStatus = os.system("scp "+channel(localPath)+"histograms.root "+"dbaronmo@lxplus.cern.ch:"+remotePath+outputName)
+    exitStatus = os.system("scp "+channel(localPath)+"histograms.root "+REMOTE_HOST+":"+remotePath+outputName)
     if exitStatus==0:
         INFO.log("Sample Uploaded!")
 

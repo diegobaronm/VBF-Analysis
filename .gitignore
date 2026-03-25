@@ -92,3 +92,6 @@ log/*
 *Missing_files.txt
 CondorSubmit/Condor*.sub
 CondorSubmit/run_*.sh
+
+# Virtual environment
+vbf_pyenv/
