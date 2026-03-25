@@ -1,0 +1,109 @@
+# =============================================================================
+#  VBF Analysis — Continuous Integration Pipeline
+#
+#  Runs each analysis channel over real ROOT files (committed in test/test_data)
+#  in histogram+ntuple mode, then compares outputs against committed references.
+# =============================================================================
+name: VBF Analysis CI
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+    branches: [master, main]
+
+# Cancel in-progress runs for the same branch / PR
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+# ---------- shared environment ----------
+env:
+  VBF_TEST_DATA: ${{ github.workspace }}/test/test_data
+
+jobs:
+  # =====================================================================
+  #  1. Run each channel  (matrix strategy)
+  # =====================================================================
+  run-channel:
+    runs-on: ubuntu-latest
+    container:
+      image: rootproject/root:6.30.06-ubuntu22.04
+    strategy:
+      fail-fast: false
+      matrix:
+        channel: [EleTau, TauMu, MuEle, MuMu, Zee]
+        region:  [ZpeakOS, HighMassOS]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Install Python dependencies
+        run: |
+          python3 -m pip install --no-cache-dir -r requirements.txt
+
+      - name: Verify test data exists
+        run: |
+          echo "Test data directory: $VBF_TEST_DATA"
+          find "$VBF_TEST_DATA" -type f -name '*.root' | sort
+
+      - name: Run ${{ matrix.channel }} — ${{ matrix.region }}
+        run: |
+          bash test/run_channel.sh "${{ matrix.channel }}" hn "${{ matrix.region }}"
+
+      - name: List output files
+        if: always()
+        run: |
+          find test/output/ -type f | sort || true
+
+      - name: Upload channel output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: output-${{ matrix.channel }}-${{ matrix.region }}
+          path: test/output/${{ matrix.channel }}/${{ matrix.region }}/
+          retention-days: 1
+
+  # =====================================================================
+  #  2. Compare outputs to references
+  # =====================================================================
+  compare-references:
+    needs: run-channel
+    runs-on: ubuntu-latest
+    container:
+      image: rootproject/root:6.30.06-ubuntu22.04
+    strategy:
+      fail-fast: false
+      matrix:
+        channel: [EleTau, TauMu, MuEle, MuMu, Zee]
+        region:  [ZpeakOS, HighMassOS]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download channel output
+        uses: actions/download-artifact@v4
+        with:
+          name: output-${{ matrix.channel }}-${{ matrix.region }}
+          path: test/output/${{ matrix.channel }}/${{ matrix.region }}/
+
+      - name: Check for reference files
+        id: refs
+        run: |
+          REF_DIR="test/references/${{ matrix.channel }}/${{ matrix.region }}/NOMINAL"
+          if [ -d "$REF_DIR" ] && [ "$(ls -A "$REF_DIR" 2>/dev/null)" ]; then
+            echo "available=true" >> "$GITHUB_OUTPUT"
+            echo "Reference files found in $REF_DIR"
+            ls -la "$REF_DIR"
+          else
+            echo "available=false" >> "$GITHUB_OUTPUT"
+            echo "No reference files found in $REF_DIR — skipping comparison."
+          fi
+
+      - name: Compare ${{ matrix.channel }} — ${{ matrix.region }} vs references
+        if: steps.refs.outputs.available == 'true'
+        run: |
+          python3 test/compare_outputs.py \
+            "test/output/${{ matrix.channel }}/${{ matrix.region }}/NOMINAL" \
+            "test/references/${{ matrix.channel }}/${{ matrix.region }}/NOMINAL" \
+            --tolerance 1e-6

@@ -41,5 +41,12 @@ v26_ee_Paths = {
 "b78499db": ['/Volumes/T7/v26-ee/', '/Volumes/T7/v26-ee-SYS/','/Volumes/T7/v26-ee-theory-SYS/']
 }
 
+# CI / Test support: set VBF_TEST_DATA to the test data directory to override paths.
+_test_data = os.environ.get('VBF_TEST_DATA')
+if _test_data:
+    v26Paths[username] = [os.path.join(_test_data, 'tautau/')]
+    v26_mm_Paths[username] = [os.path.join(_test_data, 'zmumu/')]
+    v26_ee_Paths[username] = [os.path.join(_test_data, 'zee/')]
+
 if __name__ == "__main__":
     print("This file is not meant to be executed --- it is a library of paths for the analysis datasets.")
