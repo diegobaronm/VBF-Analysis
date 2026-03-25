@@ -145,16 +145,20 @@ Purpose: Build a TRExFitter-compatible ROOT file with corrected histogram uncert
 
 CLI
 - `python CreateTRExFitterInputs.py [--remote-path <afspath>] <local_path> <output_name> [--sys]`
-  - `--remote-path` default: `/afs/cern.ch/work/d/dbaronmo/private/Fitter/`
+  - `--remote-path` default: value of `VBF_TREX_REMOTE_PATH` env var, or `/afs/cern.ch/work/d/dbaronmo/private/Fitter/`
   - `local_path` ends with a trailing slash and contains ROOT files (Data.root, Signal_*.root, QCD RW samples, standard backgrounds, and optionally SYS-tagged systematic files)
   - `output_name` must end with `.root` (remote filename)
   - `--sys` to include all histograms from files whose names contain `SYS`
+
+Environment variables
+- `VBF_TREX_REMOTE_PATH`: Override the default remote directory for TRExFitter inputs.
+- `VBF_TREX_REMOTE_HOST`: Override the scp host (default: `$USER@lxplus.cern.ch`).
 
 Behavior
 - Gathers available samples from `local_path` (drops missing), opens only `mass_jj`, and writes a new file named `<channel(local_path)>histograms.root`.
 - For QCD RW samples, inflates bin errors using analytic RW uncertainty models (parameters and covariances in-FILE). Handles cutoff variants by propagating uncertainty past cutoff.
 - For systematics files, copies all `mass_jj_*` histograms; rescales errors for RW samples as above.
-- Uploads to remote via scp (`dbaronmo@lxplus.cern.ch:<remote_path>/<output_name>`).
+- Uploads to remote via scp (`$VBF_TREX_REMOTE_HOST:<remote_path>/<output_name>`).
 
 Notes
 - Channel is inferred from `local_path` (`MuMu`→Zmumu, `Zee`→Zee, `TauTau`/`MuEle`→Ztautau, `Zll`→Zll).

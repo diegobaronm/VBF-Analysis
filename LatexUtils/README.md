@@ -16,7 +16,7 @@ These tools assume you are in the project root (`VBF-Analysis`) and that you hav
 - Activate the analysis Python environment (creates/loads `vbf_pyenv`):
 
 ```bash
-source Scripts/SetupPythonScripts.py
+source Scripts/SetupPythonScripts.sh
 source ./setup_vbf_env.sh
 ```
 

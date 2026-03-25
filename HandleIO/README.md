@@ -13,6 +13,13 @@ All scripts are Python 3. They assume you have ROOT and `hadd` available in your
 
 Run scripts from `HandleIO` unless otherwise noted.
 
+Several scripts use the interactive `menu()` helper from `AnalysisCommons.Logger`:
+
+```python
+from AnalysisCommons.Logger import menu
+choice = menu("Pick an option:", ["A", "B", "C"])
+```
+
 ---
 
 ## CreateListToRun.py
@@ -196,12 +203,13 @@ Options:
 - output_root (positional): Base directory to write results. The script will create subdirectories like `<output_root>/<channel>/<region>/`.
 
 Behavior:
-- Hardcoded input locations under `BASE_PATH = /data/dbaronmo/Chicago_VBF_Outputs/` across channels `Zee` and `Zmm` and regions `CRa`, `CRb`, `CRc`, `SR` with closure and non-closure variants.
+- Input locations default to `BASE_PATH = /data/dbaronmo/Chicago_VBF_Outputs/`. Override this by setting the `VBF_MJJ_RW_BASE_PATH` environment variable.
+- Scans channels `Zee` and `Zmm` and regions `CRa`, `CRb`, `CRc`, `SR` with closure and non-closure variants.
 - For each source directory and each sample family (Sherpa, MGNLO, MG, SherpaNLO), builds output filenames like `<Channel>_<Family>_<RWSuffix>.root`.
 - Checks that a representative file exists in the source directory before running `hadd`.
 
 Note:
-- You may need to update `BASE_PATH` and the `DICT_PATH_SUFFIX` mappings in the script for your environment.
+- Set `VBF_MJJ_RW_BASE_PATH` to point at your outputs, or update the `DICT_PATH_SUFFIX` mappings in the script if your directory layout differs.
 
 ---
 
