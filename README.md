@@ -1,6 +1,6 @@
 # VBF-Analysis
 
-Analysis framework for Vector Boson Fusion (VBF) Higgs boson production at the ATLAS experiment, studying H → ττ/ee/μμ decay channels.
+Analysis framework for Vector Boson Fusion (VBF) production at the ATLAS experiment, studying ττ/ee/μμ decay channels.
 
 ## Repository structure
 

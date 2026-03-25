@@ -2,88 +2,124 @@ import os
 import sys
 from argparse import ArgumentParser
 
-from AnalysisCommons.Logger import INFO, WARNING, ERROR, DEBUG, Logger, menu
+from HandleIO.CreateListToRun import menu
+from AnalysisCommons.Logger import INFO, WARNING, ERROR, DEBUG, Logger
 from AnalysisCommons.Run import CreateOutputsDir
 Logger.LOGLEVEL = 3
 
-# ── Shared sample patterns (used across multiple channels) ──────────────────
-_COMMON_BACKGROUNDS = {
-    "VV.root": ["llll_*.root", "lllv_*.root", "llvv_*.root", "lvvv_*.root",
-                "ZqqZvv_*.root", "ZqqZll_*.root", "WqqZvv_*.root", "WqqZll_*.root", "WlvZqq_*.root"],
-    "Wjets.root": ["Wplusenu_*.root", "Wminusenu_*.root", "Wplusmunu_*.root",
-                   "Wminusmunu_*.root", "Wplustaunu_*.root", "Wminustaunu_*.root"],
-    "singletop.root": ["st_schan_top_*.root", "st_schan_atop_*.root",
-                       "st_tchan_top_*.root", "st_tchan_atop_*.root",
-                       "st_wt_top_*.root", "st_wt_atop_*.root"],
-    "ttbar.root": ["ttbar_*.root"],
-    "Data.root": ["data_*.root"],
-    "VV_EWK.root": ["VV_EWK*.root"],
-    "W_EWK_Sherpa.root": ["W_EWK_sherpa*.root"],
-    "W_EWK_PoPy.root": ["W_EWK_PoPy*.root"],
+hadd_ee = {
+"Zee_Sherpa.root" : ["Zee_sherpa*.root"],
+"Zee_PoPy.root" : ["Zee_201*.root"],
+"Zee_MGNLO.root" : ["Zee_MGNLO*.root"],
+"Zee_MG.root" : ["Zee_MG[!NLO]*.root"],
+"Zee_SherpaNLO.root" : ["Zee_SherpaNLO*.root"],
+"Signal_old.root" : ["VBF_Zee_old_201*.root"],
+"Signal_Sherpa.root" : ["VBF_Zee_sherpa_201*.root"],
+"Signal_PoPy.root" : ["VBF_Zee_201*.root"],
+"Ztautau_PoPy.root" : ["Ztautau_*.root"],
+"Zmumu.root" : ["Zmumu_201*.root"],
+"VV.root" : ["llll_*.root", "lllv_*.root", "llvv_*.root", "lvvv_*.root", "ZqqZvv_*.root", "ZqqZll_*.root", "WqqZvv_*.root", "WqqZll_*.root", "WlvZqq_*.root"],
+"Wjets.root" : ["Wplusenu_*.root", "Wminusenu_*.root", "Wplusmunu_*.root", "Wminusmunu_*.root", "Wplustaunu_*.root", "Wminustaunu_*.root"],
+"singletop.root" : ["st_schan_top_*.root", "st_schan_atop_*.root", "st_tchan_top_*.root", "st_tchan_atop_*.root", "st_wt_top_*.root", "st_wt_atop_*.root"],
+"ttbar.root" : ["ttbar_*.root"],
+"Data.root" : ["data_*.root"],
+"VV_EWK.root" : ["VV_EWK*.root"],		
+"W_EWK_Sherpa.root" : ["W_EWK_sherpa*.root"],
+"W_EWK_PoPy.root" : ["W_EWK_PoPy*.root"],
 }
 
-_TAU_COMMON = {
-    "Signal_Sherpa.root": ["VBF_Ztautau_sherpa_20*.root"],
-    "Signal_PoPy.root": ["VBF_Ztautau_201*.root"],
-    "Signal_truth_Sherpa.root": ["VBF_Ztautau_sherpa_truth_20*.root"],
-    "Signal_truth_PoPy.root": ["VBF_Ztautau_truth_201*.root"],
-    "Signal_truth_MG.root": ["VBF_Ztautau_MG_LM_truth_20*.root", "VBF_Ztautau_MG_HM_truth_20*.root"],
-    "Ztautau_Sherpa.root": ["Ztautau_sherpa*.root"],
-    "Ztautau_PoPy.root": ["Ztautau_201*.root"],
-    "Ztautau_MG.root": ["Ztautau_MG[!NLO]*.root"],
-    "Ztautau_MGNLO.root": ["Ztautau_MGNLO*.root"],
-    "Ztautau_SherpaNLO.root": ["Ztautau_SherpaNLO*.root"],
-    "Higgs.root": ["WpH*.root", "WmH*.root", "ZHllbb*.root", "ZHlltautau*.root",
-                   "ggHttlm15hp20*.root", "ggHttlp15hm20*.root"],
-    "Higgs_truth_EWK.root": ["VBFHttlm15hp20_truth*.root", "VBFHttlp15hm20_truth*.root",
-                             "VBFHtth30h20_truth*.root", "VBFHttl13l7_truth*.root"],
+hadd_mumu = {
+"Zmumu_Sherpa.root" : ["Zmumu_sherpa*.root"],
+"Zmumu_PoPy.root" : ["Zmumu_201*.root"],
+"Zmumu_MGNLO.root" : ["Zmumu_MGNLO*.root"],
+"Zmumu_MG.root" : ["Zmumu_MG[!NLO]*.root"],
+"Zmumu_SherpaNLO.root" : ["Zmumu_SherpaNLO*.root"],
+"Signal_old.root" : ["VBF_Zmumu_old_201*.root"],
+"Signal_Sherpa.root" : ["VBF_Zmumu_sherpa_201*.root"],
+"Signal_PoPy.root" : ["VBF_Zmumu_201*.root"],
+"Ztautau_PoPy.root" : ["Ztautau_*.root"],
+"Zee.root" : ["Zee_201*.root"],
+"VV.root" : ["llll_*.root", "lllv_*.root", "llvv_*.root", "lvvv_*.root", "ZqqZvv_*.root", "ZqqZll_*.root", "WqqZvv_*.root", "WqqZll_*.root", "WlvZqq_*.root"],
+"Wjets.root" : ["Wplusenu_*.root", "Wminusenu_*.root", "Wplusmunu_*.root", "Wminusmunu_*.root", "Wplustaunu_*.root", "Wminustaunu_*.root"],
+"singletop.root" : ["st_schan_top_*.root", "st_schan_atop_*.root", "st_tchan_top_*.root", "st_tchan_atop_*.root", "st_wt_top_*.root", "st_wt_atop_*.root"],
+"ttbar.root" : ["ttbar_*.root"],
+"Data.root" : ["data_*.root"],
+"VV_EWK.root" : ["VV_EWK*.root"],	
+"W_EWK_Sherpa.root" : ["W_EWK_sherpa*.root"],
+"W_EWK_PoPy.root" : ["W_EWK_PoPy*.root"],
 }
 
-def _build_dict(*dicts):
-    """Merge multiple dictionaries into one (later entries win)."""
-    result = {}
-    for d in dicts:
-        result.update(d)
-    return result
+hadd_mutau = {
+"Signal_Sherpa.root": ["VBF_Ztautau_sherpa_20*.root"],
+"Signal_PoPy.root": ["VBF_Ztautau_201*.root"],
+"Signal_truth_Sherpa.root": ["VBF_Ztautau_sherpa_truth_20*.root"],
+"Signal_truth_PoPy.root": ["VBF_Ztautau_truth_201*.root"],
+"Signal_truth_MG.root": ["VBF_Ztautau_MG_LM_truth_20*.root", "VBF_Ztautau_MG_HM_truth_20*.root"],
+"Ztautau_Sherpa.root": ["Ztautau_sherpa*.root"],
+"Ztautau_PoPy.root": ["Ztautau_201*.root"],
+"Ztautau_MG.root": ["Ztautau_MG[!NLO]*.root"],
+"Ztautau_MGNLO.root": ["Ztautau_MGNLO*.root"],
+"Ztautau_SherpaNLO.root": ["Ztautau_SherpaNLO*.root"],
+"Zjets.root": ["Zmumu_201*.root"],
+"Higgs.root": ["WpH*.root", "WmH*.root", "ZHllbb*.root", "ZHlltautau*.root", "ggHttlm15hp20*.root", "ggHttlp15hm20*.root"],
+"Higgs_truth_EWK.root": ["VBFHttlm15hp20_truth*.root", "VBFHttlp15hm20_truth*.root","VBFHtth30h20_truth*.root","VBFHttl13l7_truth*.root"],
+"VV.root": ["llll_*.root", "lllv_*.root", "llvv_*.root", "lvvv_*.root", "ZqqZvv_*.root", "ZqqZll_*.root", "WqqZvv_*.root", "WqqZll_*.root", "WlvZqq_*.root"],
+"Wjets.root": ["Wplusenu_*.root", "Wminusenu_*.root", "Wplusmunu_*.root", "Wminusmunu_*.root", "Wplustaunu_*.root", "Wminustaunu_*.root"],
+"singletop.root": ["st_schan_top_*.root", "st_schan_atop_*.root", "st_tchan_top_*.root", "st_tchan_atop_*.root", "st_wt_top_*.root", "st_wt_atop_*.root"],
+"ttbar.root": ["ttbar_*.root"],
+"W_EWK_Sherpa.root": ["W_EWK_sherpa*.root"],
+"W_EWK_PoPy.root": ["W_EWK_PoPy*.root"],
+"VV_EWK.root": ["VV_EWK*.root"],
+"Data.root": ["data_*.root"],
+}
 
-# ── Per-channel hadd dictionaries ───────────────────────────────────────────
-hadd_ee = _build_dict(_COMMON_BACKGROUNDS, {
-    "Zee_Sherpa.root":     ["Zee_sherpa*.root"],
-    "Zee_PoPy.root":       ["Zee_201*.root"],
-    "Zee_MGNLO.root":      ["Zee_MGNLO*.root"],
-    "Zee_MG.root":         ["Zee_MG[!NLO]*.root"],
-    "Zee_SherpaNLO.root":  ["Zee_SherpaNLO*.root"],
-    "Signal_old.root":     ["VBF_Zee_old_201*.root"],
-    "Signal_Sherpa.root":  ["VBF_Zee_sherpa_201*.root"],
-    "Signal_PoPy.root":    ["VBF_Zee_201*.root"],
-    "Ztautau_PoPy.root":   ["Ztautau_*.root"],
-    "Zmumu.root":          ["Zmumu_201*.root"],
-})
+hadd_etau = {
+"Signal_Sherpa.root": ["VBF_Ztautau_sherpa_20*.root"],
+"Signal_PoPy.root": ["VBF_Ztautau_201*.root"],
+"Signal_truth_Sherpa.root": ["VBF_Ztautau_sherpa_truth_20*.root"],
+"Signal_truth_PoPy.root": ["VBF_Ztautau_truth_201*.root"],
+"Signal_truth_MG.root": ["VBF_Ztautau_MG_LM_truth_20*.root", "VBF_Ztautau_MG_HM_truth_20*.root"],
+"Ztautau_Sherpa.root": ["Ztautau_sherpa*.root"],
+"Ztautau_PoPy.root": ["Ztautau_201*.root"],
+"Ztautau_MG.root": ["Ztautau_MG[!NLO]*.root"],
+"Ztautau_MGNLO.root": ["Ztautau_MGNLO*.root"],
+"Ztautau_SherpaNLO.root": ["Ztautau_SherpaNLO*.root"],
+"Zjets.root": ["Zmumu_201*.root","Zee_201*.root"],
+"Higgs.root": ["WpH*.root", "WmH*.root", "ZHllbb*.root", "ZHlltautau*.root", "ggHttlm15hp20*.root", "ggHttlp15hm20*.root"],
+"Higgs_truth_EWK.root": ["VBFHttlm15hp20_truth*.root", "VBFHttlp15hm20_truth*.root","VBFHtth30h20_truth*.root","VBFHttl13l7_truth*.root"],
+"VV.root": ["llll_*.root", "lllv_*.root", "llvv_*.root", "lvvv_*.root", "ZqqZvv_*.root", "ZqqZll_*.root", "WqqZvv_*.root", "WqqZll_*.root", "WlvZqq_*.root"],
+"Wjets.root": ["Wplusenu_*.root", "Wminusenu_*.root", "Wplusmunu_*.root", "Wminusmunu_*.root", "Wplustaunu_*.root", "Wminustaunu_*.root"],
+"singletop.root": ["st_schan_top_*.root", "st_schan_atop_*.root", "st_tchan_top_*.root", "st_tchan_atop_*.root", "st_wt_top_*.root", "st_wt_atop_*.root"],
+"ttbar.root": ["ttbar_*.root"],
+"W_EWK_Sherpa.root": ["W_EWK_sherpa*.root"],
+"W_EWK_PoPy.root": ["W_EWK_PoPy*.root"],
+"VV_EWK.root": ["VV_EWK*.root"],
+"Data.root": ["data_*.root"],
+}
 
-hadd_mumu = _build_dict(_COMMON_BACKGROUNDS, {
-    "Zmumu_Sherpa.root":     ["Zmumu_sherpa*.root"],
-    "Zmumu_PoPy.root":       ["Zmumu_201*.root"],
-    "Zmumu_MGNLO.root":      ["Zmumu_MGNLO*.root"],
-    "Zmumu_MG.root":         ["Zmumu_MG[!NLO]*.root"],
-    "Zmumu_SherpaNLO.root":  ["Zmumu_SherpaNLO*.root"],
-    "Signal_old.root":       ["VBF_Zmumu_old_201*.root"],
-    "Signal_Sherpa.root":    ["VBF_Zmumu_sherpa_201*.root"],
-    "Signal_PoPy.root":      ["VBF_Zmumu_201*.root"],
-    "Ztautau_PoPy.root":     ["Ztautau_*.root"],
-    "Zee.root":              ["Zee_201*.root"],
-})
-
-hadd_mutau = _build_dict(_COMMON_BACKGROUNDS, _TAU_COMMON, {
-    "Zjets.root": ["Zmumu_201*.root"],
-})
-
-hadd_etau = _build_dict(_COMMON_BACKGROUNDS, _TAU_COMMON, {
-    "Zjets.root": ["Zmumu_201*.root", "Zee_201*.root"],
-})
-
-hadd_emu = _build_dict(_COMMON_BACKGROUNDS, _TAU_COMMON, {
-    "Zjets.root": ["Zmumu_201*.root", "Zee_201*.root"],
-})
+hadd_emu ={
+"Signal_Sherpa.root": ["VBF_Ztautau_sherpa_20*.root"],
+"Signal_PoPy.root": ["VBF_Ztautau_201*.root"],
+"Signal_truth_Sherpa.root": ["VBF_Ztautau_sherpa_truth_20*.root"],
+"Signal_truth_PoPy.root": ["VBF_Ztautau_truth_201*.root"],
+"Signal_truth_MG.root": ["VBF_Ztautau_MG_LM_truth_20*.root", "VBF_Ztautau_MG_HM_truth_20*.root"],
+"Ztautau_Sherpa.root": ["Ztautau_sherpa*.root"],
+"Ztautau_PoPy.root": ["Ztautau_201*.root"],
+"Ztautau_MG.root": ["Ztautau_MG[!NLO]*.root"],
+"Ztautau_MGNLO.root": ["Ztautau_MGNLO*.root"],
+"Ztautau_SherpaNLO.root": ["Ztautau_SherpaNLO*.root"],
+"Zjets.root": ["Zmumu_201*.root","Zee_201*.root"],
+"Higgs.root": ["WpH*.root", "WmH*.root", "ZHllbb*.root", "ZHlltautau*.root", "ggHttlm15hp20*.root", "ggHttlp15hm20*.root"],
+"Higgs_truth_EWK.root": ["VBFHttlm15hp20_truth*.root", "VBFHttlp15hm20_truth*.root","VBFHtth30h20_truth*.root","VBFHttl13l7_truth*.root"],
+"VV.root": ["llll_*.root", "lllv_*.root", "llvv_*.root", "lvvv_*.root", "ZqqZvv_*.root", "ZqqZll_*.root", "WqqZvv_*.root", "WqqZll_*.root", "WlvZqq_*.root"],
+"Wjets.root": ["Wplusenu_*.root", "Wminusenu_*.root", "Wplusmunu_*.root", "Wminusmunu_*.root", "Wplustaunu_*.root", "Wminustaunu_*.root"],
+"singletop.root": ["st_schan_top_*.root", "st_schan_atop_*.root", "st_tchan_top_*.root", "st_tchan_atop_*.root", "st_wt_top_*.root", "st_wt_atop_*.root"],
+"ttbar.root": ["ttbar_*.root"],
+"W_EWK_Sherpa.root": ["W_EWK_sherpa*.root"],
+"W_EWK_PoPy.root": ["W_EWK_PoPy*.root"],
+"VV_EWK.root": ["VV_EWK*.root"],
+"Data.root": ["data_*.root"],
+}
 
 Z_PRIME_MASS_LIST = list(range(200, 1050, 50)) + list(range(1000, 2200, 200)) + list(range(2000, 3500, 500))
 
