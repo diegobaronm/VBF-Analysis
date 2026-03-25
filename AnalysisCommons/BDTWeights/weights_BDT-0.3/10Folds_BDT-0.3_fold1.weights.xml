@@ -1,0 +1,1555 @@
+<?xml version="1.0"?>
+<MethodSetup Method="BDT::BDT-0.3_fold1">
+  <GeneralInfo>
+    <Info name="TMVA Release" value="4.2.1 [262657]"/>
+    <Info name="ROOT Release" value="6.30/04 [400900]"/>
+    <Info name="Creator" value="b78499db"/>
+    <Info name="Date" value="Thu Mar 21 15:54:48 2024"/>
+    <Info name="Host" value="Darwin Sonoma-arm64.local 23.4.0 Darwin Kernel Version 23.4.0: Wed Feb 21 21:43:31 PST 2024; root:xnu-10063.101.15~2/RELEASE_ARM64_VMAPPLE arm64"/>
+    <Info name="Dir" value="/Users/user/Documents/HEP/MVA-Analysis"/>
+    <Info name="Training events" value="32134"/>
+    <Info name="TrainingTime" value="5.38425922e-01"/>
+    <Info name="AnalysisType" value="Classification"/>
+  </GeneralInfo>
+  <Options>
+    <Option name="V" modified="Yes">False</Option>
+    <Option name="VerbosityLevel" modified="No">Default</Option>
+    <Option name="VarTransform" modified="No">None</Option>
+    <Option name="H" modified="Yes">False</Option>
+    <Option name="CreateMVAPdfs" modified="No">False</Option>
+    <Option name="IgnoreNegWeightsInTraining" modified="No">False</Option>
+    <Option name="NTrees" modified="Yes">125</Option>
+    <Option name="MaxDepth" modified="Yes">2</Option>
+    <Option name="MinNodeSize" modified="Yes">3%</Option>
+    <Option name="nCuts" modified="Yes">80</Option>
+    <Option name="BoostType" modified="Yes">Grad</Option>
+    <Option name="AdaBoostR2Loss" modified="No">quadratic</Option>
+    <Option name="UseBaggedBoost" modified="Yes">True</Option>
+    <Option name="Shrinkage" modified="Yes">1.000000e-01</Option>
+    <Option name="AdaBoostBeta" modified="No">5.000000e-01</Option>
+    <Option name="UseRandomisedTrees" modified="No">False</Option>
+    <Option name="UseNvars" modified="Yes">2</Option>
+    <Option name="UsePoissonNvars" modified="No">True</Option>
+    <Option name="BaggedSampleFraction" modified="Yes">5.000000e-01</Option>
+    <Option name="UseYesNoLeaf" modified="No">True</Option>
+    <Option name="NegWeightTreatment" modified="No">pray</Option>
+    <Option name="Css" modified="No">1.000000e+00</Option>
+    <Option name="Cts_sb" modified="No">1.000000e+00</Option>
+    <Option name="Ctb_ss" modified="No">1.000000e+00</Option>
+    <Option name="Cbb" modified="No">1.000000e+00</Option>
+    <Option name="NodePurityLimit" modified="No">5.000000e-01</Option>
+    <Option name="SeparationType" modified="Yes">sdivsqrtsplusb</Option>
+    <Option name="RegressionLossFunctionBDTG" modified="No">huber</Option>
+    <Option name="HuberQuantile" modified="No">7.000000e-01</Option>
+    <Option name="DoBoostMonitor" modified="No">False</Option>
+    <Option name="UseFisherCuts" modified="No">False</Option>
+    <Option name="MinLinCorrForFisher" modified="No">8.000000e-01</Option>
+    <Option name="UseExclusiveVars" modified="No">False</Option>
+    <Option name="DoPreselection" modified="No">False</Option>
+    <Option name="SigToBkgFraction" modified="No">1.000000e+00</Option>
+    <Option name="PruneMethod" modified="No">nopruning</Option>
+    <Option name="PruneStrength" modified="No">0.000000e+00</Option>
+    <Option name="PruningValFraction" modified="No">5.000000e-01</Option>
+    <Option name="SkipNormalization" modified="No">False</Option>
+    <Option name="nEventsMin" modified="No">0</Option>
+    <Option name="UseBaggedGrad" modified="No">False</Option>
+    <Option name="GradBaggingFraction" modified="No">5.000000e-01</Option>
+    <Option name="UseNTrainEvents" modified="No">0</Option>
+    <Option name="NNodesMax" modified="No">0</Option>
+  </Options>
+  <Variables NVar="6">
+    <Variable VarIndex="0" Expression="mjj" Label="mjj" Title="m_{jj}" Unit="GeV" Internal="mjj" Type="D" Min="7.50003479e+02" Max="8.69623633e+03"/>
+    <Variable VarIndex="1" Expression="deltaRapidity" Label="deltaRapidity" Title="#Delta y_{jj}" Unit="" Internal="deltaRapidity" Type="D" Min="2.00020766e+00" Max="8.59782600e+00"/>
+    <Variable VarIndex="2" Expression="ptBalance" Label="ptBalance" Title="pT_{balance}" Unit="" Internal="ptBalance" Type="D" Min="1.25554126e-18" Max="1.49860099e-01"/>
+    <Variable VarIndex="3" Expression="zCentrality" Label="zCentrality" Title="#xi(Z)" Unit="" Internal="zCentrality" Type="D" Min="9.20502589e-06" Max="4.99961168e-01"/>
+    <Variable VarIndex="4" Expression="omega" Label="omega" Title="#Omega" Unit="" Internal="omega" Type="D" Min="-1.99983269e-01" Max="1.39996660e+00"/>
+    <Variable VarIndex="5" Expression="transverseRecoMassVariable" Label="transverseRecoMassVariable" Title="m_{T}(l)/f(m_{reco})" Unit="GeV" Internal="transverseRecoMassVariable" Type="D" Min="7.04350823e-04" Max="1.29481125e+02"/>
+  </Variables>
+  <Spectators NSpec="1">
+    <Spectator SpecIndex="0" Expression="eventNumber" Label="eventNumber" Title="I" Unit="" Internal="eventNumber" Type="F" Min="8.40000000e+01" Max="1.15952781e+09"/>
+  </Spectators>
+  <Classes NClass="2">
+    <Class Name="Signal" Index="0"/>
+    <Class Name="Background" Index="1"/>
+  </Classes>
+  <Transformations NTransformations="0"/>
+  <MVAPdfs/>
+  <Weights NTrees="125" AnalysisType="1">
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="0">
+      <Node pos="s" depth="0" NCoef="0" IVar="5" Cut="1.4388165473937988e+01" cType="1" res="-2.9487293213605881e-03" rms="4.9999129772186279e-01" purity="4.9705126881599426e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="3" Cut="3.1476056575775146e-01" cType="1" res="9.9404096603393555e-02" rms="4.9001920223236084e-01" purity="5.9940409660339355e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="3.1292684376239777e-02" rms="4.7488862276077271e-01" purity="6.5646344423294067e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-2.5710513815283775e-02" rms="4.8319172859191895e-01" purity="3.7144744396209717e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="2" Cut="2.2120784968137741e-02" cType="1" res="-3.0372604727745056e-01" rms="3.9717814326286316e-01" purity="1.9627395272254944e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-3.3400978893041611e-02" rms="4.7128480672836304e-01" purity="3.3299511671066284e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-7.7523015439510345e-02" rms="3.1583940982818604e-01" purity="1.1238489300012589e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="1">
+      <Node pos="s" depth="0" NCoef="0" IVar="5" Cut="1.4389007568359375e+01" cType="1" res="5.8256061747670174e-03" rms="4.9192273616790771e-01" purity="5.0545358657836914e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="0" Cut="1.5261643066406250e+03" cType="1" res="9.5497645437717438e-02" rms="4.8618623614311218e-01" purity="6.0571777820587158e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="3.1284904107451439e-03" rms="4.9675118923187256e-01" purity="5.2471733093261719e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="4.8948917537927628e-02" rms="4.2766109108924866e-01" purity="7.5684452056884766e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="0" Cut="2.1275563964843750e+03" cType="1" res="-2.4820749461650848e-01" rms="4.1300210356712341e-01" purity="2.2141396999359131e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-5.6405898183584213e-02" rms="3.8948890566825867e-01" purity="1.8825332820415497e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-3.7170385476201773e-03" rms="4.9314296245574951e-01" purity="4.5491248369216919e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="2">
+      <Node pos="s" depth="0" NCoef="0" IVar="5" Cut="9.5935831069946289e+00" cType="1" res="7.0539810694754124e-03" rms="4.8617631196975708e-01" purity="5.0814086198806763e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="3" Cut="2.8390678763389587e-01" cType="1" res="1.3300888240337372e-01" rms="4.7163969278335571e-01" purity="6.5277838706970215e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="3.7947803735733032e-02" rms="4.5006427168846130e-01" purity="7.1471405029296875e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.1979577131569386e-02" rms="4.9268141388893127e-01" purity="4.4002714753150940e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="0" Cut="1.1168298339843750e+03" cType="1" res="-1.8307697772979736e-01" rms="4.4417041540145874e-01" purity="2.8980830311775208e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-5.8279205113649368e-02" rms="3.7368807196617126e-01" purity="1.7398899793624878e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.8927637487649918e-02" rms="4.7828361392021179e-01" purity="3.8790819048881531e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="3">
+      <Node pos="s" depth="0" NCoef="0" IVar="2" Cut="2.7751870453357697e-02" cType="1" res="-1.3555059209465981e-02" rms="4.8118525743484497e-01" purity="4.8780390620231628e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="5" Cut="1.2335317611694336e+01" cType="1" res="9.6383139491081238e-02" rms="4.7278437018394470e-01" purity="6.0713219642639160e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="3.1972665339708328e-02" rms="4.5614537596702576e-01" purity="6.9043678045272827e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.7114089801907539e-02" rms="4.7363328933715820e-01" purity="3.6587575078010559e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="5" Cut="1.0750997543334961e+01" cType="1" res="-1.4614215493202209e-01" rms="4.5721849799156189e-01" purity="3.4389212727546692e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-9.6461912617087364e-03" rms="4.9356275796890259e-01" purity="4.7925886511802673e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-5.7073775678873062e-02" rms="3.6246582865715027e-01" purity="1.6031146049499512e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="4">
+      <Node pos="s" depth="0" NCoef="0" IVar="5" Cut="1.1070367813110352e+01" cType="1" res="-1.0495812632143497e-02" rms="4.7394371032714844e-01" purity="4.8862788081169128e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="3" Cut="2.9623916745185852e-01" cType="1" res="8.1233613193035126e-02" rms="4.7579339146614075e-01" purity="6.1784321069717407e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="2.8458220884203911e-02" rms="4.5817461609840393e-01" purity="6.8826007843017578e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-2.8540391474962234e-02" rms="4.7417774796485901e-01" purity="3.5326325893402100e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="0" Cut="1.4836497802734375e+03" cType="1" res="-1.7782455682754517e-01" rms="4.2198374867439270e-01" purity="2.5291898846626282e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-4.8437822610139847e-02" rms="3.8143044710159302e-01" purity="1.8528711795806885e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-8.8927196338772774e-03" rms="4.7926747798919678e-01" purity="4.1316059231758118e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="5">
+      <Node pos="s" depth="0" NCoef="0" IVar="5" Cut="1.1192004203796387e+01" cType="1" res="-7.6848901808261871e-03" rms="4.7188147902488708e-01" purity="4.9170082807540894e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="2" Cut="3.1263303011655807e-02" cType="1" res="6.3797853887081146e-02" rms="4.7807165980339050e-01" purity="6.0805189609527588e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="2.7735708281397820e-02" rms="4.5404329895973206e-01" purity="6.8944823741912842e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.0069321841001511e-02" rms="4.9240401387214661e-01" purity="4.8054304718971252e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="2" Cut="3.7002492696046829e-02" cType="1" res="-1.4688639342784882e-01" rms="4.2648971080780029e-01" purity="2.6512527465820312e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.2407992035150528e-02" rms="4.6860098838806152e-01" purity="3.6917728185653687e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-5.4431058466434479e-02" rms="3.3499878644943237e-01" purity="1.3270308077335358e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="6">
+      <Node pos="s" depth="0" NCoef="0" IVar="5" Cut="9.5928173065185547e+00" cType="1" res="1.7795101739466190e-03" rms="4.6595868468284607e-01" purity="5.0097066164016724e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="1" Cut="5.1869759559631348e+00" cType="1" res="8.4194384515285492e-02" rms="4.6773192286491394e-01" purity="6.4073008298873901e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="3.5455396864563227e-03" rms="4.8462498188018799e-01" purity="5.6598222255706787e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="5.5994044989347458e-02" rms="3.5457244515419006e-01" purity="8.5101681947708130e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="2" Cut="2.7751870453357697e-02" cType="1" res="-1.2314414978027344e-01" rms="4.3440341949462891e-01" purity="2.8912463784217834e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-5.0151133909821510e-03" rms="4.7936418652534485e-01" purity="4.2065519094467163e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-4.4614035636186600e-02" rms="3.7112015485763550e-01" purity="1.7589013278484344e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="7">
+      <Node pos="s" depth="0" NCoef="0" IVar="0" Cut="1.7310340576171875e+03" cType="1" res="-5.0742710009217262e-03" rms="4.6324041485786438e-01" purity="4.9382734298706055e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="5" Cut="1.5988214492797852e+01" cType="1" res="-5.9488587081432343e-02" rms="4.6247994899749756e-01" purity="4.2296576499938965e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-2.4217846803367138e-03" rms="4.8397353291511536e-01" purity="5.1031613349914551e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-4.7644693404436111e-02" rms="3.3932331204414368e-01" purity="1.3602659106254578e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="5" Cut="1.5073325157165527e+01" cType="1" res="1.6111361980438232e-01" rms="4.2435878515243530e-01" purity="7.1024745702743530e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="4.1619930416345596e-02" rms="4.0189215540885925e-01" purity="7.7960485219955444e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-5.3954189643263817e-03" rms="4.7534430027008057e-01" purity="3.8072371482849121e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="8">
+      <Node pos="s" depth="0" NCoef="0" IVar="2" Cut="2.4051621556282043e-02" cType="1" res="1.3649312779307365e-02" rms="4.5865434408187866e-01" purity="5.1207607984542847e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="0" Cut="1.3272690429687500e+03" cType="1" res="1.1509000509977341e-01" rms="4.4925478100776672e-01" purity="6.5032452344894409e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="5.4596918635070324e-03" rms="4.7599703073501587e-01" purity="5.3068447113037109e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="4.3164476752281189e-02" rms="4.0015637874603271e-01" purity="7.7309250831604004e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="1" Cut="4.9718999862670898e+00" cType="1" res="-9.0834796428680420e-02" rms="4.4456484913825989e-01" purity="3.6967983841896057e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-2.9706802219152451e-02" rms="4.3248042464256287e-01" purity="3.0341428518295288e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="8.3391591906547546e-03" rms="4.4971987605094910e-01" purity="5.4489457607269287e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="9">
+      <Node pos="s" depth="0" NCoef="0" IVar="2" Cut="2.9601994901895523e-02" cType="1" res="7.5123491697013378e-03" rms="4.5795646309852600e-01" purity="5.0871366262435913e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="5" Cut="5.5950989723205566e+00" cType="1" res="8.6646601557731628e-02" rms="4.4883102178573608e-01" purity="6.3290339708328247e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="3.8873404264450073e-02" rms="3.9963462948799133e-01" purity="7.8199285268783569e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.4305674703791738e-03" rms="4.7012817859649658e-01" purity="5.1219886541366577e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="4" Cut="1.1032762527465820e+00" cType="1" res="-9.2725798487663269e-02" rms="4.4969516992568970e-01" purity="3.5140451788902283e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.4570760540664196e-02" rms="4.4904711842536926e-01" purity="3.6953642964363098e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-5.6054528802633286e-02" rms="4.1210901737213135e-01" purity="2.1859766542911530e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="10">
+      <Node pos="s" depth="0" NCoef="0" IVar="5" Cut="9.5932998657226562e+00" cType="1" res="1.1637208051979542e-02" rms="4.5529377460479736e-01" purity="5.1423805952072144e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="1" Cut="3.2112977504730225e+00" cType="1" res="8.0442473292350769e-02" rms="4.5676577091217041e-01" purity="6.5475010871887207e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-2.7721947059035301e-02" rms="4.8051020503044128e-01" purity="4.0111321210861206e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="2.2762250155210495e-02" rms="4.4573250412940979e-01" purity="6.8821382522583008e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="0" Cut="9.7018768310546875e+02" cType="1" res="-9.3878164887428284e-02" rms="4.3225002288818359e-01" purity="2.9875764250755310e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-4.5525062829256058e-02" rms="3.4997475147247314e-01" purity="1.4909073710441589e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-8.9508164674043655e-03" rms="4.5719397068023682e-01" purity="3.6985632777214050e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="11">
+      <Node pos="s" depth="0" NCoef="0" IVar="3" Cut="2.4070666730403900e-01" cType="1" res="-4.7796932631172240e-04" rms="4.5424914360046387e-01" purity="5.0200653076171875e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="2" Cut="3.6946468055248260e-02" cType="1" res="5.2391920238733292e-02" rms="4.4854137301445007e-01" purity="5.7322502136230469e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="2.4571727961301804e-02" rms="4.3139252066612244e-01" purity="6.7743206024169922e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.1139954440295696e-02" rms="4.5727360248565674e-01" purity="3.9834737777709961e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="0" Cut="1.4591600341796875e+03" cType="1" res="-1.1408005654811859e-01" rms="4.4553655385971069e-01" purity="3.4897860884666443e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-3.3644039183855057e-02" rms="4.2607018351554871e-01" purity="2.7604362368583679e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-3.9218386518768966e-04" rms="4.7295781970024109e-01" purity="5.3284752368927002e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="12">
+      <Node pos="s" depth="0" NCoef="0" IVar="5" Cut="9.5916137695312500e+00" cType="1" res="-8.4334043785929680e-03" rms="4.5235651731491089e-01" purity="4.9180150032043457e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="4" Cut="1.0628560781478882e+00" cType="1" res="4.7697257250547409e-02" rms="4.5892345905303955e-01" purity="6.3220691680908203e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.6013534739613533e-02" rms="4.5149883627891541e-01" purity="6.6409391164779663e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-3.6544349044561386e-02" rms="4.5639753341674805e-01" purity="3.7716010212898254e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="4" Cut="5.3107470273971558e-01" cType="1" res="-8.9682832360267639e-02" rms="4.2988607287406921e-01" purity="2.8856396675109863e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.4116313308477402e-02" rms="4.3176957964897156e-01" purity="3.0822816491127014e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-5.1124408841133118e-02" rms="3.8634738326072693e-01" purity="1.7639531195163727e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="13">
+      <Node pos="s" depth="0" NCoef="0" IVar="1" Cut="5.1865315437316895e+00" cType="1" res="-6.1052390374243259e-03" rms="4.4801145792007446e-01" purity="4.9389287829399109e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="2" Cut="1.4766218140721321e-02" cType="1" res="-4.4706352055072784e-02" rms="4.5242235064506531e-01" purity="4.2932629585266113e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.1541409417986870e-02" rms="4.5792075991630554e-01" purity="5.9818500280380249e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.9463218748569489e-02" rms="4.4257020950317383e-01" purity="3.5246443748474121e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="5" Cut="1.4234307289123535e+01" cType="1" res="1.2090977281332016e-01" rms="4.0817862749099731e-01" purity="7.0634591579437256e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="3.4259211272001266e-02" rms="3.8751739263534546e-01" purity="7.8595483303070068e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-7.1139610372483730e-03" rms="4.6004474163055420e-01" purity="3.4825119376182556e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="14">
+      <Node pos="s" depth="0" NCoef="0" IVar="5" Cut="1.9574989318847656e+01" cType="1" res="-2.7105843182653189e-03" rms="4.4860628247261047e-01" purity="4.9409696459770203e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="3" Cut="2.5308853387832642e-01" cType="1" res="2.8160335496068001e-02" rms="4.5950257778167725e-01" purity="5.6095647811889648e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.7174942418932915e-02" rms="4.4990107417106628e-01" purity="6.3969117403030396e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.8649019300937653e-02" rms="4.5961904525756836e-01" purity="3.8218015432357788e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="4" Cut="-6.5674014389514923e-02" cType="1" res="-1.5877573192119598e-01" rms="3.4935665130615234e-01" purity="1.5609462559223175e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-6.3580803573131561e-02" rms="1.5563249588012695e-01" purity="2.9396494850516319e-02" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-3.1124023720622063e-02" rms="3.8095811009407043e-01" purity="1.9011121988296509e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="15">
+      <Node pos="s" depth="0" NCoef="0" IVar="2" Cut="2.5865647941827774e-02" cType="1" res="1.7179528949782252e-03" rms="4.4842606782913208e-01" purity="4.9813553690910339e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="3" Cut="2.3448503017425537e-01" cType="1" res="6.9739922881126404e-02" rms="4.4493246078491211e-01" purity="6.3446503877639771e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="2.7667609974741936e-02" rms="4.1708168387413025e-01" purity="7.2515350580215454e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-5.5211056023836136e-03" rms="4.7417694330215454e-01" purity="4.7796082496643066e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="4" Cut="9.8539727926254272e-01" cType="1" res="-6.6673785448074341e-02" rms="4.4146844744682312e-01" purity="3.6106488108634949e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-8.6423913016915321e-03" rms="4.3978404998779297e-01" purity="3.7882274389266968e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-4.6714875847101212e-02" rms="4.1677796840667725e-01" purity="2.6017045974731445e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="16">
+      <Node pos="s" depth="0" NCoef="0" IVar="1" Cut="4.0057740211486816e+00" cType="1" res="3.8080660160630941e-03" rms="4.4270551204681396e-01" purity="5.0720155239105225e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="2" Cut="1.2927533127367496e-02" cType="1" res="-9.0951956808567047e-02" rms="4.4000977277755737e-01" purity="3.5653373599052429e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.6654955688863993e-03" rms="4.6640226244926453e-01" purity="5.1218622922897339e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-2.7859773486852646e-02" rms="4.2350876331329346e-01" purity="2.9081079363822937e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="5" Cut="6.2438163757324219e+00" cType="1" res="5.6252252310514450e-02" rms="4.3541371822357178e-01" purity="5.9058749675750732e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="3.0952818691730499e-02" rms="4.0895950794219971e-01" purity="7.6614570617675781e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-3.6471353378146887e-03" rms="4.4441506266593933e-01" purity="4.3854886293411255e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="17">
+      <Node pos="s" depth="0" NCoef="0" IVar="3" Cut="2.9627704620361328e-01" cType="1" res="9.0119717642664909e-03" rms="4.4331896305084229e-01" purity="5.1092576980590820e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="5" Cut="1.6939037322998047e+01" cType="1" res="4.6819593757390976e-02" rms="4.3879184126853943e-01" purity="5.7414221763610840e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.6516836360096931e-02" rms="4.4135740399360657e-01" purity="6.5321141481399536e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.7768956720829010e-02" rms="4.0599170327186584e-01" purity="2.4121521413326263e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="0" Cut="1.8586000976562500e+03" cType="1" res="-1.1653026938438416e-01" rms="4.3506869673728943e-01" purity="3.0101215839385986e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-3.0374584719538689e-02" rms="4.2519155144691467e-01" purity="2.6191106438636780e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="6.4410534687340260e-03" rms="4.7059795260429382e-01" purity="5.6371897459030151e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="18">
+      <Node pos="s" depth="0" NCoef="0" IVar="2" Cut="5.1762118935585022e-02" cType="1" res="2.7562198229134083e-03" rms="4.4421675801277161e-01" purity="5.0699651241302490e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="5" Cut="5.6472392082214355e+00" cType="1" res="3.4104112535715103e-02" rms="4.4680204987525940e-01" purity="5.7375121116638184e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="2.1943226456642151e-02" rms="4.2194882035255432e-01" purity="7.3503524065017700e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-2.9068402945995331e-03" rms="4.5880752801895142e-01" purity="4.5325994491577148e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="4" Cut="1.0047606229782104e+00" cType="1" res="-9.1049656271934509e-02" rms="4.2272356152534485e-01" purity="3.0723881721496582e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.2591785751283169e-02" rms="4.2340168356895447e-01" purity="3.3370649814605713e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-5.3514216095209122e-02" rms="3.7961295247077942e-01" purity="1.9002772867679596e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="19">
+      <Node pos="s" depth="0" NCoef="0" IVar="5" Cut="1.5987508773803711e+01" cType="1" res="-4.2296787723898888e-03" rms="4.3735396862030029e-01" purity="4.9769547581672668e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="2" Cut="3.1322631984949112e-02" cType="1" res="2.4434814229607582e-02" rms="4.4992360472679138e-01" purity="5.7872265577316284e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.5883591026067734e-02" rms="4.3079286813735962e-01" purity="6.8713492155075073e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-9.0710772201418877e-03" rms="4.6804043650627136e-01" purity="4.2218375205993652e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="3" Cut="2.4070379137992859e-01" cType="1" res="-1.1841177195310593e-01" rms="3.6130619049072266e-01" purity="1.7493224143981934e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.7044631764292717e-02" rms="4.0360197424888611e-01" purity="2.3704424500465393e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-5.1871113479137421e-02" rms="2.5439751148223877e-01" purity="6.9031581282615662e-02" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="20">
+      <Node pos="s" depth="0" NCoef="0" IVar="0" Cut="1.0443239746093750e+03" cType="1" res="-1.2629049830138683e-02" rms="4.4060838222503662e-01" purity="4.8881319165229797e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="3" Cut="9.8835922777652740e-02" cType="1" res="-9.9520303308963776e-02" rms="4.2525541782379150e-01" purity="3.2612025737762451e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-7.7500157058238983e-03" rms="4.3882492184638977e-01" purity="4.4268324971199036e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-2.8182828798890114e-02" rms="4.1772472858428955e-01" purity="2.8378713130950928e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="5" Cut="2.3722940444946289e+01" cType="1" res="3.4491442143917084e-02" rms="4.4162204861640930e-01" purity="5.7704037427902222e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.1624418199062347e-02" rms="4.4659957289695740e-01" purity="6.1727428436279297e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-3.8351546972990036e-02" rms="3.2826671004295349e-01" purity="1.4138621091842651e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="21">
+      <Node pos="s" depth="0" NCoef="0" IVar="3" Cut="1.5431901812553406e-01" cType="1" res="-8.2012414932250977e-03" rms="4.4029858708381653e-01" purity="4.8899483680725098e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="1" Cut="3.2148284912109375e+00" cType="1" res="4.4059012085199356e-02" rms="4.3650296330451965e-01" purity="5.8295542001724243e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-2.6667213067412376e-02" rms="4.4419002532958984e-01" purity="3.4666350483894348e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.4177610166370869e-02" rms="4.3182128667831421e-01" purity="6.0903429985046387e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="5" Cut="4.7980818748474121e+00" cType="1" res="-5.3840365260839462e-02" rms="4.3852156400680542e-01" purity="4.0693861246109009e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="8.7956879287958145e-03" rms="4.5107147097587585e-01" purity="6.2415409088134766e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-2.1890860050916672e-02" rms="4.2638060450553894e-01" purity="3.1129649281501770e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="22">
+      <Node pos="s" depth="0" NCoef="0" IVar="0" Cut="9.1453894042968750e+02" cType="1" res="7.1255688089877367e-04" rms="4.3765830993652344e-01" purity="5.0430887937545776e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="5" Cut="7.0148534774780273e+00" cType="1" res="-1.0060933977365494e-01" rms="4.1246393322944641e-01" purity="3.2880777120590210e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-5.9124785475432873e-03" rms="4.6554774045944214e-01" purity="5.1231783628463745e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-4.0977995842695236e-02" rms="3.4490653872489929e-01" purity="1.6306771337985992e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="3" Cut="3.5181257128715515e-01" cType="1" res="3.0189068987965584e-02" rms="4.4036382436752319e-01" purity="5.5536556243896484e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.1763923801481724e-02" rms="4.3929326534271240e-01" purity="5.9773546457290649e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-2.2478893399238586e-02" rms="4.2407879233360291e-01" purity="2.9626151919364929e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="23">
+      <Node pos="s" depth="0" NCoef="0" IVar="5" Cut="1.4234796524047852e+01" cType="1" res="2.1336046047508717e-03" rms="4.2832031846046448e-01" purity="5.0287854671478271e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="4" Cut="1.0252972841262817e+00" cType="1" res="3.5426527261734009e-02" rms="4.4114896655082703e-01" purity="6.0773533582687378e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.3386981561779976e-02" rms="4.3510353565216064e-01" purity="6.4271944761276245e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-2.9080126434564590e-02" rms="4.4483944773674011e-01" purity="3.6968261003494263e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="1" Cut="3.2387177944183350e+00" cType="1" res="-9.8269753158092499e-02" rms="3.6931911110877991e-01" purity="1.8665611743927002e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-5.5277172476053238e-02" rms="1.9925139844417572e-01" purity="4.2757976800203323e-02" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.9857784733176231e-02" rms="3.9172899723052979e-01" purity="2.1540568768978119e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="24">
+      <Node pos="s" depth="0" NCoef="0" IVar="5" Cut="1.9183881759643555e+01" cType="1" res="7.7745793387293816e-03" rms="4.3343314528465271e-01" purity="5.1234418153762817e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="3" Cut="3.3946940302848816e-01" cType="1" res="2.8153624385595322e-02" rms="4.4533425569534302e-01" purity="5.8006209135055542e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.1585805565118790e-02" rms="4.4095614552497864e-01" purity="6.2748199701309204e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-2.1742645651102066e-02" rms="4.4753566384315491e-01" purity="3.1836301088333130e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="4" Cut="-6.5095625817775726e-02" cType="1" res="-9.9757134914398193e-02" rms="3.4485602378845215e-01" purity="1.5502516925334930e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-5.3607035428285599e-02" rms="1.7493377625942230e-01" purity="3.1663801521062851e-02" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-2.1696100011467934e-02" rms="3.7325885891914368e-01" purity="1.8568992614746094e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="25">
+      <Node pos="s" depth="0" NCoef="0" IVar="3" Cut="1.2964040040969849e-01" cType="1" res="1.4727266971021891e-03" rms="4.3476918339729309e-01" purity="5.0044405460357666e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="1" Cut="3.3427751064300537e+00" cType="1" res="5.5849317461252213e-02" rms="4.2060118913650513e-01" purity="6.0748004913330078e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-2.5891272351145744e-02" rms="4.3933826684951782e-01" purity="3.2531908154487610e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.8561221659183502e-02" rms="4.1246691346168518e-01" purity="6.4667445421218872e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="1" Cut="5.7389478683471680e+00" cType="1" res="-3.3718407154083252e-02" rms="4.4013097882270813e-01" purity="4.3117308616638184e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.1196545325219631e-02" rms="4.4407114386558533e-01" purity="3.9993008971214294e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="2.9675077646970749e-02" rms="3.6042732000350952e-01" purity="7.6158821582794189e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="26">
+      <Node pos="s" depth="0" NCoef="0" IVar="0" Cut="1.0443538818359375e+03" cType="1" res="1.6594188287854195e-02" rms="4.3430894613265991e-01" purity="5.1895707845687866e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="1" Cut="3.1220142841339111e+00" cType="1" res="-5.9854518622159958e-02" rms="4.2770057916641235e-01" purity="3.5828277468681335e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-3.4097809344530106e-02" rms="3.9607024192810059e-01" purity="2.4875301122665405e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-8.5649508982896805e-03" rms="4.3275398015975952e-01" purity="3.8751292228698730e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="3" Cut="2.1604858338832855e-01" cType="1" res="5.9476099908351898e-02" rms="4.3209075927734375e-01" purity="6.0908311605453491e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="2.3597646504640579e-02" rms="4.1684105992317200e-01" purity="6.8901133537292480e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-5.5029815994203091e-03" rms="4.5058226585388184e-01" purity="4.4404739141464233e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="27">
+      <Node pos="s" depth="0" NCoef="0" IVar="1" Cut="4.3417797088623047e+00" cType="1" res="-8.4005519747734070e-03" rms="4.3137720227241516e-01" purity="4.9238055944442749e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="4" Cut="1.0050641298294067e+00" cType="1" res="-6.7211464047431946e-02" rms="4.3393191695213318e-01" purity="3.6031740903854370e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.2730609625577927e-02" rms="4.3556889891624451e-01" purity="3.7175461649894714e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-4.2336627840995789e-02" rms="3.9753764867782593e-01" purity="2.5320813059806824e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="2" Cut="1.8472244963049889e-02" cType="1" res="4.3917618691921234e-02" rms="4.2226254940032959e-01" purity="6.0986393690109253e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="2.5971170514822006e-02" rms="3.9138379693031311e-01" purity="7.5296187400817871e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-8.0136733595281839e-04" rms="4.3830537796020508e-01" purity="5.0154179334640503e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="28">
+      <Node pos="s" depth="0" NCoef="0" IVar="3" Cut="3.3946555852890015e-01" cType="1" res="-1.5525721013545990e-02" rms="4.3246662616729736e-01" purity="4.8527979850769043e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="5" Cut="5.6479315757751465e+00" cType="1" res="4.5399828813970089e-03" rms="4.3732190132141113e-01" purity="5.3827184438705444e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.2331045232713223e-02" rms="4.3007019162178040e-01" purity="7.0720863342285156e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-6.8515287712216377e-03" rms="4.3925163149833679e-01" purity="4.1857334971427917e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="4" Cut="6.8974274396896362e-01" cType="1" res="-1.0899712145328522e-01" rms="3.9590752124786377e-01" purity="2.3842853307723999e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.6685824841260910e-02" rms="3.8125598430633545e-01" purity="2.2847551107406616e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-3.8014777004718781e-02" rms="4.0787398815155029e-01" purity="2.5331768393516541e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="29">
+      <Node pos="s" depth="0" NCoef="0" IVar="4" Cut="1.0442429780960083e+00" cType="1" res="-1.0325138457119465e-02" rms="4.3738842010498047e-01" purity="4.8796609044075012e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="5" Cut="5.4815845489501953e+00" cType="1" res="1.3532361481338739e-03" rms="4.3376460671424866e-01" purity="5.0258553028106689e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.2626495212316513e-02" rms="4.2634764313697815e-01" purity="7.0021128654479980e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-6.6611724905669689e-03" rms="4.3516093492507935e-01" purity="3.9123883843421936e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="5" Cut="5.4459724426269531e+00" cType="1" res="-1.2511652708053589e-01" rms="4.5587417483329773e-01" purity="3.4426632523536682e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.3832012191414833e-02" rms="4.8973193764686584e-01" purity="4.6308189630508423e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-5.5004023015499115e-02" rms="3.6559340357780457e-01" purity="1.3659659028053284e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="30">
+      <Node pos="s" depth="0" NCoef="0" IVar="3" Cut="3.0862152576446533e-01" cType="1" res="1.2639837805181742e-03" rms="4.2407312989234924e-01" purity="4.9960908293724060e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="5" Cut="3.1642861366271973e+00" cType="1" res="2.3180440068244934e-02" rms="4.2537260055541992e-01" purity="5.5959630012512207e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="2.7370667085051537e-02" rms="3.7572011351585388e-01" purity="7.9909545183181763e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-4.1569877066649497e-04" rms="4.3528091907501221e-01" purity="4.9134564399719238e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="3" Cut="4.1729906201362610e-01" cType="1" res="-8.4568589925765991e-02" rms="4.0775817632675171e-01" purity="2.6467773318290710e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.3248196803033352e-02" rms="4.2275786399841309e-01" purity="3.0645737051963806e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-3.6068234592676163e-02" rms="3.6852481961250305e-01" purity="1.8014225363731384e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="31">
+      <Node pos="s" depth="0" NCoef="0" IVar="2" Cut="1.2950873002409935e-02" cType="1" res="1.5858449041843414e-03" rms="4.3033000826835632e-01" purity="4.9839860200881958e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="0" Cut="2.0662429199218750e+03" cType="1" res="7.3008239269256592e-02" rms="4.2492583394050598e-01" purity="6.7017883062362671e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.2313132174313068e-02" rms="4.4175288081169128e-01" purity="6.2293565273284912e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="3.8071636110544205e-02" rms="3.4627744555473328e-01" purity="8.4413349628448486e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="1" Cut="5.8962941169738770e+00" cType="1" res="-2.5870785117149353e-02" rms="4.2923864722251892e-01" purity="4.3236178159713745e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.0085009038448334e-02" rms="4.3267723917961121e-01" purity="3.9435455203056335e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="3.0535088852047920e-02" rms="3.6572852730751038e-01" purity="7.7496141195297241e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="32">
+      <Node pos="s" depth="0" NCoef="0" IVar="0" Cut="1.3271934814453125e+03" cType="1" res="8.9658666402101517e-03" rms="4.3054339289665222e-01" purity="5.0680106878280640e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="5" Cut="7.9943060874938965e+00" cType="1" res="-2.3673677816987038e-02" rms="4.3446865677833557e-01" purity="4.0326407551765442e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="2.0574065856635571e-03" rms="4.6464046835899353e-01" purity="5.5675649642944336e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.5125988982617855e-02" rms="3.9816370606422424e-01" purity="2.4517917633056641e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="5" Cut="4.1973261833190918e+00" cType="1" res="5.4548434913158417e-02" rms="4.2078521847724915e-01" purity="6.5139514207839966e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="2.9048521071672440e-02" rms="3.4811511635780334e-01" purity="8.3032000064849854e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="6.4665772952139378e-03" rms="4.4985941052436829e-01" purity="5.6336468458175659e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="33">
+      <Node pos="s" depth="0" NCoef="0" IVar="2" Cut="3.1415030360221863e-02" cType="1" res="1.1226062662899494e-02" rms="4.2951878905296326e-01" purity="5.1223403215408325e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="0" Cut="1.3260258789062500e+03" cType="1" res="4.3401561677455902e-02" rms="4.2595204710960388e-01" purity="6.2270218133926392e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="8.1723969196900725e-04" rms="4.4683077931404114e-01" purity="5.0503563880920410e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="2.2012626752257347e-02" rms="3.9769566059112549e-01" purity="7.4989342689514160e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="4" Cut="9.0629655122756958e-01" cType="1" res="-3.3009730279445648e-02" rms="4.3046626448631287e-01" purity="3.6035934090614319e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="5.5400189012289047e-04" rms="4.2711460590362549e-01" purity="3.8160097599029541e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-3.2887794077396393e-02" rms="4.2163920402526855e-01" purity="2.9232349991798401e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="34">
+      <Node pos="s" depth="0" NCoef="0" IVar="1" Cut="3.2038114070892334e+00" cType="1" res="-5.2090021781623363e-03" rms="4.2910730838775635e-01" purity="4.8971298336982727e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="4" Cut="6.8887031078338623e-01" cType="1" res="-1.0268264263868332e-01" rms="4.0993589162826538e-01" purity="2.7174395322799683e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.3339395634829998e-02" rms="4.0481671690940857e-01" purity="2.6285082101821899e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-3.8647029548883438e-02" rms="4.0634754300117493e-01" purity="2.8383940458297729e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="5" Cut="3.3557357788085938e+01" cType="1" res="9.0932929888367653e-03" rms="4.2999380826950073e-01" purity="5.2169555425643921e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="4.0709008462727070e-03" rms="4.3455404043197632e-01" purity="5.4031842947006226e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-5.6221313774585724e-02" rms="2.0524826645851135e-01" purity="4.3884418904781342e-02" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="35">
+      <Node pos="s" depth="0" NCoef="0" IVar="2" Cut="2.2183764725923538e-02" cType="1" res="-2.6120403781533241e-03" rms="4.3314421176910400e-01" purity="4.9748092889785767e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="5" Cut="6.8444671630859375e+00" cType="1" res="3.2220508903264999e-02" rms="4.2679333686828613e-01" purity="6.2853878736495972e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.8368901684880257e-02" rms="3.9614734053611755e-01" purity="7.7310574054718018e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-2.5798387359827757e-03" rms="4.5464301109313965e-01" purity="4.6725466847419739e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="3" Cut="2.4708721786737442e-02" cType="1" res="-3.3688426017761230e-02" rms="4.3639215826988220e-01" purity="3.8055568933486938e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="2.6763947680592537e-02" rms="4.4735354185104370e-01" purity="5.6477057933807373e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.1690545827150345e-02" rms="4.3257102370262146e-01" purity="3.6233913898468018e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="36">
+      <Node pos="s" depth="0" NCoef="0" IVar="2" Cut="9.2432349920272827e-03" cType="1" res="-4.3746987357735634e-03" rms="4.3328619003295898e-01" purity="5.0285553932189941e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="0" Cut="1.0795405273437500e+03" cType="1" res="8.5803352296352386e-02" rms="4.2575201392173767e-01" purity="6.9551694393157959e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-7.1149887517094612e-03" rms="4.5975491404533386e-01" purity="4.7919550538063049e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="3.4054834395647049e-02" rms="4.0042573213577271e-01" purity="7.8694820404052734e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="3" Cut="1.2346463650465012e-01" cType="1" res="-2.5533530861139297e-02" rms="4.3231901526451111e-01" purity="4.5765063166618347e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="7.6352958567440510e-03" rms="4.2377781867980957e-01" purity="5.7579153776168823e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.4905408024787903e-02" rms="4.3375468254089355e-01" purity="3.8416683673858643e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="37">
+      <Node pos="s" depth="0" NCoef="0" IVar="5" Cut="1.6000590324401855e+00" cType="1" res="-8.4601454436779022e-03" rms="4.2678597569465637e-01" purity="4.9913832545280457e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="3" Cut="1.2958844006061554e-01" cType="1" res="9.8456799983978271e-02" rms="3.8540959358215332e-01" purity="7.6559108495712280e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="9.9116340279579163e-03" rms="3.7751415371894836e-01" purity="7.6447308063507080e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="3.2962795346975327e-02" rms="3.8522017002105713e-01" purity="7.6629680395126343e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="4" Cut="8.6686015129089355e-01" cType="1" res="-2.0888786762952805e-02" rms="4.2961549758911133e-01" purity="4.6816432476043701e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="3.1099026091396809e-04" rms="4.2633205652236938e-01" purity="4.7983512282371521e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-3.4035082906484604e-02" rms="4.2759543657302856e-01" purity="4.0535238385200500e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="38">
+      <Node pos="s" depth="0" NCoef="0" IVar="5" Cut="7.9943060874938965e+00" cType="1" res="-2.7415333315730095e-03" rms="4.2999005317687988e-01" purity="5.0007665157318115e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="4" Cut="8.0754631757736206e-01" cType="1" res="2.6661314070224762e-02" rms="4.3601930141448975e-01" purity="6.4358335733413696e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.9671134650707245e-02" rms="4.1861733794212341e-01" purity="7.1094357967376709e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-5.5516376160085201e-03" rms="4.4505801796913147e-01" purity="5.8366149663925171e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="4" Cut="5.9025490283966064e-01" cType="1" res="-3.8756109774112701e-02" rms="4.1969034075737000e-01" purity="3.2429996132850647e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-3.4836314152926207e-03" rms="4.2309242486953735e-01" purity="3.4218320250511169e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-4.8629380762577057e-02" rms="3.5754054784774780e-01" purity="2.0916178822517395e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="39">
+      <Node pos="s" depth="0" NCoef="0" IVar="0" Cut="2.4775610351562500e+03" cType="1" res="-6.4755287021398544e-03" rms="4.2436945438385010e-01" purity="4.8953211307525635e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="5" Cut="1.7468395233154297e+01" cType="1" res="-1.8240246921777725e-02" rms="4.2760023474693298e-01" purity="4.5680961012840271e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-2.5015301071107388e-04" rms="4.4728401303291321e-01" purity="5.3475147485733032e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-2.7162550017237663e-02" rms="3.2439625263214111e-01" purity="1.3397653400897980e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="0" Cut="2.8436699218750000e+03" cType="1" res="1.0880897194147110e-01" rms="3.7211570143699646e-01" purity="8.1018614768981934e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="5.8748923242092133e-02" rms="3.3102077245712280e-01" purity="9.1545611619949341e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.2781086377799511e-02" rms="3.7923336029052734e-01" purity="7.5076985359191895e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="40">
+      <Node pos="s" depth="0" NCoef="0" IVar="3" Cut="2.1602246165275574e-01" cType="1" res="9.3176430091261864e-03" rms="4.2506608366966248e-01" purity="5.1116663217544556e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="5" Cut="2.6885414123535156e+01" cType="1" res="3.7472642958164215e-02" rms="4.2244315147399902e-01" purity="5.9975320100784302e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.1845170520246029e-02" rms="4.2774516344070435e-01" purity="6.3209700584411621e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-3.4917850047349930e-02" rms="2.9151451587677002e-01" purity="1.2225290387868881e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="1" Cut="4.2131447792053223e+00" cType="1" res="-3.6665666848421097e-02" rms="4.2532649636268616e-01" purity="3.6648529767990112e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-2.0088523626327515e-02" rms="4.0716934204101562e-01" purity="2.5927415490150452e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.1752106947824359e-03" rms="4.3873262405395508e-01" purity="4.7315725684165955e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="41">
+      <Node pos="s" depth="0" NCoef="0" IVar="5" Cut="1.1190370559692383e+01" cType="1" res="-1.0440513724461198e-03" rms="4.2311814427375793e-01" purity="4.9880421161651611e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="4" Cut="5.7412719726562500e-01" cType="1" res="2.0819580182433128e-02" rms="4.3282541632652283e-01" purity="6.2494242191314697e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="2.2461410611867905e-02" rms="4.3031218647956848e-01" purity="6.9343537092208862e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.7053508199751377e-03" rms="4.3043413758277893e-01" purity="5.9955376386642456e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="2" Cut="7.3945880867540836e-03" cType="1" res="-4.3972630053758621e-02" rms="3.9991661906242371e-01" purity="2.5113567709922791e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.9008625298738480e-02" rms="4.6325090527534485e-01" purity="4.8991730809211731e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.6943586990237236e-02" rms="3.8698083162307739e-01" purity="2.1783059835433960e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="42">
+      <Node pos="s" depth="0" NCoef="0" IVar="0" Cut="1.4367202148437500e+03" cType="1" res="7.6326716225594282e-04" rms="4.2692422866821289e-01" purity="5.0362622737884521e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="1" Cut="4.8939146995544434e+00" cType="1" res="-2.1494686603546143e-02" rms="4.3183636665344238e-01" purity="4.1296753287315369e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-2.1888581104576588e-03" rms="4.2997783422470093e-01" purity="4.1309273242950439e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-2.5603741407394409e-02" rms="4.3479982018470764e-01" purity="4.1212269663810730e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="2" Cut="2.0323008298873901e-02" cType="1" res="4.0930930525064468e-02" rms="4.1490259766578674e-01" purity="6.6723275184631348e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="2.0103417336940765e-02" rms="3.8825368881225586e-01" purity="7.7551847696304321e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="9.3766406644135714e-04" rms="4.4053182005882263e-01" purity="5.4332149028778076e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="43">
+      <Node pos="s" depth="0" NCoef="0" IVar="2" Cut="4.8103243112564087e-02" cType="1" res="-4.4584600254893303e-03" rms="4.2922773957252502e-01" purity="4.9523219466209412e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="4" Cut="3.7305822968482971e-01" cType="1" res="2.1433634683489799e-02" rms="4.3362009525299072e-01" purity="5.7974278926849365e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="2.2212261334061623e-02" rms="4.3089988827705383e-01" purity="4.9110159277915955e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-2.6577417738735676e-03" rms="4.3122968077659607e-01" purity="6.2216985225677490e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="4" Cut="7.0864355564117432e-01" cType="1" res="-6.8754673004150391e-02" rms="4.1112819314002991e-01" purity="2.8537219762802124e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.0779033415019512e-02" rms="3.9845764636993408e-01" purity="2.6226425170898438e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-2.6692813262343407e-02" rms="4.2619419097900391e-01" purity="3.2237923145294189e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="44">
+      <Node pos="s" depth="0" NCoef="0" IVar="3" Cut="3.3946806192398071e-01" cType="1" res="-6.0461461544036865e-03" rms="4.2231309413909912e-01" purity="4.8693874478340149e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="5" Cut="1.9183282852172852e+01" cType="1" res="8.3575993776321411e-03" rms="4.2543712258338928e-01" purity="5.3739017248153687e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="5.2432701922953129e-03" rms="4.3696844577789307e-01" purity="6.0832870006561279e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.7589217051863670e-02" rms="3.5397592186927795e-01" purity="1.7883710563182831e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="2" Cut="2.0421512424945831e-02" cType="1" res="-7.7010616660118103e-02" rms="3.9905142784118652e-01" purity="2.3837441205978394e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-3.0210250988602638e-02" rms="4.1901221871376038e-01" purity="2.6493549346923828e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-8.7877660989761353e-03" rms="3.7436684966087341e-01" purity="2.1501536667346954e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="45">
+      <Node pos="s" depth="0" NCoef="0" IVar="0" Cut="1.0443139648437500e+03" cType="1" res="8.1413146108388901e-03" rms="4.2240160703659058e-01" purity="5.1370453834533691e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="5" Cut="5.0483856201171875e+00" cType="1" res="-3.6643467843532562e-02" rms="4.1997677087783813e-01" purity="3.5192498564720154e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.1310674017295241e-03" rms="4.6169063448905945e-01" purity="5.3716671466827393e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.5377940610051155e-02" rms="3.9670553803443909e-01" purity="2.6247841119766235e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="4" Cut="6.8805342912673950e-01" cType="1" res="3.3253710716962814e-02" rms="4.2167901992797852e-01" purity="6.0441994667053223e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.6066795215010643e-02" rms="4.1179671883583069e-01" purity="5.7231312990188599e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.5870932256802917e-03" rms="4.3063271045684814e-01" purity="6.4502680301666260e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="46">
+      <Node pos="s" depth="0" NCoef="0" IVar="5" Cut="1.6000590324401855e+00" cType="1" res="4.5388685539364815e-03" rms="4.1852423548698425e-01" purity="5.0758409500122070e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="2" Cut="1.6586018726229668e-02" cType="1" res="1.2704081833362579e-01" rms="3.7293821573257446e-01" purity="7.8567957878112793e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="5.5415581911802292e-02" rms="2.4148961901664734e-01" purity="9.2162042856216431e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.6202630475163460e-02" rms="4.3635684251785278e-01" purity="6.8606913089752197e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="4" Cut="9.4575858116149902e-01" cType="1" res="-8.9431144297122955e-03" rms="4.2107000946998596e-01" purity="4.7697818279266357e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.9285602320451289e-04" rms="4.2018094658851624e-01" purity="4.9406027793884277e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-2.6055049151182175e-02" rms="4.1760426759719849e-01" purity="3.0576187372207642e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="47">
+      <Node pos="s" depth="0" NCoef="0" IVar="2" Cut="5.5503740906715393e-02" cType="1" res="-3.1879782909527421e-05" rms="4.2762771248817444e-01" purity="4.9477797746658325e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="1" Cut="3.4993190765380859e+00" cType="1" res="1.5285848639905453e-02" rms="4.3202590942382812e-01" purity="5.5398893356323242e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.0623290203511715e-02" rms="4.3973687291145325e-01" purity="3.4591978788375854e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="7.2522102855145931e-03" rms="4.2915529012680054e-01" purity="6.0131615400314331e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="3" Cut="5.5556025356054306e-02" cType="1" res="-4.9545444548130035e-02" rms="4.0918678045272827e-01" purity="3.0338248610496521e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.1191654950380325e-02" rms="4.3077290058135986e-01" purity="4.5188668370246887e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.8526637926697731e-02" rms="4.0126267075538635e-01" purity="2.7086296677589417e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="48">
+      <Node pos="s" depth="0" NCoef="0" IVar="5" Cut="2.3995904922485352e+01" cType="1" res="-9.6260625869035721e-03" rms="4.2076158523559570e-01" purity="4.9041000008583069e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="1" Cut="6.3475589752197266e+00" cType="1" res="3.9961840957403183e-04" rms="4.3227007985115051e-01" purity="5.3093558549880981e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.5909967478364706e-03" rms="4.3810686469078064e-01" purity="5.1189422607421875e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="3.4665793180465698e-02" rms="2.8873050212860107e-01" purity="8.6255502700805664e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="4" Cut="-8.7834773585200310e-03" cType="1" res="-1.0757593065500259e-01" rms="2.6561608910560608e-01" purity="9.4479843974113464e-02" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-4.9802307039499283e-02" rms="1.7791034281253815e-01" purity="3.4016370773315430e-02" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-2.5449063628911972e-02" rms="3.2472974061965942e-01" purity="1.5029680728912354e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="49">
+      <Node pos="s" depth="0" NCoef="0" IVar="4" Cut="3.7311616539955139e-01" cType="1" res="-3.7120548076927662e-03" rms="4.3290397524833679e-01" purity="4.9873206019401550e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="5" Cut="1.5938544273376465e+01" cType="1" res="4.4404055923223495e-02" rms="4.1694742441177368e-01" purity="3.9561602473258972e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="2.4099612608551979e-02" rms="4.4553083181381226e-01" purity="6.1706787347793579e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="6.7843269789591432e-04" rms="3.8942912220954895e-01" purity="2.3423303663730621e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="5" Cut="4.1498842239379883e+00" cType="1" res="-2.6979774236679077e-02" rms="4.3852314352989197e-01" purity="5.4859632253646851e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.0218123905360699e-02" rms="4.3072709441184998e-01" purity="6.8888932466506958e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.8603095784783363e-02" rms="4.3759286403656006e-01" purity="4.4499728083610535e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="50">
+      <Node pos="s" depth="0" NCoef="0" IVar="4" Cut="7.8780573606491089e-01" cType="1" res="-3.1384853646159172e-03" rms="4.2665985226631165e-01" purity="4.9437522888183594e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="5" Cut="4.8066687583923340e+00" cType="1" res="1.4830859377980232e-02" rms="4.2028343677520752e-01" purity="4.6802958846092224e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="3.1248763203620911e-02" rms="3.6512678861618042e-01" purity="8.2044708728790283e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="3.9957318222150207e-04" rms="4.2517721652984619e-01" purity="4.2196738719940186e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="5" Cut="4.0402307510375977e+00" cType="1" res="-4.1152246296405792e-02" rms="4.3741863965988159e-01" purity="5.5010885000228882e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.0288433404639363e-03" rms="4.4452369213104248e-01" purity="6.4368283748626709e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-3.5204991698265076e-02" rms="4.0174129605293274e-01" purity="3.0195063352584839e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="51">
+      <Node pos="s" depth="0" NCoef="0" IVar="5" Cut="1.5836353302001953e+00" cType="1" res="6.7671332508325577e-03" rms="4.2048233747482300e-01" purity="5.0422978401184082e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="2" Cut="2.2130902856588364e-02" cType="1" res="8.4443412721157074e-02" rms="4.0139517188072205e-01" purity="7.5147134065628052e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="3.2388921827077866e-03" rms="3.9921072125434875e-01" purity="7.4647992849349976e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="4.2084999382495880e-02" rms="3.8117432594299316e-01" purity="7.5855106115341187e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="4" Cut="8.8649439811706543e-01" cType="1" res="-2.0405610557645559e-03" rms="4.2168998718261719e-01" purity="4.7619512677192688e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="2.8274999931454659e-03" rms="4.1809678077697754e-01" purity="4.8529940843582153e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.9092651084065437e-02" rms="4.3422344326972961e-01" purity="4.2449963092803955e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="52">
+      <Node pos="s" depth="0" NCoef="0" IVar="1" Cut="6.6023674011230469e+00" cType="1" res="2.2924300283193588e-03" rms="4.2528188228607178e-01" purity="5.0966465473175049e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="3" Cut="1.6038741171360016e-01" cType="1" res="-2.4637558963149786e-03" rms="4.2950612306594849e-01" purity="4.9553933739662170e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="6.0356338508427143e-03" rms="4.2369326949119568e-01" purity="5.9136813879013062e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-6.8217627704143524e-03" rms="4.3341422080993652e-01" purity="4.0642651915550232e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="4.1072696447372437e-02" rms="2.6069235801696777e-01" purity="8.8612258434295654e-01" nType="-99"/>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="53">
+      <Node pos="s" depth="0" NCoef="0" IVar="2" Cut="1.2940529733896255e-02" cType="1" res="-4.4256150722503662e-03" rms="4.2219570279121399e-01" purity="5.0379532575607300e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="2" Cut="1.1337067931890488e-02" cType="1" res="3.6307796835899353e-02" rms="4.0904492139816284e-01" purity="6.6699719429016113e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="6.1945486813783646e-03" rms="4.1379907727241516e-01" purity="6.5782552957534790e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="2.9569178819656372e-02" rms="3.6757850646972656e-01" purity="7.2496652603149414e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="4" Cut="6.8897509574890137e-01" cType="1" res="-2.1586662158370018e-02" rms="4.2645177245140076e-01" purity="4.3503808975219727e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="5.7679077144712210e-04" rms="4.1273421049118042e-01" purity="3.9371290802955627e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.3139059767127037e-02" rms="4.4269815087318420e-01" purity="4.9245756864547729e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="54">
+      <Node pos="s" depth="0" NCoef="0" IVar="0" Cut="8.3246417236328125e+02" cType="1" res="4.2039817199110985e-03" rms="4.2393031716346741e-01" purity="5.0413417816162109e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="4" Cut="8.0561280250549316e-01" cType="1" res="-5.4238706827163696e-02" rms="4.1223672032356262e-01" purity="3.0950221419334412e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-5.1433700136840343e-03" rms="4.1033026576042175e-01" purity="3.0071642994880676e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-3.2478146255016327e-02" rms="4.0516620874404907e-01" purity="3.2936373353004456e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="5" Cut="2.7965408325195312e+01" cType="1" res="1.2041626498103142e-02" rms="4.2486315965652466e-01" purity="5.3023594617843628e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="5.0130519084632397e-03" rms="4.3314713239669800e-01" purity="5.6287968158721924e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-3.0698155984282494e-02" rms="2.7684295177459717e-01" purity="1.0610854625701904e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="55">
+      <Node pos="s" depth="0" NCoef="0" IVar="4" Cut="1.7587339505553246e-02" cType="1" res="1.7417080234736204e-03" rms="4.2742908000946045e-01" purity="5.0563442707061768e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="3" Cut="1.2964552640914917e-01" cType="1" res="-7.0107698440551758e-02" rms="3.1882497668266296e-01" purity="1.6797198355197906e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-3.7307143211364746e-02" rms="2.9729294776916504e-01" purity="1.5478840470314026e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.3747046701610088e-02" rms="3.2568591833114624e-01" purity="1.7527225613594055e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="3" Cut="1.5431204438209534e-01" cType="1" res="8.9405803009867668e-03" rms="4.3617302179336548e-01" purity="5.3946614265441895e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="9.4106690958142281e-03" rms="4.1322654485702515e-01" purity="6.4509832859039307e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-3.7859473377466202e-03" rms="4.5367428660392761e-01" purity="4.4827130436897278e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="56">
+      <Node pos="s" depth="0" NCoef="0" IVar="1" Cut="3.4315309524536133e+00" cType="1" res="-2.0772162824869156e-03" rms="4.2452013492584229e-01" purity="5.0068855285644531e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="0" Cut="1.0437030029296875e+03" cType="1" res="-6.4525797963142395e-02" rms="4.1372135281562805e-01" purity="3.0453497171401978e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-2.4085387587547302e-02" rms="3.9735427498817444e-01" purity="2.4515764415264130e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-2.7474015951156616e-03" rms="4.3930369615554810e-01" purity="4.2125195264816284e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="1" Cut="3.5558419227600098e+00" cType="1" res="1.2050405144691467e-02" rms="4.2565634846687317e-01" purity="5.4506397247314453e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="4.1404392570257187e-02" rms="4.5256161689758301e-01" purity="5.7251167297363281e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.4166968176141381e-03" rms="4.2323651909828186e-01" purity="5.4390341043472290e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="57">
+      <Node pos="s" depth="0" NCoef="0" IVar="5" Cut="4.7448458671569824e+00" cType="1" res="1.6628978773951530e-02" rms="4.1673457622528076e-01" purity="5.1976943016052246e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="4" Cut="1.0839769840240479e+00" cType="1" res="6.2664128839969635e-02" rms="4.1189640760421753e-01" purity="7.1281254291534424e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.2565004639327526e-02" rms="4.0920180082321167e-01" purity="7.1834963560104370e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="3.8853600621223450e-02" rms="4.1585180163383484e-01" purity="6.7273139953613281e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="4" Cut="8.0734926462173462e-01" cType="1" res="-6.8219117820262909e-03" rms="4.1722950339317322e-01" purity="4.2143085598945618e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.2725348351523280e-03" rms="4.2008420825004578e-01" purity="4.3822982907295227e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-3.6368098109960556e-02" rms="3.5860899090766907e-01" purity="2.3370870947837830e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="58">
+      <Node pos="s" depth="0" NCoef="0" IVar="0" Cut="9.7257324218750000e+02" cType="1" res="8.9463293552398682e-03" rms="4.2247396707534790e-01" purity="5.1678937673568726e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="3" Cut="1.1107757687568665e-01" cType="1" res="-4.1799966245889664e-02" rms="4.1508817672729492e-01" purity="3.3212420344352722e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="4.4498145580291748e-03" rms="4.3433791399002075e-01" purity="4.7959792613983154e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.7965385690331459e-02" rms="4.0403977036476135e-01" purity="2.6992607116699219e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="4" Cut="8.2739490270614624e-01" cType="1" res="2.9819499701261520e-02" rms="4.2371428012847900e-01" purity="5.9274661540985107e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.2813438661396503e-02" rms="4.1959050297737122e-01" purity="5.8360928297042847e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-5.2863927558064461e-03" rms="4.2952227592468262e-01" purity="6.1494565010070801e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="59">
+      <Node pos="s" depth="0" NCoef="0" IVar="4" Cut="-4.1324377059936523e-02" cType="1" res="1.5692571178078651e-02" rms="4.1932550072669983e-01" purity="5.1399081945419312e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-3.1121253967285156e-02" rms="2.8164616227149963e-01" purity="1.2618805468082428e-01" nType="-99"/>
+        <Node pos="r" depth="1" NCoef="0" IVar="4" Cut="7.7707862854003906e-01" cType="1" res="2.1726338192820549e-02" rms="4.2528378963470459e-01" purity="5.3684163093566895e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="9.9972374737262726e-03" rms="4.2442777752876282e-01" purity="5.2325361967086792e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-3.2662420999258757e-03" rms="4.2485985159873962e-01" purity="5.6371998786926270e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="60">
+      <Node pos="s" depth="0" NCoef="0" IVar="5" Cut="4.7980818748474121e+00" cType="1" res="-1.3764317147433758e-02" rms="4.2227309942245483e-01" purity="4.9330687522888184e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="4" Cut="8.4914600849151611e-01" cType="1" res="1.8067803233861923e-02" rms="4.2529568076133728e-01" purity="6.7654669284820557e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="2.0747683942317963e-02" rms="3.7200802564620972e-01" purity="7.8090870380401611e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-4.0045748464763165e-03" rms="4.5070070028305054e-01" purity="6.1426931619644165e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="4" Cut="6.8898057937622070e-01" cType="1" res="-2.9483055695891380e-02" rms="4.1988340020179749e-01" purity="4.0282285213470459e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-2.2413532715290785e-03" rms="4.1777855157852173e-01" purity="4.1863828897476196e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-3.3724747598171234e-02" rms="4.1498202085494995e-01" purity="3.2405424118041992e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="61">
+      <Node pos="s" depth="0" NCoef="0" IVar="2" Cut="7.3892939835786819e-03" cType="1" res="-1.0026064701378345e-02" rms="4.2066887021064758e-01" purity="4.9268212914466858e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="4" Cut="4.5847535133361816e-01" cType="1" res="5.2536927163600922e-02" rms="4.2274820804595947e-01" purity="7.0066189765930176e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="2.9095634818077087e-02" rms="4.3491291999816895e-01" purity="6.5164524316787720e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="3.6627934314310551e-03" rms="4.1036403179168701e-01" purity="7.2947591543197632e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="5" Cut="2.7176435470581055e+01" cType="1" res="-2.1352622658014297e-02" rms="4.1929453611373901e-01" purity="4.5502895116806030e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-3.5589761100709438e-03" rms="4.2963790893554688e-01" purity="4.8636063933372498e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-4.1632968932390213e-02" rms="2.3779949545860291e-01" purity="6.1557170003652573e-02" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="62">
+      <Node pos="s" depth="0" NCoef="0" IVar="5" Cut="1.5815247535705566e+01" cType="1" res="1.0508825071156025e-02" rms="4.1895261406898499e-01" purity="5.0612807273864746e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="4" Cut="1.9592511653900146e-01" cType="1" res="2.3909253999590874e-02" rms="4.3051853775978088e-01" purity="5.9711366891860962e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="3.2557800412178040e-02" rms="4.4111335277557373e-01" purity="6.6381567716598511e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="3.6361217498779297e-03" rms="4.2829883098602295e-01" purity="5.9139466285705566e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="5" Cut="2.6911243438720703e+01" cType="1" res="-3.5827230662107468e-02" rms="3.7253284454345703e-01" purity="1.9151771068572998e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-2.5148538872599602e-02" rms="3.5135269165039062e-01" purity="1.7207172513008118e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.6286525875329971e-02" rms="3.9091238379478455e-01" purity="2.2239905595779419e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="63">
+      <Node pos="s" depth="0" NCoef="0" IVar="4" Cut="6.8912208080291748e-01" cType="1" res="5.6893602013587952e-03" rms="4.2398971319198608e-01" purity="5.1834046840667725e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="5" Cut="1.8468135833740234e+01" cType="1" res="2.4733681231737137e-02" rms="4.1580486297607422e-01" purity="4.8045510053634644e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.1473487131297588e-02" rms="4.3391111493110657e-01" purity="5.9662389755249023e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.0462009347975254e-02" rms="3.5896143317222595e-01" purity="1.8136280775070190e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="5" Cut="5.3867392539978027e+00" cType="1" res="-2.2182576358318329e-02" rms="4.3418812751770020e-01" purity="5.7378691434860229e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.9200510578230023e-03" rms="4.3738672137260437e-01" purity="6.4496767520904541e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-3.5441137850284576e-02" rms="4.0102815628051758e-01" purity="2.9648858308792114e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="64">
+      <Node pos="s" depth="0" NCoef="0" IVar="5" Cut="1.9574989318847656e+01" cType="1" res="3.6237610038369894e-03" rms="4.1696739196777344e-01" purity="5.0910764932632446e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="4" Cut="6.2998205423355103e-01" cType="1" res="1.5968531370162964e-02" rms="4.3036147952079773e-01" purity="5.7544183731079102e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.0793396271765232e-02" rms="4.3024215102195740e-01" purity="5.6735295057296753e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-2.0023121032863855e-03" rms="4.2904391884803772e-01" purity="5.8240091800689697e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="5" Cut="2.3061183929443359e+01" cType="1" res="-6.4684800803661346e-02" rms="3.2488900423049927e-01" purity="1.4205391705036163e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-4.3154824525117874e-03" rms="4.0721657872200012e-01" purity="2.3294319212436676e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-3.0365463346242905e-02" rms="2.8071323037147522e-01" purity="1.0394226014614105e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="65">
+      <Node pos="s" depth="0" NCoef="0" IVar="3" Cut="1.2962637841701508e-01" cType="1" res="-3.0857641249895096e-03" rms="4.1196000576019287e-01" purity="5.0314253568649292e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="5" Cut="1.1072829246520996e+01" cType="1" res="2.5352749973535538e-02" rms="3.9900276064872742e-01" purity="6.2789672613143921e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.3836742378771305e-02" rms="3.8657873868942261e-01" purity="7.5999277830123901e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-8.0199791118502617e-03" rms="4.1992625594139099e-01" purity="3.3354359865188599e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="5" Cut="4.7972846031188965e+00" cType="1" res="-2.1638272330164909e-02" rms="4.1915899515151978e-01" purity="4.2175635695457458e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="4.9346047453582287e-03" rms="4.4253697991371155e-01" purity="6.1968034505844116e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.1699590831995010e-02" rms="4.0510967373847961e-01" purity="3.2106149196624756e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="66">
+      <Node pos="s" depth="0" NCoef="0" IVar="2" Cut="4.2488440871238708e-02" cType="1" res="-8.1118522211909294e-03" rms="4.1966861486434937e-01" purity="4.9348118901252747e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="1" Cut="6.3603606224060059e+00" cType="1" res="5.9836981818079948e-03" rms="4.2091640830039978e-01" purity="5.8081316947937012e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-4.3881413876079023e-04" rms="4.2912900447845459e-01" purity="5.5747121572494507e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="4.1477069258689880e-02" rms="2.4686731398105621e-01" purity="9.2390030622482300e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="0" Cut="1.9014759521484375e+03" cType="1" res="-3.8178686052560806e-02" rms="4.1539931297302246e-01" purity="3.0719569325447083e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-5.1430468447506428e-03" rms="4.1210362315177917e-01" purity="2.9967030882835388e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-3.9256013929843903e-02" rms="4.1473934054374695e-01" purity="3.5435891151428223e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="67">
+      <Node pos="s" depth="0" NCoef="0" IVar="4" Cut="2.5463342666625977e-01" cType="1" res="1.2436497956514359e-02" rms="4.1369476914405823e-01" purity="5.1417309045791626e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="0" Cut="1.1400803222656250e+03" cType="1" res="-2.8055891394615173e-02" rms="3.7959355115890503e-01" purity="2.9696637392044067e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-2.3400599136948586e-02" rms="3.3829191327095032e-01" purity="1.6932852566242218e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="4.3700481764972210e-03" rms="4.1240555047988892e-01" purity="4.2569056153297424e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="4" Cut="5.9410679340362549e-01" cType="1" res="2.5402829051017761e-02" rms="4.2321711778640747e-01" purity="5.8372628688812256e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.8501630052924156e-02" rms="4.1822880506515503e-01" purity="5.8157908916473389e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-6.2580831581726670e-05" rms="4.2364087700843811e-01" purity="5.8487522602081299e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="68">
+      <Node pos="s" depth="0" NCoef="0" IVar="1" Cut="3.5342991352081299e+00" cType="1" res="-2.3980140686035156e-02" rms="4.2755284905433655e-01" purity="4.7505149245262146e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="1" Cut="3.3637118339538574e+00" cType="1" res="2.2595325484871864e-02" rms="4.3442946672439575e-01" purity="3.9082089066505432e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-3.5719617735594511e-03" rms="4.2373922467231750e-01" purity="3.4931692481040955e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="3.7139866501092911e-02" rms="4.4776615500450134e-01" purity="5.2583158016204834e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="3" Cut="4.0726026892662048e-01" cType="1" res="-3.6622513085603714e-02" rms="4.2478680610656738e-01" purity="4.9791491031646729e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-7.2609549388289452e-03" rms="4.2864623665809631e-01" purity="5.2574509382247925e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-3.7066143006086349e-02" rms="3.5978510975837708e-01" purity="1.7375087738037109e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="69">
+      <Node pos="s" depth="0" NCoef="0" IVar="5" Cut="1.5815428733825684e+01" cType="1" res="4.4790925458073616e-03" rms="4.1880780458450317e-01" purity="5.0395882129669189e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="4" Cut="5.3032201528549194e-01" cType="1" res="1.4085143804550171e-02" rms="4.3620020151138306e-01" purity="5.9765458106994629e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.3149382546544075e-02" rms="4.3911048769950867e-01" purity="6.1483466625213623e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-8.8671664707362652e-04" rms="4.3374750018119812e-01" purity="5.9004265069961548e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="0" Cut="1.4154799804687500e+03" cType="1" res="-2.8975769877433777e-02" rms="3.4952771663665771e-01" purity="1.7764586210250854e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-2.4531926959753036e-02" rms="2.9034599661827087e-01" purity="9.6058227121829987e-02" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.0699511505663395e-02" rms="4.4462919235229492e-01" purity="3.5606068372726440e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="70">
+      <Node pos="s" depth="0" NCoef="0" IVar="4" Cut="3.5336902737617493e-01" cType="1" res="-1.2706632725894451e-02" rms="4.1569736599922180e-01" purity="4.8877891898155212e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="4" Cut="-1.6129977302625775e-03" cType="1" res="2.0471762865781784e-02" rms="3.9826098084449768e-01" purity="3.5967224836349487e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-2.2116722539067268e-02" rms="3.1091508269309998e-01" purity="1.4163160324096680e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.2127829715609550e-02" rms="4.1841933131217957e-01" purity="4.2608472704887390e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="5" Cut="5.4231357574462891e+00" cType="1" res="-2.8192326426506042e-02" rms="4.2269957065582275e-01" purity="5.4903817176818848e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="2.1309065632522106e-03" rms="4.1784867644309998e-01" purity="6.5715551376342773e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.8357325345277786e-02" rms="4.2431893944740295e-01" purity="4.1339626908302307e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="71">
+      <Node pos="s" depth="0" NCoef="0" IVar="5" Cut="1.5987586021423340e+01" cType="1" res="-5.3768693469464779e-03" rms="4.1857212781906128e-01" purity="4.9582740664482117e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="3" Cut="3.7651625275611877e-01" cType="1" res="6.6699543967843056e-03" rms="4.3754765391349792e-01" purity="5.8972072601318359e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="4.0414948016405106e-03" rms="4.3746101856231689e-01" purity="6.2527292966842651e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.7974928021430969e-02" rms="4.2985609173774719e-01" purity="2.8237962722778320e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="3" Cut="1.5429863333702087e-01" cType="1" res="-4.8434071242809296e-02" rms="3.3877235651016235e-01" purity="1.6023842990398407e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-2.7117051184177399e-02" rms="3.4871166944503784e-01" purity="1.5803502500057220e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-7.2633102536201477e-03" rms="3.2839104533195496e-01" purity="1.6181015968322754e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="72">
+      <Node pos="s" depth="0" NCoef="0" IVar="0" Cut="8.2746551513671875e+02" cType="1" res="-8.4915524348616600e-03" rms="4.2434042692184448e-01" purity="4.8560455441474915e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="4" Cut="4.1197893023490906e-01" cType="1" res="-6.8588525056838989e-02" rms="4.0037074685096741e-01" purity="2.7989366650581360e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-5.1031932234764099e-03" rms="3.6402016878128052e-01" purity="2.2436662018299103e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-2.4602450430393219e-02" rms="4.1827610135078430e-01" purity="3.1508529186248779e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="1" Cut="2.5654356479644775e+00" cType="1" res="-6.0987734468653798e-04" rms="4.2675703763961792e-01" purity="5.1258337497711182e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="3.3992297947406769e-02" rms="4.6250692009925842e-01" purity="4.4808676838874817e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.5332562616094947e-03" rms="4.2445290088653564e-01" purity="5.1517248153686523e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="73">
+      <Node pos="s" depth="0" NCoef="0" IVar="1" Cut="3.1306059360504150e+00" cType="1" res="-3.1847574282437563e-03" rms="4.2181047797203064e-01" purity="4.9289563298225403e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="3" Cut="1.4836218953132629e-01" cType="1" res="-1.0915741324424744e-01" rms="4.0559396147727966e-01" purity="2.1563570201396942e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-5.2324276417493820e-02" rms="3.8825342059135437e-01" purity="1.5966890752315521e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.6470825299620628e-02" rms="4.0535074472427368e-01" purity="2.4491004645824432e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="5" Cut="2.8248639106750488e+00" cType="1" res="9.6812853589653969e-03" rms="4.2192906141281128e-01" purity="5.2655744552612305e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="2.0001120865345001e-02" rms="3.9611899852752686e-01" purity="7.6874887943267822e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.6128575662150979e-03" rms="4.2660060524940491e-01" purity="4.6667167544364929e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="74">
+      <Node pos="s" depth="0" NCoef="0" IVar="5" Cut="6.4397497177124023e+00" cType="1" res="4.3336296221241355e-04" rms="4.1203954815864563e-01" purity="4.9575087428092957e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="4" Cut="8.2816219329833984e-01" cType="1" res="2.4564413353800774e-02" rms="4.1377153992652893e-01" purity="6.6566306352615356e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.7292901873588562e-02" rms="3.9795082807540894e-01" purity="7.3147433996200562e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-2.6146068703383207e-03" rms="4.2360591888427734e-01" purity="6.0998356342315674e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="4" Cut="7.0861780643463135e-01" cType="1" res="-1.8301328644156456e-02" rms="4.0971094369888306e-01" purity="3.6383569240570068e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.5965480124577880e-03" rms="4.1468501091003418e-01" purity="3.8498565554618835e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-4.1964221745729446e-02" rms="3.3214220404624939e-01" purity="1.5421289205551147e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="75">
+      <Node pos="s" depth="0" NCoef="0" IVar="0" Cut="1.6549195556640625e+03" cType="1" res="3.3408515155315399e-03" rms="4.1289141774177551e-01" purity="4.9854490160942078e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="4" Cut="6.8920123577117920e-01" cType="1" res="-1.0600123554468155e-02" rms="4.2296394705772400e-01" purity="4.2721644043922424e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="2.3012072779238224e-03" rms="4.1039395332336426e-01" purity="3.8973426818847656e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-9.4654411077499390e-03" rms="4.3935376405715942e-01" purity="4.8244908452033997e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="4" Cut="9.2198795080184937e-01" cType="1" res="4.3229885399341583e-02" rms="3.7979269027709961e-01" purity="7.0263570547103882e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.9719891250133514e-02" rms="3.7003821134567261e-01" purity="7.2542768716812134e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-2.3014966398477554e-02" rms="3.9780417084693909e-01" purity="6.0584539175033569e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="76">
+      <Node pos="s" depth="0" NCoef="0" IVar="4" Cut="9.8520159721374512e-01" cType="1" res="7.4723027646541595e-03" rms="4.1428533196449280e-01" purity="4.9888256192207336e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="5" Cut="1.6408613920211792e+00" cType="1" res="1.6796803101897240e-02" rms="4.1551697254180908e-01" purity="5.1043164730072021e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="2.6125784963369370e-02" rms="3.5411953926086426e-01" purity="7.9031026363372803e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="3.0173617415130138e-03" rms="4.1899180412292480e-01" purity="4.9041345715522766e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="2" Cut="7.3963686823844910e-02" cType="1" res="-5.7081267237663269e-02" rms="3.9973455667495728e-01" purity="4.1892805695533752e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-6.9769979454576969e-03" rms="4.2160445451736450e-01" purity="5.2426326274871826e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-4.1937451809644699e-02" rms="3.1690275669097900e-01" purity="1.2895946204662323e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="77">
+      <Node pos="s" depth="0" NCoef="0" IVar="3" Cut="1.1728188395500183e-01" cType="1" res="-1.7251905519515276e-03" rms="4.1389438509941101e-01" purity="5.0216394662857056e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="1" Cut="3.8215961456298828e+00" cType="1" res="2.2295707836747169e-02" rms="3.9467591047286987e-01" purity="6.1560362577438354e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.1663048528134823e-02" rms="4.3108290433883667e-01" purity="3.8035184144973755e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.2152430601418018e-02" rms="3.8032370805740356e-01" purity="6.8824291229248047e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="4" Cut="3.7304651737213135e-01" cType="1" res="-1.5373708680272102e-02" rms="4.2382052540779114e-01" purity="4.3770831823348999e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="6.2306486070156097e-03" rms="3.9090466499328613e-01" purity="3.1979510188102722e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-8.2239564508199692e-03" rms="4.3814677000045776e-01" purity="4.9605301022529602e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="78">
+      <Node pos="s" depth="0" NCoef="0" IVar="5" Cut="7.0595507621765137e+00" cType="1" res="5.7920264080166817e-03" rms="4.1756168007850647e-01" purity="5.0215214490890503e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="4" Cut="1.1264657974243164e+00" cType="1" res="2.6259588077664375e-02" rms="4.2209634184837341e-01" purity="6.5920639038085938e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="3.8217217661440372e-03" rms="4.1751816868782043e-01" purity="6.6930538415908813e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="3.6691963672637939e-02" rms="4.4871151447296143e-01" purity="5.5575639009475708e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="4" Cut="5.9023845195770264e-01" cType="1" res="-1.2898013927042484e-02" rms="4.1249120235443115e-01" purity="3.5873743891716003e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.5656301984563470e-03" rms="4.1621112823486328e-01" purity="3.7686622142791748e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-3.3036258071660995e-02" rms="3.7105020880699158e-01" purity="2.5108399987220764e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="79">
+      <Node pos="s" depth="0" NCoef="0" IVar="5" Cut="1.5992280244827271e+00" cType="1" res="-4.4521801173686981e-03" rms="4.1600286960601807e-01" purity="4.9284234642982483e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="4" Cut="9.8678797483444214e-01" cType="1" res="6.7459754645824432e-02" rms="3.8397881388664246e-01" purity="7.4420690536499023e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="3.6377210170030594e-02" rms="3.2925462722778320e-01" purity="8.3123683929443359e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-4.4631999917328358e-03" rms="4.3397060036659241e-01" purity="6.2504833936691284e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="4" Cut="6.1003333330154419e-01" cType="1" res="-1.2593439780175686e-02" rms="4.1869676113128662e-01" purity="4.6438497304916382e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="2.8961822390556335e-03" rms="4.1138285398483276e-01" purity="4.3217179179191589e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.2119182385504246e-02" rms="4.2683324217796326e-01" purity="5.1090079545974731e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="80">
+      <Node pos="s" depth="0" NCoef="0" IVar="4" Cut="3.5336902737617493e-01" cType="1" res="2.0664352923631668e-03" rms="4.2861345410346985e-01" purity="4.9965769052505493e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="4" Cut="2.9870587587356567e-01" cType="1" res="3.7947107106447220e-02" rms="3.9736843109130859e-01" purity="3.8248622417449951e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="5.5905887857079506e-03" rms="3.9535972476005554e-01" purity="3.3319011330604553e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="3.8617294281721115e-02" rms="3.9044478535652161e-01" purity="6.5732049942016602e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="4" Cut="1.1545166969299316e+00" cType="1" res="-1.4076031744480133e-02" rms="4.4099938869476318e-01" purity="5.5237227678298950e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-5.9083146043121815e-03" rms="4.4021627306938171e-01" purity="5.6400370597839355e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="3.0332716181874275e-02" rms="4.3488767743110657e-01" purity="4.0722188353538513e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="81">
+      <Node pos="s" depth="0" NCoef="0" IVar="5" Cut="1.4121381044387817e+00" cType="1" res="-5.4809935390949249e-03" rms="4.1533195972442627e-01" purity="4.8623225092887878e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="2" Cut="1.6561714932322502e-02" cType="1" res="6.5286286175251007e-02" rms="4.0235349535942078e-01" purity="7.3282623291015625e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="4.1775614023208618e-02" rms="2.9904711246490479e-01" purity="8.9555078744888306e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="6.1368960887193680e-03" rms="4.4742280244827271e-01" purity="6.3721930980682373e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="4" Cut="8.2717508077621460e-01" cType="1" res="-1.2751380912959576e-02" rms="4.1596096754074097e-01" purity="4.6089801192283630e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="6.9499557139351964e-04" rms="4.0619418025016785e-01" purity="4.6496787667274475e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.7387269064784050e-02" rms="4.4411247968673706e-01" purity="4.4677892327308655e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="82">
+      <Node pos="s" depth="0" NCoef="0" IVar="5" Cut="9.8815088272094727e+00" cType="1" res="1.8399327527731657e-03" rms="4.1492518782615662e-01" purity="5.1020836830139160e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="3" Cut="3.0226159095764160e-01" cType="1" res="2.0387779921293259e-02" rms="4.2616277933120728e-01" purity="6.4682573080062866e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.3568955473601818e-03" rms="4.1815724968910217e-01" purity="6.8723481893539429e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.9242923706769943e-02" rms="4.5165339112281799e-01" purity="4.8473492264747620e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="0" Cut="2.3072373046875000e+03" cType="1" res="-2.8293704614043236e-02" rms="3.9413210749626160e-01" purity="2.8825390338897705e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.1400293558835983e-02" rms="3.8998296856880188e-01" purity="2.4519668519496918e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.2661268934607506e-02" rms="4.1743102669715881e-01" purity="6.3253432512283325e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="83">
+      <Node pos="s" depth="0" NCoef="0" IVar="5" Cut="5.4825682640075684e+00" cType="1" res="-5.2221948280930519e-03" rms="4.1004550457000732e-01" purity="4.9609827995300293e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="4" Cut="8.8731437921524048e-01" cType="1" res="3.7183668464422226e-02" rms="4.1178047657012939e-01" purity="7.0262467861175537e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="2.6616031304001808e-02" rms="3.7216904759407043e-01" purity="8.0674403905868530e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-7.2401585057377815e-03" rms="4.4248923659324646e-01" purity="5.8742755651473999e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="4" Cut="7.6684850454330444e-01" cType="1" res="-3.3996395766735077e-02" rms="4.0635162591934204e-01" purity="3.5596123337745667e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-6.1636585742235184e-03" rms="4.1437703371047974e-01" purity="3.8062468171119690e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-4.7703929245471954e-02" rms="2.8999969363212585e-01" purity="1.0727480053901672e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="84">
+      <Node pos="s" depth="0" NCoef="0" IVar="5" Cut="1.0750053405761719e+01" cType="1" res="7.8067863360047340e-03" rms="4.1639077663421631e-01" purity="5.0392800569534302e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="2" Cut="3.6944488529115915e-03" cType="1" res="2.4309283122420311e-02" rms="4.2786335945129395e-01" purity="6.3923203945159912e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-2.6383291929960251e-02" rms="4.7750172019004822e-01" purity="6.1493295431137085e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="8.1910053268074989e-03" rms="4.2325633764266968e-01" purity="6.4083081483840942e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="4" Cut="3.3363592624664307e-01" cType="1" res="-2.2511046379804611e-02" rms="3.9264154434204102e-01" purity="2.5535205006599426e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="2.4823592975735664e-03" rms="3.9396649599075317e-01" purity="2.7261471748352051e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-2.8221361339092255e-02" rms="3.7793770432472229e-01" purity="2.1055366098880768e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="85">
+      <Node pos="s" depth="0" NCoef="0" IVar="4" Cut="-2.0611891523003578e-03" cType="1" res="2.2552902810275555e-03" rms="4.1665250062942505e-01" purity="4.9387994408607483e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="1" Cut="4.3160767555236816e+00" cType="1" res="-7.5755879282951355e-02" rms="2.8990015387535095e-01" purity="1.0826572030782700e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-2.1577512845396996e-02" rms="2.6149082183837891e-01" purity="1.0272142291069031e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-3.6277431994676590e-02" rms="3.0913478136062622e-01" purity="1.1279990524053574e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="2" Cut="6.2904238700866699e-02" cType="1" res="9.0397950261831284e-03" rms="4.2522069811820984e-01" purity="5.2741616964340210e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-2.1558545995503664e-04" rms="4.2248255014419556e-01" purity="5.5280417203903198e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.3975393027067184e-02" rms="4.3451529741287231e-01" purity="4.1418826580047607e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="86">
+      <Node pos="s" depth="0" NCoef="0" IVar="0" Cut="2.4178068847656250e+03" cType="1" res="1.1981715448200703e-02" rms="4.1613695025444031e-01" purity="5.0559449195861816e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="0" Cut="1.9849411621093750e+03" cType="1" res="3.3898700494319201e-03" rms="4.2250528931617737e-01" purity="4.7047835588455200e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="2.6219347491860390e-03" rms="4.2135521769523621e-01" purity="4.5587852597236633e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.6400843858718872e-02" rms="4.2874500155448914e-01" purity="6.1272662878036499e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="3" Cut="7.9877167940139771e-02" cType="1" res="8.7441131472587585e-02" rms="3.4629672765731812e-01" purity="8.1400817632675171e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="5.0152000039815903e-03" rms="3.5840925574302673e-01" purity="7.6420420408248901e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="3.6388989537954330e-02" rms="3.3362606167793274e-01" purity="8.4003180265426636e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="87">
+      <Node pos="s" depth="0" NCoef="0" IVar="5" Cut="1.4121381044387817e+00" cType="1" res="2.5498946197330952e-03" rms="4.1495642066001892e-01" purity="4.9971467256546021e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="0" Cut="1.1625634765625000e+03" cType="1" res="7.7276989817619324e-02" rms="3.7771964073181152e-01" purity="7.8108096122741699e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="3.8477722555398941e-02" rms="3.6838620901107788e-01" purity="7.7227210998535156e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="6.5935119055211544e-03" rms="3.7251701951026917e-01" purity="7.8664028644561768e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="4" Cut="8.8662064075469971e-01" cType="1" res="-4.3250699527561665e-03" rms="4.1754448413848877e-01" purity="4.7382873296737671e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="2.0125093869864941e-03" rms="4.1421031951904297e-01" purity="4.8717677593231201e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.8752180039882660e-02" rms="4.2975658178329468e-01" purity="4.0061604976654053e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="88">
+      <Node pos="s" depth="0" NCoef="0" IVar="0" Cut="1.4921032714843750e+03" cType="1" res="-1.4301192015409470e-02" rms="4.1761291027069092e-01" purity="4.7656646370887756e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="0" Cut="7.7748504638671875e+02" cType="1" res="-2.9101612046360970e-02" rms="4.1869688034057617e-01" purity="3.8494700193405151e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-3.9315361529588699e-02" rms="3.6285120248794556e-01" purity="1.7339034378528595e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-5.6732110679149628e-03" rms="4.2134687304496765e-01" purity="4.0026420354843140e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="0" Cut="1.7854133300781250e+03" cType="1" res="1.6508795320987701e-02" rms="4.1365215182304382e-01" purity="6.6729032993316650e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.9534239545464516e-02" rms="4.3438586592674255e-01" purity="6.6681015491485596e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-2.5409557856619358e-03" rms="4.0138214826583862e-01" purity="6.6750729084014893e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="89">
+      <Node pos="s" depth="0" NCoef="0" IVar="1" Cut="4.0058755874633789e+00" cType="1" res="-4.7676637768745422e-03" rms="4.2032781243324280e-01" purity="4.9529510736465454e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="2" Cut="9.2339524999260902e-03" cType="1" res="-3.3844336867332458e-02" rms="4.1839101910591125e-01" purity="3.3283913135528564e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="8.5512241348624229e-03" rms="4.5820829272270203e-01" purity="5.3046131134033203e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.4171169139444828e-02" rms="4.0607392787933350e-01" purity="2.8358510136604309e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="1" Cut="4.5606184005737305e+00" cType="1" res="1.1608298867940903e-02" rms="4.2053064703941345e-01" purity="5.8679020404815674e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.4293049462139606e-02" rms="4.2852005362510681e-01" purity="5.1669347286224365e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-2.1753313485532999e-03" rms="4.1541519761085510e-01" purity="6.1859399080276489e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="90">
+      <Node pos="s" depth="0" NCoef="0" IVar="0" Cut="1.3386186523437500e+03" cType="1" res="-5.1000663079321384e-03" rms="4.1505706310272217e-01" purity="4.9201640486717224e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="5" Cut="6.7198367118835449e+00" cType="1" res="1.2811092659831047e-02" rms="4.1781419515609741e-01" purity="4.1714200377464294e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.0804048739373684e-02" rms="4.3207490444183350e-01" purity="6.0310781002044678e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-3.3031506463885307e-03" rms="4.0522584319114685e-01" purity="2.7863156795501709e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="4" Cut="9.4535779953002930e-01" cType="1" res="-3.0561987310647964e-02" rms="4.0976044535636902e-01" purity="5.9845542907714844e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-4.3971934355795383e-03" rms="4.0553754568099976e-01" purity="6.1130869388580322e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-3.3008512109518051e-02" rms="4.2301511764526367e-01" purity="5.2931785583496094e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="91">
+      <Node pos="s" depth="0" NCoef="0" IVar="3" Cut="4.2583978176116943e-01" cType="1" res="6.2291743233799934e-03" rms="4.2310664057731628e-01" purity="5.0448119640350342e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="4" Cut="3.7357994914054871e-01" cType="1" res="1.2292373925447464e-02" rms="4.2478549480438232e-01" purity="5.2633947134017944e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.1624762788414955e-02" rms="4.1665527224540710e-01" purity="4.0262758731842041e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.1155540414620191e-04" rms="4.2792052030563354e-01" purity="5.8389616012573242e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="4" Cut="6.3069272041320801e-01" cType="1" res="-7.8513197600841522e-02" rms="3.8913831114768982e-01" purity="1.9897969067096710e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-3.9436868391931057e-03" rms="3.9817246794700623e-01" purity="2.3553210496902466e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-4.4202126562595367e-02" rms="3.6045256257057190e-01" purity="1.5235961973667145e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="92">
+      <Node pos="s" depth="0" NCoef="0" IVar="5" Cut="8.2216043472290039e+00" cType="1" res="1.3243964873254299e-02" rms="4.0994468331336975e-01" purity="5.1150685548782349e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="5" Cut="7.3071804046630859e+00" cType="1" res="2.8496272861957550e-02" rms="4.1869938373565674e-01" purity="6.6168946027755737e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="5.3878538310527802e-03" rms="4.1888990998268127e-01" purity="6.5998446941375732e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="3.2945353537797928e-02" rms="4.0240004658699036e-01" purity="6.8340319395065308e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="4" Cut="3.5353311896324158e-01" cType="1" res="-4.0360940620303154e-03" rms="3.9909082651138306e-01" purity="3.4135776758193970e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="8.3603262901306152e-03" rms="3.9745503664016724e-01" purity="3.4887227416038513e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.6395533457398415e-02" rms="3.9552575349807739e-01" purity="3.2787403464317322e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="93">
+      <Node pos="s" depth="0" NCoef="0" IVar="0" Cut="1.1622783203125000e+03" cType="1" res="4.5350161381065845e-03" rms="4.0975487232208252e-01" purity="5.0018256902694702e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="0" Cut="1.1113369140625000e+03" cType="1" res="-1.7824383452534676e-02" rms="4.0995800495147705e-01" purity="3.7000209093093872e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-2.2905564401298761e-03" rms="4.0972647070884705e-01" purity="3.7397748231887817e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-3.2331429421901703e-02" rms="3.9744764566421509e-01" purity="3.2557925581932068e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="1" Cut="5.5530519485473633e+00" cType="1" res="2.4575095623731613e-02" rms="4.0853407979011536e-01" purity="6.1685949563980103e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.1505441740155220e-02" rms="4.1405186057090759e-01" purity="5.8494764566421509e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-6.0701430775225163e-03" rms="3.9184579253196716e-01" purity="6.9078546762466431e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="94">
+      <Node pos="s" depth="0" NCoef="0" IVar="1" Cut="6.4925875663757324e+00" cType="1" res="-1.0275684297084808e-02" rms="4.0532889962196350e-01" purity="4.8953917622566223e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="3" Cut="4.9375899136066437e-02" cType="1" res="-1.5159976668655872e-02" rms="4.0870741009712219e-01" purity="4.7156175971031189e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.1086549609899521e-02" rms="3.8299864530563354e-01" purity="6.0848045349121094e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-7.0387939922511578e-03" rms="4.1260433197021484e-01" purity="4.4542121887207031e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="3.0361564829945564e-02" rms="3.0989706516265869e-01" purity="8.6458325386047363e-01" nType="-99"/>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="95">
+      <Node pos="s" depth="0" NCoef="0" IVar="3" Cut="1.1729637533426285e-01" cType="1" res="-7.5946059077978134e-03" rms="4.1990074515342712e-01" purity="4.9455261230468750e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="3" Cut="3.3322904258966446e-02" cType="1" res="1.5411453321576118e-02" rms="4.1301682591438293e-01" purity="6.1391425132751465e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.1480109766125679e-02" rms="4.2438194155693054e-01" purity="5.4401671886444092e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.1426205746829510e-02" rms="4.0517547726631165e-01" purity="6.4541816711425781e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="0" Cut="1.1765334472656250e+03" cType="1" res="-2.1432371810078621e-02" rms="4.2338582873344421e-01" purity="4.2275851964950562e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="7.5880112126469612e-04" rms="4.1860684752464294e-01" purity="3.3518084883689880e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.2147250585258007e-02" rms="4.2679616808891296e-01" purity="5.1184380054473877e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="96">
+      <Node pos="s" depth="0" NCoef="0" IVar="3" Cut="2.9625028371810913e-01" cType="1" res="1.5530752716585994e-03" rms="4.1297319531440735e-01" purity="5.0572371482849121e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="3" Cut="2.4868319928646088e-01" cType="1" res="1.4528057537972927e-02" rms="4.1325458884239197e-01" purity="5.6946480274200439e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.3726039323955774e-03" rms="4.1299799084663391e-01" purity="5.7141655683517456e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="2.4997375905513763e-02" rms="4.0738475322723389e-01" purity="5.5401337146759033e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="0" Cut="1.7365629882812500e+03" cType="1" res="-4.3873168528079987e-02" rms="4.0875419974327087e-01" purity="2.8256219625473022e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-6.0420213267207146e-03" rms="3.9401698112487793e-01" purity="2.6549893617630005e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-4.2077362537384033e-02" rms="4.6406278014183044e-01" purity="3.8119462132453918e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="97">
+      <Node pos="s" depth="0" NCoef="0" IVar="2" Cut="7.4004987254738808e-03" cType="1" res="-1.1251803487539291e-02" rms="4.1824692487716675e-01" purity="4.8618927597999573e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="4" Cut="7.7428543567657471e-01" cType="1" res="-7.0732392370700836e-02" rms="4.3373966217041016e-01" purity="5.8012163639068604e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-3.1041812151670456e-02" rms="4.4727405905723572e-01" purity="5.0360131263732910e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.2161714956164360e-02" rms="3.7426427006721497e-01" purity="7.7634960412979126e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="0" Cut="1.4367149658203125e+03" cType="1" res="-9.3856989406049252e-04" rms="4.1463482379913330e-01" purity="4.6990251541137695e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-3.5716639831662178e-03" rms="4.1295105218887329e-01" purity="3.7956354022026062e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="5.9039494954049587e-03" rms="4.1683784127235413e-01" purity="6.3849467039108276e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="98">
+      <Node pos="s" depth="0" NCoef="0" IVar="2" Cut="6.2659509479999542e-02" cType="1" res="-1.5092645771801472e-02" rms="4.1932290792465210e-01" purity="4.7798874974250793e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="1" Cut="5.6338777542114258e+00" cType="1" res="-2.5662338361144066e-02" rms="4.2200693488121033e-01" purity="5.1109439134597778e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-8.9103858917951584e-03" rms="4.3046095967292786e-01" purity="4.6656629443168640e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="7.1120597422122955e-03" rms="3.6573013663291931e-01" purity="7.6847362518310547e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="1" Cut="4.8372454643249512e+00" cType="1" res="2.7513047680258751e-02" rms="4.0554124116897583e-01" purity="3.4454226493835449e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="2.1606205031275749e-02" rms="3.9779686927795410e-01" purity="3.4144803881645203e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.7720131203532219e-02" rms="4.0706905722618103e-01" purity="3.5162773728370667e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="99">
+      <Node pos="s" depth="0" NCoef="0" IVar="4" Cut="1.2024657726287842e+00" cType="1" res="-5.3620021790266037e-03" rms="4.2155021429061890e-01" purity="4.9646747112274170e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="4" Cut="7.0041155815124512e-01" cType="1" res="-1.1706180870532990e-02" rms="4.1840314865112305e-01" purity="4.9911740422248840e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.3681694399565458e-03" rms="4.0941271185874939e-01" purity="4.5463061332702637e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.0245979763567448e-02" rms="4.3129792809486389e-01" purity="5.7167291641235352e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="6.0360874980688095e-02" rms="4.6793660521507263e-01" purity="4.2281094193458557e-01" nType="-99"/>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="100">
+      <Node pos="s" depth="0" NCoef="0" IVar="2" Cut="2.7751870453357697e-02" cType="1" res="1.0011999867856503e-02" rms="4.2071509361267090e-01" purity="5.0197452306747437e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="4" Cut="3.9940465241670609e-02" cType="1" res="2.9269656166434288e-02" rms="4.2291435599327087e-01" purity="6.2642294168472290e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="5.5684227496385574e-02" rms="4.6278691291809082e-01" purity="4.9096775054931641e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="4.3369615450501442e-03" rms="4.1661608219146729e-01" purity="6.3800495862960815e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="1" Cut="5.4138264656066895e+00" cType="1" res="-1.1780061759054661e-02" rms="4.1714158654212952e-01" purity="3.6114799976348877e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-2.6607851032167673e-04" rms="4.1064614057540894e-01" purity="3.3949118852615356e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.7403598874807358e-02" rms="4.4633090496063232e-01" purity="4.7933098673820496e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="101">
+      <Node pos="s" depth="0" NCoef="0" IVar="4" Cut="6.8918794393539429e-01" cType="1" res="6.8210312165319920e-03" rms="4.1743385791778564e-01" purity="4.9946418404579163e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="4" Cut="5.5751448869705200e-01" cType="1" res="3.0041454359889030e-02" rms="4.1029036045074463e-01" purity="4.7057107090950012e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="3.0077437404543161e-03" rms="4.0981364250183105e-01" purity="4.1758403182029724e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="2.9030049219727516e-02" rms="4.0206551551818848e-01" purity="6.9220197200775146e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="3" Cut="2.7767899632453918e-01" cType="1" res="-2.6133010163903236e-02" rms="4.2519551515579224e-01" purity="5.4046875238418579e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.3973847962915897e-03" rms="4.2642757296562195e-01" purity="6.2250173091888428e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-2.3426759988069534e-02" rms="4.1503664851188660e-01" purity="2.9178211092948914e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="102">
+      <Node pos="s" depth="0" NCoef="0" IVar="3" Cut="3.0877750366926193e-02" cType="1" res="1.3544756919145584e-02" rms="4.1435652971267700e-01" purity="5.0942522287368774e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="3" Cut="1.1053383350372314e-02" cType="1" res="-5.2049826830625534e-02" rms="4.3771916627883911e-01" purity="5.2589023113250732e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="6.7708329297602177e-03" rms="4.2857933044433594e-01" purity="5.9188556671142578e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-2.5623939931392670e-02" rms="4.3708345293998718e-01" purity="4.8942321538925171e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="5" Cut="1.3079121112823486e+00" cType="1" res="2.1049581468105316e-02" rms="4.1093206405639648e-01" purity="5.0754147768020630e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="2.4371702224016190e-02" rms="3.4936380386352539e-01" purity="7.8907251358032227e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="4.2764493264257908e-03" rms="4.1515415906906128e-01" purity="4.8427477478981018e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="103">
+      <Node pos="s" depth="0" NCoef="0" IVar="4" Cut="1.0049278736114502e+00" cType="1" res="-1.0316448751837015e-03" rms="4.1480660438537598e-01" purity="4.9853330850601196e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="0" Cut="1.9272231445312500e+03" cType="1" res="-9.0908715501427650e-03" rms="4.1483160853385925e-01" purity="4.9797177314758301e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-4.6818158589303493e-03" rms="4.2361137270927429e-01" purity="4.4132804870605469e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="8.3415042608976364e-03" rms="3.7260076403617859e-01" purity="7.4133032560348511e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="2" Cut="4.4694367796182632e-02" cType="1" res="6.0744624584913254e-02" rms="4.0937933325767517e-01" purity="5.0283783674240112e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="3.4200314432382584e-02" rms="3.7447327375411987e-01" purity="7.5040918588638306e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-4.3049883097410202e-03" rms="4.3145215511322021e-01" purity="2.3764331638813019e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="104">
+      <Node pos="s" depth="0" NCoef="0" IVar="5" Cut="3.1659946441650391e+00" cType="1" res="2.3450294975191355e-03" rms="4.1382750868797302e-01" purity="5.0463038682937622e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="0" Cut="1.9869793701171875e+03" cType="1" res="4.2678609490394592e-02" rms="3.9775922894477844e-01" purity="7.1386623382568359e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="5.9435460716485977e-03" rms="4.2479354143142700e-01" purity="6.5366524457931519e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="3.6184966564178467e-02" rms="2.8791257739067078e-01" purity="9.0457493066787720e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="4" Cut="7.6803821325302124e-01" cType="1" res="-8.6425226181745529e-03" rms="4.1742286086082458e-01" purity="4.4763100147247314e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.3022855855524540e-03" rms="4.2046824097633362e-01" purity="4.6031728386878967e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.6921807080507278e-02" rms="4.0053266286849976e-01" purity="3.9677846431732178e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="105">
+      <Node pos="s" depth="0" NCoef="0" IVar="5" Cut="1.2705197334289551e+01" cType="1" res="-5.3390329703688622e-03" rms="4.0521964430809021e-01" purity="4.8872342705726624e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="4" Cut="9.4608527421951294e-01" cType="1" res="8.3739534020423889e-03" rms="4.2202261090278625e-01" purity="6.0323226451873779e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="6.2385294586420059e-03" rms="4.2196977138519287e-01" purity="6.3924360275268555e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.4527816325426102e-02" rms="4.1666886210441589e-01" purity="4.6447268128395081e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="2" Cut="1.2922161258757114e-02" cType="1" res="-3.8033410906791687e-02" rms="3.5992386937141418e-01" purity="2.1571250259876251e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.1043280363082886e-02" rms="4.3917486071586609e-01" purity="4.5159634947776794e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-2.1419068798422813e-02" rms="3.2937896251678467e-01" purity="1.4679288864135742e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="106">
+      <Node pos="s" depth="0" NCoef="0" IVar="5" Cut="7.9083967208862305e+00" cType="1" res="-5.5634453892707825e-03" rms="4.0568086504936218e-01" purity="4.9181699752807617e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="2" Cut="1.8457772210240364e-02" cType="1" res="1.3692701235413551e-02" rms="4.1542002558708191e-01" purity="6.5108919143676758e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-4.7474512830376625e-03" rms="3.9107128977775574e-01" purity="7.2399520874023438e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="9.7641097381711006e-03" rms="4.3449077010154724e-01" purity="5.8544784784317017e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="4" Cut="5.3105950355529785e-01" cType="1" res="-2.6775464415550232e-02" rms="3.9358541369438171e-01" purity="3.1636735796928406e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-3.8637383840978146e-03" rms="3.9549490809440613e-01" purity="3.2876345515251160e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-2.3693084716796875e-02" rms="3.8049533963203430e-01" purity="2.6483243703842163e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="107">
+      <Node pos="s" depth="0" NCoef="0" IVar="2" Cut="7.9491823911666870e-02" cType="1" res="-3.4650659654289484e-03" rms="4.1619449853897095e-01" purity="4.9070385098457336e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="2" Cut="6.3739009201526642e-02" cType="1" res="2.5821323506534100e-03" rms="4.2054083943367004e-01" purity="5.2558690309524536e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.0217347880825400e-03" rms="4.2010667920112610e-01" purity="5.3283131122589111e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="2.8005272150039673e-02" rms="4.1567617654800415e-01" purity="4.1817355155944824e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="1" Cut="4.8658795356750488e+00" cType="1" res="-4.0727756917476654e-02" rms="3.8625705242156982e-01" purity="2.7575516700744629e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.5919394791126251e-03" rms="3.9147904515266418e-01" purity="2.6470768451690674e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-3.0123338103294373e-02" rms="3.6430352926254272e-01" purity="2.9859775304794312e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="108">
+      <Node pos="s" depth="0" NCoef="0" IVar="1" Cut="5.3384480476379395e+00" cType="1" res="6.6296104341745377e-03" rms="4.1924032568931580e-01" purity="5.0757104158401489e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="1" Cut="2.5772213935852051e+00" cType="1" res="1.8467351794242859e-02" rms="4.2418116331100464e-01" purity="4.6644818782806396e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.5410306863486767e-02" rms="4.1880601644515991e-01" purity="2.5425294041633606e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="6.2866834923624992e-03" rms="4.2406538128852844e-01" purity="4.8076090216636658e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="0" Cut="1.8089595947265625e+03" cType="1" res="-3.5948999226093292e-02" rms="3.9806616306304932e-01" purity="6.5548378229141235e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-3.3124882727861404e-02" rms="4.4085407257080078e-01" purity="5.1428169012069702e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.8824046710506082e-03" rms="3.6873048543930054e-01" purity="7.2246843576431274e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="109">
+      <Node pos="s" depth="0" NCoef="0" IVar="3" Cut="1.8514935672283173e-01" cType="1" res="-2.6497081853449345e-04" rms="4.2269241809844971e-01" purity="5.0242900848388672e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="3" Cut="7.7714167535305023e-02" cType="1" res="-2.1121982485055923e-02" rms="4.1856470704078674e-01" purity="5.6462705135345459e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="2.4643470533192158e-03" rms="4.0499627590179443e-01" purity="6.0611748695373535e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.2664477340877056e-02" rms="4.2772358655929565e-01" purity="5.3091728687286377e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="3" Cut="2.9398274421691895e-01" cType="1" res="2.4414272978901863e-02" rms="4.2620873451232910e-01" purity="4.2883270978927612e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.5491108410060406e-02" rms="4.3611669540405273e-01" purity="5.5446392297744751e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-2.0748712122440338e-03" rms="4.1413193941116333e-01" purity="3.1025946140289307e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="110">
+      <Node pos="s" depth="0" NCoef="0" IVar="3" Cut="1.7282153666019440e-01" cType="1" res="-2.2781870793551207e-03" rms="4.1791588068008423e-01" purity="5.0380998849868774e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="3" Cut="8.9599281549453735e-02" cType="1" res="-1.8572961911559105e-02" rms="4.2147764563560486e-01" purity="5.7118374109268188e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="2.6526036672294140e-03" rms="4.1637367010116577e-01" purity="6.1134654283523560e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.4441049657762051e-02" rms="4.2513102293014526e-01" purity="5.2242696285247803e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="3" Cut="4.3936353921890259e-01" cType="1" res="1.6967892646789551e-02" rms="4.1284194588661194e-01" purity="4.2423352599143982e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="7.1987360715866089e-03" rms="4.1788026690483093e-01" purity="4.5346111059188843e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-2.1823551505804062e-02" rms="3.5459733009338379e-01" purity="1.6821387410163879e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="111">
+      <Node pos="s" depth="0" NCoef="0" IVar="1" Cut="2.4735975265502930e+00" cType="1" res="8.5296677425503731e-03" rms="4.1102221608161926e-01" purity="5.1612251996994019e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-2.7069408446550369e-02" rms="3.8546690344810486e-01" purity="2.0372402667999268e-01" nType="-99"/>
+        <Node pos="r" depth="1" NCoef="0" IVar="5" Cut="2.8251028060913086e+00" cType="1" res="1.2510633096098900e-02" rms="4.1143077611923218e-01" purity="5.2794843912124634e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.5997061505913734e-02" rms="3.9323127269744873e-01" purity="7.5944077968597412e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="4.7922707744874060e-04" rms="4.1503360867500305e-01" purity="4.7153845429420471e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="112">
+      <Node pos="s" depth="0" NCoef="0" IVar="5" Cut="4.7970857620239258e+00" cType="1" res="3.0801827087998390e-03" rms="4.0614926815032959e-01" purity="5.0260150432586670e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="2" Cut="7.9434908926486969e-02" cType="1" res="3.5838186740875244e-02" rms="4.0065363049507141e-01" purity="7.0459854602813721e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="6.7132404074072838e-03" rms="3.9616152644157410e-01" purity="7.1182996034622192e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="2.9667010530829430e-02" rms="4.2297092080116272e-01" purity="6.4814341068267822e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="4" Cut="-2.0833613816648722e-03" cType="1" res="-1.4002386480569839e-02" rms="4.0794360637664795e-01" purity="3.9726451039314270e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-3.1800594180822372e-02" rms="2.4663023650646210e-01" purity="9.3806460499763489e-02" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.7129558837041259e-03" rms="4.2343845963478088e-01" purity="4.3574017286300659e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="113">
+      <Node pos="s" depth="0" NCoef="0" IVar="3" Cut="3.7040047347545624e-02" cType="1" res="-9.7358524799346924e-03" rms="4.0605267882347107e-01" purity="4.8414972424507141e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="1" Cut="5.1281404495239258e+00" cType="1" res="-8.3084553480148315e-02" rms="4.1525912284851074e-01" purity="5.1133280992507935e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-3.1778950244188309e-02" rms="4.3083390593528748e-01" purity="4.1918858885765076e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="2.3576810490339994e-03" rms="3.6208933591842651e-01" purity="7.1716302633285522e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="5" Cut="1.3707244396209717e+00" cType="1" res="1.1223088222322986e-04" rms="4.0378737449645996e-01" purity="4.8049998283386230e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="2.7631541714072227e-02" rms="3.1317681074142456e-01" purity="8.0978810787200928e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-2.1612532436847687e-03" rms="4.0934070944786072e-01" purity="4.5353201031684875e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="114">
+      <Node pos="s" depth="0" NCoef="0" IVar="3" Cut="1.6664800047874451e-01" cType="1" res="8.6431428790092468e-03" rms="4.0981489419937134e-01" purity="5.1136583089828491e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="4" Cut="4.5222765207290649e-01" cType="1" res="3.6010716110467911e-02" rms="3.9900580048561096e-01" purity="6.1964923143386841e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.9794570282101631e-02" rms="3.9743795990943909e-01" purity="5.1911199092864990e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="4.6905260533094406e-03" rms="3.9864414930343628e-01" purity="6.7807954549789429e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="4" Cut="7.6909296214580536e-02" cType="1" res="-1.9281249493360519e-02" rms="4.1871798038482666e-01" purity="4.0087926387786865e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="2.1330554038286209e-02" rms="3.6958333849906921e-01" purity="2.5248140096664429e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-8.1704882904887199e-03" rms="4.2524009943008423e-01" purity="4.2593455314636230e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="115">
+      <Node pos="s" depth="0" NCoef="0" IVar="4" Cut="1.1235244274139404e+00" cType="1" res="-2.8140421491116285e-03" rms="4.1118749976158142e-01" purity="5.0454187393188477e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="3" Cut="1.2359997257590294e-02" cType="1" res="-7.3402333073318005e-03" rms="4.1053447127342224e-01" purity="5.1205980777740479e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-3.2870233058929443e-02" rms="4.2724427580833435e-01" purity="4.6682229638099670e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-7.6029618503525853e-04" rms="4.0917655825614929e-01" purity="5.1388376951217651e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="2.5947853922843933e-02" rms="4.1450005769729614e-01" purity="3.7213814258575439e-01" nType="-99"/>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="116">
+      <Node pos="s" depth="0" NCoef="0" IVar="1" Cut="4.4068398475646973e+00" cType="1" res="-1.3116038404405117e-02" rms="4.1172796487808228e-01" purity="4.9176141619682312e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="3" Cut="1.6055864095687866e-01" cType="1" res="6.4223133958876133e-03" rms="4.1867455840110779e-01" purity="4.1015899181365967e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="9.3057882040739059e-03" rms="4.0478193759918213e-01" purity="5.2764606475830078e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-4.4442689977586269e-03" rms="4.2781558632850647e-01" purity="3.1906881928443909e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="1" Cut="4.6089329719543457e+00" cType="1" res="-3.1041689217090607e-02" rms="4.0442055463790894e-01" purity="5.6662839651107788e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-2.7588220313191414e-02" rms="4.2313724756240845e-01" purity="3.7393659353256226e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-5.2943960763514042e-03" rms="3.9960449934005737e-01" purity="6.0162240266799927e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="117">
+      <Node pos="s" depth="0" NCoef="0" IVar="4" Cut="-6.1006605625152588e-02" cType="1" res="-2.2216775687411427e-04" rms="4.0901750326156616e-01" purity="4.9805274605751038e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="3.4501295536756516e-02" rms="3.5540649294853210e-01" purity="2.8513756394386292e-01" nType="-99"/>
+        <Node pos="r" depth="1" NCoef="0" IVar="3" Cut="1.1106683313846588e-01" cType="1" res="-4.2620114982128143e-03" rms="4.1135430335998535e-01" purity="5.0965362787246704e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="5.4425080306828022e-03" rms="4.0190345048904419e-01" purity="6.3763743638992310e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-4.7961398959159851e-03" rms="4.1598147153854370e-01" purity="4.3771722912788391e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="118">
+      <Node pos="s" depth="0" NCoef="0" IVar="4" Cut="1.1037597656250000e+00" cType="1" res="-1.8941020825877786e-03" rms="4.1116166114807129e-01" purity="5.0303477048873901e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="0" Cut="2.3130361328125000e+03" cType="1" res="-9.1062560677528381e-03" rms="4.0889048576354980e-01" purity="5.0639593601226807e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-4.9507799558341503e-03" rms="4.1739499568939209e-01" purity="4.6521216630935669e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.6508864238858223e-02" rms="3.4017530083656311e-01" purity="7.8264313936233521e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="0" Cut="1.1765429687500000e+03" cType="1" res="1.0136859863996506e-01" rms="4.2931672930717468e-01" purity="4.5490938425064087e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="6.0940857976675034e-02" rms="4.5706954598426819e-01" purity="4.4278565049171448e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="3.0548705253750086e-03" rms="3.7705379724502563e-01" purity="4.6778044104576111e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="119">
+      <Node pos="s" depth="0" NCoef="0" IVar="4" Cut="9.8522633314132690e-01" cType="1" res="3.4577478654682636e-03" rms="4.1134360432624817e-01" purity="5.0327080488204956e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="1" Cut="4.8881983757019043e+00" cType="1" res="1.3466443866491318e-02" rms="4.1168725490570068e-01" purity="5.1989704370498657e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-4.5880596735514700e-04" rms="4.2567092180252075e-01" purity="4.3129247426986694e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.3067528605461121e-02" rms="3.7929284572601318e-01" purity="7.0282256603240967e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="4" Cut="1.0774140357971191e+00" cType="1" res="-6.8159431219100952e-02" rms="4.0166398882865906e-01" purity="3.8430181145668030e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-2.9638955369591713e-02" rms="4.4031739234924316e-01" purity="5.0708198547363281e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.0652672499418259e-02" rms="3.6910524964332581e-01" purity="2.9911875724792480e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="120">
+      <Node pos="s" depth="0" NCoef="0" IVar="1" Cut="5.4720263481140137e+00" cType="1" res="1.7836404964327812e-02" rms="4.1685163974761963e-01" purity="5.1751631498336792e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="1" Cut="3.5859956741333008e+00" cType="1" res="3.2216504216194153e-02" rms="4.1698443889617920e-01" purity="4.9114990234375000e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.8930323421955109e-02" rms="4.2645642161369324e-01" purity="4.2565053701400757e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="5.0023174844682217e-03" rms="4.1265377402305603e-01" purity="5.1503258943557739e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="2" Cut="2.5807581841945648e-02" cType="1" res="-4.9771822988986969e-02" rms="4.0951383113861084e-01" purity="6.4147835969924927e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-9.2638592468574643e-04" rms="3.8014805316925049e-01" purity="7.7726805210113525e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-2.7898883447051048e-02" rms="4.3711668252944946e-01" purity="4.6622085571289062e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="121">
+      <Node pos="s" depth="0" NCoef="0" IVar="1" Cut="5.9564352035522461e+00" cType="1" res="8.0785891041159630e-03" rms="4.1880553960800171e-01" purity="5.1306533813476562e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="4" Cut="1.1234315633773804e+00" cType="1" res="1.7647570930421352e-03" rms="4.2462089657783508e-01" purity="4.8335137963294983e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.0450350819155574e-03" rms="4.2678123712539673e-01" purity="4.8769077658653259e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="2.6032956317067146e-02" rms="3.8014879822731018e-01" purity="4.1734433174133301e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="3" Cut="8.6979337036609650e-02" cType="1" res="6.8621218204498291e-02" rms="3.5258844494819641e-01" purity="7.9798954725265503e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.7825317627284676e-04" rms="3.6884194612503052e-01" purity="7.5703227519989014e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="3.6313023418188095e-02" rms="3.3365520834922791e-01" purity="8.2533431053161621e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="122">
+      <Node pos="s" depth="0" NCoef="0" IVar="2" Cut="1.2196423858404160e-01" cType="1" res="2.6150252670049667e-03" rms="4.0918582677841187e-01" purity="4.9624395370483398e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="5" Cut="2.7175607681274414e+01" cType="1" res="6.3301869668066502e-03" rms="4.0894213318824768e-01" purity="5.0723505020141602e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="2.9068356379866600e-03" rms="4.1670328378677368e-01" purity="5.3968566656112671e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-1.8606686964631081e-02" rms="2.9600647091865540e-01" purity="1.1895649880170822e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-2.6847369968891144e-02" rms="4.0412318706512451e-01" purity="2.1864992380142212e-01" nType="-99"/>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="123">
+      <Node pos="s" depth="0" NCoef="0" IVar="4" Cut="2.1517264842987061e-01" cType="1" res="-8.5400082170963287e-03" rms="4.2069682478904724e-01" purity="4.9456256628036499e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="3" Cut="1.9136221706867218e-01" cType="1" res="3.5610906779766083e-02" rms="4.0633949637413025e-01" purity="3.4100392460823059e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-3.0032990034669638e-03" rms="3.8261884450912476e-01" purity="3.4905549883842468e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="3.3319775015115738e-02" rms="4.2735347151756287e-01" purity="3.3094674348831177e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="5" Cut="1.7272104263305664e+01" cType="1" res="-2.1683407947421074e-02" rms="4.2399007081985474e-01" purity="5.4027587175369263e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-3.9315377362072468e-03" rms="4.2957127094268799e-01" purity="5.7153093814849854e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-3.7189982831478119e-02" rms="3.2331475615501404e-01" purity="1.0821864008903503e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+    <BinaryTree type="DecisionTree" boostWeight="1.0000000000000000e+00" itree="124">
+      <Node pos="s" depth="0" NCoef="0" IVar="3" Cut="1.7283935844898224e-01" cType="1" res="-2.5967290275730193e-04" rms="4.1953209042549133e-01" purity="5.0526285171508789e-01" nType="0">
+        <Node pos="l" depth="1" NCoef="0" IVar="0" Cut="2.3167900390625000e+03" cType="1" res="-1.6506038606166840e-02" rms="4.1849336028099060e-01" purity="5.7353335618972778e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="-7.4776965193450451e-03" rms="4.3375438451766968e-01" purity="5.2502876520156860e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.5895426273345947e-02" rms="3.1725460290908813e-01" purity="8.3487153053283691e-01" nType="-99"/>
+        </Node>
+        <Node pos="r" depth="1" NCoef="0" IVar="1" Cut="3.5106635093688965e+00" cType="1" res="1.7781617119908333e-02" rms="4.1994673013687134e-01" purity="4.2944955825805664e-01" nType="0">
+          <Node pos="l" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="2.2372759878635406e-02" rms="4.3868628144264221e-01" purity="3.9716488122940063e-01" nType="-99"/>
+          <Node pos="r" depth="2" NCoef="0" IVar="-1" Cut="0.0000000000000000e+00" cType="1" res="1.1373658344382420e-04" rms="4.1267338395118713e-01" purity="4.3893676996231079e-01" nType="-99"/>
+        </Node>
+      </Node>
+    </BinaryTree>
+  </Weights>
+</MethodSetup>

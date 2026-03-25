@@ -37,7 +37,7 @@ class CLoop {
   std::vector<std::string> notFull{"basic","all"};
   std::vector<std::string> m_cutNames;
   #include "../Analysis.h"
-  VBFBDT m_vbfBDT = VBFBDT("/Users/user/Documents/HEP/MVA-Analysis/dataset/weights/10Folds_BDT-0.3.weights.xml");
+  VBFBDT m_vbfBDT = VBFBDT(BDT_WEIGHTS_PATH);
 
 public :
    TTree          *fChain;   //!pointer to the analyzed TTree or TChain

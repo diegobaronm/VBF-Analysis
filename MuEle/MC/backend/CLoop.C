@@ -40,8 +40,7 @@ void CLoop::Loop(double lumFactor, int z_sample, const std::string& key, int log
 
     // Setup running mode
     if (mode == "n" || mode == "hn") {
-        g_LOG(LogLevel::INFO, "This channel does not support NTuple mode. Switching to histogram mode.");
-        mode = "h";
+        g_LOG(LogLevel::INFO, "This channel does not support NTuple mode. Running histogram mode.");
     }
 
     if (fChain == 0) return;

@@ -92,3 +92,7 @@ log/*
 *Missing_files.txt
 CondorSubmit/Condor*.sub
 CondorSubmit/run_*.sh
+
+# Tests: do NOT ignore the test input ROOT files under test/test_data, but ignore all other output files
+!test/test_data/*/*/*.root
+!test/references/*/*/*/*.root
