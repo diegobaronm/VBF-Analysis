@@ -50,7 +50,10 @@ class Logger:
     @staticmethod
     def enableFileLogging(filepath):
         """Enable logging to a file in addition to stdout."""
-        Logger.LOG_FILE = open(filepath, "a")
+        try:
+            Logger.LOG_FILE = open(filepath, "a")
+        except (OSError, IOError) as e:
+            print("ERROR: Failed to open log file '%s': %s" % (filepath, e))
 
     @staticmethod
     def disableFileLogging():

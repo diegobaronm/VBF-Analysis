@@ -20,8 +20,7 @@ def _env_paths():
 def get_samples_and_dirs(paths_dict):
   pathsToSamplesList = paths_dict.get(username, [])
   if not pathsToSamplesList:
-    ERROR.log("No dataset paths configured for user '%s'." % username)
-    ERROR.log("Set VBF_DATASETS_DIR or add your paths to DatasetsPaths.py.")
+    ERROR.log("No dataset paths configured for user '%s'. Set VBF_DATASETS_DIR or add your paths to DatasetsPaths.py." % username)
     exit(1)
   samples = []
   dirs = []
