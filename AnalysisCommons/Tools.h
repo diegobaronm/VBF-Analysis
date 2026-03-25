@@ -92,6 +92,9 @@ const int run2018Begin = 341649;
 const int run2018End   = 364292;
 
 
+// Path to the BDT weights file (relative to <channel>/MC/ where CLoop is compiled)
+const std::string BDT_WEIGHTS_PATH = "../../AnalysisCommons/BDTWeights/weights_BDT-0.3/10Folds_BDT-0.3.weights.xml";
+
 // Class to manage the BDT
 class VBFBDT {
   public:
