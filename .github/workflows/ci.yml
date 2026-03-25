@@ -28,15 +28,15 @@ jobs:
   run-channel:
     runs-on: ubuntu-latest
     container:
-      image: rootproject/root:6.30.06-ubuntu22.04
+      image: rootproject/root:6.38.00-ubuntu25.10
     strategy:
       fail-fast: false
       matrix:
         channel: [EleTau, TauMu, MuEle, MuMu, Zee]
         region:  [ZpeakOS, HighMassOS]
     steps:
-      - name: Install git
-        run: apt-get update && apt-get install -y --no-install-recommends git git-lfs
+      - name: Install system dependencies
+        run: apt-get update && apt-get install -y --no-install-recommends git git-lfs python3-pip
 
       - uses: actions/checkout@v4
         with:
@@ -44,7 +44,7 @@ jobs:
 
       - name: Install Python dependencies
         run: |
-          python3 -m pip install --no-cache-dir -r requirements.txt
+          pip install --no-cache-dir --break-system-packages -r requirements.txt
 
       - name: Verify test data exists
         run: |
@@ -75,15 +75,15 @@ jobs:
     needs: run-channel
     runs-on: ubuntu-latest
     container:
-      image: rootproject/root:6.30.06-ubuntu22.04
+      image: rootproject/root:6.38.00-ubuntu25.10
     strategy:
       fail-fast: false
       matrix:
         channel: [EleTau, TauMu, MuEle, MuMu, Zee]
         region:  [ZpeakOS, HighMassOS]
     steps:
-      - name: Install git
-        run: apt-get update && apt-get install -y --no-install-recommends git
+      - name: Install system dependencies
+        run: apt-get update && apt-get install -y --no-install-recommends git python3-pip
 
       - uses: actions/checkout@v4
 
