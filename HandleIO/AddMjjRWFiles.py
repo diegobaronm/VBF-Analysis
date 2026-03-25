@@ -4,7 +4,7 @@ from argparse import ArgumentParser
 from AnalysisCommons.Logger import INFO, WARNING, ERROR, DEBUG, Logger
 Logger.LOGLEVEL = 3
 
-BASE_PATH = os.environ.get('VBF_MJJ_RW_BASE_PATH', '/data/dbaronmo/Chicago_VBF_Outputs/')
+BASE_PATH = '/data/dbaronmo/Chicago_VBF_Outputs/'
 DICT_PATH_SUFFIX = {
     BASE_PATH + '/Zee/CRa_ParabolicCutoffClosure/NOMINAL/': 'RWParabolicCutoffClosure',
     BASE_PATH + '/Zee/CRb_ParabolicCutoffClosure/NOMINAL/': 'RWParabolicCutoffClosure',

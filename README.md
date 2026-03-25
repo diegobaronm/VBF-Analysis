@@ -17,8 +17,8 @@ VBF-Analysis/
 │   ├── Systematics.py           # 160+ systematic variation definitions
 │   └── Metadata/                # Dataset and channel configuration
 │       ├── ChannelConfig.py     # Channel registry (maps name → metadata)
-│       ├── DatasetsPaths.py     # Input ntuple paths (user or env-var based)
-│       ├── OutputPaths.py       # Output paths for HTCondor (user or env-var based)
+│       ├── DatasetsPaths.py     # Input ntuple paths (per-user)
+│       ├── OutputPaths.py       # Output paths for HTCondor (per-user)
 │       ├── infofile*.py         # MC cross-section / efficiency metadata
 │       └── datasets*.py         # Dataset combination definitions
 │
@@ -128,17 +128,12 @@ sys.path.append(os.path.dirname(os.getcwd()))
 
 ## Configuration for new users
 
-Several scripts need to know where input ntuples and outputs live. Instead of editing source files, set environment variables:
+Several scripts need to know where input ntuples and outputs live. To configure paths for your user, add your `$USER` as a key to the path dictionaries in:
 
-| Variable | Purpose | Example |
-|---|---|---|
-| `VBF_DATASETS_DIR` | Comma-separated list of directories containing input ntuples | `/data/me/v26/,/eos/me/v26/` |
-| `VBF_OUTPUT_DIR` | Base directory for HTCondor outputs (channel suffix appended automatically) | `/data/me/Outputs/` |
-| `VBF_MJJ_RW_BASE_PATH` | Base path for Mjj reweighted files used by `AddMjjRWFiles.py` | `/data/me/Chicago_VBF_Outputs/` |
-| `VBF_TREX_REMOTE_PATH` | Remote directory for TRExFitter inputs (`CreateTRExFitterInputs.py`) | `/afs/cern.ch/work/m/me/Fitter/` |
-| `VBF_TREX_REMOTE_HOST` | Remote host for scp (`CreateTRExFitterInputs.py`) | `me@lxplus.cern.ch` |
-
-Alternatively, you can add your `$USER` to the path dictionaries in `DatasetsPaths.py` and `OutputPaths.py`.
+- `AnalysisCommons/Metadata/DatasetsPaths.py` — directories containing input ntuples
+- `AnalysisCommons/Metadata/OutputPaths.py` — output directories for HTCondor jobs
+- `HandleIO/AddMjjRWFiles.py` — `BASE_PATH` for Mjj reweighted files
+- `Scripts/CreateTRExFitterInputs.py` — `REMOTE_PATH` and scp host for TRExFitter uploads
 
 ## Logging
 
@@ -179,4 +174,4 @@ Yield extraction, scale-factor application, and plot copying for papers/notes. S
 - **Using MC-only variables in `if` statements when running over real data samples.** The C++ selection code may access MC-specific branches that don't exist in data trees.
 - **ROOT not found** — Ensure ROOT is installed and on your `PATH` before sourcing `setup_vbf_env.sh`.
 - **Import errors for `AnalysisCommons`** — Source `SetupPythonScripts.sh` from within `Scripts/`, or run scripts from the project root.
-- **No dataset paths for your user** — Set `VBF_DATASETS_DIR` or add your `$USER` to `DatasetsPaths.py`.
+- **No dataset paths for your user** — Add your `$USER` to `DatasetsPaths.py` (see "Configuration for new users" above).
