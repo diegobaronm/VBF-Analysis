@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<MethodSetup Method="CrossValidation::BDT-0.3">
+  <GeneralInfo>
+    <Info name="TMVA Release" value="4.2.1 [262657]"/>
+    <Info name="ROOT Release" value="6.30/04 [400900]"/>
+    <Info name="Creator" value="b78499db"/>
+    <Info name="Date" value="Thu Mar 21 15:54:59 2024"/>
+    <Info name="Host" value="Darwin Sonoma-arm64.local 23.4.0 Darwin Kernel Version 23.4.0: Wed Feb 21 21:43:31 PST 2024; root:xnu-10063.101.15~2/RELEASE_ARM64_VMAPPLE arm64"/>
+    <Info name="Dir" value="/Users/user/Documents/HEP/MVA-Analysis"/>
+    <Info name="Training events" value="37460"/>
+    <Info name="TrainingTime" value="1.90734863e-06"/>
+    <Info name="AnalysisType" value="Classification"/>
+  </GeneralInfo>
+  <Options>
+    <Option name="V" modified="No">False</Option>
+    <Option name="VerbosityLevel" modified="No">Default</Option>
+    <Option name="VarTransform" modified="No">None</Option>
+    <Option name="H" modified="No">False</Option>
+    <Option name="CreateMVAPdfs" modified="No">False</Option>
+    <Option name="IgnoreNegWeightsInTraining" modified="No">False</Option>
+    <Option name="EncapsulatedMethodName" modified="Yes">BDT-0.3</Option>
+    <Option name="EncapsulatedMethodTypeName" modified="Yes">BDT</Option>
+    <Option name="NumFolds" modified="Yes">10</Option>
+    <Option name="OutputEnsembling" modified="Yes">None</Option>
+    <Option name="SplitExpr" modified="Yes">int([eventNumber])%int(10)</Option>
+  </Options>
+  <Variables NVar="6">
+    <Variable VarIndex="0" Expression="mjj" Label="mjj" Title="m_{jj}" Unit="GeV" Internal="mjj" Type="D" Min="7.50003479e+02" Max="8.69623633e+03"/>
+    <Variable VarIndex="1" Expression="deltaRapidity" Label="deltaRapidity" Title="#Delta y_{jj}" Unit="" Internal="deltaRapidity" Type="D" Min="2.00020766e+00" Max="8.59782600e+00"/>
+    <Variable VarIndex="2" Expression="ptBalance" Label="ptBalance" Title="pT_{balance}" Unit="" Internal="ptBalance" Type="D" Min="1.25554126e-18" Max="1.49860099e-01"/>
+    <Variable VarIndex="3" Expression="zCentrality" Label="zCentrality" Title="#xi(Z)" Unit="" Internal="zCentrality" Type="D" Min="9.20502589e-06" Max="4.99961168e-01"/>
+    <Variable VarIndex="4" Expression="omega" Label="omega" Title="#Omega" Unit="" Internal="omega" Type="D" Min="-1.99983269e-01" Max="1.39996660e+00"/>
+    <Variable VarIndex="5" Expression="transverseRecoMassVariable" Label="transverseRecoMassVariable" Title="m_{T}(l)/f(m_{reco})" Unit="GeV" Internal="transverseRecoMassVariable" Type="D" Min="7.04350823e-04" Max="1.29481125e+02"/>
+  </Variables>
+  <Spectators NSpec="1">
+    <Spectator SpecIndex="0" Expression="eventNumber" Label="eventNumber" Title="I" Unit="" Internal="eventNumber" Type="F" Min="8.40000000e+01" Max="1.15952781e+09"/>
+  </Spectators>
+  <Classes NClass="2">
+    <Class Name="Signal" Index="0"/>
+    <Class Name="Background" Index="1"/>
+  </Classes>
+  <Transformations NTransformations="0"/>
+  <MVAPdfs/>
+  <Weights JobName="10Folds" SplitExpr="int([eventNumber])%int(10)" NumFolds="10" EncapsulatedMethodName="BDT-0.3" EncapsulatedMethodTypeName="BDT" OutputEnsembling="None"/>
+</MethodSetup>

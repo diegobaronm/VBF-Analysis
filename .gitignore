@@ -95,3 +95,6 @@ CondorSubmit/run_*.sh
 
 # Virtual environment
 vbf_pyenv/
+# Tests: do NOT ignore the test input ROOT files under test/test_data, but ignore all other output files
+!test/test_data/*/*/*.root
+!test/references/*/*/*/*.root
