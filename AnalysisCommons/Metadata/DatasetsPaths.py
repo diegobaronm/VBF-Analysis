@@ -3,7 +3,7 @@ from AnalysisCommons.Logger import WARNING, ERROR
 
 # Library with paths to the analysis datasets
 
-username = os.environ['USER']
+username = os.environ.get('USER') or os.environ.get('LOGNAME', 'ci')
 
 def get_samples_and_dirs(paths_dict):
   pathsToSamplesList = paths_dict[username]
