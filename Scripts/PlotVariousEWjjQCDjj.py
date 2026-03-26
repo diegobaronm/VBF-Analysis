@@ -1,4 +1,4 @@
-import _setup_project_path  # noqa: F401 (auto-configures sys.path)
+import _setup_project_path  #  (auto-configures sys.path)
 import os
 
 from Scripts.Plot import Plot, get_args, load_config, get_norm_factors

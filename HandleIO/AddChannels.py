@@ -1,4 +1,4 @@
-import _setup_project_path  # noqa: F401 (auto-configures sys.path)
+import _setup_project_path  #  (auto-configures sys.path)
 import os
 from AnalysisCommons.Logger import INFO, WARNING, DEBUG, ERROR, menu
 from AnalysisCommons.Constants import DEFAULT_MJJ_REWEIGHTING

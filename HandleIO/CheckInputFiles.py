@@ -1,4 +1,4 @@
-import _setup_project_path  # noqa: F401 (auto-configures sys.path)
+import _setup_project_path  #  (auto-configures sys.path)
 import ROOT as r
 from argparse import ArgumentParser
 import os

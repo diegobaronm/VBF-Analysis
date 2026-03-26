@@ -1,7 +1,7 @@
 """
 This script submits Analysis jobs to HTCondor
 """
-import _setup_project_path  # noqa: F401 (auto-configures sys.path)
+import _setup_project_path  #  (auto-configures sys.path)
 import os
 
 from AnalysisCommons.Run import CreateOutputsDir

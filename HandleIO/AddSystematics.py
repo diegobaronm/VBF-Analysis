@@ -1,4 +1,4 @@
-import _setup_project_path  # noqa: F401 (auto-configures sys.path)
+import _setup_project_path  #  (auto-configures sys.path)
 from argparse import ArgumentParser
 from AnalysisCommons.Logger import INFO, WARNING, ERROR
 from AnalysisCommons.Systematics import LIST_OF_SYSTEMATICS

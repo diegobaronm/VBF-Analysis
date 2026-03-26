@@ -1,5 +1,5 @@
 # This script checks that every other histogram in a systematic ROOT file is no more different than 10% from the nominal histogram.
-import _setup_project_path  # noqa: F401 (auto-configures sys.path)
+import _setup_project_path  #  (auto-configures sys.path)
 import os
 import argparse
 import ROOT as r
