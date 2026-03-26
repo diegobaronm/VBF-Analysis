@@ -1,5 +1,3 @@
-import datetime
-
 # Define  colours for the output
 class bcolors:
     HEADER = '\033[95m'
@@ -16,7 +14,6 @@ class Logger:
     # Static variables
     LOGLEVEL = 4
     LOG_FILE = None       # Set via enableFileLogging() to also write to a file
-    SHOW_TIMESTAMP = True # Prepend a timestamp to each message
 
     def __init__(self,level, colour):
         self.m_level = level
@@ -25,20 +22,17 @@ class Logger:
 
     def log(self,message, variable = ""):
         if self.s_LOG_LEVELS[self.m_level] <= Logger.LOGLEVEL:
-            timestamp = ""
-            if Logger.SHOW_TIMESTAMP:
-                timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " "
             coloured = self.m_colour + self.m_level + ': ' + bcolors.ENDC + message
             plain    = self.m_level + ': ' + message
             if variable != "":
-                print(timestamp + coloured, variable)
+                print(coloured, variable)
                 if Logger.LOG_FILE is not None:
-                    Logger.LOG_FILE.write(timestamp + plain + " " + str(variable) + "\n")
+                    Logger.LOG_FILE.write(plain + " " + str(variable) + "\n")
                     Logger.LOG_FILE.flush()
             else:
-                print(timestamp + coloured)
+                print(coloured)
                 if Logger.LOG_FILE is not None:
-                    Logger.LOG_FILE.write(timestamp + plain + "\n")
+                    Logger.LOG_FILE.write(plain + "\n")
                     Logger.LOG_FILE.flush()
 
     @staticmethod

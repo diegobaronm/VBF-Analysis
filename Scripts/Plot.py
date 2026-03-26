@@ -1,3 +1,4 @@
+import _setup_project_path  # noqa: F401 (auto-configures sys.path)
 import yaml
 import os
 import argparse

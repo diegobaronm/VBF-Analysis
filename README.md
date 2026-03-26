@@ -110,12 +110,15 @@ Subsequent runs simply activate the existing environment. To deactivate: `deacti
 
 ### PYTHONPATH for Scripts
 
-When running scripts from the `Scripts/` directory, source the helper to add the project root to `PYTHONPATH`:
+Scripts in `Scripts/` auto-configure their Python path via `import _setup_project_path` at the top, so you can run them directly from any directory:
 
 ```bash
-cd Scripts
-source SetupPythonScripts.sh
+python3 Scripts/Plot.py config.yml Zee
+# or
+cd Scripts && python3 Plot.py config.yml Zee
 ```
+
+No manual `source SetupPythonScripts.sh` step is needed.
 
 ### Jupyter notebooks in VS Code
 
@@ -173,5 +176,5 @@ Yield extraction, scale-factor application, and plot copying for papers/notes. S
 
 - **Using MC-only variables in `if` statements when running over real data samples.** The C++ selection code may access MC-specific branches that don't exist in data trees.
 - **ROOT not found** — Ensure ROOT is installed and on your `PATH` before sourcing `setup_vbf_env.sh`.
-- **Import errors for `AnalysisCommons`** — Source `SetupPythonScripts.sh` from within `Scripts/`, or run scripts from the project root.
+- **Import errors for `AnalysisCommons`** — Scripts auto-configure their path. If you still see errors, ensure you're running from the project root or from within `Scripts/`.
 - **No dataset paths for your user** — Add your `$USER` to `DatasetsPaths.py` (see "Configuration for new users" above).

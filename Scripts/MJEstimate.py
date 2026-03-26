@@ -1,3 +1,4 @@
+import _setup_project_path  # noqa: F401 (auto-configures sys.path)
 import ROOT as r
 from ROOT import gStyle
 import numpy as np
