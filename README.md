@@ -1,112 +1,180 @@
 # VBF-Analysis
 
-## Running
+Analysis framework for Vector Boson Fusion (VBF) production at the ATLAS experiment, studying ττ/ee/μμ decay channels.
 
-To run one of the channels you have two options:
+## Repository structure
+
+```
+VBF-Analysis/
+├── RunAnalysis.py               # Unified entry point for all channels
+├── requirements.txt             # Python dependencies
+├── setup_vbf_env.sh             # Virtual-environment setup script
+│
+├── AnalysisCommons/             # Shared analysis code
+│   ├── Logger.py                # Logging (timestamps, colour, optional file output)
+│   ├── Constants.py             # Physics constants (RQCD, normalisation factors, Z' xsecs)
+│   ├── Run.py                   # Core analysis engine (event loop, compilation, output handling)
+│   ├── Systematics.py           # 160+ systematic variation definitions
+│   └── Metadata/                # Dataset and channel configuration
+│       ├── ChannelConfig.py     # Channel registry (maps name → metadata)
+│       ├── DatasetsPaths.py     # Input ntuple paths (per-user)
+│       ├── OutputPaths.py       # Output paths for HTCondor (per-user)
+│       ├── infofile*.py         # MC cross-section / efficiency metadata
+│       └── datasets*.py         # Dataset combination definitions
+│
+├── EleTau/ TauMu/ MuEle/        # τ-lepton decay channels
+│   └── MC/
+│       ├── Analysis.C           # Channel-specific C++ selection code
+│       ├── backend/             # Compiled C++ event loop (CLoop.C, CLoopSYS.C)
+│       └── InputDatasets/       # Input file lists
+│
+├── MuMu/ Zee/                   # Di-lepton decay channels (same structure)
+│
+├── HandleIO/                    # I/O helpers (file merging, validation, systematics)
+├── Scripts/                     # Post-processing, plotting, background estimation
+├── LatexUtils/                  # LaTeX yield tables and plot copying
+└── CondorSubmit/                # HTCondor job submission
+```
+
+## Running the analysis
 
 ### Local
 
-Run any channel from the project root using `RunAnalysis.py` with the `channel` argument:
+Run any channel from the project root:
 
+```bash
+python3 RunAnalysis.py <channel> <sample> <remote> <tree> <region> [options]
 ```
-python3 RunAnalysis.py EleTau InputDatasets/Higgs.txt no NOMINAL NewZpeakOS --j10
+
+**Example:**
+
+```bash
+python3 RunAnalysis.py EleTau InputDatasets/Higgs.txt no NOMINAL NewZpeakOS --j 10
 ```
 
 Valid channels: `EleTau`, `TauMu`, `MuEle`, `MuMu`, `Zee`.
 
-#### CLI options
-
-If you use the help options you will see
+### Full CLI reference
 
 ```
-usage: RunAnalysis.py [-h] [--j J] [--clean] channel sample {yes,no} tree region
-
-Run VBF Analysis!
-
 positional arguments:
-  channel     Channel to run (EleTau, MuMu, Zee, TauMu, MuEle).
-  sample      The name of the sample from the ones on the metadata. It can also
-              be a file in which case the code will check that the path exists
-              and will do parallel processing according to the optional --j
-              parameter.
-  {yes,no}    Is the code running remotely? (yes/no)
-  tree        Tree to run over. Usually NOMINAL.
-  region      Region to run over. Should contain OS or SS in the name.
+  channel               Channel to run (EleTau, TauMu, MuEle, MuMu, Zee)
+  sample                Sample name from metadata or path to a .txt file with
+                        one sample per line for batch processing
+  {yes,no}              Is the code running remotely? (yes/no)
+  tree                  Tree to run over (usually NOMINAL)
+  region                Region name (must contain OS or SS)
 
 options:
-  -h, --help         show this help message and exit
-  --j J              Number of jobs to run in parallel. Default is 1.
-  --clean            Clean the output directory before running the analysis.
-                     Default is False.
+  --mode {h,n,hn}       Output mode: histograms (h), ntuples (n), or both (hn).
+                        Default: h
+  --j J                 Number of parallel jobs. Default: 1
+  --clean               Clean the output directory before running
+  --output DIR          Override output directory (default: out/<tree>/)
+  --loglevel {1,2,3,4}  Log level: 1=ERROR, 2=WARNING, 3=INFO, 4=DEBUG.
+                        Default: 3
+  --log-file PATH       Also write log messages to this file
+  --sys                 Run systematic variations
+  --sys-channel CH      Systematics channel (Zee, Zmm, Zem, Ztm, Zte).
+                        Required when --sys is set
+  --sys-type TYPES      Comma-separated systematic types to run
+                        (sf, kinematic, theory). Default: sf,kinematic
 ```
 
-### HTCondor:
+### HTCondor
 
-Run the `Submit.py` command and choose the desired channel and follow the instructions.
+```bash
+cd CondorSubmit
+python3 Submit.py
+```
 
-## Environment:
+Follow the interactive prompts to select the channel, input files, region, and submission site.
 
-### Python environment for code in `Scripts/HandleIO/LatexUtils`
+## Environment setup
 
-The analysis scripts in the `Scripts` directory require a Python environment with specific packages. A setup script is provided to automatically create and manage this environment. Load it with `source SetupPythonScripts.sh`.
+### Python environment
 
-#### Prerequisites
-
-- **ROOT**: The analysis requires ROOT to be installed and available in your system PATH. The setup script will automatically check for ROOT availability before proceeding.
-
-#### Environment Setup
-
-Run the setup script from the project root directory:
+The analysis scripts in `Scripts/`, `HandleIO/`, and `LatexUtils/` require Python 3 with specific packages. A setup script creates and manages a virtual environment:
 
 ```bash
 source setup_vbf_env.sh
 ```
 
-This script will:
-1. **Check ROOT availability**: Verify that ROOT is installed and display its location and version
-2. **Create virtual environment**: Create a Python virtual environment named `vbf_pyenv` (only on first run)
-3. **Install dependencies**: Install required packages from `requirements.txt` (numpy, pandas, scipy)
-4. **Activate environment**: Automatically activate the environment for immediate use
+This will:
+1. Check that ROOT is installed and available
+2. Create a `vbf_pyenv` virtual environment (first run only)
+3. Install dependencies from `requirements.txt` (numpy, pandas, scipy, pyhf, matplotlib, uncertainties)
+4. Activate the environment
 
-#### Usage
+Subsequent runs simply activate the existing environment. To deactivate: `deactivate`.
 
-- **First run**: Creates the environment and installs all dependencies
-- **Subsequent runs**: Simply activates the existing environment
-- **Manual activation**: `source vbf_pyenv/bin/activate`
-- **Deactivation**: `deactivate`
+### PYTHONPATH for Scripts
 
-If ROOT is not found, the script will exit with installation instructions.
+Scripts in `Scripts/` auto-configure their Python path via `import _setup_project_path` at the top, so you can run them directly from any directory:
 
-#### Note for Jupyter Notebooks in VS Code
-
-When working with Jupyter notebooks in VS Code (like `Scripts/SREstimator.ipynb`):
-
-1. **Select the correct kernel**: Choose `vbf_pyenv` as the Python kernel in VS Code
-2. **Add project path**: Include the following code at the beginning of your notebook to ensure proper module imports:
-
-```python
-import sys
-import os
-sys.path.append(os.path.dirname(os.getcwd()))  # Add parent directory to path
+```bash
+python3 Scripts/Plot.py config.yml Zee
+# or
+cd Scripts && python3 Plot.py config.yml Zee
 ```
 
-This ensures that the notebook can access all modules and scripts in the project directory structure.
+No manual `source SetupPythonScripts.sh` step is needed.
 
-## Additional code around the main analysis:
+### Jupyter notebooks in VS Code
 
-### Inputs/Outputs handling -- Under `HandleIO/`:
+Select `vbf_pyenv` as the Python kernel, then add at the top of your notebook:
 
-Code to do IO operations are stored in the `HandleIO` directory. An explanation of the scripts that live there can be found in the [README.md](HandleIO/README.md)
+```python
+import sys, os
+sys.path.append(os.path.dirname(os.getcwd()))
+```
 
-### Analysis postprocessing, fitting, MJ estimate, etc -- Under `Scripts/`:
+## Configuration for new users
 
-An explanation of the scripts that live there can be found in the [README.md](Scripts/README.md)
+Several scripts need to know where input ntuples and outputs live. To configure paths for your user, add your `$USER` as a key to the path dictionaries in:
 
-### Analysis results to LaTeX -- Under `LatexUtils/`:
+- `AnalysisCommons/Metadata/DatasetsPaths.py` — directories containing input ntuples
+- `AnalysisCommons/Metadata/OutputPaths.py` — output directories for HTCondor jobs
+- `HandleIO/AddMjjRWFiles.py` — `BASE_PATH` for Mjj reweighted files
+- `Scripts/CreateTRExFitterInputs.py` — `REMOTE_PATH` and scp host for TRExFitter uploads
 
-An explanation of the scripts that live there can be found in the [README.md](LatexUtils/README.md)
+## Logging
 
-## Common problems:
+The analysis uses a custom logging system in `AnalysisCommons/Logger.py` with four levels:
 
-This is a list of things that can usually go wrong while running the code.
-- Using MC-only variables in `if` statements when running over real data samples.
+| Level | Constant | Colour |
+|---|---|---|
+| 1 | `ERROR` | Red |
+| 2 | `WARNING` | Yellow |
+| 3 | `INFO` | Green |
+| 4 | `DEBUG` | Blue |
+
+All log messages include timestamps. To also write logs to a file, pass `--log-file <path>` to `RunAnalysis.py` or call `Logger.enableFileLogging(path)` in your scripts.
+
+A reusable interactive `menu()` function is also available:
+
+```python
+from AnalysisCommons.Logger import menu
+choice = menu("Pick an option:", ["Option A", "Option B", "Option C"])
+```
+
+## Additional tools
+
+### Input/Output handling — `HandleIO/`
+
+Scripts for creating input lists, merging ROOT files, validating outputs, and combining channels. See [HandleIO/README.md](HandleIO/README.md).
+
+### Post-processing, plotting, fitting — `Scripts/`
+
+YAML-driven plotting, multijet estimation, TRExFitter/CLs input preparation, and metadata generation utilities. See [Scripts/README.md](Scripts/README.md).
+
+### LaTeX utilities — `LatexUtils/`
+
+Yield extraction, scale-factor application, and plot copying for papers/notes. See [LatexUtils/README.md](LatexUtils/README.md).
+
+## Common problems
+
+- **Using MC-only variables in `if` statements when running over real data samples.** The C++ selection code may access MC-specific branches that don't exist in data trees.
+- **ROOT not found** — Ensure ROOT is installed and on your `PATH` before sourcing `setup_vbf_env.sh`.
+- **Import errors for `AnalysisCommons`** — Scripts auto-configure their path. If you still see errors, ensure you're running from the project root or from within `Scripts/`.
+- **No dataset paths for your user** — Add your `$USER` to `DatasetsPaths.py` (see "Configuration for new users" above).

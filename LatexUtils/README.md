@@ -16,9 +16,10 @@ These tools assume you are in the project root (`VBF-Analysis`) and that you hav
 - Activate the analysis Python environment (creates/loads `vbf_pyenv`):
 
 ```bash
-source Scripts/SetupPythonScripts.py
 source ./setup_vbf_env.sh
 ```
+
+- Scripts auto-configure `sys.path` via `import _setup_project_path`, so you can run them directly from any directory without sourcing `SetupPythonScripts.sh`.
 
 - Ensure ROOT is installed and available in your PATH (the setup script checks this).
 

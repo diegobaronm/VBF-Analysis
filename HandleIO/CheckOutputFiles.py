@@ -1,3 +1,4 @@
+import _setup_project_path  #  (auto-configures sys.path)
 from argparse import ArgumentParser
 import os
 

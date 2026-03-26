@@ -1,26 +1,12 @@
 """
 This script submits Analysis jobs to HTCondor
 """
+import _setup_project_path  #  (auto-configures sys.path)
 import os
 
 from AnalysisCommons.Run import CreateOutputsDir
-from AnalysisCommons.Logger import INFO, WARNING, ERROR
+from AnalysisCommons.Logger import INFO, WARNING, ERROR, menu
 from AnalysisCommons.Metadata.ChannelConfig import VALID_CHANNELS
-
-def menu(question,options):
-    incorrect_answer=True
-    while incorrect_answer:
-        INFO.log(question)
-        c=0
-        for i in options:
-            c+=1
-            INFO.log(str(c)+")"+" "+i)
-        answer=input()
-        if int(answer)<=len(options):
-            incorrect_answer=False
-        else :
-            INFO.log("Select a correct option!")
-    return int(answer)
 
 def create_executable(selected_channel, output_datasets_path, job_id):
     with open("run_%s.sh" % (job_id),"w") as f:

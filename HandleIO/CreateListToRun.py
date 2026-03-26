@@ -1,22 +1,8 @@
+import _setup_project_path  #  (auto-configures sys.path)
 import os
 import sys
 
-from AnalysisCommons.Logger import INFO, WARNING, ERROR
-
-def menu(question,options):
-    incorrect_answer=True
-    while incorrect_answer:
-        INFO.log(question)
-        c=0
-        for i in options:
-            c+=1
-            INFO.log(str(c)+")"+" "+i)
-        answer=input()
-        if int(answer)<=len(options):
-            incorrect_answer=False
-        else :
-            INFO.log("Select a correct option!")
-    return int(answer)
+from AnalysisCommons.Logger import INFO, WARNING, ERROR, menu
 
 def tag_checker(channel,include_tags,exclude_tags,remote):
     # Got to the channel directory and add the relevant things to the path

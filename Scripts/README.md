@@ -11,8 +11,7 @@ This folder contains plotting, modeling, background–estimation, and I/O helper
 - Optional access to EOS/AFS paths if using remote data locations or upload features
 
 Environment setup
-- From inside Scripts, source the helper to add the repo parent to PYTHONPATH:
-  - `source SetupPythonScripts.sh`
+- Each script auto-configures `sys.path` via `import _setup_project_path` at the top, so you can run scripts directly from any directory without needing to manually source `SetupPythonScripts.sh`.
 
 
 ## Common utilities
@@ -223,12 +222,12 @@ See `configExamplePlot.yml` for a complete Plot configuration. Key fields:
 - Interactive prompts: Plot.py asks to confirm the SF dictionary; MJEstimate has multiple menus; PlotVariousEWjjQCDjj turns interactivity off.
 - Naming conventions: This analysis expects ROOT files named by sample (e.g., `Signal_Sherpa.root`, `Ztautau_SherpaNLO_RWParabolicCutoff.root`). Systematics files include `SYS` in the filename.
 - Rebinning and units: Always use the matching `HistogramInfo` template when comparing or combining histograms to ensure binning and normalization consistency.
-- Dependencies: If you hit import errors for AnalysisCommons, re-run `source SetupPythonScripts.sh` from inside `Scripts`.
+- Dependencies: Scripts auto-configure `sys.path` via `import _setup_project_path`, so you should not need to source `SetupPythonScripts.sh` manually.
 
 
 ## Quick start
 
-- Source environment helper inside `Scripts`.
+- Source environment helper inside `Scripts` (if needed; scripts auto-configure paths via `_setup_project_path`).
 - Copy and edit `configExamplePlot.yml` for your case, then run Plot.py with your channel and optional `--sfs-dict`.
 - Use PlotVariousEWjjQCDjj.py to mass-generate plots across QCD/EW combinations.
 - Use MJEstimate.py to create `MJ.root` for Tau/Mu final states.

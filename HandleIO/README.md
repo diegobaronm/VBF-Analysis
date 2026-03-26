@@ -4,6 +4,8 @@ This guide explains what each script in `HandleIO/` does, how to run it, and the
 
 All scripts are Python 3. They assume you have ROOT and `hadd` available in your environment, and that the repository directory structure (channels, metadata) is in place.
 
+All scripts auto-configure `sys.path` via `import _setup_project_path`, so you can run them directly from any directory without sourcing `SetupPythonScripts.sh`.
+
 ## Prerequisites
 
 - Python 3.x
@@ -11,7 +13,14 @@ All scripts are Python 3. They assume you have ROOT and `hadd` available in your
 - `hadd` available on your PATH (part of ROOT)
 - Repository metadata available: `AnalysisCommons/Metadata/*`
 
-Run scripts from `HandleIO` unless otherwise noted.
+Run scripts from `HandleIO` or from the project root — `_setup_project_path` handles the Python path automatically.
+
+Several scripts use the interactive `menu()` helper from `AnalysisCommons.Logger`:
+
+```python
+from AnalysisCommons.Logger import menu
+choice = menu("Pick an option:", ["A", "B", "C"])
+```
 
 ---
 
@@ -234,7 +243,7 @@ You’ll be guided interactively; no CLI flags are needed.
 
 ## Tips and troubleshooting
 
-- If you see ROOT-related import errors, ensure you’ve initialized your ROOT environment (e.g., source your setup script in `Scripts/`).
+- If you see ROOT-related import errors, ensure your ROOT environment is set up. Framework imports (AnalysisCommons, HandleIO) are auto-configured by `_setup_project_path`.
 - `hadd` errors typically indicate missing input files or mismatched glob patterns. Try listing files in the `--inputs` directory and comparing with the expected patterns in the script.
 - For `AddMjjRWFiles.py`, verify that the `BASE_PATH` paths exist and contain files matching the expected patterns.
 - For `AddSystematics.py`, ensure each channel folder has exactly one VBF and one SherpaNLO systematic ROOT file.
