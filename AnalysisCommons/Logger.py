@@ -20,11 +20,11 @@ class Logger:
         self.m_colour = colour
         self.s_LOG_LEVELS = {"ERROR":1,"WARNING":2, "INFO":3, "DEBUG":4}
 
-    def log(self,message, variable = ""):
+    def log(self,message, variable = None):
         if self.s_LOG_LEVELS[self.m_level] <= Logger.LOGLEVEL:
             coloured = self.m_colour + self.m_level + ': ' + bcolors.ENDC + message
             plain    = self.m_level + ': ' + message
-            if variable != "":
+            if variable is not None:
                 print(coloured, variable)
                 if Logger.LOG_FILE is not None:
                     Logger.LOG_FILE.write(plain + " " + str(variable) + "\n")

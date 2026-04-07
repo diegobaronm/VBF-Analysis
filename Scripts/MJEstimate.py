@@ -40,10 +40,10 @@ def check_histograms_exist(histogram_name : str, samples : list[str], path_to_ch
     for sample in samples:
         file = r.TFile.Open(path_to_check + sample + ".root")
         histo = file.Get(histogram_name)
-        if histo == None:
+        if not histo:
             found_in_all = False
             histo = file.Get(histogram_name + "_basic_all")
-            if histo == None:
+            if not histo:
                 found_in_all_basic = False
 
     if found_in_all:

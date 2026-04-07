@@ -332,7 +332,7 @@ def mcAdd(histoName,histogramsPath,sampleFilesToAdd,histogramInfo,rebin=True):
         # Rebing parameters
         refererenceFile = r.TFile.Open(histogramsPath+sampleFilesToAdd[0]+".root")
         referenceHistogram = r.TH1F(refererenceFile.Get(histoName))
-        binsArray= binsArray=biner(histogramInfo.m_binEdges,histogramInfo.m_binSteps,referenceHistogram)
+        binsArray= biner(histogramInfo.m_binEdges,histogramInfo.m_binSteps,referenceHistogram)
         numberBins=len(binsArray)-1
         refererenceFile.Close()
         # Now rebin the samples
@@ -488,9 +488,9 @@ def setupZprimeHistograms(histogram_objet : HistogramInfo, Zprime_pack):
     for s in Zprime_pack:
         file = r.TFile.Open(Zprime_pack[s][0],"READ")
         hist = file.Get(histogram_objet.m_name)
-        if hist == None:
+        if not hist:
             hist = file.Get(histogram_objet.m_name + "_basic_all") # If the histogram is not found, try with the basic_all suffix
-            if hist == None:
+            if not hist:
                 WARNING.log("Histogram not found in file: ",samples[s][0])
                 continue
         hist.SetDirectory(0)
@@ -586,10 +586,10 @@ def stackPlot(data,signal,background,histograms,watermark,
         for s in samples:
             file = r.TFile.Open(samples[s][0],"READ")
             hist = file.Get(i.m_name)
-            if hist == None:
+            if not hist:
                 WARNING.log("Histogram not found in file: " + samples[s][0] + "... trying with basic_all post-fix.")
                 hist = file.Get(i.m_name + "_basic_all") # If the histogram is not found, try with the basic_all suffix
-                if hist == None:
+                if not hist:
                     WARNING.log("Histogram not found in file: ",samples[s][0])
                     not_found_samples.append(s)
                     continue
