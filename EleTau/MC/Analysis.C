@@ -109,9 +109,8 @@ void CLoop::Book() {
   transMassRecoMassRatio400toContainer =  histogramContainer("transMassRecoMassRatio400to","Transverse mass - reco mass ratio 400 up GeV",200,0.0,2.0,notFull);
 }
 
-void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
+void CLoop::Fill(double weight, int z_sample, const std::string& sampleName, double mjj, bool isData) {
   double pi=TMath::Pi();
-  const bool isData = sampleName.substr(0, 4) == "data";
   // Charges and lepton ID
   bool trigger_match= false;
   if (run_number>= 276262 && run_number<=284484){
@@ -122,8 +121,7 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
       trigger_match=bool(eleTrigMatch_0_HLT_e120_lhloose | eleTrigMatch_0_HLT_e140_lhloose_nod0 | eleTrigMatch_0_HLT_e26_lhtight_nod0_ivarloose | eleTrigMatch_0_HLT_e60_lhmedium | eleTrigMatch_0_HLT_e60_lhmedium_nod0);
   }
 
-  // 0) Invariant mass of tagging jets.
-  double mjj = Kinematics::Mass({ljet_0_p4, ljet_1_p4});
+  // 0) Invariant mass of tagging jets (passed in from Loop).
 
   if (correctCharge && n_electrons==1 && n_taus_rnn_loose>=1 && lepton_id && n_ljets>=2 && n_ljets<=3 && mjj>=250 && trigger_decision && trigger_match){
 
@@ -556,9 +554,8 @@ extern double BgTree_jet1_pT;
 extern double BgTree_met_pT;
 extern double BgTree_event_number;
 
-void CLoop::FillTree(double weight, int z_sample, const std::string& sampleName, TTree* stree, TTree* btree) {
+void CLoop::FillTree(double weight, int z_sample, const std::string& sampleName, double mjj, bool isData, TTree* stree, TTree* btree) {
   double pi=TMath::Pi();
-  const bool isData = sampleName.substr(0, 4) == "data";
   // Charges and lepton ID
   bool correctCharge = Kinematics::isChargeCorrect(m_region,elec_0_q,tau_0_q);
   bool lepton_id=elec_0_id_tight;
@@ -575,8 +572,7 @@ void CLoop::FillTree(double weight, int z_sample, const std::string& sampleName,
       trigger_match=bool(eleTrigMatch_0_HLT_e120_lhloose | eleTrigMatch_0_HLT_e140_lhloose_nod0 | eleTrigMatch_0_HLT_e26_lhtight_nod0_ivarloose | eleTrigMatch_0_HLT_e60_lhmedium | eleTrigMatch_0_HLT_e60_lhmedium_nod0);
   }
 
-  // 0) Invariant mass of tagging jets.
-  double mjj = Kinematics::Mass({ljet_0_p4, ljet_1_p4});
+  // 0) Invariant mass of tagging jets (passed in from Loop).
 
   if (correctCharge && n_electrons==1 && n_taus_rnn_loose>=1 && lepton_id && n_ljets>=2 && n_ljets<=3 && mjj>=250 && trigger_decision && trigger_match){
 

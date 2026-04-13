@@ -220,7 +220,7 @@ void CLoop::Loop(double lumFactor, int z_sample, const std::string& key, int log
 
         // fill histograms
         //cout << eventWeight;
-        Fill(eventWeight, z_sample, key);
+        Fill(eventWeight, z_sample, key, mjj, isData);
         // end filling
     }
     std::string keyRoot = key+".root";

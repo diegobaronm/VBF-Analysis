@@ -408,9 +408,9 @@ void CLoop::Loop(double lumFactor, int z_sample, const std::string& key, int log
 
         // fill histograms
         g_LOG(LogLevel::DEBUG,"Final event w = ", eventWeight);
-        if (saveHistograms) Fill(eventWeight, z_sample, key);
+        if (saveHistograms) Fill(eventWeight, z_sample, key, mjj, isData);
         #ifdef NOMINAL
-        if (saveEvents) FillTree(eventWeight, z_sample, key, signalTree, bgTree);
+        if (saveEvents) FillTree(eventWeight, z_sample, key, mjj, isData, signalTree, bgTree);
         // end filling
         #endif
     }

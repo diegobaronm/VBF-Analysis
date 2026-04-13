@@ -105,9 +105,8 @@ void CLoop::Book() {
   transMassRecoMassRatio400toContainer = histogramContainer("transMassRecoMassRatio400to","Transverse mass - reco mass ratio 400 up GeV",200,0.0,2.0,notFull);
 }
 
-void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
+void CLoop::Fill(double weight, int z_sample, const std::string& sampleName, double mjj, bool isData) {
   double pi=TMath::Pi();
-  const bool isData = sampleName.substr(0, 4) == "data";
   // Charges and lepton ID
   bool trigger_decision= false;
   bool trigger_match= false;
@@ -122,8 +121,7 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
   }
   if (!isData) weight *= muon_trigger_SF; // Apply trigger SF only to MC
 
-  // 0) Invariant mass of tagging jets.
-  double mjj = Kinematics::Mass({ljet_0_p4, ljet_1_p4});
+  // 0) Invariant mass of tagging jets (passed in from Loop).
 
   if (correctCharge && n_muons==1 && n_taus_rnn_loose>=1 && weight > -190 && lepton_id && n_ljets>=2 && n_ljets<=3 && mjj>=250 && trigger_decision  && trigger_match && abs(tau_0_p4->Eta())>=0.1){
     
@@ -548,9 +546,8 @@ extern double BgTree_jet1_pT;
 extern double BgTree_met_pT;
 extern double BgTree_event_number;
 
-void CLoop::FillTree(double weight, int z_sample, const std::string& sampleName, TTree* stree, TTree* btree) {
+void CLoop::FillTree(double weight, int z_sample, const std::string& sampleName, double mjj, bool isData, TTree* stree, TTree* btree) {
   double pi=TMath::Pi();
-  const bool isData = sampleName.substr(0, 4) == "data";
   // Charges and lepton ID
   bool correctCharge = Kinematics::isChargeCorrect(m_region,muon_0_q,tau_0_q);
   bool lepton_id=muon_0_id_medium;
@@ -571,8 +568,7 @@ void CLoop::FillTree(double weight, int z_sample, const std::string& sampleName,
   }
   if (!isData) weight *= muon_trigger_SF; // Apply trigger SF only to MC
 
-  // 0) Invariant mass of tagging jets.
-  double mjj = Kinematics::Mass({ljet_0_p4, ljet_1_p4});
+  // 0) Invariant mass of tagging jets (passed in from Loop).
 
   if (correctCharge && n_muons==1 && n_taus_rnn_loose>=1 && weight > -190 && lepton_id && n_ljets>=2 && n_ljets<=3 && mjj>=250 && trigger_decision  && trigger_match && abs(tau_0_p4->Eta())>=0.1){
     
