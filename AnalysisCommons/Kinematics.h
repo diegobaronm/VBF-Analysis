@@ -73,12 +73,11 @@ double del_phi(double phi_1, double phi_2){
 double Mass(const std::vector<const TLorentzVector*>& particles)
 {
     double sum{0};
-    for (const auto& particle1 : particles)
+    for (size_t i = 0; i < particles.size(); ++i)
     {
-        for (const auto& particle2 : particles)
+        for (size_t j = i + 1; j < particles.size(); ++j)
         {
-            if (particle1 == particle2) { continue;} // Skip the same particle
-            sum += particle1->Dot(*particle2);
+            sum += 2.0 * particles[i]->Dot(*particles[j]);
         }
     }
     return sqrt(sum);

@@ -82,6 +82,7 @@ void CLoop::Book() {
 
 void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) { // Muon is tau
   double pi=TMath::Pi();
+  const bool isData = sampleName.substr(0, 4) == "data";
   // Charges and lepton ID
   bool correctCharge = Kinematics::isChargeCorrect(m_region,elec_0_q,muon_0_q);
   bool muon_id = muon_0_id_medium;
@@ -249,7 +250,9 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) { /
     }
     
     // Calculate if the event passed all cuts
-    std::vector<int> cutsVector{1};
+    std::vector<int> cutsVector;
+    cutsVector.reserve(16);
+    cutsVector.push_back(1);
     cutsVector.insert(cutsVector.end(),cuts.begin(),cuts.end());
     bool passedAllCuts = Tools::passedAllCuts(cutsVector);
     std::vector<int> notFullCutsVector{1,static_cast<int>(passedAllCuts)};
@@ -288,7 +291,7 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) { /
     }
     
     // HISTOGRAM FILLING STARTING IN BASIC SELECTION
-    if (sampleName.substr(0,4)!="data"){
+    if (!isData){
       if(tauTauTopology == Kinematics::TauTauTopology::INSIDE){Z_pt_truth_iNotFullContainer.Fill(truth_z_pt,weight,notFullCutsVector);}
       else {Z_pt_truth_oNotFullContainer.Fill(truth_z_pt,weight,notFullCutsVector);}
     }

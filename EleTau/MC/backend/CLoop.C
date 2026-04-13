@@ -104,8 +104,9 @@ void CLoop::Loop(double lumFactor, int z_sample, const std::string& key, int log
     Long64_t nbytes = 0, nb = 0;
 
     #ifdef NOMINAL
+    const bool isData = key.substr(0, 4) == "data";
     // Only activate relevant branches
-    if (!(key.substr(0,4)=="data")){
+    if (!isData){
     fChain->SetBranchStatus("*",0);
     fChain->SetBranchStatus("HLT_e120_lhloose",1);
     fChain->SetBranchStatus("HLT_e140_lhloose_nod0",1);
@@ -406,7 +407,7 @@ void CLoop::Loop(double lumFactor, int z_sample, const std::string& key, int log
         g_LOG(LogLevel::DEBUG,"Tau SFs = ", tau_0_NOMINAL_TauEffSF_reco*tau_0_NOMINAL_TauEffSF_LooseEleBDT_electron*tau_0_NOMINAL_TauEffSF_JetRNNmedium);
         
         // check if event is from real data
-        if (!(key.substr(0,4)=="data")) {
+        if (!isData) {
             if (!(NOMINAL_pileup_combined_weight > -1)) continue; // TO AVOID FILLING HUGE WEIGHTS IN EWK Sample
             // Do not apply pileup reweighting to VBF MadGraph samples
             float puWeight = NOMINAL_pileup_combined_weight;

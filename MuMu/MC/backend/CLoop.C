@@ -136,6 +136,7 @@ void CLoop::Loop(double lumFactor, int z_sample, const std::string& key, int log
     fChain->SetBranchStatus("weight_mc",1);
     fChain->SetBranchStatus("weight_mc_v",1);
     #endif
+    const bool isData = key.substr(0, 4) == "data";
     // loop over number of entries
     for (Long64_t jentry=0; jentry<nLoop;jentry++) {
         g_LOG(LogLevel::DEBUG," ");
@@ -192,7 +193,7 @@ void CLoop::Loop(double lumFactor, int z_sample, const std::string& key, int log
         jet_NOMINAL_forward_jets_global_ineffSF_JVT*jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85*jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85);
         
         // check if event is from real data
-        if (!(key.substr(0,4)=="data")) {
+        if (!isData) {
             // Do not apply pileup reweighting to VBF MadGraph samples
             float puWeight = NOMINAL_pileup_combined_weight;
             if (key.find("VBF") != std::string::npos && key.find("MG") != std::string::npos)

@@ -63,6 +63,7 @@ void CLoop::Book() {
 
 void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
   double pi=TMath::Pi();
+  const bool isData = sampleName.substr(0, 4) == "data";
   // Charges and lepton ID
   bool correctCharge = Kinematics::isChargeCorrect(m_region,elec_0_q,elec_1_q);
   bool elec_id = elec_0_id_tight && elec_1_id_tight;
@@ -79,7 +80,7 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
     trigger_match_1 = bool((eleTrigMatch_0_HLT_e120_lhloose | eleTrigMatch_0_HLT_e140_lhloose_nod0 | eleTrigMatch_0_HLT_e24_lhmedium_L1EM20VH | eleTrigMatch_0_HLT_e60_lhmedium | eleTrigMatch_0_HLT_e60_lhmedium_nod0) && !(eleTrigMatch_1_HLT_e120_lhloose | eleTrigMatch_1_HLT_e140_lhloose_nod0 | eleTrigMatch_1_HLT_e24_lhmedium_L1EM20VH | eleTrigMatch_1_HLT_e60_lhmedium | eleTrigMatch_1_HLT_e60_lhmedium_nod0));
     trigger_match_2 = bool(!(eleTrigMatch_0_HLT_e120_lhloose | eleTrigMatch_0_HLT_e140_lhloose_nod0 | eleTrigMatch_0_HLT_e24_lhmedium_L1EM20VH | eleTrigMatch_0_HLT_e60_lhmedium | eleTrigMatch_0_HLT_e60_lhmedium_nod0) && (eleTrigMatch_1_HLT_e120_lhloose | eleTrigMatch_1_HLT_e140_lhloose_nod0 | eleTrigMatch_1_HLT_e24_lhmedium_L1EM20VH | eleTrigMatch_1_HLT_e60_lhmedium | eleTrigMatch_1_HLT_e60_lhmedium_nod0));
     trigger_match_12 = bool((eleTrigMatch_0_HLT_e120_lhloose | eleTrigMatch_0_HLT_e140_lhloose_nod0 | eleTrigMatch_0_HLT_e24_lhmedium_L1EM20VH | eleTrigMatch_0_HLT_e60_lhmedium | eleTrigMatch_0_HLT_e60_lhmedium_nod0) && (eleTrigMatch_1_HLT_e120_lhloose | eleTrigMatch_1_HLT_e140_lhloose_nod0 | eleTrigMatch_1_HLT_e24_lhmedium_L1EM20VH | eleTrigMatch_1_HLT_e60_lhmedium | eleTrigMatch_1_HLT_e60_lhmedium_nod0));
-    if(sampleName.substr(0,4)!="data"){
+    if(!isData){
       if (trigger_match_1){weight=weight*elec_0_NOMINAL_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight;}
       if (trigger_match_2){weight=weight*elec_1_NOMINAL_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight;}
     }
@@ -89,7 +90,7 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
     trigger_match_1 = bool((eleTrigMatch_0_HLT_e120_lhloose | eleTrigMatch_0_HLT_e140_lhloose_nod0 | eleTrigMatch_0_HLT_e26_lhtight_nod0_ivarloose | eleTrigMatch_0_HLT_e60_lhmedium | eleTrigMatch_0_HLT_e60_lhmedium_nod0) && !(eleTrigMatch_1_HLT_e120_lhloose | eleTrigMatch_1_HLT_e140_lhloose_nod0 | eleTrigMatch_1_HLT_e26_lhtight_nod0_ivarloose | eleTrigMatch_1_HLT_e60_lhmedium | eleTrigMatch_1_HLT_e60_lhmedium_nod0));
     trigger_match_2 = bool(!(eleTrigMatch_0_HLT_e120_lhloose | eleTrigMatch_0_HLT_e140_lhloose_nod0 | eleTrigMatch_0_HLT_e26_lhtight_nod0_ivarloose | eleTrigMatch_0_HLT_e60_lhmedium | eleTrigMatch_0_HLT_e60_lhmedium_nod0) && (eleTrigMatch_1_HLT_e120_lhloose | eleTrigMatch_1_HLT_e140_lhloose_nod0 | eleTrigMatch_1_HLT_e26_lhtight_nod0_ivarloose | eleTrigMatch_1_HLT_e60_lhmedium | eleTrigMatch_1_HLT_e60_lhmedium_nod0));
     trigger_match_12 = bool((eleTrigMatch_0_HLT_e120_lhloose | eleTrigMatch_0_HLT_e140_lhloose_nod0 | eleTrigMatch_0_HLT_e26_lhtight_nod0_ivarloose | eleTrigMatch_0_HLT_e60_lhmedium | eleTrigMatch_0_HLT_e60_lhmedium_nod0) && (eleTrigMatch_1_HLT_e120_lhloose | eleTrigMatch_1_HLT_e140_lhloose_nod0 | eleTrigMatch_1_HLT_e26_lhtight_nod0_ivarloose | eleTrigMatch_1_HLT_e60_lhmedium | eleTrigMatch_1_HLT_e60_lhmedium_nod0));
-    if(sampleName.substr(0,4)!="data"){
+    if(!isData){
       if (trigger_match_1){weight=weight*elec_0_NOMINAL_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight;}
       if (trigger_match_2){weight=weight*elec_1_NOMINAL_EleEffSF_SINGLE_E_2015_e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose_2016_2018_e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0_TightLLH_d0z0_v13_isolFCTight;}
     }
@@ -109,7 +110,7 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
 
   // Prevent high PileUPRW events.
   bool goodPUW = true;
-  if(sampleName.substr(0,4) == "data") goodPUW = true; // This is just to be explicit that this should not affect the data.
+  if(isData) goodPUW = true; // This is just to be explicit that this should not affect the data.
   else goodPUW = NOMINAL_pileup_combined_weight > -10;
 
   if (correctCharge && n_electrons==2 && elec_id  && n_ljets>=2 && n_ljets<=3 && goodPUW && mjj>=250 && mll >=40 && trigger_decision && trigger_match){
@@ -193,7 +194,9 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
     }
 
     // Calculate if the event passed all cuts
-    std::vector<int> cutsVector{1};
+    std::vector<int> cutsVector;
+    cutsVector.reserve(16);
+    cutsVector.push_back(1);
     cutsVector.insert(cutsVector.end(),cuts.begin(),cuts.end());
     bool passedAllCuts = Tools::passedAllCuts(cutsVector);
     std::vector<int> notFullCutsVector{1,static_cast<int>(passedAllCuts)};
@@ -223,7 +226,7 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
     metContainer.Fill(met_reco_p4->Pt(),weight,cutsVector);
     lep1_phiContainer.Fill(elec_0_p4->Phi(),weight,notFullCutsVector);
     lep2_phiContainer.Fill(elec_1_p4->Phi(),weight,notFullCutsVector);
-    if(sampleName.substr(0,4)!="data"){Z_pt_truthContainer.Fill(truth_z_pt,weight,notFullCutsVector);}
+    if(!isData){Z_pt_truthContainer.Fill(truth_z_pt,weight,notFullCutsVector);}
     if(n_jets_interval==1){gap_jet_ptContainer.Fill(pt_gap_jet,weight,notFullCutsVector);}
     jet_nContainer.Fill(n_jets,weight,notFullCutsVector);
     Z_pt_recoContainer.Fill(Z_pt,weight,notFullCutsVector);
