@@ -108,6 +108,12 @@ void CLoop::Book() {
 void CLoop::Fill(double weight, int z_sample, const std::string& sampleName, double mjj, bool isData) {
   double pi=TMath::Pi();
   // Charges and lepton ID
+  bool correctCharge = Kinematics::isChargeCorrect(m_region,muon_0_q,tau_0_q);
+  bool lepton_id=muon_0_id_medium;
+  size_t n_ljets=n_jets-n_bjets_MV2c10_FixedCutBEff_85;
+
+  // Trigger decision and muon trigger scale factor
+  double muon_trigger_SF = 1.0;
   bool trigger_decision= false;
   bool trigger_match= false;
   if (run_number>= 276262 && run_number<=284484) {
