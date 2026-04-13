@@ -80,8 +80,9 @@ void CLoop::Book() {
   recoVisibleMassRatioContainer = histogramContainer("recoVisibleMassRatio","reco-visible mass ratio",100,0,10,notFull);
 }
 
-void CLoop::Fill(double weight, int z_sample, const std::string& sampleName, double mjj, bool isData) { // Muon is tau
+void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) { // Muon is tau
   double pi=TMath::Pi();
+  const bool isData = sampleName.substr(0, 4) == "data";
   // Charges and lepton ID
   bool correctCharge = Kinematics::isChargeCorrect(m_region,elec_0_q,muon_0_q);
   bool muon_id = muon_0_id_medium;
@@ -111,7 +112,8 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName, dou
       trigger_match_e=bool(eleTrigMatch_0_HLT_e120_lhloose | eleTrigMatch_0_HLT_e140_lhloose_nod0 | eleTrigMatch_0_HLT_e26_lhtight_nod0_ivarloose | eleTrigMatch_0_HLT_e60_lhmedium | eleTrigMatch_0_HLT_e60_lhmedium_nod0);
   }
 
-  // 0) Invariant mass of tagging jets (passed in from Loop).
+  // 0) Invariant mass of tagging jets.
+  double mjj = Kinematics::Mass({ljet_0_p4, ljet_1_p4});
 
   if (correctCharge && n_muons==1 && n_electrons==1 && weight > -190 && elec_id && muon_id && n_ljets>=2 && n_ljets<=3 && mjj>=250 && ((trigger_decision_mu && trigger_match_mu) || (trigger_decision_e && trigger_match_e))){
     
@@ -248,9 +250,7 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName, dou
     }
     
     // Calculate if the event passed all cuts
-    std::vector<int> cutsVector;
-    cutsVector.reserve(16);
-    cutsVector.push_back(1);
+    std::vector<int> cutsVector{1};
     cutsVector.insert(cutsVector.end(),cuts.begin(),cuts.end());
     bool passedAllCuts = Tools::passedAllCuts(cutsVector);
     std::vector<int> notFullCutsVector{1,static_cast<int>(passedAllCuts)};

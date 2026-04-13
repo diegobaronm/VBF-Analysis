@@ -57,6 +57,7 @@ void CLoop::Loop(double lumFactor, int z_sample, const std::string& key, int log
     g_LOG(LogLevel::INFO,"Number of events to analyse = ", nLoop);
 
     Long64_t nbytes = 0, nb = 0;
+    const bool isData = key.substr(0, 4) == "data";
     #ifdef NOMINAL
     // Only relevant branches are activated
     fChain->SetBranchStatus("*",0);
@@ -136,7 +137,6 @@ void CLoop::Loop(double lumFactor, int z_sample, const std::string& key, int log
     fChain->SetBranchStatus("weight_mc",1);
     fChain->SetBranchStatus("weight_mc_v",1);
     #endif
-    const bool isData = key.substr(0, 4) == "data";
     // loop over number of entries
     for (Long64_t jentry=0; jentry<nLoop;jentry++) {
         g_LOG(LogLevel::DEBUG," ");
@@ -208,7 +208,7 @@ void CLoop::Loop(double lumFactor, int z_sample, const std::string& key, int log
 
         // fill histograms
         //cout << eventWeight;
-        Fill(eventWeight, z_sample, key, mjj, isData);
+        Fill(eventWeight, z_sample, key);
         // end filling
     }
     std::string keyRoot = key+".root";

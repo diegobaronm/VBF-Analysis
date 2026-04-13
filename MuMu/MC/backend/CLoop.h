@@ -29,7 +29,7 @@
 class CLoop {
   void Style(double lumFactor);
   void Book();
-  void Fill(double weight, int z_sample, const std::string& sampleName, double mjj, bool isData);
+  void Fill(double weight, int z_sample, const std::string& sampleName);
 
   std::string m_region; 
   std::vector<std::string> notFull{"basic","all"};

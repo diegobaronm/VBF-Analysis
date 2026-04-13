@@ -36,7 +36,6 @@ std::vector<int> ApplySelection(const std::string& selectionName, const Kinemati
 
     // Define the vector to be returned.
     std::vector<int> cuts;
-    cuts.reserve(15);
 
     // Region: Z  peak
     if (selName == "BeforeEBZpeak"){

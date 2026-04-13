@@ -100,9 +100,9 @@ void CLoop::Loop(double lumFactor, int z_sample, const std::string& key, int log
     g_LOG(LogLevel::INFO,"Number of events to analyse = ", nLoop);
 
     Long64_t nbytes = 0, nb = 0;
+    const bool isData = key.substr(0, 4) == "data";
 
     #ifdef NOMINAL
-    const bool isData = key.substr(0, 4) == "data";
     // Only activate relevant branches
     if (!isData){
     fChain->SetBranchStatus("*",0);
@@ -408,9 +408,9 @@ void CLoop::Loop(double lumFactor, int z_sample, const std::string& key, int log
 
         // fill histograms
         g_LOG(LogLevel::DEBUG,"Final event w = ", eventWeight);
-        if (saveHistograms) Fill(eventWeight, z_sample, key, mjj, isData);
+        if (saveHistograms) Fill(eventWeight, z_sample, key);
         #ifdef NOMINAL
-        if (saveEvents) FillTree(eventWeight, z_sample, key, mjj, isData, signalTree, bgTree);
+        if (saveEvents) FillTree(eventWeight, z_sample, key, signalTree, bgTree);
         // end filling
         #endif
     }

@@ -61,8 +61,9 @@ void CLoop::Book() {
   sum_of_weights_store = std::make_unique<TH1F>("sum_of_weights_store","Sum of weights",2,0,2);
 }
 
-void CLoop::Fill(double weight, int z_sample, const std::string& sampleName, double mjj, bool isData) {
+void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
   double pi=TMath::Pi();
+  const bool isData = sampleName.substr(0, 4) == "data";
   // Charges and lepton ID
   bool correctCharge = Kinematics::isChargeCorrect(m_region,elec_0_q,elec_1_q);
   bool elec_id = elec_0_id_tight && elec_1_id_tight;
@@ -96,7 +97,8 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName, dou
     trigger_match = trigger_match_1 | trigger_match_2 | trigger_match_12;
   }
 
-  // 0) Invariant mass of tagging jets (passed in from Loop).
+  // 0) Invariant mass of tagging jets.
+  double mjj = Kinematics::Mass({ljet_0_p4, ljet_1_p4});
   double mll = Kinematics::Mass({elec_0_p4, elec_1_p4});
 
   bool fiducial_selection = n_ljets>=2 && n_electrons==2 
@@ -192,9 +194,7 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName, dou
     }
 
     // Calculate if the event passed all cuts
-    std::vector<int> cutsVector;
-    cutsVector.reserve(16);
-    cutsVector.push_back(1);
+    std::vector<int> cutsVector{1};
     cutsVector.insert(cutsVector.end(),cuts.begin(),cuts.end());
     bool passedAllCuts = Tools::passedAllCuts(cutsVector);
     std::vector<int> notFullCutsVector{1,static_cast<int>(passedAllCuts)};
