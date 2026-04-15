@@ -6,7 +6,8 @@ These tools assume you are in the project root (`VBF-Analysis`) and that you hav
 
 ## Contents
 
-- `CopyPlots.py` — Recursively copy only PDF plots from selected analysis folders into a clean destination while preserving directory structure.
+- `CopyPlots.py` — Copy PDF plots referenced by a LaTeX document from selected analysis folders into a clean destination while preserving directory structure.
+- `ScrapLatexDoc.py` — Parse LaTeX documents to extract figure paths from `\includegraphics` commands. Used by `CopyPlots.py`.
 - `PrintYields.py` — Read ROOT histograms for each sample and produce yields with statistical uncertainties (CSV and optional LaTeX-ready CSV).
 - `PrintYieldsWithSFs.py` — Same as above, but applies per-sample scale factors and writes a LaTeX-ready CSV for the table.
 - `LatexTables.ipynb` — Notebook to interactively build/format tables.
@@ -19,7 +20,7 @@ These tools assume you are in the project root (`VBF-Analysis`) and that you hav
 source ./setup_vbf_env.sh
 ```
 
-- Scripts auto-configure `sys.path` via `import _setup_project_path`, so you can run them directly from any directory without sourcing `SetupPythonScripts.sh`.
+- A `_setup_project_path.py` module is available in this directory. If you write new scripts that need to import from `AnalysisCommons` or other project packages, add `import _setup_project_path` at the top. The existing scripts (`CopyPlots.py`, `PrintYields.py`, `PrintYieldsWithSFs.py`, `ScrapLatexDoc.py`) do not currently need project-level imports.
 
 - Ensure ROOT is installed and available in your PATH (the setup script checks this).
 
@@ -30,9 +31,9 @@ import sys, os
 sys.path.append(os.path.dirname(os.getcwd()))
 ```
 
-## Copy only plots (PDFs)
+## Copy plots referenced in LaTeX (PDFs)
 
-`CopyPlots.py` keeps just the PDF files and the directory hierarchy for a set of allowed top-level folders in `VBFAnalysisPlots`:
+`CopyPlots.py` copies PDF files from analysis output folders into a destination inside your LaTeX document directory. It only copies PDFs that are actually referenced by `\includegraphics` commands in the `.tex` files (discovered via `ScrapLatexDoc.py`). The following top-level source folders are scanned:
 
 ```
 ALLOWED_DIRS = ['Zee','MuMu','Zll','TauTau','TauMu','EleTau','MuEle','MjjRWStudies']
@@ -41,13 +42,36 @@ ALLOWED_DIRS = ['Zee','MuMu','Zll','TauTau','TauMu','EleTau','MuEle','MjjRWStudi
 Usage (from repo root):
 
 ```bash
-python LatexUtils/CopyPlots.py VBFAnalysisPlots DESTINATION_DIR
+python LatexUtils/CopyPlots.py <source> <latexDocPath> [--destination NAME]
 ```
 
-- Source: `VBFAnalysisPlots` (where the analysis plots are stored).
-- Destination: any empty or existing folder; subfolders are created as needed.
-- Only `.pdf` files are copied; other file types are ignored.
-- To change which top-level folders are included, edit `ALLOWED_DIRS` in the script.
+- `source`: Directory containing analysis plots (e.g. `VBFAnalysisPlots`).
+- `latexDocPath`: Path to the LaTeX document directory. The script scans all `.tex` files here to discover referenced figures.
+- `--destination`: Subfolder name inside `latexDocPath` where plots are copied (default: `analysisPlots`). The full destination is `<latexDocPath>/<destination>/`.
+- Only `.pdf` files referenced in the LaTeX documents are copied; unreferenced PDFs and other file types are ignored.
+- To change which top-level source folders are included, edit `ALLOWED_DIRS` in the script.
+
+Example:
+
+```bash
+python LatexUtils/CopyPlots.py VBFAnalysisPlots /path/to/my/paper --destination figures
+```
+
+## Parse LaTeX documents for figures
+
+`ScrapLatexDoc.py` extracts figure paths from `\includegraphics` commands in LaTeX documents. It is primarily used by `CopyPlots.py` but can also be used standalone.
+
+Key functions:
+- `get_all_figure_paths(root_dir)` — Recursively scans all `.tex` files under `root_dir` and returns a list of all referenced figure paths.
+- `get_included_figure_paths(latex_doc_path)` — Extracts figure paths from a single `.tex` file.
+- `get_all_tex_files(root_dir)` — Finds all `.tex` files recursively.
+
+Usage (as a module):
+
+```python
+from ScrapLatexDoc import get_all_figure_paths
+figures = get_all_figure_paths("/path/to/latex/project")
+```
 
 ## Print yields from ROOT histograms
 
@@ -114,9 +138,9 @@ Open in VS Code and select the `vbf_pyenv` kernel. Use it to format or combine t
 ## Typical workflow
 
 1. Run your analysis to populate `VBFAnalysisPlots/...`.
-2. Copy the plots you need into a clean folder for the note:
+2. Copy the plots referenced in your LaTeX document:
    ```bash
-   python LatexUtils/CopyPlots.py VBFAnalysisPlots ./LatexUtils/plots_copy
+   python LatexUtils/CopyPlots.py VBFAnalysisPlots /path/to/latex/doc
    ```
 3. Produce yields for a region:
    ```bash
@@ -131,5 +155,5 @@ Open in VS Code and select the `vbf_pyenv` kernel. Use it to format or combine t
 
 - "ROOT not found" — ensure ROOT is installed and available in PATH (top-level setup script checks this).
 - "Histogram not found or not TH1" — verify `histogramName` and that each file contains the histogram.
-- No PDFs copied — confirm your plots are `.pdf` and that the parent folder name is listed in `ALLOWED_DIRS`.
+- No PDFs copied — confirm your plots are `.pdf`, that the parent folder name is listed in `ALLOWED_DIRS`, and that the figures are referenced by `\includegraphics` in the `.tex` files under your `latexDocPath`.
 - Notebooks can’t import project modules — add the project path to `sys.path` as shown above and use the `vbf_pyenv` kernel.

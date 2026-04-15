@@ -32,7 +32,7 @@ Environment setup
 Purpose: YAML-driven plotting of stacks (Data, Signal, Background) with optional Z′ overlays and post-fit scaling.
 
 Inputs
-- YAML config file (see `configExamplePlot.yml`) with keys like: `signal_sample`, `qcd_sample`, `is_post_fit`, `vbf_scale`, `qcd_scale`, `histograms`, `final_state`, `region`, `print_version`, `print_overflows`, `blind`, `blind_mass`, `additional_signal`, `unblind_purity_limit`, `background` list, optional `Zprime_pack`.
+- YAML config file (see `YamlConfigs/configExamplePlot.yml`) with keys like: `signal_sample`, `qcd_sample`, `is_CR`, `is_post_fit`, `vbf_scale`, `qcd_scale`, `histograms`, `final_state`, `region`, `print_version`, `print_overflows`, `blind`, `blind_mass`, `additional_signal`, `unblind_purity_limit`, `background` list, optional `Zprime_pack`.
 
 CLI
 - `python Plot.py <config_file> <channel> [--sfs-dict {Zll,Ztautau,Zee,Zmumu}] [--debug]`
@@ -168,13 +168,87 @@ Usage
 - Internals: `build_sample` (returns per-bin contents/errors with optional rebin and scaling), `build_background` sums samples in quadrature, writes a CSV with Background columns and one column per Z′ mass signal.
 
 
+### CLsLimitCalculation.py
+Purpose: Calculate 95% CL upper limits using `pyhf` for limit setting on signal cross-sections across multiple Z′ mass points.
+
+Usage
+- Script contains hardcoded file paths in `main()`; edit before running.
+- Functions: `extract_signal_points()`, `construct_signal_array()`, `merge_channels()` (merge or extend two channels), `calculate_limits()` (pyhf-based), `produce_plot()` (Brazil-band plot).
+
+Notes
+- Uses `AnalysisCommons.Constants.ZPRIME_XSEC` for cross-section values.
+- Outputs a matplotlib Brazil-band exclusion plot.
+
+
+### CrossSection95CLUpperLimit.py
+Purpose: Calculate 95% CL upper limit on cross-section using toy experiments.
+
+CLI
+- `python CrossSection95CLUpperLimit.py <totalExpected> <totalExpectedE> <signalExpected> <signalExpectedE> <systematicUncertaintySignal> <zPeakContamination> [--toys N]`
+  - `--toys`: Number of toy experiments (default: 30000).
+
+Behavior
+- Runs Poisson toy experiments with Gaussian-smeared signal and background, computes CLs, and outputs a matplotlib histogram of the limit distribution.
+
+
+### PlotNSameHistograms.py
+Purpose: Extract histograms from one or more ROOT files and overlay them with matplotlib, including per-bin uncertainty bars.
+
+CLI
+- `python PlotNSameHistograms.py <file1> [file2 ...] -n <hist_name> [-l LABEL1 LABEL2 ...] [-d] [--rebin-edges EDGES] [--normalisation F] [--cut-min V] [--cut-max V] [-x XLABEL] [-y YLABEL] [-t TITLE] [-o OUTPUT]`
+  - `-n` / `--hist-name` (required): histogram name to extract.
+  - `-d` / `--density`: plot as density.
+  - `--rebin-edges`: comma-separated custom bin edges.
+  - `--normalisation`: normalization factor (default: 1.0).
+  - `--cut-min`, `--cut-max`: cut values for efficiency calculation.
+  - `-o` / `--output`: output filename (default: `plot.png`).
+
+Notes
+- Includes per-bin error bars and an optional efficiency-box display.
+
+
+### SelectionEfficiency.py
+Purpose: Calculate and plot selection efficiency curves using `TGraphAsymmErrors` (Clopper-Pearson confidence intervals).
+
+Usage
+- Configuration is hardcoded in global variables (`EFFICIENCY_PAIRS`, `OBSERVABLES`); edit before running.
+- Functions: `compute_efficiency()`, `rebin_histogram()`, `remap_graph_to_equal_bins()`, `compute_average_graph()`, `plot_efficiency()`.
+
+Notes
+- Uses `histogramHelpers.HistogramInfo` templates for rebinning.
+- Produces ROOT `TCanvas` efficiency plots.
+
+
+### SignificanceScan.py
+Purpose: Calculate and visualize discovery significance as a function of cut value and signal sample, producing a heatmap.
+
+CLI
+- `python SignificanceScan.py <config_yaml> [--output FILE] [--log-level {1,2,3,4}]`
+  - `--output`: output plot file (default: `significance_scan.pdf`).
+  - `--log-level`: logging level (default: 3).
+
+Behavior
+- Reads a YAML config specifying `path`, `background_files`, `signal_files`, `histogram`, `cut_values`, and optional `bin_edges`, `scaling_factors`, `special_signal` blocks.
+- For each signal × cut combination, computes S/√(S+B) and produces a matplotlib heatmap.
+
+Notes
+- YAML config examples: `YamlConfigs/configSignificanceScanHM.yml`, `YamlConfigs/configSignificanceScanZpeak.yml`.
+
+
+### ABCDMjjRW.ipynb
+Purpose: Jupyter notebook for interactive ABCD closure tests and mjj reweighting studies.
+
+Notes
+- Open in VS Code and select the `vbf_pyenv` kernel.
+
+
 ## Metadata generation utilities
 
 ### MetadataGen/dict_creator.py
 Purpose: Discover MC sample folders under a path, look up xsec/k-factor/filter eff from `Xsec.csv`, and print dictionary lines for inclusion in metadata.
 
 Usage
-- Run `python MetadataGen/dict_creator.py`, answer whether these are systematic samples, then it iterates a predefined `dict_of_samples` map and prints lines like:
+- Run `python MetadataGen/dict_creator.py <path_to_samples_folder>`. The script reads the folder contents, then interactively asks whether these are systematic samples. It iterates a predefined `dict_of_samples` map and prints lines like:
   - `'Ztautau_2017'  :  ['<dir>','<mcid>',<xsec>,<kfac>,<filt>] ,`
 - To generate entries for other patterns, adjust `dict_of_samples` or call `create_dict(sample_name, sample_match_strings, systematic_samples=True/False)` interactively.
 
@@ -209,11 +283,15 @@ Usage
 
 ## Configuration example
 
-See `configExamplePlot.yml` for a complete Plot configuration. Key fields:
-- `signal_sample`, `qcd_sample`, `is_post_fit`, `vbf_scale`, `qcd_scale`
+See `YamlConfigs/configExamplePlot.yml` for a complete Plot configuration. Key fields:
+- `signal_sample`, `qcd_sample`, `is_CR`, `is_post_fit`, `vbf_scale`, `qcd_scale`
 - `histograms` (must match a key in `templatesDict`), `final_state`, `region`, `print_version`, `print_overflows`, `blind`, `blind_mass`, `unblind_purity_limit`
 - `background` entries with name/file/color
 - Optional `Zprime_pack` entries
+
+Additional YAML configuration files are in `YamlConfigs/`:
+- `configSignificanceScanHM.yml` — Significance scan config for the High-Mass region.
+- `configSignificanceScanZpeak.yml` — Significance scan config for the Z-peak region.
 
 
 ## Tips and caveats
@@ -228,7 +306,7 @@ See `configExamplePlot.yml` for a complete Plot configuration. Key fields:
 ## Quick start
 
 - Source environment helper inside `Scripts` (if needed; scripts auto-configure paths via `_setup_project_path`).
-- Copy and edit `configExamplePlot.yml` for your case, then run Plot.py with your channel and optional `--sfs-dict`.
+- Copy and edit `YamlConfigs/configExamplePlot.yml` for your case, then run Plot.py with your channel and optional `--sfs-dict`.
 - Use PlotVariousEWjjQCDjj.py to mass-generate plots across QCD/EW combinations.
 - Use MJEstimate.py to create `MJ.root` for Tau/Mu final states.
 - Build TRExFitter inputs with CreateTRExFitterInputs.py; use `--sys` to include systematic histograms.

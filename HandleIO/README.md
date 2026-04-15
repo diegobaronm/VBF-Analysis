@@ -228,7 +228,7 @@ How it works:
 - For (3) you can choose whether files are already in-place; otherwise it will copy them to the expected locations and then hadd.
 
 Important notes:
-- The script changes to a hardcoded working directory: `VBFAnalysisPlots/`. This directory is needed and is where your plots go.
+- The script changes to a hardcoded working directory: `../VBFAnalysisPlots/` (relative to `HandleIO/`). This directory must exist; run the script from `HandleIO/` or from the project root.
 - Uses `DEFAULT_MJJ_REWEIGHTING` and adds alternative RW variants for some Zll cases (e.g., `RWExponentialClosure`, `RWParabolicCutoff`).
 
 Run:
