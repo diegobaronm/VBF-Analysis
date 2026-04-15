@@ -1,0 +1,9 @@
+# BDT-0.3
+This is the BDT that was historically used in the analysis up to note v0.9.1
+
+# NewQCDNoRegSplits
+Includes:
+- New MC-based Mjj RW.
+- New HighMass cuts.
+- No old QCDjj samples.
+- No sample splitting in Ttbar 1-bjet and QCDjj 1-gap-jet. Just relax this cuts on all the datasets.

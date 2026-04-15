@@ -7,19 +7,6 @@ from histogramHelpers import templatesDict
 # Configuration
 # ============================================================================
 
-# Histogram template definitions for observables of interest.
-# HistogramInfo(name, binEdges, binSteps, binNorm, xTitle, units)
-reco_mass_observable = get_histogram_from_collection("reco_mass_", templatesDict["tautauZpeakHistograms"])
-reco_mass_observable.m_xTitle = "m_{#tau#tau} (true)"
-reco_mass_observable.m_name = "true_mass"
-# reco_mass_observable.m_binEdges = [160,190,210,240,260,290, 310,340, 360,390, 410,440, 460,490, 510,540, 560,590, 610,640, 660,690, 710,740, 760,790, 810,840, 860, 890, 910, 940, 960, 990]
-# reco_mass_observable.m_binSteps = [160,30,20,30, 20, 30, 20, 30, 20, 30, 20, 30, 20, 30, 20, 30, 20, 30, 20, 30, 20, 30, 20, 30, 20, 30, 20, 30, 20, 30, 20, 30, 20, 30, 10]
-reco_mass_observable.m_binNorm = 1
-
-OBSERVABLES = [
-    reco_mass_observable,
-]
-
 # Each entry defines one efficiency curve:
 #   "baseline_file"  : path to ROOT file containing the baseline histogram
 #   "baseline_hist"  : name of the baseline histogram inside the file
@@ -29,44 +16,44 @@ OBSERVABLES = [
 
 EFFICIENCY_PAIRS_Zprime= [
     {
-        "baseline_file" : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/NewQCDSamples/Zprime_NewQCDSamples_NoBDT/Zprime_200.root",
+        "baseline_file" : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/NoRegSplitsCut03/Test_NoBDTCut/Zprime_200.root",
         "baseline_hist" : "true_mass_basic_all",
-        "cuts_file"     : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/NewQCDSamples/Zprime_NewQCDSamples_BDT/Zprime_200.root",
+        "cuts_file"     : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/NoRegSplitsCut03/Test_BDTCut/Zprime_200.root",
         "cuts_hist"     : "true_mass_basic_all",
         "label"         : "Z' (m=200 GeV)",
     },
     {
-        "baseline_file" : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/NewQCDSamples/Zprime_NewQCDSamples_NoBDT/Zprime_300.root",
+        "baseline_file" : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/NoRegSplitsCut03/Test_NoBDTCut/Zprime_300.root",
         "baseline_hist" : "true_mass_basic_all",
-        "cuts_file"     : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/NewQCDSamples/Zprime_NewQCDSamples_BDT/Zprime_300.root",
+        "cuts_file"     : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/NoRegSplitsCut03/Test_BDTCut/Zprime_300.root",
         "cuts_hist"     : "true_mass_basic_all",
         "label"         : "Z' (m=300 GeV)",
     },
     {
-        "baseline_file" : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/NewQCDSamples/Zprime_NewQCDSamples_NoBDT/Zprime_400.root",
+        "baseline_file" : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/NoRegSplitsCut03/Test_NoBDTCut/Zprime_400.root",
         "baseline_hist" : "true_mass_basic_all",
-        "cuts_file"     : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/NewQCDSamples/Zprime_NewQCDSamples_BDT/Zprime_400.root",
+        "cuts_file"     : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/NoRegSplitsCut03/Test_BDTCut/Zprime_400.root",
         "cuts_hist"     : "true_mass_basic_all",
         "label"         : "Z' (m=400 GeV)",
     },
     {
-        "baseline_file" : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/NewQCDSamples/Zprime_NewQCDSamples_NoBDT/Zprime_500.root",
+        "baseline_file" : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/NoRegSplitsCut03/Test_NoBDTCut/Zprime_500.root",
         "baseline_hist" : "true_mass_basic_all",
-        "cuts_file"     : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/NewQCDSamples/Zprime_NewQCDSamples_BDT/Zprime_500.root",
+        "cuts_file"     : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/NoRegSplitsCut03/Test_BDTCut/Zprime_500.root",
         "cuts_hist"     : "true_mass_basic_all",
         "label"         : "Z' (m=500 GeV)",
     },
     {
-        "baseline_file" : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/NewQCDSamples/Zprime_NewQCDSamples_NoBDT/Zprime_750.root",
+        "baseline_file" : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/NoRegSplitsCut03/Test_NoBDTCut/Zprime_750.root",
         "baseline_hist" : "true_mass_basic_all",
-        "cuts_file"     : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/NewQCDSamples/Zprime_NewQCDSamples_BDT/Zprime_750.root",
+        "cuts_file"     : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/NoRegSplitsCut03/Test_BDTCut/Zprime_750.root",
         "cuts_hist"     : "true_mass_basic_all",
         "label"         : "Z' (m=750 GeV)",
     },
     {
-        "baseline_file" : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/NewQCDSamples/Zprime_NewQCDSamples_NoBDT/Zprime_900.root",
+        "baseline_file" : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/NoRegSplitsCut03/Test_NoBDTCut/Zprime_900.root",
         "baseline_hist" : "true_mass_basic_all",
-        "cuts_file"     : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/NewQCDSamples/Zprime_NewQCDSamples_BDT/Zprime_900.root",
+        "cuts_file"     : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/NoRegSplitsCut03/Test_BDTCut/Zprime_900.root",
         "cuts_hist"     : "true_mass_basic_all",
         "label"         : "Z' (m=900 GeV)",
     },
@@ -82,23 +69,23 @@ EFFICIENCY_PAIRS_Zprime= [
 
 EFFICIENCY_PAIRS_EWjj = [
     {
-        "baseline_file" : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/TauTau/TauhadTaulep/HighMass/NoBDTOS/Signal_truth_Sherpa.root",
+        "baseline_file" : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/NoRegSplitsCut03/Test_NoBDTCut/Signal_truth_Sherpa.root",
         "baseline_hist" : "true_mass_basic_all",
-        "cuts_file"     : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/TauTau/TauhadTaulep/HighMass/BDTOS/Signal_truth_Sherpa.root",
+        "cuts_file"     : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/NoRegSplitsCut03/Test_BDTCut/Signal_truth_Sherpa.root",
         "cuts_hist"     : "true_mass_basic_all",
         "label"         : "Sherpa2.2.11",
     },
     {
-        "baseline_file" : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/TauTau/TauhadTaulep/HighMass/NoBDTOS/Signal_truth_PoPy.root",
+        "baseline_file" : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/NoRegSplitsCut03/Test_NoBDTCut/Signal_truth_PoPy.root",
         "baseline_hist" : "true_mass_basic_all",
-        "cuts_file"     : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/TauTau/TauhadTaulep/HighMass/BDTOS/Signal_truth_PoPy.root",
+        "cuts_file"     : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/NoRegSplitsCut03/Test_BDTCut/Signal_truth_PoPy.root",
         "cuts_hist"     : "true_mass_basic_all",
         "label"         : "PoPy",
     },
     {
-        "baseline_file" : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/TauTau/TauhadTaulep/HighMass/NoBDTOS/Signal_truth_MG.root",
+        "baseline_file" : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/NoRegSplitsCut03/Test_NoBDTCut/Signal_truth_MG.root",
         "baseline_hist" : "true_mass_basic_all",
-        "cuts_file"     : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/TauTau/TauhadTaulep/HighMass/BDTOS/Signal_truth_MG.root",
+        "cuts_file"     : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/NoRegSplitsCut03/Test_BDTCut/Signal_truth_MG.root",
         "cuts_hist"     : "true_mass_basic_all",
         "label"         : "MadGraph",
     },
@@ -113,6 +100,20 @@ EFFICIENCY_PAIRS_EWjj = [
 ]
 
 EFFICIENCY_PAIRS = EFFICIENCY_PAIRS_EWjj
+
+# Histogram template definitions for observables of interest.
+# HistogramInfo(name, binEdges, binSteps, binNorm, xTitle, units)
+reco_mass_observable = get_histogram_from_collection("reco_mass_", templatesDict["tautauZpeakHistograms"])
+reco_mass_observable.m_xTitle = "m_{#tau#tau} (true)"
+reco_mass_observable.m_name = "true_mass"
+if EFFICIENCY_PAIRS == EFFICIENCY_PAIRS_Zprime:
+    reco_mass_observable.m_binEdges = [160,190,210,240,260,290, 310,340, 360,390, 410,440, 460,490, 510,540, 560,590, 610,640, 660,690, 710,740, 760,790, 810,840, 860, 890, 910, 940, 960, 990]
+    reco_mass_observable.m_binSteps = [160,30,20,30, 20, 30, 20, 30, 20, 30, 20, 30, 20, 30, 20, 30, 20, 30, 20, 30, 20, 30, 20, 30, 20, 30, 20, 30, 20, 30, 20, 30, 20, 30, 10]
+reco_mass_observable.m_binNorm = 1
+
+OBSERVABLES = [
+    reco_mass_observable,
+]
 
 # Plot appearance
 OUTPUT_DIR          = "results/"

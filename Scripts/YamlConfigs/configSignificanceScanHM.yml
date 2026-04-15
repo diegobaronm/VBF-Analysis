@@ -1,0 +1,42 @@
+# --------------------------------------------------
+# Configuration for SignificanceScan.py
+# --------------------------------------------------
+
+# Path to the directory containing the ROOT files
+path: /Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/TauTau/TauhadTaulep/HighMass/NoRegSplitsBDTZprimeOS/
+
+# Comma-separated list of background ROOT file names
+background_files: VV.root, VV_EWK.root, Wjets.root, W_EWK_Sherpa.root, Zjets.root, ttbar.root, singletop.root, MJ.root, Higgs.root, Higgs_truth_EWK.root, Ztautau_SherpaNLO_RWParabolicCutoffClosure.root, Signal_truth_PoPy.root
+
+# Comma-separated list of signal ROOT file names
+signal_files: Zprime_200.root, Zprime_300.root, Zprime_400.root, Zprime_500.root, Zprime_600.root, Zprime_700.root, Zprime_800.root, Zprime_900.root, Zprime_1000.root, Zprime_1000.root, Zprime_1400.root, Zprime_1600.root
+
+# Special signal blocks: each entry defines its own signal and background samples.
+# Uncomment and adjust as needed.
+special_signal:
+  - signal_samples: Signal_truth_PoPy.root, Higgs_truth_EWK.root
+    bg_samples: VV.root, VV_EWK.root, Wjets.root, W_EWK_Sherpa.root, Zjets.root, ttbar.root, singletop.root, MJ.root, Higgs.root, Ztautau_SherpaNLO_RWParabolicCutoffClosure.root
+  - signal_samples: Signal_truth_Sherpa.root, Higgs_truth_EWK.root
+    bg_samples: VV.root, VV_EWK.root, Wjets.root, W_EWK_Sherpa.root, Zjets.root, ttbar.root, singletop.root, MJ.root, Higgs.root, Ztautau_SherpaNLO_RWParabolicCutoffClosure.root
+  - signal_samples: Signal_truth_MG.root
+    bg_samples: VV.root, VV_EWK.root, Wjets.root, W_EWK_Sherpa.root, Zjets.root, ttbar.root, singletop.root, MJ.root, Higgs.root, Ztautau_SherpaNLO_RWParabolicCutoffClosure.root
+
+
+# Name of the histogram to use for the cut scan
+histogram: bdtScore
+
+# Scaling factors: samples (without .root) to scale before summing.
+# Uncomment and adjust as needed.
+scaling_factors:
+  - Signal_truth_PoPy: 0.793
+  - Signal_truth_Sherpa: 0.923
+  - Signal_truth_MG: 1.465
+
+# Cut values to scan (events to the RIGHT of each cut are integrated)
+cut_values: [-1, -0.4, -0.15, 0.1, 0.3, 0.5, 0.75, 1.0]
+
+# Bin edges for rebinning the histogram (optional, remove to skip rebinning)
+bin_edges: [-1.0, -0.8, -0.6, -0.4, -0.15, 0.1, 0.3, 0.5, 0.75, 1.0]
+
+# Font size for all plot text elements (default: 16)
+# font_size: 16
