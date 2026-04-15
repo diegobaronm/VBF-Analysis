@@ -11,21 +11,24 @@ VBF-Analysis/
 ├── setup_vbf_env.sh             # Virtual-environment setup script
 │
 ├── AnalysisCommons/             # Shared analysis code
-│   ├── Logger.py                # Logging (timestamps, colour, optional file output)
+│   ├── Logger.py                # Logging (colour, optional file output)
 │   ├── Constants.py             # Physics constants (RQCD, normalisation factors, Z' xsecs)
 │   ├── Run.py                   # Core analysis engine (event loop, compilation, output handling)
-│   ├── Systematics.py           # 160+ systematic variation definitions
+│   ├── Systematics.py           # 396 systematic variation definitions
 │   └── Metadata/                # Dataset and channel configuration
 │       ├── ChannelConfig.py     # Channel registry (maps name → metadata)
 │       ├── DatasetsPaths.py     # Input ntuple paths (per-user)
 │       ├── OutputPaths.py       # Output paths for HTCondor (per-user)
+│       ├── getDSIDsInUse.py     # DSID cross-reference utility
 │       ├── infofile*.py         # MC cross-section / efficiency metadata
 │       └── datasets*.py         # Dataset combination definitions
 │
 ├── EleTau/ TauMu/ MuEle/        # τ-lepton decay channels
 │   └── MC/
-│       ├── Analysis.C           # Channel-specific C++ selection code
-│       ├── backend/             # Compiled C++ event loop (CLoop.C, CLoopSYS.C)
+│       ├── Analysis.C / .h      # Channel-specific C++ analysis code
+│       ├── AnalysisSYS.C / .h   # Systematic-variation C++ analysis code
+│       ├── Selections.C         # Selection criteria implementation
+│       ├── backend/             # Compiled C++ event loop (CLoop.C/H, CLoopSYS.C/H)
 │       └── InputDatasets/       # Input file lists
 │
 ├── MuMu/ Zee/                   # Di-lepton decay channels (same structure)
@@ -78,7 +81,7 @@ options:
   --sys-channel CH      Systematics channel (Zee, Zmm, Zem, Ztm, Zte).
                         Required when --sys is set
   --sys-type TYPES      Comma-separated systematic types to run
-                        (sf, kinematic, theory). Default: sf,kinematic
+                        (sf, kinematic, theory) or 'all'. Default: sf,kinematic
 ```
 
 ### HTCondor
@@ -103,7 +106,7 @@ source setup_vbf_env.sh
 This will:
 1. Check that ROOT is installed and available
 2. Create a `vbf_pyenv` virtual environment (first run only)
-3. Install dependencies from `requirements.txt` (numpy, pandas, scipy, pyhf, matplotlib, uncertainties)
+3. Install dependencies from `requirements.txt` (numpy, pandas, scipy, pyhf, matplotlib, uncertainties, ipython, ipykernel)
 4. Activate the environment
 
 Subsequent runs simply activate the existing environment. To deactivate: `deactivate`.
@@ -149,7 +152,7 @@ The analysis uses a custom logging system in `AnalysisCommons/Logger.py` with fo
 | 3 | `INFO` | Green |
 | 4 | `DEBUG` | Blue |
 
-All log messages include timestamps. To also write logs to a file, pass `--log-file <path>` to `RunAnalysis.py` or call `Logger.enableFileLogging(path)` in your scripts.
+Log messages do not include timestamps. To also write logs to a file, pass `--log-file <path>` to `RunAnalysis.py` or call `Logger.enableFileLogging(path)` in your scripts.
 
 A reusable interactive `menu()` function is also available:
 

@@ -85,6 +85,14 @@ export VBF_TEST_DATA="$(pwd)/test/test_data"
 bash test/run_channel.sh EleTau hn ZpeakOS
 ```
 
+## Comparing outputs manually
+
+```bash
+python3 test/compare_outputs.py <output_file_or_dir> <reference_file_or_dir> [--tolerance 1e-6]
+```
+
+The script checks that both ROOT files have matching keys (histograms/trees), and for important histograms (`mass_jj`, `inv_mass`, `reco_mass`, `delta_y`, `delta_phi`, lepton/tau pT, jets, `pt_bal`, `Z_centrality`, `BDT`, `MET`), it validates that bin counts, bin contents, and integrals match within the given tolerance. For TTrees, it checks entry counts and branch names. Exit code 0 means all checks passed; exit code 1 means one or more failed.
+
 ## CI workflow
 
 The GitHub Actions workflow (`.github/workflows/ci.yml`) runs on every push
