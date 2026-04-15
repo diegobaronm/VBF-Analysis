@@ -63,6 +63,7 @@ void CLoop::Book() {
 
 void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
   double pi=TMath::Pi();
+  const bool isData = sampleName.substr(0, 4) == "data";
   // Charges and lepton ID
   bool correctCharge = Kinematics::isChargeCorrect(m_region,muon_0_q,muon_1_q);
   bool muon_id = muon_0_id_medium && muon_1_id_medium;
@@ -79,7 +80,7 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
     trigger_match_1 = bool((muTrigMatch_0_HLT_mu20_iloose_L1MU15 | muTrigMatch_0_HLT_mu50) && !(muTrigMatch_1_HLT_mu20_iloose_L1MU15 | muTrigMatch_1_HLT_mu50));
     trigger_match_2 = bool(!(muTrigMatch_0_HLT_mu20_iloose_L1MU15 | muTrigMatch_0_HLT_mu50) && (muTrigMatch_1_HLT_mu20_iloose_L1MU15 | muTrigMatch_1_HLT_mu50));
     trigger_match_12 = bool((muTrigMatch_0_HLT_mu20_iloose_L1MU15 | muTrigMatch_0_HLT_mu50) && (muTrigMatch_1_HLT_mu20_iloose_L1MU15 | muTrigMatch_1_HLT_mu50));
-    if(sampleName.substr(0,4)!="data"){
+    if(!isData){
       if (trigger_match_1){weight=weight*muon_0_NOMINAL_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium;}
       if (trigger_match_2){weight=weight*muon_1_NOMINAL_MuEffSF_HLT_mu20_iloose_L1MU15_OR_HLT_mu50_QualMedium;}
     }
@@ -89,7 +90,7 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
     trigger_match_1 = bool((muTrigMatch_0_HLT_mu26_ivarmedium | muTrigMatch_0_HLT_mu50) && !(muTrigMatch_1_HLT_mu26_ivarmedium | muTrigMatch_1_HLT_mu50));
     trigger_match_2 = bool(!(muTrigMatch_0_HLT_mu26_ivarmedium | muTrigMatch_0_HLT_mu50) && (muTrigMatch_1_HLT_mu26_ivarmedium | muTrigMatch_1_HLT_mu50));
     trigger_match_12 = bool((muTrigMatch_0_HLT_mu26_ivarmedium | muTrigMatch_0_HLT_mu50) && (muTrigMatch_1_HLT_mu26_ivarmedium | muTrigMatch_1_HLT_mu50));
-    if(sampleName.substr(0,4)!="data"){
+    if(!isData){
       if (trigger_match_1){weight=weight*muon_0_NOMINAL_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium;}
       if (trigger_match_2){weight=weight*muon_1_NOMINAL_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium;}
     }
@@ -109,7 +110,7 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
 
   // Prevent high PileUPRW events.
   bool goodPUW = true;
-  if(sampleName.substr(0,4) == "data") goodPUW = true; // This is just to be explicit that this should not affect the data.
+  if(isData) goodPUW = true; // This is just to be explicit that this should not affect the data.
   else goodPUW = NOMINAL_pileup_combined_weight > -10;
 
   if (correctCharge && n_muons==2 && muon_id && n_ljets>=2 && n_ljets<=3 && goodPUW && mjj>=250 && mll >=40 && trigger_decision && trigger_match){
@@ -225,7 +226,7 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
     metContainer.Fill(met_reco_p4->Pt(),weight,cutsVector);
     lep1_phiContainer.Fill(muon_0_p4->Phi(),weight,notFullCutsVector);
     lep2_phiContainer.Fill(muon_1_p4->Phi(),weight,notFullCutsVector);
-    if(sampleName.substr(0,4)!="data"){Z_pt_truthContainer.Fill(truth_z_pt,weight,notFullCutsVector);}
+    if(!isData){Z_pt_truthContainer.Fill(truth_z_pt,weight,notFullCutsVector);}
     if(n_jets_interval==1){gap_jet_ptContainer.Fill(pt_gap_jet,weight,notFullCutsVector);}
     jet_nContainer.Fill(n_jets,weight,notFullCutsVector);
     Z_pt_recoContainer.Fill(Z_pt,weight,notFullCutsVector);

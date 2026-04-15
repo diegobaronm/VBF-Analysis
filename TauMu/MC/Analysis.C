@@ -107,6 +107,7 @@ void CLoop::Book() {
 
 void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
   double pi=TMath::Pi();
+  const bool isData = sampleName.substr(0, 4) == "data";
   // Charges and lepton ID
   bool correctCharge = Kinematics::isChargeCorrect(m_region,muon_0_q,tau_0_q);
   bool lepton_id=muon_0_id_medium;
@@ -125,7 +126,7 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
     trigger_match=bool(muTrigMatch_0_HLT_mu26_ivarmedium | muTrigMatch_0_HLT_mu50);
     muon_trigger_SF = muon_0_NOMINAL_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium;  
   }
-  if (sampleName.substr(0,4)!="data") weight *= muon_trigger_SF; // Apply trigger SF only to MC
+  if (!isData) weight *= muon_trigger_SF; // Apply trigger SF only to MC
 
   // 0) Invariant mass of tagging jets.
   double mjj = Kinematics::Mass({ljet_0_p4, ljet_1_p4});
@@ -286,7 +287,7 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
     std::vector<int> cutsSignalRegion = Selections::ApplySelection("HighMassOS", cutVars);
     bool signalRegion = Tools::passedAllCuts(cutsSignalRegion);
 
-    if (sampleName.substr(0,4)=="data" && signalRegion && Kinematics::isChargeCorrect("OS",muon_0_q,tau_0_q)) return;
+    if (isData && signalRegion && Kinematics::isChargeCorrect("OS",muon_0_q,tau_0_q)) return;
 
     bool MJCR = (tau_0_n_charged_tracks==1 && tau_0_jet_rnn_score_trans < 0.25) || (tau_0_n_charged_tracks==3 && tau_0_jet_rnn_score_trans < 0.40) || (muon_0_iso_TightTrackOnly_FixedRad==0);
 
@@ -369,7 +370,7 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
     delta_R_taujetContainer.Fill(min_dR_tau,weight,cutsVector);
     metContainer.Fill(met_reco_p4->Pt(),weight,cutsVector);
 
-    if (sampleName.substr(0,4)!="data"){
+    if (!isData){
       if(tauTauTopology == Kinematics::TauTauTopology::INSIDE){Z_pt_truth_iNotFullContainer.Fill(truth_z_pt,weight,notFullCutsVector);}
       else {Z_pt_truth_oNotFullContainer.Fill(truth_z_pt,weight,notFullCutsVector);}
       if (tau_0_n_charged_tracks==1){
@@ -553,6 +554,7 @@ extern double BgTree_event_number;
 
 void CLoop::FillTree(double weight, int z_sample, const std::string& sampleName, TTree* stree, TTree* btree) {
   double pi=TMath::Pi();
+  const bool isData = sampleName.substr(0, 4) == "data";
   // Charges and lepton ID
   bool correctCharge = Kinematics::isChargeCorrect(m_region,muon_0_q,tau_0_q);
   bool lepton_id=muon_0_id_medium;
@@ -571,7 +573,7 @@ void CLoop::FillTree(double weight, int z_sample, const std::string& sampleName,
     trigger_match=bool(muTrigMatch_0_HLT_mu26_ivarmedium | muTrigMatch_0_HLT_mu50);
     muon_trigger_SF = muon_0_NOMINAL_MuEffSF_HLT_mu26_ivarmedium_OR_HLT_mu50_QualMedium;  
   }
-  if (sampleName.substr(0,4)!="data") weight *= muon_trigger_SF; // Apply trigger SF only to MC
+  if (!isData) weight *= muon_trigger_SF; // Apply trigger SF only to MC
 
   // 0) Invariant mass of tagging jets.
   double mjj = Kinematics::Mass({ljet_0_p4, ljet_1_p4});

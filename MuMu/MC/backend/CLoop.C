@@ -57,6 +57,7 @@ void CLoop::Loop(double lumFactor, int z_sample, const std::string& key, int log
     g_LOG(LogLevel::INFO,"Number of events to analyse = ", nLoop);
 
     Long64_t nbytes = 0, nb = 0;
+    const bool isData = key.substr(0, 4) == "data";
     #ifdef NOMINAL
     // Only relevant branches are activated
     fChain->SetBranchStatus("*",0);
@@ -192,7 +193,7 @@ void CLoop::Loop(double lumFactor, int z_sample, const std::string& key, int log
         jet_NOMINAL_forward_jets_global_ineffSF_JVT*jet_NOMINAL_global_effSF_MV2c10_FixedCutBEff_85*jet_NOMINAL_global_ineffSF_MV2c10_FixedCutBEff_85);
         
         // check if event is from real data
-        if (!(key.substr(0,4)=="data")) {
+        if (!isData) {
             // Do not apply pileup reweighting to VBF MadGraph samples
             float puWeight = NOMINAL_pileup_combined_weight;
             if (key.find("VBF") != std::string::npos && key.find("MG") != std::string::npos)

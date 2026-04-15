@@ -82,6 +82,7 @@ void CLoop::Book() {
 
 void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) { // Muon is tau
   double pi=TMath::Pi();
+  const bool isData = sampleName.substr(0, 4) == "data";
   // Charges and lepton ID
   bool correctCharge = Kinematics::isChargeCorrect(m_region,elec_0_q,muon_0_q);
   bool muon_id = muon_0_id_medium;
@@ -288,7 +289,7 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) { /
     }
     
     // HISTOGRAM FILLING STARTING IN BASIC SELECTION
-    if (sampleName.substr(0,4)!="data"){
+    if (!isData){
       if(tauTauTopology == Kinematics::TauTauTopology::INSIDE){Z_pt_truth_iNotFullContainer.Fill(truth_z_pt,weight,notFullCutsVector);}
       else {Z_pt_truth_oNotFullContainer.Fill(truth_z_pt,weight,notFullCutsVector);}
     }

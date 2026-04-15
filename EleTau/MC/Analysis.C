@@ -111,6 +111,7 @@ void CLoop::Book() {
 
 void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
   double pi=TMath::Pi();
+  const bool isData = sampleName.substr(0, 4) == "data";
   // Charges and lepton ID
   bool correctCharge = Kinematics::isChargeCorrect(m_region,elec_0_q,tau_0_q);
   bool lepton_id=elec_0_id_tight;
@@ -290,7 +291,7 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
     bool signalRegion = Tools::passedAllCuts(cutsSignalRegion);
     std::string passAllHMString = signalRegion ? "Yes" : "No";
     g_LOG(LogLevel::DEBUG, "Passes all signal region cuts:", passAllHMString);
-    if (sampleName.substr(0,4)=="data" && signalRegion && Kinematics::isChargeCorrect("OS",elec_0_q,tau_0_q)) return;
+    if (isData && signalRegion && Kinematics::isChargeCorrect("OS",elec_0_q,tau_0_q)) return;
 
     bool MJCR = (tau_0_n_charged_tracks==1 && tau_0_jet_rnn_score_trans < 0.25) || (tau_0_n_charged_tracks==3 && tau_0_jet_rnn_score_trans < 0.40) || (elec_0_iso_FCTight==0);
 
@@ -375,7 +376,7 @@ void CLoop::Fill(double weight, int z_sample, const std::string& sampleName) {
     delta_R_taujetContainer.Fill(min_dR_tau,weight,cutsVector);
     metContainer.Fill(met_reco_p4->Pt(),weight,cutsVector);
 
-    if (sampleName.substr(0,4)!="data"){
+    if (!isData){
       if(tauTauTopology == Kinematics::TauTauTopology::INSIDE){Z_pt_truth_iNotFullContainer.Fill(truth_z_pt,weight,notFullCutsVector);}
       else {Z_pt_truth_oNotFullContainer.Fill(truth_z_pt,weight,notFullCutsVector);}
       if (tau_0_n_charged_tracks==1){
@@ -561,6 +562,7 @@ extern double BgTree_event_number;
 
 void CLoop::FillTree(double weight, int z_sample, const std::string& sampleName, TTree* stree, TTree* btree) {
   double pi=TMath::Pi();
+  const bool isData = sampleName.substr(0, 4) == "data";
   // Charges and lepton ID
   bool correctCharge = Kinematics::isChargeCorrect(m_region,elec_0_q,tau_0_q);
   bool lepton_id=elec_0_id_tight;
