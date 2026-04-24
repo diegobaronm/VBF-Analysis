@@ -3,7 +3,7 @@
 # --------------------------------------------------
 
 # Path to the directory containing the ROOT files
-path: /Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/TauTau/TauhadTaulep/HighMass/NoRegSplitsBDTZprimeOS/
+path: /Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/TauTau/TauhadTaulep/HighMass/BDT5FoldsOS/
 
 # Comma-separated list of background ROOT file names
 background_files: VV.root, VV_EWK.root, Wjets.root, W_EWK_Sherpa.root, Zjets.root, ttbar.root, singletop.root, MJ.root, Higgs.root, Higgs_truth_EWK.root, Ztautau_SherpaNLO_RWParabolicCutoffClosure.root, Signal_truth_PoPy.root

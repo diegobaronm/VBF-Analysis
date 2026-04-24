@@ -16,44 +16,44 @@ from histogramHelpers import templatesDict
 
 EFFICIENCY_PAIRS_Zprime= [
     {
-        "baseline_file" : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/NoRegSplitsCut03/Test_NoBDTCut/Zprime_200.root",
+        "baseline_file" : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/5Folds/Test_NoBDTCut/Zprime_200.root",
         "baseline_hist" : "true_mass_basic_all",
-        "cuts_file"     : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/NoRegSplitsCut03/Test_BDTCut/Zprime_200.root",
+        "cuts_file"     : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/5Folds/Test_BDTCut/Zprime_200.root",
         "cuts_hist"     : "true_mass_basic_all",
         "label"         : "Z' (m=200 GeV)",
     },
     {
-        "baseline_file" : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/NoRegSplitsCut03/Test_NoBDTCut/Zprime_300.root",
+        "baseline_file" : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/5Folds/Test_NoBDTCut/Zprime_300.root",
         "baseline_hist" : "true_mass_basic_all",
-        "cuts_file"     : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/NoRegSplitsCut03/Test_BDTCut/Zprime_300.root",
+        "cuts_file"     : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/5Folds/Test_BDTCut/Zprime_300.root",
         "cuts_hist"     : "true_mass_basic_all",
         "label"         : "Z' (m=300 GeV)",
     },
     {
-        "baseline_file" : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/NoRegSplitsCut03/Test_NoBDTCut/Zprime_400.root",
+        "baseline_file" : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/5Folds/Test_NoBDTCut/Zprime_400.root",
         "baseline_hist" : "true_mass_basic_all",
-        "cuts_file"     : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/NoRegSplitsCut03/Test_BDTCut/Zprime_400.root",
+        "cuts_file"     : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/5Folds/Test_BDTCut/Zprime_400.root",
         "cuts_hist"     : "true_mass_basic_all",
         "label"         : "Z' (m=400 GeV)",
     },
     {
-        "baseline_file" : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/NoRegSplitsCut03/Test_NoBDTCut/Zprime_500.root",
+        "baseline_file" : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/5Folds/Test_NoBDTCut/Zprime_500.root",
         "baseline_hist" : "true_mass_basic_all",
-        "cuts_file"     : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/NoRegSplitsCut03/Test_BDTCut/Zprime_500.root",
+        "cuts_file"     : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/5Folds/Test_BDTCut/Zprime_500.root",
         "cuts_hist"     : "true_mass_basic_all",
         "label"         : "Z' (m=500 GeV)",
     },
     {
-        "baseline_file" : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/NoRegSplitsCut03/Test_NoBDTCut/Zprime_750.root",
+        "baseline_file" : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/5Folds/Test_NoBDTCut/Zprime_750.root",
         "baseline_hist" : "true_mass_basic_all",
-        "cuts_file"     : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/NoRegSplitsCut03/Test_BDTCut/Zprime_750.root",
+        "cuts_file"     : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/5Folds/Test_BDTCut/Zprime_750.root",
         "cuts_hist"     : "true_mass_basic_all",
         "label"         : "Z' (m=750 GeV)",
     },
     {
-        "baseline_file" : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/NoRegSplitsCut03/Test_NoBDTCut/Zprime_900.root",
+        "baseline_file" : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/5Folds/Test_NoBDTCut/Zprime_900.root",
         "baseline_hist" : "true_mass_basic_all",
-        "cuts_file"     : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/NoRegSplitsCut03/Test_BDTCut/Zprime_900.root",
+        "cuts_file"     : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/5Folds/Test_BDTCut/Zprime_900.root",
         "cuts_hist"     : "true_mass_basic_all",
         "label"         : "Z' (m=900 GeV)",
     },
@@ -69,23 +69,23 @@ EFFICIENCY_PAIRS_Zprime= [
 
 EFFICIENCY_PAIRS_EWjj = [
     {
-        "baseline_file" : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/NoRegSplitsCut03/Test_NoBDTCut/Signal_truth_Sherpa.root",
+        "baseline_file" : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/5Folds/Test_NoBDTCut/Signal_truth_Sherpa.root",
         "baseline_hist" : "true_mass_basic_all",
-        "cuts_file"     : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/NoRegSplitsCut03/Test_BDTCut/Signal_truth_Sherpa.root",
+        "cuts_file"     : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/5Folds/Test_BDTCut/Signal_truth_Sherpa.root",
         "cuts_hist"     : "true_mass_basic_all",
         "label"         : "Sherpa2.2.11",
     },
     {
-        "baseline_file" : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/NoRegSplitsCut03/Test_NoBDTCut/Signal_truth_PoPy.root",
+        "baseline_file" : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/5Folds/Test_NoBDTCut/Signal_truth_PoPy.root",
         "baseline_hist" : "true_mass_basic_all",
-        "cuts_file"     : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/NoRegSplitsCut03/Test_BDTCut/Signal_truth_PoPy.root",
+        "cuts_file"     : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/5Folds/Test_BDTCut/Signal_truth_PoPy.root",
         "cuts_hist"     : "true_mass_basic_all",
         "label"         : "PoPy",
     },
     {
-        "baseline_file" : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/NoRegSplitsCut03/Test_NoBDTCut/Signal_truth_MG.root",
+        "baseline_file" : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/5Folds/Test_NoBDTCut/Signal_truth_MG.root",
         "baseline_hist" : "true_mass_basic_all",
-        "cuts_file"     : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/NoRegSplitsCut03/Test_BDTCut/Signal_truth_MG.root",
+        "cuts_file"     : "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/BDTTraining/5Folds/Test_BDTCut/Signal_truth_MG.root",
         "cuts_hist"     : "true_mass_basic_all",
         "label"         : "MadGraph",
     },
@@ -99,7 +99,7 @@ EFFICIENCY_PAIRS_EWjj = [
     # },
 ]
 
-EFFICIENCY_PAIRS = EFFICIENCY_PAIRS_EWjj
+EFFICIENCY_PAIRS = EFFICIENCY_PAIRS_Zprime
 
 # Histogram template definitions for observables of interest.
 # HistogramInfo(name, binEdges, binSteps, binNorm, xTitle, units)
@@ -122,11 +122,11 @@ Y_AXIS_TITLE        = "Efficiency"
 Y_RANGE             = (0.0, 1.25)
 COLOURS             = [r.kBlack, r.kRed, r.kBlue, r.kGreen+2, r.kOrange+1, r.kViolet]
 MARKER_STYLES       = [20, 21, 22, 23, 34, 33]
-CANVAS_WIDTH        = 1200
+CANVAS_WIDTH        = 1200 if EFFICIENCY_PAIRS == EFFICIENCY_PAIRS_EWjj else 2400
 CANVAS_HEIGHT       = 600
 EQUAL_BIN_WIDTH     = True   # Display variable-width bins as visually equal-width
-PLOT_AVERAGE        = True   # Overlay the average efficiency across all curves
-SEPARATE_PLOTS      = False  # If True, produce one plot per efficiency pair; if False, overlay all on one plot
+PLOT_AVERAGE        = True if  EFFICIENCY_PAIRS == EFFICIENCY_PAIRS_EWjj else False  # Overlay the average efficiency across all curves
+SEPARATE_PLOTS      = False if  EFFICIENCY_PAIRS == EFFICIENCY_PAIRS_EWjj else True  # If True, produce one plot per efficiency pair; if False, overlay all on one plot
 
 # ============================================================================
 # Core functions

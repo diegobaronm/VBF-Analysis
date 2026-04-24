@@ -55,7 +55,7 @@ def copy_dir_recursive(src_dir, dst_dir, allowed_figures):
     return n_copied
 
 
-ALLOWED_DIRS = ['Zee','MuMu','Zll','TauTau','TauMu','EleTau','MuEle','MjjRWStudies']
+ALLOWED_DIRS = ['Zee','MuMu','Zll','TauTau','TauMu','EleTau','MuEle','MjjRWStudies','BDTTraining']
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Copy only selected directories containing PDF files.")
