@@ -1,0 +1,15 @@
+- output_file: /Users/user/Documents/HEP/VBF-Analysis/Scripts/results/CLsInputs_HadLep.csv
+  samples_path: /Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/TauTau/TauhadTaulep/HighMass/BDT5FoldsOS
+  SFs_qcd_ewk: ["Ztautau_SherpaNLO_RWParabolicCutoffClosure","Signal_truth_MG"]
+  EWKjj: Signal_truth_MG.root
+  QCDjj: Ztautau_SherpaNLO_RWParabolicCutoffClosure.root
+  Backgrounds: ["VV.root","VV_EWK.root","W_EWK_Sherpa.root","Zjets.root","ttbar.root","singletop.root","MJ.root","Higgs.root"]
+  histogram_template: reco_mass_
+- output_file: /Users/user/Documents/HEP/VBF-Analysis/Scripts/results/CLsInputs_HadHad.csv
+  samples_path: /Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/TauHadTauHad (1)/EB6a_0.2/high/root/
+  SFs_qcd_ewk: ["Ztautau_SherpaNLO_RWParabolicCutoffClosure","Signal_truth_MG"]
+  EWKjj: Signal_MG.root
+  QCDjj: Ztautau_sh2214.root
+  Backgrounds: ["VV_QCD.root","VV_EWK.root","W_EWK.root","Zjets.root","Wjets.root","ttbar.root","singletop.root","Other_Higgs.root"]
+  histogram_template: reconstructedMass
+  bin_edges: [   0.,   66.,   81.,   91.,  101.,  116.,  127.,  138.,  149.,  160.,  190.,  220., 250.,  375.,  500.,  750., 1000., 3500.]
