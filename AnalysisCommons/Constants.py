@@ -45,16 +45,16 @@ NORM_FACTORS_DICT['Zll'] = {
 NORM_FACTORS_DICT['Ztautau'] = {
     'Sherpa_RWParabolicCutoffClosure_Sherpa' : [1.000, 1.101],
     'MG_RWParabolicCutoffClosure_Sherpa' : [1.040,1.010],
-    'SherpaNLO_RWParabolicCutoffClosure_Sherpa' : [1.071, 0.870],
-    'MGNLO_RWParabolicCutoffClosure_Sherpa' : [1.201, 0.744],
+    'SherpaNLO_RWParabolicCutoffClosure_Sherpa' : [1.020, 0.802],
+    'MGNLO_RWParabolicCutoffClosure_Sherpa' : [1.225, 0.560],
 
     'SherpaNLO_RWParabolicCutoffClosure_MG' : [1.046, 1.391],
     'MGNLO_RWParabolicCutoffClosure_MG' : [1.281, 0.836],
 
     'Sherpa_RWParabolicCutoffClosure_PoPy' : [1.050, 0.898],
     'MG_RWParabolicCutoffClosure_PoPy' : [1.083, 0.831],
-    'SherpaNLO_RWParabolicCutoffClosure_PoPy' : [1.106, 0.720],
-    'MGNLO_RWParabolicCutoffClosure_PoPy' : [1.220,0.652],
+    'SherpaNLO_RWParabolicCutoffClosure_PoPy' : [1.057, 0.652],
+    'MGNLO_RWParabolicCutoffClosure_PoPy' : [1.259,0.439],
 }
 
 NORM_FACTORS_DICT['Zee'] = {
