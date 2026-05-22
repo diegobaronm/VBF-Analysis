@@ -260,4 +260,3 @@ if __name__ == '__main__':
     plt.tight_layout()
     plt.savefig(args.output, dpi=350)
     INFO.log('Saved significance heatmap to %s' % args.output)
-    plt.show()

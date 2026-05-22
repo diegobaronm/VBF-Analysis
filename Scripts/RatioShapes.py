@@ -1,6 +1,6 @@
 import ROOT as r
 from histogramHelpers import normalization, biner, HistogramInfo
-from histogramHelpers import mumuZpeakHistograms as REGION
+from histogramHelpers import llZpeakHistograms as REGION
 
 REGION += [HistogramInfo('Z_pt_reco', [400], [10.0, 50.0], 10.0, 'Z_{p_T}','GeV'),]
 
@@ -23,7 +23,7 @@ def get_scale_factors(histogram):
 #  Colour
 #  Drawing options
 #  Region with the histogram parameters.
-def plotIndividualRatio(canvas, fileAndHistogramNameDict, postfix, compareDensity, colour, drawingOptions, region : list[HistogramInfo], apply_scale_factors):
+def plotIndividualRatio(canvas, legend, fileAndHistogramNameDict, postfix, compareDensity, colour, drawingOptions, region : list[HistogramInfo], apply_scale_factors):
 
     # Extract the relevant information
     file1Path = fileAndHistogramNameDict["path1"]
@@ -76,11 +76,19 @@ def plotIndividualRatio(canvas, fileAndHistogramNameDict, postfix, compareDensit
         h1.Scale(1.0/h1.Integral(1,-1))
         h2.Scale(1.0/h2.Integral(1,-1))
 
+    # Include overflow bin in the last bin
+    h1.SetBinContent(h1.GetNbinsX(), h1.GetBinContent(h1.GetNbinsX()) + h1.GetBinContent(h1.GetNbinsX() +1))
+    h2.SetBinContent(h2.GetNbinsX(), h2.GetBinContent(h2.GetNbinsX()) + h2.GetBinContent(h2.GetNbinsX() +1))
+    h1.SetBinError(h1.GetNbinsX(), (h1.GetBinError(h1.GetNbinsX())**2 + h1.GetBinError(h1.GetNbinsX() +1)**2)**0.5)
+    h2.SetBinError(h2.GetNbinsX(), (h2.GetBinError(h2.GetNbinsX())**2 + h2.GetBinError(h2.GetNbinsX() +1)**2)**0.5)
+
+    legend.AddEntry(h2, title2, "LP")
+
     h2.Divide(h1) # One is always the reference
 
 
     # Set the histogram style
-    h2.SetTitle(title2)
+    h2.SetTitle("Last bin includes overflow")
 
     # Get the ratio factors
     scale_factors = get_scale_factors(h2)
@@ -93,14 +101,14 @@ def plotIndividualRatio(canvas, fileAndHistogramNameDict, postfix, compareDensit
 
     canvas.cd()
     canvas.SetTitle("HOLA")
-    h2.GetXaxis().SetRange(1,h2.GetNbinsX()+1) 
+    h2.GetXaxis().SetRange(1,h2.GetNbinsX()) 
     h2.GetYaxis().SetRangeUser(0.05,2.0)
     h2.Draw(drawingOptions)
     h2.GetXaxis().SetTitle(histogramInfo.m_xTitle + " [" + histogramInfo.m_units + "]")
     h2.GetYaxis().SetTitle("MGNLO/Sherpa2.2.11")
     h2.GetXaxis().SetTitleSize(0.056)
     h2.GetYaxis().SetTitleSize(0.056)
-    h2.GetXaxis().SetLabelSize(0.056)
+    h2.GetXaxis().SetLabelSize(0.038)
     h2.GetYaxis().SetLabelSize(0.056)
     h2.GetYaxis().SetTitleOffset(1.45)
     h2.GetXaxis().SetTitleOffset(1.00)
@@ -131,15 +139,20 @@ def plotRatio(pairsPacket, histoName, postfix, useDensity, apply_scale_factors):
     # Create canvas
     c = r.TCanvas("c","c",800,800)
     c.SetMargin(0.16,0.05,0.13,0.08)
+    # Create legend object
+    legend = r.TLegend(0.3,0.7,0.7,0.9)
+
     # Plot histograms
     for i in range(0,len(pairsPacket)):
-        plotIndividualRatio(c, pairsPacket[i], postfix, useDensity, colours[i], "SAME LP E2", REGION, apply_scale_factors)
+        plotIndividualRatio(c, legend, pairsPacket[i], postfix, useDensity, colours[i], "SAME LP E2", REGION, apply_scale_factors)
 
     # Add legend
-    c.BuildLegend(0.3,0.7,0.7,0.9)
+    #c.BuildLegend(0.3,0.7,0.7,0.9)
+    legend.Draw()
+
 
     # Save the plot
-    c.SaveAs("results/RatioPlot_%s%sRWParabolicCutoffClosure.pdf" % (histoName, postfix))
+    c.SaveAs("results/RatioPlot_%s%sRWParabolicCutoff.pdf" % (histoName, postfix))
 
 def generate_plot_input(filePath1, file2Path, histogramName1, histogramName2, title1, title2):
     dic = {
@@ -159,10 +172,10 @@ def main():
     
     # List of files to compare
     commonPath = '/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/Zll/Zpeak/SR/'
-    referenceSample = commonPath+'Zll_SherpaNLO_RWParabolicCutoffClosure.root'
+    referenceSample = commonPath+'Zll_SherpaNLO_RWParabolicCutoff.root'
     samplesToComparePaths = [
         {"path" : referenceSample, "title" : "Sherpa2.2.11-Reference"}, # Reference sample goes always first 
-        {"path" : commonPath+'Zll_MGNLO_RWParabolicCutoffClosure.root', "title" : "MadGraphNLO"},
+        {"path" : commonPath+'Zll_MGNLO_RWParabolicCutoff.root', "title" : "MadGraphNLO"},
     ]
 
     POSTFIX = ''
