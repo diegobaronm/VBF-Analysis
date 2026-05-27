@@ -64,20 +64,20 @@ def main():
 
 if __name__ == "__main__":
     # Script parameters
-    samplesPath = "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/TauTau/Zpeak/BDT5FoldsOS/"
+    samplesPath = "/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/TauTau/TauhadTaulep/HighMass/BDT5FoldsOS/"
     channel = "Ztautau"
     samples = {"Data":0.0,"Signal_Sherpa":0.0,"Signal_PoPy":0.0,channel+"_MGNLO_RWParabolicCutoffClosure":0.0,
             channel+"_SherpaNLO_RWParabolicCutoffClosure":0.0,"Higgs":0.0,"ttbar":0.0,"singletop":0.0,"VV":0.0,
             "Wjets":0.0,"Zjets":0.0,"MJ":0.0,"VV_EWK":0.0,"W_EWK_Sherpa":0.0,"Higgs_truth_EWK":0.0}
     sf_dict = {
-        #"Signal_Sherpa":ufloat(0.923,0.040), # Zll and HighMass tautau
-        #"Signal_PoPy":ufloat(0.793,00.035), # Zll and HighMass tautau
+        "Signal_Sherpa":ufloat(0.923,0.040), # Zll and HighMass tautau
+        "Signal_PoPy":ufloat(0.793,00.035), # Zll and HighMass tautau
         #"Zll_SherpaNLO_RWParabolicCutoffClosure":ufloat(1.011,0.009),
         #"Signal_Sherpa":ufloat(0.87,0.253), # Ztautau Z peak
-        "Ztautau_SherpaNLO_RWParabolicCutoffClosure":ufloat(1.020,0.110), # Ztautau Z peak
-        "Signal_Sherpa":ufloat(0.802,0.252), # Ztautau Z peak
-        "Signal_PoPy":ufloat(0.652,0.206), # Ztautau Z peak
-        #"Ztautau_SherpaNLO_RWParabolicCutoffClosure":ufloat(1.011,0.009), # Ztautau HighMass
+        #"Ztautau_SherpaNLO_RWParabolicCutoffClosure":ufloat(1.020,0.110), # Ztautau Z peak
+        #"Signal_Sherpa":ufloat(0.802,0.252), # Ztautau Z peak
+        #"Signal_PoPy":ufloat(0.652,0.206), # Ztautau Z peak
+        "Ztautau_SherpaNLO_RWParabolicCutoffClosure":ufloat(1.011,0.009), # Ztautau HighMass
     }
     histogramName = "n_bjets"
     outputFileName = "YieldsWithSFs_"+channel+".csv"

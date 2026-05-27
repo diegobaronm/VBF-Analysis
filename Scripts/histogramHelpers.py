@@ -13,7 +13,7 @@ r.TH1.AddDirectory(False)
 ############################################################################################################
 # Storage class for histogram information
 class HistogramInfo:
-    def __init__(self, name, binEdges=[], binSteps=[], binNorm=1.0, xTitle="", leftCut=0, rightCut=0, units="",logScale=False,xRange=[0.0,0.0],isIntegerPlot=False):
+    def __init__(self, name, binEdges=[], binSteps=[], binNorm=1.0, xTitle="", leftCut=0, rightCut=0, units="",logScale=False,xRange=[0.0,0.0],isIntegerPlot=False, xLogScale=False):
         self.m_name = name
         self.m_binEdges = binEdges
         self.m_binSteps = binSteps
@@ -25,7 +25,7 @@ class HistogramInfo:
         self.m_logScale = logScale
         self.m_xRange = xRange
         self.m_isIntegerPlot = isIntegerPlot
-
+        self.m_xLogScale = xLogScale
     def __str__(self):
         return f"Name: {self.m_name}, Bin Edges: {self.m_binEdges}, Bin Steps: {self.m_binSteps}, Bin Norm: {self.m_binNorm}, xTitle: {self.m_xTitle}, Left Cut: {self.m_leftCut}, Right Cut: {self.m_rightCut}, Units: {self.m_units}"
     
@@ -472,10 +472,10 @@ def setupShadeHistogram(baseHistogram, blindedBins,highYRange):
             blindHistogram.SetBinContent(i,0.0)
             blindHistogram.SetBinError(i,0.0)
         # Change style to a shaded histogram
-        blindHistogram.SetLineWidth(0);
-        blindHistogram.SetLineColor(r.kGray);
-        blindHistogram.SetFillColorAlpha(r.kGray,0.35);
-        blindHistogram.SetFillStyle(3345);
+        blindHistogram.SetLineWidth(0)
+        blindHistogram.SetLineColor(r.kGray)
+        blindHistogram.SetFillColorAlpha(r.kGray,0.35)
+        blindHistogram.SetFillStyle(3345)
     # return the built histograms
     return blindHistogram
     
@@ -699,10 +699,10 @@ def stackPlot(data,signal,background,histograms,watermark,
 
         if "reco_mass" in i.m_name and blind: # Blind the reco_mass plot
             r.gStyle.SetOptStat(0)
-        r.gStyle.SetStatY(0.97);                
-        r.gStyle.SetStatX(1.0);
-        r.gStyle.SetStatW(0.12);                
-        r.gStyle.SetStatH(0.12);
+        r.gStyle.SetStatY(0.97)    
+        r.gStyle.SetStatX(1.0)
+        r.gStyle.SetStatW(0.12)      
+        r.gStyle.SetStatH(0.12)
 
         canvas = r.TCanvas("canvas2","canvas2",800,800)
         canvas.cd()
@@ -727,10 +727,10 @@ def stackPlot(data,signal,background,histograms,watermark,
 
         ###### SETTING STATS BOX POSITION ######
         
-        r.gStyle.SetStatY(0.95);                
-        r.gStyle.SetStatX(0.96);
-        r.gStyle.SetStatW(0.1);                
-        r.gStyle.SetStatH(0.1);
+        r.gStyle.SetStatY(0.95)
+        r.gStyle.SetStatX(0.96)
+        r.gStyle.SetStatW(0.1)
+        r.gStyle.SetStatH(0.1)
         
         ###### DRAWING HISTOGRAMS ######
         samples["Data"][2].Draw("pe same")
@@ -749,7 +749,7 @@ def stackPlot(data,signal,background,histograms,watermark,
             INFO.log("Total SM VBF = "+str(samples["Signal"][2].GetBinContent(1)))
             INFO.log("Total sigma(SM VBF) = "+str(samples["Signal"][2].GetBinError(1)))
 
-        ###### SETTING Y AXIS RANGE ######
+        ###### SETTING X/Y AXIS RANGE AND SCALE ######
         
         yScale = 1.5
         yLowScale = 0.0
@@ -764,6 +764,11 @@ def stackPlot(data,signal,background,histograms,watermark,
             yScale = 15
             pad1.SetLogy()
         
+        if i.m_xLogScale and not i.xRangeIsCustom():
+            DEBUG.log("Setting x axis to log scale")
+            pad1.SetLogx()
+        if i.m_xLogScale and i.xRangeIsCustom():
+            WARNING.log("Cannot set log scale on x axis if the x range is custom! Ignoring x log scale setting.")
         
 
         ###### CHANGING SIZE OF TICKS AND LABELS ######
@@ -1021,14 +1026,20 @@ def stackPlot(data,signal,background,histograms,watermark,
             ratio_sg_mc.GetYaxis (). SetRangeUser (0.0 ,1.0)
             ratio_sg_mc.GetYaxis (). SetTitleSize (0.16)
             ratio_sg_mc.GetYaxis (). SetTitleOffset (0.32)
-            ratio_sg_mc.GetYaxis().SetNdivisions(405, r.kFALSE);
+            ratio_sg_mc.GetYaxis().SetNdivisions(405, r.kFALSE)
 
         if i.m_isIntegerPlot:
-            nDivisions = int(e-s)
-            samples["Data"][2].GetXaxis().SetNdivisions(nDivisions)
-            mc.GetXaxis().SetNdivisions(nDivisions)
-            ratio_sg_mc.GetXaxis().SetNdivisions(nDivisions)
+            n_divisons = int(e - s + 1)
+            samples["Data"][2].SetNdivisions(n_divisons)
+            ratio_sg_mc.SetNdivisions(n_divisons)
+            mc.SetNdivisions(n_divisons)
+
+            samples["Data"][2].GetXaxis().CenterLabels()
+            
             ratio_sg_mc.GetXaxis().CenterLabels()
+            mc.GetXaxis().CenterLabels()
+            
+            
             
         
         ############ X AXIS TITLE #################
@@ -1278,7 +1289,7 @@ HistogramInfo('pt_bal', [0.15, 0.3], [0.03, 0.05, 0.7], 0.15, 'pT balance',0,0.1
 HistogramInfo('Z_centrality', [0.5], [0.1, 0.5], 0.1, '#xi(Z)',0,0.5,'',xRange=[0,2]),
 HistogramInfo('delta_y', [2.0, 6.0], [1.0, 0.5, 1.0], 1.0, '#Deltay_{jj}',2.0,10.0,''),
 HistogramInfo('inv_mass', [70, 110, 140, 300], [70, 5, 10, 80, 700], 5, 'm_{ll}',81,101,'GeV',True),
-HistogramInfo('mass_jj', [1500], [250, 500], 250, 'm_{jj}',750,5000,'GeV',True),
+HistogramInfo('mass_jj', [1500, 4000], [250, 500, 1000], 250, 'm_{jj}',750,5000,'GeV',True),
 HistogramInfo('met_basic_dphi_drap_btag_iso_pt1_pt2_j1pt_j2pt_ptbal_mjj_nji_zcen_mass_ptl', [50], [10, 50], 10, 'MET',0,0,'GeV'),
 ]
 
@@ -1369,7 +1380,7 @@ HistogramInfo('massLepClosestJet_basic_all', [200, 500], [100, 100, 500], 100, '
 HistogramInfo('massTauFurthestJet_basic_all', [200, 500], [100, 100, 500], 100, 'm_{#tau,j_{furthest}}',0,0,'GeV'),
 HistogramInfo('nuTauPt', [30, 100], [15, 35, 100], 15, 'pT(#nu_{#tau})',0,0,'GeV'),
 HistogramInfo('nuPtAssummetry_basic_all', [0.0], [0.1, 0.1], 0.1, 'pT(#nu_{l}-#nu_{#tau})/(#nu_{l}+#nu_{#tau})',0,0,''),
-HistogramInfo('bdtScore', [-0.4, 0.1, 0.5], [0.2, 0.25, 0.2, 0.25], 0.2, 'VBF-BDT score',0,0,'',xRange=[-1,1]),
+HistogramInfo('bdtScore', [-0.4, 0.1, 0.5], [0.2, 0.25, 0.2, 0.25], 0.2, 'VBF-BDT score',0.3,1.0,'',xRange=[-1.0,0.99999]),
 HistogramInfo('lepNuPt', [30, 100], [15, 35, 100], 15, 'pT(#nu_{l})',0,0,'GeV'),
 HistogramInfo('pTsymmetry', [0.4], [0.2, 0.2], 0.2, 'pT(#tau - l)/(#tau + l)',0,0,''),
 #HistogramInfo('lepTransMass_basic_all', [100, 200], [20, 50, 50], 20, 'm_{T}(l)',0,0,'GeV'),
@@ -1600,7 +1611,7 @@ HistogramInfo('massLepClosestJet_basic_all', [200, 500], [100, 100, 500], 100, '
 HistogramInfo('massTauFurthestJet_basic_all', [200, 500], [100, 100, 500], 100, 'm_{#tau,j_{furthest}}',0,0,''),
 HistogramInfo('nuTauPt', [30, 100], [15, 35, 100], 15, 'pT(#nu_{#tau})',15,1000,''),
 HistogramInfo('nuPtAssummetry_basic_all', [0.0], [0.1, 0.1], 0.1, 'pT(#nu_{l}-#nu_{#tau})/(#nu_{l}+#nu_{#tau})',0,0,''),
-HistogramInfo('bdtScore', [-0.4, 0.1, 0.5], [0.2, 0.25, 0.2, 0.25], 0.2, 'VBF-BDT score',0.3,1.0,''),
+HistogramInfo('bdtScore', [-0.4, 0.1, 0.5], [0.2, 0.25, 0.2, 0.25], 0.2, 'VBF-BDT score',0.3,1.0,'',xRange=[-1.0,0.99999]),
 HistogramInfo('lepNuPt', [30, 100], [15, 35, 100], 15, 'pT(#nu_{l})',30,1000,''),
 HistogramInfo('pTsymmetry', [0.4], [0.2, 0.2], 0.2, 'pT(#tau - l)/(#tau + l)',-0.3,1.0,''),
 HistogramInfo('lepTransMass_basic_all', [100, 200], [20, 50, 50], 20, 'm_{T}(l)',0,0,''),

@@ -47,7 +47,6 @@ def calculate_limit(totalExpected, totalExpectedE, num_toys=30000):
 
     # Show the plot
     plt.savefig('CL95.pdf',bbox_inches='tight')
-    plt.show()
 
     return limit
 
