@@ -114,7 +114,7 @@ def calculate_limits(pd, bkg_array, bkg_error_array):
         # Set data to bkg expected for the time being
         data = list(bkg_array) + model.config.auxdata
             
-        obs_limit, exp_limits = pyhf.infer.intervals.upper_limits.toms748_scan( data, model, bounds_low = 0, bounds_up = 10, par_bounds=[(0, 100)])
+        obs_limit, exp_limits = pyhf.infer.intervals.upper_limits.toms748_scan( data, model, bounds_low = 0, bounds_up = 10, par_bounds=[(0, 200)])
             
 
         expected_limits[signal_name] = exp_limits
@@ -174,7 +174,7 @@ def produce_plot(expected_limits, signal_names, plot_title):
 def main():
     pyhf.set_backend("numpy")
 
-    channels_to_fit = ['results/CLsInputs_test.csv', None]
+    channels_to_fit = ['results/CLsInputs_HadLep.csv', 'results/CLsInputs_HadHad.csv']
     # Merge the channels
     merge_channels(channels_to_fit[0], channels_to_fit[1], method='extend')
     plot_title = 'TauTau'
@@ -187,7 +187,7 @@ def main():
     expected_limits, signal_names = calculate_limits(dataframe, bkg_array, bkg_error_array)
 
     # Produce plot
-    produce_plot(expected_limits, signal_names, r"$\tau (had) \tau (lep)$ limits")
+    produce_plot(expected_limits, signal_names, r"$\tau \tau $ limits")
 
     
 if __name__ == "__main__":

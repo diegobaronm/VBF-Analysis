@@ -19,7 +19,7 @@ def main():
     # Get the arguments.
     args = get_args()
     channel = args.channel
-    yaml_file = args.config_file
+    yaml_file = os.path.abspath(args.config_file)
     sfs_dict = args.sfs_dict
 
     # First, delete all previous pdf files in the output directory.
@@ -33,6 +33,9 @@ def main():
     if 'Signal_PoPy.root' in root_files:
         EWjj_choices += ['Signal_PoPy.root']
 
+    if 'Signal_truth_MG.root' in root_files:
+        EWjj_choices += ['Signal_truth_MG.root']
+
     # Infor the user the combinations to be run.
     INFO.log(f"Found {len(QCDjj_choices)} QCDjj samples: {QCDjj_choices}")
     INFO.log(f"Found {len(EWjj_choices)} EWjj samples: {EWjj_choices}")
@@ -42,13 +45,12 @@ def main():
         for ew_sample in EWjj_choices:
             INFO.log(f"Combination: QCD: {qcd_sample}, EW: {ew_sample}")
 
-    # Loop over all combinations of QCDjj and EWjj samples.
-    config = load_config(yaml_file)
-    # If the configuration declares that is not post-fit, just plot without scaling.
-    do_not_use_sfs = config.get('is_post_fit', False) == False
-
     for qcd_sample in QCDjj_choices:
         for ew_sample in EWjj_choices:
+            # Loop over all combinations of QCDjj and EWjj samples.
+            config = load_config(yaml_file)
+            # If the configuration declares that is not post-fit, just plot without scaling.
+            do_not_use_sfs = config.get('is_post_fit', False) == False
             if do_not_use_sfs:
                 INFO.log(f"Using no normalization factors as per configuration.")
                 config['qcd_sample'] = qcd_sample

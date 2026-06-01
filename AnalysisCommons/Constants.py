@@ -48,8 +48,8 @@ NORM_FACTORS_DICT['Ztautau'] = {
     'SherpaNLO_RWParabolicCutoffClosure_Sherpa' : [1.020, 0.802],
     'MGNLO_RWParabolicCutoffClosure_Sherpa' : [1.225, 0.560],
 
-    'SherpaNLO_RWParabolicCutoffClosure_MG' : [1.046, 1.391],
-    'MGNLO_RWParabolicCutoffClosure_MG' : [1.281, 0.836],
+    'SherpaNLO_RWParabolicCutoffClosure_MG' : [0.955, 1.383],
+    'MGNLO_RWParabolicCutoffClosure_MG' : [1.139, 1.192],
 
     'Sherpa_RWParabolicCutoffClosure_PoPy' : [1.050, 0.898],
     'MG_RWParabolicCutoffClosure_PoPy' : [1.083, 0.831],

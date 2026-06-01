@@ -287,7 +287,12 @@ def Plot(args, config, interactive_mode = True):
     ZPRIME_PACK = build_zprime_pack(config['Zprime_pack'])
     ADDITIONAL_SIGNAL = config['additional_signal']
     if 'MG' in config['signal_sample'] and args.channel == 'Ztautau':
+        try:
             ADDITIONAL_SIGNAL.remove('Higgs_EWK')
+        except ValueError:
+            WARNING.log('Trying to remove Higgs_EWK from additional signal, but it was not there. Check if this is expected.')
+            WARNING.log('This can happen when running from PlotVariousEWjjQCDjj.py, which calls Plot twice. Once with SFs and once without.')
+            pass
     if type(ADDITIONAL_SIGNAL) != list:
         ERROR.log('Additional signal must be a list.')
         exit(1)
