@@ -14,6 +14,12 @@ def get_scale_factors(histogram):
 
     return scale_factors
 
+def is_self_reference(fileAndHistogramNameDict):
+    return (
+        fileAndHistogramNameDict["path1"] == fileAndHistogramNameDict["path2"]
+        and fileAndHistogramNameDict["histogramName1"] == fileAndHistogramNameDict["histogramName2"]
+    )
+
 ### Plot the ratio of two histogram given:
 #  A Canvas
 #  File path
@@ -32,6 +38,7 @@ def plotIndividualRatio(canvas, legend, fileAndHistogramNameDict, postfix, compa
     histogramName2 = fileAndHistogramNameDict["histogramName2"]
     title1 = fileAndHistogramNameDict["title1"]
     title2 = fileAndHistogramNameDict["title2"]
+    self_reference = is_self_reference(fileAndHistogramNameDict)
 
 
     # Get hisograms from file
@@ -82,9 +89,14 @@ def plotIndividualRatio(canvas, legend, fileAndHistogramNameDict, postfix, compa
     h1.SetBinError(h1.GetNbinsX(), (h1.GetBinError(h1.GetNbinsX())**2 + h1.GetBinError(h1.GetNbinsX() +1)**2)**0.5)
     h2.SetBinError(h2.GetNbinsX(), (h2.GetBinError(h2.GetNbinsX())**2 + h2.GetBinError(h2.GetNbinsX() +1)**2)**0.5)
 
-    legend.AddEntry(h2, title2, "LP")
+    legend.AddEntry(h2, title2, "L" if self_reference else "LP")
 
-    h2.Divide(h1) # One is always the reference
+    if self_reference:
+        for i in range(0, h2.GetNbinsX() + 2):
+            h2.SetBinContent(i, 1.0)
+            h2.SetBinError(i, 0.0)
+    else:
+        h2.Divide(h1) # One is always the reference
 
 
     # Set the histogram style
@@ -95,15 +107,28 @@ def plotIndividualRatio(canvas, legend, fileAndHistogramNameDict, postfix, compa
     print("Scale factors to take %s to %s: " % (title2, title1), scale_factors)
 
     # Apply the scale factors if needed
-    if apply_scale_factors:
+    if apply_scale_factors and not self_reference:
         for i in range(1, h2.GetNbinsX() + 1 + 1):
             h2.SetBinContent(i, h2.GetBinContent(i) * scale_factors[i-1])
+
+    if self_reference:
+        draw_options = "SAME HIST"
+        h2.SetMarkerSize(0)
+        h2.SetFillStyle(0)
+    else:
+        draw_options = drawingOptions
+        h2.SetMarkerStyle(20)
+        h2.SetFillColorAlpha(colour, 0.3)
+
+    h2.SetMarkerColor(colour)
+    h2.SetLineColor(colour)
+    h2.SetLineWidth(4)
 
     canvas.cd()
     canvas.SetTitle("HOLA")
     h2.GetXaxis().SetRange(1,h2.GetNbinsX()) 
     h2.GetYaxis().SetRangeUser(0.05,2.0)
-    h2.Draw(drawingOptions)
+    h2.Draw(draw_options)
     h2.GetXaxis().SetTitle(histogramInfo.m_xTitle + " [" + histogramInfo.m_units + "]")
     h2.GetYaxis().SetTitle("MGNLO/Sherpa2.2.11")
     h2.GetXaxis().SetTitleSize(0.056)
@@ -113,11 +138,6 @@ def plotIndividualRatio(canvas, legend, fileAndHistogramNameDict, postfix, compa
     h2.GetYaxis().SetTitleOffset(1.45)
     h2.GetXaxis().SetTitleOffset(1.00)
 
-    h2.SetMarkerStyle(20)
-    h2.SetMarkerColor(colour)
-    h2.SetLineColor(colour)
-    h2.SetFillColorAlpha(colour, 0.3)
-    h2.SetLineWidth(4)
     r.gStyle.SetOptStat(0)
 
 
@@ -152,7 +172,7 @@ def plotRatio(pairsPacket, histoName, postfix, useDensity, apply_scale_factors):
 
 
     # Save the plot
-    c.SaveAs("results/RatioPlot_%s%sRWParabolicCutoff.pdf" % (histoName, postfix))
+    c.SaveAs("results/RatioPlot_%s%sRWParabolicCutoffClosure.pdf" % (histoName, postfix))
 
 def generate_plot_input(filePath1, file2Path, histogramName1, histogramName2, title1, title2):
     dic = {
@@ -172,10 +192,10 @@ def main():
     
     # List of files to compare
     commonPath = '/Users/user/Documents/HEP/VBF-Analysis/VBFAnalysisPlots/Zll/Zpeak/SR/'
-    referenceSample = commonPath+'Zll_SherpaNLO_RWParabolicCutoff.root'
+    referenceSample = commonPath+'Zll_SherpaNLO_RWParabolicCutoffClosure.root'
     samplesToComparePaths = [
         {"path" : referenceSample, "title" : "Sherpa2.2.11-Reference"}, # Reference sample goes always first 
-        {"path" : commonPath+'Zll_MGNLO_RWParabolicCutoff.root', "title" : "MadGraphNLO"},
+        {"path" : commonPath+'Zll_MGNLO_RWParabolicCutoffClosure.root', "title" : "MadGraphNLO"},
     ]
 
     POSTFIX = ''
